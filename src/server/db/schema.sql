@@ -46,7 +46,45 @@ CREATE INDEX IF NOT EXISTS idx_match_history_pid_date
 -- in-process progression coalescer.
 CREATE UNIQUE INDEX IF NOT EXISTS uq_match_history_player_game
   ON match_history (persistent_id, game_id);
+-- ── Certified Match Feedback ────────────────────────────────────────────────
+-- The application verifies that the actor participated in the certified match
+-- and derives map_name from the archive before writing. The unique key makes
+-- retries explicit instead of silently multiplying product feedback.
+CREATE TABLE IF NOT EXISTS match_feedback (
+  persistent_id VARCHAR(64)  NOT NULL REFERENCES player_stats(persistent_id),
+  game_id       VARCHAR(64)  NOT NULL,
+  map_name      VARCHAR(128) NOT NULL,
+  match_rating  SMALLINT     NOT NULL CHECK (match_rating BETWEEN 1 AND 5),
+  map_rating    SMALLINT     NOT NULL CHECK (map_rating BETWEEN 1 AND 5),
+  comment       VARCHAR(200),
+  created_at    TIMESTAMPTZ  NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (persistent_id, game_id)
+);
 
+CREATE INDEX IF NOT EXISTS idx_match_feedback_map_date
+  ON match_feedback (map_name, created_at DESC);
+
+-- ── Certified Outcomes + Career Style ──────────────────────────────────────
+-- Win/loss, match duration, behind-at-eight, and play style are projected from
+-- the signed server result envelope. Browser observations never write here.
+CREATE TABLE IF NOT EXISTS certified_outcomes (
+  persistent_id       VARCHAR(64)  NOT NULL REFERENCES player_stats(persistent_id),
+  game_id             VARCHAR(64)  NOT NULL,
+  won                 BOOLEAN      NOT NULL,
+  behind_at_minute_8  BOOLEAN      NOT NULL DEFAULT FALSE,
+  duration_seconds    INT          NOT NULL CHECK (duration_seconds >= 0),
+  map_name            VARCHAR(128) NOT NULL,
+  play_style          VARCHAR(32)  NOT NULL CHECK (
+    play_style IN ('Iron Fist', 'Convoy Lord', 'Shadow Broker', 'Fortress', 'Balanced')
+  ),
+  style_confidence    SMALLINT     NOT NULL CHECK (style_confidence BETWEEN 0 AND 100),
+  style_metrics       JSONB        NOT NULL,
+  created_at          TIMESTAMPTZ  NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (persistent_id, game_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_certified_outcomes_player_date
+  ON certified_outcomes (persistent_id, created_at DESC);
 -- ── Leaderboard Cache ─────────────────────────────────────────────────────────
 -- Materialized snapshot refreshed after each match via application code.
 -- TODO: replace with a Postgres materialized view and schedule a refresh
@@ -396,3 +434,5 @@ CREATE INDEX IF NOT EXISTS idx_prediction_league_spectator_resolved
 CREATE INDEX IF NOT EXISTS idx_prediction_league_week_resolved
   ON prediction_league_predictions (week_key, resolved_at DESC)
   WHERE resolved_at IS NOT NULL;
+
+

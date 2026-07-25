@@ -18,7 +18,12 @@ import {
 } from "../game/GameUpdates";
 import { PseudoRandom } from "../PseudoRandom";
 import { simpleHash } from "../Util";
-import { planConvoyReward, type ConvoyRewardPlan } from "./VaultFrontBalance";
+import {
+  balanceGold,
+  DEFAULT_VAULT_GAMEPLAY_BALANCE,
+  planConvoyReward,
+  type ConvoyRewardPlan,
+} from "./VaultFrontBalance";
 import {
   DEFAULT_VAULT_PRESSURE_CONFIG,
   deliverToVaultPressure,
@@ -82,6 +87,7 @@ interface SquadObjectiveWindow {
 }
 
 export class VaultFrontExecution implements Execution {
+  private readonly balance = DEFAULT_VAULT_GAMEPLAY_BALANCE;
   private active = true;
   private game!: Game;
   private random!: PseudoRandom;
@@ -90,7 +96,8 @@ export class VaultFrontExecution implements Execution {
   private lastStatusProjectionTick = Number.NEGATIVE_INFINITY;
   private lastStatusProjectionDigest: number | null = null;
   private lastStatusProjectionSerialized: string | null = null;
-  private readonly statusProjectionCadenceTicks = 5;
+  private readonly statusProjectionCadenceTicks =
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.simulation.statusProjectionCadenceTicks;
   private statusProjectionBuilds = 0;
   private statusProjectionPublishes = 0;
   private statusProjectionDeduplicated = 0;
@@ -104,7 +111,8 @@ export class VaultFrontExecution implements Execution {
   private escortUntilTick = new Map<number, number>();
   private jamBreakerCooldownUntil = new Map<number, number>();
   private ghostRouteCooldownUntil = new Map<number, number>();
-  private readonly ghostRouteCooldownTicks = 300; // 30s cooldown
+  private readonly ghostRouteCooldownTicks =
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.simulation.ghostRouteCooldownTicks; // 30s cooldown
   private behindSinceTick = new Map<number, number>();
   private surgeUntilTick = new Map<number, number>();
   private minute8BehindMarked = new Set<number>();
@@ -123,27 +131,38 @@ export class VaultFrontExecution implements Execution {
 
   // Chain Guardian: consecutive vault captures per player (resets on site loss)
   private consecutiveVaultCaptures = new Map<number, number>();
-  private readonly CHAIN_GUARDIAN_THRESHOLD = 3;
+  private readonly CHAIN_GUARDIAN_THRESHOLD =
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.simulation.chainGuardianThreshold;
 
   // Per-player command rate-limiting: ring buffer of last 5 command ticks
   private commandTimestamps = new Map<number, number[]>();
-  private readonly commandRateWindowTicks = 10; // 1s at 10 tps
-  private readonly commandRateMaxPerWindow = 5;
+  private readonly commandRateWindowTicks =
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.simulation.commandRateWindowTicks; // 1s at 10 tps
+  private readonly commandRateMaxPerWindow =
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.simulation.commandRateMaxPerWindow;
 
   // Last Stand — track players who have already triggered it per session
   private lastStandTriggeredBy = new Set<number>();
   private lastStandBonusUntilTick = new Map<number, number>();
-  private readonly lastStandSiteThreshold = 5;
-  private readonly lastStandBonusDurationTicks = 900; // 90s
-  private readonly lastStandOpponentGoldMultiplier = 1.4;
+  private readonly lastStandSiteThreshold =
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.lastStand.siteThreshold;
+  private readonly lastStandBonusDurationTicks =
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.lastStand.bonusDurationTicks; // 90s
+  private readonly lastStandOpponentGoldMultiplier =
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.lastStand.opponentGoldMultiplier;
 
   // Vault Heist — last-resort steal (≤2 territories)
   private heistActivated = new Set<number>();
   private heistConvoyId = new Map<number, number>();
   private heistCooldownUntil = new Map<number, number>();
-  private readonly heistGoldCap = 200_000n;
-  private readonly heistActivationCost = 20_000n;
-  private readonly heistCooldownTicks = 1_200;
+  private readonly heistGoldCap = balanceGold(
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.heist.goldCap,
+  );
+  private readonly heistActivationCost = balanceGold(
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.heist.activationCost,
+  );
+  private readonly heistCooldownTicks =
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.heist.cooldownTicks;
 
   // Bounty Board — emergent coalition targeting
   private convoyInterceptsBy = new Map<number, Map<number, number>>();
@@ -151,50 +170,67 @@ export class VaultFrontExecution implements Execution {
     number,
     { reward: bigint; chargesLeft: number; expiresAtTick: number }
   >();
-  private readonly bountyThreshold = 3;
-  private readonly bountyReward = 150_000n;
-  private readonly bountyCharges = 3;
-  private readonly bountyDurationTicks = 3_000;
+  private readonly bountyThreshold =
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.bounty.threshold;
+  private readonly bountyReward = balanceGold(
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.bounty.reward,
+  );
+  private readonly bountyCharges =
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.bounty.charges;
+  private readonly bountyDurationTicks =
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.bounty.durationTicks;
 
   // Warchest Hunt — tick-500 gold-leader targeting event
   private warchestMarkPlayerID: number | null = null;
   private warchestHuntUntilTick = 0;
   private warchestHuntFired = false;
-  private readonly warchestHuntDurationTicks = 1_200;
-  private readonly warchestHuntMultiplier = 2n;
+  private readonly warchestHuntDurationTicks =
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.warchest.huntDurationTicks;
+  private readonly warchestHuntMultiplier = BigInt(
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.warchest.multiplier,
+  );
 
   // Map Events System
   private activeMapEvent: MapEventType | null = null;
   private mapEventUntilTick = 0;
   private nextMapEventTick = 0;
-  private readonly mapEventMinIntervalTicks = 4_000;
-  private readonly mapEventMaxIntervalTicks = 6_000;
-  private readonly mapEventPool: MapEventType[] = [
-    "vault_bonanza",
-    "supply_disruption",
-    "intelligence_breach",
-    "gold_rush",
-    "siege_protocol",
-    "diplomatic_window",
-  ];
+  private readonly mapEventMinIntervalTicks =
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.mapEvents.minIntervalTicks;
+  private readonly mapEventMaxIntervalTicks =
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.mapEvents.maxIntervalTicks;
+  private readonly mapEventPool = DEFAULT_VAULT_GAMEPLAY_BALANCE.mapEvents
+    .pool as readonly MapEventType[];
 
   // Intel Layer — pay gold to reveal enemy convoy routes
   private intelActiveUntilTick = new Map<number, number>();
   private deepIntelActiveUntilTick = new Map<number, number>();
-  private readonly intelCost = 30_000n;
-  private readonly deepIntelCost = 80_000n;
-  private readonly intelDurationTicks = 600;
+  private readonly intelCost = balanceGold(
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.intelligence.cost,
+  );
+  private readonly deepIntelCost = balanceGold(
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.intelligence.deepCost,
+  );
+  private readonly intelDurationTicks =
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.intelligence.durationTicks;
 
   // Economic Warfare — sabotage, bribe, trade deal
   private sabotageCharges = new Map<number, Map<number, number>>();
   private dispatchDelayUntilTick = new Map<number, number>();
   private tradeDealNextConvoy = new Map<number, number>();
-  private readonly sabotageCost = 40_000n;
-  private readonly sabotageChargesPerUse = 3;
-  private readonly sabotageTollFraction = 0.15;
-  private readonly bribeCost = 25_000n;
-  private readonly brideDelayTicks = 600;
-  private readonly tradeDealShareFraction = 0.08;
+  private readonly sabotageCost = balanceGold(
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.economicWarfare.sabotageCost,
+  );
+  private readonly sabotageChargesPerUse =
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.economicWarfare.sabotageChargesPerUse;
+  private readonly sabotageTollFraction =
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.economicWarfare.sabotageTollFraction;
+  private readonly bribeCost = balanceGold(
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.economicWarfare.bribeCost,
+  );
+  private readonly bribeDelayTicks =
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.economicWarfare.bribeDelayTicks;
+  private readonly tradeDealShareFraction =
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.economicWarfare.tradeDealShareFraction;
 
   private weeklyMutator:
     | "none"
@@ -210,32 +246,59 @@ export class VaultFrontExecution implements Execution {
     | "execution_rush" = "none";
 
   // Vault sites and convoy extraction.
-  private readonly vaultCaptureTicks = 90;
-  private readonly vaultCooldownTicks = 650;
-  private readonly vaultPassiveIncomeIntervalTicks = 600;
-  private readonly vaultPassiveGoldPerMinute = 75_000n;
+  private readonly vaultCaptureTicks =
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.vault.captureTicks;
+  private readonly vaultCooldownTicks =
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.vault.cooldownTicks;
+  private readonly vaultPassiveIncomeIntervalTicks =
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.vault.passiveIncomeIntervalTicks;
+  private readonly vaultPassiveGoldPerMinute = balanceGold(
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.vault.passiveGoldPerMinute,
+  );
 
   // Defense Factory balance.
-  private readonly beaconChargeCap = 100;
-  private readonly beaconTriggerCost = 72;
-  private readonly beaconPulseDurationTicks = 95;
-  private readonly beaconPulseCooldownTicks = 320;
-  private readonly jamBreakerGoldCost = 115_000n;
-  private readonly jamBreakerCooldownTicks = 900;
-  private readonly jamBreakerMaskClampTicks = 20;
+  private readonly beaconChargeCap =
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.defense.beaconChargeCap;
+  private readonly beaconTriggerCost =
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.defense.beaconTriggerCost;
+  private readonly beaconPulseDurationTicks =
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.defense.beaconPulseDurationTicks;
+  private readonly beaconPulseCooldownTicks =
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.defense.beaconPulseCooldownTicks;
+  private readonly jamBreakerGoldCost = balanceGold(
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.defense.jamBreakerGoldCost,
+  );
+  private readonly jamBreakerCooldownTicks =
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.defense.jamBreakerCooldownTicks;
+  private readonly jamBreakerMaskClampTicks =
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.defense.jamBreakerMaskClampTicks;
 
   // Comeback tuning.
-  private readonly surgeBehindThresholdRatio = 0.85;
-  private readonly surgeActivationHoldTicks = 3_600;
-  private readonly surgeDurationTicks = 1_200;
-  private readonly surgeCaptureGoldBonus = 65_000n;
-  private readonly surgeInterceptGoldMultiplier = 1.3;
-  private readonly cleanExecutionChainWindowTicks = 1_500;
-  private readonly cleanExecutionStreakConvoyMultiplier = 1.2;
-  private readonly squadObjectiveWindowTicks = 520;
-  private readonly squadObjectiveRadius = 30;
-  private readonly squadObjectiveGoldBonus = 35_000n;
-  private readonly squadObjectiveTroopsBonus = 450;
+  private readonly surgeBehindThresholdRatio =
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.comeback.surgeBehindThresholdRatio;
+  private readonly surgeActivationHoldTicks =
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.comeback.surgeActivationHoldTicks;
+  private readonly surgeDurationTicks =
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.comeback.surgeDurationTicks;
+  private readonly surgeCaptureGoldBonus = balanceGold(
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.comeback.surgeCaptureGoldBonus,
+  );
+  private readonly surgeInterceptGoldMultiplier =
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.comeback.surgeInterceptGoldMultiplier;
+  private readonly cleanExecutionChainWindowTicks =
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.comeback.cleanExecutionChainWindowTicks;
+  private readonly cleanExecutionStreakConvoyMultiplier =
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.comeback
+      .cleanExecutionStreakConvoyMultiplier;
+  private readonly squadObjectiveWindowTicks =
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.comeback.squadObjectiveWindowTicks;
+  private readonly squadObjectiveRadius =
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.comeback.squadObjectiveRadius;
+  private readonly squadObjectiveGoldBonus = balanceGold(
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.comeback.squadObjectiveGoldBonus,
+  );
+  private readonly squadObjectiveTroopsBonus =
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.comeback.squadObjectiveTroopsBonus;
 
   init(mg: Game): void {
     this.game = mg;
@@ -255,7 +318,10 @@ export class VaultFrontExecution implements Execution {
       this.executionChainExpiresAtTick.set(player.smallID(), 0);
       this.executionStreakNextConvoyMultiplier.set(player.smallID(), 1);
       this.beacons.set(player.smallID(), {
-        charge: this.random.nextInt(15, 45),
+        charge: this.random.nextInt(
+          this.balance.simulation.initialBeaconChargeMin,
+          this.balance.simulation.initialBeaconChargeMax,
+        ),
         cooldownUntil: 0,
         maskedUntil: 0,
       });
@@ -358,10 +424,18 @@ export class VaultFrontExecution implements Execution {
     });
 
     const playerCount = this.game.allPlayers().length;
-    const hardCap = playerCount >= 8 ? 8 : 5;
+    const hardCap =
+      playerCount >= this.balance.sitePlacement.largeLobbyPlayers
+        ? this.balance.sitePlacement.largeLobbySiteCap
+        : this.balance.sitePlacement.standardSiteCap;
     const maxSites = Math.min(
       hardCap,
-      Math.max(2, Math.floor(landTiles.length / 180_000)),
+      Math.max(
+        this.balance.sitePlacement.minimumSites,
+        Math.floor(
+          landTiles.length / this.balance.sitePlacement.landTilesPerSite,
+        ),
+      ),
     );
     const minSpacing = Math.max(
       35,
@@ -528,8 +602,13 @@ export class VaultFrontExecution implements Execution {
     active.destinationTile = destination;
     const distance = this.game.manhattanDist(currentTile, destination);
     active.ticksRemaining = Math.max(
-      35,
-      Math.min(320, Math.floor(distance / 2)),
+      this.balance.rewardDynamics.rerouteTravelMinTicks,
+      Math.min(
+        this.balance.rewardDynamics.travelMaxTicks,
+        Math.floor(
+          distance / this.balance.rewardDynamics.travelDistanceDivisor,
+        ),
+      ),
     );
     active.totalTicks = Math.max(active.totalTicks, active.ticksRemaining + 1);
     const routeRisk = this.routeRiskScore(player, currentTile, destination);
@@ -580,7 +659,10 @@ export class VaultFrontExecution implements Execution {
 
     for (const convoy of this.convoys) {
       if (convoy.ownerID === player.smallID()) {
-        convoy.escortShield = Math.max(convoy.escortShield, 1);
+        convoy.escortShield = Math.max(
+          convoy.escortShield,
+          this.balance.rewardDynamics.standardEscortStrength,
+        );
       }
     }
 
@@ -638,7 +720,10 @@ export class VaultFrontExecution implements Execution {
         beacon.maskedUntil,
         ticks + this.jamBreakerMaskClampTicks,
       );
-      beacon.charge = Math.max(0, beacon.charge - 20);
+      beacon.charge = Math.max(
+        0,
+        beacon.charge - this.balance.defense.jamChargeReduction,
+      );
     }
 
     const anchor = player.spawnTile();
@@ -707,7 +792,7 @@ export class VaultFrontExecution implements Execution {
       );
       return;
     }
-    if (player.numTilesOwned() > 2) {
+    if (player.numTilesOwned() > this.balance.heist.maxTerritories) {
       this.game.displayMessage(
         "Vault Heist is only available when you control 2 or fewer territories.",
         MessageType.CHAT,
@@ -760,7 +845,9 @@ export class VaultFrontExecution implements Execution {
       return;
     }
 
-    const stolenRaw = site.accumulatedPassiveGold / 2n;
+    const stolenRaw =
+      site.accumulatedPassiveGold /
+      BigInt(this.balance.heist.stolenGoldDivisor);
     const stolen =
       stolenRaw > this.heistGoldCap ? this.heistGoldCap : stolenRaw;
     if (stolen <= 0n) {
@@ -890,11 +977,11 @@ export class VaultFrontExecution implements Execution {
   private checkWarchestHunt(ticks: number): void {
     if (
       this.warchestHuntFired ||
-      ticks < 500 ||
+      ticks < this.balance.warchest.triggerTick ||
       !this.game.config().vaultSitesEnabled()
     )
       return;
-    if (ticks > 500) {
+    if (ticks > this.balance.warchest.triggerTick) {
       this.warchestHuntFired = true;
       return;
     }
@@ -945,7 +1032,9 @@ export class VaultFrontExecution implements Execution {
     if (this.activeMapEvent === null && ticks >= this.nextMapEventTick) {
       const idx = this.random.nextInt(0, this.mapEventPool.length - 1);
       const eventType = this.mapEventPool[idx];
-      const duration = 600 + this.random.nextInt(0, 600);
+      const duration =
+        this.balance.mapEvents.durationBaseTicks +
+        this.random.nextInt(0, this.balance.mapEvents.durationJitterTicks);
       this.activeMapEvent = eventType;
       this.mapEventUntilTick = ticks + duration;
 
@@ -1046,8 +1135,11 @@ export class VaultFrontExecution implements Execution {
     }
 
     const hasDeep = (this.deepIntelActiveUntilTick.get(sellerID) ?? 0) > ticks;
-    const halfDuration = Math.floor(this.intelDurationTicks / 2);
-    const rewardPerBuyer = this.intelCost / 3n;
+    const halfDuration = Math.floor(
+      this.intelDurationTicks / this.balance.intelligence.saleDurationDivisor,
+    );
+    const rewardPerBuyer =
+      this.intelCost / BigInt(this.balance.intelligence.sellerRewardDivisor);
     const untilTick = ticks + halfDuration;
 
     for (const buyer of buyers) {
@@ -1126,9 +1218,16 @@ export class VaultFrontExecution implements Execution {
   ): void {
     const targetID = command.targetPlayerSmallID;
     if (targetID === undefined) return;
-    if (player.gold() < this.bribeCost * 2n) {
+    if (
+      player.gold() <
+      this.bribeCost *
+        BigInt(this.balance.economicWarfare.bribeBuyerCostMultiplier)
+    ) {
       this.game.displayMessage(
-        `Bribe requires ${(this.bribeCost * 2n).toLocaleString()} gold.`,
+        `Bribe requires ${(
+          this.bribeCost *
+          BigInt(this.balance.economicWarfare.bribeBuyerCostMultiplier)
+        ).toLocaleString()} gold.`,
         MessageType.CHAT,
         player.id(),
       );
@@ -1141,7 +1240,7 @@ export class VaultFrontExecution implements Execution {
       const currentDelay = this.dispatchDelayUntilTick.get(targetID) ?? 0;
       this.dispatchDelayUntilTick.set(
         targetID,
-        Math.max(currentDelay, ticks + this.brideDelayTicks),
+        Math.max(currentDelay, ticks + this.bribeDelayTicks),
       );
       this.game.displayMessage(
         `Bribe accepted. Your next convoy dispatch is delayed 60 seconds. (+${this.bribeCost.toLocaleString()}g received)`,
@@ -1185,7 +1284,9 @@ export class VaultFrontExecution implements Execution {
       ) / players.length;
     if (avgStrength <= 0) return;
 
-    const minute8Tick = this.game.config().numSpawnPhaseTurns() + 4_800;
+    const minute8Tick =
+      this.game.config().numSpawnPhaseTurns() +
+      this.balance.comeback.minute8Tick;
 
     for (const player of players) {
       const playerID = player.smallID();
@@ -1241,7 +1342,11 @@ export class VaultFrontExecution implements Execution {
     const tiles = Math.max(1, player.numTilesOwned());
     const troops = Math.max(1, player.troops());
     const gold = Math.max(1, Number(player.gold()));
-    return tiles * 0.45 + troops * 0.35 + Math.sqrt(gold) * 0.2;
+    return (
+      tiles * this.balance.comeback.strengthTileWeight +
+      troops * this.balance.comeback.strengthTroopWeight +
+      Math.sqrt(gold) * this.balance.comeback.strengthGoldWeight
+    );
   }
 
   private tickVaultSites(ticks: number): void {
@@ -1252,8 +1357,11 @@ export class VaultFrontExecution implements Execution {
       if (site.cooldownTicks > 0) {
         site.cooldownTicks--;
         const reopenWindowTicks = Math.min(
-          200,
-          Math.floor(this.vaultCooldownTicksEffective() * 0.33),
+          this.balance.vault.reopenWindowMaxTicks,
+          Math.floor(
+            this.vaultCooldownTicksEffective() *
+              this.balance.vault.reopenWindowMultiplier,
+          ),
         );
         if (site.cooldownTicks <= reopenWindowTicks) {
           const challenger = this.game.owner(site.tile);
@@ -1287,7 +1395,7 @@ export class VaultFrontExecution implements Execution {
           }
           const vacantTicks = ticks - site.uncontrolledSinceTick;
           if (
-            vacantTicks >= 600 &&
+            vacantTicks >= this.balance.vault.vacantWarningTicks &&
             site.vacantAlertFiredAtTick < site.uncontrolledSinceTick
           ) {
             site.vacantAlertFiredAtTick = ticks;
@@ -1328,7 +1436,7 @@ export class VaultFrontExecution implements Execution {
       this.game.stats().vaultInteraction(owner);
       this.applyCaptureSurgeBonus(owner, site);
       if (this.weeklyMutator === "rally_point") {
-        owner.addTroops(1_200);
+        owner.addTroops(this.balance.vault.rallyPointTroops);
         this.game.displayMessage(
           "Rally Point: +1,200 troops from vault capture.",
           MessageType.RECEIVED_GOLD_FROM_TRADE,
@@ -1342,13 +1450,15 @@ export class VaultFrontExecution implements Execution {
       const vacantBonus =
         site.vacantAlertFiredAtTick > 0 &&
         site.vacantAlertFiredAtTick >= site.uncontrolledSinceTick
-          ? 2.0
+          ? this.balance.vault.vacantCaptureMultiplier
           : 1;
       this.startConvoy(
         owner,
         site,
         ticks,
-        site.reducedRewardNextCapture ? 0.72 : vacantBonus,
+        site.reducedRewardNextCapture
+          ? this.balance.vault.reducedCaptureMultiplier
+          : vacantBonus,
       );
       site.controllerID = null;
       site.controlTicks = 0;
@@ -1491,10 +1601,13 @@ export class VaultFrontExecution implements Execution {
       return;
     }
     const bonus = BigInt(
-      Math.floor(30_000 * this.surgeInterceptGoldMultiplier),
+      Math.floor(
+        this.balance.comeback.interceptBaseGold *
+          this.surgeInterceptGoldMultiplier,
+      ),
     );
     interceptor.addGold(bonus, tile);
-    interceptor.addTroops(650);
+    interceptor.addTroops(this.balance.comeback.interceptTroops);
     this.game.displayMessage(
       "Comeback Surge bonus: interception reward amplified.",
       MessageType.CHAT,
@@ -1504,21 +1617,35 @@ export class VaultFrontExecution implements Execution {
 
   private executionChainWindowTicksEffective(): number {
     if (this.weeklyMutator === "execution_rush") {
-      return this.cleanExecutionChainWindowTicks * 2;
+      return (
+        this.cleanExecutionChainWindowTicks *
+        this.balance.rewardDynamics.executionRushWindowMultiplier
+      );
     }
     return this.cleanExecutionChainWindowTicks;
   }
 
   private vaultCaptureTicksEffective(): number {
     if (this.weeklyMutator === "blitz") {
-      return Math.max(40, Math.floor(this.vaultCaptureTicks * 0.6));
+      return Math.max(
+        this.balance.mutators.blitzCaptureFloorTicks,
+        Math.floor(
+          this.vaultCaptureTicks * this.balance.mutators.blitzCaptureMultiplier,
+        ),
+      );
     }
     return this.vaultCaptureTicks;
   }
 
   private vaultCooldownTicksEffective(): number {
     if (this.weeklyMutator === "accelerated_cooldowns") {
-      return Math.max(260, Math.floor(this.vaultCooldownTicks * 0.75));
+      return Math.max(
+        this.balance.mutators.acceleratedVaultCooldownFloorTicks,
+        Math.floor(
+          this.vaultCooldownTicks *
+            this.balance.mutators.acceleratedCooldownMultiplier,
+        ),
+      );
     }
     return this.vaultCooldownTicks;
   }
@@ -1541,21 +1668,36 @@ export class VaultFrontExecution implements Execution {
       this.weeklyMutator === "double_passive" ||
       this.weeklyMutator === "rally_point"
     ) {
-      return this.vaultPassiveGoldPerMinute * 2n;
+      return (
+        this.vaultPassiveGoldPerMinute *
+        BigInt(this.balance.mutators.passiveGoldMultiplier)
+      );
     }
     return this.vaultPassiveGoldPerMinute;
   }
 
   private beaconPulseCooldownTicksEffective(): number {
     if (this.weeklyMutator === "accelerated_cooldowns") {
-      return Math.max(180, Math.floor(this.beaconPulseCooldownTicks * 0.75));
+      return Math.max(
+        this.balance.mutators.acceleratedPulseCooldownFloorTicks,
+        Math.floor(
+          this.beaconPulseCooldownTicks *
+            this.balance.mutators.acceleratedCooldownMultiplier,
+        ),
+      );
     }
     return this.beaconPulseCooldownTicks;
   }
 
   private jamBreakerCooldownTicksEffective(): number {
     if (this.weeklyMutator === "accelerated_cooldowns") {
-      return Math.max(480, Math.floor(this.jamBreakerCooldownTicks * 0.75));
+      return Math.max(
+        this.balance.mutators.acceleratedJamCooldownFloorTicks,
+        Math.floor(
+          this.jamBreakerCooldownTicks *
+            this.balance.mutators.acceleratedCooldownMultiplier,
+        ),
+      );
     }
     return this.jamBreakerCooldownTicks;
   }
@@ -1642,7 +1784,7 @@ export class VaultFrontExecution implements Execution {
     }
     const streakMultiplier =
       this.weeklyMutator === "execution_rush"
-        ? 1.5
+        ? this.balance.rewardDynamics.executionRushRewardMultiplier
         : this.cleanExecutionStreakConvoyMultiplier;
     this.executionStreakNextConvoyMultiplier.set(playerID, streakMultiplier);
     this.game.stats().cleanExecutionStreak(player);
@@ -1742,7 +1884,14 @@ export class VaultFrontExecution implements Execution {
       alive.length;
     if (avgStrength <= 0.01) return 1;
     const ratio = this.playerStrengthScore(player) / avgStrength;
-    return Math.max(0.72, Math.min(1.22, 1.04 - (ratio - 1) * 0.34));
+    return Math.max(
+      this.balance.rewardDynamics.minimumStrengthMultiplier,
+      Math.min(
+        this.balance.rewardDynamics.maximumStrengthMultiplier,
+        this.balance.rewardDynamics.strengthIntercept -
+          (ratio - 1) * this.balance.rewardDynamics.strengthSlope,
+      ),
+    );
   }
 
   private phaseAdjustmentMultiplier(ticks: number): number {
@@ -1750,9 +1899,11 @@ export class VaultFrontExecution implements Execution {
       0,
       ticks - this.game.config().numSpawnPhaseTurns(),
     );
-    if (elapsedAfterSpawn < 2_400) return 1.06;
-    if (elapsedAfterSpawn < 7_200) return 1;
-    return 0.97;
+    if (elapsedAfterSpawn < this.balance.rewardDynamics.earlyPhaseTicks)
+      return this.balance.rewardDynamics.earlyPhaseMultiplier;
+    if (elapsedAfterSpawn < this.balance.rewardDynamics.latePhaseTicks)
+      return this.balance.rewardDynamics.middlePhaseMultiplier;
+    return this.balance.rewardDynamics.latePhaseMultiplier;
   }
 
   private routeRiskScore(
@@ -1766,7 +1917,7 @@ export class VaultFrontExecution implements Execution {
     const dstY = this.game.y(destination);
 
     let hostileSamples = 0;
-    const samples = 9;
+    const samples = this.balance.rewardDynamics.routeRiskSamples;
     for (let i = 1; i <= samples; i++) {
       const t = i / samples;
       const x = Math.round(srcX + (dstX - srcX) * t);
@@ -1783,7 +1934,10 @@ export class VaultFrontExecution implements Execution {
     }
     const baseRisk = hostileSamples / samples;
     if (this.weeklyMutator === "lane_fog") {
-      return Math.min(1, baseRisk + 0.08);
+      return Math.min(
+        1,
+        baseRisk + this.balance.rewardDynamics.laneFogRiskBonus,
+      );
     }
     return baseRisk;
   }
@@ -1806,8 +1960,8 @@ export class VaultFrontExecution implements Execution {
     const dstX = this.game.x(destination);
     const dstY = this.game.y(destination);
 
-    const samples = 15;
-    const corridorHalfWidth = 2;
+    const samples = this.balance.rewardDynamics.corridorRiskSamples;
+    const corridorHalfWidth = this.balance.rewardDynamics.corridorHalfWidth;
     let hostileWeight = 0;
     let totalWeight = 0;
 
@@ -1884,7 +2038,10 @@ export class VaultFrontExecution implements Execution {
       (this.lastStandBonusUntilTick.get(owner.smallID()) ?? 0) > ticks
         ? this.lastStandOpponentGoldMultiplier
         : 1;
-    const goldRushBonus = this.weeklyMutator === "gold_rush" ? 1.5 : 1;
+    const goldRushBonus =
+      this.weeklyMutator === "gold_rush"
+        ? this.balance.rewardDynamics.goldRushRewardMultiplier
+        : 1;
     const finalRewardScale =
       rewardScale * streakMultiplier * lastStandBonus * goldRushBonus;
     this.executionStreakNextConvoyMultiplier.set(owner.smallID(), 1);
@@ -1895,7 +2052,15 @@ export class VaultFrontExecution implements Execution {
       preferred,
     );
     const distance = this.game.manhattanDist(site.tile, destinationTile);
-    const travelTicks = Math.max(60, Math.min(320, Math.floor(distance / 2)));
+    const travelTicks = Math.max(
+      this.balance.rewardDynamics.travelMinTicks,
+      Math.min(
+        this.balance.rewardDynamics.travelMaxTicks,
+        Math.floor(
+          distance / this.balance.rewardDynamics.travelDistanceDivisor,
+        ),
+      ),
+    );
     const routeRisk = this.routeRiskScore(owner, site.tile, destinationTile);
     const rewardPlan = this.convoyRewardPlan(
       owner,
@@ -1907,7 +2072,10 @@ export class VaultFrontExecution implements Execution {
     let escorted =
       (this.escortUntilTick.get(owner.smallID()) ?? 0) > ticks ? 1 : 0;
     if (this.weeklyMutator === "shield_escort") {
-      escorted = Math.max(escorted, 2);
+      escorted = Math.max(
+        escorted,
+        this.balance.rewardDynamics.shieldEscortStrength,
+      );
     } else if (this.weeklyMutator === "no_mercy") {
       escorted = 0;
     }
@@ -2057,7 +2225,7 @@ export class VaultFrontExecution implements Execution {
       const currentTile = this.convoyProgressTile(convoy);
 
       // Refresh intercept probability every 30 ticks so the gauge stays live
-      if (ticks % 30 === 0) {
+      if (ticks % this.balance.rewardDynamics.interceptRiskRefreshTicks === 0) {
         convoy.interceptProbability = this.computeInterceptProbability(
           owner,
           currentTile,
@@ -2085,8 +2253,13 @@ export class VaultFrontExecution implements Execution {
           continue;
         }
 
-        let gold = convoy.goldReward / 2n;
-        const troops = Math.floor(convoy.troopsReward / 2);
+        let gold =
+          convoy.goldReward /
+          BigInt(this.balance.rewardDynamics.convoyInterceptDivisor);
+        const troops = Math.floor(
+          convoy.troopsReward /
+            this.balance.rewardDynamics.convoyInterceptDivisor,
+        );
 
         // Warchest Hunt: 2× intercept gold when targeting the mark's convoys
         if (
@@ -2247,7 +2420,10 @@ export class VaultFrontExecution implements Execution {
         this.beacons.set(playerID, state);
       }
 
-      const chargeGain = 0.05 + factoryCount * 0.12 + cityCount * 0.01;
+      const chargeGain =
+        this.balance.defense.baseChargeGain +
+        factoryCount * this.balance.defense.factoryChargeGain +
+        cityCount * this.balance.defense.cityChargeGain;
       state.charge = Math.min(this.beaconChargeCap, state.charge + chargeGain);
 
       if (factoryCount <= 0 || !player.isAlive()) {
@@ -2458,7 +2634,9 @@ export class VaultFrontExecution implements Execution {
     const destination = this.bestConvoyDestination(owner, site.tile, preferred);
     const distance = this.game.manhattanDist(site.tile, destination);
     const risk = this.routeRiskScore(owner, site.tile, destination);
-    const rewardScale = site.reducedRewardNextCapture ? 0.72 : 1;
+    const rewardScale = site.reducedRewardNextCapture
+      ? this.balance.vault.reducedCaptureMultiplier
+      : 1;
     const plan = this.convoyRewardPlan(
       owner,
       distance,
@@ -2529,7 +2707,15 @@ export class VaultFrontExecution implements Execution {
         command,
       );
       const distance = this.game.manhattanDist(currentTile, destinationTile);
-      const travelTicks = Math.max(35, Math.min(320, Math.floor(distance / 2)));
+      const travelTicks = Math.max(
+        this.balance.rewardDynamics.rerouteTravelMinTicks,
+        Math.min(
+          this.balance.rewardDynamics.travelMaxTicks,
+          Math.floor(
+            distance / this.balance.rewardDynamics.travelDistanceDivisor,
+          ),
+        ),
+      );
       const routeRisk = this.routeRiskScore(
         owner,
         currentTile,

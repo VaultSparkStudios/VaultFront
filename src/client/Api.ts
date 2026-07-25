@@ -371,9 +371,7 @@ const VaultFrontRuntimeAssignmentSchema = z.object({
 });
 
 const VaultFrontOutcomeTelemetryInputSchema = z.object({
-  won: z.boolean(),
-  behindAtMinute8: z.boolean(),
-  matchLengthSeconds: z.number().int().min(0),
+  gameId: z.string().min(1).max(64),
   recapCtaVariant: z.enum(["goal_focus", "requeue_focus"]).optional(),
   recapCtaClicked: z.boolean().optional(),
   requeueClicked: z.boolean().optional(),
@@ -383,15 +381,19 @@ const VaultFrontOutcomeTelemetryInputSchema = z.object({
     timelineJumps: z.number().int().min(0),
   }),
 });
-
 const VaultFrontOutcomeSummarySchema = z.object({
   generatedAt: z.number(),
+  evidence: z.literal("authenticated-client-interaction"),
+  excludes: z.tuple([
+    z.literal("win"),
+    z.literal("match-duration"),
+    z.literal("behind-at-minute-8"),
+  ]),
   totals: z.object({
-    matches: z.number(),
-    winRate: z.number(),
+    observations: z.number(),
     recapCtaRate: z.number(),
     requeueRate: z.number(),
-    hudPerMatch: z.object({
+    hudPerObservation: z.object({
       vaultNoticeJumps: z.number(),
       objectiveRailClicks: z.number(),
       timelineJumps: z.number(),
@@ -400,9 +402,8 @@ const VaultFrontOutcomeSummarySchema = z.object({
   buckets: z.array(
     z.object({
       key: z.string(),
-      matches: z.number(),
-      winRate: z.number(),
-      hudPerMatch: z.object({
+      observations: z.number(),
+      hudPerObservation: z.object({
         vaultNoticeJumps: z.number(),
         objectiveRailClicks: z.number(),
         timelineJumps: z.number(),
@@ -416,7 +417,6 @@ const VaultFrontOutcomeSummarySchema = z.object({
     }),
   ),
 });
-
 const VaultFrontFunnelSummarySchema = z.object({
   generatedAt: z.number(),
   matches: z.number(),
@@ -935,7 +935,10 @@ export async function recordVaultFrontOutcomeTelemetry(
         "Content-Type": "application/json",
         ...(await vaultFrontIdentityHeaders()),
       },
-      body: JSON.stringify(parsed.data),
+      body: JSON.stringify({
+        ...parsed.data,
+        eventId: vaultFrontTelemetryEventId(),
+      }),
     });
     return response.ok;
   } catch {
@@ -1439,7 +1442,7 @@ export async function fetchMicroHint(params: {
 // ── Session 5 API functions ────────────────────────────────────────────────
 
 export type PlayStyle =
-  "Iron Fist" | "Convoy Lord" | "Shadow Broker" | "Balanced";
+  "Iron Fist" | "Convoy Lord" | "Shadow Broker" | "Fortress" | "Balanced";
 
 export interface AchievementProgress {
   id: string;
@@ -1471,6 +1474,7 @@ export interface FortuneItem {
 export interface StyleEntry {
   matchId: string;
   style: PlayStyle;
+  confidence?: number;
   timestamp: number;
 }
 
@@ -1524,6 +1528,7 @@ export async function fetchStyleHistory(persistentId: string): Promise<{
   try {
     const res = await fetch(
       `${getApiBase()}/api/vaultfront/style-history/${encodeURIComponent(persistentId)}`,
+      { headers: await vaultFrontIdentityHeaders() },
     );
     if (!res.ok) return null;
     return (await res.json()) as {
@@ -1533,19 +1538,6 @@ export async function fetchStyleHistory(persistentId: string): Promise<{
   } catch {
     return null;
   }
-}
-
-export async function postStyleHistory(
-  persistentId: string,
-  matchId: string,
-  style: PlayStyle,
-): Promise<void> {
-  const headers = await vaultFrontIdentityHeaders();
-  fetch(`${getApiBase()}/api/vaultfront/style-history`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", ...headers },
-    body: JSON.stringify({ persistentId, matchId, style }),
-  }).catch(() => undefined);
 }
 
 export async function fetchWinFortune(

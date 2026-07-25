@@ -28,7 +28,6 @@ import {
   type FortuneItem,
   getUserMe,
   type MutatorVoteCandidate,
-  postStyleHistory,
   recordVaultFrontOutcomeTelemetry,
   recordVaultFrontPlaytestPulse,
   recordVaultFrontRecapEvent,
@@ -1415,14 +1414,6 @@ export class WinModal extends LitElement implements Layer {
           this.requestUpdate();
         }
       });
-
-      if (persistentId && this.playStyleLabel) {
-        void postStyleHistory(
-          persistentId,
-          gameId,
-          this.playStyleLabel as import("../../Api").PlayStyle,
-        );
-      }
     });
   }
 
@@ -1733,10 +1724,10 @@ export class WinModal extends LitElement implements Layer {
 
   private async postOutcomeTelemetry(): Promise<void> {
     if (this.outcomePosted || this.matchLengthSeconds <= 0) return;
+    const gameId = this.game?.gameID();
+    if (!gameId) return;
     const ok = await recordVaultFrontOutcomeTelemetry({
-      won: this.isWin,
-      behindAtMinute8: this.behindAtMinute8,
-      matchLengthSeconds: this.matchLengthSeconds,
+      gameId,
       recapCtaVariant: this.recapCtaVariant,
       recapCtaClicked: this.recapGoalClicked || this.recapRequeueClicked,
       requeueClicked: this.recapRequeueClicked,

@@ -34,6 +34,8 @@ import {
 } from "./CanonicalAiEvidence";
 import { certifiedDailyMasteryStore } from "./CertifiedDailyMasteryStore";
 import { certifiedLoopEvidenceStore } from "./CertifiedLoopEvidenceStore";
+import { registerCertifiedOutcomeRoutes } from "./CertifiedOutcomeRouter";
+import { certifiedOutcomeStore } from "./CertifiedOutcomeStore";
 import { certifiedSeasonContractStore } from "./CertifiedSeasonContractStore";
 import { Client } from "./Client";
 import { registerDailyMasteryRoute } from "./DailyMasteryRouter";
@@ -48,6 +50,8 @@ import { registerGamePreviewRoute } from "./GamePreviewRoute";
 import { getUserMe, verifyClientToken } from "./jwt";
 import { logger } from "./Logger";
 import { registerLoopEvidenceRoutes } from "./LoopEvidenceRouter";
+import { registerMatchFeedbackRoutes } from "./MatchFeedbackRouter";
+import { matchFeedbackStore } from "./MatchFeedbackStore";
 import { verifyMatchResultCertificate } from "./MatchResultCertificate";
 import { playerStatsStore } from "./PlayerStatsStore";
 import { registerPlaytestEvidenceRoutes } from "./PlaytestEvidenceRouter";
@@ -75,11 +79,7 @@ import {
 import { fortuneDeck } from "./FortuneDeck";
 import { MapPlaylist } from "./MapPlaylist";
 import { narratorBus, type NarratorPersona } from "./NarratorBus";
-import {
-  styleHistory,
-  type MatchHistoryEntry,
-  type PlayStyle,
-} from "./PlayerStatsStore";
+import { type MatchHistoryEntry } from "./PlayerStatsStore";
 import { startPolling } from "./PollingLoop";
 import { registerPredictionLeagueRoutes } from "./PredictionLeagueRouter";
 import { predictionLeagueStore } from "./PredictionLeagueStore";
@@ -645,6 +645,17 @@ export async function startWorker() {
     isAdmin: (req) => req.headers[config.adminHeader()] === config.adminToken(),
   });
 
+  registerCertifiedOutcomeRoutes(app, {
+    authenticate: (req, res) => requireVaultFrontActor(req, res),
+    acceptActorClaim,
+    isAdmin: (req) => req.headers[config.adminHeader()] === config.adminToken(),
+    profile: certifiedOutcomeStore.profile.bind(certifiedOutcomeStore),
+    summary: certifiedOutcomeStore.summary.bind(certifiedOutcomeStore),
+    reportError: (error) =>
+      log.error("Certified outcome profile unavailable", {
+        err: String(error),
+      }),
+  });
   registerLoopEvidenceRoutes(app, {
     isAdmin: (headers) => headers[config.adminHeader()] === config.adminToken(),
     getSummary: (limit) => certifiedLoopEvidenceStore.getSummary(limit),
@@ -678,6 +689,43 @@ export async function startWorker() {
       log.error("Prediction league unavailable", { err: String(error) }),
   });
 
+  registerMatchFeedbackRoutes(app, {
+    authenticate: (req, res) => requireVaultFrontActor(req, res),
+    resolveEvidence: async (gameId, actor) => {
+      const record = await readGameRecord(gameId);
+      const certificate = record?.telemetry?.resultCertificate;
+      const participant = record?.info.players.find(
+        (player) => player.persistentID === actor.persistentId,
+      );
+      const hasVerifiedCertificate = Boolean(
+        certificate &&
+        certificate.gameID === gameId &&
+        verifyMatchResultCertificate(certificate),
+      );
+      const certificateBindsActor = Boolean(
+        hasVerifiedCertificate &&
+        participant &&
+        certificate?.result.allPlayersStats[participant.clientID],
+      );
+      return {
+        mapName:
+          hasVerifiedCertificate && participant
+            ? String(record?.info.config.gameMap ?? "")
+            : null,
+        hasVerifiedCertificate,
+        certificateBindsActor,
+      };
+    },
+    authorize: (policyId, context, res) =>
+      authorizeRoutePolicy(policyId, context, res),
+    assertPolicyBinding: assertRoutePolicyBinding,
+    isAdmin: (req) => req.headers[config.adminHeader()] === config.adminToken(),
+    record: (input) => matchFeedbackStore.record(input),
+    summary: () => matchFeedbackStore.summary(),
+    writeRateLimit: rateLimit({ windowMs: 60_000, max: 5 }),
+    reportError: (error) =>
+      log.error("match feedback unavailable", { error: String(error) }),
+  });
   registerPlaytestEvidenceRoutes(app, {
     rateLimit: rateLimit({ windowMs: 60_000, max: 120 }),
     resolveActor: resolveAuthenticatedActorKey,
@@ -1910,68 +1958,6 @@ export async function startWorker() {
     },
   );
 
-  // ── Match Quality Rating ──────────────────────────────────────────────────
-  interface MatchRating {
-    gameId: string;
-    persistentId: string;
-    matchRating: number;
-    mapRating: number;
-    mapName: string;
-    comment?: string;
-    createdAt: number;
-  }
-  const matchRatings: MatchRating[] = [];
-
-  app.post("/api/vaultfront/match-rating", async (req, res) => {
-    const parsed = z
-      .object({
-        gameId: z.string().max(64),
-        persistentId: z.string().max(64).optional(),
-        matchRating: z.number().int().min(1).max(5),
-        mapRating: z.number().int().min(1).max(5),
-        mapName: z.string().max(64).default("unknown"),
-        comment: z.string().max(200).optional(),
-      })
-      .safeParse(req.body);
-    if (!parsed.success)
-      return res.status(400).json({ error: "Invalid rating" });
-    const actor = await requireVaultFrontActor(req, res);
-    if (!actor || !acceptActorClaim(actor, parsed.data.persistentId, res))
-      return;
-    matchRatings.push({
-      ...parsed.data,
-      persistentId: actor.persistentId,
-      createdAt: Date.now(),
-    });
-    if (matchRatings.length > 2000) matchRatings.shift();
-    return res.json({ ok: true });
-  });
-
-  app.get("/api/admin/match-ratings", (req, res) => {
-    const since = Date.now() - 30 * 24 * 60 * 60 * 1000;
-    const recent = matchRatings.filter((r) => r.createdAt > since);
-    const byMap = new Map<
-      string,
-      { sum: number; count: number; matchSum: number }
-    >();
-    for (const r of recent) {
-      const e = byMap.get(r.mapName) ?? { sum: 0, count: 0, matchSum: 0 };
-      e.sum += r.mapRating;
-      e.matchSum += r.matchRating;
-      e.count++;
-      byMap.set(r.mapName, e);
-    }
-    const maps = [...byMap.entries()]
-      .map(([name, s]) => ({
-        mapName: name,
-        avgMapRating: Math.round((s.sum / s.count) * 10) / 10,
-        avgMatchRating: Math.round((s.matchSum / s.count) * 10) / 10,
-        ratingCount: s.count,
-      }))
-      .sort((a, b) => b.avgMapRating - a.avgMapRating);
-    return res.json({ ok: true, totalRatings: recent.length, maps });
-  });
-
   // ── Streaming Overlay API ────────────────────────────────────────────────
   // Streamers add this as an OBS browser source (transparent, 1280×200):
   //   https://your-server/api/stream/:gameId/overlay
@@ -2005,42 +1991,6 @@ export async function startWorker() {
       achievementStore.getMetaChainProgress(persistentId),
     reportError: (error) =>
       log.error("achievement profile unavailable", { error: String(error) }),
-  });
-
-  // ── Play-Style Career Arc API ─────────────────────────────────────────────
-  app.post("/api/vaultfront/style-history", async (req, res) => {
-    const parsed = z
-      .object({
-        persistentId: z.string().max(64).optional(),
-        matchId: z.string().max(64),
-        style: z.enum([
-          "Iron Fist",
-          "Convoy Lord",
-          "Shadow Broker",
-          "Balanced",
-        ]),
-      })
-      .safeParse(req.body);
-    if (!parsed.success)
-      return res.status(400).json({ error: "Invalid request" });
-    const actor = await requireVaultFrontActor(req, res);
-    if (!actor || !acceptActorClaim(actor, parsed.data.persistentId, res))
-      return;
-    styleHistory.record(
-      actor.persistentId,
-      parsed.data.matchId,
-      parsed.data.style as PlayStyle,
-    );
-    return res.json({ ok: true });
-  });
-
-  app.get("/api/vaultfront/style-history/:persistentId", (req, res) => {
-    const persistentId = String(req.params.persistentId ?? "").slice(0, 64);
-    if (!persistentId)
-      return res.status(400).json({ error: "Missing persistentId" });
-    const history = styleHistory.get(persistentId);
-    const trend = styleHistory.getTrend(persistentId);
-    return res.json({ ok: true, history, trend });
   });
 
   // ── Vault Fortune Post-Win Draw ───────────────────────────────────────────

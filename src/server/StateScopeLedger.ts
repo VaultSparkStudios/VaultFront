@@ -19,8 +19,20 @@ export interface StateScopeLedgerEntry {
 
 const STATE_SCOPE_LEDGER: readonly StateScopeLedgerEntry[] = [
   {
-    store: "player-stats-and-style-history",
+    store: "player-stats",
     owner: "PlayerStatsStore",
+    capability: "postgres-optional",
+    declaredScope: "postgres",
+    durability: "database-when-ready",
+    replication: "postgres-managed",
+    retention: "database policy; process lifetime when database disabled",
+    recovery: "database restore; none for process-local fallback",
+    probeOwner: "database-readiness",
+    releaseCritical: true,
+  },
+  {
+    store: "certified-outcomes",
+    owner: "CertifiedOutcomeStore",
     capability: "postgres-optional",
     declaredScope: "postgres",
     durability: "database-when-ready",

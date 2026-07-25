@@ -11,6 +11,10 @@ import { simpleHash } from "../Util";
 import { AllianceExtensionExecution } from "./alliance/AllianceExtensionExecution";
 import { DeleteUnitExecution } from "./DeleteUnitExecution";
 import { AiAttackBehavior } from "./utils/AiAttackBehavior";
+import {
+  balanceGold,
+  DEFAULT_VAULT_GAMEPLAY_BALANCE,
+} from "./VaultFrontBalance";
 
 export type BotPersonality = "aggressor" | "economist" | "diplomat" | "ghost";
 
@@ -22,36 +26,14 @@ interface PersonalityWeights {
   alliancePingRate: number;
 }
 
-const PERSONALITY_WEIGHTS: Record<BotPersonality, PersonalityWeights> = {
-  aggressor: {
-    attackWeight: 0.8,
-    convoyWeight: 0.3,
-    defendWeight: 0.2,
-    ghostRouteChance: 0.05,
-    alliancePingRate: 0.01,
-  },
-  economist: {
-    attackWeight: 0.2,
-    convoyWeight: 0.9,
-    defendWeight: 0.5,
-    ghostRouteChance: 0.1,
-    alliancePingRate: 0.05,
-  },
-  diplomat: {
-    attackWeight: 0.4,
-    convoyWeight: 0.6,
-    defendWeight: 0.4,
-    ghostRouteChance: 0.1,
-    alliancePingRate: 0.3,
-  },
-  ghost: {
-    attackWeight: 0.3,
-    convoyWeight: 0.7,
-    defendWeight: 0.3,
-    ghostRouteChance: 0.6,
-    alliancePingRate: 0.02,
-  },
-};
+const BOT_BALANCE = DEFAULT_VAULT_GAMEPLAY_BALANCE.ai.bot;
+const PERSONALITY_WEIGHTS = BOT_BALANCE.personalityWeights satisfies Record<
+  BotPersonality,
+  PersonalityWeights
+>;
+const JAM_BREAKER_GOLD_COST = balanceGold(
+  DEFAULT_VAULT_GAMEPLAY_BALANCE.defense.jamBreakerGoldCost,
+);
 
 export class BotExecution implements Execution {
   private active = true;
@@ -198,7 +180,7 @@ export class BotExecution implements Execution {
     ).length;
     const pressure = neighbors.length > 0 ? hostile / neighbors.length : 0;
     const canAffordJam =
-      this.bot.gold() >= 115_000n &&
+      this.bot.gold() >= JAM_BREAKER_GOLD_COST &&
       this.bot.unitsOwned(UnitType.DefensePost) > 0;
     const w = this.weights;
 
@@ -210,16 +192,23 @@ export class BotExecution implements Execution {
       this.random.nextFloat(0, 1) < w.ghostRouteChance
     ) {
       command = "ghost_route";
-    } else if (pressure >= 0.5 && canAffordJam && this.random.chance(3)) {
+    } else if (
+      pressure >= BOT_BALANCE.jamPressureThreshold &&
+      canAffordJam &&
+      this.random.chance(BOT_BALANCE.commandChance)
+    ) {
       command = "jam_breaker";
     } else if (
-      pressure >= 0.35 * (1 / Math.max(w.attackWeight, 0.1)) &&
-      this.random.chance(3)
+      pressure >=
+        BOT_BALANCE.escortPressureBase *
+          (1 / Math.max(w.attackWeight, BOT_BALANCE.minimumAttackWeight)) &&
+      this.random.chance(BOT_BALANCE.commandChance)
     ) {
       command = "escort";
     } else if (
-      this.random.nextFloat(0, 1) < w.convoyWeight * 0.3 &&
-      this.random.chance(4)
+      this.random.nextFloat(0, 1) <
+        w.convoyWeight * BOT_BALANCE.convoyCommandChanceScale &&
+      this.random.chance(BOT_BALANCE.convoyCommandChance)
     ) {
       const routes: VaultFrontCommandType[] = [
         "reroute_safest",
@@ -233,7 +222,11 @@ export class BotExecution implements Execution {
 
     // Diplomat: ally ping at high rate, betray at tick 500
     if (this.personality === "diplomat") {
-      if (!this.diplomatBetrayalFired && ticks >= 500 && neighbors.length > 0) {
+      if (
+        !this.diplomatBetrayalFired &&
+        ticks >= BOT_BALANCE.diplomatBetrayalTick &&
+        neighbors.length > 0
+      ) {
         this.diplomatBetrayalFired = true;
       }
     }
@@ -245,9 +238,16 @@ export class BotExecution implements Execution {
         issuedAtTick: ticks,
       });
     }
-    const baseInterval = Math.round(120 * (1 - w.convoyWeight * 0.4));
+    const baseInterval = Math.round(
+      BOT_BALANCE.commandIntervalBaseTicks *
+        (1 - w.convoyWeight * BOT_BALANCE.convoyIntervalReduction),
+    );
     this.nextVaultCommandTick =
-      ticks + this.random.nextInt(baseInterval, baseInterval + 60);
+      ticks +
+      this.random.nextInt(
+        baseInterval,
+        baseInterval + BOT_BALANCE.commandIntervalJitterTicks,
+      );
   }
 
   isActive(): boolean {

@@ -11,7 +11,8 @@ export interface ExperimentRouteApp {
 type ExperimentPolicyId =
   | "experiment-dock-event"
   | "experiment-recap-event"
-  | "experiment-runtime-event";
+  | "experiment-runtime-event"
+  | "experiment-outcome-observation";
 
 export interface ExperimentRouterDependencies {
   resolveIdentity(req: any): Promise<string | null>;
@@ -63,25 +64,20 @@ const RuntimeEventSchema = z.object({
   hudVariant: RuntimeHudVariantSchema.optional(),
   value: z.literal(1).default(1),
 });
-const OutcomeTelemetrySchema = z.object({
-  won: z.boolean(),
-  behindAtMinute8: z.boolean(),
-  matchLengthSeconds: z.number().int().min(0).max(86_400).default(0),
-  recapCtaVariant: RecapVariantSchema.optional(),
-  recapCtaClicked: z.boolean().optional(),
-  requeueClicked: z.boolean().optional(),
-  hud: z
-    .object({
-      vaultNoticeJumps: z.number().int().min(0).max(10_000).default(0),
-      objectiveRailClicks: z.number().int().min(0).max(10_000).default(0),
-      timelineJumps: z.number().int().min(0).max(10_000).default(0),
-    })
-    .default({
-      vaultNoticeJumps: 0,
-      objectiveRailClicks: 0,
-      timelineJumps: 0,
+const OutcomeTelemetrySchema = z
+  .object({
+    eventId: ExperimentEventIdSchema,
+    gameId: z.string().min(1).max(64),
+    recapCtaVariant: RecapVariantSchema.optional(),
+    recapCtaClicked: z.boolean().optional(),
+    requeueClicked: z.boolean().optional(),
+    hud: z.object({
+      vaultNoticeJumps: z.number().int().min(0).max(10_000),
+      objectiveRailClicks: z.number().int().min(0).max(10_000),
+      timelineJumps: z.number().int().min(0).max(10_000),
     }),
-});
+  })
+  .strict();
 
 type DockVariant = z.infer<typeof DockVariantSchema>;
 type RecapVariant = z.infer<typeof RecapVariantSchema>;
@@ -113,8 +109,7 @@ interface RuntimeStats {
   events: Record<string, number>;
 }
 interface OutcomeBucket {
-  matches: number;
-  wins: number;
+  observations: number;
   hudTotals: {
     vaultNoticeJumps: number;
     objectiveRailClicks: number;
@@ -156,8 +151,7 @@ function stableHash(input: string): number {
 
 function emptyOutcomeBucket(): OutcomeBucket {
   return {
-    matches: 0,
-    wins: 0,
+    observations: 0,
     hudTotals: {
       vaultNoticeJumps: 0,
       objectiveRailClicks: 0,
@@ -414,75 +408,79 @@ export class ExperimentControlPlane {
     };
   }
 
-  recordOutcome(telemetry: OutcomeTelemetry): string {
-    const recap = telemetry.recapCtaVariant ?? "none";
-    const length =
-      telemetry.matchLengthSeconds < 600
-        ? "short"
-        : telemetry.matchLengthSeconds < 1_200
-          ? "mid"
-          : "long";
-    const bucketKey = `${telemetry.behindAtMinute8 ? "behind8" : "not_behind8"}:${length}:${recap}`;
+  recordOutcome(identity: string, telemetry: OutcomeTelemetry) {
+    const assignment = this.ensureRecapAssignment(identity);
+    const verdict = this.integrity.check({
+      eventId: `outcome:${telemetry.gameId}:${telemetry.eventId}`,
+      value: 1,
+      serverVariants: [assignment.variant],
+      clientVariants: [telemetry.recapCtaVariant],
+    });
+    if (!verdict.ok) return verdict;
+    const bucketKey = assignment.variant;
     for (const key of ["all", bucketKey]) {
       const target = this.outcomeBuckets.get(key) ?? emptyOutcomeBucket();
       this.outcomeBuckets.set(key, target);
-      target.matches += 1;
-      if (telemetry.won) target.wins += 1;
+      target.observations += 1;
       target.hudTotals.vaultNoticeJumps += telemetry.hud.vaultNoticeJumps;
       target.hudTotals.objectiveRailClicks += telemetry.hud.objectiveRailClicks;
       target.hudTotals.timelineJumps += telemetry.hud.timelineJumps;
       if (telemetry.recapCtaClicked) target.recapCtaClicks += 1;
       if (telemetry.requeueClicked) target.requeueClicks += 1;
-      if (telemetry.recapCtaVariant) {
-        target.recapVariant[telemetry.recapCtaVariant] += 1;
-      }
+      target.recapVariant[assignment.variant] += 1;
     }
-    return bucketKey;
+    return { ok: true as const, bucketKey, assignment };
   }
 
   outcomeSummary() {
     const all = this.outcomeBuckets.get("all") ?? emptyOutcomeBucket();
-    const rate = (count: number, matches: number) =>
-      matches > 0 ? Number((count / matches).toFixed(4)) : 0;
-    const perMatch = (count: number, matches: number) =>
-      matches > 0 ? Number((count / matches).toFixed(3)) : 0;
+    const rate = (count: number, observations: number) =>
+      observations > 0 ? Number((count / observations).toFixed(4)) : 0;
+    const perObservation = (count: number, observations: number) =>
+      observations > 0 ? Number((count / observations).toFixed(3)) : 0;
     const summarize = ([key, value]: [string, OutcomeBucket]) => ({
       key,
-      matches: value.matches,
-      winRate: rate(value.wins, value.matches),
-      hudPerMatch: {
-        vaultNoticeJumps: perMatch(
+      observations: value.observations,
+      hudPerObservation: {
+        vaultNoticeJumps: perObservation(
           value.hudTotals.vaultNoticeJumps,
-          value.matches,
+          value.observations,
         ),
-        objectiveRailClicks: perMatch(
+        objectiveRailClicks: perObservation(
           value.hudTotals.objectiveRailClicks,
-          value.matches,
+          value.observations,
         ),
-        timelineJumps: perMatch(value.hudTotals.timelineJumps, value.matches),
+        timelineJumps: perObservation(
+          value.hudTotals.timelineJumps,
+          value.observations,
+        ),
       },
-      recapCtaRate: rate(value.recapCtaClicks, value.matches),
-      requeueRate: rate(value.requeueClicks, value.matches),
+      recapCtaRate: rate(value.recapCtaClicks, value.observations),
+      requeueRate: rate(value.requeueClicks, value.observations),
       recapVariant: value.recapVariant,
     });
     return {
       generatedAt: Date.now(),
       storage: EXPERIMENT_STORAGE_POSTURE,
+      evidence: "authenticated-client-interaction" as const,
+      excludes: ["win", "match-duration", "behind-at-minute-8"] as const,
       totals: {
-        matches: all.matches,
-        winRate: rate(all.wins, all.matches),
-        recapCtaRate: rate(all.recapCtaClicks, all.matches),
-        requeueRate: rate(all.requeueClicks, all.matches),
-        hudPerMatch: {
-          vaultNoticeJumps: perMatch(
+        observations: all.observations,
+        recapCtaRate: rate(all.recapCtaClicks, all.observations),
+        requeueRate: rate(all.requeueClicks, all.observations),
+        hudPerObservation: {
+          vaultNoticeJumps: perObservation(
             all.hudTotals.vaultNoticeJumps,
-            all.matches,
+            all.observations,
           ),
-          objectiveRailClicks: perMatch(
+          objectiveRailClicks: perObservation(
             all.hudTotals.objectiveRailClicks,
-            all.matches,
+            all.observations,
           ),
-          timelineJumps: perMatch(all.hudTotals.timelineJumps, all.matches),
+          timelineJumps: perObservation(
+            all.hudTotals.timelineJumps,
+            all.observations,
+          ),
         },
       },
       buckets: [...this.outcomeBuckets.entries()]
@@ -490,7 +488,6 @@ export class ExperimentControlPlane {
         .map(summarize),
     };
   }
-
   private recordEvent(
     stats: EventStats,
     input: { event: string; value: number },
@@ -717,14 +714,32 @@ export function registerExperimentRoutes(
       : res.status(401).json({ error: "Unauthorized" }),
   );
 
+  dependencies.assertPolicyBinding(
+    "experiment-outcome-observation",
+    "POST",
+    "/api/vaultfront/outcome",
+  );
   app.post("/api/vaultfront/outcome", async (req, res) => {
-    const identity = await dependencies.resolveIdentity(req);
-    if (!identity) return res.status(401).json({ error: "Missing identity" });
+    const actor = await dependencies.resolveActor(req);
+    if (
+      !dependencies.authorize(
+        "experiment-outcome-observation",
+        { hasVerifiedActor: Boolean(actor) },
+        res,
+      ) ||
+      !actor
+    )
+      return;
     const parsed = OutcomeTelemetrySchema.safeParse(req.body);
     if (!parsed.success) {
       return res.status(400).json({ error: z.prettifyError(parsed.error) });
     }
-    return res.json({ ok: true, bucketKey: plane.recordOutcome(parsed.data) });
+    const result = plane.recordOutcome(
+      `auth:${actor.persistentId}`,
+      parsed.data,
+    );
+    if (!result.ok) return res.status(409).json({ error: result.reason });
+    return res.json({ ok: true, bucketKey: result.bucketKey });
   });
   app.get("/api/vaultfront/outcome/summary", (req, res) =>
     dependencies.isAdmin(req)

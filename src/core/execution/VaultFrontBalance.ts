@@ -9,6 +9,88 @@ export const DEFAULT_VAULT_PRESSURE_CONFIG = Object.freeze(
   balanceAuthority.pressure,
 );
 
+export type VaultFrontGameplayBalance = typeof balanceAuthority.gameplay;
+
+function deepFreeze<T>(value: T): Readonly<T> {
+  if (value && typeof value === "object" && !Object.isFrozen(value)) {
+    Object.freeze(value);
+    for (const child of Object.values(value as Record<string, unknown>)) {
+      deepFreeze(child);
+    }
+  }
+  return value;
+}
+
+export function validateVaultFrontBalanceAuthority(
+  authority: unknown,
+): string[] {
+  const errors: string[] = [];
+  if (!authority || typeof authority !== "object") {
+    return ["authority must be an object"];
+  }
+  const candidate = authority as typeof balanceAuthority;
+  if (candidate.schemaVersion !== "1.0") {
+    errors.push("schemaVersion must be 1.0");
+  }
+  const visit = (value: unknown, path: string) => {
+    if (typeof value === "number") {
+      if (!Number.isFinite(value) || value < 0) {
+        errors.push(`${path} must be a finite non-negative number`);
+      }
+      return;
+    }
+    if (Array.isArray(value)) {
+      if (value.length === 0) errors.push(`${path} must not be empty`);
+      value.forEach((entry, index) => visit(entry, `${path}[${index}]`));
+      return;
+    }
+    if (value && typeof value === "object") {
+      Object.entries(value).forEach(([key, entry]) =>
+        visit(entry, `${path}.${key}`),
+      );
+    }
+  };
+  visit(candidate.tuning, "tuning");
+  visit(candidate.pressure, "pressure");
+  visit(candidate.gameplay, "gameplay");
+  const gameplay = candidate.gameplay;
+  if (
+    gameplay?.mapEvents?.minIntervalTicks >
+    gameplay?.mapEvents?.maxIntervalTicks
+  ) {
+    errors.push("gameplay.mapEvents interval bounds are inverted");
+  }
+  if (
+    gameplay?.defense?.beaconTriggerCost > gameplay?.defense?.beaconChargeCap
+  ) {
+    errors.push("gameplay.defense trigger exceeds charge cap");
+  }
+  if (
+    gameplay?.rewardDynamics?.minimumStrengthMultiplier >
+    gameplay?.rewardDynamics?.maximumStrengthMultiplier
+  ) {
+    errors.push("gameplay.rewardDynamics strength bounds are inverted");
+  }
+  return errors;
+}
+
+const balanceErrors = validateVaultFrontBalanceAuthority(balanceAuthority);
+if (balanceErrors.length > 0) {
+  throw new Error(
+    `Invalid VaultFront balance authority: ${balanceErrors.join("; ")}`,
+  );
+}
+
+export const DEFAULT_VAULT_GAMEPLAY_BALANCE = deepFreeze(
+  balanceAuthority.gameplay,
+) as Readonly<VaultFrontGameplayBalance>;
+
+export function balanceGold(value: number): bigint {
+  if (!Number.isSafeInteger(value) || value < 0) {
+    throw new Error(`Invalid balance gold value: ${value}`);
+  }
+  return BigInt(value);
+}
 export interface ConvoyRewardInputs {
   ownerStrength: number;
   averageStrength: number;

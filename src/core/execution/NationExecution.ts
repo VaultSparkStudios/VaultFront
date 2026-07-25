@@ -22,6 +22,15 @@ import { NationStructureBehavior } from "./nation/NationStructureBehavior";
 import { NationWarshipBehavior } from "./nation/NationWarshipBehavior";
 import { SpawnExecution } from "./SpawnExecution";
 import { AiAttackBehavior } from "./utils/AiAttackBehavior";
+import {
+  balanceGold,
+  DEFAULT_VAULT_GAMEPLAY_BALANCE,
+} from "./VaultFrontBalance";
+
+const NATION_BALANCE = DEFAULT_VAULT_GAMEPLAY_BALANCE.ai.nation;
+const JAM_BREAKER_GOLD_COST = balanceGold(
+  DEFAULT_VAULT_GAMEPLAY_BALANCE.defense.jamBreakerGoldCost,
+);
 
 export class NationExecution implements Execution {
   private active = true;
@@ -239,40 +248,53 @@ export class NationExecution implements Execution {
           allPlayers.length
         : 1;
     const strengthRatio = avgTiles > 0 ? player.tiles().size / avgTiles : 1;
-    const isBehind = strengthRatio < 0.85;
+    const isBehind = strengthRatio < NATION_BALANCE.behindStrengthRatio;
 
-    // Gold check for jam_breaker (115,000 gold cost from GAMEPLAY_DESIGN.md)
-    const JAM_BREAKER_COST = 115_000n;
-    const canAffordJam = player.gold() >= JAM_BREAKER_COST;
+    const canAffordJam = player.gold() >= JAM_BREAKER_GOLD_COST;
 
-    const highPressure = pressure >= 0.52; // slightly lower threshold than before
-    const mediumPressure = pressure >= 0.3;
-    const lowPressure = pressure < 0.16;
+    const highPressure = pressure >= NATION_BALANCE.highPressure; // slightly lower threshold than before
+    const mediumPressure = pressure >= NATION_BALANCE.mediumPressure;
+    const lowPressure = pressure < NATION_BALANCE.lowPressure;
     let command: VaultFrontCommandType | null = null;
 
     if (
       highPressure &&
       defenseStructures > 0 &&
       canAffordJam &&
-      this.random.chance(2)
+      this.random.chance(NATION_BALANCE.jamChanceDivisor)
     ) {
       // Use jam_breaker aggressively when under siege AND can afford it
       command = "jam_breaker";
     } else if (
-      (pressure >= 0.38 || isBehind) &&
-      this.random.chance(isBehind ? 2 : 3)
+      (pressure >= NATION_BALANCE.escortPressure || isBehind) &&
+      this.random.chance(
+        isBehind
+          ? NATION_BALANCE.behindEscortChanceDivisor
+          : NATION_BALANCE.standardEscortChanceDivisor,
+      )
     ) {
       // Escort more eagerly when losing — protects convoys that give comeback bonuses
       command = "escort";
-    } else if (mediumPressure && this.random.chance(2)) {
+    } else if (
+      mediumPressure &&
+      this.random.chance(NATION_BALANCE.pressureRerouteChanceDivisor)
+    ) {
       command = this.nextRerouteCommand(true);
     } else if (
       lowPressure &&
       !isBehind &&
-      this.random.chance(econBias >= 0.55 ? 4 : 5)
+      this.random.chance(
+        econBias >= NATION_BALANCE.economyBiasThreshold
+          ? NATION_BALANCE.economyRerouteChanceHighBias
+          : NATION_BALANCE.economyRerouteChanceLowBias,
+      )
     ) {
       command = this.nextRerouteCommand(false);
-    } else if (isBehind && lowPressure && this.random.chance(3)) {
+    } else if (
+      isBehind &&
+      lowPressure &&
+      this.random.chance(NATION_BALANCE.safeBehindRerouteChanceDivisor)
+    ) {
       // When behind but safe: reroute to most economic destination
       command = "reroute_city";
     }
@@ -286,14 +308,34 @@ export class NationExecution implements Execution {
       // Tighter timing windows for more responsive bot behavior
       this.nextVaultFrontCommandTick =
         command === "jam_breaker"
-          ? ticks + this.random.nextInt(60, 100)
+          ? ticks +
+            this.random.nextInt(
+              NATION_BALANCE.jamCooldownMinTicks,
+              NATION_BALANCE.jamCooldownMaxTicks,
+            )
           : command === "escort"
-            ? ticks + this.random.nextInt(70, 115)
-            : ticks + this.random.nextInt(75, 130);
+            ? ticks +
+              this.random.nextInt(
+                NATION_BALANCE.escortCooldownMinTicks,
+                NATION_BALANCE.escortCooldownMaxTicks,
+              )
+            : ticks +
+              this.random.nextInt(
+                NATION_BALANCE.rerouteCooldownMinTicks,
+                NATION_BALANCE.rerouteCooldownMaxTicks,
+              );
     } else {
       this.nextVaultFrontCommandTick = highPressure
-        ? ticks + this.random.nextInt(45, 75)
-        : ticks + this.random.nextInt(80, 140);
+        ? ticks +
+          this.random.nextInt(
+            NATION_BALANCE.highPressureRetryMinTicks,
+            NATION_BALANCE.highPressureRetryMaxTicks,
+          )
+        : ticks +
+          this.random.nextInt(
+            NATION_BALANCE.idleRetryMinTicks,
+            NATION_BALANCE.idleRetryMaxTicks,
+          );
     }
   }
 

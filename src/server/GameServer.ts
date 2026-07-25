@@ -1227,6 +1227,8 @@ export class GameServer {
       const numeric = Number(value ?? 0n);
       return Number.isSafeInteger(numeric) && numeric >= 0 ? numeric : 0;
     };
+    const toCountArray = (values: bigint[] | undefined): number =>
+      (values ?? []).reduce((total, value) => total + toCount(value), 0);
     const toTick = (value: bigint | undefined): number | undefined => {
       const numeric = Number(value);
       return Number.isSafeInteger(numeric) && numeric >= 0
@@ -1236,8 +1238,8 @@ export class GameServer {
     const players = this.gameStartInfo.players.flatMap((player) => {
       const persistentId = this.allClients.get(player.clientID)?.persistentID;
       if (!persistentId) return [];
-      const vault =
-        certifiedResult.allPlayersStats[player.clientID]?.vaultfront;
+      const stats = certifiedResult.allPlayersStats[player.clientID];
+      const vault = stats?.vaultfront;
       return [
         {
           persistentId,
@@ -1251,6 +1253,13 @@ export class GameServer {
           surgeActivations: toCount(vault?.surgeActivations),
           firstVaultCaptureTick: toTick(vault?.firstVaultCaptureTick),
           firstConvoyOutcomeTick: toTick(vault?.firstConvoyOutcomeTick),
+          behindAtMinute8: toCount(vault?.minute8Behind) > 0,
+          conquests: toCountArray(stats?.conquests),
+          passivePayouts: toCount(vault?.vaultPassivePayouts),
+          betrayals: toCount(stats?.betrayals),
+          jamBreakerUses: toCount(vault?.jamBreakerUses),
+          convoyEscortCommands: toCount(vault?.convoyEscortCommands),
+          defenseFactoryTicks: toCount(vault?.defenseFactoryPulseUptimeTicks),
         },
       ];
     });

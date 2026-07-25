@@ -1,6 +1,7 @@
 import { LitElement, html } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { EventBus } from "../../../core/EventBus";
+import { DEFAULT_VAULT_GAMEPLAY_BALANCE } from "../../../core/execution/VaultFrontBalance";
 import { Gold } from "../../../core/game/Game";
 import {
   GameUpdateType,
@@ -97,7 +98,8 @@ export class ControlPanel extends LitElement implements Layer {
   private static readonly VAULT_DEBUG_QUERY_PARAM = "vaultDebug";
   private static readonly VAULT_DEBUG_EVENT = "vaultfront-debug-toggle";
   private static readonly VAULT_NOTICE_TERRITORY_RANGE = 24;
-  private static readonly JAM_BREAKER_GOLD_COST = 115_000;
+  private static readonly JAM_BREAKER_GOLD_COST =
+    DEFAULT_VAULT_GAMEPLAY_BALANCE.defense.jamBreakerGoldCost;
   private static readonly FLOATING_VAULT_HUD_WIDTH_PX = 344;
 
   public game: GameView;

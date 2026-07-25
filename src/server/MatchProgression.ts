@@ -10,6 +10,10 @@ import {
   type LoopIntentFunnel,
 } from "./CertifiedLoopEvidenceStore";
 import {
+  certifiedOutcomeStore,
+  type CertifiedOutcomeReceipt,
+} from "./CertifiedOutcomeStore";
+import {
   certifiedSeasonContractStore,
   type CertifiedSeasonContractState,
 } from "./CertifiedSeasonContractStore";
@@ -36,6 +40,13 @@ export interface AuthoritativePlayerOutcome {
   surgeActivations: number;
   firstVaultCaptureTick?: number;
   firstConvoyOutcomeTick?: number;
+  behindAtMinute8?: boolean;
+  conquests?: number;
+  passivePayouts?: number;
+  betrayals?: number;
+  jamBreakerUses?: number;
+  convoyEscortCommands?: number;
+  defenseFactoryTicks?: number;
 }
 
 export interface AuthoritativeMatchOutcome {
@@ -60,6 +71,7 @@ export interface ProgressionReceipt {
   seasonContracts: CertifiedSeasonContractState[];
   seasonPass: CertifiedSeasonPassState[];
   loopEvidence: CertifiedLoopEvidenceReceipt | null;
+  certifiedOutcomes: CertifiedOutcomeReceipt | null;
   /** Digest of the completed fan-out, stable across duplicate observations. */
   receiptDigest: string;
 }
@@ -73,6 +85,7 @@ interface ProgressionDependencies {
   recordDailyMastery: typeof certifiedDailyMasteryStore.recordCertifiedMatch;
   recordSeasonContracts: typeof certifiedSeasonContractStore.recordCertifiedMatch;
   recordLoopEvidence: typeof certifiedLoopEvidenceStore.recordCertifiedMatch;
+  recordCertifiedOutcomes: typeof certifiedOutcomeStore.recordMatch;
 }
 
 const defaultDependencies: ProgressionDependencies = {
@@ -92,6 +105,9 @@ const defaultDependencies: ProgressionDependencies = {
   ),
   recordLoopEvidence: certifiedLoopEvidenceStore.recordCertifiedMatch.bind(
     certifiedLoopEvidenceStore,
+  ),
+  recordCertifiedOutcomes: certifiedOutcomeStore.recordMatch.bind(
+    certifiedOutcomeStore,
   ),
 };
 
@@ -126,6 +142,7 @@ function digestProgressionReceipt(
         seasonContracts: receipt.seasonContracts,
         seasonPass: receipt.seasonPass,
         loopEvidence: receipt.loopEvidence,
+        certifiedOutcomes: receipt.certifiedOutcomes,
       }),
     )
     .digest("hex")}`;
@@ -200,6 +217,7 @@ export class ServerAuthoritativeProgressionSpine {
       seasonContracts: [],
       seasonPass: [],
       loopEvidence: null,
+      certifiedOutcomes: null,
     };
   }
 
@@ -212,6 +230,8 @@ export class ServerAuthoritativeProgressionSpine {
       predictionOutcome,
     );
     if (outcome.players.length === 0) {
+      const certifiedOutcomes =
+        await this.dependencies.recordCertifiedOutcomes(outcome);
       const loopEvidence = await this.dependencies.recordLoopEvidence(outcome);
       return finalizeProgressionReceipt({
         gameId: outcome.gameId,
@@ -224,6 +244,7 @@ export class ServerAuthoritativeProgressionSpine {
         seasonContracts: [],
         seasonPass: [],
         loopEvidence,
+        certifiedOutcomes,
       });
     }
 
@@ -260,6 +281,8 @@ export class ServerAuthoritativeProgressionSpine {
         statsByPersistentId,
       },
     );
+    const certifiedOutcomes =
+      await this.dependencies.recordCertifiedOutcomes(outcome);
 
     let achievementsUnlocked = 0;
     const dailyMastery: DailyMasteryCompletionReceipt[] = [];
@@ -351,6 +374,7 @@ export class ServerAuthoritativeProgressionSpine {
       seasonContracts,
       seasonPass,
       loopEvidence,
+      certifiedOutcomes,
     });
     log.info("authoritative progression recorded", receipt);
     return receipt;
