@@ -36,6 +36,7 @@ import { narratorBus } from "./NarratorBus";
 import { replayStore } from "./ReplayStore";
 import { spectatorBus } from "./SpectatorBus";
 import { streamingBus } from "./StreamingBus";
+import { vaultFrontBalanceIdentity } from "./VaultFrontBalanceIdentity";
 import { VaultMetrics } from "./VaultMetrics";
 import { vaultSeasonScheduler } from "./VaultSeasonScheduler";
 export enum GamePhase {
@@ -597,6 +598,7 @@ export class GameServer {
       gameMode: this.gameConfig.gameMode,
       bots: this.gameConfig.bots,
       vaultWeeklyMutator: this.gameConfig.vaultWeeklyMutator,
+      vaultFrontBalanceIdentity,
     });
 
     const prestartMsg = ServerPrestartMessageSchema.safeParse({
@@ -870,11 +872,14 @@ export class GameServer {
         } satisfies ServerStartGameMessage),
       );
     } catch (error) {
-      throw new Error(
-        `error sending start message for game ${this.id}, ${error}`.substring(
-          0,
-          250,
+      throw Object.assign(
+        new Error(
+          `error sending start message for game ${this.id}, ${error}`.substring(
+            0,
+            250,
+          ),
         ),
+        { cause: error },
       );
     }
   }

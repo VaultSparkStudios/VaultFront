@@ -14,6 +14,10 @@ import { z } from "zod";
 import { getServerConfigFromServer } from "../core/configuration/ConfigLoader";
 import { GameType } from "../core/game/Game";
 import {
+  activityCountsFromPlayerStats,
+  classifyPlayStyle,
+} from "../core/PlayStyleClassifier";
+import {
   ClientMessageSchema,
   GameID,
   PartialGameRecordSchema,
@@ -702,10 +706,14 @@ export async function startWorker() {
         certificate.gameID === gameId &&
         verifyMatchResultCertificate(certificate),
       );
+      const playerStats = participant
+        ? certificate?.result.allPlayersStats[participant.clientID]
+        : undefined;
       const certificateBindsActor = Boolean(
-        hasVerifiedCertificate &&
-        participant &&
-        certificate?.result.allPlayersStats[participant.clientID],
+        hasVerifiedCertificate && participant && playerStats,
+      );
+      const style = classifyPlayStyle(
+        activityCountsFromPlayerStats(playerStats),
       );
       return {
         mapName:
@@ -714,6 +722,14 @@ export async function startWorker() {
             : null,
         hasVerifiedCertificate,
         certificateBindsActor,
+        won: Boolean(
+          participant &&
+          certificate?.result.winner?.includes(participant.clientID),
+        ),
+        behindAtMinute8:
+          Number(playerStats?.vaultfront?.minute8Behind ?? 0n) > 0,
+        playStyle: style.label,
+        styleConfidence: style.dominant,
       };
     },
     authorize: (policyId, context, res) =>

@@ -171,6 +171,23 @@
       },
       "delta": 0,
       "cause": "Session 83 complete: replay-safe certified progression, actor-bound achievements, self-validating state scope, and relea"
+    },
+    {
+      "date": "2026-07-25",
+      "session": 84,
+      "total": 24,
+      "maxTotal": 25,
+      "overallStatus": "green",
+      "lastReviewed": "2026-07-16",
+      "dimensions": {
+        "schema_alignment": 5,
+        "prompt_template_alignment": 5,
+        "derived_view_freshness": 5,
+        "handoff_continuity": 5,
+        "contradiction_density": 4
+      },
+      "delta": 0,
+      "cause": "Session 84 complete: certified feedback, unified outcome/style authority, full gameplay balance identity, signed replay "
     }
   ]
 }

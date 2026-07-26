@@ -417,6 +417,75 @@ const candidates = [
     evidence:
       "single JSON authority, executable threshold/window invariants, deterministic public projection, and release-lineage source binding",
   },
+  {
+    id: "privacy-bounded-match-feedback",
+    title: "Give certified match feedback a declared deletion horizon",
+    description:
+      "Keep the 30-day product-learning window without accumulating actor-bound ratings or free text forever by pruning PostgreSQL and process-local evidence under one tested retention contract.",
+    complete:
+      has(
+        "src/server/MatchFeedbackStore.ts",
+        /MATCH_FEEDBACK_RETENTION_DAYS = 30/,
+      ) &&
+      has("src/server/MatchFeedbackStore.ts", /DELETE FROM match_feedback/) &&
+      has(
+        "tests/server/MatchFeedbackStore.test.ts",
+        /prunes actor-bound feedback/,
+      ),
+    evidence:
+      "30-day deletion contract, PostgreSQL/process-local pruning parity, retention-labeled summaries, and boundary tests",
+  },
+  {
+    id: "certified-feedback-cohort-intelligence",
+    title: "Join player sentiment to certified outcome and style cohorts",
+    description:
+      "Turn ratings into causal product-learning evidence by segmenting private aggregates by server-certified win, comeback, and play-style dimensions without exposing actor or match identity.",
+    complete:
+      has("src/server/MatchFeedbackStore.ts", /CertifiedFeedbackCohort/) &&
+      has("src/server/Worker.ts", /styleConfidence/) &&
+      has("src/server/db/schema.sql", /feedback_play_style/) &&
+      has(
+        "tests/server/MatchFeedbackStore.test.ts",
+        /certified outcome cohorts/,
+      ),
+    evidence:
+      "certificate-derived outcome projection, privacy-safe cohort aggregates, durable/fallback parity, and no actor identifiers in summaries",
+  },
+  {
+    id: "signed-replay-balance-identity",
+    title: "Cryptographically bind every replay to its gameplay authority",
+    description:
+      "Stamp the exact balance authority and SHA-256 fingerprint into the HMAC-covered replay manifest, reject incompatible playback, and distinguish legacy evidence instead of silently replaying under different tuning.",
+    complete:
+      has("src/server/VaultFrontBalanceIdentity.ts", /authorityFingerprint/) &&
+      has("src/server/ReplayStore.ts", /verifyReplayBalanceCompatibility/) &&
+      has("src/server/GameServer.ts", /vaultFrontBalanceIdentity/) &&
+      has(
+        "tests/server/ReplayStore.test.ts",
+        /rejects a replay from a different balance authority/,
+      ),
+    evidence:
+      "canonical balance identity, signed replay snapshot binding, compatibility verifier, and mismatch/tamper tests",
+  },
+  {
+    id: "postmatch-lifecycle-receipt",
+    title: "Make progressive post-match hydration measurably honest",
+    description:
+      "Issue one source-derived lifecycle receipt per recap session with completed, timed-out, cancelled, and stale tasks, then emit a single bounded healthy/degraded pulse instead of inferring experience quality from page visibility.",
+    complete:
+      has("src/client/PostMatchSession.ts", /PostMatchSessionReceipt/) &&
+      has("src/client/graphics/layers/WinModal.ts", /postmatch_hydration_/) &&
+      has(
+        "tests/client/PostMatchSession.test.ts",
+        /source-derived lifecycle receipt/,
+      ) &&
+      has(
+        "tests/client/graphics/layers/WinModal.test.ts",
+        /one bounded lifecycle pulse/,
+      ),
+    evidence:
+      "generation-scoped receipt counters, exactly-once healthy/degraded pulse, stale-result accounting, and deterministic timer tests",
+  },
 ];
 
 const payload = {

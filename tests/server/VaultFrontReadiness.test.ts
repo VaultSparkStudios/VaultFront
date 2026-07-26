@@ -110,7 +110,7 @@ describe("buildVaultFrontReadiness", () => {
     });
 
     expect(payload.releaseWarnings).toContain(
-      "Release-critical stores are process-local: player-stats-and-style-history, achievements, clans, tournaments, playtest-pulse.",
+      "Release-critical stores are process-local: player-stats, certified-outcomes, achievements, clans, tournaments, playtest-pulse.",
     );
     expect(payload.checks.persistence).toBe("warn");
   });

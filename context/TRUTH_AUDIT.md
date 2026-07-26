@@ -248,3 +248,17 @@ Public-safe summary only. Sensitive verification notes are maintained privately.
 - Worker is 3,098 physical lines against 3,130; VaultFrontExecution is exactly 2,917 formatter-stable lines against its new composition ceiling; mutation policy is 42/42 and public ingest 10/10.
 - Direct verification passed: 165 Vitest files / 935 tests, production-inclusive coverage, TypeScript, ESLint, production build, Prettier ratchet, exact bundle/media budgets, 26/26 Playwright desktop/mobile, and 41 deploy-contract checks.
 - Release remains NO-GO. Credential readiness did not authorize provider mutation, and no staging/parity, project-domain delivery, native Obelisk, live-web, distinct-human Alpha, revenue, rollback, or founder-approval evidence was inferred.
+
+## 2026-07-24 — Session 84 feedback, balance, replay, and lifecycle truth audit
+
+- `docs/AUDIT_2026-07-24.json` is exhausted at 8/8 shipped; every admitted premise was verified against live code before implementation.
+- `docs/INNOVATION_PACK.json` is evidence-derived and exhausted at 32/32; four privacy/cohort/replay/lifecycle invariants were generated and implemented this session.
+- Match feedback requires an actor- and map-matching certified result, deduplicates certificate replays, labels PostgreSQL versus process-local scope, prunes at 30 days, and publishes no raw player-text aggregate.
+- Certified outcomes own result, duration, progression history, and career style; client-authored win/duration/style writes are retired.
+- Fifteen gameplay domains derive from one versioned authority. Runtime and the 28,125-scenario envelope consume the same projection; replay HMAC coverage includes its exact canonical identity and rejects incompatible signed rulesets.
+- Post-match lifecycle receipts are exactly once and classify completed, timed-out, failed, and cancelled tasks; health derives from those outcomes rather than optimistic render state.
+- Worker is 3,064 physical lines against 3,130; VaultFrontExecution is 2,907/2,907; WinModal is 2,384/2,400; PostMatchSession is 234/240; mutation policy is 41/41 and public ingest 10/10.
+- Direct verification passed: 173 Vitest files / 960 tests, 32.57% production-inclusive line coverage, TypeScript, ESLint, production build, Prettier ratchet, exact bundle/media budgets, performance benchmarks, 26/26 Playwright, and 41 deploy-contract checks.
+- Release remains NO-GO. Credential readiness did not authorize provider mutation, and no staging/parity, project-domain delivery, native Obelisk, live-web/theme, distinct-human Alpha, revenue, rollback, or founder-approval evidence was inferred.
+
+- Closeout supply-chain root fix: trusted ESLint 10 / compatibility 2 / EJS 6 shipped; 18 dead assignments/error-chain defects surfaced by the stricter rules were repaired; `vite-plugin-html` and 39 transitive packages were removed; the proprietary package is `private`; and semantic-release explicitly omits npm publishing. `npm audit --omit=dev --audit-level=moderate` reports zero production vulnerabilities. The all-dependency audit still reports one high and eight moderate aliases solely inside semantic-release's bundled npm 11; the only registry force-fix is an unsafe semantic-release 15 downgrade, while patched npm 12 is outside the verified Node 20/24.14 matrix. This is an evidenced upstream deferral, not a green claim.

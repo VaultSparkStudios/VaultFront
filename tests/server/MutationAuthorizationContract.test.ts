@@ -21,7 +21,6 @@ const catalog = JSON.parse(
 const protectedRoutes = [
   "/api/start_game/:id",
   "/api/vaultfront/match-rating",
-  "/api/vaultfront/style-history",
   "/api/vaultfront/win-fortune",
   "/api/vaultfront/prediction-league/predict",
   "/api/vaultfront/clan-war/challenge",

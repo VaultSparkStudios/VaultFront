@@ -39,10 +39,18 @@ export default defineConfig({
 
   webServer: configuredBaseUrl
     ? undefined
-    : {
-        command: "npm run dev",
-        url: baseURL,
-        reuseExistingServer: !process.env.CI,
-        timeout: 60_000,
-      },
+    : [
+        {
+          command: "npm run start:e2e-fixture",
+          url: "http://127.0.0.1:39081/_health",
+          reuseExistingServer: false,
+          timeout: 30_000,
+        },
+        {
+          command: "npm run start:e2e-client",
+          url: baseURL,
+          reuseExistingServer: false,
+          timeout: 60_000,
+        },
+      ],
 });

@@ -16,7 +16,7 @@ describe("NationExecution VaultFront command tuning", () => {
       smallID: () => 7,
       unitsOwned: (type: UnitType) =>
         type === UnitType.DefensePost || type === UnitType.SAMLauncher ? 1 : 0,
-      // gold() must be >= 115_000n for jam_breaker affordability check
+      // Gold is above the shared balance authority cost.
       gold: () => BigInt(500_000),
       tiles: () => ({ size: 100 }),
     };

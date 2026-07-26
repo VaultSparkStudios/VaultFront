@@ -43,6 +43,19 @@ const STATE_SCOPE_LEDGER: readonly StateScopeLedgerEntry[] = [
     releaseCritical: true,
   },
   {
+    store: "match-feedback",
+    owner: "MatchFeedbackStore",
+    capability: "postgres-optional",
+    declaredScope: "postgres",
+    durability: "database-when-ready",
+    replication: "postgres-managed",
+    retention: "30 days in PostgreSQL and process-local fallback",
+    recovery:
+      "database restore within retention horizon; none for process-local fallback",
+    probeOwner: "database-readiness",
+    releaseCritical: false,
+  },
+  {
     store: "achievements",
     owner: "AchievementStore",
     capability: "postgres-optional",

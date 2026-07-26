@@ -4,10 +4,10 @@ Detailed internal scoring, audit trends, and brainstorming are maintained privat
 
 <!-- rolling-status-start -->
 
-Total: 993/1000 | Velocity: 7 | Debt: ↓ | Velocity trend: →
-Avgs — 3: 990.7 | Momentum runway: authorized staging-evidence corridor | Intent rate: 100%
-Categories: Dev 100 | Align 100 | Momentum 100 | Engage 98 | Process 100 | Coherence 98 | Security 100 | Ecosystem 97 | Capital 100 | Automation 100
-Last session: 2026-07-24 Session 83 replay-safe progression and pressure-authority arc
+Total: 993/1000 | Velocity: 8 | Debt: ↓ | Velocity trend: ↑
+Avgs — 3: 992.3 | Momentum runway: authorized staging-evidence corridor | Intent rate: 100%
+Categories: Dev 100 | Align 100 | Momentum 100 | Engage 98 | Process 100 | Coherence 98 | Security 99 | Ecosystem 98 | Capital 100 | Automation 100
+Last session: 2026-07-24 Session 84 certified feedback and balance-identity arc
 
 <!-- rolling-status-end -->
 
@@ -539,3 +539,39 @@ capitalEfficiency +7 (oracle/prophecy cache eliminates >80% redundant Haiku call
 - [SIL:3] Require an approved staging contract before using READY Cloudflare, Brevo, or Obelisk credentials to create external state.
 
 **Honest refusal:** The session rejected six live-premise failures, did not fabricate staging/delivery/identity/human/revenue/rollback/approval evidence, did not edit a sibling tree, and did not alarm on flat-rate Max-plan cost.
+
+## 2026-07-24 — Session 84 | Total: 993/1000 | Velocity: 8
+
+| SIL v3 category       |        Score | Evidence                                                                                                                                                |
+| --------------------- | -----------: | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Dev Health            |          100 | 173 Vitest files and 960 tests, coverage, TypeScript, lint, build, format, exact bundles/media, performance, 26/26 E2E, and contracts pass directly.    |
+| Creative Alignment    |          100 | Certified feedback, play-style authority, full balance projection, replay identity, and shell-first debrief all deepen the extraction-command identity. |
+| Momentum              |          100 | Four L3 audit items and four generated innovations shipped; audit 8/8 and innovation pack 32/32 are exhausted.                                          |
+| Engagement            |           98 | Faster trustworthy debriefs and certified feedback improve the return loop; no human retention or delight result is invented.                           |
+| Process Quality       |          100 | Pull-first chronology, live-premise checks, exact-state reruns, source-derived receipts, and direct exits make the mission independently auditable.     |
+| Cross-Repo Coherence  |           98 | E2E isolated itself from sibling ports, credentials stayed gateway-owned, Ark is the only broadcast lane, and no sibling tree was edited.               |
+| Security Posture      |           99 | Match/replay boundaries fail closed; production audit is zero; nine development-only bundled-npm aliases remain honestly upstream-deferred.             |
+| Ecosystem Integration |           98 | Feedback, outcome, style, balance, replay, and lifecycle evidence now share explicit identities; external live observations remain absent.              |
+| Capital Efficiency    |          100 | Trusted tooling upgrades removed 39 transitive packages and no variable-cost service; deterministic fixtures and Max-plan work remain cost-neutral.     |
+| Automation Coverage   |          100 | Retention, cohorts, identity mismatch, lifecycle outcomes, composition, browser, exhaustion, balance, release, and mutation contracts are executable.   |
+| **Total**             | **993/1000** | Exact sum; Engagement/Cross-Repo/Ecosystem lack live receipts, and Security records the development-only upstream npm-bundle deferral.                  |
+
+**Rolling data:** Avg3 992.3 · Avg5 990.4 · Avg10/Avg25/all 986.5 · velocity 8 · debt ↓ · sparkline █████.
+
+**Top win:** One certified match identity now carries result, style, privacy-bounded feedback, replay ruleset compatibility, and an honest post-match lifecycle receipt without trusting browser-authored authority.
+
+**Top gap:** There is still no approved external staging/callback corridor or distinct-human Alpha corpus.
+
+### Brainstorm
+
+1. Promote certificate-bound feedback cohorts into tuning recommendations only after a minimum distinct-human threshold prevents single-player overfitting.
+2. Preserve replay compatibility through an explicit migration registry if a future balance version intentionally supports deterministic legacy playback.
+3. Compare post-match lifecycle degradation against real device/network classes only after privacy-safe live telemetry is authorized.
+
+### Commitments
+
+- [SIL:1] Keep feedback certificate-bound, replay-idempotent, 30-day retained, and free of raw-text public aggregates.
+- [SIL:2] Treat 3,130 Worker lines, 2,907 VaultFrontExecution lines, 2,400 WinModal lines, 240 PostMatchSession lines, and ten public-ingest routes as maxima, not targets.
+- [SIL:3] Require explicit replay balance compatibility and an approved staging contract before interpreting legacy evidence or creating external state.
+
+**Honest refusal:** The session did not fabricate staging, delivery, identity, human, retention, revenue, rollback, theme, approval, or dependency evidence; did not edit a sibling tree; did not apply the registry's breaking force-downgrade; did not weaken a failing contract; and did not alarm on flat-rate Max-plan cost.

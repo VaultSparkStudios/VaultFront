@@ -4,6 +4,7 @@
  * from silently assigning different labels to the same evidence.
  */
 export {
+  activityCountsFromPlayerStats,
   classifyPlayStyle,
   emptyActivityCounts,
   type ActivityCounts,

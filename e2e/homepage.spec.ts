@@ -23,8 +23,8 @@ test.describe("Homepage / Play page", () => {
     expect(manifest.theme_color).toBe("#08111f");
   });
 
-  test("health endpoint returns ok", async ({ request }) => {
-    const res = await request.get("/api/health");
+  test("canonical health endpoint returns ok", async ({ request }) => {
+    const res = await request.get("/_health");
     expect(res.ok()).toBeTruthy();
   });
 

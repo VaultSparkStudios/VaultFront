@@ -3,10 +3,10 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-// Session 83 extraction reduced the prior 2,926-line authority to 2,917
-// formatter-stable lines.
-// This exact ceiling prevents the pure pressure machine from accreting back.
-export const EXECUTION_LINE_BUDGET = 2917;
+// Session 84 moved all gameplay tuning and mutator projection out of the
+// simulation root, reducing it from 2,917 to 2,907 formatter-stable lines.
+// This exact ceiling prevents either state or balance policy from accreting back.
+export const EXECUTION_LINE_BUDGET = 2907;
 const REQUIRED_KERNEL_CALLS = [
   "deliverToVaultPressure(",
   "expireVaultPressureWindow(",

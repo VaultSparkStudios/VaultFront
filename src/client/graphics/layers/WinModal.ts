@@ -36,6 +36,7 @@ import {
   requestReplayHighlight,
   shareMatchInvite,
   shareReplayHighlight,
+  VaultFrontContractsSnapshot,
   VaultFrontSeasonContractState,
 } from "../../Api";
 import "../../components/PatternButton";
@@ -47,7 +48,16 @@ import {
 } from "../../Cosmetics";
 import { crazyGamesSDK } from "../../CrazyGamesSDK";
 import { Platform } from "../../Platform";
+import {
+  PostMatchSessionOrchestrator,
+  type PostMatchSessionReceipt,
+  type PostMatchSessionScope,
+} from "../../PostMatchSession";
 import { SendWinnerEvent } from "../../Transport";
+import {
+  activityCountsFromPlayerStats,
+  classifyPlayStyle,
+} from "../PlayStyleClassifier";
 import { Layer } from "./Layer";
 import { GoToPositionEvent } from "./Leaderboard";
 
@@ -222,7 +232,9 @@ export class WinModal extends LitElement implements Layer {
   @state()
   private dynastyStoryTyped = "";
 
-  private dynastyStoryTyperTimer: ReturnType<typeof setTimeout> | null = null;
+  private readonly postMatchSessions = new PostMatchSessionOrchestrator(
+    (receipt) => this.recordPostMatchLifecycle(receipt),
+  );
 
   // Override to prevent shadow DOM creation
   createRenderRoot() {
@@ -1083,7 +1095,7 @@ export class WinModal extends LitElement implements Layer {
     `;
   }
 
-  async loadPatternContent() {
+  private async buildPatternContent(): Promise<TemplateResult> {
     const me = await getUserMe();
     const patterns = await fetchCosmetics();
 
@@ -1109,8 +1121,7 @@ export class WinModal extends LitElement implements Layer {
     }
 
     if (purchasablePatterns.length === 0) {
-      this.patternContent = html``;
-      return;
+      return html``;
     }
 
     // Shuffle the array and take patterns based on screen size
@@ -1121,7 +1132,7 @@ export class WinModal extends LitElement implements Layer {
       Math.min(maxPatterns, shuffled.length),
     );
 
-    this.patternContent = html`
+    return html`
       <div class="flex gap-4 flex-wrap justify-start">
         ${selectedPatterns.map(
           ({ pattern, colorPalette }) => html`
@@ -1137,6 +1148,10 @@ export class WinModal extends LitElement implements Layer {
         )}
       </div>
     `;
+  }
+
+  async loadPatternContent(): Promise<void> {
+    this.patternContent = await this.buildPatternContent();
   }
 
   steamWishlist(): TemplateResult {
@@ -1185,164 +1200,247 @@ export class WinModal extends LitElement implements Layer {
     this.spotlightAchievement = data;
   }
 
-  async show() {
+  async show(): Promise<void> {
     crazyGamesSDK.gameplayStop();
-    await this.loadPatternContent();
-    await this.resolveRecapVariant();
+    const session = this.postMatchSessions.begin();
+
+    // The decisive shell is synchronous: optional content can never delay it.
+    this.isVisible = true;
+    this.showButtons = false;
     this.replayMoments = this.loadReplayMoments();
-    // Check if this is a ranked game
     this.isRankedGame =
       this.game.config().gameConfig().rankedType === RankedType.OneVOne;
-
-    // Achievement spotlight: pause 3s before main reveal if a new achievement unlocked
-    if (this.spotlightAchievement) {
-      this.showSpotlight = true;
-      this.isVisible = true;
-      this.requestUpdate();
-      await new Promise<void>((res) => setTimeout(res, 3200));
-      this.showSpotlight = false;
-      this.spotlightAchievement = null;
-      this.requestUpdate();
-    }
-
-    this.isVisible = true;
+    const certifiedContracts = session.settle(
+      fetchVaultFrontContracts(),
+      4_000,
+      "certified-contracts",
+    );
+    if (this.spotlightAchievement) this.showSpotlight = true;
     this.requestUpdate();
-    setTimeout(() => {
+
+    session.timeout(() => {
       this.showButtons = true;
       this.requestUpdate();
-    }, 3000);
-    setTimeout(() => {
-      void this.postOutcomeTelemetry();
-    }, 15000);
-
-    // Fetch mutator vote candidates in background
-    void fetchMutatorVoteStatus().then((status) => {
-      if (status?.open && status.candidates.length > 0) {
-        this.mutatorVoteCandidates = status.candidates;
+    }, 3_000);
+    session.timeout(() => void this.postOutcomeTelemetry(), 15_000);
+    session.timeout(
+      () =>
+        void this.refreshCertifiedSeasonalContracts(
+          session,
+          certifiedContracts,
+        ),
+      750,
+    );
+    if (this.showSpotlight) {
+      session.timeout(() => {
+        this.showSpotlight = false;
+        this.spotlightAchievement = null;
         this.requestUpdate();
-      }
-    });
-
-    // Fetch replay highlight in background
-    const gameId = this.game?.gameID();
-    if (gameId) {
-      void requestReplayHighlight(gameId).then((h) => {
-        if (h) {
-          this.replayHighlight = h;
-          this.requestUpdate();
-          // Wire autoHighlightTick into ReplayPanel for "Best Moment" button
-          if (h.autoHighlightTick !== undefined) {
-            const panel = document.querySelector("replay-panel") as
-              | (HTMLElement & {
-                  autoHighlightTick?: number | null;
-                  highlightShareUrl?: string;
-                })
-              | null;
-            if (panel) {
-              panel.autoHighlightTick = h.autoHighlightTick;
-              panel.highlightShareUrl = h.shareUrl;
-            }
-          }
-        }
-      });
+      }, 3_200);
     }
 
-    // Fetch dynasty story if player belongs to a clan
-    void getUserMe().then(async (me) => {
-      const clanId =
-        me &&
-        typeof me === "object" &&
-        "user" in me &&
-        me.user &&
-        typeof me.user === "object" &&
-        "clanId" in me.user
-          ? (me.user as { clanId?: string }).clanId
-          : undefined;
-      if (!clanId) return;
-      const story = await fetchDynastyStory(clanId);
-      if (!story) return;
+    if (this.isRankedGame) {
+      session.timeout(
+        () => void this.hydrateRankedElo(session, certifiedContracts),
+        3_000,
+      );
+    } else {
+      session.timeout(() => void this.hydrateFortuneAndRecap(session), 1_200);
+    }
+    void this.hydratePostMatchSession(session);
+    void this.hydrateDynastyStory(session);
+  }
+
+  private async hydratePostMatchSession(
+    session: PostMatchSessionScope,
+  ): Promise<void> {
+    const gameId = this.game?.gameID();
+    const [patternContent, assignment, voteStatus, highlight] =
+      await Promise.all([
+        session.settle(this.buildPatternContent(), 3_000, "pattern-content"),
+        session.settle(
+          fetchVaultFrontRecapAssignment(),
+          2_000,
+          "recap-assignment",
+        ),
+        session.settle(fetchMutatorVoteStatus(), 3_000, "mutator-vote"),
+        gameId
+          ? session.settle(
+              requestReplayHighlight(gameId),
+              4_000,
+              "replay-highlight",
+            )
+          : Promise.resolve(undefined),
+      ]);
+
+    session.commit(() => {
+      if (patternContent !== undefined) this.patternContent = patternContent;
+      if (assignment !== undefined) {
+        this.recapCtaVariant =
+          assignment === false
+            ? Math.random() < 0.5
+              ? "goal_focus"
+              : "requeue_focus"
+            : assignment.variant;
+        if (!this.recapExposureTracked) {
+          this.recapExposureTracked = true;
+          void recordVaultFrontRecapEvent({
+            event: `recap_exposure_${this.recapCtaVariant}`,
+            variant: this.recapCtaVariant,
+            value: 1,
+          });
+        }
+      }
+      if (voteStatus?.open && voteStatus.candidates.length > 0) {
+        this.mutatorVoteCandidates = voteStatus.candidates;
+      }
+      if (highlight) {
+        this.replayHighlight = highlight;
+        if (highlight.autoHighlightTick !== undefined) {
+          const panel = document.querySelector("replay-panel") as
+            | (HTMLElement & {
+                autoHighlightTick?: number | null;
+                highlightShareUrl?: string;
+              })
+            | null;
+          if (panel) {
+            panel.autoHighlightTick = highlight.autoHighlightTick;
+            panel.highlightShareUrl = highlight.shareUrl;
+          }
+        }
+      }
+      this.requestUpdate();
+    });
+  }
+
+  private async hydrateDynastyStory(
+    session: PostMatchSessionScope,
+  ): Promise<void> {
+    const me = await session.settle(getUserMe(), 2_000, "identity");
+    const clanId =
+      me &&
+      typeof me === "object" &&
+      "user" in me &&
+      me.user &&
+      typeof me.user === "object" &&
+      "clanId" in me.user
+        ? (me.user as { clanId?: string }).clanId
+        : undefined;
+    if (!clanId || !session.isCurrent()) return;
+    const story = await session.settle(
+      fetchDynastyStory(clanId),
+      4_000,
+      "dynasty-story",
+    );
+    if (!story) return;
+    session.commit(() => {
       this.dynastyStory = story;
       this.dynastyStoryTyped = "";
       this.requestUpdate();
-      // Typewriter effect: 10ms per char
-      let i = 0;
-      const type = () => {
-        if (i >= story.length) return;
-        this.dynastyStoryTyped = story.slice(0, ++i);
-        this.requestUpdate();
-        this.dynastyStoryTyperTimer = setTimeout(type, 10);
-      };
-      type();
     });
-
-    // Non-ranked: trigger fortune + recap after short settle delay
-    if (!this.isRankedGame) {
-      setTimeout(() => {
-        this._triggerFortuneAndRecap();
-      }, 1200);
-    }
-
-    // Fetch Elo after short delay so the server has time to record match result
-    if (this.isRankedGame) {
-      setTimeout(() => {
-        void fetchVaultFrontContracts().then((snapshot) => {
-          if (!snapshot) return;
-          const prevElo = parseInt(
-            localStorage.getItem("vaultfront.lastElo") ?? "1200",
-            10,
-          );
-          const current = snapshot.eloRating;
-          const tierChanged =
-            Math.floor(prevElo / 200) !== Math.floor(current / 200);
-          const start = prevElo;
-          const end = current;
-          this.eloData = {
-            previous: prevElo,
-            current,
-            label: snapshot.eloLabel,
-            animated: start,
-            tierChanged,
-          };
-          this.requestUpdate();
-          localStorage.setItem("vaultfront.lastElo", String(current));
-
-          // Animate the counter from previous to current
-          const duration = 1200;
-          const startTime = performance.now();
-          const step = (now: number) => {
-            const t = Math.min((now - startTime) / duration, 1);
-            const eased = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-            this.eloData = {
-              ...this.eloData!,
-              animated: start + (end - start) * eased,
-            };
-            this.requestUpdate();
-            if (t < 1) {
-              requestAnimationFrame(step);
-            } else {
-              // Elo animation complete — trigger fortune draw
-              this._triggerFortuneAndRecap();
-            }
-          };
-          requestAnimationFrame(step);
-        });
-      }, 3000);
-    }
+    let index = 0;
+    const typeNext = () => {
+      if (!session.isCurrent() || index >= story.length) return;
+      session.commit(() => {
+        this.dynastyStoryTyped = story.slice(0, ++index);
+        this.requestUpdate();
+      });
+      session.timeout(typeNext, 10);
+    };
+    typeNext();
   }
 
+  private async hydrateRankedElo(
+    session: PostMatchSessionScope,
+    certifiedContracts: Promise<
+      VaultFrontContractsSnapshot | false | undefined
+    >,
+  ): Promise<void> {
+    const snapshot = await certifiedContracts;
+    if (!snapshot) return;
+    const history = snapshot.eloHistory.filter(Number.isFinite);
+    const current = snapshot.eloRating;
+    const previous =
+      history.length >= 2
+        ? history[history.length - 2]
+        : (history.at(-1) ?? current);
+    const tierChanged =
+      Math.floor(previous / 200) !== Math.floor(current / 200);
+    session.commit(() => {
+      this.eloData = {
+        previous,
+        current,
+        label: snapshot.eloLabel,
+        animated: previous,
+        tierChanged,
+      };
+      this.requestUpdate();
+    });
+
+    const duration = 1_200;
+    const startedAt = performance.now();
+    const step = (now: number) => {
+      const t = Math.min((now - startedAt) / duration, 1);
+      const eased = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+      session.commit(() => {
+        if (!this.eloData) return;
+        this.eloData = {
+          ...this.eloData,
+          animated: previous + (current - previous) * eased,
+        };
+        this.requestUpdate();
+      });
+      if (t < 1) session.animationFrame(step);
+      else void this.hydrateFortuneAndRecap(session);
+    };
+    session.animationFrame(step);
+  }
+
+  private async hydrateFortuneAndRecap(
+    session: PostMatchSessionScope,
+  ): Promise<void> {
+    const gameId = this.game?.gameID();
+    if (!gameId) return;
+    const me = await session.settle(getUserMe(), 2_000, "identity");
+    const persistentId =
+      me && typeof me === "object" && "player" in me
+        ? ((me as { player?: { publicId?: string } }).player?.publicId ?? "")
+        : "";
+    const [fortune, recap] = await Promise.all([
+      session.settle(fetchWinFortune(persistentId, gameId), 4_000, "fortune"),
+      session.settle(
+        fetchMatchRecap(
+          gameId,
+          "unknown",
+          "intercept,convoy,surge",
+          this.matchLengthSeconds,
+        ),
+        4_000,
+        "match-recap",
+      ),
+    ]);
+    session.commit(() => {
+      if (fortune) this.fortuneItem = fortune.item;
+      if (recap) this.matchRecap = recap;
+      this.requestUpdate();
+    });
+  }
   hide() {
     void this.postOutcomeTelemetry();
+    this.postMatchSessions.cancel();
     this.isVisible = false;
     this.showButtons = false;
     this.mutatorVoteCandidates = [];
     this.mutatorVoteSentKey = null;
     this.dynastyStory = null;
     this.dynastyStoryTyped = "";
-    if (this.dynastyStoryTyperTimer !== null) {
-      clearTimeout(this.dynastyStoryTyperTimer);
-      this.dynastyStoryTyperTimer = null;
-    }
+
     this.eloData = null;
+    this.rematchPending = false;
+    this.shareCopied = false;
+    this.highlightCopied = false;
+    this.shareCardCopied = false;
+    this.coachDebriefLoading = false;
     this.requestUpdate();
   }
 
@@ -1386,72 +1484,57 @@ export class WinModal extends LitElement implements Layer {
     window.location.href = appRelativePath("?requeue");
   }
 
-  private _triggerFortuneAndRecap(): void {
-    const gameId = this.game?.gameID();
-    if (!gameId) return;
-
-    void getUserMe().then((me) => {
-      const persistentId =
-        me && typeof me === "object" && "player" in me
-          ? ((me as { player?: { publicId?: string } }).player?.publicId ?? "")
-          : "";
-
-      void fetchWinFortune(persistentId, gameId).then((result) => {
-        if (result) {
-          this.fortuneItem = result.item;
-          this.requestUpdate();
-        }
-      });
-
-      void fetchMatchRecap(
-        gameId,
-        "unknown",
-        "intercept,convoy,surge",
-        this.matchLengthSeconds,
-      ).then((recap) => {
-        if (recap) {
-          this.matchRecap = recap;
-          this.requestUpdate();
-        }
-      });
-    });
-  }
-
   private _loadCoachDebrief(): void {
     if (this.coachDebriefMoments !== null || this.coachDebriefLoading) return;
     const gameId = this.game?.gameID();
-    if (!gameId) return;
+    const session = this.postMatchSessions.active();
+    if (!gameId || !session) return;
     this.coachDebriefLoading = true;
-    void getUserMe().then(async (me) => {
+    void (async () => {
+      const me = await session.settle(getUserMe(), 2_000, "identity");
+      if (!session.isCurrent()) return;
       const persistentId =
         me && typeof me === "object" && "player" in me
           ? ((me as { player?: { publicId?: string } }).player?.publicId ?? "")
           : "";
-      const moments = await fetchCoachDebrief({
-        persistentId,
-        gameId,
-        matchStats: {
-          won: this.isWin,
-          style: this.playStyleLabel ?? "Balanced",
-        },
+      const moments = await session.settle(
+        fetchCoachDebrief({
+          persistentId,
+          gameId,
+          matchStats: {
+            won: this.isWin,
+            style: this.playStyleLabel ?? "Balanced",
+          },
+        }),
+        5_000,
+        "coach-debrief",
+      );
+      session.commit(() => {
+        this.coachDebriefMoments = moments ?? [];
+        this.coachDebriefLoading = false;
+        this.requestUpdate();
       });
-      this.coachDebriefMoments = moments ?? [];
-      this.coachDebriefLoading = false;
-      this.requestUpdate();
-    });
+    })();
   }
-
+  private sessionTimeout(callback: () => void, delayMs: number): void {
+    const session = this.postMatchSessions.active();
+    if (session) session.timeout(callback, delayMs);
+    else callback();
+  }
   private _handleShare = async () => {
+    const session = this.postMatchSessions.active();
     const gameId = this.game?.gameID();
     if (!gameId) return;
     await shareMatchInvite(gameId);
+    if (session && !session.isCurrent()) return;
     this.shareCopied = true;
-    setTimeout(() => {
+    this.sessionTimeout(() => {
       this.shareCopied = false;
     }, 3000);
   };
 
   private _handleRematch = async () => {
+    const session = this.postMatchSessions.active();
     const gameId = this.game?.gameID();
     if (!gameId || this.rematchPending) return;
     if (this.rematchResult) {
@@ -1462,6 +1545,7 @@ export class WinModal extends LitElement implements Layer {
     this.rematchPending = true;
     this.rematchError = null;
     const result = await createRematch(gameId);
+    if (session && !session.isCurrent()) return;
     this.rematchPending = false;
     if (!result) {
       this.rematchError =
@@ -1474,16 +1558,19 @@ export class WinModal extends LitElement implements Layer {
   };
 
   private _handleShareHighlight = async () => {
+    const session = this.postMatchSessions.active();
     const gameId = this.game?.gameID();
     if (!gameId) return;
     await shareReplayHighlight(gameId);
+    if (session && !session.isCurrent()) return;
     this.highlightCopied = true;
-    setTimeout(() => {
+    this.sessionTimeout(() => {
       this.highlightCopied = false;
     }, 3000);
   };
 
   private _handleShareCard = async () => {
+    const session = this.postMatchSessions.active();
     const isWin = this.isWin;
     const eloDelta = this.eloData
       ? this.eloData.current - this.eloData.previous
@@ -1497,12 +1584,8 @@ export class WinModal extends LitElement implements Layer {
     try {
       const canvas = new OffscreenCanvas(480, 240);
       const ctx = canvas.getContext("2d") as OffscreenCanvasRenderingContext2D;
-
-      // Background
       ctx.fillStyle = isWin ? "#1e3a2f" : "#2d1a1a";
       ctx.fillRect(0, 0, 480, 240);
-
-      // Accent stripe
       ctx.fillStyle = isWin ? "#22c55e" : "#ef4444";
       ctx.fillRect(0, 0, 8, 240);
 
@@ -1533,6 +1616,7 @@ export class WinModal extends LitElement implements Layer {
       ctx.fillText("VaultFront", 28, 220);
 
       const blob = await canvas.convertToBlob({ type: "image/png" });
+      if (session && !session.isCurrent()) return;
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
@@ -1541,7 +1625,7 @@ export class WinModal extends LitElement implements Layer {
       URL.revokeObjectURL(url);
 
       this.shareCardCopied = true;
-      setTimeout(() => {
+      this.sessionTimeout(() => {
         this.shareCardCopied = false;
       }, 3000);
     } catch {
@@ -1558,6 +1642,16 @@ export class WinModal extends LitElement implements Layer {
     });
     this._handleRequeue();
   };
+
+  private recordPostMatchLifecycle(receipt: PostMatchSessionReceipt): void {
+    void recordVaultFrontPlaytestPulse({
+      surface: "match",
+      event: receipt.degraded
+        ? "postmatch_hydration_degraded"
+        : "postmatch_hydration_healthy",
+      value: 1,
+    });
+  }
 
   private recordRivalChallengePulse(
     event:
@@ -1655,24 +1749,6 @@ export class WinModal extends LitElement implements Layer {
 
   shouldTransform(): boolean {
     return false;
-  }
-
-  private async resolveRecapVariant(): Promise<void> {
-    const assignment = await fetchVaultFrontRecapAssignment();
-    if (assignment !== false) {
-      this.recapCtaVariant = assignment.variant;
-    } else {
-      this.recapCtaVariant =
-        Math.random() < 0.5 ? "goal_focus" : "requeue_focus";
-    }
-    if (!this.recapExposureTracked) {
-      this.recapExposureTracked = true;
-      void recordVaultFrontRecapEvent({
-        event: `recap_exposure_${this.recapCtaVariant}`,
-        variant: this.recapCtaVariant,
-        value: 1,
-      });
-    }
   }
 
   private hudCountersForCurrentMatch(): {
@@ -2043,7 +2119,6 @@ export class WinModal extends LitElement implements Layer {
       this.rivalChallengeExposureTracked = true;
       this.recordRivalChallengePulse("rival_challenge_shown");
     }
-    setTimeout(() => void this.refreshCertifiedSeasonalContracts(), 750);
 
     this.computePlayStyle(myStats);
   }
@@ -2052,54 +2127,10 @@ export class WinModal extends LitElement implements Layer {
     myStats:
       import("../../../core/Schemas").AllPlayersStats[string] | undefined,
   ) {
-    const vf = myStats?.vaultfront;
-    const n = (v: bigint | undefined) =>
-      v === null || v === undefined ? 0 : Number(v);
-
-    const conquestCount = myStats?.conquests ? myStats.conquests.length : 0;
-    const aggression = n(vf?.vaultCaptures) + conquestCount;
-    const economy = n(vf?.vaultConvoysDelivered) + n(vf?.vaultPassivePayouts);
-    const deception =
-      n(vf?.cleanExecutionStreaks) +
-      n(myStats?.betrayals) +
-      n(vf?.jamBreakerUses);
-    const resilience =
-      n(vf?.defenseFactoryPulseUptimeTicks) / 600 + n(vf?.convoyEscortCommands);
-
-    const total = Math.max(1, aggression + economy + deception + resilience);
-    const a = aggression / total;
-    const e = economy / total;
-    const d = deception / total;
-    const r = resilience / total;
-
-    const label =
-      a >= 0.4
-        ? "Iron Fist"
-        : e >= 0.4
-          ? "Convoy Lord"
-          : d >= 0.35
-            ? "Shadow Broker"
-            : r >= 0.35
-              ? "Fortress"
-              : "Balanced";
-
-    this.playStyleLabel = label;
-    this.playStyleBars = [
-      { label: "Aggression", pct: Math.round(a * 100), color: "bg-rose-500" },
-      { label: "Economy", pct: Math.round(e * 100), color: "bg-emerald-500" },
-      {
-        label: "Deception",
-        pct: Math.round(d * 100),
-        color: "bg-purple-500",
-      },
-      {
-        label: "Resilience",
-        pct: Math.round(r * 100),
-        color: "bg-sky-500",
-      },
-    ];
+    const result = classifyPlayStyle(activityCountsFromPlayerStats(myStats));
+    this.playStyleLabel = result.label;
+    this.playStyleBars = result.bars;
   }
-
   private buildCard(
     key: RecapCard["key"],
     title: string,
@@ -2123,11 +2154,18 @@ export class WinModal extends LitElement implements Layer {
     };
   }
 
-  private async refreshCertifiedSeasonalContracts(): Promise<void> {
-    const serverState = await fetchVaultFrontContracts();
+  private async refreshCertifiedSeasonalContracts(
+    session: PostMatchSessionScope,
+    certifiedContracts: Promise<
+      VaultFrontContractsSnapshot | false | undefined
+    >,
+  ): Promise<void> {
+    const serverState = await certifiedContracts;
     if (!serverState) return;
-    this.seasonalContracts = this.contractCardsFromState(serverState);
-    this.requestUpdate();
+    session.commit(() => {
+      this.seasonalContracts = this.contractCardsFromState(serverState);
+      this.requestUpdate();
+    });
   }
 
   private contractCardsFromState(
@@ -2181,7 +2219,7 @@ export class WinModal extends LitElement implements Layer {
       label: string;
       sourcePlayerID?: number | null;
       targetPlayerID?: number | null;
-    }> = [];
+    }>;
     try {
       events = JSON.parse(raw) as Array<{
         tick: number;

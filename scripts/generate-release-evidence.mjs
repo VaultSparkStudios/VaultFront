@@ -540,6 +540,12 @@ export function generateReleaseEvidence(projectRoot = root) {
           "config/vaultfront-balance.v1.json",
           "src/core/execution/VaultFrontBalance.ts",
           "scripts/generate-balance-envelope.ts",
+          "scripts/check-vaultfront-balance-authority.mjs",
+          "src/core/execution/VaultFrontExecution.ts",
+          "src/core/execution/VaultFrontRuntimeBalance.ts",
+          "src/core/execution/BotExecution.ts",
+          "src/core/execution/NationExecution.ts",
+          "src/client/graphics/layers/ControlPanel.ts",
         ]),
       }
     : {

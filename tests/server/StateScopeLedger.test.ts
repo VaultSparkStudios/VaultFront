@@ -45,6 +45,23 @@ describe("StateScopeLedger", () => {
     expect(ready.summary.releasePersistenceStatus).toBe("pass");
   });
 
+  test("declares the privacy-bounded feedback store in every effective scope", () => {
+    const local = buildStateScopeLedger(posture("disabled"));
+    const ready = buildStateScopeLedger(posture("ready"));
+    expect(
+      local.entries.find((entry) => entry.store === "match-feedback"),
+    ).toMatchObject({
+      owner: "MatchFeedbackStore",
+      effectiveScope: "process",
+      retention: "30 days in PostgreSQL and process-local fallback",
+      releaseCritical: false,
+    });
+    expect(
+      ready.entries.find((entry) => entry.store === "match-feedback")
+        ?.effectiveScope,
+    ).toBe("postgres");
+  });
+
   test("blocks configured database failure without pretending fallback is durable", () => {
     const failed = buildStateScopeLedger(posture("failed"));
     expect(failed.summary.configuredDatabaseFailure).toBe(true);

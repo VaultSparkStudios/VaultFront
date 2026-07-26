@@ -60,7 +60,7 @@ export function checkFooterManifest(root = process.cwd()) {
     if (seenRoutes.has(page.route))
       errors.push(`${page.route}: duplicate route`);
     seenRoutes.add(page.route);
-    let html = "";
+    let html;
     try {
       html = readFileSync(resolve(root, page.source), "utf8");
     } catch {

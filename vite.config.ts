@@ -1,8 +1,7 @@
 import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 import { fileURLToPath } from "url";
-import { defineConfig, loadEnv } from "vite";
-import { createHtmlPlugin } from "vite-plugin-html";
+import { defineConfig, loadEnv, type Plugin } from "vite";
 import { viteStaticCopy } from "vite-plugin-static-copy";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { configDefaults } from "vitest/config";
@@ -11,9 +10,23 @@ import { configDefaults } from "vitest/config";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+function devHtmlTemplatePlugin(): Plugin {
+  return {
+    name: "vaultfront-dev-html-template",
+    transformIndexHtml(html) {
+      return html
+        .replace("<%- gitCommit %>", JSON.stringify("DEV"))
+        .replace("<%- instanceId %>", JSON.stringify("DEV_ID"));
+    },
+  };
+}
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
   const isProduction = mode === "production";
+  const devApiOrigin = env.DEV_API_ORIGIN?.trim() || "http://localhost:3000";
+  const devLobbyOrigin = env.DEV_LOBBY_ORIGIN?.trim() || "ws://localhost:3000";
+  const devWorkerOrigin =
+    env.DEV_WORKER_ORIGIN?.trim() || "ws://localhost:3001";
   const basePath = (() => {
     const raw = (env.VITE_APP_BASE_PATH ?? "/").trim();
     if (!raw || raw === "/") return "/";
@@ -97,21 +110,7 @@ export default defineConfig(({ mode }) => {
 
     plugins: [
       tsconfigPaths(),
-      ...(isProduction
-        ? []
-        : [
-            createHtmlPlugin({
-              minify: false,
-              entry: "/src/client/Main.ts",
-              template: "index.html",
-              inject: {
-                data: {
-                  gitCommit: JSON.stringify("DEV"),
-                  instanceId: JSON.stringify("DEV_ID"),
-                },
-              },
-            }),
-          ]),
+      ...(isProduction ? [] : [devHtmlTemplatePlugin()]),
       viteStaticCopy({
         targets: [
           {
@@ -186,13 +185,13 @@ export default defineConfig(({ mode }) => {
       open: process.env.SKIP_BROWSER_OPEN !== "true",
       proxy: {
         "/lobbies": {
-          target: "ws://localhost:3000",
+          target: devLobbyOrigin,
           ws: true,
           changeOrigin: true,
         },
         // Worker proxies
         "/w0": {
-          target: "ws://localhost:3001",
+          target: devWorkerOrigin,
           ws: true,
           secure: false,
           changeOrigin: true,
@@ -200,16 +199,21 @@ export default defineConfig(({ mode }) => {
           rewrite: (path) => path.replace(/^\/w0/, ""),
         },
         "/w1": {
-          target: "ws://localhost:3002",
+          target: devWorkerOrigin,
           ws: true,
           secure: false,
           changeOrigin: true,
           bypass: (req) => devGameHtmlBypass(req),
           rewrite: (path) => path.replace(/^\/w1/, ""),
         },
-        // API proxies
+        // API and canonical health proxies
+        "/_health": {
+          target: devApiOrigin,
+          changeOrigin: true,
+          secure: false,
+        },
         "/api": {
-          target: "http://localhost:3000",
+          target: devApiOrigin,
           changeOrigin: true,
           secure: false,
         },

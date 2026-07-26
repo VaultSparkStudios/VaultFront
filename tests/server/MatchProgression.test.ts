@@ -87,6 +87,12 @@ describe("ServerAuthoritativeProgressionSpine", () => {
       evidence: "certified-match-result",
       durability: "process-local",
     });
+    const recordCertifiedOutcomes = vi.fn().mockResolvedValue({
+      gameId: "game-1",
+      recordedPlayers: 2,
+      duplicatePlayers: 0,
+      durability: "process-local",
+    });
     const recordLoopEvidence = vi.fn().mockResolvedValue({
       gameId: "game-1",
       evidence: "certified-match-result",
@@ -100,6 +106,7 @@ describe("ServerAuthoritativeProgressionSpine", () => {
       recordDailyMastery,
       recordSeasonContracts,
       recordLoopEvidence,
+      recordCertifiedOutcomes,
     });
     const outcome = {
       gameId: "game-1",
@@ -147,6 +154,7 @@ describe("ServerAuthoritativeProgressionSpine", () => {
       dailyMastery: [expect.any(Object), expect.any(Object)],
       seasonContracts: [expect.any(Object), expect.any(Object)],
       seasonPass: [expect.any(Object), expect.any(Object)],
+      certifiedOutcomes: expect.objectContaining({ recordedPlayers: 2 }),
       receiptDigest: expect.stringMatching(/^sha256:[a-f0-9]{64}$/),
     });
     expect(duplicate).toMatchObject({ duplicate: true, playersRecorded: 0 });
@@ -183,6 +191,8 @@ describe("ServerAuthoritativeProgressionSpine", () => {
     expect(recordDailyMastery).toHaveBeenCalledTimes(2);
     expect(recordSeasonContracts).toHaveBeenCalledTimes(2);
     expect(recordLoopEvidence).toHaveBeenCalledTimes(1);
+    expect(recordCertifiedOutcomes).toHaveBeenCalledTimes(1);
+    expect(recordCertifiedOutcomes).toHaveBeenCalledWith(outcome);
     expect(recordSeasonContracts).toHaveBeenCalledWith(
       "game-1",
       "week-29",

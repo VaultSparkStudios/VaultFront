@@ -41,6 +41,18 @@ export const EXTRACTED_DOMAINS = [
     forbiddenInWorker: "/api/vaultfront/season-progress",
     lineBudget: 130,
   },
+  {
+    router: "CertifiedOutcomeRouter.ts",
+    registration: "registerCertifiedOutcomeRoutes",
+    forbiddenInWorker: "/api/vaultfront/style-history",
+    lineBudget: 100,
+  },
+  {
+    router: "MatchFeedbackRouter.ts",
+    registration: "registerMatchFeedbackRoutes",
+    forbiddenInWorker: "/api/admin/match-ratings",
+    lineBudget: 180,
+  },
 ];
 
 const lineCount = (source) => source.split(/\r?\n/).length;

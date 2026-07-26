@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-07-24T05:18:23.152Z",
+  "generatedAt": "2026-07-25T23:48:46.513Z",
   "source": "scripts/innovation-pack.mjs",
   "primarySource": "latest audit-backed Unified Genius List",
   "items": [
@@ -255,6 +255,42 @@
       "description": "Move the Vault Pressure threshold and breach duration into the versioned balance authority, validate their domain, and publish them in the deterministic envelope that already feeds release lineage.",
       "complete": true,
       "evidence": "single JSON authority, executable threshold/window invariants, deterministic public projection, and release-lineage source binding"
+    },
+    {
+      "rank": 29,
+      "status": "shipped",
+      "id": "privacy-bounded-match-feedback",
+      "title": "Give certified match feedback a declared deletion horizon",
+      "description": "Keep the 30-day product-learning window without accumulating actor-bound ratings or free text forever by pruning PostgreSQL and process-local evidence under one tested retention contract.",
+      "complete": true,
+      "evidence": "30-day deletion contract, PostgreSQL/process-local pruning parity, retention-labeled summaries, and boundary tests"
+    },
+    {
+      "rank": 30,
+      "status": "shipped",
+      "id": "certified-feedback-cohort-intelligence",
+      "title": "Join player sentiment to certified outcome and style cohorts",
+      "description": "Turn ratings into causal product-learning evidence by segmenting private aggregates by server-certified win, comeback, and play-style dimensions without exposing actor or match identity.",
+      "complete": true,
+      "evidence": "certificate-derived outcome projection, privacy-safe cohort aggregates, durable/fallback parity, and no actor identifiers in summaries"
+    },
+    {
+      "rank": 31,
+      "status": "shipped",
+      "id": "signed-replay-balance-identity",
+      "title": "Cryptographically bind every replay to its gameplay authority",
+      "description": "Stamp the exact balance authority and SHA-256 fingerprint into the HMAC-covered replay manifest, reject incompatible playback, and distinguish legacy evidence instead of silently replaying under different tuning.",
+      "complete": true,
+      "evidence": "canonical balance identity, signed replay snapshot binding, compatibility verifier, and mismatch/tamper tests"
+    },
+    {
+      "rank": 32,
+      "status": "shipped",
+      "id": "postmatch-lifecycle-receipt",
+      "title": "Make progressive post-match hydration measurably honest",
+      "description": "Issue one source-derived lifecycle receipt per recap session with completed, timed-out, cancelled, and stale tasks, then emit a single bounded healthy/degraded pulse instead of inferring experience quality from page visibility.",
+      "complete": true,
+      "evidence": "generation-scoped receipt counters, exactly-once healthy/degraded pulse, stale-result accounting, and deterministic timer tests"
     }
   ]
 }

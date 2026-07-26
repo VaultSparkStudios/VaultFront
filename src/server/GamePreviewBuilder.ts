@@ -196,7 +196,7 @@ export function buildPreview(
       ? `${mode} on ${map}${gameTypeLabel}`
       : "OpenFront Game";
 
-  let description = "";
+  let description: string;
   if (isFinished) {
     const parts: string[] = [];
     if (winner) {

@@ -5,6 +5,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import {
   VAULTFRONT_BALANCE_AUTHORITY as authority,
+  DEFAULT_VAULT_GAMEPLAY_BALANCE as gameplayRules,
   planConvoyReward,
   DEFAULT_VAULT_PRESSURE_CONFIG as pressureRules,
   DEFAULT_VAULT_CONVOY_REWARD_TUNING as tuning,
@@ -144,6 +145,7 @@ const payload = {
   authority: authority.authority,
   status: counterexamples.length === 0 ? "verified" : "failed",
   tuningDigest,
+  authorityFingerprint: tuningDigest,
   scenarioDigest,
   scenarioCount: scenarios.length,
   invariants: [
@@ -155,9 +157,12 @@ const payload = {
     "combo-scale-order",
     "pressure-threshold",
     "pressure-window",
+    "gameplay-schema",
+    "single-authority-fingerprint",
   ],
   counterexamples,
   pressureRules,
+  gameplayRules,
   bounds: {
     goldReward: {
       min: scenarios.reduce(

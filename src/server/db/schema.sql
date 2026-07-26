@@ -55,14 +55,28 @@ CREATE TABLE IF NOT EXISTS match_feedback (
   game_id       VARCHAR(64)  NOT NULL,
   map_name      VARCHAR(128) NOT NULL,
   match_rating  SMALLINT     NOT NULL CHECK (match_rating BETWEEN 1 AND 5),
-  map_rating    SMALLINT     NOT NULL CHECK (map_rating BETWEEN 1 AND 5),
-  comment       VARCHAR(200),
-  created_at    TIMESTAMPTZ  NOT NULL DEFAULT NOW(),
+  map_rating                   SMALLINT     NOT NULL CHECK (map_rating BETWEEN 1 AND 5),
+  comment                      VARCHAR(200),
+  feedback_won                 BOOLEAN      NOT NULL,
+  feedback_behind_at_minute_8  BOOLEAN      NOT NULL,
+  feedback_play_style          VARCHAR(32)  NOT NULL CHECK (
+    feedback_play_style IN ('Iron Fist', 'Convoy Lord', 'Shadow Broker', 'Fortress', 'Balanced')
+  ),
+  feedback_style_confidence    SMALLINT     NOT NULL CHECK (feedback_style_confidence BETWEEN 0 AND 100),
+  created_at                   TIMESTAMPTZ  NOT NULL DEFAULT NOW(),
   PRIMARY KEY (persistent_id, game_id)
 );
 
 CREATE INDEX IF NOT EXISTS idx_match_feedback_map_date
   ON match_feedback (map_name, created_at DESC);
+
+-- Existing deployments receive nullable projection columns; all new writes are
+-- certificate-derived and complete. Legacy rows remain aggregate-safe.
+ALTER TABLE match_feedback
+  ADD COLUMN IF NOT EXISTS feedback_won BOOLEAN,
+  ADD COLUMN IF NOT EXISTS feedback_behind_at_minute_8 BOOLEAN,
+  ADD COLUMN IF NOT EXISTS feedback_play_style VARCHAR(32),
+  ADD COLUMN IF NOT EXISTS feedback_style_confidence SMALLINT;
 
 -- ── Certified Outcomes + Career Style ──────────────────────────────────────
 -- Win/loss, match duration, behind-at-eight, and play style are projected from

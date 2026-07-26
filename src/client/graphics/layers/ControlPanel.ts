@@ -711,7 +711,7 @@ export class ControlPanel extends LitElement implements Layer {
     const spawnTicks = this.game?.config().numSpawnPhaseTurns() ?? 0;
     const liveTicks = Math.max(0, ticks - spawnTicks);
 
-    let completed = false;
+    let completed: boolean;
     switch (this.nextMatchGoalKey) {
       case "vault_first":
         completed = this.onboardingProgress.vaultCaptured && liveTicks <= 2_400;

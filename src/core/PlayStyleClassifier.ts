@@ -1,3 +1,5 @@
+import type { AllPlayersStats } from "./Schemas";
+
 export type PlayStyleLabel =
   "Iron Fist" | "Convoy Lord" | "Shadow Broker" | "Fortress" | "Balanced";
 
@@ -23,6 +25,27 @@ export interface ActivityCounts {
   jamBreakerUses: number;
   convoyEscortCommands: number;
   defenseFactoryTicks: number;
+}
+
+export function activityCountsFromPlayerStats(
+  stats: AllPlayersStats[string] | undefined,
+): ActivityCounts {
+  const vault = stats?.vaultfront;
+  const count = (value: bigint | undefined) => Number(value ?? 0n);
+  return {
+    vaultCaptures: count(vault?.vaultCaptures),
+    conquests: (stats?.conquests ?? []).reduce(
+      (total, value) => total + count(value),
+      0,
+    ),
+    convoysDelivered: count(vault?.vaultConvoysDelivered),
+    passivePayouts: count(vault?.vaultPassivePayouts),
+    cleanExecutionStreaks: count(vault?.cleanExecutionStreaks),
+    betrayals: count(stats?.betrayals),
+    jamBreakerUses: count(vault?.jamBreakerUses),
+    convoyEscortCommands: count(vault?.convoyEscortCommands),
+    defenseFactoryTicks: count(vault?.defenseFactoryPulseUptimeTicks),
+  };
 }
 
 export function classifyPlayStyle(counts: ActivityCounts): PlayStyleResult {

@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "authority": "vaultfront-convoy-reward-v1",
+  "authority": "vaultfront-gameplay-balance-v1",
   "tuning": {
     "minGoldReward": 120000,
     "minTroopsReward": 900,
@@ -34,5 +34,230 @@
     "strengthMultiplier": [0.72, 0.87, 1, 1.12, 1.22],
     "phaseMultiplier": [0.97, 1, 1.08],
     "rewardScale": [0.72, 1, 1.2, 1.4, 1.5]
+  },
+  "gameplay": {
+    "simulation": {
+      "statusProjectionCadenceTicks": 5,
+      "ghostRouteCooldownTicks": 300,
+      "chainGuardianThreshold": 3,
+      "commandRateWindowTicks": 10,
+      "commandRateMaxPerWindow": 5,
+      "initialBeaconChargeMin": 15,
+      "initialBeaconChargeMax": 45
+    },
+    "lastStand": {
+      "siteThreshold": 5,
+      "bonusDurationTicks": 900,
+      "opponentGoldMultiplier": 1.4
+    },
+    "heist": {
+      "goldCap": 200000,
+      "activationCost": 20000,
+      "cooldownTicks": 1200,
+      "maxTerritories": 2,
+      "stolenGoldDivisor": 2
+    },
+    "bounty": {
+      "threshold": 3,
+      "reward": 150000,
+      "charges": 3,
+      "durationTicks": 3000
+    },
+    "warchest": {
+      "huntDurationTicks": 1200,
+      "multiplier": 2,
+      "triggerTick": 500
+    },
+    "mapEvents": {
+      "minIntervalTicks": 4000,
+      "maxIntervalTicks": 6000,
+      "pool": [
+        "vault_bonanza",
+        "supply_disruption",
+        "intelligence_breach",
+        "gold_rush",
+        "siege_protocol",
+        "diplomatic_window"
+      ],
+      "durationBaseTicks": 600,
+      "durationJitterTicks": 600
+    },
+    "intelligence": {
+      "cost": 30000,
+      "deepCost": 80000,
+      "durationTicks": 600,
+      "saleDurationDivisor": 2,
+      "sellerRewardDivisor": 3
+    },
+    "economicWarfare": {
+      "sabotageCost": 40000,
+      "sabotageChargesPerUse": 3,
+      "sabotageTollFraction": 0.15,
+      "bribeCost": 25000,
+      "bribeDelayTicks": 600,
+      "tradeDealShareFraction": 0.08,
+      "bribeBuyerCostMultiplier": 2
+    },
+    "vault": {
+      "captureTicks": 90,
+      "cooldownTicks": 650,
+      "passiveIncomeIntervalTicks": 600,
+      "passiveGoldPerMinute": 75000,
+      "vacantWarningTicks": 600,
+      "vacantCaptureMultiplier": 2,
+      "reducedCaptureMultiplier": 0.72,
+      "rallyPointTroops": 1200,
+      "reopenWindowMaxTicks": 200,
+      "reopenWindowMultiplier": 0.33
+    },
+    "defense": {
+      "beaconChargeCap": 100,
+      "beaconTriggerCost": 72,
+      "beaconPulseDurationTicks": 95,
+      "beaconPulseCooldownTicks": 320,
+      "jamBreakerGoldCost": 115000,
+      "jamBreakerCooldownTicks": 900,
+      "jamBreakerMaskClampTicks": 20,
+      "jamChargeReduction": 20,
+      "baseChargeGain": 0.05,
+      "factoryChargeGain": 0.12,
+      "cityChargeGain": 0.01
+    },
+    "comeback": {
+      "surgeBehindThresholdRatio": 0.85,
+      "surgeActivationHoldTicks": 3600,
+      "surgeDurationTicks": 1200,
+      "surgeCaptureGoldBonus": 65000,
+      "surgeInterceptGoldMultiplier": 1.3,
+      "cleanExecutionChainWindowTicks": 1500,
+      "cleanExecutionStreakConvoyMultiplier": 1.2,
+      "squadObjectiveWindowTicks": 520,
+      "squadObjectiveRadius": 30,
+      "squadObjectiveGoldBonus": 35000,
+      "squadObjectiveTroopsBonus": 450,
+      "minute8Tick": 4800,
+      "interceptBaseGold": 30000,
+      "interceptTroops": 650,
+      "strengthTileWeight": 0.45,
+      "strengthTroopWeight": 0.35,
+      "strengthGoldWeight": 0.2
+    },
+    "ai": {
+      "bot": {
+        "jamPressureThreshold": 0.5,
+        "escortPressureBase": 0.35,
+        "convoyCommandChanceScale": 0.3,
+        "commandChance": 3,
+        "convoyCommandChance": 4,
+        "diplomatBetrayalTick": 500,
+        "commandIntervalBaseTicks": 120,
+        "convoyIntervalReduction": 0.4,
+        "commandIntervalJitterTicks": 60,
+        "minimumAttackWeight": 0.1,
+        "personalityWeights": {
+          "aggressor": {
+            "attackWeight": 0.8,
+            "convoyWeight": 0.3,
+            "defendWeight": 0.2,
+            "ghostRouteChance": 0.05,
+            "alliancePingRate": 0.01
+          },
+          "economist": {
+            "attackWeight": 0.2,
+            "convoyWeight": 0.9,
+            "defendWeight": 0.5,
+            "ghostRouteChance": 0.1,
+            "alliancePingRate": 0.05
+          },
+          "diplomat": {
+            "attackWeight": 0.4,
+            "convoyWeight": 0.6,
+            "defendWeight": 0.4,
+            "ghostRouteChance": 0.1,
+            "alliancePingRate": 0.3
+          },
+          "ghost": {
+            "attackWeight": 0.3,
+            "convoyWeight": 0.7,
+            "defendWeight": 0.3,
+            "ghostRouteChance": 0.6,
+            "alliancePingRate": 0.02
+          }
+        }
+      },
+      "nation": {
+        "behindStrengthRatio": 0.85,
+        "highPressure": 0.52,
+        "escortPressure": 0.38,
+        "mediumPressure": 0.3,
+        "lowPressure": 0.16,
+        "economyBiasThreshold": 0.55,
+        "jamCooldownMinTicks": 60,
+        "jamCooldownMaxTicks": 100,
+        "escortCooldownMinTicks": 70,
+        "escortCooldownMaxTicks": 115,
+        "rerouteCooldownMinTicks": 75,
+        "rerouteCooldownMaxTicks": 130,
+        "highPressureRetryMinTicks": 45,
+        "highPressureRetryMaxTicks": 75,
+        "idleRetryMinTicks": 80,
+        "idleRetryMaxTicks": 140,
+        "jamChanceDivisor": 2,
+        "behindEscortChanceDivisor": 2,
+        "standardEscortChanceDivisor": 3,
+        "pressureRerouteChanceDivisor": 2,
+        "economyRerouteChanceHighBias": 4,
+        "economyRerouteChanceLowBias": 5,
+        "safeBehindRerouteChanceDivisor": 3
+      }
+    },
+    "sitePlacement": {
+      "largeLobbyPlayers": 8,
+      "largeLobbySiteCap": 8,
+      "standardSiteCap": 5,
+      "minimumSites": 2,
+      "landTilesPerSite": 180000,
+      "minimumSpacing": 35,
+      "spacingScaleDivisor": 3
+    },
+    "rewardDynamics": {
+      "minimumStrengthMultiplier": 0.72,
+      "maximumStrengthMultiplier": 1.22,
+      "strengthIntercept": 1.04,
+      "strengthSlope": 0.34,
+      "earlyPhaseTicks": 2400,
+      "latePhaseTicks": 7200,
+      "earlyPhaseMultiplier": 1.06,
+      "middlePhaseMultiplier": 1,
+      "latePhaseMultiplier": 0.97,
+      "routeRiskSamples": 9,
+      "laneFogRiskBonus": 0.08,
+      "corridorRiskSamples": 15,
+      "corridorHalfWidth": 2,
+      "travelMinTicks": 60,
+      "travelMaxTicks": 320,
+      "travelDistanceDivisor": 2,
+      "rerouteTravelMinTicks": 35,
+      "convoyInterceptDivisor": 2,
+      "executionRushWindowMultiplier": 2,
+      "executionRushRewardMultiplier": 1.5,
+      "goldRushRewardMultiplier": 1.5,
+      "shieldEscortStrength": 2,
+      "standardEscortStrength": 1,
+      "interceptRiskRefreshTicks": 30
+    },
+    "mutators": {
+      "blitzCaptureFloorTicks": 40,
+      "blitzCaptureMultiplier": 0.6,
+      "acceleratedCooldownMultiplier": 0.75,
+      "acceleratedVaultCooldownFloorTicks": 260,
+      "passiveIntervalMultiplier": 0.5,
+      "passiveIntervalFloorTicks": 300,
+      "passiveGoldMultiplier": 2,
+      "acceleratedPulseCooldownFloorTicks": 180,
+      "acceleratedJamCooldownFloorTicks": 480,
+      "acceleratedEscortDurationTicks": 460,
+      "standardEscortDurationTicks": 600
+    }
   }
 }

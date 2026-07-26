@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0",
-  "generatedBy": "Codex /goal /arc Session 83",
-  "generatedAt": "2026-07-24T05:26:00.000Z",
+  "generatedBy": "Codex /goal /arc Session 84",
+  "generatedAt": "2026-07-24T20:22:16.0916899Z",
   "project": {
     "slug": "vaultfront",
     "name": "VaultFront",
@@ -11,7 +11,7 @@
     "stage": "FORGE",
     "stagingType": "local"
   },
-  "summary": "Premise-verified Session 83 audit applying the game/product lens and the founder-requested infrastructure rubric. Four locally executable findings survive live-code review: progression fan-out pre-claims a game before asynchronous legs finish while match history lacks durable replay protection; achievement reads expose arbitrary persistent-ID progress without the actor binding already used by season progression; the source-of-truth state ledger falsely reports the PostgreSQL-capable PlaytestEvidenceStore as always volatile; and the 2,900-line VaultFrontExecution embeds its breach-pressure state machine without a bounded composition contract. External staging, project-domain delivery, native Obelisk relying-party registration, three-human Alpha, revenue, rollback observation, and founder approval remain unobserved and are not audit implementation items.",
+  "summary": "Premise-verified Session 84 merge audit applying the game/product and public-app release lenses. Four new locally executable findings survive live-code review after the Session 83 list reached 4/4: match feedback exposes its admin corpus publicly and accepts replayable browser-supplied game/map claims; outcome and career-style analytics still trust browser-authored win/style facts instead of the certified match envelope; gameplay tuning remains fragmented across runtime, bot, nation artificial intelligence, and user-interface literals beyond the existing convoy/pressure authority; and WinModal blocks its first visible render on optional asynchronous work while delayed callbacks can outlive the modal session. External staging, project-domain delivery, native Obelisk relying-party registration, three-human Alpha, revenue, rollback observation, and founder approval remain unobserved and are not implementation items.",
   "axes": {
     "featureDepth": 1.5,
     "innovation": 1.5,
@@ -25,7 +25,7 @@
   },
   "sample": {
     "method": "live code and contract survey; sample-codebase helper absent; manual survey capped to 20 primary files",
-    "filesSurveyed": 20,
+    "filesSurveyed": 24,
     "primarySurfaces": [
       "src/server/MatchProgression.ts",
       "src/server/PlayerStatsStore.ts",
@@ -46,12 +46,16 @@
       "src/client/graphics/layers/WinModal.ts",
       "scripts/check-worker-composition.mjs",
       "scripts/check-route-policy-coverage.mjs",
-      "tests/server/MatchProgression.test.ts"
+      "tests/server/MatchProgression.test.ts",
+      "src/server/ExperimentRouter.ts",
+      "src/server/GameServer.ts",
+      "src/client/graphics/PlayStyleClassifier.ts",
+      "tests/client/graphics/layers/WinModal.test.ts"
     ]
   },
   "specialtyReviews": {
     "gameLoop": {
-      "score": 90,
+      "score": 92,
       "confidence": "code-grounded-low-empirical",
       "axes": {
         "loopTightness": 94,
@@ -61,11 +65,11 @@
         "soulFidelity": 96
       },
       "nextMoves": [
-        "Make the certified progression spine safely replayable after partial failure.",
-        "Protect private progression reads with the same actor contract as Season Pass.",
-        "Extract and exhaustively test the breach-pressure state machine without changing balance."
+        "Bind feedback and outcome analytics to certified match evidence instead of browser claims.",
+        "Finish the executable gameplay-balance authority across runtime, artificial intelligence, and user interface consumers.",
+        "Make the post-match experience shell-first, session-scoped, and stale-work-proof."
       ],
-      "boundary": "Public playlists, certified seasonal progression, prediction resolution, balance evidence, and visible entitlements are live in source. The remaining product uncertainty is empirical: no distinct-human Alpha corpus exists, so this audit does not invent tuning or retention claims."
+      "boundary": "The certified progression spine is replay-safe and the previous audit is 4/4 shipped. The remaining local risks are authority fragmentation and post-match lifecycle behavior; human-facing tuning values remain unchanged because no distinct-human Alpha corpus exists."
     },
     "release": {
       "verdict": "no-go",
@@ -84,19 +88,19 @@
     },
     "infrastructure": {
       "topRisks": [
-        "partial progression failure is suppressed by a pre-claimed process-local game ID",
-        "player match history has no per-player/game replay uniqueness contract",
-        "achievement progress reads bypass the actor-bound trust model",
-        "readiness derives a false volatility warning from a stale handwritten state-scope row",
-        "VaultFrontExecution owns a large embedded pressure/breach state machine without a ratchet"
+        "the match-rating admin corpus is publicly readable and feedback accepts replayable browser-supplied map/game claims",
+        "outcome buckets and style history accept browser-authored win/style facts outside the certified progression authority",
+        "simulation tuning is duplicated across VaultFrontExecution, BotExecution, NationExecution, and ControlPanel",
+        "WinModal awaits optional network work before first visibility and leaves timers/promises alive across hide/reopen",
+        "large composition surfaces can regress unless new extractions tighten source ratchets"
       ]
     }
   },
   "evidenceBoundary": [
     "Local automation cannot manufacture staging, project-domain delivery, relying-party registration, distinct-human Alpha, revenue, rollback observation, or founder approval.",
     "The registry still classifies VaultFront as app while local project truth says game. CANON-018 forbids editing the sibling registry; correction must travel through signed Ark cargo.",
-    "No dependency install, paid service, license change, sibling tree edit, or fabricated data is required for the four admitted items.",
-    "The latest visible CI failure belongs to the protobufjs 8.7.1 Dependabot pull request; main at 70781454 is green and remains pinned to trusted 7.6.5."
+    "No dependency install, paid service, license change, sibling tree edit, or fabricated data is required for the four admitted Session 84 items.",
+    "Balance authority work centralizes existing values and verifies equivalence; it does not claim that code review discovered better human-facing tuning."
   ],
   "rejectedPremises": [
     {
@@ -128,6 +132,26 @@
       "candidate": "Replace deterministic coaching with remote artificial intelligence",
       "result": "skipped",
       "evidence": "Certified deterministic prescriptions already preserve a cost-neutral baseline; no measured player outcome supports adding latency or variable inference to the core loop."
+    },
+    {
+      "candidate": "Deploy staging or wire native Obelisk during the audit",
+      "result": "skipped",
+      "evidence": "The live project has no approved relying-party origin/callback or staging promotion authorization. READY credentials are capability evidence, not permission or observed delivery."
+    },
+    {
+      "candidate": "Retune gameplay values while centralizing their authority",
+      "result": "skipped",
+      "evidence": "The live code proves duplicated authority, not that any current numeric value is wrong. The implementation must preserve values byte-for-byte until distinct-human evidence exists."
+    },
+    {
+      "candidate": "Replace certified local coaching with additional remote artificial intelligence",
+      "result": "skipped",
+      "evidence": "Remote coach routes already authenticate, load canonical match evidence, reserve budget after cache checks, and publish response receipts. No measured gap justifies more inference."
+    },
+    {
+      "candidate": "Treat local theme proof as missing",
+      "result": "skipped",
+      "evidence": "The source-derived six-cell local theme receipt and footer manifest are currently green; only live-origin observations remain absent."
     }
   ],
   "items": [
@@ -261,6 +285,138 @@
       },
       "executionLog": [
         "L3 shipped: the three-delivery breach climax is a pure typed transition kernel with open, expiry, final-tick, normalization, victory, and deterministic sequence coverage. VaultFrontExecution composes the kernel without balance changes and is ratcheted at the exact formatter-stable 2,917-line baseline."
+      ]
+    },
+    {
+      "id": 77,
+      "slug": "certified-match-feedback-plane",
+      "tier": "🔥",
+      "axis": "feedback loop / security / observability / organization",
+      "effortHours": 7,
+      "impact": 10,
+      "innovation": 8,
+      "priority": 95,
+      "status": "shipped",
+      "title": "Turn match ratings into certified, replay-safe feedback evidence",
+      "why": "GET /api/admin/match-ratings returns the full rating/comment corpus without an admin check. POST /api/vaultfront/match-rating authenticates an actor but trusts browser-supplied gameId and mapName, allows unlimited duplicate ratings, and stores only process-local arrays. A caller can pollute map feedback and a public reader can retrieve it.",
+      "coreLoopStep": "certified participant → one private match rating → operator-only aggregate → product learning",
+      "recipe": "Extract a MatchFeedbackRouter and store; authenticate the actor, load the certified archived match to prove participation and derive map identity, enforce one actor/game rating with explicit conflict semantics, persist in PostgreSQL with an honestly labeled process-local development fallback, protect the aggregate with the configured admin contract, and cover missing/cross-game/replay/admin/durability paths directly.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Add admin authorization and duplicate suppression."
+        },
+        "L2": {
+          "effortHours": 4,
+          "recipe": "Extract the route, bind actor participation to certified match evidence, and derive map identity server-side."
+        },
+        "L3": {
+          "effortHours": 7,
+          "recipe": "Add transactionally unique PostgreSQL storage, honest fallback scope, aggregate receipts, direct authorization/idempotency tests, and a composition ratchet preventing inline route regression."
+        }
+      },
+      "executionLog": [
+        "S84: Added certificate-bound actor feedback route/store, server-authoritative map attribution, persistent idempotency, aggregate-only admin reporting, route-policy coverage, schema migration, and focused regression tests. Verified Vitest 28/28, tsc, worker composition, and route-policy coverage exit 0."
+      ]
+    },
+    {
+      "id": 78,
+      "slug": "certified-outcome-style-authority",
+      "tier": "🔥",
+      "axis": "gamification / analytics / security / feedback loop",
+      "effortHours": 10,
+      "impact": 10,
+      "innovation": 9,
+      "priority": 94,
+      "status": "shipped",
+      "title": "Make outcome and career style one certified match projection",
+      "why": "ExperimentRouter records won, behind-at-minute-eight, duration, and engagement from a browser POST; Worker also accepts browser-authored style-history mutations and exposes arbitrary player style reads. The certified match envelope already contains authoritative result and VaultFront metrics, but these analytics bypass it.",
+      "coreLoopStep": "certified result → outcome/style projection → private career profile + honest aggregate",
+      "recipe": "Move outcome and play-style derivation into pure shared kernels fed by AuthoritativeMatchOutcome, add the missing certified metrics to the envelope, fan the projection out inside MatchProgression with player/game idempotency and explicit storage scope, retire browser-authored result/style mutations with 410 tombstones, split client interaction observations from certified outcome facts, actor-bind career reads, and include verifiable projection receipts in progression evidence.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 2,
+          "recipe": "Retire browser-authored win/style facts and actor-bind reads."
+        },
+        "L2": {
+          "effortHours": 6,
+          "recipe": "Derive outcome/style from the certified envelope and add replay-safe process-local projections."
+        },
+        "L3": {
+          "effortHours": 10,
+          "recipe": "Create pure shared kernels, durable player/game history, certified-vs-observed summary separation, digest-bound receipts, direct route/spine tests, and client migration with no duplicate authority."
+        }
+      },
+      "executionLog": [
+        "S84: Replaced browser-authored outcome/style facts with a certified match projection. Added shared pure style classification, signed-result metric fan-out, PostgreSQL/process-local idempotent outcome storage, actor-bound career history, admin-only certified aggregates, authenticated deduplicated interaction observations, schema/readiness ownership, and regression coverage. Verified 56/56 focused tests, TypeScript, worker composition, and route-policy coverage exit 0."
+      ]
+    },
+    {
+      "id": 79,
+      "slug": "complete-gameplay-balance-authority",
+      "tier": "🔥",
+      "axis": "feature depth / artificial intelligence / speed / release truth",
+      "effortHours": 12,
+      "impact": 9,
+      "innovation": 9,
+      "priority": 90,
+      "status": "shipped",
+      "title": "Complete the executable gameplay-balance authority",
+      "why": "config/vaultfront-balance.v1.json owns convoy rewards and pressure, but VaultFrontExecution still embeds dozens of capture, defense, command, comeback, event, intelligence, and economic values. Jam Breaker cost is separately duplicated in VaultFrontExecution, BotExecution, NationExecution, tests, and ControlPanel. Runtime, artificial intelligence, UI, and release evidence can silently disagree.",
+      "coreLoopStep": "versioned tuning → simulation + bots + nation AI + HUD → deterministic release envelope",
+      "recipe": "Extend the versioned balance schema across every remaining VaultFront gameplay subsystem without changing values; expose frozen typed projections; make runtime, BotExecution, NationExecution, and UI fallbacks consume them; add a structural no-embedded-tunables ratchet and cross-consumer parity tests; expand deterministic balance verification and release lineage so any tuning change produces one reviewable fingerprint.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 2,
+          "recipe": "Centralize Jam Breaker cost/cooldown across runtime, bots, and UI."
+        },
+        "L2": {
+          "effortHours": 7,
+          "recipe": "Move defense, comeback, and command parameters into typed config with parity tests."
+        },
+        "L3": {
+          "effortHours": 12,
+          "recipe": "Migrate all remaining gameplay tunables, validate the schema and invariants, ban duplicated literals structurally, extend the deterministic envelope, and bind one authority fingerprint through release evidence."
+        }
+      },
+      "executionLog": [
+        "S84: Promoted 15 gameplay domains (simulation, vault, defense, comeback, economy, events, AI, placement, reward dynamics, mutators, and related systems) into one validated versioned authority without changing live values. Added number-to-bigint runtime projection, mutator projection, Bot/Nation/UI parity, a public SHA-256 authority fingerprint, release lineage binding, structural duplication checker, deterministic envelope, and exact 2,907-line execution ratchet. Verified 28,125 scenarios with zero counterexamples, 53/53 focused tests, TypeScript, and all contract gates exit 0."
+      ]
+    },
+    {
+      "id": 80,
+      "slug": "postmatch-session-orchestrator",
+      "tier": "⚡",
+      "axis": "ux / engagement / reliability / organization",
+      "effortHours": 8,
+      "impact": 9,
+      "innovation": 8,
+      "priority": 86,
+      "status": "shipped",
+      "title": "Make the post-match experience shell-first and session-scoped",
+      "why": "WinModal.show awaits pattern loading and recap assignment before setting isVisible. Optional network latency can leave the decisive post-match moment blank. Multiple unmanaged timeouts, animation frames, and promise callbacks continue after hide/reopen, while Elo animation uses one browser-global lastElo value despite an actor-bound certified history already being returned.",
+      "coreLoopStep": "match end → immediate recap shell → progressive certified enrichment → safe requeue/exit",
+      "recipe": "Introduce a post-match session orchestrator with a generation token, timer/animation registry, optional-task deadlines, and stale-result rejection; render the recap shell immediately; hydrate independent panels in parallel without blocking actions; cancel every delayed effect on hide/reopen; derive previous Elo from the authenticated history rather than global browser state; and add fake-timer/deferred-promise tests proving immediate visibility, cancellation, one telemetry flush, and account-safe rating animation.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Set visibility before optional awaits and clear tracked timeouts."
+        },
+        "L2": {
+          "effortHours": 4,
+          "recipe": "Add generation-based stale-result rejection, parallel hydration, and actor-safe Elo history."
+        },
+        "L3": {
+          "effortHours": 8,
+          "recipe": "Extract a reusable lifecycle orchestrator covering timers, animation frames, deadlines, telemetry flush, progressive hydration, and exhaustive hide/reopen race tests while tightening the WinModal composition ratchet."
+        }
+      },
+      "executionLog": [
+        "S84: Extracted a generation-scoped post-match lifecycle owner for every timer, animation frame, deadline, and cancellable promise. The decisive shell now renders synchronously; certified contracts are fetched once and shared by seasonal and actor-bound Elo views; independent panels hydrate concurrently; hide/reopen and in-flight rematch/share results cannot commit stale state; browser-global Elo history was retired; and the shared certified play-style classifier now drives the UI. Verified 17/17 focused lifecycle/composition tests, TypeScript, and the full contract suite exit 0."
       ]
     }
   ]

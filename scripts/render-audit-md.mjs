@@ -59,6 +59,10 @@ export function renderAudit(audit, date) {
     for (const item of logged) {
       lines.push(`### ${item.slug}`);
       for (const entry of item.executionLog) {
+        if (typeof entry === "string") {
+          lines.push(`- ${entry}`);
+          continue;
+        }
         lines.push(
           `- \`${entry.at ?? entry.date ?? "unknown"}\` · **${entry.status ?? "noted"}** · ${entry.note ?? entry.result ?? ""}`,
         );

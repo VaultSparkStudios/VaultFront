@@ -1,19 +1,19 @@
 <!-- generated-by: scripts/render-closeout-board.mjs v1.0 -->
-<!-- generated-at: 2026-07-24 (Session 83 closeout) -->
+<!-- generated-at: 2026-07-26 (Session 84 closeout) -->
 
 # Closeout Status Board — VaultFront
 
 ```
-╔══ SESSION CLOSEOUT · VaultFront · S83 ═════════════════════════╗
-║  Date: 2026-07-24 · SIL: 993/1000 · V:7  ·  Debt: down           ║
+╔══ SESSION CLOSEOUT · VaultFront · S84 ═════════════════════════╗
+║  Date: 2026-07-26 · SIL: 993/1000 · V:8  ·  Debt: down           ║
 ║  Mode: FOUNDER  ·  Agent: codex                                  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ WHAT SHIPPED ════════════════════════════════════════════════╗
-║  ✓ Certified progression now coalesces concurrent calls, releas  ║
-║  ✓ Achievement progress is a private actor-bound profile behind  ║
-║  ✓ State-scope evidence distinguishes store capability from eff  ║
-║  ✓ Vault Pressure is a pure typed transition kernel. Its three-  ║
-║  ✓ Worker remains below its 3,130-line ceiling at 3,098; VaultF  ║
+║  ✓ Match feedback is certificate-bound, actor/map validated, re  ║
+║  ✓ Outcome, duration, progression history, and play style now d  ║
+║  ✓ Fifteen gameplay domains project from one versioned balance   ║
+║  ✓ Post-match enrichment is shell-first, parallel, bounded, can  ║
+║  ✓ E2E uses an isolated canonical API fixture, preventing unrel  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ SCORES · SIL 993/1000 ═══════════════════════════════════════╗
 ║    Dev Health         100  ██████████                            ║
@@ -22,8 +22,8 @@
 ║    Engagement         98   ██████████                            ║
 ║    Process Qual       100  ██████████                            ║
 ║    Coherence          98   ██████████                            ║
-║    Security           100  ██████████                            ║
-║    Ecosystem          97   ██████████                            ║
+║    Security           99   ██████████                            ║
+║    Ecosystem          98   ██████████                            ║
 ║    Capital            100  ██████████                            ║
 ║    Automation         100  ██████████                            ║
 ╚════════════════════════════════════════════════════════════════╝
@@ -37,11 +37,11 @@
 ║  ✓ docs/CREATIVE_DIRECTION_RECORD.md                             ║
 ║  ✓ context/TRUTH_AUDIT.md                                        ║
 ║  ✓ context/PROJECT_STATUS.json                                   ║
-║  ✓ agent memory (Codex home: MEMORY.md + Session 83)             ║
+║  · agent memory (context/BRAIN.md or agent home)                 ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ GIT STATUS ══════════════════════════════════════════════════╗
-║  Changes: 45 files  ·  M:33 A:0 D:0 ?:12                         ║
-║  Ahead: 0  ·  Behind: 0                                          ║
+║  Changes: 88 files  ·  M:73 A:15 D:0 ?:0                         ║
+║  Ahead: 1  ·  Behind: 0                                          ║
 ║  Branch: main                                                    ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ DEPLOYMENT ══════════════════════════════════════════════════╗
@@ -51,10 +51,10 @@
 ╔══ POST-SESSION SIGNALS ════════════════════════════════════════╗
 ║  Doctor:        11/11                                            ║
 ║  Compliance:    49/49                                            ║
-║  Tests:         935/935                                          ║
-║  IGNIS:         1d ago                                           ║
+║  Tests:         960/960                                          ║
+║  IGNIS:         3d ago                                           ║
 ║  Truth:         green                                            ║
-║  Sanitization:  0d ago                                           ║
+║  Sanitization:  2d ago                                           ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ NEXT SESSION ════════════════════════════════════════════════╗
 ║  #1: Unified Genius List exhausted                               ║

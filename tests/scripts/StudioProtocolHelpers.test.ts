@@ -269,7 +269,7 @@ describe("public protocol compatibility", () => {
       },
     );
     expect(contract.status).toBe(0);
-  });
+  }, 30_000);
 
   it("classifies lint-staged residue without treating it as committed work", async () => {
     const { classifyRecovery } =

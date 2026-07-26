@@ -137,15 +137,25 @@ export class PrivilegeCheckerImpl implements PrivilegeChecker {
           refs.patternName,
           refs.patternColorPaletteName ?? null,
         );
-      } catch (e) {
-        return { type: "forbidden", reason: "invalid pattern: " + e.message };
+      } catch (error) {
+        return {
+          type: "forbidden",
+          reason:
+            "invalid pattern: " +
+            (error instanceof Error ? error.message : String(error)),
+        };
       }
     }
     if (refs.color) {
       try {
         cosmetics.color = this.isColorAllowed(flares, refs.color);
-      } catch (e) {
-        return { type: "forbidden", reason: "invalid color: " + e.message };
+      } catch (error) {
+        return {
+          type: "forbidden",
+          reason:
+            "invalid color: " +
+            (error instanceof Error ? error.message : String(error)),
+        };
       }
     }
     if (refs.flag) {
@@ -173,8 +183,10 @@ export class PrivilegeCheckerImpl implements PrivilegeChecker {
 
     try {
       decodePatternData(found.pattern, this.b64urlDecode);
-    } catch (e) {
-      throw new Error(`Invalid pattern ${name}`);
+    } catch (error) {
+      throw Object.assign(new Error(`Invalid pattern ${name}`), {
+        cause: error,
+      });
     }
 
     const colorPalette = this.cosmetics.colorPalettes?.[colorPaletteName ?? ""];

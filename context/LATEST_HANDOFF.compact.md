@@ -1,49 +1,57 @@
 <!-- generated-by: scripts/compact-handoff.mjs v3.1 -->
-<!-- source-hash: e8a5dcad0dad -->
-<!-- generated-at: 2026-07-24T05:02:16.429Z -->
+<!-- source-hash: a7201448d32c -->
+<!-- generated-at: 2026-07-26T00:20:54.501Z -->
 
 # LATEST_HANDOFF (compact)
 
-SESSION
+SESSION 84 HANDOFF SUMMARY
 
-- Session 82; closeout for certified-entitlement and balance-authority.
+Session
 
-SHIPPED (S82)
+- Number: 84
+- Focus: Certified feedback and balance-identity closeout
 
-- 4 new L3 audit items, 5 new second-order invariants; audit 10/10, innovation pack 25/25.
-- Protobufjs pinned to fixed version; CI/tests reject regression above moderate severity.
-- Experiment logic unified into one injected router/control plane; legacy bucket stability, replay/variant integrity, honest reset scope, 3,130-line Worker ceiling.
-- Season Pass certified per player/game, PostgreSQL-durable, replay-safe, actor-bound, fail-closed on missing persistence, real restorable entitlements rendered.
-- Convoy tuning/reward math under one versioned executable authority; byte-stable envelope verifies 28,125 scenarios across six invariants, tamper-sensitive release-lineage parent.
+Shipped This Session
 
-VERIFICATION
+- Four new L3 audit items plus four generated second-order invariants; cumulative audit 8/8, innovation pack 32/32, zero pending unblocked work.
+- Match feedback certificate-bound, actor/map validated, replay-safe, 30-day retained, aggregated only into privacy-safe certified cohorts.
+- Outcome/duration/progression/play-style derive from one server-certified projection; browser-authored authority retired.
+- Fifteen gameplay domains project from one versioned balance authority; runtime, deterministic envelope, and signed replay identity agree exactly.
+- Post-match enrichment shell-first, parallel, bounded, cancellable, stale-result-proof, exactly-once honest lifecycle receipt.
+- E2E isolated canonical API fixture prevents local port corruption of browser evidence.
 
-- 160/160 Vitest files, 923/923 tests; coverage 31.57% lines.
-- TypeScript, ESLint, prod build, Prettier ratchet, bundle/media budgets clean.
-- 26/26 Playwright; 42/42 mutation policy; 10/10 public ingest; zero npm vulns; work exhaustion green.
+Verification State
 
-INTENT
+- 173/173 Vitest files, 960/960 tests; 32.57% production-inclusive line coverage.
+- TypeScript, ESLint, production build, Prettier ratchet, exact bundle/media budgets, perf benchmarks green.
+- 26/26 Playwright, 41/41 mutation policies, 10/10 public ingest, 41 deploy-contract checks; work exhaustion green.
 
-- Run full agent-neutral arc continuously at best-in-history quality, preserve exit-code truth, close to main without fabricating external evidence.
+Current Intent
 
-NOW (top 3)
+- Run full agent-neutral arc continuously, exhaust verified primary and generated second-order items, preserve source-derived observability and exit truth, close to main without fabricating release evidence.
+
+Now Bucket (Top 3)
 
 - Establish explicitly approved staging origin/callback contract.
-- Collect exact-digest parity and project-domain email delivery evidence.
-- Collect native identity, live-web/theme, distinct-human Alpha evidence in gate order.
+- Collect exact-digest parity and live identity/delivery evidence in gate order.
+- Gather theme, human, revenue, rollback, and approval evidence in gate order.
 
-BLOCKERS (top 3)
+Blockers (Top 3)
 
-- Release NO-GO: no staging or runtime-health/parity observation exists.
-- No approved external staging observation contract; production deploy would violate release gate.
-- Cross-repo contamination: tool-generated sibling release-gate write left untouched under CANON-018; awaiting source-tagged registry/contamination receipt.
+- Release NO-GO: READY credentials are not deployment authorization or observed delivery.
+- No staging/parity, project-domain email, native Obelisk, live-web/theme evidence.
+- No distinct-human Alpha, revenue, rollback, or founder-approval evidence.
 
-HUMAN-BLOCKED (age from S81, ~1 session)
+Human-Blocked Items
 
-- Three authenticated distinct-human Alpha sessions: pending.
-- Founder approval / deployment authorization: pending.
-- Revenue and rollback observation: pending.
+- Founder-approval evidence: outstanding, unresolved through Sessions 82-84.
+- Distinct-human Alpha evidence: outstanding, unresolved through Sessions 82-84.
+- Approved staging origin/callback contract: outstanding, unresolved through Sessions 82-84.
 
-NEXT SESSION
+Supply-Chain Note
 
-- Secure approved staging corridor, then gather parity/email/identity/human/live-web/revenue/rollback/founder evidence in gate order.
+- Production audit zero after ESLint/EJS upgrades, internalized dev HTML transform, 39 transitive packages removed. All-dependency audit retains nine dev-only aliases in semantic-release's bundled npm 11; registry force-fix is unsafe downgrade, patched npm 12 outside verified Node matrix.
+
+Next Session Pointer
+
+- Start by securing an approved staging origin/callback contract, then collect the external release-evidence corridor in gate order.

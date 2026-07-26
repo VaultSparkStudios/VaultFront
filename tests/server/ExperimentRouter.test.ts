@@ -39,13 +39,23 @@ describe("ExperimentControlPlane", () => {
     });
   });
 
-  test("derives outcome rates from recorded source events", () => {
+  test("labels aggregate reset scope as process-local across worker restarts", () => {
+    const summary = new ExperimentControlPlane().outcomeSummary();
+    expect(summary.storage).toEqual({
+      assignments: "process-local",
+      aggregates: "process-local",
+      resetBoundary: "worker-restart",
+    });
+  });
+
+  test("records only authenticated interaction observations", () => {
     const plane = new ExperimentControlPlane();
-    const bucket = plane.recordOutcome({
-      won: true,
-      behindAtMinute8: true,
-      matchLengthSeconds: 900,
-      recapCtaVariant: "goal_focus",
+    const identity = "auth:player-1";
+    const variant = plane.ensureRecapAssignment(identity).variant;
+    const observation = {
+      eventId: "outcome-event-000001",
+      gameId: "game-1",
+      recapCtaVariant: variant,
       recapCtaClicked: true,
       requeueClicked: false,
       hud: {
@@ -53,21 +63,21 @@ describe("ExperimentControlPlane", () => {
         objectiveRailClicks: 4,
         timelineJumps: 1,
       },
-    });
+    };
 
-    expect(bucket).toBe("behind8:mid:goal_focus");
+    expect(plane.recordOutcome(identity, observation)).toMatchObject({
+      ok: true,
+      bucketKey: variant,
+    });
+    expect(plane.recordOutcome(identity, observation).ok).toBe(false);
     expect(plane.outcomeSummary()).toMatchObject({
-      storage: {
-        assignments: "process-local",
-        aggregates: "process-local",
-        resetBoundary: "worker-restart",
-      },
+      evidence: "authenticated-client-interaction",
+      excludes: ["win", "match-duration", "behind-at-minute-8"],
       totals: {
-        matches: 1,
-        winRate: 1,
+        observations: 1,
         recapCtaRate: 1,
         requeueRate: 0,
-        hudPerMatch: {
+        hudPerObservation: {
           vaultNoticeJumps: 2,
           objectiveRailClicks: 4,
           timelineJumps: 1,
@@ -111,6 +121,6 @@ describe("registerExperimentRoutes", () => {
       "/api/vaultfront/ab/runtime/event",
       "/api/vaultfront/outcome",
     ]);
-    expect(assertPolicyBinding).toHaveBeenCalledTimes(3);
+    expect(assertPolicyBinding).toHaveBeenCalledTimes(4);
   });
 });

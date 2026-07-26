@@ -29,6 +29,12 @@ const apiMock = vi.hoisted(() => ({
     }),
   ),
   fetchVaultFrontRecapAssignment: vi.fn(async () => false),
+  fetchMutatorVoteStatus: vi.fn(async () => false),
+  requestReplayHighlight: vi.fn(async () => null),
+  fetchVaultFrontContracts: vi.fn(async () => false),
+  fetchWinFortune: vi.fn(async () => null),
+  fetchMatchRecap: vi.fn(async () => null),
+  fetchDynastyStory: vi.fn(async () => null),
   getUserMe: vi.fn(async () => null),
   recordVaultFrontFunnelTelemetry: vi.fn(async () => true),
   recordVaultFrontOutcomeTelemetry: vi.fn(async () => true),
@@ -55,6 +61,12 @@ vi.mock("../../../../src/client/Utils", () => ({
 vi.mock("../../../../src/client/Api", () => ({
   createRematch: apiMock.createRematch,
   fetchVaultFrontRecapAssignment: apiMock.fetchVaultFrontRecapAssignment,
+  fetchMutatorVoteStatus: apiMock.fetchMutatorVoteStatus,
+  requestReplayHighlight: apiMock.requestReplayHighlight,
+  fetchVaultFrontContracts: apiMock.fetchVaultFrontContracts,
+  fetchWinFortune: apiMock.fetchWinFortune,
+  fetchMatchRecap: apiMock.fetchMatchRecap,
+  fetchDynastyStory: apiMock.fetchDynastyStory,
   getUserMe: apiMock.getUserMe,
   recordVaultFrontFunnelTelemetry: apiMock.recordVaultFrontFunnelTelemetry,
   recordVaultFrontOutcomeTelemetry: apiMock.recordVaultFrontOutcomeTelemetry,
@@ -244,6 +256,165 @@ describe("VaultFront recap coaching", () => {
     expect(modal.rematchError).toContain("could not be created");
     expect(apiMock.recordVaultFrontPlaytestPulse).toHaveBeenCalledTimes(
       pulseCallsBefore,
+    );
+  });
+});
+
+describe("WinModal post-match session lifecycle", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+    sessionStorage.clear();
+    localStorage.clear();
+    apiMock.fetchMutatorVoteStatus.mockResolvedValue(false);
+    apiMock.requestReplayHighlight.mockResolvedValue(null);
+    apiMock.fetchWinFortune.mockResolvedValue(null);
+    apiMock.fetchMatchRecap.mockResolvedValue(null);
+    apiMock.fetchDynastyStory.mockResolvedValue(null);
+    apiMock.getUserMe.mockResolvedValue(null);
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+    vi.clearAllMocks();
+  });
+
+  const game = (rankedType?: RankedType) =>
+    ({
+      gameID: () => "game-1",
+      config: () => ({
+        gameConfig: () => ({ rankedType }),
+      }),
+    }) as any;
+
+  it("reveals the shell synchronously and rejects hydration after hide", async () => {
+    let resolveAssignment!: (value: {
+      experimentId: "recap_cta_v1";
+      variant: "requeue_focus";
+      assignedAt: number;
+    }) => void;
+    apiMock.fetchVaultFrontRecapAssignment.mockImplementationOnce(
+      () =>
+        new Promise<any>((resolve) => {
+          resolveAssignment = resolve;
+        }),
+    );
+    const modal = new WinModal() as any;
+    modal.game = game();
+
+    const shown = modal.show();
+    expect(modal.isVisible).toBe(true);
+    expect(modal.showButtons).toBe(false);
+    await shown;
+
+    modal.hide();
+    resolveAssignment({
+      experimentId: "recap_cta_v1",
+      variant: "requeue_focus",
+      assignedAt: 1,
+    });
+    await vi.runAllTimersAsync();
+
+    expect(modal.isVisible).toBe(false);
+    expect(modal.recapCtaVariant).toBe("goal_focus");
+    expect(modal.postMatchSessions.snapshot()).toMatchObject({
+      active: false,
+      timers: 0,
+      animationFrames: 0,
+    });
+  });
+
+  it("emits one bounded lifecycle pulse from the session receipt", async () => {
+    apiMock.fetchVaultFrontRecapAssignment.mockResolvedValue(false);
+    const modal = new WinModal() as any;
+    modal.game = game();
+
+    await modal.show();
+    await vi.advanceTimersByTimeAsync(0);
+    modal.hide();
+    modal.hide();
+
+    const lifecyclePulses = (
+      apiMock.recordVaultFrontPlaytestPulse.mock.calls as unknown as Array<
+        [any]
+      >
+    )
+      .map(([event]) => event)
+      .filter((event) => event.event.startsWith("postmatch_hydration_"));
+    expect(lifecyclePulses).toHaveLength(1);
+    expect(lifecyclePulses[0]!).toMatchObject({
+      surface: "match",
+      value: 1,
+    });
+    expect(lifecyclePulses[0]!.event).toMatch(
+      /^postmatch_hydration_(healthy|degraded)$/,
+    );
+  });
+
+  it("derives ranked Elo animation from actor-bound history, not global storage", async () => {
+    localStorage.setItem("vaultfront.lastElo", "9999");
+    apiMock.fetchVaultFrontRecapAssignment.mockResolvedValue(false);
+    apiMock.fetchVaultFrontContracts.mockResolvedValueOnce({
+      seasonId: "week-30",
+      interceptionTiming: 0,
+      objectiveDenial: 0,
+      comebackExecution: 0,
+      surgeExecution: 0,
+      evidence: "certified-match-result",
+      durability: "process-local",
+      eloRating: 1_210,
+      eloLabel: "Silver",
+      matchesPlayed: 8,
+      isDecaying: false,
+      eloHistory: [1_160, 1_180, 1_210],
+    } as any);
+    const modal = new WinModal() as any;
+    modal.game = game(RankedType.OneVOne);
+
+    await modal.show();
+    await vi.advanceTimersByTimeAsync(3_000);
+    await Promise.resolve();
+
+    expect(modal.eloData).toMatchObject({
+      previous: 1_180,
+      current: 1_210,
+      label: "Silver",
+    });
+    expect(localStorage.getItem("vaultfront.lastElo")).toBe("9999");
+    modal.hide();
+  });
+
+  it("rejects a rematch response after the post-match session closes", async () => {
+    let resolveRematch!: (value: any) => void;
+    apiMock.createRematch.mockImplementationOnce(
+      () =>
+        new Promise<any>((resolve) => {
+          resolveRematch = resolve;
+        }),
+    );
+    apiMock.fetchVaultFrontRecapAssignment.mockResolvedValue(false);
+    const modal = new WinModal() as any;
+    modal.game = game();
+    await modal.show();
+
+    const pending = modal._handleRematch();
+    expect(modal.rematchPending).toBe(true);
+    modal.hide();
+    resolveRematch({
+      gameId: "game-1",
+      lobbyId: "lobby-1",
+      code: "rematch1",
+      mapName: "World",
+      participantCount: 1,
+      expiresAt: Date.now() + 300_000,
+      joinUrl: "https://play.example/w0/game/lobby-1?lobby",
+      status: "ready",
+    });
+    await pending;
+
+    expect(modal.rematchPending).toBe(false);
+    expect(modal.rematchResult).toBeNull();
+    expect(apiMock.recordVaultFrontPlaytestPulse).not.toHaveBeenCalledWith(
+      expect.objectContaining({ event: "rival_rematch_requested" }),
     );
   });
 });

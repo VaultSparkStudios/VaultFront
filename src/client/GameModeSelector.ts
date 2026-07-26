@@ -212,7 +212,7 @@ export class GameModeSelector extends LitElement {
         )
       : undefined;
 
-    let timeDisplay: string = "";
+    let timeDisplay: string;
     if (timeRemaining === undefined) {
       timeDisplay = "-s";
     } else if (timeRemaining > 0) {

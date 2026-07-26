@@ -241,3 +241,26 @@ All four premise-verified findings in `docs/AUDIT_2026-07-24.json` shipped at L3
 - [done] Vault Pressure is a pure typed kernel with threshold, expiry, final-tick, normalization, victory, and sequence coverage; the composition root is ratcheted at 2,917 lines.
 - [done] Three second-order invariants shipped: progression receipt verification, state-scope catalog fingerprinting, and release-bound pressure rules sourced from the versioned balance authority.
 - [done] Full proof: 165 files / 935 tests and coverage, TypeScript, lint, build, formatting, exact bundles/media, 26/26 E2E, 42/42 mutation policies, 10/10 public ingest, 41 deploy checks, audit 4/4, innovations 28/28.
+
+## Unified Genius List (2026-07-24 — Session 84 /arc)
+
+- [done] 🔥 feedback_loop / security / observability · 7h · `certified-match-feedback-plane` — Turn match ratings into certified, replay-safe feedback evidence.
+- [done] 🔥 gamification / analytics / security · 10h · `certified-outcome-style-authority` — Make outcome and career style one certified match projection.
+- [done] 🔥 feature_depth / artificial_intelligence / release_truth · 12h · `complete-gameplay-balance-authority` — Complete the executable gameplay-balance authority without changing values.
+- [done] ⚡ ux / engagement / reliability · 8h · `postmatch-session-orchestrator` — Make the post-match experience shell-first and session-scoped.
+
+## Completed (2026-07-24 — Session 84 certified feedback and balance-identity arc)
+
+All four premise-verified L3 findings and four generated second-order innovations shipped. `docs/AUDIT_2026-07-24.json` is 8/8, `docs/INNOVATION_PACK.json` is 32/32, and work exhaustion reports zero pending unblocked items.
+
+- [done] Certified match feedback is actor/map/certificate bound, replay-safe in memory and PostgreSQL, 30-day retained, and cohort-safe.
+- [done] Outcome, duration, match history, and play style share one server-certified projection; retired browser-authored result/style writes are gone.
+- [done] Fifteen gameplay domains share one versioned runtime authority and deterministic 28,125-scenario release envelope.
+- [done] Signed replay configuration carries exact balance identity and rejects validly signed but incompatible rulesets.
+- [done] Post-match UI is shell-first with bounded parallel hydration, cancellation, stale-result rejection, and exactly-once lifecycle receipts.
+- [done] Isolated E2E fixture eliminates false failures from unrelated local services without killing or mutating sibling work.
+- [done] Full proof: 173 files / 960 tests and coverage, TypeScript, lint, build, format, exact bundles/media, performance, 26/26 E2E, 41/41 mutation policies, 10/10 public ingest, 41 deploy checks, audit 8/8, innovations 32/32.
+
+### EVIDENCED UPSTREAM DEFERRAL — semantic-release bundled npm 11
+
+- [deferred] Production dependency audit is zero. The remaining all-dependency audit aliases (1 high, 8 moderate) exist only in npm 11 bundled by development-only semantic-release and are outside the explicit release plugin path. Re-evaluate when `@semantic-release/npm` supports a patched npm release compatible with the repository's Node 20 / 24.14 matrix; never apply the registry's semantic-release 15 force-downgrade.

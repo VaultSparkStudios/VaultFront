@@ -42,12 +42,7 @@ export const ICON_SIZE = {
 export const OFFSET_ZOOM_Y = 4;
 
 export type ShapeType =
-  | "triangle"
-  | "square"
-  | "pentagon"
-  | "octagon"
-  | "circle"
-  | "cross";
+  "triangle" | "square" | "pentagon" | "octagon" | "circle" | "cross";
 
 export class SpriteFactory {
   private theme: Theme;
@@ -463,7 +458,7 @@ export class SpriteFactory {
     if (stage === undefined) throw new Error("Not initialized");
     const parentContainer = new PIXI.Container();
     const circle = new PIXI.Graphics();
-    let radius = 0;
+    let radius: number;
     switch (type) {
       case UnitType.SAMLauncher:
         radius = this.game.config().samRange(level ?? 1);

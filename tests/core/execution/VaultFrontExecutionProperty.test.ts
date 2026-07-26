@@ -1,4 +1,5 @@
 import { VaultFrontExecution } from "../../../src/core/execution/VaultFrontExecution";
+import { projectVaultFrontMutatorBalance } from "../../../src/core/execution/VaultFrontRuntimeBalance";
 import { MessageType, UnitType } from "../../../src/core/game/Game";
 
 function defaultRewardTuning() {
@@ -194,14 +195,13 @@ describe("VaultFrontExecution property tests", () => {
   });
 
   test("weekly mutator rotates effective cooldown and passive values", () => {
-    const execution = new VaultFrontExecution() as any;
-    execution.weeklyMutator = "accelerated_cooldowns";
-    expect(execution.vaultCooldownTicksEffective()).toBeLessThan(650);
-    expect(execution.jamBreakerCooldownTicksEffective()).toBeLessThan(900);
-    execution.weeklyMutator = "double_passive";
-    expect(execution.vaultPassiveIncomeIntervalTicksEffective()).toBeLessThan(
-      600,
+    const accelerated = projectVaultFrontMutatorBalance(
+      "accelerated_cooldowns",
     );
-    expect(execution.vaultPassiveGoldPerMinuteEffective()).toBe(150_000n);
+    expect(accelerated.vaultCooldownTicks).toBeLessThan(650);
+    expect(accelerated.jamBreakerCooldownTicks).toBeLessThan(900);
+    const doublePassive = projectVaultFrontMutatorBalance("double_passive");
+    expect(doublePassive.vaultPassiveIncomeIntervalTicks).toBeLessThan(600);
+    expect(doublePassive.vaultPassiveGoldPerMinute).toBe(150_000n);
   });
 });

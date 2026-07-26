@@ -217,3 +217,14 @@ Append-only. Each session appends one entry. Never edit prior entries.
 - Verification: 165 Vitest files / 935 tests; production-inclusive coverage; TypeScript; ESLint; production build; Prettier ratchet; exact bundle/media budgets; 26/26 Playwright desktop/mobile; 42/42 mutation policies; 10/10 public ingest; 41 deploy-contract checks; audit 4/4; innovations 28/28; work exhaustion green.
 - Risks removed: Partial-failure progression loss, same-game replay inflation, cross-player achievement reads, stale handwritten persistence scope, embedded pressure-transition drift, unverifiable progression receipts, and balance rules split from release evidence.
 - Remaining boundary: Release stays NO-GO pending approved staging/parity, project-domain delivery, native Obelisk, live web/theme, distinct-human Alpha, revenue/rollback, and founder approval.
+
+## 2026-07-24 — Session 84 certified feedback, balance-identity, and post-match lifecycle arc
+
+- Goal: Execute one continuous `/start → /audit → /implement → /closeout` mission, exhaust every live-code-verified audit item, then generate and implement second-order innovations without fabricating external evidence.
+- What changed: Made match feedback certificate-bound, actor/map validated, replay-safe, retention-bounded, and cohort-safe; unified certified outcomes, progression history, and play style; projected every gameplay domain from one balance authority; made signed replay compatibility explicit; extracted post-match lifecycle orchestration.
+- Second order: Added 30-day feedback privacy, certified feedback cohorts, exact replay balance identity, and exactly-once post-match lifecycle receipts. Innovation pack advanced from 28/28 to 32/32.
+- Reliability root fix: Replaced the E2E dev proxy's accidental dependency on occupied port 3000 with an isolated canonical API fixture; 26/26 browser tests now prove the intended VaultFront contract without touching sibling processes.
+- Verification: 173 Vitest files / 960 tests; 32.57% production-inclusive line coverage; TypeScript; ESLint; production build; Prettier ratchet; exact bundle/media budgets; performance; 26/26 Playwright; 41/41 mutation policies; 10/10 public ingest; 41 deploy checks; audit 8/8; innovations 32/32; work exhaustion green.
+- Remaining boundary: Release stays NO-GO pending approved staging/parity, project-domain delivery, native Obelisk, live web/theme, distinct-human Alpha, revenue, rollback, and founder approval.
+
+- Supply-chain closeout: Package Trust approved the exact official upgrades. ESLint 10, compatibility 2, and EJS 6 shipped; the obsolete HTML plugin and 39 transitive packages were removed; 18 dead assignments and two swallowed causes were repaired; production audit is zero. Nine development-only semantic-release/npm 11 audit aliases remain explicitly deferred because the advertised force-fix downgrades semantic-release and patched npm 12 violates the verified Node matrix.

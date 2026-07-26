@@ -1,6 +1,7 @@
 import { render } from "lit";
 import { ControlPanel } from "../../../../src/client/graphics/layers/ControlPanel";
 import { GameRightSidebar } from "../../../../src/client/graphics/layers/GameRightSidebar";
+import { DEFAULT_VAULT_GAMEPLAY_BALANCE } from "../../../../src/core/execution/VaultFrontBalance";
 
 describe("ControlPanel vault HUD automation", () => {
   test("jam-on-next-pulse respects jam breaker cooldown", () => {
@@ -469,7 +470,8 @@ describe("ControlPanel vault HUD automation", () => {
       captureTicksRequired: 90,
       cooldownTicksTotal: 650,
       passiveGoldPerMinute: 75000,
-      jamBreakerGoldCost: 115000,
+      jamBreakerGoldCost:
+        DEFAULT_VAULT_GAMEPLAY_BALANCE.defense.jamBreakerGoldCost,
       escortDurationTicks: 600,
       sites: [],
       convoys: [
@@ -553,7 +555,8 @@ describe("ControlPanel vault HUD automation", () => {
       captureTicksRequired: 90,
       cooldownTicksTotal: 650,
       passiveGoldPerMinute: 75000,
-      jamBreakerGoldCost: 115000,
+      jamBreakerGoldCost:
+        DEFAULT_VAULT_GAMEPLAY_BALANCE.defense.jamBreakerGoldCost,
       escortDurationTicks: 600,
       sites: [],
       convoys: [],

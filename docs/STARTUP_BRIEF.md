@@ -2,7 +2,7 @@
 <!-- generated-at: 2026-07-24 (Session 83 closeout) -->
 <!-- fast-boot-valid-until: next session if within 24h -->
 <!-- brief-coherent: true -->
-<!-- brief-sources: {"schema":1,"session":83,"sources":{"context/PROJECT_STATUS.json":"12347b60bbe3ded4","context/TASK_BOARD.md":"33f4b8068912b2ea","context/LATEST_HANDOFF.md":"67526ce34b4ba584","context/SELF_IMPROVEMENT_LOOP.md":"b72ff34e5597c5fd","docs/GENIUS_LIST.md":"f0389b89e67d2dfc"}} -->
+<!-- brief-sources: {"schema":1,"session":83,"sources":{"context/PROJECT_STATUS.json":"04ce939236254521","context/TASK_BOARD.md":"33f4b8068912b2ea","context/LATEST_HANDOFF.md":"67526ce34b4ba584","context/SELF_IMPROVEMENT_LOOP.md":"b72ff34e5597c5fd","docs/GENIUS_LIST.md":"f0389b89e67d2dfc"}} -->
 
 # Startup Brief — VaultFront
 
@@ -60,9 +60,9 @@
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ CONTEXT METER ═══════════════════════════════════════════════╗
-║  ✓  █░░░░░░░░░░░░░░░░░░░░░░░    3% used                          ║
-║     33,013 / 1,000,000 tok  ·  codex/codex-1m  ·  measured+heur  ║
-║     ~16,507 tok/turn  ·  cache 50%  ·  53 turns to compact       ║
+║  ✓  ░░░░░░░░░░░░░░░░░░░░░░░░    1% used                          ║
+║     8,281 / 1,000,000 tok  ·  codex/codex-1m  ·  measured+heuri  ║
+║     ~4,141 tok/turn  ·  cache 50%  ·  220 turns to compact       ║
 ║     Verdict: CONTINUE                                            ║
 ╚════════════════════════════════════════════════════════════════╝
 

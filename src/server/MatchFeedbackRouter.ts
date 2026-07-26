@@ -1,5 +1,6 @@
 import type { Express, RequestHandler } from "express";
 import { z } from "zod";
+import type { PlayStyleLabel } from "../core/PlayStyleClassifier";
 import type {
   MatchFeedbackReceipt,
   MatchFeedbackSummary,
@@ -26,6 +27,10 @@ export interface MatchFeedbackEvidence {
   mapName: string | null;
   hasVerifiedCertificate: boolean;
   certificateBindsActor: boolean;
+  won: boolean;
+  behindAtMinute8: boolean;
+  playStyle: PlayStyleLabel;
+  styleConfidence: number;
 }
 
 export interface MatchFeedbackRouterDependencies {
@@ -55,6 +60,10 @@ export interface MatchFeedbackRouterDependencies {
     matchRating: number;
     mapRating: number;
     comment?: string;
+    won: boolean;
+    behindAtMinute8: boolean;
+    playStyle: PlayStyleLabel;
+    styleConfidence: number;
   }): Promise<MatchFeedbackReceipt>;
   summary(): Promise<MatchFeedbackSummary>;
   writeRateLimit: RequestHandler;
@@ -113,6 +122,10 @@ export function registerMatchFeedbackRoutes(
         matchRating: parsed.data.matchRating,
         mapRating: parsed.data.mapRating,
         ...(parsed.data.comment ? { comment: parsed.data.comment } : {}),
+        won: evidence.won,
+        behindAtMinute8: evidence.behindAtMinute8,
+        playStyle: evidence.playStyle,
+        styleConfidence: evidence.styleConfidence,
       });
       return res.status(receipt.accepted ? 201 : 409).json(receipt);
     } catch (error) {

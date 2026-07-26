@@ -18,6 +18,10 @@
  */
 
 import { createHash, createHmac, timingSafeEqual } from "crypto";
+import {
+  vaultFrontBalanceIdentity,
+  type VaultFrontBalanceIdentity,
+} from "./VaultFrontBalanceIdentity";
 
 export interface ReplayIntent {
   /** Serialized player intent (matches existing transport format) */
@@ -48,6 +52,41 @@ export interface ReplayManifest {
   turns?: ReplayTurn[];
   /** HMAC-SHA256 over canonical fields — set by finishRecording(), verified by verifySignature() */
   signature?: string;
+}
+
+export interface ReplayBalanceCompatibility {
+  compatible: boolean;
+  status: "compatible" | "legacy" | "incompatible";
+  recorded: VaultFrontBalanceIdentity | null;
+  expected: VaultFrontBalanceIdentity;
+}
+
+export function verifyReplayBalanceCompatibility(
+  manifest: ReplayManifest,
+  expected: VaultFrontBalanceIdentity = vaultFrontBalanceIdentity,
+): ReplayBalanceCompatibility {
+  const candidate = manifest.configSnapshot.vaultFrontBalanceIdentity;
+  const recorded =
+    typeof candidate === "object" &&
+    candidate !== null &&
+    "authority" in candidate &&
+    typeof candidate.authority === "string" &&
+    "authorityFingerprint" in candidate &&
+    typeof candidate.authorityFingerprint === "string"
+      ? (candidate as VaultFrontBalanceIdentity)
+      : null;
+  if (!recorded) {
+    return { compatible: false, status: "legacy", recorded: null, expected };
+  }
+  const compatible =
+    recorded.authority === expected.authority &&
+    recorded.authorityFingerprint === expected.authorityFingerprint;
+  return {
+    compatible,
+    status: compatible ? "compatible" : "incompatible",
+    recorded,
+    expected,
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -179,7 +218,10 @@ export class ReplayStore {
   private backend: ReplayBackend;
   private activeRecordings = new Map<string, ReplayManifest>();
 
-  constructor(backend: ReplayBackend = new InMemoryReplayBackend()) {
+  constructor(
+    backend: ReplayBackend = new InMemoryReplayBackend(),
+    private readonly balanceIdentity = vaultFrontBalanceIdentity,
+  ) {
     this.backend = backend;
   }
 
@@ -197,7 +239,10 @@ export class ReplayStore {
       gameId,
       mapName,
       seed,
-      configSnapshot,
+      configSnapshot: {
+        ...configSnapshot,
+        vaultFrontBalanceIdentity: this.balanceIdentity,
+      },
       startedAt: Date.now(),
       durationTurns: 0,
       intents: [],
@@ -252,7 +297,14 @@ export class ReplayStore {
   /** Load only manifests that pass complete HMAC verification. */
   async getReplay(gameId: string): Promise<ReplayManifest | null> {
     const manifest = await this.backend.load(gameId);
-    if (!manifest || !verifyReplaySignature(manifest)) return null;
+    if (
+      !manifest ||
+      !verifyReplaySignature(manifest) ||
+      !verifyReplayBalanceCompatibility(manifest, this.balanceIdentity)
+        .compatible
+    ) {
+      return null;
+    }
     return manifest;
   }
 

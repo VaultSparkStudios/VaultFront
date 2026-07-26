@@ -79,12 +79,19 @@ describe("GameServer progression wiring", () => {
         winner: ["player", "client01"] as ["player", string],
         allPlayersStats: {
           client01: {
+            conquests: [2n, 1n],
+            betrayals: 1n,
             vaultfront: {
               vaultCaptures: 2n,
               vaultConvoysDelivered: 3n,
               vaultConvoysIntercepted: 1n,
               cleanExecutionStreaks: 1n,
               surgeActivations: 1n,
+              minute8Behind: 1n,
+              vaultPassivePayouts: 4n,
+              jamBreakerUses: 2n,
+              convoyEscortCommands: 3n,
+              defenseFactoryPulseUptimeTicks: 600n,
             },
           },
           client02: {
@@ -132,6 +139,13 @@ describe("GameServer progression wiring", () => {
             won: true,
             convoyDeliveries: 3,
             convoyIntercepts: 1,
+            behindAtMinute8: true,
+            conquests: 3,
+            passivePayouts: 4,
+            betrayals: 1,
+            jamBreakerUses: 2,
+            convoyEscortCommands: 3,
+            defenseFactoryTicks: 600,
           }),
           expect.objectContaining({
             persistentId: "p2",

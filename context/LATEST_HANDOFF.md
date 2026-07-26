@@ -2,6 +2,28 @@
 
 This repo keeps only a public-safe two-session handoff. Detailed operational history is maintained privately.
 
+## Where We Left Off — 2026-07-24 — Session 84 certified feedback and balance-identity closeout
+
+**Session intent:** Run the complete agent-neutral arc continuously, exhaust every verified primary and generated second-order item, preserve source-derived observability and direct exit truth, then close directly to `main` without fabricating external release evidence.
+
+**Shipped:** Four new L3 audit items and four generated second-order invariants. The cumulative audit is 8/8 and innovation pack 32/32 shipped with zero pending unblocked work.
+
+- Match feedback is certificate-bound, actor/map validated, replay-safe, 30-day retained, and aggregated only into privacy-safe certified cohorts.
+- Outcome, duration, progression history, and play style now derive from one server-certified projection; browser-authored authority is retired.
+- Fifteen gameplay domains project from one versioned balance authority; runtime, deterministic envelope, and signed replay identity agree exactly.
+- Post-match enrichment is shell-first, parallel, bounded, cancellable, stale-result-proof, and emits an exactly-once honest lifecycle receipt.
+- E2E uses an isolated canonical API fixture, preventing unrelated local port occupants from corrupting browser evidence.
+
+**Verification:** 173/173 Vitest files and 960/960 tests; 32.57% production-inclusive line coverage; TypeScript; ESLint; production build; Prettier ratchet; exact bundle/media budgets; performance benchmarks; 26/26 Playwright desktop/mobile; 41/41 mutation policies; 10/10 public ingest; 41 deploy-contract checks; audit 8/8; innovation pack 32/32; work exhaustion green.
+
+**Truth boundary:** Release remains NO-GO. READY credentials are not deployment authorization or observed delivery. No staging/parity, project-domain email, native Obelisk, live-web/theme, distinct-human Alpha, revenue, rollback, or founder-approval evidence was inferred.
+
+**Supply-chain boundary:** Production audit is zero after trusted ESLint/EJS upgrades, internalizing the dev HTML transform, and removing 39 transitive packages. The all-dependency audit retains nine development-only aliases inside semantic-release's bundled npm 11; the registry's force-fix is an unsafe downgrade and patched npm 12 is outside the verified Node matrix.
+
+**Suggested next focus:** Establish an explicitly approved staging origin/callback contract, then collect exact-digest parity and live identity, delivery, theme, human, revenue, rollback, and approval evidence in gate order.
+
+---
+
 ## Where We Left Off — 2026-07-24 — Session 83 replay-safe progression and pressure-authority closeout
 
 **Session intent:** Run the complete agent-neutral arc continuously, verify every premise against live code, exhaust all primary and generated second-order work, preserve direct exit-code truth, and close directly to `main` without inventing external release evidence.

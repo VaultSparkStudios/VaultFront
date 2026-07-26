@@ -1,9 +1,16 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import balanceEnvelope from "../../public/balance-envelope.json";
 import {
   getReplayIntegrityPosture,
   InMemoryReplayBackend,
   ReplayStore,
+  verifyReplayBalanceCompatibility,
+  verifyReplaySignature,
 } from "../../src/server/ReplayStore";
+import {
+  buildVaultFrontBalanceIdentity,
+  vaultFrontBalanceIdentity,
+} from "../../src/server/VaultFrontBalanceIdentity";
 
 const originalEnv = {
   replaySecret: process.env.REPLAY_SECRET,
@@ -49,6 +56,51 @@ describe("ReplayStore verified consumption", () => {
 
     expect(await store.getReplay("game0001")).toBeNull();
     expect(await store.listReplays()).toEqual([]);
+  });
+
+  it("rejects a replay from a different balance authority despite a valid HMAC", async () => {
+    const backend = new InMemoryReplayBackend();
+    const previousIdentity = buildVaultFrontBalanceIdentity({
+      authority: "vaultfront-gameplay-balance-v0",
+      gameplay: { simulation: { turnIntervalMs: 100 } },
+    });
+    const previousRuntime = new ReplayStore(backend, previousIdentity);
+    previousRuntime.startRecording("game-balance-v0", "World", 11, {
+      gameMode: "Free For All",
+    });
+    await previousRuntime.finishRecording("game-balance-v0");
+
+    const signed = await backend.load("game-balance-v0");
+    expect(signed && verifyReplaySignature(signed)).toBe(true);
+    expect(signed && verifyReplayBalanceCompatibility(signed)).toMatchObject({
+      compatible: false,
+      status: "incompatible",
+      recorded: previousIdentity,
+      expected: vaultFrontBalanceIdentity,
+    });
+    expect(
+      await new ReplayStore(backend).getReplay("game-balance-v0"),
+    ).toBeNull();
+  });
+
+  it("distinguishes legacy manifests and matches the public authority fingerprint", async () => {
+    const legacy = {
+      gameId: "legacy-game",
+      mapName: "World",
+      seed: 1,
+      configSnapshot: {},
+      startedAt: 1,
+      durationTurns: 0,
+      intents: [],
+    } as any;
+    expect(verifyReplayBalanceCompatibility(legacy)).toMatchObject({
+      compatible: false,
+      status: "legacy",
+      recorded: null,
+    });
+    expect(vaultFrontBalanceIdentity.authorityFingerprint).toBe(
+      balanceEnvelope.authorityFingerprint,
+    );
   });
 
   it("fails closed outside development and test when the key is absent", async () => {

@@ -78,7 +78,7 @@ export function checkCapabilityReachability(root = defaultRoot) {
         continue;
       }
       sourceFiles.add(relativePath);
-      let body = "";
+      let body;
       try {
         body = fs.readFileSync(absolutePath, "utf8");
       } catch {

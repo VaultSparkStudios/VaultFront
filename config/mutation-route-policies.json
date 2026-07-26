@@ -57,10 +57,10 @@
     {
       "method": "POST",
       "path": "/api/vaultfront/outcome",
-      "auth": "identity",
+      "auth": "verified-actor",
       "rateLimit": "global-standard",
-      "evidence": "authenticated-event",
-      "binding": "dependencies.resolveIdentity"
+      "evidence": "assignment-ledger",
+      "binding": "dependencies.authorize"
     },
     {
       "method": "POST",
@@ -194,17 +194,9 @@
       "method": "POST",
       "path": "/api/vaultfront/match-rating",
       "auth": "verified-actor",
-      "rateLimit": "global-standard",
-      "evidence": "authenticated-event",
-      "binding": "requireVaultFrontActor"
-    },
-    {
-      "method": "POST",
-      "path": "/api/vaultfront/style-history",
-      "auth": "verified-actor",
-      "rateLimit": "global-standard",
-      "evidence": "authenticated-event",
-      "binding": "requireVaultFrontActor"
+      "rateLimit": "writeRateLimit",
+      "evidence": "result-certificate",
+      "binding": "writeCertifiedFeedback"
     },
     {
       "method": "POST",

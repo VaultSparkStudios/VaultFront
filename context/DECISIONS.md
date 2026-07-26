@@ -243,3 +243,27 @@ Public-safe decisions only. Detailed internal decision history is maintained pri
 **Decision:** The breach threshold and window duration live in `config/vaultfront-balance.v1.json`, flow through one typed balance projection, and drive both runtime transitions and the deterministic public envelope. `VaultFrontExecution` composes the pure pressure kernel and may not re-embed its state machine.
 
 **Why:** Vault Pressure is the match climax. Its transition semantics and release evidence must derive from one reviewable authority rather than matching constants by convention.
+
+## 2026-07-24 — Match feedback inherits match-certificate authority and a 30-day privacy ceiling
+
+**Decision:** Feedback writes accept only the authenticated actor and map bound into a certified match result, deduplicate replay in memory and PostgreSQL, retain raw evidence for at most 30 days, and expose aggregates only through certified outcome, match-path, play-style, and confidence cohorts.
+
+**Why:** A rating is useful only when its match context cannot be spoofed or counted twice. Privacy-safe cohorts preserve design signal without turning open-text feedback into an indefinite identity trail.
+
+## 2026-07-24 — Runtime, release envelopes, and signed replays share exact balance identity
+
+**Decision:** All fifteen existing gameplay domains project from `config/vaultfront-balance.v1.json`. Its canonical SHA-256 identity is embedded in HMAC-covered replay configuration and must match the current runtime; legacy absence is labeled, while a signed incompatible identity is rejected.
+
+**Why:** A valid signature proves bytes were not altered, not that the current engine interprets them under the same rules. Compatibility must be independently explicit and fail closed.
+
+## 2026-07-24 — Post-match health is a session-scoped task receipt, not optimistic UI completion
+
+**Decision:** The win shell renders immediately, optional enrichments run in parallel behind deadlines and cancellation, stale completions cannot mutate a newer session, and one receipt classifies every task as completed, timed out, failed, or cancelled before deriving a healthy/degraded pulse.
+
+**Why:** UI responsiveness and observability truth are compatible only when optional work is bounded and every lifecycle outcome is recorded exactly once.
+
+## 2026-07-24 — Production dependency closure outranks a dishonest force-fix
+
+**Decision:** Upgrade to trusted ESLint 10, compatibility 2, and EJS 6; replace `vite-plugin-html` with the repository's six-line deterministic development HTML transform; mark the proprietary package private; explicitly exclude npm publishing from semantic-release; and pin patched transitive packages where npm honors overrides. Do not run `npm audit fix --force` while it proposes downgrading semantic-release to 15.9.3.
+
+**Why:** Production now audits at zero vulnerabilities and obsolete HTML tooling is removed. The remaining audit aliases are inside npm 11 bundled by semantic-release, which is development-only and not in the explicit release plugin path. npm 12 is the first patched bundle but requires Node 22.22.2 or 24.15 while this project's verified matrix includes Node 20 and 24.14; pretending that breaking the release/runtime matrix is a security fix would exchange an unreachable toolchain advisory for a live delivery failure.
