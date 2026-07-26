@@ -314,9 +314,10 @@
   "sanitizationLastCleared": "2026-07-26",
   "lastSession": 85,
   "bootAmortization": {
-    "ratio": 0,
+    "ratio": 0.09,
     "verdict": "wasted",
-    "ranAt": "2026-07-26T18:38:13.375Z"
+    "ranAt": "2026-07-26T20:23:56.866Z",
+    "trigger": "founder-mission"
   },
   "bootAmortizationHistory": [
     {
@@ -325,9 +326,10 @@
       "ranAt": "2026-07-24T04:22:56.453Z"
     },
     {
-      "ratio": 0,
+      "ratio": 0.09,
       "verdict": "wasted",
-      "ranAt": "2026-07-26T18:38:13.375Z"
+      "ranAt": "2026-07-26T20:23:56.866Z",
+      "trigger": "founder-mission"
     }
   ],
   "sessionShellHygiene": {
