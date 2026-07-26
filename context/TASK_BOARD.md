@@ -264,3 +264,18 @@ All four premise-verified L3 findings and four generated second-order innovation
 ### EVIDENCED UPSTREAM DEFERRAL — semantic-release bundled npm 11
 
 - [deferred] Production dependency audit is zero. The remaining all-dependency audit aliases (1 high, 8 moderate) exist only in npm 11 bundled by development-only semantic-release and are outside the explicit release plugin path. Re-evaluate when `@semantic-release/npm` supports a patched npm release compatible with the repository's Node 20 / 24.14 matrix; never apply the registry's semantic-release 15 force-downgrade.
+
+## Completed (2026-07-26 — Session 85 participant-bound continuation and replay-evidence arc)
+
+All three premise-verified L3 findings in `docs/AUDIT_2026-07-25.json` shipped. Four new evidence-derived second-order invariants shipped, taking `docs/INNOVATION_PACK.json` from 32/32 to 36/36 with zero pending unblocked work.
+
+- [done] Extracted a rematch router that requires live or result-certificate-bound source participation before join or private-lobby creation.
+- [done] Built one signed, content-addressed replay-share authority for automatic highlights and custom clips, with exact-range bounds, stable URLs, independent verification, and evidence-keyed caching.
+- [done] Bound Prediction League writes to a pure real-game open-window admission signal while retaining durable duplicate/resolution race protection.
+- [done] Promoted rematch, prediction, and replay-share evidence classes into executable route policy and ratcheted the new router into Worker composition.
+- [done] Root-fixed asymmetric safest-route epsilon ordering and replaced stochastic property inputs with deterministic seeded and adversarial coverage.
+- [done] Full proof: 176 files / 972 tests, TypeScript, lint, production build, formatting, exact bundles/media, performance, 26/26 E2E, 41/41 mutation policies, 10/10 public ingest, 41 deploy checks, audit 3/3, innovations 36/36, sitemap 10/10, and cost gates green.
+
+### External release evidence boundary
+
+- [deferred] Release remains NO-GO until an explicitly approved staging origin/callback contract exists and exact-digest parity, project-domain delivery, native Obelisk, live headers/Core Web Vitals/themes, three-human Alpha, revenue, rollback, and founder approval are observed. READY credentials and local E2E do not satisfy those gates.

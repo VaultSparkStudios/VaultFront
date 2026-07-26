@@ -40,6 +40,10 @@ describe("PredictionLeagueRouter", () => {
     }));
     registerPredictionLeagueRoutes(app as any, {
       authenticate: vi.fn(async () => ({ persistentId: "verified" })),
+      admitPrediction: vi.fn(() => ({
+        allowed: true as const,
+        reason: "open" as const,
+      })),
       recordPrediction: recordPrediction as any,
       getLeaderboard: vi.fn() as any,
       getSpectatorStats: vi.fn() as any,
@@ -64,6 +68,10 @@ describe("PredictionLeagueRouter", () => {
     const { app, routes, response } = harness();
     registerPredictionLeagueRoutes(app as any, {
       authenticate: vi.fn(async () => ({ persistentId: "verified" })),
+      admitPrediction: vi.fn(() => ({
+        allowed: true as const,
+        reason: "open" as const,
+      })),
       recordPrediction: vi.fn() as any,
       getLeaderboard: vi.fn() as any,
       getSpectatorStats: vi.fn(async () => ({ accuracy: 75 })) as any,
@@ -86,6 +94,10 @@ describe("PredictionLeagueRouter", () => {
     const { app, routes, response } = harness();
     registerPredictionLeagueRoutes(app as any, {
       authenticate: vi.fn(async () => ({ persistentId: "verified" })),
+      admitPrediction: vi.fn(() => ({
+        allowed: true as const,
+        reason: "open" as const,
+      })),
       recordPrediction: vi.fn().mockRejectedValue(new Error("down")) as any,
       getLeaderboard: vi.fn() as any,
       getSpectatorStats: vi.fn() as any,
@@ -97,5 +109,35 @@ describe("PredictionLeagueRouter", () => {
       res,
     );
     expect(res.statusCode).toBe(503);
+  });
+
+  test("rejects invented and closed games before touching the ledger", async () => {
+    const { app, routes, response } = harness();
+    const recordPrediction = vi.fn();
+    const reportAdmissionRejected = vi.fn();
+    registerPredictionLeagueRoutes(app as any, {
+      authenticate: vi.fn(async () => ({ persistentId: "verified" })),
+      admitPrediction: vi.fn(() => ({
+        allowed: false as const,
+        reason: "unknown-game" as const,
+      })),
+      reportAdmissionRejected,
+      recordPrediction: recordPrediction as any,
+      getLeaderboard: vi.fn() as any,
+      getSpectatorStats: vi.fn() as any,
+      getGameConsensus: vi.fn() as any,
+    });
+    const res = response();
+    await routes.get("POST /api/vaultfront/prediction-league/predict")!(
+      { body: { gameId: "invented", outcome: "delivery" } },
+      res,
+    );
+    expect(res.statusCode).toBe(409);
+    expect(res.body).toEqual({ error: "Prediction window unavailable" });
+    expect(recordPrediction).not.toHaveBeenCalled();
+    expect(reportAdmissionRejected).toHaveBeenCalledWith(
+      "invented",
+      "unknown-game",
+    );
   });
 });

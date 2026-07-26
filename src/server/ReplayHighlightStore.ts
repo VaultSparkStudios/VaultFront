@@ -14,7 +14,7 @@
  * cached for the lifetime of the process. Stale entries are evicted after 2 h.
  */
 
-import { nanoid } from "nanoid";
+import { createReplayShareProjection } from "./ReplayShareContract";
 import type { ReplayManifest, ReplayTurn } from "./ReplayStore";
 
 const CLIP_TURNS = 60; // ~30 s at 2 turns/s
@@ -90,32 +90,31 @@ function identifyMoment(turns: ReplayTurn[], peakIdx: number): string {
   return labels[bestType] ?? "Peak Action";
 }
 
-class ReplayHighlightStore {
+export class ReplayHighlightStore {
   private cache = new Map<string, CachedHighlight>();
 
   constructor() {
-    setInterval(() => this.evict(), 10 * 60_000);
+    const timer = setInterval(() => this.evict(), 10 * 60_000);
+    timer.unref?.();
   }
 
   getOrCreate(gameId: string, manifest: ReplayManifest): ReplayHighlight {
-    const cached = this.cache.get(gameId);
+    const cacheKey = `${gameId}:${manifest.signature ?? "unsigned"}`;
+    const cached = this.cache.get(cacheKey);
     if (cached && Date.now() - cached.cachedAt < CACHE_TTL_MS) {
       return cached.highlight;
     }
 
-    const turns = manifest.turns ?? [];
-    const highlight = this.compute(gameId, manifest.mapName ?? "", turns);
-    this.cache.set(gameId, { highlight, cachedAt: Date.now() });
+    const highlight = this.compute(manifest);
+    this.cache.set(cacheKey, { highlight, cachedAt: Date.now() });
     return highlight;
   }
 
-  private compute(
-    gameId: string,
-    mapName: string,
-    turns: ReplayTurn[],
-  ): ReplayHighlight {
+  private compute(manifest: ReplayManifest): ReplayHighlight {
+    const { gameId, mapName } = manifest;
+    const turns = manifest.turns ?? [];
     if (turns.length === 0) {
-      return this.fallback(gameId, mapName);
+      return this.fallback(manifest);
     }
 
     // Sliding-window sum over CLIP_TURNS turns
@@ -148,31 +147,43 @@ class ReplayHighlightStore {
         .reduce((bestI, s, i, arr) => (s > arr[bestI] ? i : bestI), 0);
 
     const topMoment = identifyMoment(turns, peakIdx);
-    const highlightId = nanoid(10);
-    const shareUrl = `${PLAY_BASE}/replay/${encodeURIComponent(gameId)}?highlight=${highlightId}&start=${clipStartTurn}&end=${clipEndTurn}`;
+    const share = createReplayShareProjection(
+      manifest,
+      {
+        kind: "highlight",
+        startTurn: clipStartTurn,
+        endTurn: clipEndTurn,
+      },
+      PLAY_BASE,
+    );
 
     return {
       gameId,
-      highlightId,
+      highlightId: share.shareId,
       topMoment,
       clipStartTurn,
       clipEndTurn,
       autoHighlightTick: clipStartTurn,
-      shareUrl,
+      shareUrl: share.shareUrl,
       ogTitle: `VaultFront Highlight — ${topMoment} on ${mapName || "Unknown Map"}`,
     };
   }
 
-  private fallback(gameId: string, mapName: string): ReplayHighlight {
-    const highlightId = nanoid(10);
+  private fallback(manifest: ReplayManifest): ReplayHighlight {
+    const { gameId, mapName } = manifest;
+    const share = createReplayShareProjection(
+      manifest,
+      { kind: "highlight", startTurn: 0, endTurn: 0 },
+      PLAY_BASE,
+    );
     return {
       gameId,
-      highlightId,
+      highlightId: share.shareId,
       topMoment: "Full Match",
       clipStartTurn: 0,
       clipEndTurn: 0,
       autoHighlightTick: 0,
-      shareUrl: `${PLAY_BASE}/replay/${encodeURIComponent(gameId)}?highlight=${highlightId}`,
+      shareUrl: share.shareUrl,
       ogTitle: `VaultFront Replay — ${mapName || "Unknown Map"}`,
     };
   }

@@ -575,3 +575,39 @@ capitalEfficiency +7 (oracle/prophecy cache eliminates >80% redundant Haiku call
 - [SIL:3] Require explicit replay balance compatibility and an approved staging contract before interpreting legacy evidence or creating external state.
 
 **Honest refusal:** The session did not fabricate staging, delivery, identity, human, retention, revenue, rollback, theme, approval, or dependency evidence; did not edit a sibling tree; did not apply the registry's breaking force-downgrade; did not weaken a failing contract; and did not alarm on flat-rate Max-plan cost.
+
+## 2026-07-26 — Session 85 | Total: 995/1000 | Velocity: 7
+
+| SIL v3 category       |        Score | Evidence                                                                                                                                                              |
+| --------------------- | -----------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Dev Health            |          100 | 176 Vitest files and 972 tests, TypeScript, lint, build, format, exact bundles/media, performance, 26/26 E2E, and all contracts pass directly.                        |
+| Creative Alignment    |          100 | Certified rematch, open-match predictions, and permanent replay sharing strengthen the post-match extraction-command loop instead of adding a generic system.         |
+| Momentum              |          100 | Three L3 audit items and four generated innovations shipped; audit 3/3 and evidence-derived innovation pack 36/36 are exhausted.                                      |
+| Engagement            |           98 | Safer one-click rematch and permanent replay shares improve return-loop trust; no human retention or delight outcome is invented.                                     |
+| Process Quality       |          100 | Pull-first chronology, live premise checks, direct exits, deterministic red classification, and explicit evidence boundaries make the mission auditable.              |
+| Cross-Repo Coherence  |           99 | Registry type drift remains Ark-owned, credentials stayed gateway-owned, no sibling tree was edited, and route evidence taxonomy is internally consistent.            |
+| Security Posture      |          100 | Source participation, result certificates, live lifecycle admission, signed projections, bounded ranges, and complete mutation policies fail closed.                  |
+| Ecosystem Integration |           98 | Human/agent manifests, sitemap, evidence lineage, and provider capabilities align; approved staging, delivery, native identity, and human observations remain absent. |
+| Capital Efficiency    |          100 | No dependency or variable-cost service was added; deterministic local verification and flat-rate Max-plan work remain cost-neutral.                                   |
+| Automation Coverage   |          100 | Share verification, cache tamper, rematch authorization, lifecycle admission, route/composition, seeded property, browser, exhaustion, and release gates execute.     |
+| **Total**             | **995/1000** | Exact sum; Engagement and Ecosystem remain capped by absent human/live receipts, while registry correction remains cross-repo Ark work.                               |
+
+**Rolling data:** Avg3 993.7 · Avg5 992.0 · Avg10 988.1 · Avg25/all 987.8 · velocity 7 · debt ↓ · sparkline █████.
+
+**Top win:** Every post-match continuation now inherits source authority: the certificate names participants, lifecycle gates prediction, signed replay evidence names permanent share projections, and executable policy prevents trust drift.
+
+**Top gap:** There is still no explicitly approved external staging/callback corridor or distinct-human Alpha corpus.
+
+### Brainstorm
+
+1. Persist replay-share projection receipts only when a live share-consumption signal proves that server-side durability adds value beyond deterministic recomputation.
+2. Add rematch cohort learning only after privacy-safe distinct-human sessions can distinguish convenience from actual return behavior.
+3. Promote the registry game-type correction only through signed Ark ownership; never make local derived briefs compensate for central truth drift indefinitely.
+
+### Commitments
+
+- [SIL:1] Keep rematch creation participant-bound and archived continuation result-certificate-bound; never treat game-ID possession as authorization.
+- [SIL:2] Treat 3,130 Worker lines, 2,907 VaultFrontExecution lines, 180 extracted-router lines, and ten public-ingest routes as maxima, not targets.
+- [SIL:3] Keep replay shares content-addressed and independently verifiable; require an approved staging contract before creating external state.
+
+**Honest refusal:** The session rejected five false or unevidenced audit premises, did not fabricate staging/delivery/identity/human/revenue/rollback/approval evidence, did not edit a sibling tree, did not weaken a failing gate, and did not alarm on flat-rate Max-plan cost.

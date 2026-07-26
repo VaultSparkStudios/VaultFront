@@ -228,3 +228,11 @@ Append-only. Each session appends one entry. Never edit prior entries.
 - Remaining boundary: Release stays NO-GO pending approved staging/parity, project-domain delivery, native Obelisk, live web/theme, distinct-human Alpha, revenue, rollback, and founder approval.
 
 - Supply-chain closeout: Package Trust approved the exact official upgrades. ESLint 10, compatibility 2, and EJS 6 shipped; the obsolete HTML plugin and 39 transitive packages were removed; 18 dead assignments and two swallowed causes were repaired; production audit is zero. Nine development-only semantic-release/npm 11 audit aliases remain explicitly deferred because the advertised force-fix downgrades semantic-release and patched npm 12 violates the verified Node matrix.
+
+## 2026-07-26 — Session 85 participant-bound continuation and replay-evidence arc
+
+- Goal: Run one uninterrupted saturated `/start → /audit → /implement → /closeout` mission, exhaust every live-code-verified item and generated innovation, and preserve direct-exit truth without manufacturing external release evidence.
+- What changed: Extracted participant-authorized rematch routing; certificate-bound archived continuation; lifecycle-gated Prediction League writes; content-addressed signed replay highlights/clips; independent share verification; evidence-keyed highlight caching; executable post-match evidence policies; Worker composition ratchet.
+- Second order: Innovation pack advanced from 32/32 to 36/36. Full-suite verification also exposed and root-fixed asymmetric epsilon ordering plus stochastic test evidence.
+- Verification: 176/176 Vitest files and 972/972 tests; TypeScript; ESLint; production build; deterministic 28,125-scenario balance envelope; Prettier ratchet; exact bundle/media budgets; performance; 26/26 Playwright desktop/mobile/theme; 41/41 mutation policy; 10/10 public ingest; 41 deploy checks; sitemap 10/10; audit 3/3; innovations 36/36.
+- Truth boundary: Release remains NO-GO. Cloudflare, Brevo, and Obelisk capabilities are READY, but no approved staging/parity, delivery, relying-party, live-web, human, revenue, rollback, or founder-approval evidence was inferred.

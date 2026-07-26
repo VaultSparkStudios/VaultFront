@@ -6,6 +6,14 @@ Public-safe summary:
 - Internal operating detail lives in the private Studio OS / ops repository.
 - This repo retains only the public-safe implementation and evidence boundary.
 
+## 2026-07-26 — Session 85 participant-bound continuation and replay-evidence arc
+
+The continuous `/start → /audit → /implement → /closeout` mission shipped all three new premise-verified L3 findings and four generated second-order invariants. Rematch creation and joining now require a verified actor who belongs to the live source game or to a valid archived result-certificate roster; knowing a game ID or possessing a replay cannot authorize private configuration cloning. Prediction League writes now require a real started, still-open GameServer lifecycle signal before touching the replay-safe ledger.
+
+Automatic replay highlights and custom clips project from one versioned content-addressed contract. Signed replay identity, exact bounded turn range, share kind, evidence digest, stable URL, cache key, and independent verification now agree across restarts; altered evidence cannot inherit a trusted cached share. Rematch, prediction, and replay-share routes declare their actual evidence classes in executable policy. A full-suite red exposed and root-fixed an asymmetric epsilon comparator in safest-route selection; its former stochastic gate is now a seeded property sequence plus an adversarial boundary case.
+
+The Session 85 audit is 3/3 shipped and the evidence-derived innovation pack is 36/36 shipped with zero pending unblocked work. Direct verification is green: 176 Vitest files / 972 tests, TypeScript, ESLint, production build and 28,125-scenario balance envelope, Prettier ratchet, exact bundle/media budgets, performance benchmarks, 26/26 desktop/mobile/theme Playwright checks, 41/41 mutation policies, 10/10 public-ingest ceiling, 41 deploy-contract checks, and sitemap 10/10. Release remains NO-GO because local E2E is not an approved staging/parity receipt and no project-domain delivery, native Obelisk relying-party, live-web, distinct-human Alpha, revenue, rollback, or founder-approval evidence was fabricated.
+
 ## 2026-07-24 — Session 84 certified feedback, balance-identity, and post-match lifecycle arc
 
 The uninterrupted `/start → /audit → /implement → /closeout` mission shipped all four premise-verified L3 findings and four generated second-order innovations. Match feedback is now certificate-bound, actor- and map-validated, replay-safe across memory and PostgreSQL, privacy-limited to 30 days, and summarized only through certified outcome, match-path, and play-style cohorts. Certified outcome history and career style now derive from the same server-owned match projection; retired browser-authored win, duration, and style writes no longer carry authority.

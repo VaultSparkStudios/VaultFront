@@ -96,13 +96,18 @@ describe("VaultFrontExecution property tests", () => {
       spawnTile: () => 0,
     } as any;
     const source = 20;
+    let seed = 0x5eed1234;
+    const nextRisk = () => {
+      seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
+      return seed / 0x100000000;
+    };
 
     for (let i = 0; i < 80; i++) {
       const riskByTile = new Map<number, number>([
-        [12, Math.random()],
-        [25, Math.random()],
-        [33, Math.random()],
-        [41, Math.random()],
+        [12, nextRisk()],
+        [25, nextRisk()],
+        [33, nextRisk()],
+        [41, nextRisk()],
       ]);
       vi.spyOn(execution, "routeRiskScore").mockImplementation(
         (_p: unknown, _s: number, dst: number) => riskByTile.get(dst) ?? 1,
@@ -122,6 +127,25 @@ describe("VaultFrontExecution property tests", () => {
       expect(destination).toBe(candidates[0][0]);
       vi.restoreAllMocks();
     }
+
+    const epsilonTie = new Map<number, number>([
+      [12, 0.8],
+      [25, 0.5],
+      [33, 0.40005],
+      [41, 0.4],
+    ]);
+    vi.spyOn(execution, "routeRiskScore").mockImplementation(
+      (_p: unknown, _s: number, dst: number) => epsilonTie.get(dst) ?? 1,
+    );
+    expect(
+      execution.bestConvoyDestination(
+        owner,
+        source,
+        undefined,
+        "reroute_safest",
+      ),
+    ).toBe(33);
+    vi.restoreAllMocks();
   });
 
   test("cooldown invariants: jam breaker cannot bypass its own cooldown", () => {

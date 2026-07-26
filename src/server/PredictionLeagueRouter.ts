@@ -6,6 +6,7 @@ import type {
   PredictionOutcome,
 } from "./PredictionLeagueStore";
 import { retiredMutation } from "./RetiredMutation";
+import { assertRoutePolicyBinding } from "./RoutePolicyManifest";
 
 interface PredictionActor {
   persistentId: string;
@@ -16,6 +17,16 @@ export interface PredictionLeagueRouteDependencies {
     req: Request,
     res: Response,
   ) => Promise<PredictionActor | null>;
+  admitPrediction: (gameId: string) =>
+    | { allowed: true; reason: "open" }
+    | {
+        allowed: false;
+        reason: "unknown-game" | "not-started" | "closed";
+      };
+  reportAdmissionRejected?: (
+    gameId: string,
+    reason: "unknown-game" | "not-started" | "closed",
+  ) => void;
   recordPrediction: PredictionLeagueStore["recordPrediction"];
   getLeaderboard: PredictionLeagueStore["getLeaderboard"];
   getSpectatorStats: PredictionLeagueStore["getSpectatorStats"];
@@ -36,6 +47,11 @@ export function registerPredictionLeagueRoutes(
 ): void {
   const predictionRateLimit: RequestHandler =
     dependencies.predictionRateLimit ?? ((_req, _res, next) => next());
+  assertRoutePolicyBinding(
+    "prediction-league-write",
+    "POST",
+    "/api/vaultfront/prediction-league/predict",
+  );
   app.post(
     "/api/vaultfront/prediction-league/predict",
     predictionRateLimit,
@@ -46,6 +62,14 @@ export function registerPredictionLeagueRoutes(
       }
       const actor = await dependencies.authenticate(req, res);
       if (!actor) return;
+      const admission = dependencies.admitPrediction(parsed.data.gameId);
+      if (!admission.allowed) {
+        dependencies.reportAdmissionRejected?.(
+          parsed.data.gameId,
+          admission.reason,
+        );
+        return res.status(409).json({ error: "Prediction window unavailable" });
+      }
       try {
         const receipt = await dependencies.recordPrediction(
           parsed.data.gameId,

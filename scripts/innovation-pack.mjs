@@ -486,6 +486,75 @@ const candidates = [
     evidence:
       "generation-scoped receipt counters, exactly-once healthy/degraded pulse, stale-result accounting, and deterministic timer tests",
   },
+  {
+    id: "evidence-keyed-replay-share-cache",
+    title: "Make replay share caches obey signed evidence identity",
+    description:
+      "Key automatic-highlight reuse by the signed replay rather than a caller-controlled game ID, and independently verify every share projection so altered evidence can never inherit a cached trusted URL.",
+    complete:
+      has("src/server/ReplayHighlightStore.ts", /manifest\.signature/) &&
+      has("src/server/ReplayShareContract.ts", /verifyReplayShareProjection/) &&
+      has(
+        "tests/server/ReplayShareContract.test.ts",
+        /never serves a cached highlight for altered evidence/,
+      ),
+    evidence:
+      "signature-keyed cache, independent projection verifier, restart-stability proof, and altered-evidence rejection",
+  },
+  {
+    id: "certificate-bound-archived-rematch",
+    title: "Bind archived rematches to the result certificate roster",
+    description:
+      "Require an archived source match to carry a valid result certificate whose certified roster includes the authenticated actor before any private continuation can clone its configuration.",
+    complete:
+      has(
+        "src/server/RematchAuthorization.ts",
+        /verifyMatchResultCertificate/,
+      ) &&
+      has("src/server/Worker.ts", /authorizeArchivedRematchSource/) &&
+      has(
+        "tests/server/RematchAuthorization.test.ts",
+        /rejects nonparticipants and certificate tampering/,
+      ),
+    evidence:
+      "pure archived authorization kernel, certificate verification, actor/client binding, and tamper/nonparticipant tests",
+  },
+  {
+    id: "postmatch-route-policy-triad",
+    title: "Make post-match trust seams executable route policy",
+    description:
+      "Promote rematch creation, Prediction League writes, and replay clip projection into the route-policy manifest with their actual source-participation, game-lifecycle, and signed-replay evidence classes.",
+    complete:
+      has("src/server/RoutePolicyManifest.ts", /source-participation/) &&
+      has("src/server/RoutePolicyManifest.ts", /game-lifecycle/) &&
+      has("src/server/RoutePolicyManifest.ts", /signed-replay/) &&
+      has("src/server/RematchRouter.ts", /rematch-create/) &&
+      has("src/server/PredictionLeagueRouter.ts", /prediction-league-write/),
+    evidence:
+      "manifest-bound route assertions, explicit evidence taxonomy, and policy validation coverage",
+  },
+  {
+    id: "deterministic-epsilon-route-ordering",
+    title:
+      "Make safest-route ordering mathematically stable at the epsilon boundary",
+    description:
+      "Apply one symmetric epsilon equivalence rule before distance tie-breaking and replace probabilistic test inputs with a seeded sequence plus an adversarial near-equal case.",
+    complete:
+      has(
+        "src/core/execution/VaultFrontExecution.ts",
+        /risk < safestRisk - 0\.0001/,
+      ) &&
+      has(
+        "tests/core/execution/VaultFrontExecutionProperty.test.ts",
+        /epsilonTie/,
+      ) &&
+      has(
+        "tests/core/execution/VaultFrontExecutionProperty.test.ts",
+        /Math\.imul\(seed/,
+      ),
+    evidence:
+      "symmetric epsilon comparator, seeded property sequence, explicit adversarial boundary, and no stochastic gate flicker",
+  },
 ];
 
 const payload = {

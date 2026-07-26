@@ -13,6 +13,9 @@ const ALLOWED_EVIDENCE = new Set([
   "assignment-ledger",
   "result-certificate",
   "authenticated-event",
+  "source-participation",
+  "game-lifecycle",
+  "signed-replay",
 ]);
 
 export function validateMutationRoutePolicies(routes, catalog) {

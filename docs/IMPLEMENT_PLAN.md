@@ -1,12 +1,12 @@
-# Session 84 Implementation Plan
+<!-- generated-at: 2026-07-26 · Session 85 · source: docs/AUDIT_2026-07-25.json -->
 
-Source: `docs/AUDIT_2026-07-24.json`. All newly admitted items run at L3.
+# Implementation Plan — Session 85
 
-1. `certified-match-feedback-plane` — close the exposed/spoofable feedback boundary first; extract certified storage and routes before adjacent analytics consume the same evidence seam.
-2. `certified-outcome-style-authority` — move result/style truth into the replay-safe progression spine and retire browser-authored outcome authority.
-3. `complete-gameplay-balance-authority` — centralize all remaining existing values after trust boundaries settle; preserve behavior and extend deterministic release evidence.
-4. `postmatch-session-orchestrator` — migrate the client onto certified projections, then make optional enrichment shell-first, bounded, cancellable, and stale-result-proof.
+Source: `docs/AUDIT_2026-07-25.json`
 
-Every item requires focused behavioral tests, direct TypeScript verification, its composition/contract ratchets, and a medium-gate equivalent: authority from source-of-truth, idempotency, honest storage scope, no fabricated evidence, and no partial ship. Full lint, production build, coverage, E2E, doctor, work exhaustion, and local release-gate verification run after primary and innovation waves.
+1. **Replay share authority (Item 82, L3)** — foundation first: one versioned, signed-evidence-bound projection for automatic highlights and custom clips.
+2. **Certified rematch corridor (Item 81, L3)** — extract the route and require live or archived source-match participation before either join or creation.
+3. **Prediction lifecycle admission (Item 83, L3)** — bind durable writes to a pure live-game open-window signal while preserving store-level race protection.
+4. **Expansion pass** — regenerate the innovation pack, inspect the three new seams, and ship every premise-verified second-order invariant.
 
-**Status: complete.** All four primary items and four generated second-order innovations shipped; audit 8/8 and innovation pack 32/32 are exhausted.
+Verification after each group: focused Vitest, direct TypeScript exit, then the complete repository suite and production build before closeout.

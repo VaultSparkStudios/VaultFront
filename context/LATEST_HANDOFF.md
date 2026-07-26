@@ -1,6 +1,26 @@
 # Latest Handoff
 
-This repo keeps only a public-safe two-session handoff. Detailed operational history is maintained privately.
+This repo keeps only public-safe recent handoff history. Detailed operational history is maintained privately.
+
+## Where We Left Off — 2026-07-26 — Session 85 participant-bound continuation and replay-evidence closeout
+
+**Session intent:** Run the complete agent-neutral arc continuously, audit live code, exhaust every verified primary item and generated second-order innovation, preserve source-derived observability and direct exit truth, then close directly to `main` without fabricating external release evidence.
+
+**Shipped:** Three new L3 audit items and four generated second-order invariants. The Session 85 audit is 3/3 and the cumulative innovation pack is 36/36 shipped with zero pending unblocked work.
+
+- Rematch join/create now requires certified source participation; archived continuation binds the actor through a valid result-certificate roster.
+- Prediction League accepts writes only for a real started, still-open GameServer and preserves durable duplicate/resolution race protection.
+- Replay highlights and custom clips use one versioned content-addressed signed-evidence projection with exact bounds, stable URLs, independent verification, and evidence-keyed caching.
+- Rematch, prediction, and replay-share evidence classes are executable route policy; the new router is composition-ratcheted.
+- Safest-route epsilon ordering is symmetric and its former stochastic property gate is deterministic and adversarial.
+
+**Verification:** 176/176 Vitest files and 972/972 tests; TypeScript; ESLint; production build and 28,125-scenario balance envelope; Prettier ratchet; exact bundle/media budgets; performance; 26/26 Playwright desktop/mobile/theme; 41/41 mutation policies; 10/10 public ingest; 41 deploy-contract checks; sitemap 10/10; audit 3/3; innovation pack 36/36; work exhaustion green.
+
+**Truth boundary:** Release remains NO-GO. Local E2E is not approved staging/parity. READY Cloudflare, Brevo, and Obelisk capabilities do not prove project-domain delivery, native relying-party identity, live-web health, three-human Alpha, revenue, rollback, or founder approval.
+
+**Suggested next focus:** Establish an explicitly approved staging origin/callback contract, then collect exact-digest parity and live identity, delivery, theme, human, revenue, rollback, and approval evidence in gate order.
+
+---
 
 ## Where We Left Off — 2026-07-24 — Session 84 certified feedback and balance-identity closeout
 

@@ -1051,6 +1051,12 @@ export class GameServer {
     return this._hasStarted || this._hasPrestarted;
   }
 
+  /** Pure spectator admission signal; unlike phase(), this never mutates clients. */
+  predictionAdmission(): "not-started" | "open" | "closed" {
+    if (this._hasEnded) return "closed";
+    return this._hasStarted ? "open" : "not-started";
+  }
+
   public gameInfo(): GameInfo {
     return {
       gameID: this.id,

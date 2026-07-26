@@ -88,6 +88,8 @@ import { startPolling } from "./PollingLoop";
 import { registerPredictionLeagueRoutes } from "./PredictionLeagueRouter";
 import { predictionLeagueStore } from "./PredictionLeagueStore";
 import { PrivilegeRefresher } from "./PrivilegeRefresher";
+import { authorizeArchivedRematchSource } from "./RematchAuthorization";
+import { registerRematchRoutes } from "./RematchRouter";
 import { rematchStore } from "./RematchStore";
 import {
   canAttemptRemoteAi,
@@ -95,6 +97,10 @@ import {
   reserveRemoteAiCall,
 } from "./RemoteAiPolicy";
 import { replayHighlightStore } from "./ReplayHighlightStore";
+import {
+  createReplayShareProjection,
+  ReplayShareContractError,
+} from "./ReplayShareContract";
 import { getReplayIntegrityPosture, replayStore } from "./ReplayStore";
 import { buildRuntimeIntegrityPassport } from "./RuntimeIntegrityPassport";
 import { registerSeasonContractRoutes } from "./SeasonContractRouter";
@@ -669,6 +675,16 @@ export async function startWorker() {
 
   registerPredictionLeagueRoutes(app, {
     authenticate: (req, res) => requireVaultFrontActor(req, res),
+    admitPrediction: (gameId) => {
+      const game = gm.game(gameId as GameID);
+      if (!game) return { allowed: false, reason: "unknown-game" };
+      const reason = game.predictionAdmission();
+      return reason === "open"
+        ? { allowed: true, reason }
+        : { allowed: false, reason };
+    },
+    reportAdmissionRejected: (gameId, reason) =>
+      log.info("prediction admission rejected", { gameId, reason }),
     recordPrediction: predictionLeagueStore.recordPrediction.bind(
       predictionLeagueStore,
     ),
@@ -2556,89 +2572,40 @@ export async function startWorker() {
     max: 10,
   });
 
-  app.post("/api/rematch/:gameId", rematchRateLimit, async (req, res) => {
-    const { gameId } = req.params;
-    if (!gameId) return res.status(400).json({ error: "Missing gameId" });
-
-    const actor = await resolveAuthenticatedActorKey(req);
-    if (!actor) {
-      return res
-        .status(401)
-        .json({ error: "Authenticated play token required" });
-    }
-
-    const existing = rematchStore.join(gameId, actor.actorKey);
-    if (existing) return res.json(existing);
-
-    const sourceGame = gm.game(gameId as GameID);
-    let sourceConfig: unknown = sourceGame?.gameConfig;
-    let mapName = sourceGame ? String(sourceGame.gameConfig.gameMap) : "";
-    if (!sourceConfig) {
-      const replay = await replayStore.getReplay(gameId);
-      if (replay) {
-        sourceConfig = {
-          ...playlist.get1v1Config(),
-          ...replay.configSnapshot,
+  registerRematchRoutes(app, {
+    authenticate: (req, res) => requireVaultFrontActor(req, res),
+    resolveAuthorizedSource: async (gameId, actor) => {
+      const live = gm.game(gameId as GameID);
+      if (live?.getClientIdForPersistentId(actor.persistentId)) {
+        return {
+          config: live.gameConfig,
+          mapName: String(live.gameConfig.gameMap),
+          evidence: "live-participant" as const,
         };
-        mapName = replay.mapName;
       }
-    }
-    if (!sourceConfig) {
-      return res
-        .status(404)
-        .json({ error: "Verified source game configuration not found" });
-    }
-
-    const cloned = CreateGameInputSchema.safeParse({
-      ...(sourceConfig as Record<string, unknown>),
-      gameType: GameType.Private,
-      rankedType: undefined,
-    });
-    if (!cloned.success || !cloned.data) {
-      return res.status(409).json({ error: "Source game cannot be rematched" });
-    }
-
-    let lobbyId = generateGameIdForWorker();
-    while (lobbyId && gm.game(lobbyId)) {
-      lobbyId = generateGameIdForWorker();
-    }
-    if (!lobbyId) {
-      return res
-        .status(503)
-        .json({ error: "Unable to allocate rematch lobby" });
-    }
-
-    gm.createGame(lobbyId, cloned.data, actor.persistentId);
-    const playBase = (
-      process.env.PLAY_BASE_URL ??
-      "https://play-vaultfront.vaultsparkstudios.com"
-    ).replace(/\/+$/, "");
-    const workerPath = config.workerPath(lobbyId).replace(/^\/+|\/+$/g, "");
-    const joinUrl = `${playBase}/${workerPath}/game/${encodeURIComponent(lobbyId)}?lobby`;
-    const entry = rematchStore.create({
-      gameId,
-      lobbyId,
-      actorKey: actor.actorKey,
-      mapName,
-      joinUrl,
-    });
-    return res.status(201).json(entry);
-  });
-  app.get("/api/rematch/status/:gameId", rematchRateLimit, (req, res) => {
-    const { gameId } = req.params;
-    if (!gameId) return res.status(400).json({ error: "Missing gameId" });
-    const entry = rematchStore.get(gameId);
-    if (!entry) return res.status(404).json({ error: "No rematch found" });
-    return res.json(entry);
-  });
-
-  app.get("/api/rematch/code/:code", rematchRateLimit, (req, res) => {
-    const { code } = req.params;
-    if (!code) return res.status(400).json({ error: "Missing code" });
-    const entry = rematchStore.getByCode(code);
-    if (!entry)
-      return res.status(404).json({ error: "Rematch not found or expired" });
-    return res.json(entry);
+      const record = await readGameRecord(gameId as GameID);
+      return authorizeArchivedRematchSource(record, gameId, actor.persistentId);
+    },
+    joinExisting: (gameId, actorKey) => rematchStore.join(gameId, actorKey),
+    createLobby: (sourceConfig, creatorPersistentId) => {
+      let lobbyId = generateGameIdForWorker();
+      while (lobbyId && gm.game(lobbyId)) lobbyId = generateGameIdForWorker();
+      if (!lobbyId) return null;
+      gm.createGame(lobbyId, sourceConfig, creatorPersistentId);
+      const playBase = (
+        process.env.PLAY_BASE_URL ??
+        "https://play-vaultfront.vaultsparkstudios.com"
+      ).replace(/\/+$/, "");
+      const workerPath = config.workerPath(lobbyId).replace(/^\/+|\/+$/g, "");
+      return {
+        lobbyId,
+        joinUrl: `${playBase}/${workerPath}/game/${encodeURIComponent(lobbyId)}?lobby`,
+      };
+    },
+    createEntry: (input) => rematchStore.create(input),
+    get: (gameId) => rematchStore.get(gameId),
+    getByCode: (code) => rematchStore.getByCode(code),
+    rateLimit: rematchRateLimit,
   });
   // ─────────────────────────────────────────────────────────────────────────
 
@@ -2659,6 +2626,11 @@ export async function startWorker() {
 
   const clipRateLimit = rateLimit({ windowMs: 60_000, max: 20 });
 
+  assertRoutePolicyBinding(
+    "replay-custom-clip",
+    "POST",
+    "/api/replay/:gameId/clip",
+  );
   app.post(
     "/api/replay/:gameId/clip",
     clipRateLimit,
@@ -2678,20 +2650,34 @@ export async function startWorker() {
       const manifest = await replayStore.getReplay(gameId);
       if (!manifest) return res.status(404).json({ error: "Replay not found" });
 
-      const { nanoid } = await import("nanoid");
-      const clipId = nanoid(10);
-      const playBase =
-        process.env.PLAY_BASE_URL ??
-        "https://play-vaultfront.vaultsparkstudios.com";
-      const shareUrl = `${playBase}/replay/${encodeURIComponent(gameId)}?clip=${clipId}&start=${startTick}&end=${endTick}`;
+      let share;
+      try {
+        share = createReplayShareProjection(manifest, {
+          kind: "clip",
+          startTurn: startTick,
+          endTurn: endTick,
+        });
+      } catch (error) {
+        if (error instanceof ReplayShareContractError) {
+          return res
+            .status(409)
+            .json({ error: error.message, code: error.code });
+        }
+        throw error;
+      }
 
       return res.json({
-        clipId,
-        shareUrl,
+        clipId: share.shareId,
+        shareUrl: share.shareUrl,
         gameId,
-        startTick,
-        endTick,
+        startTick: share.startTurn,
+        endTick: share.endTurn,
         mapName: manifest.mapName ?? "Unknown Map",
+        evidence: {
+          contractVersion: share.contractVersion,
+          replayEvidenceDigest: share.replayEvidenceDigest,
+          replayDurationTurns: share.replayDurationTurns,
+        },
       });
     },
   );

@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-07-25T23:48:46.513Z",
+  "generatedAt": "2026-07-26T08:21:04.558Z",
   "source": "scripts/innovation-pack.mjs",
   "primarySource": "latest audit-backed Unified Genius List",
   "items": [
@@ -291,6 +291,42 @@
       "description": "Issue one source-derived lifecycle receipt per recap session with completed, timed-out, cancelled, and stale tasks, then emit a single bounded healthy/degraded pulse instead of inferring experience quality from page visibility.",
       "complete": true,
       "evidence": "generation-scoped receipt counters, exactly-once healthy/degraded pulse, stale-result accounting, and deterministic timer tests"
+    },
+    {
+      "rank": 33,
+      "status": "shipped",
+      "id": "evidence-keyed-replay-share-cache",
+      "title": "Make replay share caches obey signed evidence identity",
+      "description": "Key automatic-highlight reuse by the signed replay rather than a caller-controlled game ID, and independently verify every share projection so altered evidence can never inherit a cached trusted URL.",
+      "complete": true,
+      "evidence": "signature-keyed cache, independent projection verifier, restart-stability proof, and altered-evidence rejection"
+    },
+    {
+      "rank": 34,
+      "status": "shipped",
+      "id": "certificate-bound-archived-rematch",
+      "title": "Bind archived rematches to the result certificate roster",
+      "description": "Require an archived source match to carry a valid result certificate whose certified roster includes the authenticated actor before any private continuation can clone its configuration.",
+      "complete": true,
+      "evidence": "pure archived authorization kernel, certificate verification, actor/client binding, and tamper/nonparticipant tests"
+    },
+    {
+      "rank": 35,
+      "status": "shipped",
+      "id": "postmatch-route-policy-triad",
+      "title": "Make post-match trust seams executable route policy",
+      "description": "Promote rematch creation, Prediction League writes, and replay clip projection into the route-policy manifest with their actual source-participation, game-lifecycle, and signed-replay evidence classes.",
+      "complete": true,
+      "evidence": "manifest-bound route assertions, explicit evidence taxonomy, and policy validation coverage"
+    },
+    {
+      "rank": 36,
+      "status": "shipped",
+      "id": "deterministic-epsilon-route-ordering",
+      "title": "Make safest-route ordering mathematically stable at the epsilon boundary",
+      "description": "Apply one symmetric epsilon equivalence rule before distance tie-breaking and replace probabilistic test inputs with a seeded sequence plus an adversarial near-equal case.",
+      "complete": true,
+      "evidence": "symmetric epsilon comparator, seeded property sequence, explicit adversarial boundary, and no stochastic gate flicker"
     }
   ]
 }

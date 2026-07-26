@@ -211,7 +211,7 @@
       "path": "/api/vaultfront/prediction-league/predict",
       "auth": "verified-actor",
       "rateLimit": "predictionRateLimit",
-      "evidence": "authenticated-event",
+      "evidence": "game-lifecycle",
       "binding": "dependencies.authenticate"
     },
     {
@@ -331,16 +331,16 @@
       "method": "POST",
       "path": "/api/rematch/:gameId",
       "auth": "verified-actor",
-      "rateLimit": "rematchRateLimit",
-      "evidence": "authenticated-event",
-      "binding": "resolveAuthenticatedActorKey"
+      "rateLimit": "rateLimit",
+      "evidence": "source-participation",
+      "binding": "dependencies.authenticate"
     },
     {
       "method": "POST",
       "path": "/api/replay/:gameId/clip",
       "auth": "public-ingest",
       "rateLimit": "clipRateLimit",
-      "evidence": "none",
+      "evidence": "signed-replay",
       "binding": "CustomClipSchema",
       "rationale": "Read-like share-link derivation from an existing replay; no replay or player state is mutated."
     }

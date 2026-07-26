@@ -262,3 +262,13 @@ Public-safe summary only. Sensitive verification notes are maintained privately.
 - Release remains NO-GO. Credential readiness did not authorize provider mutation, and no staging/parity, project-domain delivery, native Obelisk, live-web/theme, distinct-human Alpha, revenue, rollback, or founder-approval evidence was inferred.
 
 - Closeout supply-chain root fix: trusted ESLint 10 / compatibility 2 / EJS 6 shipped; 18 dead assignments/error-chain defects surfaced by the stricter rules were repaired; `vite-plugin-html` and 39 transitive packages were removed; the proprietary package is `private`; and semantic-release explicitly omits npm publishing. `npm audit --omit=dev --audit-level=moderate` reports zero production vulnerabilities. The all-dependency audit still reports one high and eight moderate aliases solely inside semantic-release's bundled npm 11; the only registry force-fix is an unsafe semantic-release 15 downgrade, while patched npm 12 is outside the verified Node 20/24.14 matrix. This is an evidenced upstream deferral, not a green claim.
+
+## 2026-07-26 — Session 85 continuation and share-authority truth audit
+
+- `docs/AUDIT_2026-07-25.json` is exhausted at 3/3 shipped after every admitted premise was verified against live code; five attractive false or externally unevidenced premises were recorded as rejections.
+- `docs/INNOVATION_PACK.json` is source-derived and exhausted at 36/36; four new invariants cover evidence-keyed replay caching, archived certificate binding, post-match route evidence taxonomy, and deterministic epsilon ordering.
+- Rematch authorization binds the verified actor to either the live GameServer roster or the archived result-certificate roster before an existing corridor can be joined or a private configuration cloned.
+- Prediction admission is a pure non-mutating GameServer signal. Invented, not-started, and closed games cannot reach durable prediction writes; the response does not enumerate private lifecycle state.
+- Replay share identity derives from the verified HMAC-covered manifest, exact bounded turn range, kind, and contract version. The same evidence produces the same URL across restarts; unsigned, out-of-range, altered, or mismatched projections fail closed.
+- The first full suite red was a real asymmetric epsilon defect, not masked flake. The comparator now applies symmetric equivalence and the test uses deterministic seeded/adversarial evidence. The next direct full run passed 176/176 files and 972/972 tests.
+- Local E2E passed 26/26 across desktop, mobile, and three-theme proof, but remains local-only evidence. Release stays blocked on approved staging/parity, project-domain delivery, native Obelisk, live-web, distinct-human Alpha, revenue, rollback, and founder approval.

@@ -267,3 +267,15 @@ Public-safe decisions only. Detailed internal decision history is maintained pri
 **Decision:** Upgrade to trusted ESLint 10, compatibility 2, and EJS 6; replace `vite-plugin-html` with the repository's six-line deterministic development HTML transform; mark the proprietary package private; explicitly exclude npm publishing from semantic-release; and pin patched transitive packages where npm honors overrides. Do not run `npm audit fix --force` while it proposes downgrading semantic-release to 15.9.3.
 
 **Why:** Production now audits at zero vulnerabilities and obsolete HTML tooling is removed. The remaining audit aliases are inside npm 11 bundled by semantic-release, which is development-only and not in the explicit release plugin path. npm 12 is the first patched bundle but requires Node 22.22.2 or 24.15 while this project's verified matrix includes Node 20 and 24.14; pretending that breaking the release/runtime matrix is a security fix would exchange an unreachable toolchain advisory for a live delivery failure.
+
+## 2026-07-26 — Post-match continuations inherit certified source authority
+
+**Decision:** Rematch join/create requires verified source-game participation; archived participation must bind the actor's client identity through a valid result certificate. Prediction writes require a real started and still-open GameServer. Replay shares are versioned content-addressed projections of a verified signed manifest and an exact in-range turn window.
+
+**Why:** Authentication proves who is asking, not that a caller belongs to a match, that a game identity is real and open, or that a random share token names immutable evidence. The post-match retention loop must inherit the same authority that certified the match rather than treating possession of a game ID as permission.
+
+## 2026-07-26 — Risk equivalence must be symmetric and deterministic
+
+**Decision:** Convoy rerouting treats risks within `0.0001` as equivalent in both directions and breaks that equivalence by distance. Property evidence uses a seeded sequence plus an explicit near-equal adversarial case, never uncontrolled randomness.
+
+**Why:** The former comparator let an infinitesimally lower risk bypass its own epsilon tie-break, while random test inputs only exposed the contradiction intermittently. A mathematical ordering contract and its gate must be reproducible.

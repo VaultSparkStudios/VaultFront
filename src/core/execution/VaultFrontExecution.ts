@@ -1979,8 +1979,8 @@ export class VaultFrontExecution implements Execution {
         const risk = this.routeRiskScore(owner, sourceTile, tile);
         const dist = this.game.manhattanDist(sourceTile, tile);
         if (
-          risk < safestRisk ||
-          (Math.abs(risk - safestRisk) < 0.0001 && dist < safestDistance)
+          risk < safestRisk - 0.0001 ||
+          (Math.abs(risk - safestRisk) <= 0.0001 && dist < safestDistance)
         ) {
           safest = tile;
           safestRisk = risk;

@@ -1,28 +1,28 @@
-<!-- generated-by: scripts/render-closeout-board.mjs v1.0 -->
-<!-- generated-at: 2026-07-26 (Session 84 closeout) -->
+<!-- generated-by: scripts/render-closeout-board.mjs v1.1 -->
+<!-- generated-at: 2026-07-26 (Session 85 closeout) -->
 
 # Closeout Status Board — VaultFront
 
 ```
-╔══ SESSION CLOSEOUT · VaultFront · S84 ═════════════════════════╗
-║  Date: 2026-07-26 · SIL: 993/1000 · V:8  ·  Debt: down           ║
+╔══ SESSION CLOSEOUT · VaultFront · S85 ═════════════════════════╗
+║  Date: 2026-07-26  ·  SIL: 995/1000  ·  Velocity: 7 down         ║
 ║  Mode: FOUNDER  ·  Agent: codex                                  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ WHAT SHIPPED ════════════════════════════════════════════════╗
-║  ✓ Match feedback is certificate-bound, actor/map validated, re  ║
-║  ✓ Outcome, duration, progression history, and play style now d  ║
-║  ✓ Fifteen gameplay domains project from one versioned balance   ║
-║  ✓ Post-match enrichment is shell-first, parallel, bounded, can  ║
-║  ✓ E2E uses an isolated canonical API fixture, preventing unrel  ║
+║  ✓ Rematch join/create now requires certified source participat  ║
+║  ✓ Prediction League accepts writes only for a real started, st  ║
+║  ✓ Replay highlights and custom clips use one versioned content  ║
+║  ✓ Rematch, prediction, and replay-share evidence classes are e  ║
+║  ✓ Safest-route epsilon ordering is symmetric and its former st  ║
 ╚════════════════════════════════════════════════════════════════╝
-╔══ SCORES · SIL 993/1000 ═══════════════════════════════════════╗
+╔══ SCORES · SIL 995/1000 ═══════════════════════════════════════╗
 ║    Dev Health         100  ██████████                            ║
 ║    Alignment          100  ██████████                            ║
 ║    Momentum           100  ██████████                            ║
 ║    Engagement         98   ██████████                            ║
 ║    Process Qual       100  ██████████                            ║
-║    Coherence          98   ██████████                            ║
-║    Security           99   ██████████                            ║
+║    Coherence          99   ██████████                            ║
+║    Security           100  ██████████                            ║
 ║    Ecosystem          98   ██████████                            ║
 ║    Capital            100  ██████████                            ║
 ║    Automation         100  ██████████                            ║
@@ -34,32 +34,34 @@
 ║  ✓ logs/WORK_LOG.md                                              ║
 ║  ✓ context/DECISIONS.md                                          ║
 ║  ✓ context/SELF_IMPROVEMENT_LOOP.md                              ║
-║  ✓ docs/CREATIVE_DIRECTION_RECORD.md                             ║
+║  · docs/CREATIVE_DIRECTION_RECORD.md                             ║
 ║  ✓ context/TRUTH_AUDIT.md                                        ║
 ║  ✓ context/PROJECT_STATUS.json                                   ║
-║  · agent memory (context/BRAIN.md or agent home)                 ║
+║  · agent memory (~/.claude/projects/<slug>/memory/)              ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ GIT STATUS ══════════════════════════════════════════════════╗
-║  Changes: 88 files  ·  M:73 A:15 D:0 ?:0                         ║
-║  Ahead: 1  ·  Behind: 0                                          ║
+║  Changes: 39 files  ·  M:30 A:9 D:0 ?:0                          ║
+║  Ahead: 0  ·  Behind: 0                                          ║
 ║  Branch: main                                                    ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ DEPLOYMENT ══════════════════════════════════════════════════╗
-║  Staging:  not configured  ·  type: —                            ║
+║  Staging:  not configured  ·  type: local                        ║
 ║  Live:     N/A — pre-deploy (FORGE)                              ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ POST-SESSION SIGNALS ════════════════════════════════════════╗
 ║  Doctor:        11/11                                            ║
 ║  Compliance:    49/49                                            ║
-║  Tests:         960/960                                          ║
-║  IGNIS:         3d ago                                           ║
+║  Tests:         972/972                                          ║
+║  Validation:    full-fresh                                       ║
+║  IGNIS:         4d ago                                           ║
 ║  Truth:         green                                            ║
-║  Sanitization:  2d ago                                           ║
+║  Sanitization:  1d ago                                           ║
+║  shells:        1 started · 1 closed · 0 running                 ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ NEXT SESSION ════════════════════════════════════════════════╗
 ║  #1: Unified Genius List exhausted                               ║
-║      No pending unblocked audit item remains.                    ║
+║      No pending unblocked audit or innovation item remains.      ║
 ╚════════════════════════════════════════════════════════════════╝
 ```
 
-_Generated by `scripts/render-closeout-board.mjs v1.0`_
+_Generated by `scripts/render-closeout-board.mjs v1.1`_

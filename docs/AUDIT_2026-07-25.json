@@ -1,0 +1,227 @@
+{
+  "schemaVersion": "1.0",
+  "session": 85,
+  "generatedBy": "Codex /goal /arc Session 85",
+  "generatedAt": "2026-07-26T02:10:00.000Z",
+  "project": {
+    "slug": "vaultfront",
+    "name": "VaultFront",
+    "type": "game",
+    "registryType": "app",
+    "audience": "public-unlaunched",
+    "stage": "FORGE",
+    "stagingType": "local"
+  },
+  "summary": "Premise-verified Session 85 merge audit applying the game/product and public-web release lenses after the prior audit reached 8/8 and the innovation pack reached 32/32. Three new local findings survive live-code review: rematch creation authenticates but does not bind the caller to the source match; replay share identities are random and custom clip ranges are not bound to signed replay duration; and Prediction League writes accept arbitrary game identities without an executable live-match lifecycle gate. External staging, project-domain delivery, native Obelisk relying-party registration, three-human Alpha, revenue, rollback observation, and founder approval remain unobserved evidence gates rather than implementation claims.",
+  "axes": {
+    "featureDepth": 2,
+    "innovation": 2,
+    "ux": 2,
+    "feedbackLoop": 1.5,
+    "gamification": 3,
+    "aiIntegration": 1,
+    "security": 2.5,
+    "speedOrganization": 2,
+    "tokenApiReduction": 1
+  },
+  "sample": {
+    "method": "live code and contract survey; sample-codebase helper absent; targeted manual survey of the post-match, replay, prediction, route-policy, persistence, and release surfaces",
+    "filesSurveyed": 20,
+    "primarySurfaces": [
+      "src/server/Worker.ts",
+      "src/server/RematchStore.ts",
+      "src/server/ReplayStore.ts",
+      "src/server/ReplayHighlightStore.ts",
+      "src/server/PredictionLeagueRouter.ts",
+      "src/server/PredictionLeagueStore.ts",
+      "src/server/RoutePolicyManifest.ts",
+      "src/server/GameServer.ts",
+      "src/server/Archive.ts",
+      "src/server/MatchProgression.ts",
+      "tests/server/RematchStore.test.ts",
+      "tests/server/PredictionLeagueRouter.test.ts",
+      "tests/server/PredictionLeagueStore.test.ts",
+      "scripts/check-route-policy-coverage.mjs",
+      "scripts/check-worker-composition.mjs",
+      "docs/INNOVATION_PACK.json",
+      "docs/AUDIT_2026-07-24.json",
+      "context/PROJECT_STATUS.json",
+      "public/capability-reachability.json",
+      "docs/RELEASE_EVIDENCE.json"
+    ]
+  },
+  "specialtyReviews": {
+    "gameLoop": {
+      "score": 94,
+      "confidence": "code-grounded-low-empirical",
+      "axes": {
+        "loopTightness": 96,
+        "progression": 96,
+        "sessionEngagement": 91,
+        "retention": 89,
+        "soulFidelity": 98
+      },
+      "nextMoves": [
+        "Bind the one-click rematch corridor to certified source-match participation.",
+        "Make replay highlights and custom clips content-addressed projections of one signed replay.",
+        "Gate spectator predictions on an executable live-match lifecycle contract."
+      ],
+      "boundary": "The certified progression and post-match shell are strong, but three adjacent retention loops still trust possession of a game ID more than the certified source match. Human-facing balance values remain unchanged because no distinct-human Alpha corpus exists."
+    },
+    "release": {
+      "verdict": "no-go",
+      "passing": [
+        "local tests, production build, route policy, release lineage, legal/IP, footer, theme, and cost-neutral contracts are checked in",
+        "the source tree exposes human and agent capability manifests",
+        "the release evidence contract distinguishes local proof from live observation"
+      ],
+      "red": [
+        "no approved staging origin or exact-digest promotion receipt",
+        "no live project-domain email or native Obelisk relying-party receipt",
+        "no three-human Alpha, live theme/header/Core Web Vitals, revenue, rollback-drill, or founder-approval receipt"
+      ]
+    },
+    "infrastructure": {
+      "topRisks": [
+        "rematch configuration cloning is actor-authenticated but not source-participant-bound",
+        "replay share identities are random across process restarts and custom ranges can exceed signed replay duration",
+        "prediction writes are actor-authenticated but not bound to an executable open-match identity",
+        "Worker remains a large composition surface, so each fix must extract or inject a testable seam"
+      ]
+    }
+  },
+  "evidenceBoundary": [
+    "Local automation cannot manufacture staging, project-domain delivery, relying-party registration, distinct-human Alpha, revenue, rollback observation, or founder approval.",
+    "The registry still classifies VaultFront as app while local project truth says game. CANON-018 forbids editing the sibling registry; correction must travel through signed Ark cargo.",
+    "No dependency install, paid service, license change, sibling-tree edit, or fabricated data is required for the three admitted items.",
+    "The implementation preserves gameplay balance and uses existing signed/certified match authorities rather than inventing new browser claims."
+  ],
+  "rejectedPremises": [
+    {
+      "candidate": "Replace bounded worker-affine game ID rejection sampling",
+      "result": "skipped",
+      "evidence": "The generator is capped at 1,000 attempts and validates worker ownership for every candidate; the prior live audit already rejected this premise because current worker counts make exhaustion negligible and admission rejects collision/capacity."
+    },
+    {
+      "candidate": "Retune Vault Pressure, prediction scoring, or convoy rewards",
+      "result": "skipped",
+      "evidence": "Executable balance authority proves consistency, not player preference. No distinct-human Alpha corpus exists to justify new human-facing values."
+    },
+    {
+      "candidate": "Treat READY provider credentials as deployment authorization",
+      "result": "skipped",
+      "evidence": "Credential readiness does not specify an approved staging origin, callback contract, inbound route, promotion target, or founder launch decision."
+    },
+    {
+      "candidate": "Add remote artificial intelligence to highlight selection",
+      "result": "skipped",
+      "evidence": "The deterministic intent-weighted highlight selector is fast, cost-neutral, replayable, and already aligned with the game vocabulary. The defect is unstable identity and unbounded range, not model quality."
+    },
+    {
+      "candidate": "Cache identity responses in browser storage",
+      "result": "skipped",
+      "evidence": "Caching authorization state risks stale player identity and entitlement truth without measured latency evidence. Existing one-shot bootstrap does not establish a user-facing defect."
+    }
+  ],
+  "items": [
+    {
+      "id": 81,
+      "slug": "certified-participant-rematch-corridor",
+      "tier": "🔥",
+      "axis": "security / retention / ux / organization",
+      "effortHours": 6,
+      "impact": 10,
+      "innovation": 9,
+      "priority": 96,
+      "status": "shipped",
+      "title": "Turn rematch into a certified participant-bound continuation",
+      "why": "POST /api/rematch/:gameId verifies a play token but immediately joins an existing corridor or clones source configuration without proving that the actor participated in the source match. Knowledge of a game ID is therefore stronger than certified match membership.",
+      "coreLoopStep": "certified match participant → one-click rematch → private continuation lobby",
+      "recipe": "Extract a testable RematchRouter; resolve a source-match participation certificate from the live GameServer or archived GameRecord before join/create; reject nonparticipants and uncertified archives; keep privacy-safe participant keys internal; bind the route to the policy manifest; and cover missing identity, nonparticipant, archived participant, live participant, replay, and expiry paths.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Check actor membership before creating a rematch."
+        },
+        "L2": {
+          "effortHours": 3,
+          "recipe": "Check both live and archived source matches and cover nonparticipant/replay paths."
+        },
+        "L3": {
+          "effortHours": 6,
+          "recipe": "Extract an injected router, bind policy/certificate evidence, keep clone authority server-side, and ratchet Worker composition."
+        }
+      },
+      "executionLog": [
+        "L3 shipped: Rematch routes now live behind an injected authorization seam. Join and creation both require a verified actor who appears in the live GameServer or archived GameRecord; replay possession alone cannot authorize configuration cloning. The route preserves server-side private-lobby construction, emits the source evidence class, and has direct missing-actor, nonparticipant, participant, and corridor tests."
+      ]
+    },
+    {
+      "id": 82,
+      "slug": "content-addressed-replay-share-contract",
+      "tier": "🔥",
+      "axis": "retention / security / feature depth / observability",
+      "effortHours": 5,
+      "impact": 9,
+      "innovation": 9,
+      "priority": 92,
+      "status": "shipped",
+      "title": "Make every replay share a content-addressed projection of signed evidence",
+      "why": "ReplayHighlightStore and the custom clip route generate random nanoid identifiers. The same signed replay therefore produces different share URLs after restart, while custom clip ranges are checked only for ordering and can exceed the replay's signed duration.",
+      "coreLoopStep": "signed replay → deterministic peak/custom window → permanent share identity",
+      "recipe": "Create a versioned ReplayShareContract that verifies replay integrity posture, canonicalizes game/digest/range, bounds ranges to duration, hashes the projection into a stable identifier, and emits a canonical URL. Route automatic highlights and custom clips through it; reject invalid/unsigned production evidence; add restart stability, tamper, boundary, and URL tests.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Derive deterministic IDs from game identity and clip bounds."
+        },
+        "L2": {
+          "effortHours": 3,
+          "recipe": "Bound ranges to manifest duration and test stable URLs."
+        },
+        "L3": {
+          "effortHours": 5,
+          "recipe": "Bind a versioned content digest to verified replay evidence, centralize URL generation, and make automatic/custom shares independently verifiable."
+        }
+      },
+      "executionLog": [
+        "L3 shipped: ReplayShareContract verifies the signed manifest, bounds ranges to recorded duration, derives a versioned content address from replay evidence plus exact projection, canonicalizes share URLs, and rejects unsigned/out-of-range inputs. Automatic highlights and custom clips share the same authority; restart stability, kind separation, tamper, boundary, and route evidence are covered."
+      ]
+    },
+    {
+      "id": 83,
+      "slug": "lifecycle-bound-prediction-ledger",
+      "tier": "⚡",
+      "axis": "engagement / security / feedback loop / observability",
+      "effortHours": 4,
+      "impact": 9,
+      "innovation": 8,
+      "priority": 86,
+      "status": "shipped",
+      "title": "Bind spectator predictions to an executable open-match lifecycle",
+      "why": "PredictionLeagueRouter authenticates the spectator but passes any syntactically valid gameId to the durable store. The store rejects duplicates and resolved games, yet it cannot distinguish a real open match from an invented ID or a match whose outcome is already visible but not yet resolved.",
+      "coreLoopStep": "authenticated spectator → open certified match → pre-outcome prediction → authoritative resolution",
+      "recipe": "Inject a fail-closed prediction-admission resolver backed by GameServer lifecycle; admit only real started/not-ended games before outcome visibility; publish an admission reason without leaking private match state; preserve store-level duplicate/resolution locks; and cover invented, lobby, active, ended, duplicate, and storage-unavailable paths.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Reject predictions when no live game exists."
+        },
+        "L2": {
+          "effortHours": 2,
+          "recipe": "Model lobby/open/closed admission and add direct router tests."
+        },
+        "L3": {
+          "effortHours": 4,
+          "recipe": "Expose a pure lifecycle admission contract, bind Worker composition, and verify durable resolution cannot race late predictions."
+        }
+      },
+      "executionLog": [
+        "L3 shipped: GameServer exposes a pure non-mutating prediction admission signal and PredictionLeagueRouter requires an injected real-game open-window verdict after authentication but before durable writes. Invented, lobby, and closed identities fail with a non-enumerating response while internal telemetry retains the reason; existing PostgreSQL advisory locks and resolved-game guards remain the race backstop."
+      ]
+    }
+  ]
+}

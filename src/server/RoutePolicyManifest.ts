@@ -7,7 +7,13 @@ export type RouteAuthPolicy =
   | "admin"
   | "certificate-actor";
 export type RouteEvidencePolicy =
-  "none" | "runtime-passport" | "assignment-ledger" | "result-certificate";
+  | "none"
+  | "runtime-passport"
+  | "assignment-ledger"
+  | "result-certificate"
+  | "source-participation"
+  | "game-lifecycle"
+  | "signed-replay";
 
 export interface RoutePolicy {
   id: string;
@@ -118,6 +124,33 @@ export const routePolicyManifest = [
     mutation: false,
     rateLimit: "admin-read",
     evidence: "result-certificate",
+  },
+  {
+    id: "rematch-create",
+    method: "POST",
+    path: "/api/rematch/:gameId",
+    auth: "verified-actor",
+    mutation: true,
+    rateLimit: "rematch-write",
+    evidence: "source-participation",
+  },
+  {
+    id: "prediction-league-write",
+    method: "POST",
+    path: "/api/vaultfront/prediction-league/predict",
+    auth: "verified-actor",
+    mutation: true,
+    rateLimit: "prediction-write",
+    evidence: "game-lifecycle",
+  },
+  {
+    id: "replay-custom-clip",
+    method: "POST",
+    path: "/api/replay/:gameId/clip",
+    auth: "public",
+    mutation: false,
+    rateLimit: "replay-share",
+    evidence: "signed-replay",
   },
 ] as const satisfies readonly RoutePolicy[];
 

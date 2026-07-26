@@ -30,6 +30,11 @@ export const EXTRACTED_DOMAINS = [
     forbiddenInWorker: "/api/vaultfront/prediction-league",
   },
   {
+    router: "RematchRouter.ts",
+    registration: "registerRematchRoutes",
+    forbiddenInWorker: "/api/rematch/:gameId",
+  },
+  {
     router: "ExperimentRouter.ts",
     registration: "registerExperimentRoutes",
     forbiddenInWorker: "/api/vaultfront/ab/dock",
