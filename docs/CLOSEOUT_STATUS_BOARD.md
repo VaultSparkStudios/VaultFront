@@ -1,19 +1,19 @@
-<!-- generated-by: scripts/render-closeout-board.mjs v1.1 -->
-<!-- generated-at: 2026-07-26 (Session 85 closeout) -->
+<!-- generated-by: scripts/render-closeout-board.mjs v1.0 -->
+<!-- generated-at: 2026-07-27 (Session 86 closeout) -->
 
 # Closeout Status Board — VaultFront
 
 ```
-╔══ SESSION CLOSEOUT · VaultFront · S85 ═════════════════════════╗
-║  Date: 2026-07-26  ·  SIL: 995/1000  ·  Velocity: 7 down         ║
+╔══ SESSION CLOSEOUT · VaultFront · S86 ═════════════════════════╗
+║  Date: 2026-07-27 · SIL: 995/1000 · V:5  ·  Debt: down           ║
 ║  Mode: FOUNDER  ·  Agent: codex                                  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ WHAT SHIPPED ════════════════════════════════════════════════╗
-║  ✓ Rematch join/create now requires certified source participat  ║
-║  ✓ Prediction League accepts writes only for a real started, st  ║
-║  ✓ Replay highlights and custom clips use one versioned content  ║
-║  ✓ Rematch, prediction, and replay-share evidence classes are e  ║
-║  ✓ Safest-route epsilon ordering is symmetric and its former st  ║
+║  ✓ Branch: `main`; audit 4/4 and innovations 37/37 shipped.      ║
+║  ✓ CertifiedGameAuthority is the shared archive/signature/roste  ║
+║  ✓ Leaderboards are read projections over indexed player stats;  ║
+║  ✓ Verification: 179 files / 978 tests, lint, format ratchet, p  ║
+║  ✓ Release posture remains public-unlaunched / NO-GO pending on  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ SCORES · SIL 995/1000 ═══════════════════════════════════════╗
 ║    Dev Health         100  ██████████                            ║
@@ -28,40 +28,38 @@
 ║    Automation         100  ██████████                            ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ WRITE-BACK STATUS ═══════════════════════════════════════════╗
-║  · context/CURRENT_STATE.md                                      ║
-║  · context/TASK_BOARD.md                                         ║
-║  · context/LATEST_HANDOFF.md                                     ║
-║  · logs/WORK_LOG.md                                              ║
-║  · context/DECISIONS.md                                          ║
-║  · context/SELF_IMPROVEMENT_LOOP.md                              ║
-║  · docs/CREATIVE_DIRECTION_RECORD.md                             ║
-║  · context/TRUTH_AUDIT.md                                        ║
+║  ✓ context/CURRENT_STATE.md                                      ║
+║  ✓ context/TASK_BOARD.md                                         ║
+║  ✓ context/LATEST_HANDOFF.md                                     ║
+║  ✓ logs/WORK_LOG.md                                              ║
+║  ✓ context/DECISIONS.md                                          ║
+║  ✓ context/SELF_IMPROVEMENT_LOOP.md                              ║
+║  ✓ docs/CREATIVE_DIRECTION_RECORD.md                             ║
+║  ✓ context/TRUTH_AUDIT.md                                        ║
 ║  ✓ context/PROJECT_STATUS.json                                   ║
-║  · agent memory (~/.claude/projects/<slug>/memory/)              ║
+║  · agent memory (context/BRAIN.md or agent home)                 ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ GIT STATUS ══════════════════════════════════════════════════╗
-║  Changes: 3 files  ·  M:3 A:0 D:0 ?:0                            ║
+║  Changes: 1 files  ·  M:1 A:0 D:0 ?:0                            ║
 ║  Ahead: 0  ·  Behind: 0                                          ║
 ║  Branch: main                                                    ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ DEPLOYMENT ══════════════════════════════════════════════════╗
-║  Staging:  not configured  ·  type: local                        ║
+║  Staging:  not configured  ·  type: —                            ║
 ║  Live:     N/A — pre-deploy (FORGE)                              ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ POST-SESSION SIGNALS ════════════════════════════════════════╗
 ║  Doctor:        11/11                                            ║
 ║  Compliance:    49/49                                            ║
-║  Tests:         972/972                                          ║
-║  Validation:    full-fresh                                       ║
+║  Tests:         978/978                                          ║
 ║  IGNIS:         4d ago                                           ║
 ║  Truth:         green                                            ║
 ║  Sanitization:  1d ago                                           ║
-║  shells:        1 started · 1 closed · 0 running                 ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ NEXT SESSION ════════════════════════════════════════════════╗
 ║  #1: Unified Genius List exhausted                               ║
-║      No pending unblocked audit or innovation item remains.      ║
+║      No pending unblocked audit item remains.                    ║
 ╚════════════════════════════════════════════════════════════════╝
 ```
 
-_Generated by `scripts/render-closeout-board.mjs v1.1`_
+_Generated by `scripts/render-closeout-board.mjs v1.0`_
