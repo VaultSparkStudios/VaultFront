@@ -215,7 +215,12 @@ export class TournamentModal extends LitElement {
     }
   }
 
-  private async reportWinner(matchId: number, winnerId: string): Promise<void> {
+  private async reportWinner(
+    matchId: number,
+    _winnerId: string,
+  ): Promise<void> {
+    const gameId = window.prompt("Archived certified game ID");
+    if (!gameId?.trim()) return;
     this.error = "";
     this.successMsg = "";
     try {
@@ -228,7 +233,7 @@ export class TournamentModal extends LitElement {
             Authorization:
               (await getAuthHeader()) || `Bearer ${await getPlayToken()}`,
           },
-          body: JSON.stringify({ winnerId }),
+          body: JSON.stringify({ gameId: gameId.trim() }),
         },
       );
       const data = await res.json();

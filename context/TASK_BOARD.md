@@ -279,3 +279,12 @@ All three premise-verified L3 findings in `docs/AUDIT_2026-07-25.json` shipped. 
 ### External release evidence boundary
 
 - [deferred] Release remains NO-GO until an explicitly approved staging origin/callback contract exists and exact-digest parity, project-domain delivery, native Obelisk, live headers/Core Web Vitals/themes, three-human Alpha, revenue, rollback, and founder approval are observed. READY credentials and local E2E do not satisfy those gates.
+
+## Unified Genius List (2026-07-26 — Session 86 /arc)
+
+- [done] ✨ second-order security / organization · `unified-certified-game-authority` — One archive/signature/roster/identity kernel now governs dynasty, tournament, and remote-AI consumers.
+
+- [done] 🔥 security / artificial intelligence / token reduction / retention · 8h · `certificate-bound-dynasty-chronicle` — Turn Dynasty Story into a certificate-bound clan chronicle.
+- [done] 🔥 security / gamification / feature depth / organization · 12h · `certified-tournament-result-spine` — Make every tournament advancement consume a certified match result.
+- [done] 🔥 speed / organization / reliability / observability · 6h · `transaction-decoupled-leaderboard-projection` — Remove table-wide leaderboard work from the certified match transaction.
+- [done] ⚡ gamification / retention / security / feedback loop · 7h · `certified-rivalry-revenge-projection` — Make Rival Challenge a signed revenge projection from deterministic simulation.

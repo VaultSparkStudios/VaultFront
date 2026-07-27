@@ -79,6 +79,12 @@ export interface LeaderboardEntry {
   matchesPlayed: number;
   wins: number;
 }
+export interface LeaderboardProjection {
+  schemaVersion: "1.0";
+  source: "player-stats-index" | "process-memory";
+  computedAt: string;
+  entries: LeaderboardEntry[];
+}
 
 // ── In-memory data structures ──────────────────────────────────────────────────
 
@@ -123,8 +129,8 @@ export class PlayerStatsStore {
   private readonly memCompletedGameIds = new Set<string>();
   private nextId = 1;
 
-  constructor() {
-    if (pool) {
+  constructor(private readonly database = pool) {
+    if (this.database) {
       log.info("PlayerStatsStore using Postgres");
     } else {
       log.warn(
@@ -196,23 +202,6 @@ export class PlayerStatsStore {
     };
   }
 
-  /** Refresh leaderboard_cache inside an open transaction. */
-  private async pgRefreshLeaderboard(
-    client: import("pg").PoolClient,
-  ): Promise<void> {
-    await client.query("TRUNCATE leaderboard_cache");
-    await client.query(
-      `INSERT INTO leaderboard_cache
-         (persistent_id, display_name, elo_rating, rank, matches_played, wins, updated_at)
-       SELECT persistent_id, display_name, elo_rating,
-              ROW_NUMBER() OVER (ORDER BY elo_rating DESC) AS rank,
-              matches_played, wins, NOW()
-       FROM player_stats
-       ORDER BY elo_rating DESC
-       LIMIT 1000`,
-    );
-  }
-
   // ── Public API ───────────────────────────────────────────────────────────────
 
   /**
@@ -227,7 +216,7 @@ export class PlayerStatsStore {
     gameId: string,
     result: MatchResult,
   ): Promise<boolean> {
-    if (pool) {
+    if (this.database) {
       return this.pgRecordMatch(persistentId, displayName, gameId, result);
     }
     return this.memRecordMatch(persistentId, displayName, gameId, result);
@@ -239,7 +228,7 @@ export class PlayerStatsStore {
     gameId: string,
     result: MatchResult,
   ): Promise<boolean> {
-    const client = await pool!.connect();
+    const client = await this.database!.connect();
     try {
       await client.query("BEGIN");
 
@@ -365,7 +354,6 @@ export class PlayerStatsStore {
         });
       }
 
-      await this.pgRefreshLeaderboard(client);
       await client.query("COMMIT");
       return true;
     } catch (err) {
@@ -462,8 +450,8 @@ export class PlayerStatsStore {
     persistentId: string,
     limit = 20,
   ): Promise<MatchHistoryEntry[]> {
-    if (pool) {
-      const res = await pool.query<{
+    if (this.database) {
+      const res = await this.database.query<{
         id: number;
         persistent_id: string;
         game_id: string;
@@ -525,10 +513,12 @@ export class PlayerStatsStore {
       }));
   }
 
-  /** Get the global leaderboard sorted by Elo descending. */
-  async getLeaderboard(limit = 50): Promise<LeaderboardEntry[]> {
-    if (pool) {
-      const res = await pool.query<{
+  /** Build a deterministic, versioned top-N projection from player_stats. */
+  async getLeaderboardProjection(limit = 50): Promise<LeaderboardProjection> {
+    const cappedLimit = Math.max(1, Math.min(1000, Math.floor(limit)));
+    const computedAt = new Date().toISOString();
+    if (this.database) {
+      const res = await this.database.query<{
         persistent_id: string;
         display_name: string;
         elo_rating: number;
@@ -536,40 +526,70 @@ export class PlayerStatsStore {
         matches_played: number;
         wins: number;
       }>(
-        `SELECT persistent_id, display_name, elo_rating, rank, matches_played, wins
-         FROM leaderboard_cache
-         ORDER BY rank ASC
-         LIMIT $1`,
-        [limit],
+        `WITH top_players AS (
+           SELECT persistent_id, display_name, elo_rating, matches_played, wins
+             FROM player_stats
+            WHERE matches_played > 0
+            ORDER BY elo_rating DESC, persistent_id ASC
+            LIMIT $1
+         )
+         SELECT persistent_id, display_name, elo_rating,
+                ROW_NUMBER() OVER (
+                  ORDER BY elo_rating DESC, persistent_id ASC
+                ) AS rank,
+                matches_played, wins
+           FROM top_players
+          ORDER BY elo_rating DESC, persistent_id ASC`,
+        [cappedLimit],
       );
-      return res.rows.map((r) => ({
-        persistentId: r.persistent_id,
-        displayName: r.display_name,
-        eloRating: r.elo_rating,
-        rank: r.rank,
-        matchesPlayed: r.matches_played,
-        wins: r.wins,
-      }));
+      return {
+        schemaVersion: "1.0",
+        source: "player-stats-index",
+        computedAt,
+        entries: res.rows.map((row) => ({
+          persistentId: row.persistent_id,
+          displayName: row.display_name,
+          eloRating: row.elo_rating,
+          rank: Number(row.rank),
+          matchesPlayed: row.matches_played,
+          wins: row.wins,
+        })),
+      };
     }
 
-    return Array.from(this.memPlayers.values())
-      .filter((p) => p.matchesPlayed > 0)
-      .sort((a, b) => b.eloRating - a.eloRating)
-      .slice(0, limit)
-      .map((p, idx) => ({
-        persistentId: p.persistentId,
-        displayName: p.displayName,
-        eloRating: p.eloRating,
-        rank: idx + 1,
-        matchesPlayed: p.matchesPlayed,
-        wins: p.wins,
+    const entries = Array.from(this.memPlayers.values())
+      .filter((player) => player.matchesPlayed > 0)
+      .sort(
+        (left, right) =>
+          right.eloRating - left.eloRating ||
+          left.persistentId.localeCompare(right.persistentId),
+      )
+      .slice(0, cappedLimit)
+      .map((player, index) => ({
+        persistentId: player.persistentId,
+        displayName: player.displayName,
+        eloRating: player.eloRating,
+        rank: index + 1,
+        matchesPlayed: player.matchesPlayed,
+        wins: player.wins,
       }));
+    return {
+      schemaVersion: "1.0",
+      source: "process-memory",
+      computedAt,
+      entries,
+    };
+  }
+
+  /** Backward-compatible entry list for existing callers. */
+  async getLeaderboard(limit = 50): Promise<LeaderboardEntry[]> {
+    return (await this.getLeaderboardProjection(limit)).entries;
   }
 
   /** Get aggregate stats for a single player. */
   async getPlayerStats(persistentId: string): Promise<PlayerStats | null> {
-    if (pool) {
-      const res = await pool.query<{
+    if (this.database) {
+      const res = await this.database.query<{
         persistent_id: string;
         display_name: string;
         elo_rating: number;
@@ -627,8 +647,8 @@ export class PlayerStatsStore {
 
   /** Returns the last N elo_after values from match history for sparkline rendering. */
   async getEloHistory(persistentId: string, limit = 10): Promise<number[]> {
-    if (pool) {
-      const res = await pool.query<{ elo_after: number }>(
+    if (this.database) {
+      const res = await this.database.query<{ elo_after: number }>(
         `SELECT elo_after FROM match_history
          WHERE persistent_id = $1
          ORDER BY created_at DESC
@@ -656,8 +676,8 @@ export class PlayerStatsStore {
     winnerPersistentId: string,
     emblem: string,
   ): Promise<void> {
-    if (!pool) return;
-    const client = await pool.connect();
+    if (!this.database) return;
+    const client = await this.database.connect();
     try {
       await client.query("BEGIN");
       // Break the existing dynasty holder (mark broken_by the new winner)
@@ -689,7 +709,7 @@ export class PlayerStatsStore {
   async getTopRatedPlayer(): Promise<
     { persistentId: string; displayName: string; eloRating: number } | undefined
   > {
-    if (!pool) {
+    if (!this.database) {
       // In-memory path
       let top: InMemoryPlayerRecord | undefined;
       for (const rec of this.memPlayers.values()) {
@@ -703,7 +723,7 @@ export class PlayerStatsStore {
           }
         : undefined;
     }
-    const result = await pool
+    const result = await this.database
       .query(
         `SELECT persistent_id, display_name, elo_rating
            FROM player_stats
@@ -733,8 +753,8 @@ export class PlayerStatsStore {
     const flagged =
       signals.cmdActionsPerTick > 2.5 ||
       (signals.cmdMeanIntervalMs < 50 && signals.cmdStddevMs < 5);
-    if (pool) {
-      await pool
+    if (this.database) {
+      await this.database
         .query(
           `UPDATE match_history
              SET cmd_mean_interval_ms = $3,
@@ -768,8 +788,8 @@ export class PlayerStatsStore {
       createdAt: string;
     }>
   > {
-    if (!pool) return [];
-    const result = await pool
+    if (!this.database) return [];
+    const result = await this.database
       .query(
         `SELECT persistent_id, game_id, cmd_mean_interval_ms,
                 cmd_stddev_ms, cmd_actions_per_tick, created_at
@@ -794,8 +814,8 @@ export class PlayerStatsStore {
   async seasonalSoftReset(): Promise<void> {
     const cap = EloRating.SEASONAL_SOFT_RESET_CAP;
     const def = EloRating.DEFAULT_RATING;
-    if (pool) {
-      await pool
+    if (this.database) {
+      await this.database
         .query(
           `UPDATE player_stats
            SET elo_rating = CASE

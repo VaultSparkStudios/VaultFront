@@ -1,6 +1,20 @@
+## Where We Left Off — Session 86 closeout (2026-07-27)
+
+- Branch: `main`; audit 4/4 and innovations 37/37 shipped.
+- CertifiedGameAuthority is the shared archive/signature/roster/identity boundary for dynasty, tournament, and remote-AI consumers.
+- Leaderboards are read projections over indexed player stats; rivalry revenge is a deterministic certified stat, not browser storage.
+- Verification: 179 files / 978 tests, lint, format ratchet, production build, bundle budgets, and 26/26 E2E green.
+- Release posture remains public-unlaunched / NO-GO pending only real external evidence; do not infer staging from local proof.
+
 # Latest Handoff
 
 This repo keeps only public-safe recent handoff history. Detailed operational history is maintained privately.
+
+## Session Intent — 2026-07-26 — Session 86
+
+Run the complete agent-neutral arc as one continuous mission: audit live code with the infrastructure rubric plus VaultFront's public-app release lens; implement every verified primary item and generated second-order innovation at the highest optimal quality; preserve source-derived observability and direct exit-code truth; then complete canonical closeout, sanitize, commit, and push directly to `main` without fabricating external release evidence.
+
+---
 
 ## Where We Left Off — 2026-07-26 — Session 85 participant-bound continuation and replay-evidence closeout
 

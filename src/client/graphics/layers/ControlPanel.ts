@@ -170,9 +170,6 @@ export class ControlPanel extends LitElement implements Layer {
   private jamOnNextPulseArmed = false;
 
   @state()
-  private rivalryTargetID: number | null = null;
-
-  @state()
   private hudCompactMode = false;
 
   @state()
@@ -644,21 +641,6 @@ export class ControlPanel extends LitElement implements Layer {
         update.sourcePlayerID === myID
       ) {
         pulseTriggered = true;
-      }
-      if (update.activity === "convoy_intercepted") {
-        if (update.targetPlayerID === myID && update.sourcePlayerID !== null) {
-          this.rivalryTargetID = update.sourcePlayerID;
-        }
-        if (
-          update.sourcePlayerID === myID &&
-          this.rivalryTargetID !== null &&
-          update.targetPlayerID === this.rivalryTargetID
-        ) {
-          const key = "vaultfront.rivalryRevengeCount";
-          const prev = Number(localStorage.getItem(key) ?? "0");
-          localStorage.setItem(key, String(prev + 1));
-          this.rivalryTargetID = null;
-        }
       }
     }
 

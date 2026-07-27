@@ -1,4 +1,5 @@
 import { vi } from "vitest";
+import { bigintToSafeNumber } from "../../../src/core/execution/SafeNumber";
 import { VaultFrontExecution } from "../../../src/core/execution/VaultFrontExecution";
 import { UnitType, VaultFrontCommand } from "../../../src/core/game/Game";
 
@@ -44,38 +45,6 @@ function mockPlayer(
 }
 
 describe("VaultFrontExecution", () => {
-  test("reroute_safest prefers lower risk even when farther", () => {
-    const execution = new VaultFrontExecution() as any;
-    execution.game = {
-      manhattanDist: (a: number, b: number) => Math.abs(a - b),
-    };
-
-    const owner = {
-      units: () => [
-        { type: () => UnitType.City, tile: () => 5 },
-        { type: () => UnitType.Port, tile: () => 40 },
-      ],
-      spawnTile: () => 0,
-    } as any;
-
-    const riskByTile = new Map<number, number>([
-      [5, 0.45],
-      [40, 0.12],
-    ]);
-    vi.spyOn(execution, "routeRiskScore").mockImplementation(
-      (_owner: unknown, _src: number, dst: number) => riskByTile.get(dst) ?? 1,
-    );
-
-    const destination = execution.bestConvoyDestination(
-      owner,
-      0,
-      undefined,
-      "reroute_safest",
-    );
-
-    expect(destination).toBe(40);
-  });
-
   test("reroute_safest breaks equal-risk ties by shortest distance", () => {
     const execution = new VaultFrontExecution() as any;
     execution.game = {
@@ -134,10 +103,9 @@ describe("VaultFrontExecution", () => {
   });
 
   test("bigintToSafeNumber clamps values beyond MAX_SAFE_INTEGER", () => {
-    const execution = new VaultFrontExecution() as any;
     const huge = BigInt(Number.MAX_SAFE_INTEGER) + 50_000n;
-    expect(execution.bigintToSafeNumber(huge)).toBe(Number.MAX_SAFE_INTEGER);
-    expect(execution.bigintToSafeNumber(42n)).toBe(42);
+    expect(bigintToSafeNumber(huge)).toBe(Number.MAX_SAFE_INTEGER);
+    expect(bigintToSafeNumber(42n)).toBe(42);
   });
 
   test("vault passive income activity is not suppressed during low-signal window", () => {

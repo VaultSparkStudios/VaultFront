@@ -126,6 +126,7 @@ export const VaultFrontPlayerStatsSchema = z
     vaultInteractions: BigIntStringSchema.optional(),
     cleanExecutionStreaks: BigIntStringSchema.optional(),
     squadObjectiveCompletions: BigIntStringSchema.optional(),
+    rivalryRevengeCount: BigIntStringSchema.optional(),
   })
   .optional();
 

@@ -18,6 +18,8 @@ import {
 } from "../game/GameUpdates";
 import { PseudoRandom } from "../PseudoRandom";
 import { simpleHash } from "../Util";
+import { RivalryRevengeTracker } from "./RivalryRevengeTracker";
+import { bigintToSafeNumber } from "./SafeNumber";
 import { planConvoyReward, type ConvoyRewardPlan } from "./VaultFrontBalance";
 import {
   projectVaultFrontMutatorBalance,
@@ -134,6 +136,7 @@ export class VaultFrontExecution implements Execution {
   private heistConvoyId = new Map<number, number>();
   private heistCooldownUntil = new Map<number, number>();
   private convoyInterceptsBy = new Map<number, Map<number, number>>();
+  private rivalryRevenge = new RivalryRevengeTracker();
   private activeBounties = new Map<
     number,
     { reward: bigint; chargesLeft: number; expiresAtTick: number }
@@ -1451,7 +1454,7 @@ export class VaultFrontExecution implements Execution {
       site.tile,
       owner.smallID(),
       null,
-      `Vault ${site.id} passive +${this.bigintToSafeNumber(passiveGold).toLocaleString()}g`,
+      `Vault ${site.id} passive +${bigintToSafeNumber(passiveGold).toLocaleString()}g`,
       120,
     );
     site.nextPassiveGoldTick =
@@ -1934,7 +1937,7 @@ export class VaultFrontExecution implements Execution {
       etaSeconds: Math.ceil(travelTicks / 10),
       routeRisk,
       routeDistance: distance,
-      rewardGold: this.bigintToSafeNumber(rewardPlan.goldReward),
+      rewardGold: bigintToSafeNumber(rewardPlan.goldReward),
       rewardTroops: rewardPlan.troopsReward,
       rewardScale: rewardPlan.rewardScale,
     });
@@ -2067,6 +2070,7 @@ export class VaultFrontExecution implements Execution {
         this.applyInterceptSurgeBonus(interceptor, currentTile);
         this.game.stats().vaultConvoyIntercepted(interceptor);
         this.game.stats().vaultConvoyLost(owner, this.game.ticks());
+        this.rivalryRevenge.record(interceptor, owner, this.game.stats());
         this.game.stats().vaultInteraction(interceptor);
         this.resetExecutionChain(owner.smallID());
         this.contributeToSquadObjective(interceptor, ticks, currentTile);
@@ -2446,7 +2450,7 @@ export class VaultFrontExecution implements Execution {
       rewardScale,
     );
     return {
-      projectedGoldReward: this.bigintToSafeNumber(plan.goldReward),
+      projectedGoldReward: bigintToSafeNumber(plan.goldReward),
       projectedTroopsReward: plan.troopsReward,
       projectedRewardMultiplier: plan.rewardMultiplier,
       projectedRewardScale: plan.rewardScale,
@@ -2489,7 +2493,7 @@ export class VaultFrontExecution implements Execution {
   }> {
     const currentTile = this.convoyProgressTile(convoy);
     const currentEta = Math.ceil(convoy.ticksRemaining / 10);
-    const currentGold = this.bigintToSafeNumber(convoy.goldReward);
+    const currentGold = bigintToSafeNumber(convoy.goldReward);
     const currentTroops = convoy.troopsReward;
     const commands = [
       "reroute_city",
@@ -2530,7 +2534,7 @@ export class VaultFrontExecution implements Execution {
         ticks,
         convoy.rewardScale,
       );
-      const gold = this.bigintToSafeNumber(plan.goldReward);
+      const gold = bigintToSafeNumber(plan.goldReward);
       const troops = plan.troopsReward;
       const etaSeconds = Math.ceil(travelTicks / 10);
       return {
@@ -2595,12 +2599,10 @@ export class VaultFrontExecution implements Execution {
       weeklyMutator: this.weeklyMutator,
       captureTicksRequired: this.mutatorBalance.vaultCaptureTicks,
       cooldownTicksTotal: this.mutatorBalance.vaultCooldownTicks,
-      passiveGoldPerMinute: this.bigintToSafeNumber(
+      passiveGoldPerMinute: bigintToSafeNumber(
         this.mutatorBalance.vaultPassiveGoldPerMinute,
       ),
-      jamBreakerGoldCost: this.bigintToSafeNumber(
-        this.tuning.jamBreakerGoldCost,
-      ),
+      jamBreakerGoldCost: bigintToSafeNumber(this.tuning.jamBreakerGoldCost),
       escortDurationTicks: this.mutatorBalance.escortDurationTicks,
       sites: this.vaultSites.map((site) => {
         const projected = this.projectedSiteReward(site);
@@ -2639,7 +2641,7 @@ export class VaultFrontExecution implements Execution {
           ticksRemaining: convoy.ticksRemaining,
           totalTicks: convoy.totalTicks,
           escortShield: convoy.escortShield,
-          goldReward: this.bigintToSafeNumber(convoy.goldReward),
+          goldReward: bigintToSafeNumber(convoy.goldReward),
           troopsReward: convoy.troopsReward,
           rewardMultiplier: convoy.rewardMultiplier,
           rewardScale: convoy.rewardScale,
@@ -2883,17 +2885,6 @@ export class VaultFrontExecution implements Execution {
         cooldownTicks: site.cooldownTicks,
       })),
     });
-  }
-
-  private bigintToSafeNumber(value: bigint): number {
-    const max = BigInt(Number.MAX_SAFE_INTEGER);
-    if (value >= max) {
-      return Number.MAX_SAFE_INTEGER;
-    }
-    if (value <= 0n) {
-      return 0;
-    }
-    return Number(value);
   }
 
   isActive(): boolean {

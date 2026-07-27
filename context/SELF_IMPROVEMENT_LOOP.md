@@ -4,12 +4,32 @@ Detailed internal scoring, audit trends, and brainstorming are maintained privat
 
 <!-- rolling-status-start -->
 
-Total: 993/1000 | Velocity: 8 | Debt: ↓ | Velocity trend: ↑
-Avgs — 3: 992.3 | Momentum runway: authorized staging-evidence corridor | Intent rate: 100%
-Categories: Dev 100 | Align 100 | Momentum 100 | Engage 98 | Process 100 | Coherence 98 | Security 99 | Ecosystem 98 | Capital 100 | Automation 100
-Last session: 2026-07-24 Session 84 certified feedback and balance-identity arc
+Total: 995/1000 | Velocity: 5 | Debt: ↓ | Velocity trend: →
+Avgs — 3: 994.3 | Momentum runway: external staging-evidence corridor | Intent rate: 100%
+Categories: Dev 100 | Align 100 | Momentum 100 | Engage 98 | Process 100 | Coherence 99 | Security 100 | Ecosystem 98 | Capital 100 | Automation 100
+Last session: 2026-07-27 Session 86 certified competitive truth arc
 
 <!-- rolling-status-end -->
+
+## Sprint: 2026-07-27 — Session 86 Certified Competitive Truth Arc (SIL: 995/1000)
+
+Shipped all 4 live-code audit findings and the second-order certified-authority innovation. Dynasty chronicles and tournament advancement now consume archived majority-certified outcomes; rivalry revenge is deterministic certified progression; leaderboard reads are stable indexed projections outside match transactions. Full verification passed: 978 tests, lint, format ratchet, production build, 28,125 balance scenarios, bundle budgets, and 26 E2E checks.
+
+| Category              |        Score | Evidence                                                                                     |
+| --------------------- | -----------: | -------------------------------------------------------------------------------------------- |
+| Dev Health            |          100 | Full suite/build/lint/format/bundle/E2E green.                                               |
+| Creative Alignment    |          100 | Competitive truth strengthens VaultFront dynasty, rivalry, and tournament fantasy.           |
+| Momentum              |          100 | Audit 4/4 and innovations 37/37 exhausted.                                                   |
+| Engagement            |           98 | Stronger certified retention loops; no human preference/retention evidence invented.         |
+| Process Quality       |          100 | Live premise validation, shared authority root-fix, direct exit codes, and exhaustive gates. |
+| Cross-Repo Coherence  |           99 | Local truth preserved; registry correction routed through Ark, acceptance external.          |
+| Security Posture      |          100 | Caller-authored outcomes retired across all admitted competitive mutations.                  |
+| Ecosystem Integration |           98 | Agent/policy/evidence surfaces align; live Obelisk/email/staging remain external.            |
+| Capital Efficiency    |          100 | Indexed projection and bounded AI reservations; Max-plan cost remains notional.              |
+| Automation Coverage   |          100 | Certificate, composition, exhaustion, build, balance, bundle, and E2E contracts execute.     |
+| **Total**             | **995/1000** | Evidence-based; absent live launch evidence earns no points.                                 |
+
+**Delta: 995 → 995.** Engineering depth increased while the score correctly holds because the remaining gap is real-world engagement/ecosystem evidence.
 
 ## Sprint: 2026-07-16 — Session 74 Saturated Integrity Arc (SIL: 968/1000)
 

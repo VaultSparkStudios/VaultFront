@@ -2112,9 +2112,8 @@ export class WinModal extends LitElement implements Layer {
 
     this.rivalryRevengeDelta = Math.max(
       0,
-      Number(localStorage.getItem("vaultfront.rivalryRevengeCount") ?? "0"),
+      Number(this.toBigInt(myStats?.vaultfront?.rivalryRevengeCount)),
     );
-    localStorage.removeItem("vaultfront.rivalryRevengeCount");
     if (this.rivalryRevengeDelta > 0 && !this.rivalChallengeExposureTracked) {
       this.rivalChallengeExposureTracked = true;
       this.recordRivalChallengePulse("rival_challenge_shown");

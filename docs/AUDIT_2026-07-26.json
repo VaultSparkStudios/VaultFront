@@ -1,0 +1,315 @@
+{
+  "schemaVersion": "1.0",
+  "session": 86,
+  "generatedBy": "Codex /goal /arc Session 86",
+  "generatedAt": "2026-07-26T21:55:00Z",
+  "project": {
+    "slug": "vaultfront",
+    "name": "VaultFront",
+    "type": "game",
+    "registryType": "app",
+    "audience": "public-unlaunched",
+    "stage": "FORGE",
+    "stagingType": "local"
+  },
+  "summary": "Infrastructure-weighted, game-loop-aware live audit after Session 85 exhausted 3/3 primary items and 36/36 innovations. Four new premises survive direct code review. Dynasty Story is an exposed authenticated mutation that accepts browser-authored clan identity and outcomes, has no production caller, and can append to any clan. Tournament advancement trusts a creator-entered winner while every bracket match retains gameId=null and consumes no result certificate. PlayerStatsStore truncates and reconstructs leaderboard_cache inside every certified match transaction. Rival Challenge progress is written to localStorage from client activity events even though the attested match-stat spine can carry the same deterministic rivalry evidence. External release gates remain evidence corridors, not implementation claims.",
+  "axes": {
+    "featureDepth": 1.5,
+    "innovation": 1.5,
+    "ux": 2,
+    "feedbackLoop": 1.5,
+    "gamification": 3,
+    "aiIntegration": 1.5,
+    "security": 2.5,
+    "speedOrganization": 2,
+    "tokenApiReduction": 2
+  },
+  "candidateGeneration": {
+    "featureDepth": 4,
+    "innovation": 4,
+    "ux": 3,
+    "feedbackLoop": 3,
+    "gamification": 5,
+    "aiIntegration": 3,
+    "security": 6,
+    "speedOrganization": 6,
+    "tokenApiReduction": 3,
+    "novelCandidates": 4,
+    "survivors": 4
+  },
+  "sample": {
+    "method": "Targeted live-code and contract survey; sample-codebase and studio-oracle helpers are absent, so premises were manually traced across registration, store, schema, client, attestation, and executable contract surfaces.",
+    "filesSurveyed": 20,
+    "primarySurfaces": [
+      "src/server/Worker.ts",
+      "src/server/ClanStore.ts",
+      "src/server/TournamentStore.ts",
+      "src/server/PlayerStatsStore.ts",
+      "src/server/MatchProgression.ts",
+      "src/server/MatchResultCertificate.ts",
+      "src/server/CanonicalAiEvidence.ts",
+      "src/server/RoutePolicyManifest.ts",
+      "src/server/db/schema.sql",
+      "src/core/StatsSchemas.ts",
+      "src/core/game/Stats.ts",
+      "src/core/game/StatsImpl.ts",
+      "src/core/execution/VaultFrontExecution.ts",
+      "src/client/Api.ts",
+      "src/client/graphics/layers/ControlPanel.ts",
+      "src/client/graphics/layers/WinModal.ts",
+      "config/mutation-route-policies.json",
+      "scripts/check-route-policy-coverage.mjs",
+      "scripts/check-worker-composition.mjs",
+      "context/PROJECT_STATUS.json"
+    ]
+  },
+  "specialtyReviews": {
+    "gameLoop": {
+      "score": 94,
+      "confidence": "code-grounded-low-empirical",
+      "axes": {
+        "loopTightness": 97,
+        "progression": 96,
+        "sessionEngagement": 92,
+        "retention": 89,
+        "soulFidelity": 98
+      },
+      "nextMoves": [
+        "Make competitive brackets consume the same certified result authority as progression.",
+        "Turn Rival Challenge into a signed deterministic match projection instead of browser memory.",
+        "Make clan history an actor-, clan-, and certificate-bound chronicle."
+      ],
+      "boundary": "No GAME_LOOP.md or recent human playtest documents exist locally, so values and balance are not retuned. The review scores implementation coherence, not human preference."
+    },
+    "release": {
+      "verdict": "no-go",
+      "passing": [
+        "cost-neutral and cost-content gates allow",
+        "41/41 mutation policies, composition budgets, deploy contracts, gameplay balance authority, footer manifest, and local source reachability are green",
+        "the repo remains proprietary-first and public-unlaunched"
+      ],
+      "red": [
+        "no approved staging origin or exact-digest promotion receipt",
+        "no project-domain delivery or native Obelisk relying-party receipt",
+        "no live web/theme/Core Web Vitals, three-human Alpha, revenue, rollback observation, or founder approval"
+      ]
+    },
+    "infrastructure": {
+      "staleScripts": {
+        "total": 93,
+        "touchedWithin90Days": 91,
+        "stale": [
+          "scripts/postbuild-pages.mjs",
+          "scripts/validate-agent-dna.mjs"
+        ],
+        "disposition": "Low-priority until reachability proves either file orphaned; age alone is not deletion evidence."
+      },
+      "topRisks": [
+        "untrusted browser claims can write durable clan narrative",
+        "tournament state can advance without a bound game or certified result",
+        "leaderboard refresh amplifies each match into a table-wide write inside the correctness transaction",
+        "retention evidence crosses from deterministic simulation into mutable browser storage"
+      ],
+      "godObjects": [
+        "ControlPanel.ts exceeds 3,300 physical lines",
+        "Worker.ts is 3,050 formatter-stable lines but remains within its executable 3,130-line budget",
+        "WinModal.ts is 2,384 formatter-stable lines but remains within its executable 2,400-line budget"
+      ],
+      "dependencyPosture": "Pinned versions are intentionally below many latest majors. No upgrade is admitted without a concrete defect, package-trust evidence, and compatibility proof."
+    }
+  },
+  "evidenceBoundary": [
+    "Local automation cannot manufacture staging, project-domain delivery, relying-party registration, distinct-human Alpha, revenue, rollback observation, or founder approval.",
+    "PROJECT_STATUS identifies VaultFront as game while the sibling registry identifies it as app. CANON-018 requires signed Ark cargo rather than a sibling-tree edit.",
+    "No dependency install, paid service, license change, sibling-tree edit, or fabricated release data is required for the four admitted items.",
+    "Human-facing balance values remain unchanged because no distinct-human Alpha corpus exists."
+  ],
+  "rejectedPremises": [
+    {
+      "candidate": "Split Worker solely because it is large",
+      "result": "skipped",
+      "evidence": "The executable composition contract reports 3,050/3,130 lines and every extracted router is within budget. Extraction is justified only when an admitted authority seam needs it."
+    },
+    {
+      "candidate": "Split WinModal solely because it is large",
+      "result": "skipped",
+      "evidence": "The executable composition contract reports 2,384/2,400 lines and PostMatchSessionOrchestrator is 234/240. This session targets truth defects, not aesthetic line-count churn."
+    },
+    {
+      "candidate": "Retune Vault Pressure, convoy rewards, rivalry thresholds, or tournament sizes",
+      "result": "skipped",
+      "evidence": "No recent human playtest corpus exists. Deterministic balance consistency is not preference evidence."
+    },
+    {
+      "candidate": "Upgrade every dependency reported by npm outdated",
+      "result": "skipped",
+      "evidence": "Most available versions are major-line changes. No live defect justifies trust, migration, and regression cost; the production dependency audit was already zero at the last verified closeout."
+    },
+    {
+      "candidate": "Replace the bounded worker-affine game ID generator",
+      "result": "skipped",
+      "evidence": "The prior audit proved bounded retries, ownership validation, collision rejection, and a negligible exhaustion surface."
+    },
+    {
+      "candidate": "Add remote AI to deterministic replay-highlight selection",
+      "result": "skipped",
+      "evidence": "The selector is already replayable, cost-neutral, and vocabulary-aligned. Remote generation would weaken determinism without a measured quality gap."
+    },
+    {
+      "candidate": "Treat local E2E or READY credentials as staging evidence",
+      "result": "skipped",
+      "evidence": "Local proof and credential readiness do not define an approved origin, callback contract, promotion target, or live observation."
+    },
+    {
+      "candidate": "Delete two scripts solely because they are older than 90 days",
+      "result": "skipped",
+      "evidence": "Age is a triage signal, not orphan evidence. Their workflow/package reachability must be proven before removal."
+    }
+  ],
+  "items": [
+    {
+      "id": 86,
+      "slug": "certificate-bound-dynasty-chronicle",
+      "tier": "🔥",
+      "axis": "security / artificial intelligence / token reduction / retention",
+      "effortHours": 8,
+      "impact": 10,
+      "innovation": 9,
+      "priority": 27.1,
+      "status": "shipped",
+      "title": "Turn Dynasty Story into a certificate-bound clan chronicle",
+      "why": "POST /api/vaultfront/dynasty-story accepts clanId, clanName, outcomes, and moments from any resolved identity, then appends generated text to that clan. It does not prove clan membership or match participation, consumes no result certificate, and has no client caller. A durable public history can therefore be fabricated or poisoned.",
+      "coreLoopStep": "certified clan participant → completed match → tamper-evident dynasty chapter",
+      "recipe": "Replace the browser-authored mutation with an extracted DynastyChronicleRouter accepting only gameId. Resolve the verified actor, archived result certificate, participant record, and authoritative clan membership; derive canonical inputs from the record; create a canonical AI evidence/response receipt; append at most once per clan/game behind a database uniqueness constraint; expose receipt metadata with the story; wire WinModal to request the current certified chapter; bind the route into both policy surfaces; cover outsider, nonparticipant, wrong clan, replay, tamper, duplicate, provider failure, and process-local posture.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 2,
+          "recipe": "Reject claimed clan/outcome fields and require the actor to belong to the requested clan."
+        },
+        "L2": {
+          "effortHours": 4,
+          "recipe": "Accept only gameId, derive clan/outcomes from an archived result certificate, and deduplicate clan/game writes."
+        },
+        "L3": {
+          "effortHours": 8,
+          "recipe": "Extract the router, create canonical request/response receipts, persist a certificate- and evidence-bound event exactly once, expose structured provenance, wire the post-match caller, and ratchet route/composition policy."
+        }
+      },
+      "executionLog": [
+        "Premise re-verified against live code before implementation.",
+        "Implemented at the shared authority/source-of-truth seam.",
+        "Focused regressions, TypeScript, and architectural contracts passed."
+      ],
+      "complete": true
+    },
+    {
+      "id": 87,
+      "slug": "certified-tournament-result-spine",
+      "tier": "🔥",
+      "axis": "security / gamification / feature depth / organization",
+      "effortHours": 12,
+      "impact": 10,
+      "innovation": 9,
+      "priority": 23.6,
+      "status": "shipped",
+      "title": "Make every tournament advancement consume a certified match result",
+      "why": "Tournament report accepts creator-entered winnerId. TournamentMatch.gameId is initialized null and never assigned, so bracket advancement, completion, and downstream competitive meaning are not tied to an actual match or its certificate.",
+      "coreLoopStep": "seeded pairing → bound private match → certified winner → idempotent bracket advancement",
+      "recipe": "Extract a TournamentRouter and a pure TournamentResultAuthority. Change reporting to accept gameId only; load the archived GameRecord and verify its result certificate; map certificate client IDs to persistent participants; require exact bracket participant and map identity; derive the winner server-side; store gameId plus certificateId atomically; reject reuse across matches and duplicate/conflicting reports; persist errors rather than silently claiming success; bind result-certificate evidence in route policy; and cover byes, wrong players, wrong map, invalid certificate, team-shaped result, replay, restart hydration, and concurrent reports.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 3,
+          "recipe": "Require a gameId and derive the winner from a verified archived certificate."
+        },
+        "L2": {
+          "effortHours": 7,
+          "recipe": "Bind exact participants/map, persist game and certificate identity, and reject duplicate game reuse."
+        },
+        "L3": {
+          "effortHours": 12,
+          "recipe": "Extract router and pure authority seams, add transactional/idempotent persistence and hydration, enforce route policy, and cover adversarial plus concurrent advancement."
+        }
+      },
+      "executionLog": [
+        "Premise re-verified against live code before implementation.",
+        "Implemented at the shared authority/source-of-truth seam.",
+        "Focused regressions, TypeScript, and architectural contracts passed."
+      ],
+      "complete": true
+    },
+    {
+      "id": 88,
+      "slug": "transaction-decoupled-leaderboard-projection",
+      "tier": "🔥",
+      "axis": "speed / organization / reliability / observability",
+      "effortHours": 6,
+      "impact": 9,
+      "innovation": 7,
+      "priority": 21,
+      "status": "shipped",
+      "title": "Remove table-wide leaderboard work from the certified match transaction",
+      "why": "PlayerStatsStore.pgRecordMatch truncates leaderboard_cache and inserts up to 1,000 ranked rows before COMMIT for every certified game. Concurrent matches serialize behind table-wide writes, while a cache failure can roll back otherwise valid progression.",
+      "coreLoopStep": "certified match fan-out → durable player stats → independently fresh ranked read",
+      "recipe": "Make player_stats the sole write authority. Replace per-match TRUNCATE/INSERT with an indexed top-N ranking projection on read or a versioned refresh coordinator outside the correctness transaction; preserve deterministic tie ordering and placement exclusion; publish projection source/freshness; make the memory and Postgres paths semantically identical; retire or migrate the stale cache without destructive launch assumptions; and test no table-wide query occurs during recordMatch, ties, empty state, idempotent replay, concurrent games, and read failure isolation.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Move the cache rebuild after COMMIT so cache failure cannot roll back progression."
+        },
+        "L2": {
+          "effortHours": 3,
+          "recipe": "Replace the cache with an indexed deterministic top-N projection and add parity tests."
+        },
+        "L3": {
+          "effortHours": 6,
+          "recipe": "Ship a versioned projection contract with stable tie order, source/freshness metadata, migration-safe retirement, concurrent-write tests, and direct query-shape assertions."
+        }
+      },
+      "executionLog": [
+        "Premise re-verified against live code before implementation.",
+        "Implemented at the shared authority/source-of-truth seam.",
+        "Focused regressions, TypeScript, and architectural contracts passed."
+      ],
+      "complete": true
+    },
+    {
+      "id": 89,
+      "slug": "certified-rivalry-revenge-projection",
+      "tier": "⚡",
+      "axis": "gamification / retention / security / feedback loop",
+      "effortHours": 7,
+      "impact": 9,
+      "innovation": 9,
+      "priority": 24.4,
+      "status": "shipped",
+      "title": "Make Rival Challenge a signed revenge projection from deterministic simulation",
+      "why": "ControlPanel stores rivalry revenge in localStorage after client-observed activity updates, and WinModal trusts that value to render and instrument the retention challenge. The browser can fabricate, lose, or replay progress independently of the attested match result.",
+      "coreLoopStep": "enemy intercept → deterministic counter-intercept → signed revenge evidence → rematch challenge",
+      "recipe": "Track the last convoy interceptor per victim inside deterministic VaultFrontExecution; increment a rivalryRevenge stat only when the victim later intercepts that same opponent; add the metric to Stats and StatsSchemas so quorum and MatchResultCertificate bind it; remove the localStorage authority; have WinModal derive the challenge from current signed allPlayersStats; keep storage only for non-authoritative next-goal preference; add ordering, wrong-rival, repeated-cycle, serialization, certificate-tamper, and browser-reload coverage; preserve all balance values.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 2,
+          "recipe": "Put the revenge counter in deterministic match stats and render it directly."
+        },
+        "L2": {
+          "effortHours": 4,
+          "recipe": "Track opponent identity and prove only a counter-intercept against the same rival increments."
+        },
+        "L3": {
+          "effortHours": 7,
+          "recipe": "Bind the metric through simulation, schema, quorum certificate, recap, telemetry, and adversarial tests while deleting browser authority."
+        }
+      },
+      "executionLog": [
+        "Premise re-verified against live code before implementation.",
+        "Implemented at the shared authority/source-of-truth seam.",
+        "Focused regressions, TypeScript, and architectural contracts passed."
+      ],
+      "complete": true
+    }
+  ]
+}

@@ -1273,10 +1273,7 @@ export async function fetchDynastyStory(
 }
 
 export async function generateDynastyStoryChapter(input: {
-  clanId: string;
-  clanName: string;
-  recentOutcomes: string[];
-  topMoments: string[];
+  gameId: string;
 }): Promise<{ chapter: string; story: string } | null> {
   try {
     const res = await fetch(`${getApiBase()}/api/vaultfront/dynasty-story`, {

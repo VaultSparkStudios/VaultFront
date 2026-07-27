@@ -236,3 +236,7 @@ Append-only. Each session appends one entry. Never edit prior entries.
 - Second order: Innovation pack advanced from 32/32 to 36/36. Full-suite verification also exposed and root-fixed asymmetric epsilon ordering plus stochastic test evidence.
 - Verification: 176/176 Vitest files and 972/972 tests; TypeScript; ESLint; production build; deterministic 28,125-scenario balance envelope; Prettier ratchet; exact bundle/media budgets; performance; 26/26 Playwright desktop/mobile/theme; 41/41 mutation policy; 10/10 public ingest; 41 deploy checks; sitemap 10/10; audit 3/3; innovations 36/36.
 - Truth boundary: Release remains NO-GO. Cloudflare, Brevo, and Obelisk capabilities are READY, but no approved staging/parity, delivery, relying-party, live-web, human, revenue, rollback, or founder-approval evidence was inferred.
+
+## 2026-07-27 — Session 86 /arc
+
+Completed `/start → /audit → /implement → /closeout` as one mission. Re-verified and shipped all four live-code audit findings: certificate-bound dynasty history, certified tournament adjudication, transaction-decoupled leaderboard projection, and certified rivalry revenge. Generated and shipped second-order `unified-certified-game-authority`. Verification passed: 978 tests, lint, format ratchet, production build, deterministic balance envelope, bundle budgets, 26 E2E, work exhaustion 4/4 + 37/37.

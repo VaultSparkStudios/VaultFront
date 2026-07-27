@@ -37,6 +37,11 @@ import {
   withAiDeadline,
 } from "./CanonicalAiEvidence";
 import { certifiedDailyMasteryStore } from "./CertifiedDailyMasteryStore";
+import {
+  certificateBindsPersistentIds,
+  certifiedWinnerPersistentIds,
+  certifyArchivedGame,
+} from "./CertifiedGameAuthority";
 import { certifiedLoopEvidenceStore } from "./CertifiedLoopEvidenceStore";
 import { registerCertifiedOutcomeRoutes } from "./CertifiedOutcomeRouter";
 import { certifiedOutcomeStore } from "./CertifiedOutcomeStore";
@@ -224,30 +229,32 @@ function authorizeRoutePolicy(
 async function loadCertifiedAiContext(
   gameID: string,
   actor: VerifiedVaultFrontActor,
-  policyId: "match-coach" | "match-recap" | "coach-debrief",
+  policyId: "match-coach" | "match-recap" | "coach-debrief" | "dynasty-story",
   res: Response,
 ) {
-  const record = await readGameRecord(gameID);
-  const certificate = record?.telemetry?.resultCertificate;
-  const participant = record?.info.players.find(
-    (player) => player.persistentID === actor.persistentId,
+  const certified = certifyArchivedGame(
+    gameID,
+    await readGameRecord(gameID as GameID),
   );
-  const certificateIsVerified = Boolean(
-    certificate &&
-    certificate.gameID === gameID &&
-    verifyMatchResultCertificate(certificate),
-  );
-  const certificateBindsActor = Boolean(
-    certificateIsVerified &&
-    participant &&
-    certificate?.result.allPlayersStats[participant.clientID],
-  );
+  const participant =
+    "error" in certified
+      ? undefined
+      : certified.record.info.players.find(
+          (player) => player.persistentID === actor.persistentId,
+        );
+  const certificateBindsActor =
+    !("error" in certified) &&
+    certificateBindsPersistentIds(certified, [actor.persistentId]) &&
+    Boolean(
+      participant &&
+      certified.certificate.result.allPlayersStats[participant.clientID],
+    );
   if (
     !authorizeRoutePolicy(
       policyId,
       {
         hasVerifiedActor: true,
-        hasVerifiedCertificate: certificateIsVerified,
+        hasVerifiedCertificate: !("error" in certified),
         certificateBindsActor,
       },
       res,
@@ -255,8 +262,12 @@ async function loadCertifiedAiContext(
   ) {
     return null;
   }
-  if (!record || !certificate || !participant) return null;
-  return { record, certificate, participant };
+  if ("error" in certified || !participant) return null;
+  return {
+    record: certified.record,
+    certificate: certified.certificate,
+    participant,
+  };
 }
 
 // Worker setup
@@ -1484,31 +1495,41 @@ export async function startWorker() {
   const DYNASTY_SYSTEM_PROMPT =
     "You are the chronicler of VaultFront dynasty histories. Write exactly one sentence (max 120 characters) as a new chapter entry for this clan's legend. Tone: epic, specific, past-tense. Reference the actual events provided. No quotation marks.";
 
-  const DynastyStorySchema = z.object({
-    clanId: z.string().max(64),
-    clanName: z.string().max(64),
-    recentOutcomes: z.array(z.string().max(128)).max(5),
-    topMoments: z.array(z.string().max(128)).max(3),
-  });
+  const DynastyStorySchema = z.object({ gameId: z.string().min(1).max(64) });
 
   app.post(
     "/api/vaultfront/dynasty-story",
     dynastyRateLimit,
     async (req, res) => {
-      const identity = await resolveVaultFrontIdentity(req);
-      if (!identity) {
-        return res.status(401).json({ error: "Missing identity" });
-      }
+      const actor = await requireVaultFrontActor(req, res);
+      if (!actor) return;
       const parsed = DynastyStorySchema.safeParse(req.body);
-      if (!parsed.success) {
-        return res.status(400).json({ error: "Invalid request" });
-      }
-      const { clanId, clanName, recentOutcomes, topMoments } = parsed.data;
-      const userContent = `Clan: ${clanName}\nRecent results: ${recentOutcomes.join("; ")}\nKey moments: ${topMoments.join("; ")}`;
+      if (!parsed.success)
+        return res.status(400).json({ error: "Certified gameId required" });
+      const context = await loadCertifiedAiContext(
+        parsed.data.gameId,
+        actor,
+        "dynasty-story",
+        res,
+      );
+      if (!context) return;
+      const clanId = clanStore.getClanForPlayer(actor.persistentId);
+      const clan = clanId ? clanStore.getClan(clanId) : null;
+      if (!clanId || !clan)
+        return res.status(403).json({ error: "Clan membership required" });
+      const persistentByClientId = new Map(
+        context.record.info.players
+          .filter((player) => player.persistentID)
+          .map((player) => [player.clientID, player.persistentID!]),
+      );
+      const winners = certifiedWinnerPersistentIds({
+        ...context,
+        persistentByClientId,
+      });
+      const userContent = `Clan: ${clan.name}\nCertified result: ${winners.includes(actor.persistentId) ? "victory" : "defeat"}\nCertificate: ${context.certificate.certificateId.slice(0, 16)}`;
       try {
-        if (!reserveRemoteAiCall("other").allowed) {
+        if (!reserveRemoteAiCall("other").allowed)
           return res.status(503).json({ error: "Dynasty service unavailable" });
-        }
         const msg = await anthropic.messages.create({
           model: "claude-haiku-4-5-20251001",
           max_tokens: 80,
@@ -1523,11 +1544,19 @@ export async function startWorker() {
         });
         const chapter =
           (msg.content[0] as { type: string; text: string }).text?.trim() ?? "";
-        if (chapter) {
-          await clanStore.appendDynastyStory(clanId, chapter);
-        }
+        if (chapter)
+          await clanStore.appendDynastyStoryOnce(
+            clanId,
+            context.certificate.certificateId,
+            chapter,
+          );
         const story = await clanStore.getDynastyStory(clanId);
-        return res.json({ ok: true, chapter, story });
+        return res.json({
+          ok: true,
+          chapter,
+          story,
+          certificateId: context.certificate.certificateId,
+        });
       } catch (err) {
         logger.error("dynasty-story generation failed", err);
         return res.status(500).json({ error: "Dynasty story failed" });
@@ -2203,8 +2232,10 @@ export async function startWorker() {
 
   app.get("/api/leaderboard", statsRateLimit, async (_req, res) => {
     try {
-      const entries = await playerStatsStore.getLeaderboard(50);
-      return res.json(entries);
+      const projection = await playerStatsStore.getLeaderboardProjection(50);
+      res.setHeader("X-VaultFront-Projection", projection.source);
+      res.setHeader("X-VaultFront-Projection-As-Of", projection.computedAt);
+      return res.json(projection.entries);
     } catch (err) {
       log.error("Error fetching leaderboard", err);
       return res.status(500).json({ error: "Internal server error" });
@@ -2539,22 +2570,48 @@ export async function startWorker() {
     tourneyRateLimit,
     async (req, res) => {
       const parsed = z
-        .object({ winnerId: z.string().min(1).max(64) })
+        .object({ gameId: z.string().min(1).max(64) })
         .safeParse(req.body);
       if (!parsed.success)
-        return res.status(400).json({ error: "Missing winnerId" });
+        return res.status(400).json({ error: "Certified gameId required" });
       const actor = await requireVaultFrontActor(req, res);
       if (!actor) return;
       const matchId = parseInt(req.params.matchId);
       const tournament = await tournamentStore.getTournamentForMatch(matchId);
-      if (!canManageTournament(tournament, actor.persistentId)) {
+      if (!canManageTournament(tournament, actor.persistentId))
         return res
           .status(403)
           .json({ error: "Only the tournament creator can report results" });
-      }
-      const result = await tournamentStore.reportResult(
+      const match = tournamentStore.getMatch(matchId);
+      if (!match?.playerA || !match.playerB)
+        return res.status(409).json({ error: "Playable match not found." });
+      const certified = certifyArchivedGame(
+        parsed.data.gameId,
+        await readGameRecord(parsed.data.gameId as GameID),
+      );
+      if ("error" in certified) return res.status(409).json(certified);
+      if (
+        !certificateBindsPersistentIds(certified, [
+          match.playerA,
+          match.playerB,
+        ])
+      )
+        return res.status(409).json({
+          error: "Certificate does not bind both bracket participants.",
+        });
+      const winners = certifiedWinnerPersistentIds(certified);
+      if (
+        winners.length !== 1 ||
+        ![match.playerA, match.playerB].includes(winners[0]!)
+      )
+        return res
+          .status(409)
+          .json({ error: "Certificate does not name one bracket winner." });
+      const result = await tournamentStore.reportCertifiedResult(
         matchId,
-        parsed.data.winnerId,
+        winners[0]!,
+        parsed.data.gameId,
+        certified.certificate.certificateId,
       );
       if ("error" in result) return res.status(409).json(result);
       recordVaultFrontPlaytestPulse({

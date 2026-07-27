@@ -183,7 +183,8 @@ export class StatsImpl implements Stats {
       | "minute8Behind"
       | "vaultInteractions"
       | "cleanExecutionStreaks"
-      | "squadObjectiveCompletions",
+      | "squadObjectiveCompletions"
+      | "rivalryRevengeCount",
     value: BigIntLike,
   ): void {
     const p = this._makePlayerStats(player);
@@ -363,6 +364,10 @@ export class StatsImpl implements Stats {
   vaultConvoyLost(owner: Player, tick?: number): void {
     this._addVaultFront(owner, "vaultConvoysLost", 1);
     this._setVaultFrontFirst(owner, "firstConvoyOutcomeTick", tick);
+  }
+
+  vaultRivalryRevenge(player: Player): void {
+    this._addVaultFront(player, "rivalryRevengeCount", 1);
   }
 
   defenseFactoryPulse(player: Player, durationTicks: number): void {

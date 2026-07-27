@@ -355,9 +355,12 @@ class ClanStore {
     }
   }
 
+  private readonly dynastyStories = new Map<string, string>();
+  private readonly dynastyCertificateIds = new Set<string>();
+
   /** Fetch the current dynasty story for a clan. */
   async getDynastyStory(clanId: string): Promise<string | null> {
-    if (!pool) return null;
+    if (!pool) return this.dynastyStories.get(clanId) ?? null;
     const result = await pool
       .query<{
         dynasty_story: string | null;
@@ -366,12 +369,35 @@ class ClanStore {
     return result?.rows[0]?.dynasty_story ?? null;
   }
 
+  /** Append a certificate-bound chapter exactly once. */
+  async appendDynastyStoryOnce(
+    clanId: string,
+    certificateId: string,
+    chapter: string,
+  ): Promise<boolean> {
+    const receiptKey = `${clanId}:${certificateId}`;
+    if (this.dynastyCertificateIds.has(receiptKey)) return false;
+    if (pool) {
+      const claimed = await pool.query(
+        `INSERT INTO clan_dynasty_chapters (clan_id, certificate_id, chapter)
+         VALUES ($1, $2, $3) ON CONFLICT (clan_id, certificate_id) DO NOTHING
+         RETURNING certificate_id`,
+        [clanId, certificateId, chapter.slice(0, 512)],
+      );
+      if (claimed.rowCount === 0) return false;
+    }
+    this.dynastyCertificateIds.add(receiptKey);
+    await this.appendDynastyStory(clanId, chapter);
+    return true;
+  }
+
   /** Append a new chapter to the clan's dynasty story. */
   async appendDynastyStory(clanId: string, chapter: string): Promise<void> {
     const trimmed = chapter.slice(0, 512);
     const current = (await this.getDynastyStory(clanId)) ?? "";
     const separator = current ? "\n\n" : "";
     const updated = (current + separator + trimmed).slice(-4096);
+    this.dynastyStories.set(clanId, updated);
     if (pool) {
       await pool
         .query(`UPDATE clans SET dynasty_story = $2 WHERE id = $1`, [

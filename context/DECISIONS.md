@@ -279,3 +279,11 @@ Public-safe decisions only. Detailed internal decision history is maintained pri
 **Decision:** Convoy rerouting treats risks within `0.0001` as equivalent in both directions and breaks that equivalence by distance. Property evidence uses a seeded sequence plus an explicit near-equal adversarial case, never uncontrolled randomness.
 
 **Why:** The former comparator let an infinitesimally lower risk bypass its own epsilon tie-break, while random test inputs only exposed the contradiction intermittently. A mathematical ordering contract and its gate must be reproducible.
+
+## 2026-07-27 — Session 86 certified authority decisions
+
+- Caller-authored competitive outcomes are rejected even for tournament creators; archived majority-certified results are the only advancement authority.
+- Dynasty prose may be generative, but its clan, actor, outcome, and deduplication key must be derived from the certified game record.
+- Leaderboard state is an indexed projection over `player_stats`; no table-wide cache rebuild belongs inside the certified match transaction.
+- Browser storage may render hints but cannot own rivalry progress. Rival revenge is recorded in deterministic simulation stats and travels through the existing certified result spine.
+- Registry type drift (`app` externally vs `game` locally) is not repaired by editing a sibling repository; correction travels through Studio Ark.

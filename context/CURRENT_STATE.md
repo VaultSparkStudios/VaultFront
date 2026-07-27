@@ -1,3 +1,7 @@
+## Session 86 — Certified competitive truth arc (2026-07-27)
+
+Shipped a shared certified-game authority and bound dynasty chronicles, tournament advancement, rivalry revenge, and leaderboard projection to authoritative server evidence. Certified match transactions no longer rebuild the leaderboard cache; tournament games and certificates are replay-safe and unique; dynasty chapters are clan/member/certificate-bound and idempotent; browser-local rivalry authority is retired. Audit 4/4 and innovations 37/37 are exhausted. Full closeout evidence: 978 tests, lint, formatting ratchet, production build, 28,125 balance scenarios, bundle budgets, and 26 E2E checks green. Release remains honestly blocked on external staging, identity/email, live web, human Alpha, revenue, rollback, and founder evidence.
+
 # Current State
 
 Public-safe summary:

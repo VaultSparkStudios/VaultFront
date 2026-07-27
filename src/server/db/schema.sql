@@ -99,10 +99,17 @@ CREATE TABLE IF NOT EXISTS certified_outcomes (
 
 CREATE INDEX IF NOT EXISTS idx_certified_outcomes_player_date
   ON certified_outcomes (persistent_id, created_at DESC);
--- ── Leaderboard Cache ─────────────────────────────────────────────────────────
--- Materialized snapshot refreshed after each match via application code.
--- TODO: replace with a Postgres materialized view and schedule a refresh
---       trigger once DATABASE_URL is confirmed available in production.
+-- ── Leaderboard Projection ─────────────────────────────────────────────────────
+-- player_stats is the sole write authority. Ranked reads select a bounded top-N
+-- through this stable Elo + identity order, so certified match transactions never
+-- perform table-wide cache work.
+CREATE INDEX IF NOT EXISTS idx_player_stats_rank_projection
+  ON player_stats (elo_rating DESC, persistent_id ASC)
+  INCLUDE (display_name, matches_played, wins)
+  WHERE matches_played > 0;
+
+-- Migration-safe legacy surface. Existing deployments may still carry this table;
+-- it is deliberately retained but no runtime writer or reader treats it as truth.
 CREATE TABLE IF NOT EXISTS leaderboard_cache (
   persistent_id   VARCHAR(64)  PRIMARY KEY,
   display_name    VARCHAR(64)  NOT NULL DEFAULT '',
@@ -112,17 +119,6 @@ CREATE TABLE IF NOT EXISTS leaderboard_cache (
   wins            INT          NOT NULL DEFAULT 0,
   updated_at      TIMESTAMPTZ  NOT NULL DEFAULT NOW()
 );
-
--- Refresh helper: call after recording each match to keep leaderboard in sync.
--- Example invocation from application:
---   TRUNCATE leaderboard_cache;
---   INSERT INTO leaderboard_cache (persistent_id, display_name, elo_rating, rank, matches_played, wins, updated_at)
---   SELECT persistent_id, display_name, elo_rating,
---          ROW_NUMBER() OVER (ORDER BY elo_rating DESC) AS rank,
---          matches_played, wins, NOW()
---   FROM player_stats
---   ORDER BY elo_rating DESC
---   LIMIT 1000;
 
 -- ── Player Achievements ────────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS player_achievements (
@@ -197,6 +193,7 @@ CREATE TABLE IF NOT EXISTS tournament_matches (
   player_b      VARCHAR(64),
   winner_id     VARCHAR(64),
   game_id       VARCHAR(64),
+  result_certificate_id VARCHAR(64),
   status        VARCHAR(16)  NOT NULL DEFAULT 'pending', -- 'pending' | 'active' | 'complete'
   created_at    TIMESTAMPTZ  NOT NULL DEFAULT NOW(),
   completed_at  TIMESTAMPTZ
@@ -205,7 +202,19 @@ CREATE TABLE IF NOT EXISTS tournament_matches (
 CREATE INDEX IF NOT EXISTS idx_tournament_matches_tid
   ON tournament_matches (tournament_id, round);
 
+ALTER TABLE tournament_matches
+  ADD COLUMN IF NOT EXISTS result_certificate_id VARCHAR(64);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_tournament_matches_game_cert
+  ON tournament_matches (game_id) WHERE game_id IS NOT NULL;
+
 -- ── Dynasty Mode ───────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS clan_dynasty_chapters (
+  clan_id VARCHAR(32) NOT NULL REFERENCES clans(id) ON DELETE CASCADE,
+  certificate_id VARCHAR(64) NOT NULL,
+  chapter VARCHAR(512) NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (clan_id, certificate_id)
+);
 ALTER TABLE player_stats
   ADD COLUMN IF NOT EXISTS dynasty_tier        VARCHAR(16)  NOT NULL DEFAULT 'none',
   ADD COLUMN IF NOT EXISTS dynasty_seasons_won INT          NOT NULL DEFAULT 0,

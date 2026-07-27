@@ -77,6 +77,7 @@ function makeGame(
     vaultConvoyDelivered: vi.fn(),
     vaultConvoyIntercepted: vi.fn(),
     vaultConvoyLost: vi.fn(),
+    vaultRivalryRevenge: vi.fn(),
     vaultConvoyRerouted: vi.fn(),
     vaultConvoyEscortCommand: vi.fn(),
     vaultInteraction: vi.fn(),

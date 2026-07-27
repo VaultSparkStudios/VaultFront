@@ -142,10 +142,10 @@
     {
       "method": "POST",
       "path": "/api/vaultfront/dynasty-story",
-      "auth": "identity",
+      "auth": "verified-actor",
       "rateLimit": "dynastyRateLimit",
-      "evidence": "none",
-      "binding": "resolveVaultFrontIdentity"
+      "evidence": "result-certificate",
+      "binding": "requireVaultFrontActor"
     },
     {
       "method": "POST",
@@ -324,7 +324,7 @@
       "path": "/api/tournaments/matches/:matchId/report",
       "auth": "verified-actor",
       "rateLimit": "tourneyRateLimit",
-      "evidence": "authenticated-event",
+      "evidence": "result-certificate",
       "binding": "requireVaultFrontActor"
     },
     {

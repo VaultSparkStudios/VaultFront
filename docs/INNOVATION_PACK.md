@@ -1,5 +1,5 @@
 <!-- generated-by: scripts/innovation-pack.mjs -->
-<!-- generated-at: 2026-07-26T08:21:04.558Z -->
+<!-- generated-at: 2026-07-27T04:40:35.310Z -->
 
 # Second-Order Innovation Pack
 
@@ -41,3 +41,4 @@ Generated only after the audit-backed Unified Genius List was exhausted. Complet
 34. [x] **certificate-bound-archived-rematch** — Bind archived rematches to the result certificate roster. Require an archived source match to carry a valid result certificate whose certified roster includes the authenticated actor before any private continuation can clone its configuration. Evidence: pure archived authorization kernel, certificate verification, actor/client binding, and tamper/nonparticipant tests.
 35. [x] **postmatch-route-policy-triad** — Make post-match trust seams executable route policy. Promote rematch creation, Prediction League writes, and replay clip projection into the route-policy manifest with their actual source-participation, game-lifecycle, and signed-replay evidence classes. Evidence: manifest-bound route assertions, explicit evidence taxonomy, and policy validation coverage.
 36. [x] **deterministic-epsilon-route-ordering** — Make safest-route ordering mathematically stable at the epsilon boundary. Apply one symmetric epsilon equivalence rule before distance tie-breaking and replace probabilistic test inputs with a seeded sequence plus an adversarial near-equal case. Evidence: symmetric epsilon comparator, seeded property sequence, explicit adversarial boundary, and no stochastic gate flicker.
+37. [x] **unified-certified-game-authority** — Unify every new post-match consumer behind one certified-game authority. Dynasty narration, tournament adjudication, and remote-AI consumers now share archive, signature, roster, winner, and persistent-identity binding semantics. Evidence: shared kernel, route reuse, regression tests, and executable policy contracts.

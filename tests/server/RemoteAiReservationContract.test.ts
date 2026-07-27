@@ -49,8 +49,9 @@ const contracts = [
   {
     route: "/api/vaultfront/dynasty-story",
     order: [
-      "resolveVaultFrontIdentity",
+      "requireVaultFrontActor",
       "safeParse(req.body)",
+      "loadCertifiedAiContext",
       "reserveRemoteAiCall",
       "anthropic.messages.create",
     ],

@@ -44,6 +44,7 @@ export interface TournamentMatch {
   playerB: string | null;
   winnerId: string | null;
   gameId: string | null;
+  certificateId: string | null;
   status: MatchStatus;
 }
 
@@ -163,6 +164,7 @@ class TournamentStore {
         playerB,
         winnerId: isBye ? playerA : null, // auto-advance byes
         gameId: null,
+        certificateId: null,
         status: isBye ? "complete" : "pending",
       };
       round1.push(match);
@@ -181,36 +183,45 @@ class TournamentStore {
 
   // ── Report Result ─────────────────────────────────────────────────────────
 
-  async reportResult(
+  async reportCertifiedResult(
     matchId: number,
     winnerId: string,
+    gameId: string,
+    certificateId: string,
   ): Promise<BracketView | { error: string }> {
     let targetMatch: TournamentMatch | null = null;
     let tournamentId = "";
-
     for (const [tid, matches] of this.matches) {
-      const m = matches.find((m) => m.id === matchId);
-      if (m) {
-        targetMatch = m;
+      const match = matches.find((candidate) => candidate.id === matchId);
+      if (match) {
+        targetMatch = match;
         tournamentId = tid;
         break;
       }
     }
-
     if (!targetMatch) return { error: "Match not found." };
-    if (targetMatch.status === "complete")
+    if (targetMatch.status === "complete") {
+      if (
+        targetMatch.gameId === gameId &&
+        targetMatch.certificateId === certificateId
+      )
+        return this.buildBracketView(tournamentId)!;
       return { error: "Match already complete." };
-    if (targetMatch.playerA !== winnerId && targetMatch.playerB !== winnerId) {
-      return { error: "Winner must be one of the match participants." };
     }
-
+    for (const matches of this.matches.values()) {
+      if (
+        matches.some((match) => match.gameId === gameId && match.id !== matchId)
+      )
+        return { error: "Certified game already used by another match." };
+    }
+    if (targetMatch.playerA !== winnerId && targetMatch.playerB !== winnerId)
+      return { error: "Winner must be one of the match participants." };
     targetMatch.winnerId = winnerId;
+    targetMatch.gameId = gameId;
+    targetMatch.certificateId = certificateId;
     targetMatch.status = "complete";
-    void this.persistMatch(targetMatch);
-
-    // Try to advance the bracket
+    await this.persistMatch(targetMatch);
     this.advanceBracket(tournamentId);
-
     return this.buildBracketView(tournamentId)!;
   }
 
@@ -218,6 +229,14 @@ class TournamentStore {
 
   async get(tournamentId: string): Promise<Tournament | null> {
     return this.tournaments.get(tournamentId) ?? null;
+  }
+
+  getMatch(matchId: number): TournamentMatch | null {
+    for (const matches of this.matches.values()) {
+      const match = matches.find((candidate) => candidate.id === matchId);
+      if (match) return match;
+    }
+    return null;
   }
 
   async getTournamentForMatch(matchId: number): Promise<Tournament | null> {
@@ -284,6 +303,7 @@ class TournamentStore {
         playerB,
         winnerId: isBye ? playerA : null,
         gameId: null,
+        certificateId: null,
         status: isBye ? "complete" : "pending",
       };
       nextRound.push(match);
@@ -356,10 +376,12 @@ class TournamentStore {
     try {
       await pool.query(
         `INSERT INTO tournament_matches
-           (id, tournament_id, round, match_index, player_a, player_b, winner_id, game_id, status)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+           (id, tournament_id, round, match_index, player_a, player_b, winner_id, game_id, result_certificate_id, status)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
          ON CONFLICT (id) DO UPDATE
            SET winner_id = EXCLUDED.winner_id,
+               game_id = EXCLUDED.game_id,
+               result_certificate_id = EXCLUDED.result_certificate_id,
                status = EXCLUDED.status,
                completed_at = CASE WHEN EXCLUDED.status = 'complete' THEN NOW() ELSE NULL END`,
         [
@@ -371,6 +393,7 @@ class TournamentStore {
           m.playerB,
           m.winnerId,
           m.gameId,
+          m.certificateId,
           m.status,
         ],
       );

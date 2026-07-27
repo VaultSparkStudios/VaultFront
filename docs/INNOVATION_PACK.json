@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-07-26T08:21:04.558Z",
+  "generatedAt": "2026-07-27T04:40:35.31Z",
   "source": "scripts/innovation-pack.mjs",
   "primarySource": "latest audit-backed Unified Genius List",
   "items": [
@@ -327,6 +327,15 @@
       "description": "Apply one symmetric epsilon equivalence rule before distance tie-breaking and replace probabilistic test inputs with a seeded sequence plus an adversarial near-equal case.",
       "complete": true,
       "evidence": "symmetric epsilon comparator, seeded property sequence, explicit adversarial boundary, and no stochastic gate flicker"
+    },
+    {
+      "rank": 37,
+      "status": "shipped",
+      "id": "unified-certified-game-authority",
+      "title": "Unify every new post-match consumer behind one certified-game authority",
+      "description": "Make dynasty narration, tournament adjudication, and existing remote-AI consumers share one archive, signature, roster, and persistent-identity binding kernel so trust semantics cannot drift by route.",
+      "complete": true,
+      "evidence": "CertifiedGameAuthority kernel, replay/game binding, persistent roster and winner projections, dynasty/tournament/AI route reuse, regression tests, and route-policy contracts"
     }
   ]
 }

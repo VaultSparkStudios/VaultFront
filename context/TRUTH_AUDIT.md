@@ -272,3 +272,11 @@ Public-safe summary only. Sensitive verification notes are maintained privately.
 - Replay share identity derives from the verified HMAC-covered manifest, exact bounded turn range, kind, and contract version. The same evidence produces the same URL across restarts; unsigned, out-of-range, altered, or mismatched projections fail closed.
 - The first full suite red was a real asymmetric epsilon defect, not masked flake. The comparator now applies symmetric equivalence and the test uses deterministic seeded/adversarial evidence. The next direct full run passed 176/176 files and 972/972 tests.
 - Local E2E passed 26/26 across desktop, mobile, and three-theme proof, but remains local-only evidence. Release stays blocked on approved staging/parity, project-domain delivery, native Obelisk, live-web, distinct-human Alpha, revenue, rollback, and founder approval.
+
+## 2026-07-27 — Session 86 truth refresh
+
+- **Verified:** audit sidecar is exhausted 4/4; innovation sidecar is exhausted 37/37.
+- **Verified:** full Vitest suite is 179 files / 978 tests; Playwright is 26/26; lint, format ratchet, production build, balance envelope, and bundle budgets pass.
+- **Verified:** mutation policy remains 41/41 with ten public-ingest routes; Worker and execution composition budgets pass.
+- **Claim boundary:** local build/E2E/theme evidence remains local-only. No approved staging origin, live email/identity/web parity, distinct-human Alpha, revenue, rollback observation, or founder launch approval was produced.
+- **Release decision:** public-unlaunched / NO-GO is unchanged and source-derived.

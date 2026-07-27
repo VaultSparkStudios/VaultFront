@@ -250,6 +250,14 @@ describe("Stats", () => {
     });
   });
 
+  test("records rivalry revenge in certified VaultFront stats", () => {
+    stats.vaultRivalryRevenge(player1);
+    stats.vaultRivalryRevenge(player1);
+    expect(stats.getPlayerStats(player1)).toMatchObject({
+      vaultfront: { rivalryRevengeCount: 2n },
+    });
+  });
+
   test("stringify", () => {
     stats.unitLose(player1, UnitType.Port);
     expect(JSON.stringify(stats.stats(), replacer)).toBe(
