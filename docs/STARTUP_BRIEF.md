@@ -2,7 +2,7 @@
 <!-- generated-at: 2026-07-28 (Session 87 closeout) -->
 <!-- fast-boot-valid-until: next session if within 24h -->
 <!-- brief-coherent: true -->
-<!-- brief-sources: {"schema":1,"session":87,"sources":{"context/PROJECT_STATUS.json":"3a37fed59b71270a","context/TASK_BOARD.md":"6832776a57a02bf4","context/LATEST_HANDOFF.md":"8a5c03e671f0f28a","context/SELF_IMPROVEMENT_LOOP.md":"70a2460bee15e555","docs/GENIUS_LIST.md":"654d6c7ecbb074ca"}} -->
+<!-- brief-sources: {"schema":1,"session":87,"sources":{"context/PROJECT_STATUS.json":"84524dbda04765a5","context/TASK_BOARD.md":"6832776a57a02bf4","context/LATEST_HANDOFF.md":"8a5c03e671f0f28a","context/SELF_IMPROVEMENT_LOOP.md":"70a2460bee15e555","docs/GENIUS_LIST.md":"654d6c7ecbb074ca"}} -->
 
 # Startup Brief — VaultFront
 
@@ -20,7 +20,7 @@
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ LAST SESSION (S?) - WHAT SHIPPED ════════════════════════════╗
-║  Session 86 complete: certified dynasty and tournament outcomes  ║
+║  Session 87 complete: fail-closed tournament durability, archiv  ║
 ║  Tests  -                                                        ║
 ║  Deploy -                                                        ║
 ╚════════════════════════════════════════════════════════════════╝
@@ -60,18 +60,18 @@
 
 ╔══ WHERE WE LEFT OFF  ·  Session 87 ════════════════════════════╗
 ║  Shipped:  see LATEST_HANDOFF.md                                 ║
-║  Tests:    978/978 passing  ·  Deploy: N/A                       ║
+║  Tests:    990/990 passing  ·  Deploy: N/A                       ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ CONTEXT METER ═══════════════════════════════════════════════╗
-║  ✓  █░░░░░░░░░░░░░░░░░░░░░░░    4% used                          ║
-║     37,132 / 1,000,000 tok  ·  codex/codex-1m  ·  measured+heur  ║
-║     ~18,566 tok/turn  ·  cache 50%  ·  47 turns to compact       ║
+║  ✓  ░░░░░░░░░░░░░░░░░░░░░░░░    1% used                          ║
+║     2,863 / 200,000 tok  ·  unknown/default  ·  heuristic        ║
+║     ~1,432 tok/turn  ·  cache 50%  ·  126 turns to compact       ║
 ║     Verdict: CONTINUE                                            ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ SIGNALS ═════════════════════════════════════════════════════╗
-║  ✓  Tests         978/978 passing (2026-07-27T06:00:00Z)         ║
+║  ✓  Tests         990/990 passing (2026-07-28T03:04:33Z)         ║
 ║  ✓  Velocity      7 ↑  ·  Debt: ↓                                ║
 ║  ✓  Runway        unknown                                        ║
 ║  ⛔  Context age   ?d                                             ║
@@ -85,7 +85,7 @@
 ║  ✓  Templates     v3.3 aligned                                   ║
 ║  ⛔  Revenue sig.  not found  ⚠ stale                             ║
 ║  ✓  Deploy gaps   no gaps (run: ops deploy-gaps)                 ║
-║  ⛔  Doctor        10/11 (91%)  ·  1 failing                      ║
+║  ✓  Doctor        11/11 (100%)  ·  2026-07-28  ✓                 ║
 ║  ✓  Cost          real $0.14/7d · 7d notional $2.28 (flat-rate   ║
 ╚════════════════════════════════════════════════════════════════╝
 

@@ -1,19 +1,19 @@
 <!-- generated-by: scripts/render-closeout-board.mjs v1.0 -->
-<!-- generated-at: 2026-07-27 (Session 86 closeout) -->
+<!-- generated-at: 2026-07-28 (Session 87 closeout) -->
 
 # Closeout Status Board — VaultFront
 
 ```
-╔══ SESSION CLOSEOUT · VaultFront · S86 ═════════════════════════╗
-║  Date: 2026-07-27 · SIL: 995/1000 · V:5  ·  Debt: down           ║
-║  Mode: FOUNDER  ·  Agent: codex                                  ║
+╔══ SESSION CLOSEOUT · VaultFront · S87 ═════════════════════════╗
+║  Date: 2026-07-28 · SIL: 995/1000 · V:5  ·  Debt: down           ║
+║  Mode: BUILDER  ·  Agent: codex                                  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ WHAT SHIPPED ════════════════════════════════════════════════╗
-║  ✓ Branch: `main`; audit 4/4 and innovations 37/37 shipped.      ║
-║  ✓ CertifiedGameAuthority is the shared archive/signature/roste  ║
-║  ✓ Leaderboards are read projections over indexed player stats;  ║
-║  ✓ Verification: 179 files / 978 tests, lint, format ratchet, p  ║
-║  ✓ Release posture remains public-unlaunched / NO-GO pending on  ║
+║  ✓ Branch: `main`; audit 6/6 and innovations 38/38 shipped with  ║
+║  ✓ Tournament advancement fails closed on persistence; archived  ║
+║  ✓ Memory/PostgreSQL rating semantics, canonical victory guidan  ║
+║  ✓ Verification: 181 files / 990 tests; 33.08% lines / 32.71% s  ║
+║  ✓ Release posture remains public-unlaunched / NO-GO. Commit cl  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ SCORES · SIL 995/1000 ═══════════════════════════════════════╗
 ║    Dev Health         100  ██████████                            ║
@@ -40,7 +40,7 @@
 ║  · agent memory (context/BRAIN.md or agent home)                 ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ GIT STATUS ══════════════════════════════════════════════════╗
-║  Changes: 0 files  ·  M:0 A:0 D:0 ?:0                            ║
+║  Changes: 3 files  ·  M:3 A:0 D:0 ?:0                            ║
 ║  Ahead: 0  ·  Behind: 0                                          ║
 ║  Branch: main                                                    ║
 ╚════════════════════════════════════════════════════════════════╝
@@ -51,10 +51,10 @@
 ╔══ POST-SESSION SIGNALS ════════════════════════════════════════╗
 ║  Doctor:        11/11                                            ║
 ║  Compliance:    49/49                                            ║
-║  Tests:         978/978                                          ║
-║  IGNIS:         4d ago                                           ║
+║  Tests:         990/990                                          ║
+║  IGNIS:         5d ago                                           ║
 ║  Truth:         green                                            ║
-║  Sanitization:  1d ago                                           ║
+║  Sanitization:  2d ago                                           ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ NEXT SESSION ════════════════════════════════════════════════╗
 ║  #1: Unified Genius List exhausted                               ║
