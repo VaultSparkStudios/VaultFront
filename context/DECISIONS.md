@@ -325,3 +325,35 @@ Public-safe decisions only. Detailed internal decision history is maintained pri
 **Decision:** Every source-backed shipped candidate, including rank 38, belongs to canonical generation and regeneration may not shrink or forget the ledger.
 
 **Why:** A generator that deletes checked-in evidence is not an authority.
+
+## 2026-07-28 — Session 88 runtime, delivery, and decisive-loop truth decisions
+
+### Production health is fresh worker-internal quorum
+
+**Decision:** Master health fails closed unless bounded worker heartbeats prove a fresh ready quorum and preserve typed degraded reasons.
+
+**Why:** Process presence cannot substitute for game-loop, inter-process communication, and database readiness inside the workers serving play.
+
+### Deployment validation and upload share one artifact
+
+**Decision:** Pages builds one deterministic `static` artifact, validates the required public and agent surfaces inside it, and uploads only that same path; hosted workflow cron remains zero.
+
+**Why:** A green source-tree check is not delivery evidence when the workflow can publish a different or scheduled surface.
+
+### Decisive-loop evidence is certified and privacy-minimal
+
+**Decision:** Pressure, Breach-open, decisive delivery, and victory timing derive from authoritative match ticks and persist only as aggregate conversion/timing evidence without actor identifiers.
+
+**Why:** Product learning must observe the flagship arc without trusting browser-authored counters or expanding player-identifying data.
+
+### Cross-repo identity closure requires applied acknowledgement
+
+**Decision:** Local project-truth disagreement stays fail-closed; registry correction travels only through Ark cargo `01JUJNSAUUE4626BC279319392` and remains externally blocked until an applied acknowledgement returns.
+
+**Why:** Shipping a request is not proof that an external registry changed, and this repo must not edit a sibling tree to manufacture coherence.
+
+## 2026-07-28 — Closeout autopilot stopped at the cross-repo ownership boundary
+
+**Decision:** The required Studio Ops closeout autopilot was stopped before commit when its child-project `--project` invocation began writing Studio Ops-owned generated surfaces. Session 88 uses the verified manual local closeout path to preserve CANON-018. Ark repo-question `01JUJR2FEQ4F1C7938333B8FFB` requests a scoping fix.
+
+**Why:** A project closeout must not mutate a sibling repository merely because the shared autopilot resolves its generated outputs there.

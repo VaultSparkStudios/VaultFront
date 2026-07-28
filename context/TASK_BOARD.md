@@ -175,7 +175,7 @@ All 5 premise-verified infrastructure findings in docs/AUDIT_2026-07-20.json shi
 
 ## Now
 
-- [ ] [ecosystem] Obtain source-tagged Studio Ops registry reconciliation and Cloudflare Email Routing authorization receipts through Ark.
+- [ ] [ecosystem] Await the applied acknowledgement for source-tagged registry-delta Ark cargo `01JUJNSAUUE4626BC279319392`; keep local project-truth validation fail-closed until then.
 - [ ] [release-evidence] Deliberately establish the approved staging contract, deploy the exact verified immutable digest, and produce a fresh parity observation bundle.
 - [ ] [release-evidence] Verify project-domain Brevo delivery and native Obelisk relying-party authentication from staging before collecting human/business evidence.
 
@@ -188,6 +188,20 @@ All 5 premise-verified infrastructure findings in docs/AUDIT_2026-07-20.json shi
 - [ ] [SIL:2] Verify Ark cargo 01JU1AEATS46E1C7F5DD9AE41C is accepted and the canonical release admission consumes the same complete project-truth fingerprint rather than private/public heuristics.
 - [ ] [SIL:3] Once an approved staging origin exists, capture one exact-digest observation bundle spanning parity, delivery, identity, and live-web evidence.
 - [ ] [SIL:4] After the first external observation lands, rerun release admission and preserve each remaining gate as an independently attributable receipt.
+
+## Completed (2026-07-28 — Session 88 runtime-truth and decisive-loop arc)
+
+Audit items 96–103 shipped; item 104 is externally blocked on a Studio Ops applied acknowledgement. The innovation ledger is exhausted at 41/41 with no pending unblocked local work.
+
+- [done] Fresh worker-internal quorum now owns production health evidence.
+- [done] Pages deploys the exact deterministic artifact validated by release contracts; hosted workflow cron is zero.
+- [done] Project-domain contact actions and human-action aging are executable, generated, and parser-converged.
+- [done] First Extraction teaches Capture → outcome → Pressure → Breach → decisive delivery; certified evidence records privacy-minimal conversion and timing.
+- [done] Removed the tracked generator binary and unused runtime dependency weight; production audit remains zero.
+- [done] Generated and shipped three second-order invariants, taking `docs/INNOVATION_PACK.json` to 41/41.
+- [done] Direct proof: 184 files / 1,011 tests; TypeScript, lint, format, contracts, production build, Pages, bundle, and production audit green.
+- [deferred] Full Playwright was 25/26 after one reload timeout; the exact isolated failed theme test passed. Release remains NO-GO on external evidence.
+- [externally-blocked] Registry correction cargo `01JUJNSAUUE4626BC279319392` shipped through Ark; closure awaits applied acknowledgement.
 
 ## Completed (2026-07-27 — Session 87 fail-closed authority and player-truth parity arc)
 

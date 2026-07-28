@@ -588,4 +588,46 @@ describe("ControlPanel vault HUD automation", () => {
     expect(container.textContent).toContain("BREACH WINDOW 15s");
     expect(container.textContent).toContain("deliver one convoy to win");
   });
+
+  test("tutorial lock releases after first vault and convoy engagement while the primary arc continues", () => {
+    const panel = new ControlPanel() as any;
+    panel.tutorialLockActive = true;
+    panel.onboardingProgress = {
+      focusSet: false,
+      vaultCaptured: true,
+      convoyAction: true,
+      pressureStarted: false,
+      breachOpened: false,
+      decisiveDelivery: false,
+      pulseTriggered: false,
+    };
+
+    expect(panel.onboardingChainCompleted()).toBe(false);
+    expect(panel.tutorialLockActive).toBe(false);
+  });
+
+  test("onboarding presentation separates the decisive primary arc from optional mastery", () => {
+    const panel = new ControlPanel() as any;
+    panel.latestVaultStatus = { pressure: {}, beacons: [] };
+    panel.game = { ticks: () => 100 };
+    panel.onboardingProgress = {
+      focusSet: true,
+      vaultCaptured: true,
+      convoyAction: true,
+      pressureStarted: true,
+      breachOpened: true,
+      decisiveDelivery: false,
+      pulseTriggered: false,
+    };
+
+    const container = document.createElement("div");
+    render(panel.renderOnboarding(), container);
+
+    expect(container.textContent).toContain(
+      "Deliver during Breach to secure victory",
+    );
+    const copy = container.textContent?.replace(/\s+/g, " ");
+    expect(copy).toContain("Optional mastery: [x] Resource Focus");
+    expect(copy).toContain("[ ] Defense Factory pulse");
+  });
 });

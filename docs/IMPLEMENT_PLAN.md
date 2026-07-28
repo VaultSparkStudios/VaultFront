@@ -1,26 +1,42 @@
-# Implementation Plan — Session 87
+# Implementation Plan — Session 88
 
-Source: `docs/AUDIT_2026-07-27.json`
+Source of truth: `docs/AUDIT_2026-07-28.json`
 
-## Wave A — Certified authority and durable competition
+## Wave 1 — Truth and delivery
 
-1. `archive-certificate-roster-closure` — cross-bind archived and certified rosters, reject duplicate persistent identities, and fail closed on incomplete winner projection.
-2. `fail-closed-tournament-durability` — make certified bracket advancement transactional, rollback memory on persistence failure, and preserve idempotent replay.
+1. **96 · Worker quorum health authority** — require fresh, reasoned worker evidence for master readiness; keep liveness separate.
+2. **97 · Release-validated public surface** — make deployment and release gates observe the same public artifact.
+3. **98 · Schedule-free repository** — retire hosted cron and its stale operational contract.
+4. **99 · Working project-domain contact action** — route the visible contact action through the verified project address.
 
-## Wave B — Regeneration and delivery truth
+## Wave 2 — Parser, player, and evidence
 
-3. `regeneration-safe-innovation-ledger` — teach the canonical generator the shared certified-game authority and ratchet regeneration at 37 source-backed candidates.
-4. `production-scoped-ci-vulnerability-gate` — gate deployable dependency risk while retaining honest, non-blocking visibility into known development-tool aliases.
+5. **100 · Canonical human-action parser** — converge aging and classification on one task parser.
+6. **101 · Pressure-to-Breach First Extraction** — make the authoritative victory arc primary and demote auxiliary mastery.
+7. **102 · Certified decisive-loop evidence** — measure Pressure, Breach, decisive delivery, and victory from certified results.
 
-## Wave C — Player-facing semantic parity
+## Wave 3 — Surface and ecosystem
 
-5. `placement-rating-store-parity` — pass memory match count through the same placement K-factor calculation used by PostgreSQL.
-6. `canonical-player-facing-victory-loop` — teach one exact capture-to-convoy-to-Breach victory loop and align First Extraction completion language.
+8. **103 · Production graph cleanup** — remove the tracked binary and unused production dependencies.
+9. **104 · Source-tagged identity reconciliation** — ship Ark cargo reconciling app-versus-game identity without sibling-tree edits.
 
-## Verification cadence
+## Full verification
 
-- Focused tests after each audit item.
-- TypeScript and lint after each wave.
-- Regenerate derived innovation evidence after the generator regression is green.
-- Run contract verification after production policy or authority changes.
-- Full suite, production build, balance envelope, budgets, and E2E during canonical closeout.
+Run each command directly and preserve its exit code:
+
+```powershell
+npm test
+npx tsc --noEmit
+npm run lint
+npm run format:check
+npm run verify:contracts
+npm run balance:verify
+npm run build-prod
+npm run bundle:check
+npm audit --omit=dev
+node scripts/check-work-exhaustion.mjs
+npm run e2e
+node scripts/ops.mjs doctor --update-json
+```
+
+Finish only when every audit item is shipped or honestly deferred with evidence, all commands are green, and doctor reports `blockingFailing: 0`.

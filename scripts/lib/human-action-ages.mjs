@@ -14,23 +14,9 @@
 
 import fs from "node:fs";
 import path from "node:path";
+import { parseHumanItemsResult } from "./task-board.mjs";
 
 const LEDGER_REL = "portfolio/HUMAN_ACTION_AGES.json";
-
-function parseHumanItems(taskBoardText) {
-  const parts = taskBoardText.split(/^## /m);
-  const section = parts.find((p) => p.startsWith("Human Action Required"));
-  if (!section) return [];
-  const body = section.slice(section.indexOf("\n") + 1);
-  return body
-    .split(/\r?\n/)
-    .filter((l) => /^- \[ \]/.test(l))
-    .map((line) => {
-      const clean = line.replace(/^- \[ \]\s*/, "").replace(/\*\*/g, "");
-      const title = clean.split(/\s+—\s+/)[0].trim();
-      return { title, raw: line };
-    });
-}
 
 function readLedger(root) {
   const p = path.join(root, LEDGER_REL);
@@ -51,7 +37,12 @@ function writeLedger(root, ledger) {
 export function ensureAges(taskBoardText, opts = {}) {
   const root = opts.root || process.cwd();
   const ledger = readLedger(root);
-  const items = parseHumanItems(taskBoardText);
+  const parsed = parseHumanItemsResult(taskBoardText);
+  if (parsed.status === "unknown") {
+    opts.onUnknown?.(parsed.reason);
+    return ledger;
+  }
+  const items = parsed.items;
   const today = new Date().toISOString().slice(0, 10);
   const session = opts.currentSession || null;
   let dirty = false;

@@ -2747,9 +2747,14 @@ export class VaultFrontExecution implements Execution {
       ticks,
     );
     this.vaultPressureStates.set(playerID, transition.state);
+    if (transition.events.some((event) => event.type === "pressure-advanced")) {
+      this.game.stats().vaultPressureAdvanced(owner, ticks);
+    }
     if (
       transition.events.some((event) => event.type === "vault-breach-victory")
     ) {
+      this.game.stats().vaultDecisiveDelivery(owner, ticks);
+      this.game.stats().vaultBreachVictory(owner, ticks);
       this.vaultBreachVictorID = playerID;
       this.emitActivity(
         "vault_breach_victory",
@@ -2773,6 +2778,7 @@ export class VaultFrontExecution implements Execution {
     ) {
       return;
     }
+    this.game.stats().vaultBreachOpened(owner, ticks);
     this.emitActivity(
       "breach_window_opened",
       tile,

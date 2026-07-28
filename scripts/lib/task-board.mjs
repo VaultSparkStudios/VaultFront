@@ -127,7 +127,21 @@ export function findTaskRowsById(markdown, id) {
   return parseTaskRows(markdown).filter((row) => row.id === key);
 }
 
-export function parseHumanItems(markdown) {
+function humanItemFromRow(row) {
+  return {
+    title: row.title,
+    description: row.item,
+    raw: row.raw,
+    ageSessions: null,
+  };
+}
+
+/**
+ * Parse Human Action Required without treating an unsupported representation
+ * as an empty queue. Durable-state callers must inspect `status` so parser
+ * drift cannot erase first-seen evidence.
+ */
+export function parseHumanItemsResult(markdown) {
   const section = extractSection(markdown, "Human Action Required");
   const explicit = section
     .split(/\r?\n/)
@@ -149,16 +163,39 @@ export function parseHumanItems(markdown) {
       };
     });
 
-  if (explicit.length) return explicit;
-
-  return parseTaskRows(markdown)
+  const tableItems = parseTaskRows(markdown)
     .filter((row) => /human-blocked/i.test(row.status))
-    .map((row) => ({
-      title: row.title,
-      description: row.item,
-      raw: row.raw,
-      ageSessions: null,
-    }));
+    .map(humanItemFromRow);
+  const byTitle = new Map();
+  for (const item of [...explicit, ...tableItems]) {
+    if (!byTitle.has(item.title)) byTitle.set(item.title, item);
+  }
+  const items = [...byTitle.values()];
+  if (items.length) return { status: "parsed", items };
+
+  if (!section) return { status: "absent", items: [] };
+
+  const meaningfulLines = section
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(
+      (line) =>
+        line &&
+        !/^<!--.*-->$/.test(line) &&
+        !/^(?:none|no human actions?(?: required)?|—|-)\.?$/i.test(line),
+    );
+  return meaningfulLines.length
+    ? {
+        status: "unknown",
+        items: [],
+        reason:
+          "Human Action Required contains content that does not match the canonical bullet or table schema.",
+      }
+    : { status: "parsed", items: [] };
+}
+
+export function parseHumanItems(markdown) {
+  return parseHumanItemsResult(markdown).items;
 }
 
 export function extractCurrentSessionIntent(markdown) {

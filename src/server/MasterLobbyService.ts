@@ -8,6 +8,7 @@ import {
   MasterLobbiesBroadcast,
   MasterUpdateGame,
   WorkerMessageSchema,
+  type WorkerHealthHeartbeat,
 } from "./IPCBridgeSchema";
 import { logger } from "./Logger";
 import { MapPlaylist } from "./MapPlaylist";
@@ -19,11 +20,34 @@ export interface MasterLobbyServiceOptions {
   log: typeof logger;
 }
 
+export const WORKER_HEALTH_MAX_AGE_MS = 3_500;
+
+interface WorkerHealthEvidence {
+  heartbeat: WorkerHealthHeartbeat;
+  receivedAt: number;
+}
+
+export interface MasterWorkerHealthSnapshot {
+  healthy: boolean;
+  started: boolean;
+  registeredWorkers: number;
+  requiredHealthyWorkers: number;
+  freshHealthyWorkers: number;
+  maxAgeMs: number;
+  workers: Array<{
+    workerId: number;
+    status: "missing" | "stale" | "degraded" | "healthy";
+    ageMs: number | null;
+    reasons: string[];
+  }>;
+}
+
 export class MasterLobbyService {
   private readonly workers = new Map<number, Worker>();
   // Worker id => the lobbies it owns.
   private readonly workerLobbies = new Map<number, PublicGameInfo[]>();
   private readonly readyWorkers = new Set<number>();
+  private readonly workerHealth = new Map<number, WorkerHealthEvidence>();
   private started = false;
 
   constructor(
@@ -43,12 +67,24 @@ export class MasterLobbyService {
       }
 
       const msg = result.data;
+      if ("workerId" in msg && msg.workerId !== workerId) {
+        this.log.error(
+          `Worker ${workerId} sent evidence for worker ${msg.workerId}`,
+        );
+        return;
+      }
       switch (msg.type) {
         case "workerReady":
           this.handleWorkerReady(msg.workerId);
           break;
         case "lobbyList":
           this.workerLobbies.set(workerId, msg.lobbies);
+          break;
+        case "workerHealth":
+          this.workerHealth.set(workerId, {
+            heartbeat: msg,
+            receivedAt: Date.now(),
+          });
           break;
       }
     });
@@ -58,13 +94,68 @@ export class MasterLobbyService {
     this.workers.delete(workerId);
     this.workerLobbies.delete(workerId);
     this.readyWorkers.delete(workerId);
+    this.workerHealth.delete(workerId);
   }
 
-  isHealthy(): boolean {
-    // We consider the lobby service healthy if at least half of the workers are ready.
-    // This allows for some leeway if a worker crashes.
-    const minWorkers = Math.max(this.config.numWorkers() / 2, 1);
-    return this.started && this.readyWorkers.size >= minWorkers;
+  healthSnapshot(now = Date.now()): MasterWorkerHealthSnapshot {
+    const requiredHealthyWorkers = Math.max(
+      Math.ceil(this.config.numWorkers() / 2),
+      1,
+    );
+    const workers = [...this.workers.keys()]
+      .sort((a, b) => a - b)
+      .map((workerId) => {
+        const evidence = this.workerHealth.get(workerId);
+        if (!evidence) {
+          return {
+            workerId,
+            status: "missing" as const,
+            ageMs: null,
+            reasons: ["missing-heartbeat"],
+          };
+        }
+        const sourceAgeMs = Math.max(0, now - evidence.heartbeat.observedAt);
+        const transportAgeMs = Math.max(0, now - evidence.receivedAt);
+        const ageMs = Math.max(sourceAgeMs, transportAgeMs);
+        if (ageMs > WORKER_HEALTH_MAX_AGE_MS) {
+          return {
+            workerId,
+            status: "stale" as const,
+            ageMs,
+            reasons: ["stale-heartbeat"],
+          };
+        }
+        if (!evidence.heartbeat.healthy) {
+          return {
+            workerId,
+            status: "degraded" as const,
+            ageMs,
+            reasons: evidence.heartbeat.reasons,
+          };
+        }
+        return {
+          workerId,
+          status: "healthy" as const,
+          ageMs,
+          reasons: [],
+        };
+      });
+    const freshHealthyWorkers = workers.filter(
+      (worker) => worker.status === "healthy",
+    ).length;
+    return {
+      healthy: this.started && freshHealthyWorkers >= requiredHealthyWorkers,
+      started: this.started,
+      registeredWorkers: this.workers.size,
+      requiredHealthyWorkers,
+      freshHealthyWorkers,
+      maxAgeMs: WORKER_HEALTH_MAX_AGE_MS,
+      workers,
+    };
+  }
+
+  isHealthy(now = Date.now()): boolean {
+    return this.healthSnapshot(now).healthy;
   }
 
   private handleWorkerReady(workerId: number) {

@@ -1,10 +1,10 @@
 {
   "vectorVersion": "1.0",
   "generatedAt": "2026-07-28",
-  "generatedAtMs": 1785206594775,
-  "session": 87,
-  "vectorHash": "b4a3315dc6383593",
-  "silTotal": 995,
+  "generatedAtMs": 1785223688847,
+  "session": 88,
+  "vectorHash": "84cc37e78f8d1423",
+  "silTotal": 997,
   "silAvg3": 994.3,
   "velocity": 7,
   "debt": "down",
@@ -34,7 +34,7 @@
   "type": "game",
   "lifecycle": "alpha",
   "nextMilestone": "Establish an explicitly approved staging origin/callback contract, then collect exact-digest parity and live identity/email/theme/human/revenue evidence in gate order.",
-  "currentFocus": "Session 86 complete: certified dynasty and tournament outcomes, indexed leaderboard projection, deterministic rivalry revenge, and unified certified-game authority shipped.",
+  "currentFocus": "Session 88 complete: fresh Worker quorum readiness, exact Pages artifact delivery, zero hosted cron, monotonic First Extraction, certified Pressure/Breach funnel, canonical action parsing, and dependency cleanup shipped.",
   "lastShipped": "see LATEST_HANDOFF.md",
   "blockers": []
 }

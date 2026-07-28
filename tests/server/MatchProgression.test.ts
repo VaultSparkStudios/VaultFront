@@ -127,6 +127,10 @@ describe("ServerAuthoritativeProgressionSpine", () => {
           convoysLost: 1,
           executionChains: 1,
           surgeActivations: 1,
+          firstVaultPressureTick: 100,
+          firstBreachOpenTick: 200,
+          decisiveDeliveryTick: 300,
+          vaultBreachVictoryTick: 300,
         },
         {
           persistentId: "p2",
@@ -191,6 +195,7 @@ describe("ServerAuthoritativeProgressionSpine", () => {
     expect(recordDailyMastery).toHaveBeenCalledTimes(2);
     expect(recordSeasonContracts).toHaveBeenCalledTimes(2);
     expect(recordLoopEvidence).toHaveBeenCalledTimes(1);
+    expect(recordLoopEvidence).toHaveBeenCalledWith(outcome);
     expect(recordCertifiedOutcomes).toHaveBeenCalledTimes(1);
     expect(recordCertifiedOutcomes).toHaveBeenCalledWith(outcome);
     expect(recordSeasonContracts).toHaveBeenCalledWith(

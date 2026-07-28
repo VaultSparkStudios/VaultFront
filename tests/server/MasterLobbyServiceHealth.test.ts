@@ -1,6 +1,9 @@
 import EventEmitter from "events";
 import { describe, expect, it, vi } from "vitest";
-import { MasterLobbyService } from "../../src/server/MasterLobbyService";
+import {
+  MasterLobbyService,
+  WORKER_HEALTH_MAX_AGE_MS,
+} from "../../src/server/MasterLobbyService";
 import { TestServerConfig } from "../util/TestServerConfig";
 
 vi.mock("../../src/server/Logger", () => ({
@@ -26,6 +29,25 @@ function sendWorkerReady(worker: EventEmitter, workerId: number) {
   worker.emit("message", { type: "workerReady", workerId });
 }
 
+function sendWorkerHealth(
+  worker: EventEmitter,
+  workerId: number,
+  input: {
+    observedAt?: number;
+    healthy?: boolean;
+    reasons?: string[];
+  } = {},
+) {
+  const healthy = input.healthy ?? true;
+  worker.emit("message", {
+    type: "workerHealth",
+    workerId,
+    observedAt: input.observedAt ?? Date.now(),
+    healthy,
+    reasons: input.reasons ?? (healthy ? [] : ["game-loop-stale"]),
+  });
+}
+
 function createService(numWorkers: number): MasterLobbyService {
   const config = new TestServerConfig();
   vi.spyOn(config, "numWorkers").mockReturnValue(numWorkers);
@@ -45,6 +67,7 @@ function startAllWorkers(
   });
   for (const { w, id } of workers) {
     sendWorkerReady(w, id);
+    sendWorkerHealth(w, id);
   }
   return workers;
 }
@@ -72,10 +95,67 @@ describe("MasterLobbyService.isHealthy", () => {
     expect(service.isHealthy()).toBe(false);
   });
 
+  it("fails closed when all workers are ready but health evidence is missing", () => {
+    const service = createService(1);
+    const worker = createMockWorker();
+    service.registerWorker(1, worker as any);
+    sendWorkerReady(worker, 1);
+
+    expect(service.healthSnapshot()).toMatchObject({
+      healthy: false,
+      freshHealthyWorkers: 0,
+      workers: [{ workerId: 1, status: "missing" }],
+    });
+  });
+
+  it("fails closed when the only worker heartbeat is stale", () => {
+    const service = createService(1);
+    const worker = createMockWorker();
+    service.registerWorker(1, worker as any);
+    sendWorkerReady(worker, 1);
+    const observedAt = Date.now();
+    sendWorkerHealth(worker, 1, { observedAt });
+
+    expect(
+      service.healthSnapshot(observedAt + WORKER_HEALTH_MAX_AGE_MS + 1),
+    ).toMatchObject({
+      healthy: false,
+      freshHealthyWorkers: 0,
+      workers: [{ workerId: 1, status: "stale" }],
+    });
+  });
+
+  it("fails closed and preserves reasons for degraded worker evidence", () => {
+    const service = createService(1);
+    const worker = createMockWorker();
+    service.registerWorker(1, worker as any);
+    sendWorkerReady(worker, 1);
+    sendWorkerHealth(worker, 1, {
+      healthy: false,
+      reasons: ["ipc-disconnected", "persistence-failed"],
+    });
+
+    expect(service.healthSnapshot()).toMatchObject({
+      healthy: false,
+      workers: [
+        {
+          workerId: 1,
+          status: "degraded",
+          reasons: ["ipc-disconnected", "persistence-failed"],
+        },
+      ],
+    });
+  });
+
   it("healthy once all workers are ready", () => {
     const service = createService(2);
     startAllWorkers(service, 2);
-    expect(service.isHealthy()).toBe(true);
+    expect(service.healthSnapshot()).toMatchObject({
+      healthy: true,
+      registeredWorkers: 2,
+      requiredHealthyWorkers: 1,
+      freshHealthyWorkers: 2,
+    });
   });
 
   it("stays healthy after a single worker crash", () => {

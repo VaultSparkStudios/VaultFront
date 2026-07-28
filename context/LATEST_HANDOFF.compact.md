@@ -1,50 +1,49 @@
 <!-- generated-by: scripts/compact-handoff.mjs v3.1 -->
 <!-- source-hash: 8a5c03e671f0 -->
-<!-- generated-at: 2026-07-28T02:40:44.359Z -->
+<!-- generated-at: 2026-07-28T04:43:41.410Z -->
 
 # LATEST_HANDOFF (compact)
 
-SESSION 87 HANDOFF SUMMARY
+SESSION HANDOFF SUMMARY
 
-Session: 87 closeout (2026-07-27); branch main; no pending local work.
+Session
 
-Shipped this session:
+- Latest closeout: Session 87 (2026-07-27); active intent framed by Session 86 arc.
 
-- Audit 6/6 and innovations 38/38 shipped.
+Shipped (Session 87)
+
+- Audit 6/6 and innovations 38/38 shipped; no pending local work on main.
 - Tournament advancement fails closed on persistence; archived certificates bind exact rosters and winner identities.
-- Memory/PostgreSQL rating semantics, canonical victory guidance, innovation regeneration, and production-scoped CI audit now agree at authority boundaries.
+- Memory/PostgreSQL rating, victory guidance, innovation regeneration, and production-scoped CI audit agree at authority boundaries.
 
-Verification:
+Current Intent
 
-- 181 files / 990 tests; 33.08% lines / 32.71% statements.
-- TypeScript, ESLint, format, contracts, production build all green.
-- 28,125 balance scenarios; bundle/media/performance budgets pass.
-- Production audit zero; 26/26 Playwright green.
+- Run continuous agent-neutral arc: audit live code against infra rubric plus public-app release lens, implement verified primary and second-order items at top quality, preserve source-derived observability and direct exit-code truth, then close/sanitize/commit/push to main without fabricating external release evidence.
 
-Current intent:
+Verification State
 
-- Continue agent-neutral arc: audit live code, implement verified primary + second-order items at top quality, preserve source-derived observability and exit-code truth, close to main without fabricating external release evidence.
+- 181 files / 990 tests; 33.08% lines, 32.71% statements.
+- Green: TypeScript, ESLint, format, contracts, production build, 28,125 balance scenarios, bundle/media/performance, production audit zero, 26/26 Playwright.
 
-Now bucket (top 3):
+Now Bucket (top 3)
 
 - Establish explicitly approved staging origin/callback contract.
 - Collect exact-digest parity evidence against approved staging.
-- Gather live identity/delivery/theme evidence in gate order.
+- Gather live identity and project-domain delivery evidence in gate order.
 
-Blockers (top 3):
+Blockers (top 3)
 
-- No approved staging origin/callback contract exists.
-- No exact-digest parity or live-web health evidence.
-- No project-domain email delivery or native Obelisk identity proof.
+- No approved staging/parity origin; local E2E is not approved staging.
+- READY Cloudflare/Brevo/Obelisk credentials do not prove live delivery, native identity, or live-web health.
+- Supply chain: all-dependency audit retains nine dev-only aliases in semantic-release's bundled npm 11; registry force-fix is unsafe downgrade, patched npm 12 outside verified Node matrix.
 
-Human-blocked items:
+Human-Blocked (with age)
 
-- Founder approval / GO decision: outstanding since at least Session 82 (5+ sessions).
-- Three-distinct-human Alpha evidence: outstanding, multi-session.
-- Revenue and rollback evidence: outstanding, multi-session.
+- Three-human Alpha evidence: absent (open since >=Session 82).
+- Founder approval: absent (open since >=Session 82).
+- Revenue and rollback evidence: absent (open since >=Session 82).
+- Release posture: public-unlaunched, NO-GO.
 
-Release posture: public-unlaunched, NO-GO. READY credentials (Cloudflare, Brevo, Obelisk) are not deployment authorization or observed delivery.
+Next Session Pointer
 
-Supply-chain note: production audit zero; all-dependency audit retains nine dev-only aliases in semantic-release's bundled npm 11 (force-fix unsafe downgrade; patched npm 12 outside verified Node matrix).
-
-Next session: Secure approved staging origin/callback contract, then walk the external release-evidence corridor in gate order.
+- Begin by securing an approved staging origin/callback contract, then work the external release-evidence corridor in gate order.

@@ -40,6 +40,10 @@ export interface AuthoritativePlayerOutcome {
   surgeActivations: number;
   firstVaultCaptureTick?: number;
   firstConvoyOutcomeTick?: number;
+  firstVaultPressureTick?: number;
+  firstBreachOpenTick?: number;
+  decisiveDeliveryTick?: number;
+  vaultBreachVictoryTick?: number;
   behindAtMinute8?: boolean;
   conquests?: number;
   passivePayouts?: number;

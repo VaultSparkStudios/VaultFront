@@ -5,6 +5,7 @@ import { PublicGameInfo, PublicGames } from "../core/Schemas";
 import { GameManager } from "./GameManager";
 import {
   MasterMessageSchema,
+  WorkerHealthHeartbeat,
   WorkerLobbyList,
   WorkerReady,
 } from "./IPCBridgeSchema";
@@ -215,6 +216,13 @@ export class WorkerLobbyService {
   sendReady(workerId: number) {
     const msg: WorkerReady = { type: "workerReady", workerId };
     process.send?.(msg);
+  }
+
+  sendHealthHeartbeat(
+    workerId: number,
+    evidence: Omit<WorkerHealthHeartbeat, "type" | "workerId">,
+  ): void {
+    process.send?.({ type: "workerHealth", workerId, ...evidence });
   }
 
   private sendMyLobbiesToMaster() {

@@ -196,7 +196,13 @@ export class StatsImpl implements Stats {
 
   private _setVaultFrontFirst(
     player: Player,
-    key: "firstVaultCaptureTick" | "firstConvoyOutcomeTick",
+    key:
+      | "firstVaultCaptureTick"
+      | "firstConvoyOutcomeTick"
+      | "firstVaultPressureTick"
+      | "firstBreachOpenTick"
+      | "decisiveDeliveryTick"
+      | "vaultBreachVictoryTick",
     tick: number | undefined,
   ): void {
     if (!Number.isSafeInteger(tick) || (tick ?? -1) < 0) return;
@@ -364,6 +370,22 @@ export class StatsImpl implements Stats {
   vaultConvoyLost(owner: Player, tick?: number): void {
     this._addVaultFront(owner, "vaultConvoysLost", 1);
     this._setVaultFrontFirst(owner, "firstConvoyOutcomeTick", tick);
+  }
+
+  vaultPressureAdvanced(player: Player, tick: number): void {
+    this._setVaultFrontFirst(player, "firstVaultPressureTick", tick);
+  }
+
+  vaultBreachOpened(player: Player, tick: number): void {
+    this._setVaultFrontFirst(player, "firstBreachOpenTick", tick);
+  }
+
+  vaultDecisiveDelivery(player: Player, tick: number): void {
+    this._setVaultFrontFirst(player, "decisiveDeliveryTick", tick);
+  }
+
+  vaultBreachVictory(player: Player, tick: number): void {
+    this._setVaultFrontFirst(player, "vaultBreachVictoryTick", tick);
   }
 
   vaultRivalryRevenge(player: Player): void {

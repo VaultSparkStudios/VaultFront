@@ -288,3 +288,14 @@ Public-safe summary only. Sensitive verification notes are maintained privately.
 - Memory and PostgreSQL Elo paths both consume current matches played; canonical player copy describes the executable four-delivery Breach loop; regeneration preserves rank 38; CI blocks production dependency risk while keeping dev-only advisory truth visible.
 - Direct verification passed: 181 Vitest files / 990 tests; 33.08% lines / 32.71% statements; TypeScript; ESLint; Prettier ratchet; 41/41 mutation policies; public ingest 10/10; 41 deploy checks; production build; 28,125 balance scenarios; bundle/media/performance budgets; production npm audit zero; Playwright 26/26.
 - Release evidence remains NO-GO on nine missing/dirty observations. Commit is expected to resolve dirty-source state only; no approved staging/parity, project-domain delivery, native Obelisk, live-web, distinct-human Alpha, revenue, rollback, or founder approval was inferred.
+
+## 2026-07-28 — Session 88 runtime, delivery, and decisive-loop truth audit
+
+- `docs/AUDIT_2026-07-28.json` has items 96–103 shipped and complete; item 104 remains externally blocked. `docs/INNOVATION_PACK.json` is exhausted at 41/41 with no pending unblocked local work.
+- Master health derives from fresh typed worker-internal quorum evidence. Pages validates and uploads one deterministic `static` artifact. Hosted workflow cron is zero and guarded by a repository census.
+- Both contact leaves use the project-domain action; human-action aging consumes the canonical task-board parser and preserves durable ages when representation is unknown.
+- First Extraction and certified match evidence share Capture → outcome → Pressure → Breach → decisive delivery. Aggregate funnel persistence contains conversion/timing only and no actor identifiers.
+- The tracked map-generator binary and unused runtime dependencies are absent; production dependency count fell from 252 to 219 and the production audit reports zero vulnerabilities.
+- Registry-delta Ark cargo `01JUJNSAUUE4626BC279319392` was shipped; no applied acknowledgement exists yet, so external identity coherence is not claimed.
+- Direct verification passed across 184 Vitest files / 1,011 tests, TypeScript, ESLint, formatting, contracts, production build, Pages, bundle, and production audit gates. Full E2E was 25/26 after one reload timeout; the exact isolated failed theme test passed.
+- Release remains public-unlaunched / NO-GO. Local proof does not establish approved staging/parity, project-domain delivery, native Obelisk, live-web, three-human Alpha, revenue, rollback, or founder approval.

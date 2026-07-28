@@ -593,6 +593,54 @@ const candidates = [
       "shared CertifiedGameAuthority kernel, focused authority tests, and multiple production consumers in dynasty and tournament flows",
   },
   {
+    id: "fresh-worker-quorum-proof",
+    title: "Make master health prove a fresh worker quorum",
+    description:
+      "Replace process-presence health with bounded-age worker evidence so missing, stale, and degraded workers fail closed before the master advertises readiness.",
+    complete:
+      has("src/server/MasterLobbyService.ts", /status: "stale"/) &&
+      has("src/server/IPCBridgeSchema.ts", /workerHealth/) &&
+      has(
+        "tests/server/MasterLobbyServiceHealth.test.ts",
+        /worker heartbeat is stale/,
+      ),
+    evidence:
+      "fresh-worker quorum projection, typed workerHealth IPC evidence, stale-worker rejection, and focused master health tests",
+  },
+  {
+    id: "validated-artifact-isomorphism",
+    title:
+      "Make the deployed Pages artifact identical to the validated artifact",
+    description:
+      "Validate the exact static directory uploaded by the Pages workflow so a launch stub or alternate artifact can never bypass the public-surface contract.",
+    complete:
+      has("scripts/check-pages-deploy-contract.mjs", /required/) &&
+      has(
+        ".github/workflows/deploy-pages.yml",
+        /check-pages-deploy-contract\.mjs --artifact static/,
+      ) &&
+      has(".github/workflows/deploy-pages.yml", /path:\s*static/),
+    evidence:
+      "artifact contract checker, workflow invocation against static, and upload-pages binding to the same static directory",
+  },
+  {
+    id: "hosted-cron-zero-invariant",
+    title: "Keep hosted workflow cron at exactly zero",
+    description:
+      "Mechanize the zero-hosted-cron cost invariant and keep formerly scheduled brief-integrity and stale-PR workflows manual without confusing Dependabot metadata for hosted execution.",
+    complete:
+      has(
+        "scripts/check-hosted-cron-contract.mjs",
+        /hosted schedule is forbidden/,
+      ) &&
+      has(".github/workflows/brief-format-check.yml", /workflow_dispatch/) &&
+      !has(".github/workflows/brief-format-check.yml", /^\s*schedule\s*:/m) &&
+      has(".github/workflows/pr-stale.yml", /workflow_dispatch/) &&
+      !has(".github/workflows/pr-stale.yml", /^\s*schedule\s*:/m),
+    evidence:
+      "repository-wide hosted-cron checker plus schedule-free brief-format and stale-PR workflows with explicit manual dispatch",
+  },
+  {
     id: "monotonic-innovation-ledger-guard",
     title: "Make shipped innovation evidence monotonic under regeneration",
     description:

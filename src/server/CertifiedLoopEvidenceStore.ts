@@ -18,6 +18,10 @@ export interface CertifiedLoopEvidencePlayer {
   convoysLost: number;
   firstVaultCaptureTick?: number;
   firstConvoyOutcomeTick?: number;
+  firstVaultPressureTick?: number;
+  firstBreachOpenTick?: number;
+  decisiveDeliveryTick?: number;
+  vaultBreachVictoryTick?: number;
 }
 
 export interface CertifiedLoopEvidenceInput {
@@ -39,7 +43,23 @@ interface LoopEvidenceRecord {
   firstVaultSamples: number;
   firstOutcomeSecondsTotal: number;
   firstOutcomeSamples: number;
+  pressureFunnel: PressureBreachFunnelRecord;
   phases: LoopIntentFunnel;
+}
+
+interface PressureBreachFunnelRecord {
+  pressureParticipants: number;
+  breachParticipants: number;
+  decisiveDeliveryParticipants: number;
+  victoryParticipants: number;
+  firstPressureSecondsTotal: number;
+  firstPressureSamples: number;
+  firstBreachSecondsTotal: number;
+  firstBreachSamples: number;
+  decisiveDeliverySecondsTotal: number;
+  decisiveDeliverySamples: number;
+  victorySecondsTotal: number;
+  victorySamples: number;
 }
 
 export interface CertifiedLoopEvidenceReceipt {
@@ -48,6 +68,10 @@ export interface CertifiedLoopEvidenceReceipt {
   vaultParticipants: number;
   outcomeParticipants: number;
   completedCycleParticipants: number;
+  pressureParticipants: number;
+  breachParticipants: number;
+  decisiveDeliveryParticipants: number;
+  victoryParticipants: number;
   evidence: "certified-match-result";
   durability: "postgres" | "process-local";
 }
@@ -59,10 +83,22 @@ export interface CertifiedLoopEvidenceSummary {
   vaultParticipants: number;
   outcomeParticipants: number;
   completedCycleParticipants: number;
+  pressureParticipants: number;
+  breachParticipants: number;
+  decisiveDeliveryParticipants: number;
+  victoryParticipants: number;
   vaultParticipationRatePct: number;
   cycleCompletionRatePct: number;
   averageFirstVaultSeconds: number | null;
   averageFirstOutcomeSeconds: number | null;
+  pressureParticipationRatePct: number;
+  pressureToBreachConversionRatePct: number;
+  breachToDecisiveDeliveryConversionRatePct: number;
+  breachToVictoryConversionRatePct: number;
+  averageFirstPressureSeconds: number | null;
+  averageFirstBreachSeconds: number | null;
+  averageDecisiveDeliverySeconds: number | null;
+  averageVaultBreachVictorySeconds: number | null;
   phases: LoopIntentFunnel;
   evidence: "certified-match-result";
   durability: "postgres" | "process-local";
@@ -80,6 +116,32 @@ const emptyPhases = (): LoopIntentFunnel => ({
   mid: {},
   late: {},
 });
+
+const emptyPressureFunnel = (): PressureBreachFunnelRecord => ({
+  pressureParticipants: 0,
+  breachParticipants: 0,
+  decisiveDeliveryParticipants: 0,
+  victoryParticipants: 0,
+  firstPressureSecondsTotal: 0,
+  firstPressureSamples: 0,
+  firstBreachSecondsTotal: 0,
+  firstBreachSamples: 0,
+  decisiveDeliverySecondsTotal: 0,
+  decisiveDeliverySamples: 0,
+  victorySecondsTotal: 0,
+  victorySamples: 0,
+});
+
+function sanitizePressureFunnel(
+  input: Partial<PressureBreachFunnelRecord> | null | undefined,
+): PressureBreachFunnelRecord {
+  const output = emptyPressureFunnel();
+  for (const key of Object.keys(output) as Array<keyof typeof output>) {
+    const value = Number(input?.[key] ?? 0);
+    output[key] = Number.isFinite(value) && value >= 0 ? value : 0;
+  }
+  return output;
+}
 
 function safeCount(value: number): number {
   return Number.isSafeInteger(value) && value > 0
@@ -149,7 +211,7 @@ export class CertifiedLoopEvidenceStore {
                 vault_participants, outcome_participants,
                 completed_cycle_participants, first_vault_seconds_total,
                 first_vault_samples, first_outcome_seconds_total,
-                first_outcome_samples, intent_funnel
+                first_outcome_samples, pressure_breach_funnel, intent_funnel
            FROM certified_loop_evidence
           ORDER BY recorded_at DESC
           LIMIT $1`,
@@ -167,6 +229,7 @@ export class CertifiedLoopEvidenceStore {
           firstVaultSamples: Number(row.first_vault_samples),
           firstOutcomeSecondsTotal: Number(row.first_outcome_seconds_total),
           firstOutcomeSamples: Number(row.first_outcome_samples),
+          pressureFunnel: sanitizePressureFunnel(row.pressure_breach_funnel),
           phases: sanitizePhases(
             (row.intent_funnel ?? emptyPhases()) as LoopIntentFunnel,
           ),
@@ -189,6 +252,7 @@ export class CertifiedLoopEvidenceStore {
     let firstVaultSamples = 0;
     let firstOutcomeSecondsTotal = 0;
     let firstOutcomeSamples = 0;
+    const pressureFunnel = emptyPressureFunnel();
     for (const player of input.players) {
       const hasVault = safeCount(player.vaultCaptures) > 0;
       const hasOutcome =
@@ -212,6 +276,42 @@ export class CertifiedLoopEvidenceStore {
         firstOutcomeSecondsTotal += firstOutcome;
         firstOutcomeSamples += 1;
       }
+      const firstPressure = safeSeconds(
+        player.firstVaultPressureTick,
+        input.turnIntervalMs,
+      );
+      if (firstPressure !== null) {
+        pressureFunnel.pressureParticipants += 1;
+        pressureFunnel.firstPressureSecondsTotal += firstPressure;
+        pressureFunnel.firstPressureSamples += 1;
+      }
+      const firstBreach = safeSeconds(
+        player.firstBreachOpenTick,
+        input.turnIntervalMs,
+      );
+      if (firstBreach !== null) {
+        pressureFunnel.breachParticipants += 1;
+        pressureFunnel.firstBreachSecondsTotal += firstBreach;
+        pressureFunnel.firstBreachSamples += 1;
+      }
+      const decisiveDelivery = safeSeconds(
+        player.decisiveDeliveryTick,
+        input.turnIntervalMs,
+      );
+      if (decisiveDelivery !== null) {
+        pressureFunnel.decisiveDeliveryParticipants += 1;
+        pressureFunnel.decisiveDeliverySecondsTotal += decisiveDelivery;
+        pressureFunnel.decisiveDeliverySamples += 1;
+      }
+      const victory = safeSeconds(
+        player.vaultBreachVictoryTick,
+        input.turnIntervalMs,
+      );
+      if (victory !== null) {
+        pressureFunnel.victoryParticipants += 1;
+        pressureFunnel.victorySecondsTotal += victory;
+        pressureFunnel.victorySamples += 1;
+      }
     }
     return {
       gameId: input.gameId,
@@ -224,6 +324,7 @@ export class CertifiedLoopEvidenceStore {
       firstVaultSamples,
       firstOutcomeSecondsTotal,
       firstOutcomeSamples,
+      pressureFunnel,
       phases: sanitizePhases(input.intentFunnel),
     };
   }
@@ -237,8 +338,9 @@ export class CertifiedLoopEvidenceStore {
          (game_id, duration_seconds, player_samples, vault_participants,
           outcome_participants, completed_cycle_participants,
           first_vault_seconds_total, first_vault_samples,
-          first_outcome_seconds_total, first_outcome_samples, intent_funnel)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11::jsonb)
+          first_outcome_seconds_total, first_outcome_samples,
+          pressure_breach_funnel, intent_funnel)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11::jsonb,$12::jsonb)
        ON CONFLICT DO NOTHING
        RETURNING game_id`,
       [
@@ -252,6 +354,7 @@ export class CertifiedLoopEvidenceStore {
         record.firstVaultSamples,
         record.firstOutcomeSecondsTotal,
         record.firstOutcomeSamples,
+        JSON.stringify(record.pressureFunnel),
         JSON.stringify(record.phases),
       ],
     );
@@ -272,10 +375,16 @@ export class CertifiedLoopEvidenceStore {
       firstOutcomeSecondsTotal: 0,
       firstOutcomeSamples: 0,
     };
+    const pressureFunnel = emptyPressureFunnel();
     const phases = emptyPhases();
     for (const record of records) {
       for (const key of Object.keys(totals) as Array<keyof typeof totals>) {
         totals[key] += record[key];
+      }
+      for (const key of Object.keys(pressureFunnel) as Array<
+        keyof typeof pressureFunnel
+      >) {
+        pressureFunnel[key] += record.pressureFunnel[key];
       }
       for (const phase of ["early", "mid", "late"] as const) {
         for (const [intent, count] of Object.entries(record.phases[phase])) {
@@ -294,6 +403,10 @@ export class CertifiedLoopEvidenceStore {
       vaultParticipants: totals.vaultParticipants,
       outcomeParticipants: totals.outcomeParticipants,
       completedCycleParticipants: totals.completedCycleParticipants,
+      pressureParticipants: pressureFunnel.pressureParticipants,
+      breachParticipants: pressureFunnel.breachParticipants,
+      decisiveDeliveryParticipants: pressureFunnel.decisiveDeliveryParticipants,
+      victoryParticipants: pressureFunnel.victoryParticipants,
       vaultParticipationRatePct: pct(
         totals.vaultParticipants,
         totals.playerSamples,
@@ -309,6 +422,38 @@ export class CertifiedLoopEvidenceStore {
       averageFirstOutcomeSeconds: average(
         totals.firstOutcomeSecondsTotal,
         totals.firstOutcomeSamples,
+      ),
+      pressureParticipationRatePct: pct(
+        pressureFunnel.pressureParticipants,
+        totals.playerSamples,
+      ),
+      pressureToBreachConversionRatePct: pct(
+        pressureFunnel.breachParticipants,
+        pressureFunnel.pressureParticipants,
+      ),
+      breachToDecisiveDeliveryConversionRatePct: pct(
+        pressureFunnel.decisiveDeliveryParticipants,
+        pressureFunnel.breachParticipants,
+      ),
+      breachToVictoryConversionRatePct: pct(
+        pressureFunnel.victoryParticipants,
+        pressureFunnel.breachParticipants,
+      ),
+      averageFirstPressureSeconds: average(
+        pressureFunnel.firstPressureSecondsTotal,
+        pressureFunnel.firstPressureSamples,
+      ),
+      averageFirstBreachSeconds: average(
+        pressureFunnel.firstBreachSecondsTotal,
+        pressureFunnel.firstBreachSamples,
+      ),
+      averageDecisiveDeliverySeconds: average(
+        pressureFunnel.decisiveDeliverySecondsTotal,
+        pressureFunnel.decisiveDeliverySamples,
+      ),
+      averageVaultBreachVictorySeconds: average(
+        pressureFunnel.victorySecondsTotal,
+        pressureFunnel.victorySamples,
       ),
       phases,
       evidence: "certified-match-result",
@@ -326,6 +471,11 @@ export class CertifiedLoopEvidenceStore {
       vaultParticipants: record.vaultParticipants,
       outcomeParticipants: record.outcomeParticipants,
       completedCycleParticipants: record.completedCycleParticipants,
+      pressureParticipants: record.pressureFunnel.pressureParticipants,
+      breachParticipants: record.pressureFunnel.breachParticipants,
+      decisiveDeliveryParticipants:
+        record.pressureFunnel.decisiveDeliveryParticipants,
+      victoryParticipants: record.pressureFunnel.victoryParticipants,
       evidence: "certified-match-result",
       durability,
     };

@@ -8,6 +8,8 @@ import {
 
 export type WorkerLobbyList = z.infer<typeof WorkerLobbyListSchema>;
 export type WorkerReady = z.infer<typeof WorkerReadySchema>;
+export type WorkerHealthHeartbeat = z.infer<typeof WorkerHealthHeartbeatSchema>;
+export type WorkerHealthReason = z.infer<typeof WorkerHealthReasonSchema>;
 export type MasterLobbiesBroadcast = z.infer<
   typeof MasterLobbiesBroadcastSchema
 >;
@@ -27,12 +29,33 @@ const WorkerLobbyListSchema = z.object({
 
 const WorkerReadySchema = z.object({
   type: z.literal("workerReady"),
-  workerId: z.number(),
+  workerId: z.number().int().nonnegative(),
 });
+
+export const WorkerHealthReasonSchema = z.enum([
+  "game-loop-stale",
+  "ipc-disconnected",
+  "ipc-stale",
+  "persistence-connecting",
+  "persistence-failed",
+]);
+
+const WorkerHealthHeartbeatSchema = z
+  .object({
+    type: z.literal("workerHealth"),
+    workerId: z.number().int().nonnegative(),
+    observedAt: z.number().int().nonnegative(),
+    healthy: z.boolean(),
+    reasons: z.array(WorkerHealthReasonSchema).max(5),
+  })
+  .refine((value) => value.healthy === (value.reasons.length === 0), {
+    message: "healthy must agree with reasons",
+  });
 
 export const WorkerMessageSchema = z.discriminatedUnion("type", [
   WorkerLobbyListSchema,
   WorkerReadySchema,
+  WorkerHealthHeartbeatSchema,
 ]);
 
 // --- Master Messages ---

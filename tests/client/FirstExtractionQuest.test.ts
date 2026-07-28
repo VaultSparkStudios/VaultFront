@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import {
+  advanceFirstExtractionProgress,
   breachVictoryCallout,
+  EMPTY_FIRST_EXTRACTION_PROGRESS,
   FIRST_EXTRACTION_CONVOY_ACTION_LABEL,
   FIRST_EXTRACTION_ORIENTATION,
   FIRST_EXTRACTION_STEPS,
@@ -11,19 +13,20 @@ import {
 } from "../../src/client/FirstExtractionQuest";
 
 describe("First Extraction quest contract", () => {
-  it("owns one four-action vocabulary for desktop and mobile surfaces", () => {
+  it("owns one progressive Pressure-to-Breach vocabulary", () => {
     expect(FIRST_EXTRACTION_TITLE).toBe("First Extraction");
     expect(FIRST_EXTRACTION_STEPS.map((step) => step.key)).toEqual([
-      "focusSet",
       "vaultCaptured",
       "convoyAction",
-      "pulseTriggered",
+      "pressureStarted",
+      "breachOpened",
+      "decisiveDelivery",
     ]);
-    expect(FIRST_EXTRACTION_STEPS[2].label).toBe(
+    expect(FIRST_EXTRACTION_STEPS[1].label).toBe(
       FIRST_EXTRACTION_CONVOY_ACTION_LABEL,
     );
     expect(FIRST_EXTRACTION_CONVOY_ACTION_LABEL).toBe(
-      "Deliver, shield, or intercept one Vault Convoy",
+      "Engage one Vault Convoy — deliver, shield, or intercept",
     );
   });
 
@@ -49,22 +52,62 @@ describe("First Extraction quest contract", () => {
     expect(isFirstExtractionConvoyActivity("convoy_launched")).toBe(false);
   });
 
-  it("unlocks advanced coaching only after every core action", () => {
+  it("advances in authoritative stage order from pressure status", () => {
+    const earlyIntercept = advanceFirstExtractionProgress(
+      EMPTY_FIRST_EXTRACTION_PROGRESS,
+      { convoyAction: true },
+    );
+    expect(earlyIntercept).toEqual(EMPTY_FIRST_EXTRACTION_PROGRESS);
+
+    const firstPressure = advanceFirstExtractionProgress(
+      EMPTY_FIRST_EXTRACTION_PROGRESS,
+      { pressure: 1, pressureThreshold: 3, currentTick: 100 },
+    );
+    expect(firstPressure).toEqual({
+      vaultCaptured: true,
+      convoyAction: true,
+      pressureStarted: true,
+      breachOpened: false,
+      decisiveDelivery: false,
+    });
+
+    const breach = advanceFirstExtractionProgress(firstPressure, {
+      pressure: 3,
+      pressureThreshold: 3,
+      breachWindowUntilTick: 200,
+      currentTick: 100,
+    });
+    expect(breach).toEqual({
+      vaultCaptured: true,
+      convoyAction: true,
+      pressureStarted: true,
+      breachOpened: true,
+      decisiveDelivery: false,
+    });
+  });
+
+  it("requires the decisive breach delivery before completion", () => {
     expect(
       firstExtractionComplete({
-        focusSet: true,
         vaultCaptured: true,
         convoyAction: true,
-        pulseTriggered: false,
+        pressureStarted: true,
+        breachOpened: true,
+        decisiveDelivery: false,
       }),
     ).toBe(false);
-    expect(
-      firstExtractionComplete({
-        focusSet: true,
-        vaultCaptured: true,
-        convoyAction: true,
-        pulseTriggered: true,
-      }),
-    ).toBe(true);
+
+    const victory = advanceFirstExtractionProgress(
+      EMPTY_FIRST_EXTRACTION_PROGRESS,
+      { victorySecured: true },
+    );
+    expect(victory).toEqual({
+      vaultCaptured: true,
+      convoyAction: true,
+      pressureStarted: true,
+      breachOpened: true,
+      decisiveDelivery: true,
+    });
+    expect(firstExtractionComplete(victory)).toBe(true);
   });
 });

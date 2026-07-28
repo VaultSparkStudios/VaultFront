@@ -21,6 +21,9 @@ eslint_out.txt
 Screenshot *.png
 generated/WorldMapData.json
 generated/WorldMapData.json.compressed
+# Go map generator output; use `go run .` and never commit host binaries.
+/map-generator/map-generator
+/map-generator/map-generator.exe
 .codex-temp-*/
 
 # Claude Code session data

@@ -1,0 +1,372 @@
+{
+  "schemaVersion": "1.0",
+  "session": 88,
+  "generatedBy": "Codex /goal /arc Session 88",
+  "generatedAt": "2026-07-28T05:00:00Z",
+  "project": {
+    "slug": "vaultfront",
+    "name": "VaultFront",
+    "type": "game",
+    "registryType": "app",
+    "audience": "public-unlaunched",
+    "stage": "FORGE",
+    "stagingType": "local"
+  },
+  "summary": "Session 88 infrastructure audit fan-in: items 96–103 shipped with source-derived tests covering truthful worker quorum health, validated Pages artifact deployment, zero hosted cron, on-domain contact actions, canonical human-action parsing, the Pressure-to-Breach onboarding arc, certified decisive-loop evidence, and deployable-weight retirement. Item 104 remains externally blocked after registry-delta cargo 01JUJNSAUUE4626BC279319392; local truth validation is already present and closure awaits an applied acknowledgement. External launch evidence remains a truthful NO-GO corridor.",
+  "axes": {
+    "featureDepth": 1.5,
+    "innovation": 1.5,
+    "ux": 1.5,
+    "feedbackLoop": 2,
+    "gamification": 1.5,
+    "aiIntegration": 1,
+    "security": 3,
+    "speedOrganization": 3,
+    "tokenApiReduction": 1
+  },
+  "specialtyReviews": {
+    "gameLoop": {
+      "score": 81,
+      "confidence": "code-grounded-low-empirical",
+      "axes": {
+        "loopTightness": 86,
+        "progression": 78,
+        "sessionEngagement": 82,
+        "retention": 72,
+        "soulFidelity": 88
+      },
+      "boundary": "No distinct-human Alpha or playtest corpus exists; engagement and retention remain hypotheses."
+    },
+    "release": {
+      "verdict": "no-go",
+      "passing": [
+        "last five CI runs green",
+        "cost-neutral CANON-029 gates",
+        "repo-side sitemap/footer/theme/deploy contracts"
+      ],
+      "red": [
+        "Pages publishes pages-stub rather than the validated public surface",
+        "project-domain contact address is not the mailto action",
+        "no approved staging, delivery, relying-party, parity, human-Alpha, revenue, rollback-observation, or founder-approval evidence"
+      ]
+    }
+  },
+  "rejectedPremises": [
+    {
+      "candidate": "Add another progression, retention, tournament, achievement, or rematch system",
+      "result": "skipped",
+      "evidence": "Those systems already exist and are reachable; the verified defect is hierarchy and evidence, not missing breadth."
+    },
+    {
+      "candidate": "Retune match pacing from constants and tests",
+      "result": "skipped",
+      "evidence": "No human comprehension or preference corpus exists."
+    },
+    {
+      "candidate": "Treat local browser proof or source-declared routes as launch evidence",
+      "result": "skipped",
+      "evidence": "Neither proves an approved origin, exact-digest parity, delivery, runtime health, or founder approval."
+    },
+    {
+      "candidate": "Perform broad Worker, ControlPanel, or simulation god-object rewrites in one saturated arc",
+      "result": "deferred",
+      "evidence": "The composition ratchets are still green; broad rewrites would create more risk than the bounded, premise-proven seams below."
+    }
+  ],
+  "items": [
+    {
+      "id": 96,
+      "slug": "worker-quorum-health-authority",
+      "tier": "🔥",
+      "axis": "security / reliability / observability",
+      "effortHours": 6,
+      "impact": 10,
+      "innovation": 8,
+      "priority": 26.7,
+      "status": "shipped",
+      "title": "Make production health prove worker-internal quorum",
+      "why": "Nginx sends /_health to Master, whose health only observes lobby worker presence. Worker readiness separately validates game-loop, IPC, and database posture, so deploy and promotion can accept a process topology whose workers are internally unhealthy.",
+      "recipe": "Define a bounded worker-health heartbeat contract, aggregate fresh ready-worker quorum and degraded reasons in MasterLobbyService, make Master /_health fail closed on missing/stale/unready worker evidence, preserve a lightweight liveness distinction, and test no-worker, stale-worker, degraded-worker, and healthy-quorum branches.",
+      "ladder": {
+        "L1": {
+          "effortHours": 2,
+          "recipe": "Expose worker heartbeat state and fail closed when absent."
+        },
+        "L2": {
+          "effortHours": 4,
+          "recipe": "Aggregate freshness, quorum, and typed degradation reasons."
+        },
+        "L3": {
+          "effortHours": 6,
+          "recipe": "Bind deploy health to adversarial quorum tests and a self-validating contract."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Shipped typed workerHealth IPC heartbeats and fresh-quorum aggregation through WorkerLobbyService/Worker, MasterLobbyService, and Master /_health.",
+        "MasterLobbyServiceHealth tests cover missing, stale, degraded, crash, and healthy-quorum evidence."
+      ],
+      "complete": true
+    },
+    {
+      "id": 97,
+      "slug": "pages-public-surface-integrity",
+      "tier": "🔥",
+      "axis": "delivery / security / dual audience",
+      "effortHours": 3,
+      "impact": 10,
+      "innovation": 6,
+      "priority": 25.8,
+      "status": "shipped",
+      "title": "Deploy the same public surface that release gates validate",
+      "why": "deploy-pages.yml uploads pages-stub while sitemap, footer, legal, agent, and theme gates validate public/. The published artifact can therefore omit every locally green public contract.",
+      "recipe": "Build one deterministic Pages artifact from the production client plus public assets, assert required routes and manifests inside that exact artifact, upload only it, and add an executable workflow contract that rejects pages-stub or any unvalidated path.",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Change the workflow artifact to the production build."
+        },
+        "L2": {
+          "effortHours": 2,
+          "recipe": "Copy and verify every public route and agent manifest."
+        },
+        "L3": {
+          "effortHours": 3,
+          "recipe": "Add artifact/workflow integrity tests so validation and deployment cannot diverge."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Shipped deterministic build:pages output, check-pages-deploy-contract, and deploy-pages upload of the same validated static artifact.",
+        "ReleaseSurfaceContracts rejects missing required files and pages-stub drift."
+      ],
+      "complete": true
+    },
+    {
+      "id": 98,
+      "slug": "hosted-cron-retirement",
+      "tier": "🔥",
+      "axis": "infrastructure / capital / process",
+      "effortHours": 2,
+      "impact": 9,
+      "innovation": 6,
+      "priority": 27,
+      "status": "shipped",
+      "title": "Retire hosted cron and make the repository schedule-free",
+      "why": "The Studio infrastructure court ordered VaultFront to remove hosted cron, but pr-stale and brief-format-check still declare GitHub Actions schedules.",
+      "recipe": "Remove scheduled triggers, retain event/manual execution where useful, retire automatic stale closure, add a fail-closed workflow census that distinguishes Dependabot metadata from hosted workflow cron, wire it into contracts, and ship the propagated brief-format correction through Ark.",
+      "ladder": {
+        "L1": { "effortHours": 0.5, "recipe": "Remove schedule triggers." },
+        "L2": {
+          "effortHours": 1,
+          "recipe": "Preserve event/manual semantics and update comments."
+        },
+        "L3": {
+          "effortHours": 2,
+          "recipe": "Add a repository-wide hosted-cron invariant plus cross-repo cargo."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Removed hosted schedules from brief-format-check and pr-stale while retaining manual and event-driven entry points.",
+        "check-hosted-cron-contract plus ReleaseSurfaceContracts enforce zero hosted workflow cron without misclassifying Dependabot metadata."
+      ],
+      "complete": true
+    },
+    {
+      "id": 99,
+      "slug": "on-domain-contact-action",
+      "tier": "⚡",
+      "axis": "ux / legal / delivery",
+      "effortHours": 1,
+      "impact": 8,
+      "innovation": 4,
+      "priority": 20.2,
+      "status": "shipped",
+      "title": "Make the project-domain address the actual contact action",
+      "why": "Both contact leaves display contact@vaultfront.vaultsparkstudios.com as code but the only mailto bypasses it and targets the founder address directly.",
+      "recipe": "Render the on-domain address as the primary mailto, retain forwarding language without exposing private workflow detail, generate both leaves through the public-shell contract, and test the action target rather than visible text alone.",
+      "ladder": {
+        "L1": { "effortHours": 0.25, "recipe": "Fix both mailto targets." },
+        "L2": {
+          "effortHours": 0.5,
+          "recipe": "Make contact markup generated and consistent."
+        },
+        "L3": {
+          "effortHours": 1,
+          "recipe": "Add executable on-domain action and duplicate-leaf parity checks."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Both contact leaves now expose contact@vaultfront.vaultsparkstudios.com as an actionable primary mailto.",
+        "ReleaseSurfaceContracts asserts the exact project-domain href in both generated leaves."
+      ],
+      "complete": true
+    },
+    {
+      "id": 100,
+      "slug": "human-action-parser-convergence",
+      "tier": "⚡",
+      "axis": "organization / observability / token reduction",
+      "effortHours": 2,
+      "impact": 8,
+      "innovation": 5,
+      "priority": 20,
+      "status": "shipped",
+      "title": "Converge human-action aging on the canonical task parser",
+      "why": "human-action-ages.mjs has a private bullet-only parser while task-board.mjs also understands human-blocked table rows. Representation drift can silently erase blocker ages.",
+      "recipe": "Export one canonical parser, consume it from human-action aging, preserve bullet and table provenance, add parity fixtures, and make empty/unknown representations explicit rather than silently ignored.",
+      "ladder": {
+        "L1": { "effortHours": 0.5, "recipe": "Import the canonical parser." },
+        "L2": {
+          "effortHours": 1,
+          "recipe": "Preserve provenance and both representations."
+        },
+        "L3": {
+          "effortHours": 2,
+          "recipe": "Add adversarial bullet/table parity and unknown-shape tests."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "human-action-ages now consumes parseHumanItemsResult from the canonical task-board parser and preserves durable ages on unknown shapes.",
+        "HumanActionAges tests cover bullet/table parity, deduplication, and fail-closed unknown input."
+      ],
+      "complete": true
+    },
+    {
+      "id": 101,
+      "slug": "first-extraction-pressure-arc",
+      "tier": "🔥",
+      "axis": "ux / gamification / engagement",
+      "effortHours": 4,
+      "impact": 9,
+      "innovation": 8,
+      "priority": 27.9,
+      "status": "shipped",
+      "title": "Make First Extraction teach the Pressure-to-Breach fantasy",
+      "why": "Orientation promises Pressure/Breach, but the completion checklist ends after resource focus, one capture, any convoy action, and a defense pulse. A player can complete onboarding without seeing the decisive loop.",
+      "recipe": "Promote capture, first convoy outcome, Pressure progress, Breach opened, and decisive delivery into a progressive primary arc; demote focus/pulse to optional mastery; derive stages from authoritative status/activity updates; preserve compact HUD behavior; and test ordering, lock release, and completion.",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Align checklist copy and completion with Pressure."
+        },
+        "L2": {
+          "effortHours": 2,
+          "recipe": "Add progressive Pressure/Breach stages from live updates."
+        },
+        "L3": {
+          "effortHours": 4,
+          "recipe": "Ship a tested primary/optional arc with decisive-delivery completion."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "FirstExtractionQuest now defines the authoritative Capture → outcome → Pressure → Breach → decisive-delivery primary arc; ControlPanel projects it while optional mastery remains separate.",
+        "FirstExtractionQuest and ControlPanelVaultHud tests cover ordering, lock release, live progression, and decisive completion."
+      ],
+      "complete": true
+    },
+    {
+      "id": 102,
+      "slug": "certified-pressure-breach-funnel",
+      "tier": "🔥",
+      "axis": "feedback loop / observability / gamification",
+      "effortHours": 4,
+      "impact": 9,
+      "innovation": 9,
+      "priority": 31.4,
+      "status": "shipped",
+      "title": "Measure the decisive loop from certified match evidence",
+      "why": "CertifiedLoopEvidence measures first vault and first convoy outcome but cannot distinguish Pressure reached, Breach opened, or decisive delivery. Operators cannot tell where the signature loop loses players without trusting browser-authored counters.",
+      "recipe": "Stamp first-pressure, first-breach, and decisive-delivery ticks in authoritative stats; persist privacy-minimal aggregates in CertifiedLoopEvidenceStore; expose conversion and time-to-stage without actor identifiers; migrate schema idempotently; and test tamper resistance, replay idempotency, PostgreSQL/process parity, and empty samples.",
+      "ladder": {
+        "L1": { "effortHours": 1, "recipe": "Add certified stage counters." },
+        "L2": {
+          "effortHours": 2,
+          "recipe": "Persist aggregate stage conversion and timing."
+        },
+        "L3": {
+          "effortHours": 4,
+          "recipe": "Add schema, replay, parity, and privacy-boundary tests."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Authoritative stats and execution certify first Pressure, Breach-open, decisive-delivery, and victory ticks; GameServer and MatchProgression project them into CertifiedLoopEvidenceStore.",
+        "Idempotent pressure_breach_funnel persistence and anonymous conversion/timing summaries are covered by simulation, empty-sample, process/PostgreSQL parity, and progression tests."
+      ],
+      "complete": true
+    },
+    {
+      "id": 103,
+      "slug": "dead-deployable-weight-retirement",
+      "tier": "⚡",
+      "axis": "speed / supply chain / organization",
+      "effortHours": 2,
+      "impact": 7,
+      "innovation": 4,
+      "priority": 14,
+      "status": "shipped",
+      "title": "Retire tracked binary and unused production dependencies",
+      "why": "A 4 MB compiled map-generator binary is tracked although every workflow uses go run; fastpriorityqueue and ts-node are unused, while compression/cors type packages sit in runtime dependencies.",
+      "recipe": "Remove and ignore the generated executable, remove proven-unused runtime packages, move type-only packages to development scope, run production audit and full build, and add a deployable-weight census preventing generated binaries from returning.",
+      "ladder": {
+        "L1": {
+          "effortHours": 0.5,
+          "recipe": "Delete the binary and unused packages."
+        },
+        "L2": {
+          "effortHours": 1,
+          "recipe": "Correct dependency scopes and validate the build."
+        },
+        "L3": {
+          "effortHours": 2,
+          "recipe": "Add a tracked-binary/deployable-weight invariant."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Removed the tracked map-generator binary, ignored regenerated host binaries, removed fastpriorityqueue and ts-node, and moved compression/cors types to development scope.",
+        "SupplyChainWorkflow invariants, focused tests, typecheck, ESLint, lock dry-run, and a zero-vulnerability production audit passed; production dependency count dropped from 252 to 219."
+      ],
+      "complete": true
+    },
+    {
+      "id": 104,
+      "slug": "registry-type-source-reconciliation",
+      "tier": "⚡",
+      "axis": "ecosystem / observability / process",
+      "effortHours": 1,
+      "impact": 8,
+      "innovation": 5,
+      "priority": 25.2,
+      "status": "externally-blocked",
+      "title": "Reconcile app-versus-game identity through source-tagged Ark cargo",
+      "why": "PROJECT_STATUS, the startup brief, and runtime identify VaultFront as a game while the Studio registry drives arc-profile as app; router and audit selection therefore disagree.",
+      "recipe": "Generate a local identity receipt from project status, manifest, package/runtime evidence, and registry observation; fail local derived surfaces on internal disagreement; ship a signed registry-delta request through Ark; never edit the Studio Ops tree; retain externally-blocked state until an applied acknowledgement arrives.",
+      "ladder": {
+        "L1": {
+          "effortHours": 0.25,
+          "recipe": "Ship a registry correction request."
+        },
+        "L2": {
+          "effortHours": 0.5,
+          "recipe": "Attach source-tagged evidence and receipt tracking."
+        },
+        "L3": {
+          "effortHours": 1,
+          "recipe": "Add local identity self-validation and applied-ack closure semantics."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Local project-truth validation already detects manifest identity disagreement; no sibling-repo edit was made.",
+        "Registry-delta cargo 01JUJNSAUUE4626BC279319392 shipped through Ark; awaiting an applied acknowledgement before closure."
+      ],
+      "complete": false
+    }
+  ]
+}

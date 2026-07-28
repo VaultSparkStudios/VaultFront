@@ -424,9 +424,15 @@ CREATE TABLE IF NOT EXISTS certified_loop_evidence (
   first_vault_samples           INT NOT NULL DEFAULT 0 CHECK (first_vault_samples >= 0),
   first_outcome_seconds_total   DOUBLE PRECISION NOT NULL DEFAULT 0 CHECK (first_outcome_seconds_total >= 0),
   first_outcome_samples         INT NOT NULL DEFAULT 0 CHECK (first_outcome_samples >= 0),
+  pressure_breach_funnel        JSONB NOT NULL DEFAULT '{}',
   intent_funnel                 JSONB NOT NULL DEFAULT '{"early":{},"mid":{},"late":{}}'::jsonb,
   recorded_at                   TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+-- Idempotent live migration for databases created before the certified
+-- Pressure → Breach → decisive-delivery/victory funnel was introduced.
+ALTER TABLE certified_loop_evidence
+  ADD COLUMN IF NOT EXISTS pressure_breach_funnel JSONB NOT NULL DEFAULT '{}';
 
 CREATE INDEX IF NOT EXISTS idx_certified_loop_evidence_recorded
   ON certified_loop_evidence (recorded_at DESC);

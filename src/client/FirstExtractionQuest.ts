@@ -8,7 +8,7 @@ export const VAULTFRONT_VICTORY_LOOP = {
 } as const;
 
 export const FIRST_EXTRACTION_CONVOY_ACTION_LABEL =
-  "Deliver, shield, or intercept one Vault Convoy";
+  "Engage one Vault Convoy — deliver, shield, or intercept";
 
 const FIRST_EXTRACTION_CONVOY_ACTIVITIES = new Set([
   "convoy_delivered",
@@ -25,16 +25,89 @@ export function breachVictoryCallout(secondsRemaining: number): string {
 }
 
 export interface FirstExtractionStep {
-  key: "focusSet" | "vaultCaptured" | "convoyAction" | "pulseTriggered";
+  key:
+    | "vaultCaptured"
+    | "convoyAction"
+    | "pressureStarted"
+    | "breachOpened"
+    | "decisiveDelivery";
   label: string;
 }
 
 export const FIRST_EXTRACTION_STEPS: readonly FirstExtractionStep[] = [
-  { key: "focusSet", label: "Set Resource Focus once" },
   { key: "vaultCaptured", label: "Capture one vault" },
   { key: "convoyAction", label: FIRST_EXTRACTION_CONVOY_ACTION_LABEL },
-  { key: "pulseTriggered", label: "Trigger one Defense Factory pulse" },
+  { key: "pressureStarted", label: "Deliver to start Vault Pressure" },
+  { key: "breachOpened", label: "Reach 3/3 Pressure to open Breach" },
+  {
+    key: "decisiveDelivery",
+    label: "Deliver during Breach to secure victory",
+  },
 ];
+
+export interface FirstExtractionProgress {
+  vaultCaptured: boolean;
+  convoyAction: boolean;
+  pressureStarted: boolean;
+  breachOpened: boolean;
+  decisiveDelivery: boolean;
+}
+
+export interface FirstExtractionSignals {
+  vaultCaptured?: boolean;
+  convoyAction?: boolean;
+  pressure?: number;
+  pressureThreshold?: number;
+  breachWindowUntilTick?: number;
+  currentTick?: number;
+  victorySecured?: boolean;
+}
+
+export const EMPTY_FIRST_EXTRACTION_PROGRESS: FirstExtractionProgress = {
+  vaultCaptured: false,
+  convoyAction: false,
+  pressureStarted: false,
+  breachOpened: false,
+  decisiveDelivery: false,
+};
+
+/**
+ * Projects the player-facing tutorial from the same activity/status authority as
+ * the live HUD. Later authoritative stages imply their prerequisites so a
+ * reconnect cannot display an impossible, out-of-order quest.
+ */
+export function advanceFirstExtractionProgress(
+  previous: FirstExtractionProgress,
+  signals: FirstExtractionSignals,
+): FirstExtractionProgress {
+  const decisiveDelivery =
+    previous.decisiveDelivery || signals.victorySecured === true;
+  const breachActive =
+    (signals.breachWindowUntilTick ?? 0) > (signals.currentTick ?? 0);
+  const thresholdReached =
+    (signals.pressureThreshold ?? 0) > 0 &&
+    (signals.pressure ?? 0) >= (signals.pressureThreshold ?? 0);
+  const breachOpened =
+    previous.breachOpened ||
+    breachActive ||
+    thresholdReached ||
+    decisiveDelivery;
+  const pressureStarted =
+    previous.pressureStarted || (signals.pressure ?? 0) > 0 || breachOpened;
+  const vaultCaptured =
+    previous.vaultCaptured || signals.vaultCaptured === true || pressureStarted;
+  const convoyAction =
+    vaultCaptured &&
+    (previous.convoyAction || signals.convoyAction === true || pressureStarted);
+
+  return {
+    vaultCaptured,
+    convoyAction,
+    pressureStarted,
+    breachOpened,
+    decisiveDelivery,
+  };
+}
 
 export const FIRST_EXTRACTION_ORIENTATION = [
   {
@@ -50,7 +123,7 @@ export const FIRST_EXTRACTION_ORIENTATION = [
 ] as const;
 
 export function firstExtractionComplete(
-  progress: Record<FirstExtractionStep["key"], boolean>,
+  progress: FirstExtractionProgress,
 ): boolean {
-  return FIRST_EXTRACTION_STEPS.every((step) => progress[step.key]);
+  return progress.decisiveDelivery;
 }

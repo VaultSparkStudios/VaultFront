@@ -133,6 +133,7 @@ import {
   vaultSeasonScheduler,
   type SeasonStatus,
 } from "./VaultSeasonScheduler";
+import { buildWorkerHealthHeartbeat } from "./WorkerHealthHeartbeat";
 import {
   LOBBY_MAX_BUFFERED_BYTES,
   LOBBY_WS_MAX_PAYLOAD_BYTES,
@@ -318,6 +319,18 @@ export async function startWorker() {
 
   // Initialize lobby service (handles WebSocket upgrade routing)
   const lobbyService = new WorkerLobbyService(server, wss, gm, log);
+  let workerHealthHeartbeatTimer: NodeJS.Timeout | null = null;
+
+  const publishWorkerHealth = (): void => {
+    lobbyService.sendHealthHeartbeat(
+      workerId,
+      buildWorkerHealthHeartbeat({
+        gameLoop: gm.healthSnapshot(),
+        ipc: lobbyService.ipcHealthSnapshot(),
+        database: getDatabasePosture(),
+      }),
+    );
+  };
 
   setTimeout(
     () => {
@@ -2977,6 +2990,9 @@ export async function startWorker() {
     // Signal to the master process that this worker is ready
     lobbyService.sendReady(workerId);
     log.info(`signaled ready state to master`);
+    publishWorkerHealth();
+    workerHealthHeartbeatTimer = setInterval(publishWorkerHealth, 1_000);
+    workerHealthHeartbeatTimer.unref();
   });
 
   // Global error handler
@@ -3000,6 +3016,10 @@ export async function startWorker() {
   async function gracefulShutdown(signal: string): Promise<void> {
     if (isShuttingDown) return;
     isShuttingDown = true;
+    if (workerHealthHeartbeatTimer) {
+      clearInterval(workerHealthHeartbeatTimer);
+      workerHealthHeartbeatTimer = null;
+    }
     log.info(
       `[worker ${workerId}] received ${signal} — starting graceful shutdown`,
     );

@@ -92,6 +92,10 @@ describe("GameServer progression wiring", () => {
               jamBreakerUses: 2n,
               convoyEscortCommands: 3n,
               defenseFactoryPulseUptimeTicks: 600n,
+              firstVaultPressureTick: 120n,
+              firstBreachOpenTick: 240n,
+              decisiveDeliveryTick: 360n,
+              vaultBreachVictoryTick: 360n,
             },
           },
           client02: {
@@ -146,6 +150,10 @@ describe("GameServer progression wiring", () => {
             jamBreakerUses: 2,
             convoyEscortCommands: 3,
             defenseFactoryTicks: 600,
+            firstVaultPressureTick: 120,
+            firstBreachOpenTick: 240,
+            decisiveDeliveryTick: 360,
+            vaultBreachVictoryTick: 360,
           }),
           expect.objectContaining({
             persistentId: "p2",

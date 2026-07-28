@@ -18,8 +18,11 @@ import {
 } from "../../Api";
 import { clearConvoyMastery, readConvoyMastery } from "../../ConvoyMastery";
 import {
+  EMPTY_FIRST_EXTRACTION_PROGRESS,
   FIRST_EXTRACTION_STEPS,
   FIRST_EXTRACTION_TITLE,
+  type FirstExtractionProgress,
+  advanceFirstExtractionProgress,
   breachVictoryCallout,
   firstExtractionComplete,
   isFirstExtractionConvoyActivity,
@@ -49,10 +52,8 @@ import goldCoinIcon from "/images/GoldCoinIcon.svg?url";
 import soldierIcon from "/images/SoldierIcon.svg?url";
 import swordIcon from "/images/SwordIcon.svg?url";
 
-interface OnboardingProgress {
+interface OnboardingProgress extends FirstExtractionProgress {
   focusSet: boolean;
-  vaultCaptured: boolean;
-  convoyAction: boolean;
   pulseTriggered: boolean;
 }
 
@@ -147,9 +148,8 @@ export class ControlPanel extends LitElement implements Layer {
 
   @state()
   private onboardingProgress: OnboardingProgress = {
+    ...EMPTY_FIRST_EXTRACTION_PROGRESS,
     focusSet: false,
-    vaultCaptured: false,
-    convoyAction: false,
     pulseTriggered: false,
   };
 
@@ -611,14 +611,12 @@ export class ControlPanel extends LitElement implements Layer {
       this.debugVaultStatus(this.latestVaultStatus);
     }
 
-    const activityUpdates = updates[
-      GameUpdateType.VaultFrontActivity
-    ] as VaultFrontActivityUpdate[];
-    if (activityUpdates.length === 0) return;
-
     const myPlayer = this.game.myPlayer();
     if (!myPlayer) return;
     const myID = myPlayer.smallID();
+    const activityUpdates = updates[
+      GameUpdateType.VaultFrontActivity
+    ] as VaultFrontActivityUpdate[];
 
     let vaultCaptured = this.onboardingProgress.vaultCaptured;
     let convoyAction = this.onboardingProgress.convoyAction;
@@ -645,11 +643,25 @@ export class ControlPanel extends LitElement implements Layer {
       }
     }
 
-    this.updateVaultQaProgress(activityUpdates, myID);
+    if (activityUpdates.length > 0) {
+      this.updateVaultQaProgress(activityUpdates, myID);
+    }
 
+    const pressure = this.latestVaultStatus?.pressure?.[myID];
+    const primaryProgress = advanceFirstExtractionProgress(
+      this.onboardingProgress,
+      {
+        vaultCaptured,
+        convoyAction,
+        pressure: pressure?.pressure,
+        pressureThreshold: pressure?.threshold,
+        breachWindowUntilTick: pressure?.breachWindowUntilTick,
+        currentTick: tick,
+        victorySecured: pressure?.victorySecured,
+      },
+    );
     this.updateOnboardingProgress({
-      vaultCaptured,
-      convoyAction,
+      ...primaryProgress,
       pulseTriggered,
     });
   }
@@ -663,6 +675,9 @@ export class ControlPanel extends LitElement implements Layer {
       merged.focusSet === this.onboardingProgress.focusSet &&
       merged.vaultCaptured === this.onboardingProgress.vaultCaptured &&
       merged.convoyAction === this.onboardingProgress.convoyAction &&
+      merged.pressureStarted === this.onboardingProgress.pressureStarted &&
+      merged.breachOpened === this.onboardingProgress.breachOpened &&
+      merged.decisiveDelivery === this.onboardingProgress.decisiveDelivery &&
       merged.pulseTriggered === this.onboardingProgress.pulseTriggered
     ) {
       return;
@@ -670,10 +685,7 @@ export class ControlPanel extends LitElement implements Layer {
     this.onboardingProgress = merged;
     if (
       !this.onboardingCompletionRecorded &&
-      merged.focusSet &&
-      merged.vaultCaptured &&
-      merged.convoyAction &&
-      merged.pulseTriggered &&
+      firstExtractionComplete(merged) &&
       (this.game?.ticks() ?? Number.MAX_SAFE_INTEGER) <=
         ControlPanel.ONBOARDING_DURATION_TICKS
     ) {
@@ -751,14 +763,17 @@ export class ControlPanel extends LitElement implements Layer {
   private onboardingChainCompleted(): boolean {
     const progress = this.onboardingProgress;
     const completed = firstExtractionComplete(progress);
-    if (
-      this.tutorialLockActive &&
-      progress.vaultCaptured &&
-      progress.convoyAction
-    ) {
+    if (this.onboardingInteractionComplete()) {
       this.tutorialLockActive = false;
     }
     return completed;
+  }
+
+  private onboardingInteractionComplete(): boolean {
+    return (
+      this.onboardingProgress.vaultCaptured &&
+      this.onboardingProgress.convoyAction
+    );
   }
 
   private dismissOnboarding() {
@@ -1856,7 +1871,7 @@ export class ControlPanel extends LitElement implements Layer {
   }
 
   private activeCoachmark(): "shield" | "reroute" | "jamBreaker" | null {
-    if (!this.coachmarksEnabled || !this.onboardingChainCompleted())
+    if (!this.coachmarksEnabled || !this.onboardingInteractionComplete())
       return null;
     if (!this.coachmarkProgress.shield) return "shield";
     if (!this.coachmarkProgress.reroute) return "reroute";
@@ -1879,7 +1894,7 @@ export class ControlPanel extends LitElement implements Layer {
   private markCoachmarkComplete(key: keyof CoachmarkProgress): void {
     if (
       !this.coachmarksEnabled ||
-      !this.onboardingChainCompleted() ||
+      !this.onboardingInteractionComplete() ||
       this.coachmarkProgress[key]
     )
       return;
@@ -2817,6 +2832,12 @@ export class ControlPanel extends LitElement implements Layer {
               </div>
             `,
           )}
+        </div>
+        <div class="mt-1.5 border-t border-emerald-300/20 pt-1 text-slate-300">
+          Optional mastery: ${this.onboardingProgress.focusSet ? "[x]" : "[ ]"}
+          Resource Focus ·
+          ${this.onboardingProgress.pulseTriggered ? "[x]" : "[ ]"} Defense
+          Factory pulse
         </div>
       </div>
     `;

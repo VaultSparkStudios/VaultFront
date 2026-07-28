@@ -115,6 +115,10 @@ export interface Stats {
   vaultConvoyDelivered(player: Player, tick?: number): void;
   vaultConvoyIntercepted(interceptor: Player): void;
   vaultConvoyLost(owner: Player, tick?: number): void;
+  vaultPressureAdvanced(player: Player, tick: number): void;
+  vaultBreachOpened(player: Player, tick: number): void;
+  vaultDecisiveDelivery(player: Player, tick: number): void;
+  vaultBreachVictory(player: Player, tick: number): void;
   vaultRivalryRevenge(player: Player): void;
   defenseFactoryPulse(player: Player, durationTicks: number): void;
   resourceFocusSet(player: Player, focus: number): void;

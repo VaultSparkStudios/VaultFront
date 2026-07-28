@@ -7,8 +7,8 @@ name: brief-format-check
 #
 #   1. Automatically on every push or PR that touches context/, docs/, scripts/,
 #      or the brief itself — catches drift at merge time.
-#   2. On a daily cron — catches drift introduced by out-of-band processes
-#      (manual edits, agents that skipped the canonical renderer).
+#   2. Manually — supports an explicit out-of-band integrity check without
+#      consuming hosted scheduled-run capacity.
 #
 # Propagated to every registry repo by scripts/sync-studio-os-remote.mjs.
 # Do not edit the file in a child repo — the next 6h sync pass will overwrite it.
@@ -17,19 +17,16 @@ name: brief-format-check
 on:
   push:
     paths:
-      - 'docs/STARTUP_BRIEF.md'
-      - 'scripts/validate-brief-format.mjs'
-      - 'scripts/render-startup-brief.mjs'
-      - 'context/**'
+      - "docs/STARTUP_BRIEF.md"
+      - "scripts/validate-brief-format.mjs"
+      - "scripts/render-startup-brief.mjs"
+      - "context/**"
   pull_request:
     paths:
-      - 'docs/STARTUP_BRIEF.md'
-      - 'scripts/validate-brief-format.mjs'
-      - 'scripts/render-startup-brief.mjs'
-      - 'context/**'
-  schedule:
-    # Daily at 13:17 UTC — catches out-of-band drift (agent improvisation, manual edits)
-    - cron: '17 13 * * *'
+      - "docs/STARTUP_BRIEF.md"
+      - "scripts/validate-brief-format.mjs"
+      - "scripts/render-startup-brief.mjs"
+      - "context/**"
   workflow_dispatch:
 
 permissions:
@@ -46,7 +43,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Check validator is present
         run: |

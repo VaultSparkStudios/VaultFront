@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-07-28T00:57:46.139Z",
+  "generatedAt": "2026-07-28T07:09:34.702Z",
   "source": "scripts/innovation-pack.mjs",
   "primarySource": "latest audit-backed Unified Genius List",
   "items": [
@@ -339,6 +339,33 @@
     },
     {
       "rank": 38,
+      "status": "shipped",
+      "id": "fresh-worker-quorum-proof",
+      "title": "Make master health prove a fresh worker quorum",
+      "description": "Replace process-presence health with bounded-age worker evidence so missing, stale, and degraded workers fail closed before the master advertises readiness.",
+      "complete": true,
+      "evidence": "fresh-worker quorum projection, typed workerHealth IPC evidence, stale-worker rejection, and focused master health tests"
+    },
+    {
+      "rank": 39,
+      "status": "shipped",
+      "id": "validated-artifact-isomorphism",
+      "title": "Make the deployed Pages artifact identical to the validated artifact",
+      "description": "Validate the exact static directory uploaded by the Pages workflow so a launch stub or alternate artifact can never bypass the public-surface contract.",
+      "complete": true,
+      "evidence": "artifact contract checker, workflow invocation against static, and upload-pages binding to the same static directory"
+    },
+    {
+      "rank": 40,
+      "status": "shipped",
+      "id": "hosted-cron-zero-invariant",
+      "title": "Keep hosted workflow cron at exactly zero",
+      "description": "Mechanize the zero-hosted-cron cost invariant and keep formerly scheduled brief-integrity and stale-PR workflows manual without confusing Dependabot metadata for hosted execution.",
+      "complete": true,
+      "evidence": "repository-wide hosted-cron checker plus schedule-free brief-format and stale-PR workflows with explicit manual dispatch"
+    },
+    {
+      "rank": 41,
       "status": "shipped",
       "id": "monotonic-innovation-ledger-guard",
       "title": "Make shipped innovation evidence monotonic under regeneration",

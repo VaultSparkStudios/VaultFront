@@ -250,6 +250,23 @@ describe("Stats", () => {
     });
   });
 
+  test("certifies the pressure-to-breach victory funnel once", () => {
+    stats.vaultPressureAdvanced(player1, 100);
+    stats.vaultPressureAdvanced(player1, 110);
+    stats.vaultBreachOpened(player1, 200);
+    stats.vaultBreachOpened(player1, 210);
+    stats.vaultDecisiveDelivery(player1, 300);
+    stats.vaultBreachVictory(player1, 300);
+    expect(stats.getPlayerStats(player1)).toMatchObject({
+      vaultfront: {
+        firstVaultPressureTick: 100n,
+        firstBreachOpenTick: 200n,
+        decisiveDeliveryTick: 300n,
+        vaultBreachVictoryTick: 300n,
+      },
+    });
+  });
+
   test("records rivalry revenge in certified VaultFront stats", () => {
     stats.vaultRivalryRevenge(player1);
     stats.vaultRivalryRevenge(player1);

@@ -189,26 +189,24 @@ app.get("/api/env", async (req, res) => {
 });
 
 app.get("/api/health", (_req, res) => {
-  const ready = lobbyService?.isHealthy() ?? false;
-  if (ready) {
-    res.json({ status: "ok" });
-  } else {
-    res.status(503).json({ status: "unavailable" });
-  }
+  res.json({ status: "ok", scope: "master-process", liveness: true });
 });
 
 // Canonical infrastructure probe used by staging and release gates.
 app.get("/_health", (_req, res) => {
-  const ready = lobbyService?.isHealthy() ?? false;
+  const workerHealth = lobbyService?.healthSnapshot() ?? null;
+  const ready = workerHealth?.healthy ?? false;
   if (ready) {
-    res.json({ status: "ok", scope: "master" });
+    res.json({ status: "ok", scope: "master", workerHealth });
   } else {
-    res.status(503).json({ status: "unavailable", scope: "master" });
+    res
+      .status(503)
+      .json({ status: "unavailable", scope: "master", workerHealth });
   }
 });
 
 app.get("/api/vaultfront/readiness", (_req, res) => {
-  const healthy = lobbyService?.isHealthy() ?? false;
+  const healthy = lobbyService?.healthSnapshot().healthy ?? false;
   res.status(healthy ? 200 : 503).json(
     buildVaultFrontReadiness({
       healthy,

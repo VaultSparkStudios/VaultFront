@@ -4,12 +4,36 @@ Detailed internal scoring, audit trends, and brainstorming are maintained privat
 
 <!-- rolling-status-start -->
 
-Total: 995/1000 | Velocity: 7 | Debt: ↓ | Velocity trend: ↑
-Avgs — 3: 986.0 | 5: 980.0 | 10: 989.2 | 25/all: 971.3 | Last 5: 999 → 943 → 968 → 995 → 995 | Intent rate: 100%
-Categories: Dev 100 | Align 100 | Momentum 100 | Engage 98 | Process 100 | Coherence 99 | Security 100 | Ecosystem 98 | Capital 100 | Automation 100
-Last session: 2026-07-27 Session 87 fail-closed authority and player-truth parity arc
+Total: 997/1000 | Velocity: 11 | Debt: ↓ | Velocity trend: ↑
+Avgs — 3: 995.7 | 5: 995.0 | 10: 992.1 | 25/all: 972.3 | Last 5: 993 → 995 → 995 → 995 → 997 | Intent rate: 100%
+Categories: Dev 100 | Align 100 | Momentum 100 | Engage 98 | Process 100 | Coherence 99 | Security 100 | Ecosystem 100 | Capital 100 | Automation 100
+Last session: 2026-07-28 Session 88 runtime truth, decisive-loop evidence, and deploy integrity arc
 
 <!-- rolling-status-end -->
+
+## 2026-07-28 — Session 88 | Total: 997/1000 | Velocity: 11
+
+Shipped eight locally executable audit findings, kept registry reconciliation honestly external, and generated three second-order invariants for a cumulative 41/41 innovation ledger. Runtime health, published artifact integrity, hosted-cron absence, contact and task-aging contracts, the First Extraction climax, certified funnel evidence, and deployable weight now share executable sources of truth.
+
+| Category              |        Score | Evidence                                                                                                                          |
+| --------------------- | -----------: | --------------------------------------------------------------------------------------------------------------------------------- |
+| Dev Health            |          100 | 184 files / 1,011 tests plus type, lint, format, contracts, build, Pages, bundle, and production audit gates passed.              |
+| Creative Alignment    |          100 | Onboarding and evidence now teach and measure the exact Capture-to-Pressure-to-Breach decisive fantasy.                           |
+| Momentum              |          100 | Audit items 96–103 shipped and innovations reached 41/41; the only open audit item is externally owned.                           |
+| Engagement            |           98 | The decisive arc is clearer and measurable, but no human preference or retention evidence was invented.                           |
+| Process Quality       |          100 | Premises, direct exits, one recorded E2E timeout, and isolated passing evidence remain independently attributable.                |
+| Cross-Repo Coherence  |           99 | Local truth is self-validating; registry cargo is shipped but not called applied without acknowledgement.                         |
+| Security Posture      |          100 | Health fails closed, deployed artifacts are validated, certified metrics exclude actor identifiers, and supply chain shrank.      |
+| Ecosystem Integration |          100 | Human/agent public surfaces, workflow contracts, Ark transport, and generated evidence agree at their owned boundary.             |
+| Capital Efficiency    |          100 | Hosted cron and dead production weight were removed; flat-rate Max-plan cost remains notional.                                    |
+| Automation Coverage   |          100 | Contracts cover worker quorum, Pages isomorphism, zero cron, parser parity, decisive ticks, binary absence, and 41/41 innovation. |
+| **Total**             | **997/1000** | Evidence-based; external launch observations remain unearned.                                                                     |
+
+**Delta: 995 → 997 (+2).** Ecosystem integration rose because the owned public and agent delivery surfaces now share executable contracts; external registry and launch facts remain unclaimed.
+
+**Brainstorm:** make fresh-worker quorum a release proof, enforce validated-artifact isomorphism at every publisher, and preserve hosted-cron zero as a repository invariant.
+
+**Committed result:** all three candidates shipped in the 41/41 innovation ledger; no new local `[SIL]` backlog was created.
 
 ## Sprint: 2026-07-27 — Session 87 Fail-Closed Authority and Player-Truth Parity Arc (SIL: 995/1000)
 

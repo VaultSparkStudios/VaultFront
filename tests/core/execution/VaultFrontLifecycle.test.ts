@@ -77,6 +77,10 @@ function makeGame(
     vaultConvoyDelivered: vi.fn(),
     vaultConvoyIntercepted: vi.fn(),
     vaultConvoyLost: vi.fn(),
+    vaultPressureAdvanced: vi.fn(),
+    vaultBreachOpened: vi.fn(),
+    vaultDecisiveDelivery: vi.fn(),
+    vaultBreachVictory: vi.fn(),
     vaultRivalryRevenge: vi.fn(),
     vaultConvoyRerouted: vi.fn(),
     vaultConvoyEscortCommand: vi.fn(),
@@ -343,9 +347,21 @@ describe("VaultFront lifecycle integration", () => {
       victorySecured: false,
     });
     expect(game.setWinner).not.toHaveBeenCalled();
+    expect(game._stats.vaultPressureAdvanced).toHaveBeenCalledTimes(2);
+    expect(game._stats.vaultPressureAdvanced).toHaveBeenNthCalledWith(
+      1,
+      player,
+      1000,
+    );
+    expect(game._stats.vaultBreachOpened).toHaveBeenCalledWith(player, 1020);
 
     execution.advanceVaultPressure(player, 1030, 5);
 
+    expect(game._stats.vaultDecisiveDelivery).toHaveBeenCalledWith(
+      player,
+      1030,
+    );
+    expect(game._stats.vaultBreachVictory).toHaveBeenCalledWith(player, 1030);
     expect(game.setWinner).toHaveBeenCalledTimes(1);
     expect(game.setWinner).toHaveBeenCalledWith(player, {});
     expect(execution.isActive()).toBe(false);

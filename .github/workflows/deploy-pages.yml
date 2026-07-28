@@ -1,4 +1,4 @@
-name: Deploy VaultFront Launch Stub
+name: Deploy VaultFront Public Surface
 
 on:
   workflow_dispatch:
@@ -22,10 +22,28 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Upload launch stub artifact
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Build deterministic public artifact
+        env:
+          VITE_APP_BASE_PATH: /vaultfront/
+          PAGES_GIT_COMMIT: ${{ github.sha }}
+          PAGES_INSTANCE_ID: github-pages
+        run: npm run build:pages
+
+      - name: Verify public artifact contract
+        run: node scripts/check-pages-deploy-contract.mjs --artifact static
+
+      - name: Upload verified public artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: pages-stub
+          path: static
 
       - name: Deploy to GitHub Pages
         id: deployment
