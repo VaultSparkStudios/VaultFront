@@ -240,3 +240,7 @@ Append-only. Each session appends one entry. Never edit prior entries.
 ## 2026-07-27 — Session 86 /arc
 
 Completed `/start → /audit → /implement → /closeout` as one mission. Re-verified and shipped all four live-code audit findings: certificate-bound dynasty history, certified tournament adjudication, transaction-decoupled leaderboard projection, and certified rivalry revenge. Generated and shipped second-order `unified-certified-game-authority`. Verification passed: 978 tests, lint, format ratchet, production build, deterministic balance envelope, bundle budgets, 26 E2E, work exhaustion 4/4 + 37/37.
+
+## 2026-07-27 — Session 87 /arc
+
+Completed all six premise-verified audit items and rank-38 innovation. Tournament results now roll back on durable-write failure; archived certificates close over exact roster and identity; memory Elo respects placement boundaries; victory copy derives from one authority; production audit scope is executable in CI; and innovation regeneration cannot shrink the ledger. Direct gates passed: 181 Vitest files / 990 tests, 33.08% line / 32.71% statement coverage, TypeScript, ESLint, Prettier ratchet, 41/41 mutation policies, public ingest 10/10, 41 deploy checks, production build, 28,125 balance scenarios, bundle/media/performance budgets, production npm audit zero, and Playwright 26/26. Release remains NO-GO on external evidence; dirty-source state is expected to clear at commit.

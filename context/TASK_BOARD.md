@@ -186,6 +186,21 @@ All 5 premise-verified infrastructure findings in docs/AUDIT_2026-07-20.json shi
 
 - [ ] [SIL:1] Generate the public nav/footer route graph from one source, preserve the scoped checker as the invariant, and attach desktop/mobile theme screenshots once staging exists.
 - [ ] [SIL:2] Verify Ark cargo 01JU1AEATS46E1C7F5DD9AE41C is accepted and the canonical release admission consumes the same complete project-truth fingerprint rather than private/public heuristics.
+- [ ] [SIL:3] Once an approved staging origin exists, capture one exact-digest observation bundle spanning parity, delivery, identity, and live-web evidence.
+- [ ] [SIL:4] After the first external observation lands, rerun release admission and preserve each remaining gate as an independently attributable receipt.
+
+## Completed (2026-07-27 — Session 87 fail-closed authority and player-truth parity arc)
+
+All six items in `docs/AUDIT_2026-07-27.json` shipped and the innovation ledger advanced monotonically to 38/38. No pending unblocked local work remains.
+
+- [done] Made certified tournament persistence truthful, rollback-safe, typed, and advancement-gating.
+- [done] Bound archived GameRecord and certificate rosters exactly; rejected duplicate persistent identities and partial/duplicate winner projection.
+- [done] Made memory Elo placement/established K-factor semantics match PostgreSQL across the five-match boundary.
+- [done] Preserved every source-backed innovation across regeneration, including rank 38.
+- [done] Centralized the four-delivery convoy-to-Breach victory copy and aligned player-facing completion semantics.
+- [done] Scoped blocking dependency audit to production while retaining non-blocking full-tree advisory visibility and an executable workflow contract.
+- [done] Full proof: 181 files / 990 tests; 33.08% lines / 32.71% statements; TypeScript; ESLint; Prettier ratchet; 41/41 mutation policies; 10/10 public ingest; 41 deploy checks; production build; 28,125 balance scenarios; bundle/media/performance budgets; production audit zero; 26/26 Playwright.
+- [deferred] Release remains NO-GO on external evidence. The dirty-source observation resolves after commit; approved staging/parity, project-domain delivery, native Obelisk, live-web, human Alpha, revenue, rollback, and founder approval still require observation.
 
 ## Completed (2026-07-23 — Session 82 certified-entitlement and balance-authority arc)
 

@@ -1,12 +1,12 @@
 <!-- generated-by: scripts/render-startup-brief.mjs v3.1 -->
-<!-- generated-at: 2026-07-27 (Session 86 closeout) -->
+<!-- generated-at: 2026-07-28 (Session 87 closeout) -->
 <!-- fast-boot-valid-until: next session if within 24h -->
 <!-- brief-coherent: true -->
-<!-- brief-sources: {"schema":1,"session":86,"sources":{"context/PROJECT_STATUS.json":"e20eced742a7f3d6","context/TASK_BOARD.md":"79710d777b3e209e","context/LATEST_HANDOFF.md":"60fb7d85fcd08c04","context/SELF_IMPROVEMENT_LOOP.md":"ee306c6d51562460","docs/GENIUS_LIST.md":"84af40e9bf5ee6a7"}} -->
+<!-- brief-sources: {"schema":1,"session":87,"sources":{"context/PROJECT_STATUS.json":"3a37fed59b71270a","context/TASK_BOARD.md":"6832776a57a02bf4","context/LATEST_HANDOFF.md":"8a5c03e671f0f28a","context/SELF_IMPROVEMENT_LOOP.md":"70a2460bee15e555","docs/GENIUS_LIST.md":"654d6c7ecbb074ca"}} -->
 
 # Startup Brief — VaultFront
 
-> **Fast-boot brief** — generated at Session 86 closeout · 2026-07-27.
+> **Fast-boot brief** — generated at Session 87 closeout · 2026-07-28.
 > Valid for next session if started within 24h. For sessions >24h later, load context files fresh (start.md §3).
 
 ---
@@ -15,7 +15,7 @@
 ╔════════════════════════════════════════════════════════════════╗
 ║  🎮 VAULTFRONT                                                   ║
 ║  game · alpha/public-unlaunched · FORGE                          ║
-║  Session 87 · 2026-07-27 · FOUNDER MODE                          ║
+║  Session 88 · 2026-07-28 · BUILDER MODE                          ║
 ║  Owner: VaultSpark Studios                                       ║
 ╚════════════════════════════════════════════════════════════════╝
 
@@ -39,9 +39,9 @@
 ╔══ SCORE ═══════════════════════════════════════════════════════╗
 ║                                                                  ║
 ║    995/1000   ███████████████████████░   100%                    ║
-║    SIL v3.0  ·  Avg3: 993.7  ·  Velocity 7→                      ║
-║    Last active: 0d  ·  Last closeout: 0d  ·  (active = newest o  ║
-║    Trend  ▇▇▆▆▆  →  (last 5 sessions)                            ║
+║    SIL v3.0  ·  Avg3: 993.7  ·  Velocity 7↑                      ║
+║    Last active: 1d  ·  Last closeout: 1d  ·  (active = newest o  ║
+║    Trend  ▇▇▆▆▆  ↑  (last 5 sessions)                            ║
 ║                                                                  ║
 ║    Category         Score  Bar        Spark   Δ                  ║
 ║    ─────────────── ────── ────────── ──────── ─                  ║
@@ -58,35 +58,35 @@
 ║                                                                  ║
 ╚════════════════════════════════════════════════════════════════╝
 
-╔══ WHERE WE LEFT OFF  ·  Session 86 ════════════════════════════╗
+╔══ WHERE WE LEFT OFF  ·  Session 87 ════════════════════════════╗
 ║  Shipped:  see LATEST_HANDOFF.md                                 ║
 ║  Tests:    978/978 passing  ·  Deploy: N/A                       ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ CONTEXT METER ═══════════════════════════════════════════════╗
-║  ✓  █░░░░░░░░░░░░░░░░░░░░░░░    3% used                          ║
-║     34,278 / 1,000,000 tok  ·  codex/codex-1m  ·  measured+heur  ║
-║     ~17,139 tok/turn  ·  cache 50%  ·  51 turns to compact       ║
+║  ✓  █░░░░░░░░░░░░░░░░░░░░░░░    4% used                          ║
+║     37,132 / 1,000,000 tok  ·  codex/codex-1m  ·  measured+heur  ║
+║     ~18,566 tok/turn  ·  cache 50%  ·  47 turns to compact       ║
 ║     Verdict: CONTINUE                                            ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ SIGNALS ═════════════════════════════════════════════════════╗
 ║  ✓  Tests         978/978 passing (2026-07-27T06:00:00Z)         ║
-║  ✓  Velocity      7 →  ·  Debt: ↓                                ║
-║  ✓  Runway        external staging-evidence corridor             ║
+║  ✓  Velocity      7 ↑  ·  Debt: ↓                                ║
+║  ✓  Runway        unknown                                        ║
 ║  ⛔  Context age   ?d                                             ║
-║  ✓  IGNIS         41663 FORGE  ·  4d old                         ║
+║  ✓  IGNIS         41663 FORGE  ·  5d old                         ║
 ║  ✓  Truth         green  ·  Genome: 24/25                        ║
 ║  ⚠  Compliance   not tracked — run: node scripts/ops.mjs compli  ║
 ║  ✓  Genome dims   all stable  (24/25)                            ║
-║  ✓  Entropy       0.066  (healthy)                               ║
+║  ✓  Entropy       0.056  (healthy)                               ║
 ║  ✓  CDR           no gap detected                                ║
 ║  ✓  Patterns      no recurring pressure detected                 ║
 ║  ✓  Templates     v3.3 aligned                                   ║
 ║  ⛔  Revenue sig.  not found  ⚠ stale                             ║
 ║  ✓  Deploy gaps   no gaps (run: ops deploy-gaps)                 ║
-║  ✓  Doctor        11/11 (100%)  ·  2026-07-27  ✓                 ║
-║  ✓  Cost          real $0.13/7d · 7d notional $2.14 (flat-rate   ║
+║  ⛔  Doctor        10/11 (91%)  ·  1 failing                      ║
+║  ✓  Cost          real $0.14/7d · 7d notional $2.28 (flat-rate   ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ ORCHESTRATOR ════════════════════════════════════════════════╗
@@ -98,7 +98,7 @@
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ MOMENTUM METER ══════════════════════════════════════════════╗
-║  Velocity:   ▇▇▆▆▆  7→  (last 5 sessions)                        ║
+║  Velocity:   ▇▇▆▆▆  7↑  (last 5 sessions)                        ║
 ║  Intent:     100% achieved last 5                                ║
 ║  Streak:     — (last intent not achieved)                        ║
 ╚════════════════════════════════════════════════════════════════╝
@@ -109,19 +109,23 @@
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ GENIUS HIT LIST ═════════════════════════════════════════════╗
-║  ✓ #1 🔥 Turn Dynasty Story into a certificate-bound clan chron  ║
-║     8h · security / artificial intelligence / token reduction /  ║
-║  ✓ #2 ⚡ Make Rival Challenge a signed revenge projection from d  ║
-║     7h · gamification / retention / security / feedback loop ·   ║
-║  ✓ #3 🔥 Make every tournament advancement consume a certified   ║
-║     12h · security / gamification / feature depth / organizatio  ║
-║  ✓ #4 🔥 Remove table-wide leaderboard work from the certified   ║
-║     6h · speed / organization / reliability / observability · s  ║
+║  ✓ #1 🔥 Cross-bind archived roster identity inside CertifiedGa  ║
+║     4h · security / organization / correctness · sonnet          ║
+║  ✓ #2 🔥 Make innovation regeneration preserve every source-bac  ║
+║     2h · observability / process quality / token reduction · so  ║
+║  ✓ #3 🔥 Make certified tournament advancement fail closed on d  ║
+║     6h · security / reliability / observability · sonnet         ║
+║  ✓ #4 🔥 Gate deployable dependency risk without making CI lie   ║
+║     1h · security / delivery / observability · sonnet            ║
+║  ✓ #5 ⚡ Make in-memory and PostgreSQL placement ratings semanti  ║
+║     2h · gamification / reliability / feedback loop · sonnet     ║
+║  ✓ #6 ⚡ Teach one exact convoy-to-Breach victory loop everywher  ║
+║     2h · ux / engagement / gamification · sonnet                 ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ```
 
 ---
 
-_Generated by `scripts/render-startup-brief.mjs v3.1` · Session 86 closeout · 2026-07-27_
+_Generated by `scripts/render-startup-brief.mjs v3.1` · Session 87 closeout · 2026-07-28_
 _Run `node scripts/ops.mjs doctor` for live health check · `node scripts/ops.mjs genius-list` to refresh hit list_

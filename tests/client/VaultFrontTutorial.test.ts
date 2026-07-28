@@ -61,7 +61,10 @@ describe("VaultFrontTutorial", () => {
     await el.updateComplete;
 
     expect(el.shadowRoot?.querySelector(".strip")?.textContent).toContain(
-      "Extract, then expand",
+      "Build Pressure, then breach",
+    );
+    expect(el.shadowRoot?.querySelector(".strip")?.textContent).toContain(
+      "Three convoy deliveries open a 90-second Breach Window",
     );
     expect(apiMock.recordVaultFrontPlaytestPulse).toHaveBeenCalledWith({
       surface: "tutorial",

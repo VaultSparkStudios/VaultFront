@@ -280,3 +280,11 @@ Public-safe summary only. Sensitive verification notes are maintained privately.
 - **Verified:** mutation policy remains 41/41 with ten public-ingest routes; Worker and execution composition budgets pass.
 - **Claim boundary:** local build/E2E/theme evidence remains local-only. No approved staging origin, live email/identity/web parity, distinct-human Alpha, revenue, rollback observation, or founder launch approval was produced.
 - **Release decision:** public-unlaunched / NO-GO is unchanged and source-derived.
+
+## 2026-07-27 — Session 87 authority and closeout truth audit
+
+- `docs/AUDIT_2026-07-27.json` is exhausted at 6/6 shipped; `docs/INNOVATION_PACK.json` is monotonic and exhausted at 38/38 with no pending unblocked local work.
+- Certified tournament advancement is contingent on durable persistence and restores authoritative memory on write failure. Archived certificates require exact unique client roster equality, reject duplicate persistent identities, and fail closed on incomplete or repeated winner mapping.
+- Memory and PostgreSQL Elo paths both consume current matches played; canonical player copy describes the executable four-delivery Breach loop; regeneration preserves rank 38; CI blocks production dependency risk while keeping dev-only advisory truth visible.
+- Direct verification passed: 181 Vitest files / 990 tests; 33.08% lines / 32.71% statements; TypeScript; ESLint; Prettier ratchet; 41/41 mutation policies; public ingest 10/10; 41 deploy checks; production build; 28,125 balance scenarios; bundle/media/performance budgets; production npm audit zero; Playwright 26/26.
+- Release evidence remains NO-GO on nine missing/dirty observations. Commit is expected to resolve dirty-source state only; no approved staging/parity, project-domain delivery, native Obelisk, live-web, distinct-human Alpha, revenue, rollback, or founder approval was inferred.

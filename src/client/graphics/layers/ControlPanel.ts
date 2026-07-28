@@ -20,7 +20,9 @@ import { clearConvoyMastery, readConvoyMastery } from "../../ConvoyMastery";
 import {
   FIRST_EXTRACTION_STEPS,
   FIRST_EXTRACTION_TITLE,
+  breachVictoryCallout,
   firstExtractionComplete,
+  isFirstExtractionConvoyActivity,
 } from "../../FirstExtractionQuest";
 import { AttackRatioEvent } from "../../InputHandler";
 import {
@@ -630,8 +632,7 @@ export class ControlPanel extends LitElement implements Layer {
         vaultCaptured = true;
       }
       if (
-        (update.activity === "convoy_intercepted" ||
-          update.activity === "convoy_delivered") &&
+        isFirstExtractionConvoyActivity(update.activity) &&
         update.sourcePlayerID === myID
       ) {
         convoyAction = true;
@@ -2284,9 +2285,7 @@ export class ControlPanel extends LitElement implements Layer {
               >
                 ${
                   pressureWindowSeconds > 0
-                    ? "BREACH WINDOW " +
-                      pressureWindowSeconds +
-                      "s — deliver one convoy to win"
+                    ? breachVictoryCallout(pressureWindowSeconds)
                     : "Vault Pressure " +
                       myPressure.pressure +
                       "/" +

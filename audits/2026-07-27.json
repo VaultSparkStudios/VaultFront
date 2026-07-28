@@ -2,60 +2,84 @@
   "schemaVersion": "1.3",
   "project": "vaultfront",
   "date": "2026-07-27",
-  "session": 86,
+  "session": 87,
   "agent": "codex",
-  "kind": "certified-competitive-truth-closeout",
+  "kind": "fail-closed-authority-player-truth-closeout",
   "mission": "Full /start → /audit → /implement → /closeout arc with second-order innovation",
   "sil": {
     "score": 995,
     "max": 1000,
     "delta": 0,
-    "velocity": 5
+    "velocity": 7,
+    "categories": {
+      "devHealth": 100,
+      "creativeAlignment": 100,
+      "momentum": 100,
+      "engagement": 98,
+      "processQuality": 100,
+      "crossRepoCoherence": 99,
+      "securityPosture": 100,
+      "ecosystemIntegration": 98,
+      "capitalEfficiency": 100,
+      "automationCoverage": 100
+    },
+    "rolling": {
+      "three": 986,
+      "five": 980,
+      "ten": 989.2,
+      "twentyFive": 971.3,
+      "all": 971.3,
+      "entryCount": 25
+    }
   },
   "work": {
     "audit": {
-      "total": 4,
-      "shipped": 4,
-      "rejectedPremises": 8,
+      "total": 6,
+      "shipped": 6,
       "pendingUnblocked": 0
     },
     "innovations": {
-      "total": 37,
-      "shipped": 37,
+      "total": 38,
+      "shipped": 38,
       "newlyImplemented": 1,
       "pendingUnblocked": 0
     }
   },
   "verification": [
     {
-      "command": "npm test",
+      "command": "npm test; npm run coverage",
       "status": "pass",
-      "evidence": "179/179 files; 978/978 tests; direct exit code 0"
+      "evidence": "181/181 files; 990/990 tests; 33.08% lines; 32.71% statements; direct green"
     },
     {
-      "command": "npm run lint; npm run format:check",
+      "command": "npx tsc --noEmit; npm run lint; npm run format:check",
       "status": "pass",
-      "evidence": "direct exit codes 0; 0 formatting regressions"
-    },
-    {
-      "command": "npm run build-prod",
-      "status": "pass",
-      "evidence": "direct exit code 0; 28,125 deterministic balance scenarios; zero counterexamples"
-    },
-    {
-      "command": "npm run bundle:check",
-      "status": "pass",
-      "evidence": "all JavaScript, CSS, initial-transfer, and media budgets green"
-    },
-    {
-      "command": "npm run e2e",
-      "status": "pass",
-      "evidence": "26/26 Chromium desktop/mobile/theme checks; direct exit code 0"
+      "evidence": "TypeScript, ESLint, and Prettier ratchet direct green"
     },
     {
       "command": "npm run verify:contracts",
       "status": "pass",
-      "evidence": "41/41 mutation policies; public ingest 10/10; Worker 3,107/3,130; execution 2,898/2,907"
+      "evidence": "41/41 mutation policies; public ingest 10/10; 41 deploy-contract checks"
+    },
+    {
+      "command": "npm run build-prod",
+      "status": "pass",
+      "evidence": "production build direct green; 28,125 deterministic balance scenarios"
+    },
+    {
+      "command": "bundle, media, and performance gates",
+      "status": "pass",
+      "evidence": "all direct green"
+    },
+    {
+      "command": "npm audit --omit=dev --audit-level=moderate",
+      "status": "pass",
+      "evidence": "zero production vulnerabilities"
+    },
+    {
+      "command": "npm run e2e",
+      "status": "pass",
+      "evidence": "26/26 Playwright desktop/mobile/theme checks; direct green"
     }
   ],
   "releaseGate": {
@@ -63,7 +87,23 @@
     "workExhausted": true,
     "transferBudget": "pass",
     "balanceEnvelope": "verified",
-    "liveParity": false,
-    "fabricatedEvidence": false
+    "fabricatedEvidence": false,
+    "missingOrDirtyObservationCount": 9,
+    "missingOrDirtyObservations": [
+      "dirty-source (expected to resolve after closeout commit)",
+      "approved staging origin and runtime observation",
+      "exact-digest parity",
+      "project-domain delivery",
+      "native Obelisk relying-party identity",
+      "three distinct authenticated human Alpha sessions",
+      "revenue observation",
+      "rollback observation",
+      "founder approval"
+    ],
+    "postCommitBoundary": "Commit may clear dirty-source only; all external evidence gates remain NO-GO until observed."
+  },
+  "creativeDirectionRecord": {
+    "appended": false,
+    "reason": "Founder supplied session process and quality instructions, not new product creative direction."
   }
 }

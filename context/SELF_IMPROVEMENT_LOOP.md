@@ -4,12 +4,36 @@ Detailed internal scoring, audit trends, and brainstorming are maintained privat
 
 <!-- rolling-status-start -->
 
-Total: 995/1000 | Velocity: 5 | Debt: ↓ | Velocity trend: →
-Avgs — 3: 994.3 | Momentum runway: external staging-evidence corridor | Intent rate: 100%
+Total: 995/1000 | Velocity: 7 | Debt: ↓ | Velocity trend: ↑
+Avgs — 3: 986.0 | 5: 980.0 | 10: 989.2 | 25/all: 971.3 | Last 5: 999 → 943 → 968 → 995 → 995 | Intent rate: 100%
 Categories: Dev 100 | Align 100 | Momentum 100 | Engage 98 | Process 100 | Coherence 99 | Security 100 | Ecosystem 98 | Capital 100 | Automation 100
-Last session: 2026-07-27 Session 86 certified competitive truth arc
+Last session: 2026-07-27 Session 87 fail-closed authority and player-truth parity arc
 
 <!-- rolling-status-end -->
+
+## Sprint: 2026-07-27 — Session 87 Fail-Closed Authority and Player-Truth Parity Arc (SIL: 995/1000)
+
+Shipped all 6/6 live-code findings plus rank-38 innovation. Durable tournament truth, archive/certificate roster closure, store-independent rating semantics, canonical victory guidance, production-scoped dependency gating, and monotonic innovation generation now share executable contracts. Direct evidence passed across 181 files / 990 tests and the complete local release-gate stack.
+
+| Category              |        Score | Evidence                                                                                                    |
+| --------------------- | -----------: | ----------------------------------------------------------------------------------------------------------- |
+| Dev Health            |          100 | Unit, coverage, type, lint, format, build, bundle, media, performance, audit, and browser gates passed.     |
+| Creative Alignment    |          100 | The exact convoy-to-Breach climax and trustworthy competitive outcomes reinforce VaultFront's core fantasy. |
+| Momentum              |          100 | Audit 6/6 and innovations 38/38 exhausted with no pending local work.                                       |
+| Engagement            |           98 | Player guidance and rating feedback improved; no human retention or preference evidence was invented.       |
+| Process Quality       |          100 | Premises, authority seams, rollback, regeneration, and direct exit evidence are independently reviewable.   |
+| Cross-Repo Coherence  |           99 | Local public truth is coherent; externally owned registry/staging receipts remain outside this repo.        |
+| Security Posture      |          100 | Roster identity, durable advancement, and deployable dependency risk all fail closed.                       |
+| Ecosystem Integration |           98 | Contracts and agent surfaces agree; live staging, delivery, identity, and approval evidence remain absent.  |
+| Capital Efficiency    |          100 | No new paid surface; production risk gating avoids unsafe tooling churn.                                    |
+| Automation Coverage   |          100 | 41/41 mutation policies, 10/10 public ingest, 41 deploy checks, balance envelope, and 26/26 E2E execute.    |
+| **Total**             | **995/1000** | Evidence-based; external launch observations remain unearned.                                               |
+
+**Delta: 995 → 995.** Local correctness and player truth improved materially, while the score holds because real-world engagement and ecosystem observations remain absent.
+
+**Brainstorm:** unify future external observations into one exact-digest receipt bundle; make release admission report every remaining observation as an independently attributable claim.
+
+**Committed to TASK_BOARD:** `[SIL:3]` exact-digest staging observation bundle; `[SIL:4]` receipt-attributed release admission after the first external observation.
 
 ## Sprint: 2026-07-27 — Session 86 Certified Competitive Truth Arc (SIL: 995/1000)
 

@@ -18,7 +18,13 @@ function record(gameID = "game-1") {
   const certificate = {
     gameID,
     certificateId: "cert-1",
-    result: { winner: ["player", "client-a"] },
+    result: {
+      winner: ["player", "client-a"],
+      allPlayersStats: {
+        "client-a": {},
+        "client-b": {},
+      },
+    },
   } as unknown as MatchResultCertificate;
   return {
     info: {
@@ -46,5 +52,59 @@ describe("CertifiedGameAuthority", () => {
     expect(certifyArchivedGame("game-2", record())).toEqual({
       error: "Verified result certificate required.",
     });
+  });
+
+  it("rejects an archived roster changed after certificate issuance", () => {
+    const tampered = record();
+    tampered.info.players[1].clientID = "client-c";
+
+    expect(certifyArchivedGame("game-1", tampered)).toEqual({
+      error: "Archived roster does not match result certificate.",
+    });
+  });
+
+  it("rejects duplicate archived client and persistent identities", () => {
+    const duplicateClient = record();
+    duplicateClient.info.players[1].clientID = "client-a";
+    expect(certifyArchivedGame("game-1", duplicateClient)).toEqual({
+      error: "Archived roster does not match result certificate.",
+    });
+
+    const duplicatePersistent = record();
+    duplicatePersistent.info.players[1].persistentID = "player-a";
+    expect(certifyArchivedGame("game-1", duplicatePersistent)).toEqual({
+      error: "Archived roster has duplicate persistent identities.",
+    });
+  });
+
+  it("fails closed when any team winner lacks a persistent mapping", () => {
+    const partialTeam = record();
+    partialTeam.telemetry!.resultCertificate!.result.winner = [
+      "team",
+      "allies",
+      "client-a",
+      "client-b",
+    ];
+    partialTeam.info.players[1].persistentID = null;
+
+    const result = certifyArchivedGame("game-1", partialTeam);
+    expect("error" in result).toBe(false);
+    if ("error" in result) return;
+    expect(certifiedWinnerPersistentIds(result)).toEqual([]);
+  });
+
+  it("fails closed when a winner repeats a client identity", () => {
+    const duplicateWinner = record();
+    duplicateWinner.telemetry!.resultCertificate!.result.winner = [
+      "team",
+      "allies",
+      "client-a",
+      "client-a",
+    ];
+
+    const result = certifyArchivedGame("game-1", duplicateWinner);
+    expect("error" in result).toBe(false);
+    if ("error" in result) return;
+    expect(certifiedWinnerPersistentIds(result)).toEqual([]);
   });
 });

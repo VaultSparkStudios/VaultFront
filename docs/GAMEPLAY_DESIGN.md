@@ -9,16 +9,37 @@ self-verifies the deterministic grid published at `/balance-envelope.json`.
 
 ## Core loop summary
 
+The canonical player-facing victory-loop copy lives in
+`src/client/FirstExtractionQuest.ts → VAULTFRONT_VICTORY_LOOP`. Player surfaces
+must reuse that authority rather than inventing a parallel explanation.
+
 ```
 Vault site spawns on map
   └─ Player captures site (hold tile for 90 ticks / ~9s)
        └─ Convoy launches automatically toward player structure
             ├─ Player optionally reroutes or escorts convoy
             └─ Convoy delivers: player receives gold + troops
+                 ├─ Vault Pressure advances
+                 │    ├─ Deliveries 1–2: pressure builds
+                 │    └─ Delivery 3: 90-second Breach Window opens
+                 │         └─ Deliver once more before expiry → victory
                  └─ Site enters cooldown (650 ticks / ~65s)
                       └─ Site reopens → repeat
                            + Site also pays passive income every 600 ticks (~60s)
 ```
+
+Player-facing summary: **Capture a vault, deliver or disrupt its convoy, build
+Vault Pressure, then deliver during the Breach Window to win.**
+
+### Vault Pressure victory
+
+- Each delivered convoy advances its owner’s Vault Pressure.
+- Three deliveries open a 900-tick (~90-second) Breach Window.
+- One more delivery while that window is active wins the match.
+- If the window expires, pressure falls to 2/3; the next delivery reopens it.
+- Delivery, a successful shield/escort command, or an intercept all satisfy
+  First Extraction’s introductory convoy-action step. Only deliveries advance
+  Vault Pressure.
 
 ---
 

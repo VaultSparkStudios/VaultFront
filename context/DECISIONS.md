@@ -287,3 +287,41 @@ Public-safe decisions only. Detailed internal decision history is maintained pri
 - Leaderboard state is an indexed projection over `player_stats`; no table-wide cache rebuild belongs inside the certified match transaction.
 - Browser storage may render hints but cannot own rivalry progress. Rival revenge is recorded in deterministic simulation stats and travels through the existing certified result spine.
 - Registry type drift (`app` externally vs `game` locally) is not repaired by editing a sibling repository; correction travels through Studio Ark.
+
+## 2026-07-27 — Session 87 authority, parity, and monotonic-truth decisions
+
+### Archived certificates close over exact roster identity
+
+**Decision:** A certified archive is admissible only when GameRecord client IDs are unique and exactly equal the certificate statistics roster, and persistent identities are non-duplicated. Winner projection returns no identities if any winning client is missing or repeated.
+
+**Why:** Signature validity cannot make an independently mutable roster authoritative, and partial projection can turn a malformed team result into a plausible winner.
+
+### Tournament advancement is contingent on durable persistence
+
+**Decision:** Certified result mutation is snapshot/rollback protected; persistence failure is typed and prevents advancement, while successful replay remains idempotent.
+
+**Why:** A caller must never receive certified advancement for state that a restart can erase.
+
+### Player rating semantics are store-independent
+
+**Decision:** Memory and PostgreSQL both pass the player's current match count into Elo calculation, preserving placement K=64 through five matches and established K=32 afterward.
+
+**Why:** Development and production must not teach different progression behavior.
+
+### Victory guidance has one player-facing authority
+
+**Decision:** Orientation, action completion, and gameplay documentation reuse one exact four-delivery convoy-to-Breach explanation.
+
+**Why:** The core loop cannot be learned reliably when visible instructions disagree with executable victory rules.
+
+### Continuous integration blocks deployable dependency risk
+
+**Decision:** The release gate blocks `npm audit --omit=dev --audit-level=moderate`; full-tree advisories remain visible without treating known dev-only aliases as production exposure.
+
+**Why:** Security evidence must be strict about shipped risk and honest about tooling debt.
+
+### Innovation regeneration is monotonic
+
+**Decision:** Every source-backed shipped candidate, including rank 38, belongs to canonical generation and regeneration may not shrink or forget the ledger.
+
+**Why:** A generator that deletes checked-in evidence is not an authority.

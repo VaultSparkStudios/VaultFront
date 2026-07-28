@@ -17,6 +17,28 @@ const has = (relativePath, pattern) => {
   if (!fs.existsSync(target)) return false;
   return pattern ? pattern.test(fs.readFileSync(target, "utf8")) : true;
 };
+const occurrenceCount = (relativePath, token) => {
+  const target = path.join(root, relativePath);
+  if (!fs.existsSync(target)) return 0;
+  return fs.readFileSync(target, "utf8").split(token).length - 1;
+};
+
+export function forgottenShippedInnovationIds(existingItems, generatedItems) {
+  const generatedIds = new Set(
+    generatedItems
+      .map((item) => item?.id)
+      .filter((id) => typeof id === "string" && id.length > 0),
+  );
+  return existingItems
+    .filter(
+      (item) =>
+        item?.status === "shipped" &&
+        typeof item.id === "string" &&
+        !generatedIds.has(item.id),
+    )
+    .map((item) => item.id)
+    .sort();
+}
 
 const candidates = [
   {
@@ -555,6 +577,35 @@ const candidates = [
     evidence:
       "symmetric epsilon comparator, seeded property sequence, explicit adversarial boundary, and no stochastic gate flicker",
   },
+  {
+    id: "unified-certified-game-authority",
+    title: "Unify certified archived-game authority across consumers",
+    description:
+      "Resolve archive identity, signed result evidence, roster binding, and persistent winners through one source-derived authority so dynasty, tournament, and continuation consumers cannot invent parallel trust rules.",
+    complete:
+      has("src/server/CertifiedGameAuthority.ts", /certifyArchivedGame/) &&
+      has(
+        "tests/server/CertifiedGameAuthority.test.ts",
+        /CertifiedGameAuthority/,
+      ) &&
+      occurrenceCount("src/server/Worker.ts", "certifyArchivedGame(") >= 2,
+    evidence:
+      "shared CertifiedGameAuthority kernel, focused authority tests, and multiple production consumers in dynasty and tournament flows",
+  },
+  {
+    id: "monotonic-innovation-ledger-guard",
+    title: "Make shipped innovation evidence monotonic under regeneration",
+    description:
+      "Compare the existing shipped ledger with source-derived candidates before either artifact is written, and fail closed with exact forgotten IDs instead of silently deleting completed innovation evidence.",
+    complete:
+      has("scripts/innovation-pack.mjs", /forgottenShippedInnovationIds/) &&
+      has(
+        "tests/scripts/InnovationPack.test.ts",
+        /refuses to overwrite when a shipped historical candidate is forgotten/,
+      ),
+    evidence:
+      "pure shipped-ID comparison helper, pre-write fail-closed guard, exact forgotten-ID diagnostic, and isolated no-overwrite regression",
+  },
 ];
 
 const payload = {
@@ -568,6 +619,19 @@ const payload = {
     ...candidate,
   })),
 };
+
+if (fs.existsSync(jsonPath)) {
+  const existingPayload = JSON.parse(fs.readFileSync(jsonPath, "utf8"));
+  const forgotten = forgottenShippedInnovationIds(
+    Array.isArray(existingPayload?.items) ? existingPayload.items : [],
+    payload.items,
+  );
+  if (forgotten.length > 0) {
+    throw new Error(
+      `Innovation regeneration refused; previously shipped IDs are absent from the generator: ${forgotten.join(", ")}`,
+    );
+  }
+}
 
 const body = [
   "<!-- generated-by: scripts/innovation-pack.mjs -->",

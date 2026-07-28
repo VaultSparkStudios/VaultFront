@@ -1,24 +1,26 @@
-# Implementation Plan — Session 86
+# Implementation Plan — Session 87
 
-Source: `docs/AUDIT_2026-07-26.json`
+Source: `docs/AUDIT_2026-07-27.json`
 
-## Wave A — Deterministic foundations
+## Wave A — Certified authority and durable competition
 
-1. `certified-rivalry-revenge-projection` — extend deterministic simulation stats and signed result evidence; remove browser authority.
-2. `transaction-decoupled-leaderboard-projection` — remove table-wide work from the certified progression transaction and make ranked reads deterministic.
+1. `archive-certificate-roster-closure` — cross-bind archived and certified rosters, reject duplicate persistent identities, and fail closed on incomplete winner projection.
+2. `fail-closed-tournament-durability` — make certified bracket advancement transactional, rollback memory on persistence failure, and preserve idempotent replay.
 
-## Wave B — Shared certified context
+## Wave B — Regeneration and delivery truth
 
-3. Extract a reusable archived-game/certificate/participant resolver from the existing AI-only helper. This is shared implementation infrastructure for the two remaining audit items, not a separate audit claim.
+3. `regeneration-safe-innovation-ledger` — teach the canonical generator the shared certified-game authority and ratchet regeneration at 37 source-backed candidates.
+4. `production-scoped-ci-vulnerability-gate` — gate deployable dependency risk while retaining honest, non-blocking visibility into known development-tool aliases.
 
-## Wave C — Certificate-bound mutations
+## Wave C — Player-facing semantic parity
 
-4. `certificate-bound-dynasty-chronicle` — accept only `gameId`, derive clan and narrative inputs from certified evidence, deduplicate durable chapters, emit AI provenance.
-5. `certified-tournament-result-spine` — accept only `gameId`, derive participants and winner from certified evidence, bind the bracket atomically, and extract the router.
+5. `placement-rating-store-parity` — pass memory match count through the same placement K-factor calculation used by PostgreSQL.
+6. `canonical-player-facing-victory-loop` — teach one exact capture-to-convoy-to-Breach victory loop and align First Extraction completion language.
 
 ## Verification cadence
 
-- Focused unit tests after each item.
-- `npm run verify:contracts` after each composition or policy change.
+- Focused tests after each audit item.
 - TypeScript and lint after each wave.
-- Full suite, production build, budgets, and E2E during canonical closeout.
+- Regenerate derived innovation evidence after the generator regression is green.
+- Run contract verification after production policy or authority changes.
+- Full suite, production build, balance envelope, budgets, and E2E during canonical closeout.

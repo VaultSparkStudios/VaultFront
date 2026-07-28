@@ -1,10 +1,10 @@
-## Where We Left Off — Session 86 closeout (2026-07-27)
+## Where We Left Off — Session 87 closeout (2026-07-27)
 
-- Branch: `main`; audit 4/4 and innovations 37/37 shipped.
-- CertifiedGameAuthority is the shared archive/signature/roster/identity boundary for dynasty, tournament, and remote-AI consumers.
-- Leaderboards are read projections over indexed player stats; rivalry revenge is a deterministic certified stat, not browser storage.
-- Verification: 179 files / 978 tests, lint, format ratchet, production build, bundle budgets, and 26/26 E2E green.
-- Release posture remains public-unlaunched / NO-GO pending only real external evidence; do not infer staging from local proof.
+- Branch: `main`; audit 6/6 and innovations 38/38 shipped with no pending local work.
+- Tournament advancement fails closed on persistence; archived certificates bind exact unique rosters and winner identities.
+- Memory/PostgreSQL rating semantics, canonical victory guidance, innovation regeneration, and production-scoped CI audit now agree at their authority boundaries.
+- Verification: 181 files / 990 tests; 33.08% lines / 32.71% statements; TypeScript, ESLint, format, contracts, production build, 28,125 balance scenarios, bundle/media/performance, production audit zero, and 26/26 Playwright green.
+- Release posture remains public-unlaunched / NO-GO. Commit clears dirty-source evidence only; external staging/parity, delivery, identity, live-web, human, revenue, rollback, and founder observations remain absent.
 
 # Latest Handoff
 

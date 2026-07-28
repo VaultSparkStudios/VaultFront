@@ -1,0 +1,192 @@
+{
+  "schemaVersion": "1.0",
+  "session": 87,
+  "generatedBy": "Codex /goal /arc Session 87",
+  "generatedAt": "2026-07-27T23:55:00Z",
+  "project": {
+    "slug": "vaultfront",
+    "name": "VaultFront",
+    "type": "game",
+    "registryType": "app",
+    "audience": "public-unlaunched",
+    "stage": "FORGE",
+    "stagingType": "local"
+  },
+  "summary": "Session 87 shipped all 6/6 live-code audit items: tournament durability now fails closed, archived certificates bind exact roster identity, memory and PostgreSQL placement ratings agree, innovation regeneration preserves the complete ledger, player-facing victory guidance is canonical, and CI gates production dependency risk without misclassifying dev-only aliases. External release and human-playtest evidence remain non-local NO-GO corridors.",
+  "axes": {
+    "featureDepth": 1.5,
+    "innovation": 1.5,
+    "ux": 2,
+    "feedbackLoop": 1.5,
+    "gamification": 3,
+    "aiIntegration": 1.5,
+    "security": 2.5,
+    "speedOrganization": 2,
+    "tokenApiReduction": 2
+  },
+  "specialtyReviews": {
+    "gameLoop": {
+      "score": 81,
+      "confidence": "code-grounded-low-empirical",
+      "axes": {
+        "loopTightness": 86,
+        "progression": 78,
+        "sessionEngagement": 82,
+        "retention": 72,
+        "soulFidelity": 88
+      },
+      "boundary": "No distinct-human Alpha evidence exists, so engagement and retention remain hypotheses rather than observed player outcomes."
+    },
+    "release": {
+      "verdict": "no-go",
+      "passing": [
+        "cost-neutral mechanical gates",
+        "branding, footer, legal source compliance",
+        "immutable rollback procedure contract"
+      ],
+      "red": [
+        "five recent CI runs fail at the dependency-audit job",
+        "no approved staging, delivery, relying-party, parity, rollback-observation, human-Alpha, revenue, or founder-approval evidence"
+      ]
+    }
+  },
+  "rejectedPremises": [
+    {
+      "candidate": "Treat local E2E, READY credentials, or source-declared routes as launch evidence",
+      "result": "skipped",
+      "evidence": "None proves an approved origin, exact-digest parity, delivery, runtime health, or founder approval."
+    },
+    {
+      "candidate": "Retune match pacing from code constants alone",
+      "result": "skipped",
+      "evidence": "No human duration or comprehension corpus exists; changing balance would fabricate preference evidence."
+    },
+    {
+      "candidate": "Repair the Studio registry type directly",
+      "result": "skipped",
+      "evidence": "Local truth says game and registry says app, but CANON-018 requires the already-shipped Ark correction rather than a sibling-tree edit."
+    }
+  ],
+  "items": [
+    {
+      "id": 90,
+      "slug": "fail-closed-tournament-durability",
+      "tier": "🔥",
+      "axis": "security / reliability / observability",
+      "effortHours": 6,
+      "impact": 10,
+      "innovation": 8,
+      "priority": 26.7,
+      "status": "shipped",
+      "title": "Make certified tournament advancement fail closed on durable persistence",
+      "why": "reportCertifiedResult mutates the in-memory winner/game/certificate state, persistMatch catches every database error, and bracket advancement still returns success. A restart can erase a publicly certified outcome while the caller received a success response.",
+      "recipe": "Make persistence return a truthful result, snapshot and restore the match on failure, advance only after the certified result is durable, surface a typed persistence error, and test failure rollback plus successful idempotent replay.",
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Made certified result persistence truthful, rollback-safe, and advancement-gating.",
+        "Failure rollback and successful idempotent replay regressions passed."
+      ],
+      "complete": true
+    },
+    {
+      "id": 91,
+      "slug": "archive-certificate-roster-closure",
+      "tier": "🔥",
+      "axis": "security / organization / correctness",
+      "effortHours": 4,
+      "impact": 10,
+      "innovation": 8,
+      "priority": 30.9,
+      "status": "shipped",
+      "title": "Cross-bind archived roster identity inside CertifiedGameAuthority",
+      "why": "The shared authority verifies certificate bytes but builds persistent identity from an independently mutable GameRecord roster. Winner projection filters missing identities, so a partially mapped team winner can collapse into a plausible single winner.",
+      "recipe": "Require exact unique client roster equality between GameRecord and certificate stats, reject duplicate persistent identities, make winner projection fail closed when any winning client lacks a mapping, and add archive-tamper plus partial-team tests.",
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Bound archived and certified rosters exactly and rejected duplicate identities.",
+        "Archive tamper, partial-team, and duplicate-winner regressions passed."
+      ],
+      "complete": true
+    },
+    {
+      "id": 92,
+      "slug": "placement-rating-store-parity",
+      "tier": "⚡",
+      "axis": "gamification / reliability / feedback loop",
+      "effortHours": 2,
+      "impact": 8,
+      "innovation": 6,
+      "priority": 24,
+      "status": "shipped",
+      "title": "Make in-memory and PostgreSQL placement ratings semantically identical",
+      "why": "PostgreSQL passes matchesPlayed to EloRating.calculate while the memory path accepts its Infinity default, disabling the doubled placement K-factor in local development and tests.",
+      "recipe": "Pass the current memory match count through the same rating calculation and add a five-match boundary test proving 64-point placement and 32-point established K-factor semantics.",
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Passed the memory player's match count into Elo calculation.",
+        "Five-placement-match and established K-factor boundary regressions passed."
+      ],
+      "complete": true
+    },
+    {
+      "id": 93,
+      "slug": "regeneration-safe-innovation-ledger",
+      "tier": "🔥",
+      "axis": "observability / process quality / token reduction",
+      "effortHours": 2,
+      "impact": 9,
+      "innovation": 7,
+      "priority": 27,
+      "status": "shipped",
+      "title": "Make innovation regeneration preserve every source-backed shipped candidate",
+      "why": "Work exhaustion read 37/37 from the checked-in JSON, then innovation-pack.mjs rewrote both artifacts as 36/36 and deleted unified-certified-game-authority because the generator never learned the shipped candidate.",
+      "recipe": "Add the source-derived candidate to the generator and a regression test that runs the generator in an isolated fixture and proves regeneration cannot shrink or forget the shared authority evidence.",
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Added the source-backed shared-authority candidate to canonical generation.",
+        "Isolated regeneration regression preserved the complete innovation ledger."
+      ],
+      "complete": true
+    },
+    {
+      "id": 94,
+      "slug": "canonical-player-facing-victory-loop",
+      "tier": "⚡",
+      "axis": "ux / engagement / gamification",
+      "effortHours": 2,
+      "impact": 8,
+      "innovation": 6,
+      "priority": 24,
+      "status": "shipped",
+      "title": "Teach one exact convoy-to-Breach victory loop everywhere",
+      "why": "GAMEPLAY_DESIGN ends at repeat and First Extraction says shield/intercept even though a normal delivery completes convoyAction. The live game wins by opening Breach after three deliveries and delivering again inside the window.",
+      "recipe": "Create one player-facing victory-loop copy authority, reuse it in First Extraction orientation, align convoyAction wording with its actual completion rule, update gameplay design, and test the canonical copy and completion semantics.",
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Centralized and reused the exact four-delivery Breach victory guidance.",
+        "Canonical copy and convoy completion semantics regressions passed."
+      ],
+      "complete": true
+    },
+    {
+      "id": 95,
+      "slug": "production-scoped-ci-vulnerability-gate",
+      "tier": "🔥",
+      "axis": "security / delivery / observability",
+      "effortHours": 1,
+      "impact": 9,
+      "innovation": 5,
+      "priority": 26.1,
+      "status": "shipped",
+      "title": "Gate deployable dependency risk without making CI lie about dev-only aliases",
+      "why": "All five recent CI runs fail on npm audit --audit-level=moderate although the recorded decision proves production audit zero and defers npm 11 aliases because force-fix breaks semantic-release or the verified Node matrix.",
+      "recipe": "Change the CI release gate to npm audit --omit=dev --audit-level=moderate, retain full-tree advisory visibility as non-blocking evidence if useful, and add an executable workflow contract assertion so production scope cannot drift.",
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Scoped the blocking CI vulnerability gate to production dependencies.",
+        "Executable workflow contract protects production audit scope from drift."
+      ],
+      "complete": true
+    }
+  ]
+}

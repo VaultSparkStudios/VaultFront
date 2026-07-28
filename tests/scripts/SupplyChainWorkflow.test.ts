@@ -4,14 +4,16 @@ import path from "node:path";
 const root = process.cwd();
 
 describe("supply-chain workflow contract", () => {
-  test("CI rejects known moderate-or-higher advisories", () => {
+  test("CI rejects production moderate-or-higher advisories without gating on development tooling", () => {
     const workflow = fs.readFileSync(
       path.join(root, ".github", "workflows", "ci.yml"),
       "utf8",
     );
+    const auditCommands = workflow.match(/npm audit[^\r\n]*/g) ?? [];
 
-    expect(workflow).toContain("npm audit --audit-level=moderate");
-    expect(workflow).not.toContain("npm audit --audit-level=high");
+    expect(auditCommands).toEqual([
+      "npm audit --omit=dev --audit-level=moderate",
+    ]);
   });
 
   test("protobufjs remains beyond the patched denial-of-service range", () => {

@@ -64,11 +64,32 @@ export interface TournamentOperationsBrief {
   overlayUrl: string;
 }
 
-class TournamentStore {
+export type TournamentReportErrorCode =
+  | "MATCH_NOT_FOUND"
+  | "MATCH_ALREADY_COMPLETE"
+  | "CERTIFIED_GAME_ALREADY_USED"
+  | "INVALID_WINNER"
+  | "PERSISTENCE_FAILED";
+
+export interface TournamentReportError {
+  error: string;
+  code: TournamentReportErrorCode;
+}
+
+export type TournamentReportResult = BracketView | TournamentReportError;
+
+export type TournamentMatchPersistence = (
+  match: Readonly<TournamentMatch>,
+) => Promise<void>;
+
+export class TournamentStore {
   private tournaments = new Map<string, Tournament>();
   private slots = new Map<string, TournamentSlot[]>(); // tournamentId → slots
   private matches = new Map<string, TournamentMatch[]>(); // tournamentId → matches
+  private reportQueues = new Map<number, Promise<void>>();
   private nextMatchId = 1;
+
+  constructor(private readonly matchPersistence?: TournamentMatchPersistence) {}
 
   // ── Create ──────────────────────────────────────────────────────────────
 
@@ -175,7 +196,7 @@ class TournamentStore {
     t.startedAt = Date.now();
     this.tournaments.set(tournamentId, t);
 
-    for (const m of round1) void this.persistMatch(m);
+    for (const m of round1) void this.persistMatch(m).catch(() => undefined);
     void this.persistTournament(t);
 
     return this.buildBracketView(tournamentId)!;
@@ -188,7 +209,23 @@ class TournamentStore {
     winnerId: string,
     gameId: string,
     certificateId: string,
-  ): Promise<BracketView | { error: string }> {
+  ): Promise<TournamentReportResult> {
+    return this.serializeReport(matchId, () =>
+      this.reportCertifiedResultUnlocked(
+        matchId,
+        winnerId,
+        gameId,
+        certificateId,
+      ),
+    );
+  }
+
+  private async reportCertifiedResultUnlocked(
+    matchId: number,
+    winnerId: string,
+    gameId: string,
+    certificateId: string,
+  ): Promise<TournamentReportResult> {
     let targetMatch: TournamentMatch | null = null;
     let tournamentId = "";
     for (const [tid, matches] of this.matches) {
@@ -199,30 +236,74 @@ class TournamentStore {
         break;
       }
     }
-    if (!targetMatch) return { error: "Match not found." };
+    if (!targetMatch)
+      return { error: "Match not found.", code: "MATCH_NOT_FOUND" };
     if (targetMatch.status === "complete") {
       if (
+        targetMatch.winnerId === winnerId &&
         targetMatch.gameId === gameId &&
         targetMatch.certificateId === certificateId
       )
         return this.buildBracketView(tournamentId)!;
-      return { error: "Match already complete." };
+      return {
+        error: "Match already complete.",
+        code: "MATCH_ALREADY_COMPLETE",
+      };
     }
     for (const matches of this.matches.values()) {
       if (
         matches.some((match) => match.gameId === gameId && match.id !== matchId)
       )
-        return { error: "Certified game already used by another match." };
+        return {
+          error: "Certified game already used by another match.",
+          code: "CERTIFIED_GAME_ALREADY_USED",
+        };
     }
     if (targetMatch.playerA !== winnerId && targetMatch.playerB !== winnerId)
-      return { error: "Winner must be one of the match participants." };
-    targetMatch.winnerId = winnerId;
-    targetMatch.gameId = gameId;
-    targetMatch.certificateId = certificateId;
-    targetMatch.status = "complete";
-    await this.persistMatch(targetMatch);
+      return {
+        error: "Winner must be one of the match participants.",
+        code: "INVALID_WINNER",
+      };
+
+    const persistedMatch: TournamentMatch = {
+      ...targetMatch,
+      winnerId,
+      gameId,
+      certificateId,
+      status: "complete",
+    };
+    try {
+      await this.persistMatch(persistedMatch);
+    } catch {
+      return {
+        error: "Certified result persistence failed.",
+        code: "PERSISTENCE_FAILED",
+      };
+    }
+
+    Object.assign(targetMatch, persistedMatch);
     this.advanceBracket(tournamentId);
     return this.buildBracketView(tournamentId)!;
+  }
+
+  private async serializeReport<T>(
+    matchId: number,
+    operation: () => Promise<T>,
+  ): Promise<T> {
+    const previous = this.reportQueues.get(matchId) ?? Promise.resolve();
+    const current = previous.catch(() => undefined).then(operation);
+    const tail = current.then(
+      () => undefined,
+      () => undefined,
+    );
+    this.reportQueues.set(matchId, tail);
+    try {
+      return await current;
+    } finally {
+      if (this.reportQueues.get(matchId) === tail) {
+        this.reportQueues.delete(matchId);
+      }
+    }
   }
 
   // ── Read ──────────────────────────────────────────────────────────────────
@@ -311,7 +392,7 @@ class TournamentStore {
 
     const updated = [...all, ...nextRound];
     this.matches.set(tournamentId, updated);
-    for (const m of nextRound) void this.persistMatch(m);
+    for (const m of nextRound) void this.persistMatch(m).catch(() => undefined);
 
     // Recurse in case next round also has byes
     this.advanceBracket(tournamentId);
@@ -372,10 +453,13 @@ class TournamentStore {
   }
 
   private async persistMatch(m: TournamentMatch): Promise<void> {
+    if (this.matchPersistence) {
+      await this.matchPersistence({ ...m });
+      return;
+    }
     if (!pool) return;
-    try {
-      await pool.query(
-        `INSERT INTO tournament_matches
+    await pool.query(
+      `INSERT INTO tournament_matches
            (id, tournament_id, round, match_index, player_a, player_b, winner_id, game_id, result_certificate_id, status)
          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
          ON CONFLICT (id) DO UPDATE
@@ -384,22 +468,19 @@ class TournamentStore {
                result_certificate_id = EXCLUDED.result_certificate_id,
                status = EXCLUDED.status,
                completed_at = CASE WHEN EXCLUDED.status = 'complete' THEN NOW() ELSE NULL END`,
-        [
-          m.id,
-          m.tournamentId,
-          m.round,
-          m.matchIndex,
-          m.playerA,
-          m.playerB,
-          m.winnerId,
-          m.gameId,
-          m.certificateId,
-          m.status,
-        ],
-      );
-    } catch {
-      // non-fatal
-    }
+      [
+        m.id,
+        m.tournamentId,
+        m.round,
+        m.matchIndex,
+        m.playerA,
+        m.playerB,
+        m.winnerId,
+        m.gameId,
+        m.certificateId,
+        m.status,
+      ],
+    );
   }
 }
 

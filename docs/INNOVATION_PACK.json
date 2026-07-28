@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-07-27T04:40:35.31Z",
+  "generatedAt": "2026-07-28T00:57:46.139Z",
   "source": "scripts/innovation-pack.mjs",
   "primarySource": "latest audit-backed Unified Genius List",
   "items": [
@@ -332,10 +332,19 @@
       "rank": 37,
       "status": "shipped",
       "id": "unified-certified-game-authority",
-      "title": "Unify every new post-match consumer behind one certified-game authority",
-      "description": "Make dynasty narration, tournament adjudication, and existing remote-AI consumers share one archive, signature, roster, and persistent-identity binding kernel so trust semantics cannot drift by route.",
+      "title": "Unify certified archived-game authority across consumers",
+      "description": "Resolve archive identity, signed result evidence, roster binding, and persistent winners through one source-derived authority so dynasty, tournament, and continuation consumers cannot invent parallel trust rules.",
       "complete": true,
-      "evidence": "CertifiedGameAuthority kernel, replay/game binding, persistent roster and winner projections, dynasty/tournament/AI route reuse, regression tests, and route-policy contracts"
+      "evidence": "shared CertifiedGameAuthority kernel, focused authority tests, and multiple production consumers in dynasty and tournament flows"
+    },
+    {
+      "rank": 38,
+      "status": "shipped",
+      "id": "monotonic-innovation-ledger-guard",
+      "title": "Make shipped innovation evidence monotonic under regeneration",
+      "description": "Compare the existing shipped ledger with source-derived candidates before either artifact is written, and fail closed with exact forgotten IDs instead of silently deleting completed innovation evidence.",
+      "complete": true,
+      "evidence": "pure shipped-ID comparison helper, pre-write fail-closed guard, exact forgotten-ID diagnostic, and isolated no-overwrite regression"
     }
   ]
 }

@@ -401,7 +401,12 @@ export class PlayerStatsStore {
       const rec = this.memPlayers.get(p.persistentId);
       if (!rec) continue;
       const opponentAvg = p.won ? loserAvg : winnerAvg;
-      const eloResult = EloRating.calculate(rec.eloRating, opponentAvg, p.won);
+      const eloResult = EloRating.calculate(
+        rec.eloRating,
+        opponentAvg,
+        p.won,
+        rec.matchesPlayed,
+      );
       const eloBefore = rec.eloRating;
       rec.eloRating = Math.max(100, eloResult.newRatingA);
       rec.matchesPlayed += 1;
