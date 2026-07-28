@@ -297,5 +297,5 @@ Public-safe summary only. Sensitive verification notes are maintained privately.
 - First Extraction and certified match evidence share Capture → outcome → Pressure → Breach → decisive delivery. Aggregate funnel persistence contains conversion/timing only and no actor identifiers.
 - The tracked map-generator binary and unused runtime dependencies are absent; production dependency count fell from 252 to 219 and the production audit reports zero vulnerabilities.
 - Registry-delta Ark cargo `01JUJNSAUUE4626BC279319392` was shipped; no applied acknowledgement exists yet, so external identity coherence is not claimed.
-- Direct verification passed across 184 Vitest files / 1,011 tests, TypeScript, ESLint, formatting, contracts, production build, Pages, bundle, and production audit gates. Full E2E was 25/26 after one reload timeout; the exact isolated failed theme test passed.
+- Direct verification passed across 184 Vitest files / 1,013 tests, TypeScript, ESLint, formatting, contracts, production build, Pages, bundle, and production audit gates. Full E2E was 25/26 after one reload timeout; the exact isolated failed theme test passed.
 - Release remains public-unlaunched / NO-GO. Local proof does not establish approved staging/parity, project-domain delivery, native Obelisk, live-web, three-human Alpha, revenue, rollback, or founder approval.

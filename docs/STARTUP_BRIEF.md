@@ -2,7 +2,7 @@
 <!-- generated-at: 2026-07-28 (Session 88 closeout) -->
 <!-- fast-boot-valid-until: next session if within 24h -->
 <!-- brief-coherent: true -->
-<!-- brief-sources: {"schema":1,"session":88,"sources":{"context/PROJECT_STATUS.json":"38146acd97f88086","context/TASK_BOARD.md":"84c524a8880e5da9","context/LATEST_HANDOFF.md":"09455a9372a3b100","context/SELF_IMPROVEMENT_LOOP.md":"08f805c34b8c7dee","docs/GENIUS_LIST.md":"654d6c7ecbb074ca"}} -->
+<!-- brief-sources: {"schema":1,"session":88,"sources":{"context/PROJECT_STATUS.json":"458bc998e7bd8547","context/TASK_BOARD.md":"543641077514625c","context/LATEST_HANDOFF.md":"639dd5aa7d8b1228","context/SELF_IMPROVEMENT_LOOP.md":"56f7d0b7e7dbafc7","docs/GENIUS_LIST.md":"654d6c7ecbb074ca"}} -->
 
 # Startup Brief — VaultFront
 
@@ -60,18 +60,18 @@
 
 ╔══ WHERE WE LEFT OFF  ·  Session 88 ════════════════════════════╗
 ║  Shipped:  see LATEST_HANDOFF.md                                 ║
-║  Tests:    1011/1011 passing  ·  Deploy: N/A                     ║
+║  Tests:    1013/1013 passing  ·  Deploy: N/A                     ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ CONTEXT METER ═══════════════════════════════════════════════╗
-║  ✓  ░░░░░░░░░░░░░░░░░░░░░░░░    2% used                          ║
-║     20,571 / 1,000,000 tok  ·  codex/codex-1m  ·  measured+heur  ║
-║     ~10,286 tok/turn  ·  cache 50%  ·  87 turns to compact       ║
+║  ✓  ░░░░░░░░░░░░░░░░░░░░░░░░    1% used                          ║
+║     2,939 / 200,000 tok  ·  unknown/default  ·  heuristic        ║
+║     ~1,470 tok/turn  ·  cache 50%  ·  123 turns to compact       ║
 ║     Verdict: CONTINUE                                            ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ SIGNALS ═════════════════════════════════════════════════════╗
-║  ✓  Tests         1011/1011 passing (2026-07-28T00:00:00Z)       ║
+║  ✓  Tests         1013/1013 passing (2026-07-28T08:02:22.164Z)   ║
 ║  ✓  Velocity      11 ↑  ·  Debt: ↓                               ║
 ║  ✓  Runway        unknown                                        ║
 ║  ⛔  Context age   ?d                                             ║

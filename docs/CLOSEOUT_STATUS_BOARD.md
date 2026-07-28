@@ -12,7 +12,7 @@
 ║  ✓ Branch: `main`; audit items 96–103 shipped, item 104 externa  ║
 ║  ✓ Runtime health now derives from fresh worker-internal quorum  ║
 ║  ✓ First Extraction and certified evidence now share the Captur  ║
-║  ✓ Verification: 184 files / 1,011 tests; TypeScript, ESLint, f  ║
+║  ✓ Verification: 184 files / 1,013 tests; TypeScript, ESLint, f  ║
 ║  ✓ Release remains public-unlaunched / NO-GO. No approved stagi  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ SCORES · SIL 997/1000 ═══════════════════════════════════════╗
@@ -40,7 +40,7 @@
 ║  · agent memory (context/BRAIN.md or agent home)                 ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ GIT STATUS ══════════════════════════════════════════════════╗
-║  Changes: 3 files  ·  M:3 A:0 D:0 ?:0                            ║
+║  Changes: 12 files  ·  M:12 A:0 D:0 ?:0                          ║
 ║  Ahead: 0  ·  Behind: 0                                          ║
 ║  Branch: main                                                    ║
 ╚════════════════════════════════════════════════════════════════╝
@@ -51,7 +51,7 @@
 ╔══ POST-SESSION SIGNALS ════════════════════════════════════════╗
 ║  Doctor:        11/11                                            ║
 ║  Compliance:    49/49                                            ║
-║  Tests:         1011/1011                                        ║
+║  Tests:         1013/1013                                        ║
 ║  IGNIS:         5d ago                                           ║
 ║  Truth:         green                                            ║
 ║  Sanitization:  2d ago                                           ║

@@ -357,3 +357,9 @@ Public-safe decisions only. Detailed internal decision history is maintained pri
 **Decision:** The required Studio Ops closeout autopilot was stopped before commit when its child-project `--project` invocation began writing Studio Ops-owned generated surfaces. Session 88 uses the verified manual local closeout path to preserve CANON-018. Ark repo-question `01JUJR2FEQ4F1C7938333B8FFB` requests a scoping fix.
 
 **Why:** A project closeout must not mutate a sibling repository merely because the shared autopilot resolves its generated outputs there.
+
+## 2026-07-28 — Coverage regressions are root-fixed without lowering floors
+
+**Decision:** Post-push continuous integration exposed WorkerLobbyService coverage below the unchanged floors. Direct tests now exercise its IPC snapshot, ready message, and health heartbeat methods; full coverage passed 184 files / 1,013 tests with the global and ten critical-module ratchets green.
+
+**Why:** Coverage thresholds are executable production visibility contracts, so new behavior must earn coverage rather than weakening the contract.

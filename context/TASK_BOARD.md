@@ -199,7 +199,7 @@ Audit items 96–103 shipped; item 104 is externally blocked on a Studio Ops app
 - [done] First Extraction teaches Capture → outcome → Pressure → Breach → decisive delivery; certified evidence records privacy-minimal conversion and timing.
 - [done] Removed the tracked generator binary and unused runtime dependency weight; production audit remains zero.
 - [done] Generated and shipped three second-order invariants, taking `docs/INNOVATION_PACK.json` to 41/41.
-- [done] Direct proof: 184 files / 1,011 tests; TypeScript, lint, format, contracts, production build, Pages, bundle, and production audit green.
+- [done] Direct proof: 184 files / 1,013 tests; TypeScript, lint, format, contracts, production build, Pages, bundle, and production audit green.
 - [deferred] Full Playwright was 25/26 after one reload timeout; the exact isolated failed theme test passed. Release remains NO-GO on external evidence.
 - [externally-blocked] Registry correction cargo `01JUJNSAUUE4626BC279319392` shipped through Ark; closure awaits applied acknowledgement.
 

@@ -2,6 +2,7 @@ import type http from "node:http";
 import { describe, expect, it, vi } from "vitest";
 import {
   WebSocketIngressGuard,
+  WorkerLobbyService,
   websocketIngressIp,
 } from "../../src/server/WorkerLobbyService";
 
@@ -13,6 +14,88 @@ vi.mock("../../src/server/Logger", () => ({
     warn: vi.fn(),
   },
 }));
+
+describe("WorkerLobbyService IPC health", () => {
+  it("returns a fresh connected IPC health snapshot", () => {
+    const service = Object.create(
+      WorkerLobbyService.prototype,
+    ) as WorkerLobbyService;
+    Object.defineProperty(service, "lastMasterMessageAt", {
+      configurable: true,
+      value: 9_950,
+      writable: true,
+    });
+    const connectedDescriptor = Object.getOwnPropertyDescriptor(
+      process,
+      "connected",
+    );
+
+    try {
+      Object.defineProperty(process, "connected", {
+        configurable: true,
+        value: true,
+        writable: true,
+      });
+
+      expect(service.ipcHealthSnapshot(10_000, 100)).toEqual({
+        scope: "process-local-worker",
+        connected: true,
+        healthy: true,
+        lastMasterMessageAt: 9_950,
+        ageMs: 50,
+        maxAgeMs: 100,
+      });
+    } finally {
+      if (connectedDescriptor) {
+        Object.defineProperty(process, "connected", connectedDescriptor);
+      } else {
+        Reflect.deleteProperty(process, "connected");
+      }
+    }
+  });
+
+  it("emits exact ready and health heartbeat messages", () => {
+    const service = Object.create(
+      WorkerLobbyService.prototype,
+    ) as WorkerLobbyService;
+    const sendDescriptor = Object.getOwnPropertyDescriptor(process, "send");
+    const send = vi.fn();
+
+    try {
+      Object.defineProperty(process, "send", {
+        configurable: true,
+        value: send,
+        writable: true,
+      });
+
+      service.sendReady(7);
+      service.sendHealthHeartbeat(7, {
+        observedAt: 12_345,
+        healthy: false,
+        reasons: ["ipc-stale"],
+      });
+
+      expect(send).toHaveBeenNthCalledWith(1, {
+        type: "workerReady",
+        workerId: 7,
+      });
+      expect(send).toHaveBeenNthCalledWith(2, {
+        type: "workerHealth",
+        workerId: 7,
+        observedAt: 12_345,
+        healthy: false,
+        reasons: ["ipc-stale"],
+      });
+      expect(send).toHaveBeenCalledTimes(2);
+    } finally {
+      if (sendDescriptor) {
+        Object.defineProperty(process, "send", sendDescriptor);
+      } else {
+        Reflect.deleteProperty(process, "send");
+      }
+    }
+  });
+});
 
 describe("WebSocketIngressGuard", () => {
   it("enforces a fixed-window upgrade rate", () => {
