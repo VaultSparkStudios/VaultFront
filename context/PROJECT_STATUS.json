@@ -334,11 +334,11 @@
   ],
   "sessionShellHygiene": {
     "session": 88,
-    "started": 0,
-    "closed": 0,
+    "started": 2,
+    "closed": 2,
     "running": 0,
-    "enumeratedAt": "2026-07-28T07:27:29.046Z",
-    "scope": "No long-running process intentionally started; final workspace process enumeration is required immediately before handoff."
+    "enumeratedAt": "2026-07-28T07:54:22.016Z",
+    "scope": "Final Win32 process enumeration found zero command lines referencing the VaultFront workspace; both duplicate closeout-autopilot trees were closed and the session lock was removed."
   },
   "testsLastRun": "2026-07-28T00:00:00Z",
   "testsLastRunMode": "full",
