@@ -1,12 +1,12 @@
 {
   "vectorVersion": "1.0",
   "generatedAt": "2026-07-28",
-  "generatedAtMs": 1785223688847,
+  "generatedAtMs": 1785225192353,
   "session": 88,
-  "vectorHash": "84cc37e78f8d1423",
+  "vectorHash": "4e2fee340efabaa0",
   "silTotal": 997,
-  "silAvg3": 994.3,
-  "velocity": 7,
+  "silAvg3": 995.7,
+  "velocity": 11,
   "debt": "down",
   "runway": "unknown",
   "intentRate": "100%",
@@ -14,7 +14,7 @@
   "openNext": 6,
   "openBlocked": 0,
   "topNow": [
-    "[ecosystem] Obtain source-tagged Studio Ops registry reconciliation and Cloudfla",
+    "[ecosystem] Await the applied acknowledgement for source-tagged registry-delta A",
     "[release-evidence] Deliberately establish the approved staging contract, deploy ",
     "[release-evidence] Verify project-domain Brevo delivery and native Obelisk relyi"
   ],
