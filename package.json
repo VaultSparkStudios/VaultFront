@@ -72,7 +72,7 @@
     "@types/jquery": "3.5.32",
     "@types/js-yaml": "4.0.9",
     "@types/msgpack5": "3.4.7",
-    "@types/node": "22.15.32",
+    "@types/node": "26.1.2",
     "@types/pg": "8.20.0",
     "@types/seedrandom": "3.0.8",
     "@types/sinon": "17.0.4",
