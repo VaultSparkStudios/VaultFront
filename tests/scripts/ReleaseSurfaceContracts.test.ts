@@ -46,6 +46,11 @@ function validPagesFixture(): string {
   write(root, "static/contact/index.html", contact);
   write(
     root,
+    "static/assets/sw-fixture123.js",
+    'const cache="vaultfront-shell:sw-fixture123.js";',
+  );
+  write(
+    root,
     ".github/workflows/deploy-pages.yml",
     [
       "run: npm run build:pages",
@@ -60,6 +65,22 @@ function validPagesFixture(): string {
 }
 
 describe("release surface contracts", () => {
+  it("makes the production artifact Pages-complete before release evidence is generated", () => {
+    const scripts = JSON.parse(
+      fs.readFileSync(path.join(process.cwd(), "package.json"), "utf8"),
+    ).scripts as Record<string, string>;
+    const production = scripts["build-prod"];
+    expect(production).toContain("vite build");
+    expect(production).toContain("node scripts/postbuild-pages.mjs");
+    expect(production).toContain("node scripts/generate-release-evidence.mjs");
+    expect(production.indexOf("vite build")).toBeLessThan(
+      production.indexOf("node scripts/postbuild-pages.mjs"),
+    );
+    expect(production.indexOf("node scripts/postbuild-pages.mjs")).toBeLessThan(
+      production.indexOf("node scripts/generate-release-evidence.mjs"),
+    );
+  });
+
   it("accepts the built public surface and rejects missing files or stub drift", () => {
     const root = validPagesFixture();
     const script = path.join(
@@ -76,8 +97,10 @@ describe("release surface contracts", () => {
     );
     expect(valid.status).toBe(0);
     expect(valid.stdout).toContain("Pages artifact contract: 10/10");
+    expect(valid.stdout).toContain("service-worker 1/1");
 
     fs.rmSync(path.join(root, "static/404.html"));
+    fs.rmSync(path.join(root, "static/assets/sw-fixture123.js"));
     const workflow = path.join(root, ".github/workflows/deploy-pages.yml");
     fs.appendFileSync(workflow, "\npath: pages-stub\n");
     const invalid = spawnSync(
@@ -88,6 +111,9 @@ describe("release surface contracts", () => {
     expect(invalid.status).toBe(1);
     expect(invalid.stderr).toContain("404.html");
     expect(invalid.stderr).toContain("workflow:pages-stub");
+    expect(invalid.stderr).toContain(
+      "service-worker:expected-one-compiled-asset-found-0",
+    );
   });
 
   it("forbids hosted workflow cron without treating Dependabot metadata as hosted cron", () => {

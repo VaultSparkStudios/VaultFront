@@ -68,6 +68,51 @@ function digestAvailableFiles(projectRoot, relativePaths) {
     : null;
 }
 
+export function buildServiceWorkerReleaseEvidence(projectRoot) {
+  const assetsRoot = path.join(projectRoot, "static", "assets");
+  const assets = fs.existsSync(assetsRoot)
+    ? fs
+        .readdirSync(assetsRoot, { withFileTypes: true })
+        .filter(
+          (entry) =>
+            entry.isFile() && /^sw-[A-Za-z0-9_-]+\.js$/.test(entry.name),
+        )
+        .map((entry) => entry.name)
+        .sort()
+    : [];
+  if (assets.length !== 1) {
+    return {
+      schemaVersion: 1,
+      status: assets.length === 0 ? "missing" : "invalid",
+      assetPath: null,
+      assetDigest: null,
+      byteLength: null,
+      cacheNamespace: null,
+      policyMarkerPresent: false,
+      candidates: assets,
+      detail: `Expected exactly one compiled sw-*.js asset; found ${assets.length}.`,
+    };
+  }
+  const assetPath = `static/assets/${assets[0]}`;
+  const bytes = fs.readFileSync(path.join(projectRoot, assetPath));
+  const policyMarkerPresent = bytes.includes(
+    Buffer.from("vaultfront-shell:", "utf8"),
+  );
+  return {
+    schemaVersion: 1,
+    status: policyMarkerPresent ? "verified" : "invalid",
+    assetPath,
+    assetDigest: sha256(bytes),
+    byteLength: bytes.byteLength,
+    cacheNamespace: `vaultfront-shell:${assets[0]}`,
+    policyMarkerPresent,
+    candidates: assets,
+    detail: policyMarkerPresent
+      ? "One compiled worker is content-bound to its release cache namespace."
+      : "Compiled worker is missing the VaultFront release-cache policy marker.",
+  };
+}
+
 function statusCounts(items = []) {
   return items.reduce((counts, item) => {
     const status = String(item.status ?? "pending");
@@ -276,6 +321,11 @@ export function buildReleaseEvidence({
   },
   projectTruth = null,
   balanceEnvelope = null,
+  serviceWorkerRelease = {
+    schemaVersion: 1,
+    status: "missing",
+    detail: "Service-worker release evidence was not supplied.",
+  },
   maxEvidenceAgeMs = DEFAULT_MAX_AGE_MS,
 }) {
   const audit = statusCounts(auditItems);
@@ -312,6 +362,11 @@ export function buildReleaseEvidence({
   if (balanceEnvelope && balanceEnvelope.status !== "verified") {
     releaseBlockers.push("balance: deterministic envelope failed verification");
   }
+  if (serviceWorkerRelease?.status !== "verified") {
+    releaseBlockers.push(
+      `serviceWorkerRelease: ${serviceWorkerRelease?.detail ?? "compiled worker evidence missing"}`,
+    );
+  }
 
   const evidenceCore = {
     schemaVersion: "2.0",
@@ -341,6 +396,7 @@ export function buildReleaseEvidence({
     localSurface: localSurfaceEvidence,
     projectTruth,
     balance: balanceEnvelope,
+    serviceWorkerRelease,
     work: {
       auditSource,
       audit,
@@ -356,6 +412,7 @@ export function buildReleaseEvidence({
     "local-surface": evidenceCore.localSurface,
     "project-truth": evidenceCore.projectTruth,
     balance: evidenceCore.balance,
+    "service-worker-release": evidenceCore.serviceWorkerRelease,
     work: evidenceCore.work,
     transfer: evidenceCore.transfer,
     "release-decision": {
@@ -394,6 +451,12 @@ export function buildReleaseEvidence({
       evidence: lineageEvidence.balance,
     },
     {
+      id: "service-worker-release",
+      kind: "offline-runtime-release",
+      parents: ["source"],
+      evidence: lineageEvidence["service-worker-release"],
+    },
+    {
       id: "work",
       kind: "exhaustion",
       parents: ["source"],
@@ -413,6 +476,7 @@ export function buildReleaseEvidence({
         "local-surface",
         "project-truth",
         "balance",
+        "service-worker-release",
         "work",
         "transfer",
       ],
@@ -433,6 +497,7 @@ export function verifyReleaseEvidenceLineage(evidence) {
     "local-surface": evidence.localSurface,
     "project-truth": evidence.projectTruth,
     balance: evidence.balance,
+    "service-worker-release": evidence.serviceWorkerRelease,
     work: evidence.work,
     transfer: evidence.transfer,
     "release-decision": {
@@ -554,6 +619,7 @@ export function generateReleaseEvidence(projectRoot = root) {
         artifactDigest: null,
         sourceDigest: null,
       };
+  const serviceWorkerRelease = buildServiceWorkerReleaseEvidence(projectRoot);
   const releaseObservations = {
     ...observationBundle.observations,
     footerManifest: localSurfaceEvidence.footerManifest,
@@ -575,6 +641,7 @@ export function generateReleaseEvidence(projectRoot = root) {
     localSurfaceEvidence,
     projectTruth,
     balanceEnvelope,
+    serviceWorkerRelease,
     transfer: {
       initial: {
         ...initial,

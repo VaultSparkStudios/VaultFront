@@ -76,13 +76,19 @@ describe("innovation-pack regeneration", () => {
     const firstAuthority = first.items.find(
       (item) => item.id === "unified-certified-game-authority",
     );
-    expect(first.items).toHaveLength(41);
+    expect(first.items).toHaveLength(45);
     expect(firstAuthority).toMatchObject({ rank: 37, status: "shipped" });
     expect(
       first.items.find(
         (item) => item.id === "monotonic-innovation-ledger-guard",
       ),
     ).toMatchObject({ rank: 41, status: "shipped" });
+    expect(first.items.slice(-4).map((item) => item.id)).toEqual([
+      "certified-loop-admissibility-receipt",
+      "worker-game-id-route-witness",
+      "startup-brief-source-closure",
+      "service-worker-release-lineage",
+    ]);
 
     const output = runGenerator();
     const regenerated = JSON.parse(
@@ -97,7 +103,7 @@ describe("innovation-pack regeneration", () => {
         (item) => item.id === "unified-certified-game-authority",
       ),
     ).toMatchObject({ rank: 37, status: "shipped" });
-    expect(output).toContain("2/41 shipped");
+    expect(output).toContain("2/45 shipped");
   });
 
   it("refuses to overwrite when a shipped historical candidate is forgotten", () => {

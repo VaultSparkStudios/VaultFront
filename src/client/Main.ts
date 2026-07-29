@@ -82,6 +82,7 @@ import "./styles/core/variables.css";
 import "./styles/layout/container.css";
 import "./styles/layout/header.css";
 import "./styles/modal/chat.css";
+import serviceWorkerUrl from "./sw.ts?worker&url";
 
 function updateAccountNavButton(userMeResponse: UserMeResponse | false) {
   const button = document.getElementById("nav-account-button");
@@ -961,7 +962,7 @@ const hideCrazyGamesElements = () => {
 // Register service worker for PWA installability and asset caching
 if ("serviceWorker" in navigator && process.env.GAME_ENV === "prod") {
   navigator.serviceWorker
-    .register(new URL("./sw.ts", import.meta.url), { type: "module" })
+    .register(serviceWorkerUrl, { type: "module" })
     .catch((err) => console.warn("SW registration failed:", err));
 }
 

@@ -5,6 +5,7 @@ import { describe, expect, it } from "vitest";
 import { generatePublicShell } from "../../scripts/generate-public-shell.mjs";
 import {
   buildReleaseEvidence,
+  buildServiceWorkerReleaseEvidence,
   canonicalReleaseGateDefinitions,
   evaluateCanonicalReleaseGates,
   generateReleaseEvidence,
@@ -181,6 +182,17 @@ describe("Release Evidence Manifest", () => {
           detail: "Both routes are statically declared.",
         },
       },
+      serviceWorkerRelease: {
+        schemaVersion: 1,
+        status: "verified",
+        assetPath: "static/assets/sw-proof.js",
+        assetDigest: `sha256:${"9".repeat(64)}`,
+        byteLength: 123,
+        cacheNamespace: "vaultfront-shell:sw-proof.js",
+        policyMarkerPresent: true,
+        candidates: ["sw-proof.js"],
+        detail: "Verified fixture.",
+      },
     });
 
     expect(evidence).toMatchObject({
@@ -188,6 +200,57 @@ describe("Release Evidence Manifest", () => {
       blockers: [],
       launch: { status: "ready", runtimeAdvertised: true },
     });
+  });
+
+  it("binds exact service-worker release evidence and rejects missing, duplicate, or markerless assets", () => {
+    const fixture = fs.mkdtempSync(
+      path.join(os.tmpdir(), "vaultfront-service-worker-release-"),
+    );
+    try {
+      fs.mkdirSync(path.join(fixture, "static", "assets"), {
+        recursive: true,
+      });
+      expect(buildServiceWorkerReleaseEvidence(fixture)).toMatchObject({
+        status: "missing",
+        candidates: [],
+      });
+
+      const workerPath = path.join(
+        fixture,
+        "static",
+        "assets",
+        "sw-alpha123.js",
+      );
+      fs.writeFileSync(workerPath, 'const cache = "vaultfront-shell:";\n');
+      const verified = buildServiceWorkerReleaseEvidence(fixture);
+      expect(verified).toMatchObject({
+        status: "verified",
+        assetPath: "static/assets/sw-alpha123.js",
+        cacheNamespace: "vaultfront-shell:sw-alpha123.js",
+        policyMarkerPresent: true,
+      });
+      expect(verified.assetDigest).toMatch(/^sha256:[0-9a-f]{64}$/);
+
+      fs.writeFileSync(
+        path.join(fixture, "static", "assets", "sw-beta456.js"),
+        'const cache = "vaultfront-shell:";\n',
+      );
+      expect(buildServiceWorkerReleaseEvidence(fixture)).toMatchObject({
+        status: "invalid",
+        candidates: ["sw-alpha123.js", "sw-beta456.js"],
+      });
+      fs.rmSync(path.join(fixture, "static", "assets", "sw-beta456.js"));
+      fs.writeFileSync(
+        workerPath,
+        "self.addEventListener('fetch', () => {});\n",
+      );
+      expect(buildServiceWorkerReleaseEvidence(fixture)).toMatchObject({
+        status: "invalid",
+        policyMarkerPresent: false,
+      });
+    } finally {
+      fs.rmSync(fixture, { recursive: true, force: true });
+    }
   });
 
   it("does not advertise a statically declared but unobserved runtime", () => {

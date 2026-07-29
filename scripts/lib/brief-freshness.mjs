@@ -3,21 +3,30 @@ import fs from "node:fs";
 import path from "node:path";
 import { extractSessionNumbers } from "./session-chronology.mjs";
 
-export const BRIEF_SOURCE_SCHEMA = 1;
+export const BRIEF_SOURCE_SCHEMA = 2;
 export const BRIEF_SOURCE_FILES = Object.freeze([
   "context/PROJECT_STATUS.json",
   "context/TASK_BOARD.md",
   "context/LATEST_HANDOFF.md",
   "context/SELF_IMPROVEMENT_LOOP.md",
+  "context/TRUTH_AUDIT.md",
+  "context/CURRENT_STATE.md",
   "docs/GENIUS_LIST.md",
+  "docs/SESSION_PLAN.md",
+  "docs/CREATIVE_DIRECTION_RECORD.md",
 ]);
 
 function digest(value) {
-  return createHash("sha256").update(value).digest("hex").slice(0, 16);
+  return createHash("sha256").update(value).digest("hex");
 }
 
 function readRequired(root, relativePath) {
   return fs.readFileSync(path.join(root, relativePath), "utf8");
+}
+
+function readTracked(root, relativePath) {
+  const target = path.join(root, relativePath);
+  return fs.existsSync(target) ? fs.readFileSync(target, "utf8") : "<missing>";
 }
 
 function sessionNumbers(source) {
@@ -27,7 +36,7 @@ function sessionNumbers(source) {
 export function buildBriefSourceManifest(root) {
   const sources = Object.fromEntries(
     BRIEF_SOURCE_FILES.map((relativePath) => {
-      const body = readRequired(root, relativePath);
+      const body = readTracked(root, relativePath);
       return [relativePath, digest(body)];
     }),
   );

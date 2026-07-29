@@ -133,6 +133,7 @@ import {
   vaultSeasonScheduler,
   type SeasonStatus,
 } from "./VaultSeasonScheduler";
+import { createVerifiedWorkerRoutedGameId } from "./WorkerGameId";
 import { buildWorkerHealthHeartbeat } from "./WorkerHealthHeartbeat";
 import {
   LOBBY_MAX_BUFFERED_BYTES,
@@ -2658,9 +2659,19 @@ export async function startWorker() {
     },
     joinExisting: (gameId, actorKey) => rematchStore.join(gameId, actorKey),
     createLobby: (sourceConfig, creatorPersistentId) => {
-      let lobbyId = generateGameIdForWorker();
-      while (lobbyId && gm.game(lobbyId)) lobbyId = generateGameIdForWorker();
-      if (!lobbyId) return null;
+      const allocation = createVerifiedWorkerRoutedGameId({
+        workerId,
+        workerIndex: (gameId) => config.workerIndex(gameId),
+        isTaken: (gameId) => gm.game(gameId) !== undefined,
+      });
+      if (!allocation.ok) {
+        log.warn(
+          "Failed to allocate worker-routed rematch game ID",
+          allocation,
+        );
+        return null;
+      }
+      const lobbyId = allocation.gameId;
       gm.createGame(lobbyId, sourceConfig, creatorPersistentId);
       const playBase = (
         process.env.PLAY_BASE_URL ??
@@ -3055,11 +3066,16 @@ async function startMatchmakingPolling(gm: GameManager) {
     async () => {
       try {
         const url = `${config.jwtIssuer() + "/matchmaking/checkin"}`;
-        const gameId = generateGameIdForWorker();
-        if (gameId === null) {
-          log.warn(`Failed to generate game ID for worker ${workerId}`);
+        const allocation = createVerifiedWorkerRoutedGameId({
+          workerId,
+          workerIndex: (gameId) => config.workerIndex(gameId),
+          isTaken: (gameId) => gm.game(gameId) !== undefined,
+        });
+        if (!allocation.ok) {
+          log.warn("Failed to allocate matchmaking game ID", allocation);
           return;
         }
+        const gameId = allocation.gameId;
 
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 20000);
@@ -3108,19 +3124,4 @@ async function startMatchmakingPolling(gm: GameManager) {
     },
     5000 + Math.random() * 1000,
   );
-}
-
-// TODO: This is a hack to generate a game ID for the worker.
-// It should be replaced with a more robust solution.
-function generateGameIdForWorker(): GameID | null {
-  let attempts = 1000;
-  while (attempts > 0) {
-    const gameId = generateID();
-    if (workerId === config.workerIndex(gameId)) {
-      return gameId;
-    }
-    attempts--;
-  }
-  log.warn(`Failed to generate game ID for worker ${workerId}`);
-  return null;
 }

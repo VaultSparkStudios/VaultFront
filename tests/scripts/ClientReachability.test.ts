@@ -21,7 +21,7 @@ afterEach(() => {
 });
 
 describe("client reachability contract", () => {
-  test("follows static, dynamic, re-export, and URL module edges", () => {
+  test("follows static, dynamic, re-export, URL, and Vite worker-query module edges", () => {
     const root = fixture();
     fs.writeFileSync(
       path.join(root, "Main.ts"),
@@ -30,9 +30,17 @@ describe("client reachability contract", () => {
         'export { value } from "./ReExport";',
         'void import("./Dynamic");',
         'new Worker(new URL("./Worker.ts", import.meta.url));',
+        'import workerUrl from "./QueryWorker.ts?worker&url";',
+        "void workerUrl;",
       ].join("\n"),
     );
-    for (const name of ["Static", "ReExport", "Dynamic", "Worker"]) {
+    for (const name of [
+      "Static",
+      "ReExport",
+      "Dynamic",
+      "Worker",
+      "QueryWorker",
+    ]) {
       fs.writeFileSync(
         path.join(root, name + ".ts"),
         "export const value = 1;\n",
@@ -45,8 +53,8 @@ describe("client reachability contract", () => {
     });
     expect(result).toMatchObject({
       ok: true,
-      reachableModules: 5,
-      clientModules: 5,
+      reachableModules: 6,
+      clientModules: 6,
       unreachable: [],
       missingImports: [],
     });

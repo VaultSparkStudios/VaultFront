@@ -1,42 +1,50 @@
-# Implementation Plan — Session 88
+# Implementation Plan — Session 89
 
-Source of truth: `docs/AUDIT_2026-07-28.json`
+Source of truth: `docs/AUDIT_2026-07-29.json`
 
-## Wave 1 — Truth and delivery
+## Wave 1 — Founder-facing truth authority
 
-1. **96 · Worker quorum health authority** — require fresh, reasoned worker evidence for master readiness; keep liveness separate.
-2. **97 · Release-validated public surface** — make deployment and release gates observe the same public artifact.
-3. **98 · Schedule-free repository** — retire hosted cron and its stale operational contract.
-4. **99 · Working project-domain contact action** — route the visible contact action through the verified project address.
+1. **106 · Startup-brief epistemic integrity** — eliminate confident unknowns, placeholders, provenance conflation, and missing pressure state; verify the freshly rendered canonical brief before any other generated surface depends on it.
 
-## Wave 2 — Parser, player, and evidence
+## Wave 2 — Runtime-certified authorities
 
-5. **100 · Canonical human-action parser** — converge aging and classification on one task parser.
-6. **101 · Pressure-to-Breach First Extraction** — make the authoritative victory arc primary and demote auxiliary mastery.
-7. **102 · Certified decisive-loop evidence** — measure Pressure, Breach, decisive delivery, and victory from certified results.
+2. **105 · Certified funnel chronology** — reject contradictory Pressure → Breach → decisive delivery → victory timelines before either process-local or PostgreSQL persistence.
+3. **107 · Worker-routed game identity** — extract one eight-character routing preimage authority shared by rematch and matchmaking, with collision/exhaustion tests.
 
-## Wave 3 — Surface and ecosystem
+## Wave 3 — Deployment and offline ownership
 
-8. **103 · Production graph cleanup** — remove the tracked binary and unused production dependencies.
-9. **104 · Source-tagged identity reconciliation** — ship Ark cargo reconciling app-versus-game identity without sibling-tree edits.
+4. **108 · Release-bound service-worker cache** — scope cache identity, deletion, pre-cache roots, and immutable asset ownership to the exact deployed worker release; bind the policy into Pages verification.
 
-## Full verification
+## Expansion gate
+
+After 4/4 primary items pass focused and full verification, run the canonical innovation pack, admit only second-order candidates proven by the shipped diffs, implement them at the same L3 bar, and require monotonic ledger/work-exhaustion proof.
+
+## Implementation outcome
+
+- Primary audit: **4/4 shipped**.
+- Second-order innovation ledger: **45/45 shipped**, including all four Session 89 compounds.
+- Complete-all gate: **0 pending unblocked** across the canonical audit and innovation sidecars.
+- External registry-type correction remains explicitly external and evidenced; it did not become fabricated local work.
+
+## Direct verification
 
 Run each command directly and preserve its exit code:
 
 ```powershell
-npm test
+npx vitest run tests/scripts/BriefBlocks.test.ts tests/server/CertifiedLoopEvidenceStore.test.ts tests/server/WorkerGameId.test.ts tests/client/ServiceWorkerCachePolicy.test.ts tests/scripts/ReleaseSurfaceContracts.test.ts
 npx tsc --noEmit
 npm run lint
 npm run format:check
 npm run verify:contracts
+npm test
 npm run balance:verify
 npm run build-prod
+npm run verify:pages
 npm run bundle:check
 npm audit --omit=dev
-node scripts/check-work-exhaustion.mjs
 npm run e2e
+node scripts/check-work-exhaustion.mjs --root . --json
 node scripts/ops.mjs doctor --update-json
 ```
 
-Finish only when every audit item is shipped or honestly deferred with evidence, all commands are green, and doctor reports `blockingFailing: 0`.
+Finish only when every audit and generated innovation item is shipped or honestly deferred with evidence, all applicable direct commands are green, and doctor reports `blockingFailing: 0`.

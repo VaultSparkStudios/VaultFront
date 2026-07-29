@@ -317,3 +317,15 @@ All three premise-verified L3 findings in `docs/AUDIT_2026-07-25.json` shipped. 
 - [done] 🔥 security / gamification / feature depth / organization · 12h · `certified-tournament-result-spine` — Make every tournament advancement consume a certified match result.
 - [done] 🔥 speed / organization / reliability / observability · 6h · `transaction-decoupled-leaderboard-projection` — Remove table-wide leaderboard work from the certified match transaction.
 - [done] ⚡ gamification / retention / security / feedback loop · 7h · `certified-rivalry-revenge-projection` — Make Rival Challenge a signed revenge projection from deterministic simulation.
+
+## Unified Genius List (2026-07-29 — Session 89 /arc)
+
+- [done] 🔥 feedback loop / security / observability / gamification · 4h · `certified-funnel-chronology-invariant` — **DONE S89:** One pure certified timeline rejects stage gaps, time reversal, invalid ticks, and invalid intervals before either persistence path can publish impossible conversions.
+- [done] 🔥 observability / process / organization / token reduction · 4h · `startup-brief-epistemic-integrity` — **DONE S89:** Canonical brief provenance, Session N parsing, direct test/deploy evidence, unknown-runway status, compliance fallback, HUMAN PRESSURE, and semantic validation now agree.
+- [done] 🔥 reliability / security / organization / speed · 5h · `worker-routed-game-id-authority` — **DONE S89:** Matchmaking and rematch creation share one exact-shape suffix-preimage allocator with collision ownership, typed exhaustion, 16-worker routing proof, and composition coverage.
+- [done] ⚡ delivery / security / performance / ux · 4h · `release-bound-service-worker-cache` — **DONE S89:** The compiled hashed worker owns a release cache; activation is prefix-safe, requests are scope/origin classified, and the Pages contract rejects TypeScript data-URL regressions.
+- [done] ✨ security / observability · `certified-loop-admissibility-receipt` — **DONE S89:** Every accepted certified funnel result carries a match-bound, privacy-minimal SHA-256 chronology receipt with independent tamper/order verification.
+- [done] ✨ reliability / organization · `worker-game-id-route-witness` — **DONE S89:** Every successful allocation is worker-bound and independently rechecked for shape, route, collision state, and bounded search evidence before consumption.
+- [done] ✨ observability / process · `startup-brief-source-closure` — **DONE S89:** Freshness schema v2 tracks every core local truth input with full SHA-256 fingerprints, including missing-to-present transitions.
+- [done] ✨ delivery / security · `service-worker-release-lineage` — **DONE S89:** Release evidence binds the one compiled worker asset, its exact digest, byte length, cache namespace, and policy marker into the provenance DAG.
+- [externally-blocked] ⚡ ecosystem / observability / process · `registry-type-source-reconciliation` — Studio Ops rejected type as `field-not-allowed` in ack `01JUJOJL1K040B6517CAF2EFA9`; keep local truth fail-closed and request an owner-supported correction path through Ark.

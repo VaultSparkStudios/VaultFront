@@ -252,6 +252,57 @@ describe("public protocol compatibility", () => {
     });
   });
 
+  it("tracks every core renderer source, including missing-to-present transitions", async () => {
+    const fixture = tempSecretsDir();
+    mkdirSync(path.join(fixture, "context"), { recursive: true });
+    mkdirSync(path.join(fixture, "docs"), { recursive: true });
+    const baseline: Record<string, string> = {
+      "context/PROJECT_STATUS.json": JSON.stringify({ currentSession: 12 }),
+      "context/TASK_BOARD.md": "## Session 12\n",
+      "context/LATEST_HANDOFF.md": "## Session 12\n",
+      "context/SELF_IMPROVEMENT_LOOP.md": "## Session 12\n",
+      "context/TRUTH_AUDIT.md": "# Truth\n",
+      "context/CURRENT_STATE.md": "# Current\n",
+      "docs/GENIUS_LIST.md": "# Genius\n",
+      "docs/CREATIVE_DIRECTION_RECORD.md": "# Creative\n",
+    };
+    for (const [relative, body] of Object.entries(baseline)) {
+      writeFileSync(path.join(fixture, relative), body);
+    }
+    const { buildBriefSourceManifest, evaluateBriefSourceFreshness } =
+      await import("../../scripts/lib/brief-freshness.mjs");
+    const pristine = buildBriefSourceManifest(fixture);
+
+    for (const relative of [
+      "context/TRUTH_AUDIT.md",
+      "context/CURRENT_STATE.md",
+      "docs/CREATIVE_DIRECTION_RECORD.md",
+    ]) {
+      writeFileSync(
+        path.join(fixture, relative),
+        `${baseline[relative]}changed\n`,
+      );
+      expect(
+        evaluateBriefSourceFreshness(
+          fixture,
+          `<!-- brief-sources: ${JSON.stringify(pristine)} -->`,
+        ),
+      ).toMatchObject({ fresh: false, changed: [relative] });
+      writeFileSync(path.join(fixture, relative), baseline[relative]);
+    }
+
+    writeFileSync(path.join(fixture, "docs/SESSION_PLAN.md"), "# New plan\n");
+    expect(
+      evaluateBriefSourceFreshness(
+        fixture,
+        `<!-- brief-sources: ${JSON.stringify(pristine)} -->`,
+      ),
+    ).toMatchObject({
+      fresh: false,
+      changed: ["docs/SESSION_PLAN.md"],
+    });
+  });
+
   it("scans dynamic TypeScript child-process imports and the live deploy contract", async () => {
     const fixture = tempSecretsDir();
     const file = path.join(fixture, "dynamic.ts");

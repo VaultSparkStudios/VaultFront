@@ -4,6 +4,11 @@ import path from "node:path";
 
 const themes = ["vaultfront", "light", "competitive"] as const;
 
+// This one spec intentionally captures six full-page visual artifacts in
+// addition to navigation and contrast assertions. Keep its evidence workload
+// intact while giving browser screenshot encoding a bounded, explicit budget.
+test.setTimeout(60_000);
+
 function luminance(hex: string): number {
   const value = hex.trim().replace("#", "");
   const rgb = [0, 2, 4].map(

@@ -178,6 +178,34 @@ export function validateStartupBrief(body) {
     );
   }
 
+  if (/║\s*✓\s+Runway\s+unknown\b/i.test(body)) {
+    findings.semanticContradictions.push(
+      "Runway is unknown but rendered green; unknown evidence must remain explicitly unverified.",
+    );
+  }
+
+  if (/LAST SESSION \(S\?\)/i.test(body)) {
+    findings.semanticContradictions.push(
+      "LAST SESSION contains S?; derive the session from source chronology before rendering.",
+    );
+  }
+
+  if (/║\s*(?:Tests|Deploy)\s+-\s*║/i.test(body)) {
+    findings.semanticContradictions.push(
+      "LAST SESSION contains test/deploy placeholders instead of source-derived evidence.",
+    );
+  }
+
+  if (
+    /<!--\s*generated-at:\s*\d{4}-\d{2}-\d{2}\s*\(Session\s+\d+\s+closeout\)\s*-->/i.test(
+      body,
+    )
+  ) {
+    findings.semanticContradictions.push(
+      "generated-at conflates render time with source closeout session; stamp them separately.",
+    );
+  }
+
   const lastActiveMatch = body.match(/Last active:\s*(\d+)d\b/i);
   if (lastActiveMatch && Number(lastActiveMatch[1]) > 3650) {
     findings.semanticContradictions.push(

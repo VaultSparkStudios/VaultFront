@@ -363,3 +363,21 @@ Public-safe decisions only. Detailed internal decision history is maintained pri
 **Decision:** Post-push continuous integration exposed WorkerLobbyService coverage below the unchanged floors. Direct tests now exercise its IPC snapshot, ready message, and health heartbeat methods; full coverage passed 184 files / 1,013 tests with the global and ten critical-module ratchets green.
 
 **Why:** Coverage thresholds are executable production visibility contracts, so new behavior must earn coverage rather than weakening the contract.
+
+## 2026-07-29 — Compiled worker identity is release evidence, not a source-file assumption
+
+**Decision:** Register the Vite-emitted hashed `sw-*.js` asset, derive cache ownership from that release filename, restrict deletion to VaultFront-owned namespaces, and make the one worker's content digest/cache namespace a release-lineage parent. Production builds must run the Pages postbuild before generating release evidence.
+
+**Why:** The prior `new URL("./sw.ts", import.meta.url)` emitted a TypeScript `data:video/mp2t` URL that was not executable, while permanent cache identity and origin-wide deletion could retain stale weight or destroy unrelated application caches. Artifact identity must be proven from built bytes.
+
+## 2026-07-29 — Source-derived status requires both completion and taxonomy reconciliation
+
+**Decision:** A shipped audit item sets both `complete: true` and `status: shipped`; the work-exhaustion gate remains authoritative when those fields disagree. Vite query imports are real reachability edges, and evidence-heavy browser tests receive explicit per-spec budgets rather than skipped screenshots or global gate weakening.
+
+**Why:** Direct gates correctly exposed three plausible-but-false greens: complete items labeled pending, compiled worker modules reported unreachable, and a six-artifact proof forced through a generic 30-second deadline. Each was repaired at its producer/contract boundary.
+
+## 2026-07-29 — Registry type drift remains externally owned after rejected delta
+
+**Decision:** Do not retry the unsupported `type` registry-delta or edit Studio Ops. Preserve local `type: game` truth and ask through Ark for an owner-supported correction mechanism, citing acknowledgement `01JUJOJL1K040B6517CAF2EFA9` (`field-not-allowed`).
+
+**Why:** A signed rejection is evidence that the current autonomous write path does not own this field; repeating it or changing a sibling tree would manufacture coherence rather than resolve ownership.

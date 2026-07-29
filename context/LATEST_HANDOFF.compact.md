@@ -1,6 +1,6 @@
 <!-- generated-by: scripts/compact-handoff.mjs v3.1 -->
-<!-- source-hash: 8a5c03e671f0 -->
-<!-- generated-at: 2026-07-28T04:43:41.410Z -->
+<!-- source-hash: 90a62276f845 -->
+<!-- generated-at: 2026-07-29T19:49:01.558Z -->
 
 # LATEST_HANDOFF (compact)
 
@@ -8,42 +8,42 @@ SESSION HANDOFF SUMMARY
 
 Session
 
-- Latest closeout: Session 87 (2026-07-27); active intent framed by Session 86 arc.
+- Session 89 closeout (2026-07-29); branch main.
 
-Shipped (Session 87)
+Shipped this session
 
-- Audit 6/6 and innovations 38/38 shipped; no pending local work on main.
-- Tournament advancement fails closed on persistence; archived certificates bind exact rosters and winner identities.
-- Memory/PostgreSQL rating, victory guidance, innovation regeneration, and production-scoped CI audit agree at authority boundaries.
+- Audit 4/4 and cumulative innovations 45/45; zero pending unblocked work.
+- Certified funnel chronology: fail-closed, independently receipted.
+- Worker-routed GameIDs: exact-shape, collision-owned, bounded, consumer-verified.
+- Startup brief provenance/freshness source-closed.
+- Production service worker: executable, release-scoped, Pages-contracted, bound into release lineage.
 
-Current Intent
+Current intent
 
-- Run continuous agent-neutral arc: audit live code against infra rubric plus public-app release lens, implement verified primary and second-order items at top quality, preserve source-derived observability and direct exit-code truth, then close/sanitize/commit/push to main without fabricating external release evidence.
+- Run complete agent-neutral /start to /closeout arc as one continuous saturated mission using infrastructure rubric plus VaultFront public-app release lens; verify all premises against live code; implement every valid item and second-order innovation; preserve source-derived observability and exit-code truth; write-back, verify local staging, sanitize, commit/push to main, Ark broadcast, zero-shell closeout; no fabricated external release evidence.
 
-Verification State
+Verification state
 
-- 181 files / 990 tests; 33.08% lines, 32.71% statements.
-- Green: TypeScript, ESLint, format, contracts, production build, 28,125 balance scenarios, bundle/media/performance, production audit zero, 26/26 Playwright.
+- 187 Vitest files / 1,040 tests with coverage.
+- TypeScript, ESLint, Prettier, contracts, balance, production build green.
+- Pages 10/10, service-worker 1/1, bundles/media, performance, production audit zero, Playwright 26/26 green.
 
-Now Bucket (top 3)
+Now bucket (top 3)
 
 - Establish explicitly approved staging origin/callback contract.
-- Collect exact-digest parity evidence against approved staging.
-- Gather live identity and project-domain delivery evidence in gate order.
+- Collect exact-digest parity plus live identity/delivery/theme evidence in gate order.
+- Gather distinct-human Alpha, revenue, rollback, and founder-approval evidence.
 
 Blockers (top 3)
 
-- No approved staging/parity origin; local E2E is not approved staging.
-- READY Cloudflare/Brevo/Obelisk credentials do not prove live delivery, native identity, or live-web health.
-- Supply chain: all-dependency audit retains nine dev-only aliases in semantic-release's bundled npm 11; registry force-fix is unsafe downgrade, patched npm 12 outside verified Node matrix.
+- Release NO-GO: no approved staging/parity or verified project-domain delivery.
+- No native Obelisk, live-web, or distinct-human Alpha evidence.
+- No revenue, rollback, or founder-approval evidence.
 
-Human-Blocked (with age)
+Human-blocked / externally owned
 
-- Three-human Alpha evidence: absent (open since >=Session 82).
-- Founder approval: absent (open since >=Session 82).
-- Revenue and rollback evidence: absent (open since >=Session 82).
-- Release posture: public-unlaunched, NO-GO.
+- Studio registry type reconciliation: externally owned after field-not-allowed acknowledgement 01JUJOJL1K040B6517CAF2EFA9. Ark question 01JUNMMD1162DB95DA5B58A7AB requests owner-supported correction path; do not edit sibling registry. (Open since Session 88.)
 
-Next Session Pointer
+Next session pointer
 
-- Begin by securing an approved staging origin/callback contract, then work the external release-evidence corridor in gate order.
+- Pursue approved staging origin/callback contract to unblock the external release-evidence corridor; await Ark owner response on registry type path.

@@ -6,6 +6,10 @@
  * accepted. Only aggregate records are retained.
  */
 import type { Pool } from "pg";
+import {
+  projectCertifiedLoopAdmissibility,
+  type CertifiedLoopAdmissibilityReceipt,
+} from "./CertifiedLoopTimeline";
 import { getDatabasePosture, pool } from "./db/pool";
 
 export type LoopPhase = "early" | "mid" | "late";
@@ -44,6 +48,7 @@ interface LoopEvidenceRecord {
   firstOutcomeSecondsTotal: number;
   firstOutcomeSamples: number;
   pressureFunnel: PressureBreachFunnelRecord;
+  admissibilityReceipt?: CertifiedLoopAdmissibilityReceipt;
   phases: LoopIntentFunnel;
 }
 
@@ -72,6 +77,7 @@ export interface CertifiedLoopEvidenceReceipt {
   breachParticipants: number;
   decisiveDeliveryParticipants: number;
   victoryParticipants: number;
+  admissibilityReceipt: CertifiedLoopAdmissibilityReceipt;
   evidence: "certified-match-result";
   durability: "postgres" | "process-local";
 }
@@ -253,7 +259,12 @@ export class CertifiedLoopEvidenceStore {
     let firstOutcomeSecondsTotal = 0;
     let firstOutcomeSamples = 0;
     const pressureFunnel = emptyPressureFunnel();
-    for (const player of input.players) {
+    const admissibility = projectCertifiedLoopAdmissibility(
+      input.gameId,
+      input.players,
+      input.turnIntervalMs,
+    );
+    for (const [playerIndex, player] of input.players.entries()) {
       const hasVault = safeCount(player.vaultCaptures) > 0;
       const hasOutcome =
         safeCount(player.convoyDeliveries) + safeCount(player.convoysLost) > 0;
@@ -276,40 +287,28 @@ export class CertifiedLoopEvidenceStore {
         firstOutcomeSecondsTotal += firstOutcome;
         firstOutcomeSamples += 1;
       }
-      const firstPressure = safeSeconds(
-        player.firstVaultPressureTick,
-        input.turnIntervalMs,
-      );
-      if (firstPressure !== null) {
+      const certifiedTimeline = admissibility.timelines[playerIndex];
+      if (certifiedTimeline.pressureSeconds !== null) {
         pressureFunnel.pressureParticipants += 1;
-        pressureFunnel.firstPressureSecondsTotal += firstPressure;
+        pressureFunnel.firstPressureSecondsTotal +=
+          certifiedTimeline.pressureSeconds;
         pressureFunnel.firstPressureSamples += 1;
       }
-      const firstBreach = safeSeconds(
-        player.firstBreachOpenTick,
-        input.turnIntervalMs,
-      );
-      if (firstBreach !== null) {
+      if (certifiedTimeline.breachSeconds !== null) {
         pressureFunnel.breachParticipants += 1;
-        pressureFunnel.firstBreachSecondsTotal += firstBreach;
+        pressureFunnel.firstBreachSecondsTotal +=
+          certifiedTimeline.breachSeconds;
         pressureFunnel.firstBreachSamples += 1;
       }
-      const decisiveDelivery = safeSeconds(
-        player.decisiveDeliveryTick,
-        input.turnIntervalMs,
-      );
-      if (decisiveDelivery !== null) {
+      if (certifiedTimeline.decisiveDeliverySeconds !== null) {
         pressureFunnel.decisiveDeliveryParticipants += 1;
-        pressureFunnel.decisiveDeliverySecondsTotal += decisiveDelivery;
+        pressureFunnel.decisiveDeliverySecondsTotal +=
+          certifiedTimeline.decisiveDeliverySeconds;
         pressureFunnel.decisiveDeliverySamples += 1;
       }
-      const victory = safeSeconds(
-        player.vaultBreachVictoryTick,
-        input.turnIntervalMs,
-      );
-      if (victory !== null) {
+      if (certifiedTimeline.victorySeconds !== null) {
         pressureFunnel.victoryParticipants += 1;
-        pressureFunnel.victorySecondsTotal += victory;
+        pressureFunnel.victorySecondsTotal += certifiedTimeline.victorySeconds;
         pressureFunnel.victorySamples += 1;
       }
     }
@@ -325,6 +324,7 @@ export class CertifiedLoopEvidenceStore {
       firstOutcomeSecondsTotal,
       firstOutcomeSamples,
       pressureFunnel,
+      admissibilityReceipt: admissibility.receipt,
       phases: sanitizePhases(input.intentFunnel),
     };
   }
@@ -465,6 +465,9 @@ export class CertifiedLoopEvidenceStore {
     record: LoopEvidenceRecord,
     durability: CertifiedLoopEvidenceReceipt["durability"],
   ): CertifiedLoopEvidenceReceipt {
+    if (!record.admissibilityReceipt) {
+      throw new Error("certified loop admissibility receipt missing");
+    }
     return {
       gameId: record.gameId,
       playerSamples: record.playerSamples,
@@ -476,6 +479,7 @@ export class CertifiedLoopEvidenceStore {
       decisiveDeliveryParticipants:
         record.pressureFunnel.decisiveDeliveryParticipants,
       victoryParticipants: record.pressureFunnel.victoryParticipants,
+      admissibilityReceipt: record.admissibilityReceipt,
       evidence: "certified-match-result",
       durability,
     };

@@ -1,3 +1,11 @@
+## Where We Left Off — Session 89 closeout (2026-07-29)
+
+- Branch: `main`; audit 4/4 and cumulative innovations 45/45 shipped with zero pending local work.
+- Certified chronology receipts, worker-routed GameID witnesses, startup source closure, and release-bound service-worker cache lineage are executable and independently tested.
+- Verification: 187 Vitest files / 1,040 tests with coverage; TypeScript, ESLint, formatting, contracts, production build, Pages, balance, bundle/media/performance, production audit zero, and Playwright 26/26.
+- Registry correction remains externally owned. Ark question `01JUNMMD1162DB95DA5B58A7AB` requests an owner-supported path after acknowledgement `01JUJOJL1K040B6517CAF2EFA9` rejected `type` as unsupported.
+- Release remains public-unlaunched / NO-GO. No external staging/parity, verified delivery, native Obelisk, live-web, distinct-human Alpha, revenue, rollback, or founder evidence was inferred.
+
 ## Where We Left Off — Session 88 closeout (2026-07-28)
 
 - Branch: `main`; audit items 96–103 shipped, item 104 externally blocked pending the applied acknowledgement for Ark cargo `01JUJNSAUUE4626BC279319392`; innovations are exhausted at 41/41.
@@ -17,6 +25,12 @@
 # Latest Handoff
 
 This repo keeps only public-safe recent handoff history. Detailed operational history is maintained privately.
+
+## Session Intent — 2026-07-29 — Session 89
+
+Run the complete agent-neutral `/start → /audit → /implement → /closeout` arc as one continuous saturated mission: use the infrastructure rubric plus VaultFront's public-app release lens; verify every premise against live code; implement every valid Unified Genius List item and generated second-order innovation at the highest optimal quality; preserve source-derived observability and direct exit-code truth; then perform canonical write-back, local-staging verification, sanitization, direct-to-`main` commit/push, Ark broadcast, and zero-running-shell closeout without fabricating external release evidence.
+
+---
 
 ## Session Intent — 2026-07-26 — Session 86
 
@@ -102,3 +116,12 @@ Run the complete agent-neutral arc as one continuous mission: audit live code wi
 **Truth boundary:** Release remained NO-GO without staging, runtime-health, parity, project-domain email, native Obelisk, live-theme, three-human Alpha, revenue, rollback, or founder-approval evidence.
 
 **Suggested next focus:** Establish an explicitly approved staging origin/callback contract, then collect the external release-evidence corridor in gate order.
+
+## Where We Left Off — Session 89 closeout (2026-07-29)
+
+- Branch: `main`; audit 4/4 and cumulative innovations 45/45 shipped; complete-all reports zero pending unblocked work.
+- Certified funnel chronology is fail-closed and independently receipted; worker-routed GameIDs are exact-shape, collision-owned, bounded, and consumer-verified.
+- Startup brief provenance/freshness is source-closed; the production service worker is executable, release-scoped, Pages-contracted, and bound into release lineage.
+- Verification: 187 Vitest files / 1,040 tests with coverage; TypeScript, ESLint, Prettier, contracts, balance, production build, Pages 10/10, service-worker 1/1, bundles/media, performance, production audit zero, and Playwright 26/26 green.
+- Release remains public-unlaunched / NO-GO. No approved staging/parity, verified project-domain delivery, native Obelisk, live-web, distinct-human Alpha, revenue, rollback, or founder approval was inferred.
+- Studio registry type reconciliation remains externally owned after `field-not-allowed` acknowledgement `01JUJOJL1K040B6517CAF2EFA9`; request an owner-supported correction path through Ark rather than editing the sibling registry.

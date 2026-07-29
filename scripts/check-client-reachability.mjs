@@ -37,7 +37,11 @@ function moduleSpecifiers(source) {
 
 function resolveModule(importer, specifier) {
   if (!specifier.startsWith(".")) return null;
-  const base = path.resolve(path.dirname(importer), specifier);
+  // Vite resource queries change bundling semantics, not the source-graph edge.
+  // Resolve `?worker&url`, `?raw`, and similar suffixes against the underlying
+  // module so compiled workers cannot become reachability false negatives.
+  const sourceSpecifier = specifier.replace(/[?#].*$/, "");
+  const base = path.resolve(path.dirname(importer), sourceSpecifier);
   const candidates = [
     base,
     ...SOURCE_EXTENSIONS.map((extension) => base + extension),

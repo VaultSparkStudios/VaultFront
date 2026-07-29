@@ -1,0 +1,211 @@
+{
+  "schemaVersion": "1.0",
+  "session": 89,
+  "generatedBy": "Codex /arc Session 89",
+  "generatedAt": "2026-07-29T08:20:09.0576235Z",
+  "project": {
+    "slug": "vaultfront",
+    "name": "VaultFront",
+    "type": "game",
+    "registryType": "app",
+    "audience": "public-unlaunched",
+    "stage": "FORGE",
+    "stagingType": "local"
+  },
+  "summary": "Session 89 live-code infrastructure audit. Four local root fixes are premise-verified: certified Pressure/Breach evidence can currently exceed 100% under contradictory stage chronology; Worker game IDs rely on an untested random brute-force helper; the production service worker uses a permanent cache namespace and can delete unrelated origin caches; and the canonical startup brief renders unknown runway as green, ignores live compliance fields, emits S?, placeholder test/deploy rows, and labels a fresh render as a prior closeout. External launch observations remain a truthful NO-GO corridor. The registry type correction remains externally owned after Studio Ops rejected the exact Ark delta because type is outside its safe allowlist.",
+  "axes": {
+    "featureDepth": 1.5,
+    "innovation": 1.5,
+    "ux": 1.5,
+    "feedbackLoop": 2,
+    "gamification": 1.5,
+    "aiIntegration": 1,
+    "security": 3,
+    "speedOrganization": 3,
+    "tokenApiReduction": 1
+  },
+  "specialtyReviews": {
+    "infrastructure": {
+      "lens": "stale/orphaned scripts, divergent authorities, parser drift, god objects, missing tests, dead code, dependency and deploy truth",
+      "result": "four bounded local root fixes; broad god-object rewrites rejected while composition ratchets remain green"
+    },
+    "release": {
+      "verdict": "no-go",
+      "passing": [
+        "latest five GitHub Actions runs succeeded",
+        "Cloudflare, Brevo, and Obelisk capabilities are READY through the secrets gateway",
+        "CANON-006 branding, footer completeness, cost-neutrality, and the 41-check deploy/rollback plan pass locally"
+      ],
+      "red": [
+        "no approved staging origin or health observation",
+        "no exact-digest parity, live theme/readability, project-domain delivery, native Obelisk, distinct-human Alpha, revenue, rollback-observation, or founder-approval receipts"
+      ],
+      "rejectedCheckerPremise": "The external aggregate checker requires privateByDefault=true, but local project-truth correctly rejects that value for an already-public public-unlaunched repository. Flipping it would manufacture consistency rather than repair the checker."
+    }
+  },
+  "rejectedPremises": [
+    {
+      "candidate": "Flip publicMetadata.privateByDefault to satisfy the external release checker",
+      "result": "skipped",
+      "evidence": "VaultFront is already a sanitized public repository and the local project-truth contract correctly requires privateByDefault=false for public-unlaunched. The checker conflict is external and must travel through Ark."
+    },
+    {
+      "candidate": "Treat READY Cloudflare, Brevo, and Obelisk credentials as staging, delivery, or identity evidence",
+      "result": "skipped",
+      "evidence": "Secrets readiness proves capability availability only; STUDIO_MANIFEST has no staging URL and no live observation receipt exists."
+    },
+    {
+      "candidate": "Retune Pressure, Breach, onboarding, or retention thresholds from aggregate code evidence",
+      "result": "skipped",
+      "evidence": "No distinct-human Alpha cohort exists. The valid local work is to make evidence mathematically trustworthy, not infer player preference."
+    },
+    {
+      "candidate": "Rewrite Worker, ControlPanel, VaultFrontExecution, or WinModal as broad god-object projects",
+      "result": "deferred",
+      "evidence": "Current composition ratchets and direct verification are green. Each admitted item below extracts one bounded authority with adversarial tests instead of creating a high-risk rewrite."
+    },
+    {
+      "candidate": "Close registry type drift by editing Studio Ops or reshipping the same rejected registry-delta field",
+      "result": "externally-blocked",
+      "evidence": "Ack 01JUJOJL1K040B6517CAF2EFA9 ties to cargo 01JUJNSAUUE4626BC279319392 and rejects type with field-not-allowed. The accept path allowlists only brandIdentity and autoDeploy."
+    }
+  ],
+  "items": [
+    {
+      "id": 105,
+      "slug": "certified-funnel-chronology-invariant",
+      "tier": "🔥",
+      "axis": "feedback loop / security / observability / gamification",
+      "effortHours": 4,
+      "impact": 10,
+      "innovation": 9,
+      "priority": 34.8,
+      "status": "shipped",
+      "title": "Make certified Pressure-to-Breach evidence mathematically admissible",
+      "why": "CertifiedLoopEvidenceStore counts each stage independently. A contradictory certified payload can therefore report Breach without Pressure, decisive delivery before Breach, victory before delivery, or conversion above 100%, and the aggregate surface will still label it certified-match-result.",
+      "recipe": "Create one pure chronology projector for Pressure, Breach, decisive delivery, and victory; require a complete prefix and nondecreasing ticks; reject malformed timelines before persistence; keep absent future stages valid; prove all adversarial gaps/orderings, process/PostgreSQL parity, replay behavior, and 0-100 conversion bounds.",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Clamp conversion percentages and add one malformed fixture."
+        },
+        "L2": {
+          "effortHours": 2,
+          "recipe": "Validate stage presence and chronology before aggregation."
+        },
+        "L3": {
+          "effortHours": 4,
+          "recipe": "Extract a pure certified timeline authority, reject before persistence, and prove adversarial/process/PostgreSQL parity plus bounded summaries."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Added a pure CertifiedLoopTimeline authority that accepts only a complete nondecreasing Pressure → Breach → decisive delivery → victory prefix and emits typed failure codes.",
+        "CertifiedLoopEvidenceStore now rejects gaps, time reversal, fractional ticks, and invalid intervals before process-local or PostgreSQL persistence; 13 focused tests and the direct TypeScript gate pass."
+      ],
+      "complete": true
+    },
+    {
+      "id": 106,
+      "slug": "startup-brief-epistemic-integrity",
+      "tier": "🔥",
+      "axis": "observability / process / organization / token reduction",
+      "effortHours": 4,
+      "impact": 10,
+      "innovation": 8,
+      "priority": 30.9,
+      "status": "shipped",
+      "title": "Make the canonical startup brief refuse confident unknowns and placeholders",
+      "why": "The freshly rendered Session 89 brief marks unknown runway green, ignores PROJECT_STATUS compliance 49/49, emits LAST SESSION (S?) with Tests/Deploy placeholders, warns that HUMAN PRESSURE is missing, and stamps the render as Session 88 closeout. This is the founder-facing source agents are required to trust.",
+      "recipe": "Represent unknown runway explicitly and never green; fall back to live PROJECT_STATUS compliance evidence; parse both Session N and SN summaries; wrap rather than silently amputate the shipped headline; render source-derived test/deploy facts and an explicit zero-pressure block; stamp render time and source-closeout session separately; extend canonical helper and validator tests so S?, placeholders, confident unknowns, and provenance conflation fail.",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Fix Session N parsing and unknown-runway icon classification."
+        },
+        "L2": {
+          "effortHours": 2,
+          "recipe": "Use live compliance/test/deploy fields and always render HUMAN PRESSURE."
+        },
+        "L3": {
+          "effortHours": 4,
+          "recipe": "Separate render/source provenance, wrap summaries, and add fail-closed golden invariants for every former placeholder/confident-unknown shape."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Canonical brief blocks now parse both Session N and SN, wrap the shipped headline, and render direct suite/deploy evidence instead of S? and placeholders.",
+        "The renderer separates render time from source-closeout session, treats unknown runway as unverified, consumes PROJECT_STATUS compliance fallback, always renders HUMAN PRESSURE, and passes focused tests plus the canonical validator."
+      ],
+      "complete": true
+    },
+    {
+      "id": 107,
+      "slug": "worker-routed-game-id-authority",
+      "tier": "🔥",
+      "axis": "reliability / security / organization / speed",
+      "effortHours": 5,
+      "impact": 9,
+      "innovation": 8,
+      "priority": 27.1,
+      "status": "shipped",
+      "title": "Replace Worker game-ID roulette with a tested bounded preimage authority",
+      "why": "Worker.ts labels generateGameIdForWorker a hack and performs up to 1,000 opaque full-ID guesses. Matchmaking and rematch creation both depend on it, it is private and untested, collision retry is split at call sites, and failure has no typed reason.",
+      "recipe": "Extract an eight-character, alphabet-preserving worker-routed GameID authority that performs bounded suffix preimage search against the canonical config workerIndex, accepts a collision predicate, preserves legacy ID shape and entropy, returns typed exhaustion evidence, and is shared by matchmaking/rematch paths. Add deterministic multi-worker, collision, malformed-generator, and exhaustion tests plus a Worker composition contract.",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Extract and unit-test the existing bounded random loop."
+        },
+        "L2": {
+          "effortHours": 3,
+          "recipe": "Use deterministic suffix preimage search with an injected collision predicate."
+        },
+        "L3": {
+          "effortHours": 5,
+          "recipe": "Preserve the exact public ID contract, share one typed authority across both consumers, prove adversarial exhaustion, and ratchet composition."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Extracted WorkerGameId as one eight-character, alphabet-preserving suffix-preimage authority with seed and candidate bounds, typed failure evidence, and an injected collision predicate.",
+        "Rematch and matchmaking now share the authority; deterministic 16-worker routing, collision, malformed seed, exhaustion, rematch, composition, and TypeScript gates pass."
+      ],
+      "complete": true
+    },
+    {
+      "id": 108,
+      "slug": "release-bound-service-worker-cache",
+      "tier": "⚡",
+      "axis": "delivery / security / performance / ux",
+      "effortHours": 4,
+      "impact": 8,
+      "innovation": 8,
+      "priority": 24.8,
+      "status": "shipped",
+      "title": "Bind offline cache ownership to the deployed service-worker release",
+      "why": "The production service worker uses permanent vaultfront-v1, deletes every other cache on the origin during activation, and caches any /assets/ response without an explicit same-origin ownership check. New releases retain old asset weight and a shared origin could lose caches owned by another surface.",
+      "recipe": "Derive a release namespace from the hashed service-worker script URL; scope cleanup to prior VaultFront-owned namespaces only; resolve pre-cache URLs from registration scope; cache only successful same-origin immutable assets; preserve network-first navigation and API/WebSocket exclusions; expose pure cache-policy helpers with adversarial cross-origin, unrelated-cache, base-path, and release-rotation tests; bind the service worker contract into Pages verification.",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Change the cache name and restrict deletion to a VaultFront prefix."
+        },
+        "L2": {
+          "effortHours": 2,
+          "recipe": "Use hashed-script release identity, registration scope, and same-origin asset policy."
+        },
+        "L3": {
+          "effortHours": 4,
+          "recipe": "Extract and adversarially test the cache policy, verify release rotation, and add the exact service-worker invariant to the deployed Pages artifact contract."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Extracted a pure release-bound cache policy: the hashed compiled worker URL owns the cache namespace, registration scope owns pre-cache URLs, and cleanup cannot touch caches outside the VaultFront prefix.",
+        "Replaced the non-executable inlined TypeScript data URL with a real hashed sw-*.js production asset; 14 focused tests, TypeScript, the Pages build, and the 10/10 service-worker-aware deploy contract pass."
+      ],
+      "complete": true
+    }
+  ]
+}

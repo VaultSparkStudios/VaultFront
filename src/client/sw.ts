@@ -1,19 +1,26 @@
 /// <reference lib="webworker" />
+import {
+  classifyServiceWorkerRequest,
+  deriveServiceWorkerCacheName,
+  serviceWorkerPrecacheUrls,
+  shouldCacheServiceWorkerResponse,
+  vaultFrontCachesToDelete,
+} from "./ServiceWorkerCachePolicy";
+
 // VaultFront Service Worker
 // Provides offline lobby browsing and PWA installability.
 // Does NOT cache gameplay WebSocket traffic — only static assets and the shell.
 
-const CACHE_NAME = "vaultfront-v1";
-
-// Assets to pre-cache on install (the app shell)
-const PRECACHE_URLS = ["/", "/manifest.webmanifest"];
+const workerScope = self as unknown as ServiceWorkerGlobalScope;
+const CACHE_NAME = deriveServiceWorkerCacheName(workerScope.location.href);
+const PRECACHE_URLS = serviceWorkerPrecacheUrls(workerScope.registration.scope);
 
 self.addEventListener("install", (event: ExtendableEvent) => {
   event.waitUntil(
     caches
       .open(CACHE_NAME)
       .then((cache) => cache.addAll(PRECACHE_URLS))
-      .then(() => (self as unknown as ServiceWorkerGlobalScope).skipWaiting()),
+      .then(() => workerScope.skipWaiting()),
   );
 });
 
@@ -23,55 +30,49 @@ self.addEventListener("activate", (event: ExtendableEvent) => {
       .keys()
       .then((keys) =>
         Promise.all(
-          keys
-            .filter((key) => key !== CACHE_NAME)
-            .map((key) => caches.delete(key)),
+          vaultFrontCachesToDelete(keys, CACHE_NAME).map((key) =>
+            caches.delete(key),
+          ),
         ),
       )
-      .then(() =>
-        (self as unknown as ServiceWorkerGlobalScope).clients.claim(),
-      ),
+      .then(() => workerScope.clients.claim()),
   );
 });
 
 self.addEventListener("fetch", (event: FetchEvent) => {
-  const url = new URL(event.request.url);
-
-  // Never intercept WebSocket upgrades, API calls, or game worker traffic
-  if (
-    event.request.method !== "GET" ||
-    url.pathname.startsWith("/api/") ||
-    url.pathname.startsWith("/lobbies") ||
-    url.pathname.startsWith("/w0") ||
-    url.pathname.startsWith("/w1")
-  ) {
-    return;
-  }
+  const descriptor = {
+    requestUrl: event.request.url,
+    method: event.request.method,
+    mode: event.request.mode,
+    scopeUrl: workerScope.registration.scope,
+  };
+  const strategy = classifyServiceWorkerRequest(descriptor);
+  if (strategy === "bypass") return;
 
   // Network-first for HTML navigation (always fresh shell)
-  if (event.request.mode === "navigate") {
+  if (strategy === "network-first-navigation") {
     event.respondWith(
       fetch(event.request).catch(() =>
-        caches.match("/").then((r) => r ?? Response.error()),
+        caches
+          .open(CACHE_NAME)
+          .then((cache) => cache.match(PRECACHE_URLS[0]))
+          .then((response) => response ?? Response.error()),
       ),
     );
     return;
   }
 
-  // Cache-first for static assets (hashed filenames)
+  // Cache-first only inside the current release namespace. Old VaultFront
+  // releases and unrelated origin caches are never consulted or deleted.
   event.respondWith(
-    caches.match(event.request).then(
-      (cached) =>
-        cached ??
-        fetch(event.request).then((response) => {
-          if (response.ok && url.pathname.startsWith("/assets/")) {
-            const clone = response.clone();
-            caches
-              .open(CACHE_NAME)
-              .then((cache) => cache.put(event.request, clone));
-          }
-          return response;
-        }),
-    ),
+    caches.open(CACHE_NAME).then(async (cache) => {
+      const cached = await cache.match(event.request);
+      if (cached) return cached;
+      const response = await fetch(event.request);
+      if (shouldCacheServiceWorkerResponse(descriptor, response.ok)) {
+        await cache.put(event.request, response.clone());
+      }
+      return response;
+    }),
   );
 });

@@ -651,6 +651,7 @@ function taskLabel(item, maxLen = 54) {
 
 // ── Derived values ─────────────────────────────────────────────────────────────
 const today = new Date().toISOString().slice(0, 10);
+const renderedAt = new Date().toISOString();
 // Next session = (latest session in the SIL log) + 1. The SIL log is the source
 // of truth; PROJECT_STATUS.currentSession is only a fallback when the log can't
 // be parsed (it has lagged real state before — see S142 audit item 1).
@@ -1011,7 +1012,7 @@ const runwayNum = runwayNumMatch
     ? 9
     : runwayWeak
       ? 1
-      : 5;
+      : null;
 // G1 S121 — prefer fresh .cache/test-count.json (from refresh-test-count.mjs) over PROJECT_STATUS values.
 // S181 [audit #2] — freshness guard: the cache silently went stale (179 files cached
 // while the live suite had 225), so the brief reported a confident-but-wrong count.
@@ -1105,11 +1106,14 @@ const sigVel = sig(
   (v) => v >= 2,
   (v) => v === 1,
 );
-const sigRun = sig(
-  runwayNum,
-  (v) => v > 4,
-  (v) => v >= 2,
-);
+const sigRun =
+  runwayNum === null
+    ? "⚠"
+    : sig(
+        runwayNum,
+        (v) => v > 4,
+        (v) => v >= 2,
+      );
 const sigCtx = sig(
   typeof ctxAge === "number" ? ctxAge : 99,
   (v) => v <= 7,
@@ -1128,8 +1132,22 @@ const sigTruth =
 const complianceSnapshots = Array.isArray(complianceHistory.snapshots)
   ? complianceHistory.snapshots
   : [];
+const statusCompliance =
+  Number.isFinite(Number(status.complianceScore)) &&
+  Number.isFinite(Number(status.complianceTotal)) &&
+  Number(status.complianceTotal) > 0
+    ? {
+        passed: Number(status.complianceScore),
+        total: Number(status.complianceTotal),
+        score: Math.round(
+          (Number(status.complianceScore) / Number(status.complianceTotal)) *
+            100,
+        ),
+        source: "context/PROJECT_STATUS.json",
+      }
+    : null;
 const complianceLatest =
-  complianceSnapshots[complianceSnapshots.length - 1] ?? null;
+  complianceSnapshots[complianceSnapshots.length - 1] ?? statusCompliance;
 const compliancePrev =
   complianceSnapshots[complianceSnapshots.length - 2] ?? null;
 const complianceTrend =
@@ -1556,14 +1574,15 @@ const briefSourceManifest = buildBriefSourceManifest(root);
 
 const lines = [
   `<!-- generated-by: scripts/render-startup-brief.mjs v3.1 -->`,
-  `<!-- generated-at: ${today} (Session ${currentSession - 1} closeout) -->`,
+  `<!-- generated-at: ${renderedAt} -->`,
+  `<!-- generated-for-session: ${currentSession}; source-closeout-session: ${currentSession - 1} -->`,
   `<!-- fast-boot-valid-until: next session if within 24h -->`,
   `<!-- brief-coherent: ${briefCoherent} -->`,
   `<!-- brief-sources: ${JSON.stringify(briefSourceManifest)} -->`,
   ``,
   `# Startup Brief — ${status.name || "Studio Ops"}`,
   ``,
-  `> **Fast-boot brief** — generated at Session ${currentSession - 1} closeout · ${today}.`,
+  `> **Fast-boot brief** — rendered for Session ${currentSession} from Session ${currentSession - 1} closeout evidence · ${today}.`,
   `> Valid for next session if started within 24h. For sessions >24h later, load context files fresh (start.md §3).`,
   ``,
   `---`,
@@ -1588,6 +1607,11 @@ const lines = [
       status.currentFocus ||
       shippedLine ||
       "Latest session details unavailable.",
+    tests: testsLabel,
+    deploy:
+      status.audience === "public-unlaunched"
+        ? "NO-GO · no staging/production observation"
+        : "See registered deployment surface",
   }),
   ``,
   ...(Array.isArray(status.testingSurfaces) && status.testingSurfaces.length
@@ -1790,7 +1814,13 @@ const lines = [
         bot(),
         ``,
       ]
-    : []),
+    : [
+        top("HUMAN PRESSURE"),
+        row("Open items:    0 · blocker preflight found no owner-only action"),
+        row("Rule:          try secrets/admin paths before any escalation"),
+        bot(),
+        ``,
+      ]),
   // ── v4.0: SESSION VOICE (personable cue) ────────────────────────────────────
   // Suppressed S116 #623 — low-signal flavor block was pushing brief over the
   // 15KB brief-golden cap. v4.1 spec already drops this. Re-enable behind a

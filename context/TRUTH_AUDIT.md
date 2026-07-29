@@ -299,3 +299,14 @@ Public-safe summary only. Sensitive verification notes are maintained privately.
 - Registry-delta Ark cargo `01JUJNSAUUE4626BC279319392` was shipped; no applied acknowledgement exists yet, so external identity coherence is not claimed.
 - Direct verification passed across 184 Vitest files / 1,013 tests, TypeScript, ESLint, formatting, contracts, production build, Pages, bundle, and production audit gates. Full E2E was 25/26 after one reload timeout; the exact isolated failed theme test passed.
 - Release remains public-unlaunched / NO-GO. Local proof does not establish approved staging/parity, project-domain delivery, native Obelisk, live-web, three-human Alpha, revenue, rollback, or founder approval.
+
+## 2026-07-29 — Session 89 chronology, startup, routing, and offline-release truth audit
+
+- `docs/AUDIT_2026-07-29.json` is exhausted at 4/4 shipped; `docs/INNOVATION_PACK.json` is monotonic and exhausted at 45/45 with zero pending unblocked work.
+- Certified Pressure → Breach → decisive delivery → victory is a complete nondecreasing prefix. Invalid intervals/ticks, gaps, and time reversal fail before process-local or PostgreSQL persistence; accepted results carry a match-bound SHA-256 admissibility receipt without actor identifiers.
+- Matchmaking and rematch allocation share one eight-character alphabet-preserving worker preimage authority. Successful witnesses bind worker ID, seed budget, attempts, candidate count, route, and collision state and are rechecked before consumption.
+- Startup brief render time and source-closeout chronology are distinct; unknown runway is unverified; tests/deploy/HUMAN PRESSURE are explicit; freshness schema v2 fingerprints every core local input and tracks missing-to-present transitions.
+- Production emits exactly one executable hashed `sw-*.js`; the previous TypeScript data URL is contract-forbidden. Cache cleanup is VaultFront-prefix-only, requests are scope/origin classified, and release lineage binds the exact worker bytes/cache namespace.
+- Direct verification passed: 187 Vitest files / 1,040 tests with coverage; TypeScript; ESLint; Prettier; 41/41 mutation policy; public ingest 10/10; Worker 3,128/3,130; 41 deploy checks; deterministic 28,125-scenario balance; production build; Pages 10/10 and service-worker 1/1; exact bundle/media budgets; performance; production audit zero; Playwright 26/26.
+- Release evidence remains NO-GO on absent approved staging/parity, project-domain delivery, native Obelisk, live theme/web, three-human Alpha, revenue, rollback, and founder approval. Dirty-source is expected before commit and is not conflated with those external facts.
+- Registry `type` correction remains externally owned: acknowledgement `01JUJOJL1K040B6517CAF2EFA9` rejected the delta as `field-not-allowed`; local `type: game` remains source truth pending an owner-supported Ark path.

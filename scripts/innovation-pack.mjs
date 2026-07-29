@@ -654,6 +654,70 @@ const candidates = [
     evidence:
       "pure shipped-ID comparison helper, pre-write fail-closed guard, exact forgotten-ID diagnostic, and isolated no-overwrite regression",
   },
+  {
+    id: "certified-loop-admissibility-receipt",
+    title: "Make certified funnel chronology independently tamper-verifiable",
+    description:
+      "Digest the normalized Pressure → Breach → decisive delivery → victory projection into every accepted evidence receipt so downstream operators can distinguish a certified admissible timeline from altered aggregate claims without retaining actor identity.",
+    complete:
+      has(
+        "src/server/CertifiedLoopTimeline.ts",
+        /buildCertifiedLoopAdmissibilityReceipt/,
+      ) &&
+      has("src/server/CertifiedLoopEvidenceStore.ts", /admissibilityReceipt/) &&
+      has(
+        "tests/server/CertifiedLoopEvidenceStore.test.ts",
+        /tampered admissibility receipt/,
+      ),
+    evidence:
+      "privacy-minimal canonical timeline digest, independent verifier, store receipt integration, and tamper/order-sensitive tests",
+  },
+  {
+    id: "worker-game-id-route-witness",
+    title: "Make routed GameID allocation independently re-checkable",
+    description:
+      "Attach the intended worker to each successful allocation and expose a fail-closed verifier for shape, route, collision state, and bounded search counts so consumers cannot mistake a malformed or tampered allocation result for an owned GameID.",
+    complete:
+      has("src/server/WorkerGameId.ts", /verifyWorkerRoutedGameIdResult/) &&
+      has("tests/server/WorkerGameId.test.ts", /tampered route witness/) &&
+      has("src/server/Worker.ts", /createVerifiedWorkerRoutedGameId/),
+    evidence:
+      "worker-bound success witness, independent verifier, live consumer assertion, and malformed/route/collision/count tamper tests",
+  },
+  {
+    id: "startup-brief-source-closure",
+    title: "Close startup freshness over every core local truth source",
+    description:
+      "Expand the source manifest beyond the task board and handoff to the truth audit, current state, session plan, and creative-direction record so a polished brief expires whenever any core renderer input changes.",
+    complete:
+      has("scripts/lib/brief-freshness.mjs", /context\/TRUTH_AUDIT\.md/) &&
+      has("scripts/lib/brief-freshness.mjs", /context\/CURRENT_STATE\.md/) &&
+      has("scripts/lib/brief-freshness.mjs", /docs\/SESSION_PLAN\.md/) &&
+      has(
+        "tests/scripts/StudioProtocolHelpers.test.ts",
+        /tracks every core renderer source/,
+      ),
+    evidence:
+      "closed core-source manifest, per-source SHA-256 fingerprints, and mutation tests across every newly tracked renderer input",
+  },
+  {
+    id: "service-worker-release-lineage",
+    title: "Bind the executable service worker into release provenance",
+    description:
+      "Project the one compiled worker asset, byte digest, cache namespace, and policy marker into the release-evidence DAG so promotion evidence fails closed if the offline runtime is missing, duplicated, altered, or detached from its release identity.",
+    complete:
+      has(
+        "scripts/generate-release-evidence.mjs",
+        /buildServiceWorkerReleaseEvidence/,
+      ) &&
+      has("scripts/generate-release-evidence.mjs", /service-worker-release/) &&
+      has(
+        "tests/scripts/ReleaseEvidenceManifest.test.ts",
+        /service-worker release evidence/,
+      ),
+    evidence:
+      "single-asset worker projector, content digest and cache identity, release-lineage parent, fail-closed blockers, and missing/duplicate/tamper fixtures",
+  },
 ];
 
 const payload = {

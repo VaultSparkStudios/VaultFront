@@ -1,19 +1,19 @@
 <!-- generated-by: scripts/render-closeout-board.mjs v1.0 -->
-<!-- generated-at: 2026-07-28 (Session 88 closeout) -->
+<!-- generated-at: 2026-07-29 (Session 89 closeout) -->
 
 # Closeout Status Board — VaultFront
 
 ```
-╔══ SESSION CLOSEOUT · VaultFront · S88 ═════════════════════════╗
-║  Date: 2026-07-28 · SIL: 997/1000 · V:11  ·  Debt: down          ║
+╔══ SESSION CLOSEOUT · VaultFront · S89 ═════════════════════════╗
+║  Date: 2026-07-29 · SIL: 997/1000 · V:11  ·  Debt: down          ║
 ║  Mode: FOUNDER  ·  Agent: codex                                  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ WHAT SHIPPED ════════════════════════════════════════════════╗
-║  ✓ Branch: `main`; audit items 96–103 shipped, item 104 externa  ║
-║  ✓ Runtime health now derives from fresh worker-internal quorum  ║
-║  ✓ First Extraction and certified evidence now share the Captur  ║
-║  ✓ Verification: 184 files / 1,013 tests; TypeScript, ESLint, f  ║
-║  ✓ Release remains public-unlaunched / NO-GO. No approved stagi  ║
+║  ✓ Branch: `main`; audit 4/4 and cumulative innovations 45/45 s  ║
+║  ✓ Certified chronology receipts, worker-routed GameID witnesse  ║
+║  ✓ Verification: 187 Vitest files / 1,040 tests with coverage;   ║
+║  ✓ Registry correction remains externally owned. Ark question `  ║
+║  ✓ Release remains public-unlaunched / NO-GO. No external stagi  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ SCORES · SIL 997/1000 ═══════════════════════════════════════╗
 ║    Dev Health         100  ██████████                            ║
@@ -40,7 +40,7 @@
 ║  · agent memory (context/BRAIN.md or agent home)                 ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ GIT STATUS ══════════════════════════════════════════════════╗
-║  Changes: 12 files  ·  M:12 A:0 D:0 ?:0                          ║
+║  Changes: 535 files  ·  M:525 A:0 D:0 ?:10                       ║
 ║  Ahead: 0  ·  Behind: 0                                          ║
 ║  Branch: main                                                    ║
 ╚════════════════════════════════════════════════════════════════╝
@@ -51,10 +51,10 @@
 ╔══ POST-SESSION SIGNALS ════════════════════════════════════════╗
 ║  Doctor:        11/11                                            ║
 ║  Compliance:    49/49                                            ║
-║  Tests:         1013/1013                                        ║
-║  IGNIS:         5d ago                                           ║
+║  Tests:         1040/1040                                        ║
+║  IGNIS:         7d ago                                           ║
 ║  Truth:         green                                            ║
-║  Sanitization:  2d ago                                           ║
+║  Sanitization:  4d ago                                           ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ NEXT SESSION ════════════════════════════════════════════════╗
 ║  #1: Unified Genius List exhausted                               ║

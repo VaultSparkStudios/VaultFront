@@ -5,6 +5,7 @@ import {
   CertifiedLoopEvidenceStore,
   type CertifiedLoopEvidenceInput,
 } from "../../src/server/CertifiedLoopEvidenceStore";
+import { verifyCertifiedLoopAdmissibilityReceipt } from "../../src/server/CertifiedLoopTimeline";
 
 vi.mock("../../src/server/Logger", () => {
   const log = {
@@ -115,6 +116,50 @@ describe("CertifiedLoopEvidenceStore", () => {
     expect(JSON.stringify(await store.getSummary())).not.toContain("player-");
   });
 
+  test("rejects a tampered admissibility receipt without retaining actor identity", async () => {
+    const store = new CertifiedLoopEvidenceStore({
+      pool: () => null,
+      databaseConfigured: () => false,
+    });
+    const receipt = await store.recordCertifiedMatch(input);
+    if (!receipt) throw new Error("expected a first-write receipt");
+
+    expect(
+      verifyCertifiedLoopAdmissibilityReceipt(
+        receipt.admissibilityReceipt,
+        input.gameId,
+        input.players,
+        input.turnIntervalMs,
+      ),
+    ).toBe(true);
+    expect(receipt.admissibilityReceipt.timelineDigest).toMatch(
+      /^sha256:[0-9a-f]{64}$/,
+    );
+    expect(JSON.stringify(receipt.admissibilityReceipt)).not.toMatch(
+      /actor|player-|vaultCaptures|convoyDeliveries/i,
+    );
+
+    expect(
+      verifyCertifiedLoopAdmissibilityReceipt(
+        {
+          ...receipt.admissibilityReceipt,
+          timelineDigest: `sha256:${"0".repeat(64)}`,
+        },
+        input.gameId,
+        input.players,
+        input.turnIntervalMs,
+      ),
+    ).toBe(false);
+    expect(
+      verifyCertifiedLoopAdmissibilityReceipt(
+        receipt.admissibilityReceipt,
+        input.gameId,
+        [...input.players].reverse(),
+        input.turnIntervalMs,
+      ),
+    ).toBe(false);
+  });
+
   test("isolates matches, sanitizes intent keys, and bounds invalid counters", async () => {
     const store = new CertifiedLoopEvidenceStore({
       pool: () => null,
@@ -134,6 +179,78 @@ describe("CertifiedLoopEvidenceStore", () => {
     expect(summary.matches).toBe(1);
     expect(summary.vaultParticipants).toBe(0);
     expect(summary.phases.early).toEqual({ bad_intent_: 100_000 });
+  });
+
+  test.each([
+    [
+      "breach without pressure",
+      { firstBreachOpenTick: 20 },
+      "missing-stage-predecessor",
+    ],
+    [
+      "decisive delivery without breach",
+      { firstVaultPressureTick: 10, decisiveDeliveryTick: 30 },
+      "missing-stage-predecessor",
+    ],
+    [
+      "victory without decisive delivery",
+      {
+        firstVaultPressureTick: 10,
+        firstBreachOpenTick: 20,
+        vaultBreachVictoryTick: 30,
+      },
+      "missing-stage-predecessor",
+    ],
+    [
+      "time reversal",
+      {
+        firstVaultPressureTick: 20,
+        firstBreachOpenTick: 10,
+      },
+      "stage-out-of-order",
+    ],
+    [
+      "fractional stage tick",
+      { firstVaultPressureTick: 1.5 },
+      "invalid-stage-tick",
+    ],
+  ])("rejects %s before persistence", async (_label, timeline, code) => {
+    const query = vi.fn();
+    const store = new CertifiedLoopEvidenceStore({
+      pool: () => ({ query }) as any,
+      databaseConfigured: () => true,
+    });
+
+    const promise = store.recordCertifiedMatch({
+      ...input,
+      players: [
+        {
+          vaultCaptures: 1,
+          convoyDeliveries: 1,
+          convoyIntercepts: 0,
+          convoysLost: 0,
+          ...timeline,
+        },
+      ],
+    });
+
+    await expect(promise).rejects.toMatchObject({
+      code,
+    });
+    expect(query).not.toHaveBeenCalled();
+  });
+
+  test("rejects an invalid turn interval before persistence", async () => {
+    const store = new CertifiedLoopEvidenceStore({
+      pool: () => null,
+      databaseConfigured: () => false,
+    });
+
+    await expect(
+      store.recordCertifiedMatch({ ...input, turnIntervalMs: 0 }),
+    ).rejects.toMatchObject({
+      code: "invalid-turn-interval",
+    });
   });
 
   test("fails closed when configured persistence is unavailable", async () => {

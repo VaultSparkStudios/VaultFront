@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-07-28T07:09:34.702Z",
+  "generatedAt": "2026-07-29T09:17:11.170Z",
   "source": "scripts/innovation-pack.mjs",
   "primarySource": "latest audit-backed Unified Genius List",
   "items": [
@@ -372,6 +372,42 @@
       "description": "Compare the existing shipped ledger with source-derived candidates before either artifact is written, and fail closed with exact forgotten IDs instead of silently deleting completed innovation evidence.",
       "complete": true,
       "evidence": "pure shipped-ID comparison helper, pre-write fail-closed guard, exact forgotten-ID diagnostic, and isolated no-overwrite regression"
+    },
+    {
+      "rank": 42,
+      "status": "shipped",
+      "id": "certified-loop-admissibility-receipt",
+      "title": "Make certified funnel chronology independently tamper-verifiable",
+      "description": "Digest the normalized Pressure → Breach → decisive delivery → victory projection into every accepted evidence receipt so downstream operators can distinguish a certified admissible timeline from altered aggregate claims without retaining actor identity.",
+      "complete": true,
+      "evidence": "privacy-minimal canonical timeline digest, independent verifier, store receipt integration, and tamper/order-sensitive tests"
+    },
+    {
+      "rank": 43,
+      "status": "shipped",
+      "id": "worker-game-id-route-witness",
+      "title": "Make routed GameID allocation independently re-checkable",
+      "description": "Attach the intended worker to each successful allocation and expose a fail-closed verifier for shape, route, collision state, and bounded search counts so consumers cannot mistake a malformed or tampered allocation result for an owned GameID.",
+      "complete": true,
+      "evidence": "worker-bound success witness, independent verifier, live consumer assertion, and malformed/route/collision/count tamper tests"
+    },
+    {
+      "rank": 44,
+      "status": "shipped",
+      "id": "startup-brief-source-closure",
+      "title": "Close startup freshness over every core local truth source",
+      "description": "Expand the source manifest beyond the task board and handoff to the truth audit, current state, session plan, and creative-direction record so a polished brief expires whenever any core renderer input changes.",
+      "complete": true,
+      "evidence": "closed core-source manifest, per-source SHA-256 fingerprints, and mutation tests across every newly tracked renderer input"
+    },
+    {
+      "rank": 45,
+      "status": "shipped",
+      "id": "service-worker-release-lineage",
+      "title": "Bind the executable service worker into release provenance",
+      "description": "Project the one compiled worker asset, byte digest, cache namespace, and policy marker into the release-evidence DAG so promotion evidence fails closed if the offline runtime is missing, duplicated, altered, or detached from its release identity.",
+      "complete": true,
+      "evidence": "single-asset worker projector, content digest and cache identity, release-lineage parent, fail-closed blockers, and missing/duplicate/tamper fixtures"
     }
   ]
 }

@@ -252,3 +252,12 @@ Completed the uninterrupted infrastructure arc: eight local audit items shipped,
 Closeout incident: the required Studio Ops closeout autopilot was stopped before commit when its child-project `--project` invocation began writing Studio Ops-owned generated surfaces. Manual local closeout preserves CANON-018; Ark repo-question `01JUJR2FEQ4F1C7938333B8FFB` requests a scoping fix.
 
 Post-push continuous integration exposed WorkerLobbyService coverage below unchanged floors; direct method tests root-fixed it, and full coverage passed 184 files / 1,013 tests with the global and ten critical-module ratchets green. No coverage floor was lowered.
+
+## 2026-07-29 — Session 89 /arc
+
+- Goal: Run one continuous saturated `/start → /audit → /implement → /closeout` mission, exhaust every live-code-verified primary item and generated second-order candidate, and preserve direct-exit release truth.
+- Primary implementation: shipped certified funnel chronology admission; fail-closed startup-brief provenance and unknown handling; one bounded worker-routed GameID authority shared by rematch/matchmaking; and release-bound service-worker cache ownership with executable artifact validation.
+- Second order: shipped privacy-minimal chronology receipts, independently verified route witnesses, full startup-brief source closure, and service-worker release lineage. Innovation pack advanced from 41/41 to 45/45.
+- Root fixes from direct gates: taught client reachability to follow Vite resource-query edges; preserved the 3,130-line Worker budget through a verified-allocation wrapper; made `build-prod` Pages-complete before release evidence; and gave the six-screenshot visual-proof spec an explicit bounded timeout without removing assertions or captures.
+- Verification: 187 Vitest files / 1,040 tests with coverage; TypeScript; ESLint; Prettier ratchet; contracts; deterministic 28,125-scenario balance envelope; production build; Pages 10/10 and service-worker 1/1; exact bundle/media budgets; performance; production audit zero; Playwright 26/26; work exhaustion 4/4 + 45/45.
+- Truth boundary: release remains NO-GO on external staging/parity, project-domain delivery, native Obelisk, live-web, distinct-human Alpha, revenue, rollback, and founder approval. Registry correction remains Ark-owned after the type field was rejected as unsupported.

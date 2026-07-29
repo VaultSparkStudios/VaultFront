@@ -311,12 +311,13 @@ export function assertNever(x: never): never {
   throw new Error("Unexpected value: " + x);
 }
 
+export const GAME_ID_ALPHABET =
+  "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ";
+export const GAME_ID_LENGTH = 8;
+const gameIdGenerator = customAlphabet(GAME_ID_ALPHABET, GAME_ID_LENGTH);
+
 export function generateID(): GameID {
-  const nanoid = customAlphabet(
-    "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ",
-    8,
-  );
-  return nanoid();
+  return gameIdGenerator();
 }
 
 export function toInt(num: number): bigint {
