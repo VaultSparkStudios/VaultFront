@@ -253,6 +253,8 @@ Closeout incident: the required Studio Ops closeout autopilot was stopped before
 
 Post-push continuous integration exposed WorkerLobbyService coverage below unchanged floors; direct method tests root-fixed it, and full coverage passed 184 files / 1,013 tests with the global and ten critical-module ratchets green. No coverage floor was lowered.
 
+Session 89 closeout tooling incident: invoking the Studio Ops closeout-board renderer with `--help` ignored the flag and rewrote its owner board. VaultFront did not revert or otherwise edit the sibling tree; signed Ark incident `01JUNMP9IR9DF9678CD51FFF1B` requests owner regeneration and a non-mutating, project-scoped help path.
+
 ## 2026-07-29 — Session 89 /arc
 
 - Goal: Run one continuous saturated `/start → /audit → /implement → /closeout` mission, exhaust every live-code-verified primary item and generated second-order candidate, and preserve direct-exit release truth.

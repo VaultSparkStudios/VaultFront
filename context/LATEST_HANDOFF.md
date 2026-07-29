@@ -4,6 +4,7 @@
 - Certified chronology receipts, worker-routed GameID witnesses, startup source closure, and release-bound service-worker cache lineage are executable and independently tested.
 - Verification: 187 Vitest files / 1,040 tests with coverage; TypeScript, ESLint, formatting, contracts, production build, Pages, balance, bundle/media/performance, production audit zero, and Playwright 26/26.
 - Registry correction remains externally owned. Ark question `01JUNMMD1162DB95DA5B58A7AB` requests an owner-supported path after acknowledgement `01JUJOJL1K040B6517CAF2EFA9` rejected `type` as unsupported.
+- Closeout tooling incident: the Studio Ops board renderer ignored `--help` and rewrote its owner file. VaultFront did not revert or otherwise edit the sibling tree; signed Ark incident `01JUNMP9IR9DF9678CD51FFF1B` requests owner regeneration and a non-mutating, project-scoped help path.
 - Release remains public-unlaunched / NO-GO. No external staging/parity, verified delivery, native Obelisk, live-web, distinct-human Alpha, revenue, rollback, or founder evidence was inferred.
 
 ## Where We Left Off — Session 88 closeout (2026-07-28)
