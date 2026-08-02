@@ -121,10 +121,11 @@ export class MapPicker extends LitElement {
               type="button"
               role="tab"
               aria-selected=${!this.showAllMaps}
-              class="px-3 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all active:scale-95 ${this
-                .showAllMaps
-                ? "text-white/60 hover:text-white"
-                : "bg-blue-500/20 text-blue-100 shadow-[0_0_12px_rgba(59,130,246,0.2)]"}"
+              class="px-3 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all active:scale-95 ${
+                this.showAllMaps
+                  ? "text-white/60 hover:text-white"
+                  : "bg-blue-500/20 text-blue-100 shadow-[0_0_12px_rgba(59,130,246,0.2)]"
+              }"
               @click=${() => (this.showAllMaps = false)}
             >
               ${translateText("map.featured")}
@@ -133,10 +134,11 @@ export class MapPicker extends LitElement {
               type="button"
               role="tab"
               aria-selected=${this.showAllMaps}
-              class="px-3 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all active:scale-95 ${this
-                .showAllMaps
-                ? "bg-blue-500/20 text-blue-100 shadow-[0_0_12px_rgba(59,130,246,0.2)]"
-                : "text-white/60 hover:text-white"}"
+              class="px-3 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all active:scale-95 ${
+                this.showAllMaps
+                  ? "bg-blue-500/20 text-blue-100 shadow-[0_0_12px_rgba(59,130,246,0.2)]"
+                  : "text-white/60 hover:text-white"
+              }"
               @click=${() => (this.showAllMaps = true)}
             >
               ${translateText("map.all")}
@@ -145,9 +147,9 @@ export class MapPicker extends LitElement {
         </div>
         ${this.showAllMaps ? this.renderAllMaps() : this.renderFeaturedMaps()}
         <div
-          class="w-full ${this.randomMapDivider
-            ? "pt-4 border-t border-white/5"
-            : ""}"
+          class="w-full ${
+            this.randomMapDivider ? "pt-4 border-t border-white/5" : ""
+          }"
         >
           <h4
             class="text-xs font-bold text-white/40 uppercase tracking-widest mb-4 pl-2"
@@ -157,10 +159,11 @@ export class MapPicker extends LitElement {
           <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             <button
               type="button"
-              class="w-full h-full p-3 flex flex-col items-center justify-between rounded-xl border cursor-pointer transition-all duration-200 active:scale-95 gap-3 group ${this
-                .useRandomMap
-                ? "bg-blue-500/20 border-blue-500/50 shadow-[0_0_15px_rgba(59,130,246,0.3)]"
-                : "bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20 hover:-translate-y-1"}"
+              class="w-full h-full p-3 flex flex-col items-center justify-between rounded-xl border cursor-pointer transition-all duration-200 active:scale-95 gap-3 group ${
+                this.useRandomMap
+                  ? "bg-blue-500/20 border-blue-500/50 shadow-[0_0_15px_rgba(59,130,246,0.3)]"
+                  : "bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20 hover:-translate-y-1"
+              }"
               @click=${this.handleSelectRandomMap}
             >
               <div
@@ -171,9 +174,9 @@ export class MapPicker extends LitElement {
                   alt=${translateText("map.random")}
                   draggable="false"
                   @dragstart=${this.preventImageDrag}
-                  class="w-full h-full object-cover ${this.useRandomMap
-                    ? "opacity-100"
-                    : "opacity-80"} group-hover:opacity-100 transition-opacity duration-200"
+                  class="w-full h-full object-cover ${
+                    this.useRandomMap ? "opacity-100" : "opacity-80"
+                  } group-hover:opacity-100 transition-opacity duration-200"
                 />
               </div>
               <div

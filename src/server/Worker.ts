@@ -93,6 +93,7 @@ import { startPolling } from "./PollingLoop";
 import { registerPredictionLeagueRoutes } from "./PredictionLeagueRouter";
 import { predictionLeagueStore } from "./PredictionLeagueStore";
 import { PrivilegeRefresher } from "./PrivilegeRefresher";
+import { registerProgressionRoutes } from "./ProgressionRouter";
 import { authorizeArchivedRematchSource } from "./RematchAuthorization";
 import { registerRematchRoutes } from "./RematchRouter";
 import { rematchStore } from "./RematchStore";
@@ -108,9 +109,8 @@ import {
 } from "./ReplayShareContract";
 import { getReplayIntegrityPosture, replayStore } from "./ReplayStore";
 import { buildRuntimeIntegrityPassport } from "./RuntimeIntegrityPassport";
+import { registerSeasonCommunityRoutes } from "./SeasonCommunityRouter";
 import { registerSeasonContractRoutes } from "./SeasonContractRouter";
-import { seasonMilestoneStore } from "./SeasonMilestoneStore";
-import { registerSeasonPassRoutes } from "./SeasonPassRouter";
 import {
   MAX_SPECTATOR_BUFFERED_BYTES,
   MAX_SPECTATORS_PER_GAME,
@@ -129,10 +129,7 @@ import {
 } from "./VaultFrontAuthorization";
 import { recordVaultFrontPlaytestPulse } from "./VaultFrontPlaytestPulse";
 import { buildVaultFrontReadiness } from "./VaultFrontReadiness";
-import {
-  vaultSeasonScheduler,
-  type SeasonStatus,
-} from "./VaultSeasonScheduler";
+import { vaultSeasonScheduler } from "./VaultSeasonScheduler";
 import { createVerifiedWorkerRoutedGameId } from "./WorkerGameId";
 import { buildWorkerHealthHeartbeat } from "./WorkerHealthHeartbeat";
 import {
@@ -344,7 +341,7 @@ export async function startWorker() {
     initWorkerMetrics(gm);
   }
 
-  vaultSeasonScheduler.start();
+  await vaultSeasonScheduler.start();
   antiCheatMonitor.start();
 
   const privilegeRefresher = new PrivilegeRefresher(
@@ -863,39 +860,12 @@ export async function startWorker() {
   });
 
   // ── Season / Mutator API ──────────────────────────────────────────────────
-  const seasonRateLimit = rateLimit({
-    windowMs: 60_000, // 1 minute
-    max: 60, // 60 requests per IP per minute
+  registerSeasonCommunityRoutes(app, {
+    authenticate: (req, res) => requireVaultFrontActor(req, res),
+    getStatus: () => vaultSeasonScheduler.getStatus(),
+    recordVote: (candidateKey, actorId) =>
+      vaultSeasonScheduler.recordVote(candidateKey, actorId),
   });
-
-  app.get("/api/season/current", seasonRateLimit, (_req, res) => {
-    const status: SeasonStatus = vaultSeasonScheduler.getStatus();
-    return res.json(status);
-  });
-
-  const MutatorVoteSchema = z.object({
-    candidateKey: z.string().max(64),
-    voterId: z.string().max(128).optional(),
-  });
-
-  const mutatorVoteRateLimit = rateLimit({
-    windowMs: 60_000,
-    max: 5, // 5 votes per IP per minute — prevents ballot-stuffing
-  });
-
-  app.post(
-    "/api/mutator-vote",
-    mutatorVoteRateLimit,
-    (req: Request, res: Response) => {
-      const parsed = MutatorVoteSchema.safeParse(req.body);
-      if (!parsed.success) {
-        return res.status(400).json({ error: "Invalid vote payload" });
-      }
-      const { candidateKey, voterId } = parsed.data;
-      vaultSeasonScheduler.recordVote(candidateKey, voterId);
-      return res.json({ ok: true });
-    },
-  );
   // ─────────────────────────────────────────────────────────────────────────
 
   // ── Battle Narrative API ─────────────────────────────────────────────────
@@ -2205,19 +2175,10 @@ export async function startWorker() {
     return res.json({ ok: true, wars: clanWarStore.getForClan(clanId) });
   });
 
-  // ── Season Pass Progression ───────────────────────────────────────────────
-  const seasonProgressRateLimit = rateLimit({ windowMs: 60_000, max: 20 });
-  registerSeasonPassRoutes(app, {
+  registerProgressionRoutes(app, {
     authenticate: (req, res) => requireVaultFrontActor(req, res),
-    rateLimit: seasonProgressRateLimit,
-    currentSeasonId: () =>
-      `week-${vaultSeasonScheduler.getStatus().weekNumber}`,
-    getState: (persistentId, seasonId) =>
-      seasonMilestoneStore.getState(persistentId, seasonId),
-    claim: (persistentId, seasonId, milestoneId) =>
-      seasonMilestoneStore.claim(persistentId, seasonId, milestoneId),
     reportError: (error) =>
-      log.error("Season pass unavailable", { err: String(error) }),
+      log.error("Progression routes unavailable", { err: String(error) }),
   });
 
   // ── Player Stats / Leaderboard API ───────────────────────────────────────

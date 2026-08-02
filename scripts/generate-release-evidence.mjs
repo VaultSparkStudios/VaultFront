@@ -21,12 +21,14 @@ import { spawnSync } from "./lib/safe-spawn.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DEFAULT_MAX_AGE_MS = 24 * 60 * 60 * 1_000;
+export const CI_VERIFICATION_NEEDS =
+  "build,test,eslint,prettier,security-audit,bundle-size";
 
 export const canonicalReleaseGateDefinitions = Object.freeze([
   ["staging", "Staging deployment"],
   ["healthObservation", "Live runtime health observation"],
   ["stagingParity", "Staging parity"],
-  ["contactEmail", "Brevo project-domain contact email"],
+  ["contactEmail", "Zoho project-domain send/receive reply-as alias"],
   ["obeliskIdentity", "Obelisk relying-party identity"],
   ["themeReadability", "Live theme readability"],
   ["footerManifest", "Public footer manifest"],
@@ -40,6 +42,113 @@ function digest(value) {
 
 function sha256(value) {
   return `sha256:${createHash("sha256").update(value).digest("hex")}`;
+}
+
+function ciRevisionPayload(observation) {
+  return {
+    schemaVersion: observation.schemaVersion,
+    provider: observation.provider,
+    repository: observation.repository,
+    workflow: observation.workflow,
+    runId: observation.runId,
+    runAttempt: observation.runAttempt,
+    sha: observation.sha,
+    source: observation.source,
+    observedAt: observation.observedAt,
+    status: observation.status,
+    verificationComplete: observation.verificationComplete,
+    verificationNeeds: observation.verificationNeeds,
+    verificationJob: observation.verificationJob,
+  };
+}
+
+export function verifyCiRevisionEvidence(observation, expectedSha) {
+  return Boolean(
+    observation &&
+    observation.status === "verified" &&
+    observation.provider === "github-actions" &&
+    observation.sha === expectedSha &&
+    observation.repository?.trim() &&
+    observation.workflow?.trim() &&
+    observation.runId?.trim() &&
+    observation.verificationComplete === true &&
+    observation.verificationNeeds === CI_VERIFICATION_NEEDS &&
+    observation.verificationJob === "release-evidence" &&
+    /^https:\/\/github\.com\/[^/]+\/[^/]+\/actions\/runs\/\d+$/.test(
+      observation.source ?? "",
+    ) &&
+    observation.digest ===
+      sha256(JSON.stringify(ciRevisionPayload(observation))),
+  );
+}
+
+export function buildCiRevisionEvidence({
+  gitSha,
+  env = process.env,
+  observedAt = new Date().toISOString(),
+}) {
+  const inGitHubActions = env.GITHUB_ACTIONS === "true";
+  const repository = String(env.GITHUB_REPOSITORY ?? "").trim();
+  const workflow = String(env.GITHUB_WORKFLOW ?? "").trim();
+  const runId = String(env.GITHUB_RUN_ID ?? "").trim();
+  const runAttempt = String(env.GITHUB_RUN_ATTEMPT ?? "").trim() || "1";
+  const sha = String(env.GITHUB_SHA ?? "").trim();
+  const verificationComplete =
+    env.VAULTFRONT_CI_VERIFICATION_COMPLETE === "true";
+  const verificationNeeds = String(
+    env.VAULTFRONT_CI_VERIFICATION_NEEDS ?? "",
+  ).trim();
+  const verificationJob = String(env.GITHUB_JOB ?? "").trim();
+  let status = "missing";
+  let detail =
+    "No provider-attested exact-revision CI observation is available in this process.";
+  if (inGitHubActions && sha !== gitSha) {
+    status = "mismatched";
+    detail = `GitHub Actions attested ${sha || "no SHA"}; release source is ${gitSha}.`;
+  } else if (
+    inGitHubActions &&
+    (!repository || !workflow || !runId || !/^\d+$/.test(runId))
+  ) {
+    status = "invalid";
+    detail =
+      "GitHub Actions metadata is incomplete or the run ID is malformed.";
+  } else if (
+    inGitHubActions &&
+    (!verificationComplete ||
+      verificationNeeds !== CI_VERIFICATION_NEEDS ||
+      verificationJob !== "release-evidence")
+  ) {
+    status = "incomplete";
+    detail =
+      "Exact-revision CI is running, but the post-verification fan-in contract is not complete.";
+  } else if (inGitHubActions) {
+    status = "verified";
+    detail = "GitHub Actions metadata attests this exact source revision.";
+  }
+  const source =
+    status === "verified"
+      ? `https://github.com/${repository}/actions/runs/${runId}`
+      : null;
+  const evidence = {
+    schemaVersion: 1,
+    provider: inGitHubActions ? "github-actions" : null,
+    repository: repository || null,
+    workflow: workflow || null,
+    runId: runId || null,
+    runAttempt,
+    sha: sha || null,
+    source,
+    observedAt,
+    status,
+    verificationComplete,
+    verificationNeeds: verificationNeeds || null,
+    verificationJob: verificationJob || null,
+  };
+  return {
+    ...evidence,
+    digest: sha256(JSON.stringify(ciRevisionPayload(evidence))),
+    detail,
+  };
 }
 
 function digestFiles(projectRoot, relativePaths) {
@@ -326,6 +435,7 @@ export function buildReleaseEvidence({
     status: "missing",
     detail: "Service-worker release evidence was not supplied.",
   },
+  ciRevision = null,
   maxEvidenceAgeMs = DEFAULT_MAX_AGE_MS,
 }) {
   const audit = statusCounts(auditItems);
@@ -367,9 +477,17 @@ export function buildReleaseEvidence({
       `serviceWorkerRelease: ${serviceWorkerRelease?.detail ?? "compiled worker evidence missing"}`,
     );
   }
+  const exactRevisionCi =
+    ciRevision ??
+    buildCiRevisionEvidence({ gitSha, env: {}, observedAt: generatedAt });
+  if (!verifyCiRevisionEvidence(exactRevisionCi, gitSha)) {
+    releaseBlockers.push(
+      `ciRevision: ${exactRevisionCi?.detail ?? "exact-revision CI evidence is missing"}`,
+    );
+  }
 
   const evidenceCore = {
-    schemaVersion: "2.0",
+    schemaVersion: "2.1",
     project: "vaultfront",
     generatedAt,
     status: releaseBlockers.length === 0 ? "ready" : "blocked",
@@ -380,6 +498,7 @@ export function buildReleaseEvidence({
       revisionContract: "org.opencontainers.image.revision",
       observationBundle,
     },
+    ciRevision: exactRevisionCi,
     launch: {
       mode: "join-alpha",
       status: launchGates.status,
@@ -408,6 +527,7 @@ export function buildReleaseEvidence({
   };
   const lineageEvidence = {
     source: evidenceCore.source,
+    "ci-exact-revision": evidenceCore.ciRevision,
     launch: evidenceCore.launch,
     "local-surface": evidenceCore.localSurface,
     "project-truth": evidenceCore.projectTruth,
@@ -425,6 +545,12 @@ export function buildReleaseEvidence({
       id: "source",
       kind: "provenance",
       evidence: lineageEvidence.source,
+    },
+    {
+      id: "ci-exact-revision",
+      kind: "provider-attested-exact-revision",
+      parents: ["source"],
+      evidence: lineageEvidence["ci-exact-revision"],
     },
     {
       id: "launch",
@@ -472,6 +598,7 @@ export function buildReleaseEvidence({
       id: "release-decision",
       kind: "decision",
       parents: [
+        "ci-exact-revision",
         "launch",
         "local-surface",
         "project-truth",
@@ -493,6 +620,7 @@ export function verifyReleaseEvidenceLineage(evidence) {
   if (!evidence?.lineage) return false;
   return verifyEvidenceLineage(evidence.lineage, {
     source: evidence.source,
+    "ci-exact-revision": evidence.ciRevision,
     launch: evidence.launch,
     "local-surface": evidence.localSurface,
     "project-truth": evidence.projectTruth,
@@ -518,6 +646,7 @@ function git(args, cwd = root) {
 
 export function generateReleaseEvidence(projectRoot = root) {
   const generatedAt = new Date().toISOString();
+  const gitSha = git(["rev-parse", "HEAD"], projectRoot);
   const staticRoot = path.join(projectRoot, "static");
   const config = JSON.parse(
     fs.readFileSync(path.join(projectRoot, ".bundlewatch.json"), "utf8"),
@@ -580,6 +709,7 @@ export function generateReleaseEvidence(projectRoot = root) {
           ? digestAvailableFiles(projectRoot, footerSources)
           : null,
       deployment: digestAvailableFiles(projectRoot, [
+        ".github/workflows/ci.yml",
         ".github/workflows/deploy.yml",
         ".github/workflows/promote.yml",
         "docs/DEPLOY_RUNTIME_RUNBOOK.md",
@@ -626,7 +756,7 @@ export function generateReleaseEvidence(projectRoot = root) {
   };
   const evidence = buildReleaseEvidence({
     generatedAt,
-    gitSha: git(["rev-parse", "HEAD"], projectRoot),
+    gitSha,
     dirty: git(["status", "--porcelain"], projectRoot).length > 0,
     auditSource: latestAudit ? `docs/AUDIT_${latestAudit.date}.json` : null,
     auditItems: latestAudit?.audit?.items ?? [],
@@ -642,6 +772,7 @@ export function generateReleaseEvidence(projectRoot = root) {
     projectTruth,
     balanceEnvelope,
     serviceWorkerRelease,
+    ciRevision: buildCiRevisionEvidence({ gitSha, observedAt: generatedAt }),
     transfer: {
       initial: {
         ...initial,

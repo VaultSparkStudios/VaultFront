@@ -53,9 +53,11 @@ export class GameInfoModal extends LitElement {
           class="h-full flex flex-col items-center px-25 text-center mb-4 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent"
         >
           <div class="w-75 sm:w-125">
-            ${this.isLoadingGame
-              ? this.renderLoadingAnimation()
-              : this.renderRanking()}
+            ${
+              this.isLoadingGame
+                ? this.renderLoadingAnimation()
+                : this.renderRanking()
+            }
           </div>
         </div>
       </o-modal>
@@ -112,16 +114,18 @@ export class GameInfoModal extends LitElement {
       <div
         class="h-37.5 flex relative justify-between rounded-xl bg-black/20 items-center"
       >
-        ${this.mapImage
-          ? html`<img
-              src="${this.mapImage}"
-              class="absolute place-self-start col-span-full row-span-full h-full rounded-xl mask-[linear-gradient(to_left,transparent,#fff)] ${isUnusualThumbnailSize
-                ? "object-cover object-center"
-                : ""}"
-            />`
-          : html`<div
-              class="place-self-start col-span-full row-span-full h-full rounded-xl bg-gray-300"
-            ></div>`}
+        ${
+          this.mapImage
+            ? html`<img
+                src="${this.mapImage}"
+                class="absolute place-self-start col-span-full row-span-full h-full rounded-xl mask-[linear-gradient(to_left,transparent,#fff)] ${
+                  isUnusualThumbnailSize ? "object-cover object-center" : ""
+                }"
+              />`
+            : html`<div
+                class="place-self-start col-span-full row-span-full h-full rounded-xl bg-gray-300"
+              ></div>`
+        }
         <div class="text-right p-3 w-full">
           <div class="font-normal pl-1 pr-1">
             <span class="bg-white text-blue-800 font-normal pl-1 pr-1"

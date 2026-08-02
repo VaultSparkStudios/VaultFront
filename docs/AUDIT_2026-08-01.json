@@ -1,0 +1,448 @@
+{
+  "schemaVersion": "1.0",
+  "session": 90,
+  "generatedBy": "Codex /arc Session 90",
+  "generatedAt": "2026-08-01T22:30:00.000Z",
+  "project": {
+    "slug": "vaultfront",
+    "name": "VaultFront",
+    "type": "game",
+    "registryType": "app",
+    "audience": "public-unlaunched",
+    "stage": "FORGE",
+    "stagingType": "local"
+  },
+  "summary": "Session 90 premise-verified infrastructure audit with public-release and game-loop lenses. Ten local root fixes survived live-code review: the canonical closeout command surface is incomplete; community voting is unauthenticated, duplicate-inflatable, non-causal, and not outcome-persistent; visual proof can pass without artifact/source hashes; exact-revision CI is absent from release lineage; current contact and Obelisk architecture canon are missing from project truth; special-playlist tests cross a real localhost boundary; task integrity passes on zero parsed IDs; team victories use player-scoped Pressure; the post-match debrief cannot prove match deltas; Worker has two lines of ratchet headroom; and one deprecated no-use type stub expands the dependency surface. External release observations remain NO-GO and are not implementation claims.",
+  "axes": {
+    "featureDepth": 1.5,
+    "innovation": 1.5,
+    "ux": 1.5,
+    "feedbackLoop": 2,
+    "gamification": 1.5,
+    "aiIntegration": 1,
+    "security": 3,
+    "speedOrganization": 3,
+    "tokenApiReduction": 1
+  },
+  "candidateGeneration": {
+    "featureDepth": 4,
+    "innovation": 4,
+    "ux": 4,
+    "feedbackLoop": 5,
+    "gamification": 4,
+    "aiIntegration": 3,
+    "security": 6,
+    "speedOrganization": 6,
+    "tokenApiReduction": 3,
+    "novelCandidates": 6,
+    "culledBelowThresholdOrFalsePremise": 14
+  },
+  "specialtyReviews": {
+    "infrastructure": {
+      "result": "Protocol dispatch, visual provenance, parser drift, test isolation, bounded god-object extraction, and one dead dependency are verified. No orphan workflow, divergent writer, Windows-spawn debt, or broad dead-code pile exists."
+    },
+    "gameLoop": {
+      "scores10": {
+        "loopTightness": 8.6,
+        "progression": 7.7,
+        "sessionEngagement": 8.3,
+        "retention": 6.9,
+        "soulFidelityProvisional": 8.7
+      },
+      "result": "Community voting breaks causal trust; team Pressure conflicts with team victory; the progression debrief lacks a certified match dividend. Comeback tuning remains evidence-gated."
+    },
+    "release": {
+      "verdict": "no-go",
+      "passing": [
+        "branding and sitemap",
+        "cost-neutral gates",
+        "footer completeness",
+        "documented immutable rollback contract"
+      ],
+      "red": [
+        "no stable external staging origin",
+        "no exact-digest parity/live web/theme proof",
+        "no Zoho reply-as-alias delivery",
+        "no native Obelisk relying-party proof",
+        "no three-human Alpha, revenue, rollback observation, or founder approval"
+      ]
+    }
+  },
+  "rejectedPremises": [
+    {
+      "candidate": "Treat local preview, READY credentials, or local theme screenshots as staging/release evidence",
+      "result": "skipped",
+      "evidence": "No staging URL/environment/deployment exists; local proof declares local-only scope."
+    },
+    {
+      "candidate": "Retune Comeback Surge or other balance values without human evidence",
+      "result": "deferred",
+      "evidence": "No distinct-human Alpha cohort exists. Instrumentation and causal integrity may improve, but player preference cannot be inferred."
+    },
+    {
+      "candidate": "Rewrite Worker and all large UI roots wholesale",
+      "result": "skipped",
+      "evidence": "Broad rewrites are high-risk. Item 117 admits one bounded typed registrar extraction and lowers the ratchet without changing behavior."
+    },
+    {
+      "candidate": "Update every outdated dependency or add packages",
+      "result": "skipped",
+      "evidence": "Majors require separate package-trust and migration trains. Only the proven unused deprecated type stub is admitted."
+    },
+    {
+      "candidate": "Edit Studio Ops to fix registry type or Canon checker behavior",
+      "result": "externally-blocked",
+      "evidence": "Registry type correction and owner tooling remain Ark-owned; cross-repo tree edits are forbidden."
+    },
+    {
+      "candidate": "Stop the unrelated process currently listening on local port 3000",
+      "result": "skipped",
+      "evidence": "It belongs to The-Living-Protocol. VaultFront tests must isolate their dependencies rather than mutate another session."
+    },
+    {
+      "candidate": "Delete all old scripts or workflows",
+      "result": "skipped",
+      "evidence": "All 12 workflows have valid triggers and live contract consumers; only one low-impact dormant DNA validator exists and scores below the admitted set."
+    }
+  ],
+  "items": [
+    {
+      "id": 109,
+      "slug": "hash-bound-theme-evidence",
+      "tier": "🔥",
+      "axis": "observability / ux / security / release",
+      "effortHours": 4,
+      "impact": 9,
+      "innovation": 8,
+      "priority": 27.9,
+      "status": "shipped",
+      "title": "Make visual proof cryptographically source- and artifact-bound",
+      "why": "The checked receipt can remain green while its screenshots and touched UI sources have changed because it records age, matrix shape, and contrast only. There is no canonical latest visual artifact index.",
+      "recipe": "Emit one canonical visual-proof receipt containing Git revision/tree state, a digest of the relevant UI/theme sources, theme/viewport/state cells, and SHA-256 for every screenshot and summary. Verify all hashes, matrix completeness, freshness, local-only claim boundary, and touched-source invalidation in the doctor; publish docs/visual-qa/LATEST.json and adversarial tamper/stale-source tests.",
+      "ladder": {
+        "L1": { "effortHours": 1, "recipe": "Hash screenshots." },
+        "L2": {
+          "effortHours": 2,
+          "recipe": "Hash screenshots and source surface with matrix validation."
+        },
+        "L3": {
+          "effortHours": 4,
+          "recipe": "Canonical latest receipt, Git/source/artifact hashes, claim-boundary semantics, doctor wiring, and tamper tests."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Rebuilt the proof pipeline around a canonical v2 receipt with Git/tree posture, a recursive theme/UI source manifest, six source-bound browser summaries, and SHA-256 plus byte length for all twelve screenshots.",
+        "Doctor validation now rejects unsafe paths, missing/extra matrix cells, artifact or summary tampering, touched-source invalidation, stale/future evidence, claim-boundary drift, low contrast, and a divergent docs/visual-qa/LATEST.json.",
+        "Fresh Chromium and mobile-Chrome captures passed 2/2 across all three themes; the receipt verifies 6 cells, 12 artifacts, 0 errors, and tamper regressions pass 3/3 while remaining explicitly local-only."
+      ],
+      "complete": true
+    },
+    {
+      "id": 110,
+      "slug": "causal-community-mutator-election",
+      "tier": "🔥",
+      "axis": "retention / security / gamification / observability",
+      "effortHours": 8,
+      "impact": 10,
+      "innovation": 9,
+      "priority": 27.1,
+      "status": "shipped",
+      "title": "Turn the advisory community vote into a certified causal election",
+      "why": "The route accepts an optional caller-supplied voter ID, increments memory before PostgreSQL deduplication, never calls its restart loader, announces a winner, then discards it and deterministically rotates another mutator. Player copy promises the winner will run next week.",
+      "recipe": "Actor-bind voting, remove caller-authored identity, make one-vote-per-actor atomic across process/PostgreSQL, load restart state, persist a typed effective-week outcome, select the next mutator from that outcome with deterministic no-vote/tie fallback, expose selected/effective/source truth to clients, and derive copy from it. Prove duplicate, concurrent, restart, tie, no-vote, rollover, persistence-failure, and tamper cases.",
+      "ladder": {
+        "L1": {
+          "effortHours": 2,
+          "recipe": "Deduplicate authenticated votes."
+        },
+        "L2": {
+          "effortHours": 4,
+          "recipe": "Persist and load winners by effective week."
+        },
+        "L3": {
+          "effortHours": 8,
+          "recipe": "Certified actor-bound election authority, causal runtime selection, receipts, truthful UI, and adversarial parity tests."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Replaced caller-authored voter identity with strict authenticated-actor binding and atomically deduplicated ballots in PostgreSQL or explicitly labeled process-local mode.",
+        "Persisted digest-verifiable effective-week outcomes; runtime selection now causally follows the elected winner with explicit deterministic no-vote, tie, schedule, and persistence-failure sources plus restart recovery.",
+        "Extracted an authenticated season/community registrar, tightened the public-ingest risk budget from 10 to 9, derived client copy from certified receipts, and passed 21 election/UI tests, 8 route-policy tests, route coverage, composition, and TypeScript."
+      ],
+      "complete": true
+    },
+    {
+      "id": 111,
+      "slug": "protocol-command-surface-parity",
+      "tier": "🔥",
+      "axis": "process / automation / reliability / token reduction",
+      "effortHours": 6,
+      "impact": 10,
+      "innovation": 8,
+      "priority": 26.7,
+      "status": "shipped",
+      "title": "Make every canonical session command executable and self-validating",
+      "why": "SESSION_PROTOCOL mandates onboard, closeout-summary, rescore, state-vector, entropy, genome, sanitization, and closeout-autopilot paths that are absent or unknown locally. The current smoke covers only startup brief and Genius List.",
+      "recipe": "Create one declarative command registry consumed by ops dispatch/help and a protocol-reference contract. Add project-local adapters or explicit project-scoped Studio Ops fallbacks for every mandatory command, restore missing state/entropy/genome/closeout entry points, require dry-run/JSON behavior where applicable, and test every documented command plus unknown-command failure without mutating sibling trees.",
+      "ladder": {
+        "L1": {
+          "effortHours": 2,
+          "recipe": "Add aliases for closeout-critical commands."
+        },
+        "L2": {
+          "effortHours": 4,
+          "recipe": "Declarative dispatch with contract coverage."
+        },
+        "L3": {
+          "effortHours": 6,
+          "recipe": "Protocol-extracted command registry, safe adapters/fallbacks, dry-run semantics, and exhaustive command-surface tests."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Replaced the hard-coded eight-command dispatcher with a declarative sixteen-command registry and project-local targets.",
+        "Added project-scoped state-vector, entropy, genome, closeout-summary, onboarding, sanitization, rescore, and non-interactive closeout entry points without sibling-tree writes.",
+        "Protocol-reference validation is 0-error and focused command-surface regressions pass 3/3, including inspection-only closeout help."
+      ],
+      "complete": true
+    },
+    {
+      "id": 112,
+      "slug": "exact-revision-release-admission",
+      "tier": "🔥",
+      "axis": "release / security / observability / ecosystem",
+      "effortHours": 6,
+      "impact": 9,
+      "innovation": 8,
+      "priority": 24,
+      "status": "shipped",
+      "title": "Bind release admission to exact-revision CI and current architecture canon",
+      "why": "The last five green runs cover a different PR SHA, while the release DAG has no CI node. Release metadata still calls human mail Brevo and omits required Obelisk architecture/auth status.",
+      "recipe": "Add a self-verifying exact-revision CI observation (provider, repository, workflow/run, SHA, source and digest) as a required release-lineage parent; fail closed locally or on mismatched SHA. Update the contact gate to Zoho send/receive reply-as-alias while retaining Brevo only for transactional mail. Declare VaultFront external Obelisk architecture with honest not-assessed auth status and contract-test all truth boundaries.",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Declare current mail and Obelisk metadata."
+        },
+        "L2": {
+          "effortHours": 3,
+          "recipe": "Add exact-SHA CI evidence to the manifest."
+        },
+        "L3": {
+          "effortHours": 6,
+          "recipe": "CI observation contract, release-DAG parent, mismatch/tamper tests, and canon-aligned metadata/runbook/task truth."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Added independently digest-verifiable GitHub Actions evidence that fails closed outside CI, on incomplete metadata, on a mismatched SHA, or after tampering.",
+        "Made the exact-revision CI node a required parent of release admission while preserving the honest local/external NO-GO boundary.",
+        "Aligned project truth and the deployment runbook with Zoho human reply-as email and external Obelisk architecture/not-assessed auth; release regressions pass 11/11 and TypeScript is green."
+      ],
+      "complete": true
+    },
+    {
+      "id": 113,
+      "slug": "team-scoped-vault-pressure",
+      "tier": "🔥",
+      "axis": "game loop / gamification / security / feedback loop",
+      "effortHours": 10,
+      "impact": 9,
+      "innovation": 9,
+      "priority": 22.6,
+      "status": "shipped",
+      "title": "Make team victory progress belong to the competitive side",
+      "why": "Pressure is keyed by player and only the convoy owner advances it, but breach victory awards the whole team. Team play therefore rewards funneling every decisive delivery to one teammate and contradicts the cooperative Squad Objective.",
+      "recipe": "Introduce an explicit player-or-team pressure scope. In team games, all teammate deliveries advance one deterministic side state while contribution remains actor-attributed; project the shared state under each teammate for compatibility, render shared pressure plus contributor truth, and keep free-for-all player-scoped. Bind scope/contributors into certified evidence and prove team, enemy, replay, expiry, victory, and FFA parity.",
+      "ladder": {
+        "L1": { "effortHours": 3, "recipe": "Share pressure by team key." },
+        "L2": {
+          "effortHours": 6,
+          "recipe": "Preserve actor contribution and UI scope."
+        },
+        "L3": {
+          "effortHours": 10,
+          "recipe": "Pure side-scope authority, compatibility projection, certified evidence, contributor UX, and exhaustive deterministic tests."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Introduced a deterministic player-or-team scope authority: teammate deliveries mutate one canonical side state, enemy and free-for-all states remain isolated, and compatibility projections mirror under every teammate ID.",
+        "Projected scope keys and per-actor contribution truth to clients while recording contribution counts in certified player stats that are bound into match evidence.",
+        "Team/FFA/victory/expiry/kernel/stats regressions pass 62/62 across focused suites, and TypeScript is green."
+      ],
+      "complete": true
+    },
+    {
+      "id": 114,
+      "slug": "isolated-map-capacity-authority",
+      "tier": "⚡",
+      "axis": "speed / reliability / testing / observability",
+      "effortHours": 4,
+      "impact": 8,
+      "innovation": 7,
+      "priority": 21.7,
+      "status": "shipped",
+      "title": "Remove ambient localhost from playlist correctness",
+      "why": "The special-playlist policy test reaches the real hard-coded localhost:3000 map server. An unrelated Next.js process owns that port, making the isolated and full suites time out; production fallback also collapses source failure into a plausible tile count.",
+      "recipe": "Inject a typed map-capacity resolver into MapPlaylist, coalesce/cache per-map observations, distinguish manifest from bounded fallback provenance, and keep test fixtures entirely in-process. Reuse one observation across compact/crowded/max-player decisions, expose failure scope without claiming measured capacity, and cover wrong-port, timeout, concurrent read, malformed manifest, fallback, and deterministic playlist cases.",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Mock the map dependency in the test."
+        },
+        "L2": {
+          "effortHours": 2,
+          "recipe": "Inject and cache a typed resolver."
+        },
+        "L3": {
+          "effortHours": 4,
+          "recipe": "Bounded provenance-bearing capacity authority, coalesced decisions, zero-network tests, and failure diagnostics."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Introduced a typed, bounded MapCapacityAuthority with coalesced per-map observations, manifest-versus-fallback provenance, timeout diagnostics, and fallback retry TTL.",
+        "Injected the observation resolver into MapPlaylist so one capacity result governs compact, crowded, and max-player decisions without ambient network reads.",
+        "Deterministic policy and authority regressions pass 11/11 with malformed, timeout, concurrent, retry, and zero-network cases; TypeScript is green."
+      ],
+      "complete": true
+    },
+    {
+      "id": 115,
+      "slug": "certified-match-dividend",
+      "tier": "🔥",
+      "axis": "progression / engagement / feedback loop / security",
+      "effortHours": 12,
+      "impact": 9,
+      "innovation": 9,
+      "priority": 21.3,
+      "status": "shipped",
+      "title": "Turn post-match progression into a certified causal dividend",
+      "why": "ProgressionDebrief sleeps 600 ms and fetches three independent cumulative snapshots. The server already creates a verifiable match progression receipt, but discards it after logging; the player cannot see what this match earned.",
+      "recipe": "Persist and expose an actor/game-bound verified progression receipt containing before/after rating, mastery, contracts/pass, achievements, entitlements, duplicate/scope/freshness truth, and independent digest verification. Replace fixed-delay optimism with bounded receipt polling or push, explicit pending/degraded states, exact deltas, claim actions where valid, and one mastery-informed rematch CTA. Prove cross-actor, replay, restart, timeout, partial fan-out, and tamper behavior.",
+      "ladder": {
+        "L1": {
+          "effortHours": 3,
+          "recipe": "Poll a match-bound receipt and show exact deltas."
+        },
+        "L2": {
+          "effortHours": 7,
+          "recipe": "Persist actor/game receipts with bounded states."
+        },
+        "L3": {
+          "effortHours": 12,
+          "recipe": "Certified durable dividend, independent verification, full client lifecycle/claims/rematch UX, and adversarial tests."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Extended the authoritative match receipt with actor-bound before/after/delta snapshots, achievement keys, mastery, contracts, season-pass state, durability, freshness, and independent digest verification.",
+        "Persisted canonical receipts in an actor-indexed PostgreSQL/process-local ledger, recovered duplicates across spine restarts without replaying fan-out, and exposed only the authenticated actor dividend through a hostile-tested route.",
+        "Replaced the fixed 600ms snapshot delay with bounded receipt polling, explicit pending/verified/degraded states, exact delta UI, valid claim action, and mastery-rematch CTA; focused progression/store/router/client tests pass 13/13 with TypeScript and policy gates green."
+      ],
+      "complete": true
+    },
+    {
+      "id": 116,
+      "slug": "task-board-parser-convergence",
+      "tier": "⚡",
+      "axis": "process / observability / organization / automation",
+      "effortHours": 3,
+      "impact": 8,
+      "innovation": 6,
+      "priority": 20.7,
+      "status": "shipped",
+      "title": "Make task integrity reject a vacuous zero-row pass",
+      "why": "validate-task-ids independently regex-parses numeric table cells and reports 0 IDs as success even though the current board lacks the canonical active Unified Genius List table.",
+      "recipe": "Converge on scripts/lib/task-board.mjs, classify supported board sections and row schemas, require an explicit active-work or exhausted marker, fail zero-row unsupported shapes, and report parsed/done/deferred/blocked counts with source locations. Add fixtures for current append-only history, canonical table, checklist-only board, duplicate IDs, empty active section, and intentional exhaustion.",
+      "ladder": {
+        "L1": { "effortHours": 1, "recipe": "Fail zero parsed IDs." },
+        "L2": {
+          "effortHours": 2,
+          "recipe": "Use the shared parser with section-aware exemptions."
+        },
+        "L3": {
+          "effortHours": 3,
+          "recipe": "One typed parser, explicit exhaustion contract, diagnostics, doctor wiring, and adversarial fixtures."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Extended the shared parser with typed numeric/audit/checklist representations, section locations, status classification, active-work counts, and explicit exhaustion detection.",
+        "validate-task-ids now consumes the shared result, excludes Audit ID indices, rejects unsupported/vacuous structures, and reports 132 parsed compact rows instead of a false-green zero-row surface.",
+        "Focused parser, startup-helper, and human-action regressions pass 21/21; the live task board passes with structural diagnostics."
+      ],
+      "complete": true
+    },
+    {
+      "id": 117,
+      "slug": "worker-route-registrar-extraction",
+      "tier": "⚡",
+      "axis": "architecture / security / organization / velocity",
+      "effortHours": 12,
+      "impact": 9,
+      "innovation": 6,
+      "priority": 14.2,
+      "status": "shipped",
+      "title": "Give Worker durable headroom through one typed route registrar",
+      "why": "Worker.ts is 3,128 lines against a 3,130 line ceiling, with 84 imports, 73 registrations, and 25 inline async handlers. The next safe feature cannot fit without lifting a guard.",
+      "recipe": "Extract the cohesive season/community and progression-facing route domain behind a typed dependency/service registrar, preserving exact auth, rate, schemas, evidence policy, and response semantics. Add route-composition and hostile-request tests, make the route-policy inventory prove registration, and lower the Worker ratchet materially rather than raising it. Do not attempt a broad rewrite.",
+      "ladder": {
+        "L1": { "effortHours": 3, "recipe": "Extract one inline handler." },
+        "L2": {
+          "effortHours": 7,
+          "recipe": "Extract a cohesive registrar with typed services."
+        },
+        "L3": {
+          "effortHours": 12,
+          "recipe": "Typed domain registrar, policy/auth/rate contracts, hostile tests, and materially lower composition ratchet."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Extracted authenticated season/community routes into a 67-line registrar and season-pass/dividend routes into a 93-line typed progression registrar with their rate, schema, actor, and evidence policies intact.",
+        "Worker.ts fell from the audited 3,128 lines to 3,089; the enforced ceiling fell from 3,130 to 3,105, leaving 16 lines of explicit headroom without raising any router ceiling.",
+        "Composition, hostile registrar, mutation-policy, season-pass compatibility, and TypeScript gates are green; public-ingest risk simultaneously fell from 10 to 9."
+      ],
+      "complete": true
+    },
+    {
+      "id": 118,
+      "slug": "dead-type-stub-removal",
+      "tier": "💡",
+      "axis": "security / dependency hygiene / speed",
+      "effortHours": 0.5,
+      "impact": 6,
+      "innovation": 3,
+      "priority": 13.6,
+      "status": "shipped",
+      "title": "Remove the deprecated no-use systeminformation type stub",
+      "why": "The direct dev dependency is deprecated, has zero source references, and alone pulls systeminformation even though that package supplies its own types.",
+      "recipe": "Remove @types/systeminformation from package and lock state without adding a replacement, prove npm ls no longer contains either package, run typecheck/tests, and run the Studio supply-chain scan. Leave unrelated patch/minor/major update trains outside this audit.",
+      "ladder": {
+        "L1": {
+          "effortHours": 0.5,
+          "recipe": "Remove and verify the unused stub."
+        },
+        "L2": {
+          "effortHours": 1,
+          "recipe": "Also prove lock and typecheck integrity."
+        },
+        "L3": {
+          "effortHours": 1.5,
+          "recipe": "Removal, provenance check, direct dependency graph proof, supply-chain scan, and regression gates."
+        }
+      },
+      "recommendedModel": "haiku",
+      "executionLog": [
+        "Removed the deprecated direct @types/systeminformation stub and its otherwise-unused systeminformation transitive graph without adding a replacement.",
+        "Direct dependency-graph proof reports both packages absent; TypeScript passes; production dependency audit is zero.",
+        "Studio supply-chain scan reports zero affected repositories for every tracked incident."
+      ],
+      "complete": true
+    }
+  ]
+}

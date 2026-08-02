@@ -3,9 +3,12 @@ import { customElement, state } from "lit/decorators.js";
 import { GameUpdateType } from "../../core/game/GameUpdates";
 import { GameView } from "../../core/game/GameView";
 import {
+  claimSeasonMilestone,
   fetchAchievements,
+  fetchMatchProgressionDividend,
   fetchSeasonProgress,
   fetchVaultFrontContracts,
+  type CertifiedProgressionDividend,
 } from "../Api";
 import { getPersistentID } from "../Auth";
 import {
@@ -26,9 +29,14 @@ export class ProgressionDebrief extends LitElement implements Layer {
   @state() private achievementText = "";
   @state() private masteryText = "";
   @state() private masteryEvidence = "";
+  @state() private certification: "pending" | "verified" | "degraded" =
+    "pending";
+  @state() private claimableMilestoneId: string | null = null;
+  @state() private claimStatus = "";
 
   private requested = false;
   private refreshTimer: ReturnType<typeof setTimeout> | null = null;
+  private cancelled = false;
 
   createRenderRoot() {
     return this;
@@ -41,9 +49,61 @@ export class ProgressionDebrief extends LitElement implements Layer {
     this.requested = true;
     this.visible = true;
     this.loading = true;
-    // The server accepts the winner envelope first; this bounded delay lets
-    // the idempotent progression fan-out settle before the debrief reads it.
-    this.refreshTimer = setTimeout(() => void this.refreshProgression(), 600);
+    const gameId = this.game.gameID();
+    void this.pollProgressionDividend(gameId);
+  }
+
+  private wait(delayMs: number): Promise<void> {
+    return new Promise((resolve) => {
+      this.refreshTimer = setTimeout(resolve, delayMs);
+    });
+  }
+
+  async pollProgressionDividend(gameId: string): Promise<void> {
+    const delays = [0, 100, 200, 400, 800, 800];
+    for (const delay of delays) {
+      if (this.cancelled) return;
+      if (delay > 0) await this.wait(delay);
+      const receipt = await fetchMatchProgressionDividend(gameId);
+      if (receipt) {
+        this.applyDividend(receipt);
+        return;
+      }
+    }
+    if (this.cancelled) return;
+    this.certification = "degraded";
+    await this.refreshProgression();
+  }
+
+  private applyDividend(receipt: CertifiedProgressionDividend): void {
+    const { dividend } = receipt;
+    const eloDelta = dividend.delta.eloRating;
+    const afterElo = dividend.after?.eloRating ?? dividend.before?.eloRating;
+    this.eloText = `${eloDelta >= 0 ? "+" : ""}${eloDelta} rating${afterElo === undefined ? "" : ` · ${afterElo}`}`;
+    const nextMilestone = dividend.seasonPass?.milestones
+      .filter((entry) => !entry.claimed)
+      .sort((a, b) => b.pct - a.pct)[0];
+    if (nextMilestone) {
+      this.milestoneText = `${nextMilestone.milestone.title} ${nextMilestone.progress}/${nextMilestone.target}`;
+    }
+    const claimable = dividend.seasonPass?.milestones.find(
+      (entry) => entry.unlocked && !entry.claimed,
+    );
+    this.claimableMilestoneId = claimable?.milestone.id ?? null;
+    this.achievementText = `+${dividend.achievementsUnlocked.length} achievements`;
+    const pressureContribution = dividend.match.vaultPressureContributions;
+    if (dividend.dailyMastery) {
+      this.masteryText = `${dividend.dailyMastery.challengeId} ${dividend.dailyMastery.progress}/${dividend.dailyMastery.target}`;
+      this.masteryEvidence = `Certified match dividend · ${receipt.durability} · ${receipt.receiptDigest.slice(0, 18)}…`;
+    } else {
+      this.masteryText = "Replay the decisive convoy pattern";
+      this.masteryEvidence = `Certified match dividend · ${receipt.durability}`;
+    }
+    if (pressureContribution > 0) {
+      this.masteryEvidence += ` · ${pressureContribution} team Pressure ${pressureContribution === 1 ? "delivery" : "deliveries"}`;
+    }
+    this.certification = "verified";
+    this.loading = false;
   }
 
   async refreshProgression(): Promise<void> {
@@ -94,12 +154,33 @@ export class ProgressionDebrief extends LitElement implements Layer {
     this.loading = false;
   }
 
+  private async claimReadyMilestone(): Promise<void> {
+    if (!this.claimableMilestoneId) return;
+    const claimed = await claimSeasonMilestone(
+      getPersistentID(),
+      this.claimableMilestoneId,
+    );
+    this.claimStatus = claimed ? "Reward claimed" : "Claim unavailable";
+    if (claimed) this.claimableMilestoneId = null;
+  }
+
+  private requestMasteryRematch(): void {
+    this.dispatchEvent(
+      new CustomEvent("vaultfront-mastery-rematch", {
+        detail: { goal: this.masteryText, evidence: this.masteryEvidence },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  }
+
   private dismiss(): void {
     this.visible = false;
   }
 
   disconnectedCallback(): void {
     super.disconnectedCallback();
+    this.cancelled = true;
     if (this.refreshTimer) clearTimeout(this.refreshTimer);
   }
 
@@ -115,6 +196,11 @@ export class ProgressionDebrief extends LitElement implements Layer {
             class="text-xs font-bold uppercase tracking-[0.14em] text-amber-300"
           >
             Progression Debrief
+          </div>
+          <div
+            class="text-[10px] uppercase tracking-wide ${this.certification === "verified" ? "text-green-300" : this.certification === "degraded" ? "text-amber-300" : "text-slate-400"}"
+          >
+            ${this.certification}
           </div>
           <button
             class="rounded px-1.5 py-0.5 text-xs text-slate-400 hover:bg-white/10 hover:text-white"
@@ -151,6 +237,31 @@ export class ProgressionDebrief extends LitElement implements Layer {
                   <div>${this.eloText || "Rating unchanged"}</div>
                   <div>${this.milestoneText || "Season track ready"}</div>
                   <div>${this.achievementText || "Achievements ready"}</div>
+                </div>
+                <div class="mt-2 flex flex-wrap gap-2">
+                  ${
+                    this.claimableMilestoneId
+                      ? html`<button
+                          class="rounded border border-amber-300/50 px-2 py-1 text-xs text-amber-100 hover:bg-amber-300/10"
+                          @click=${this.claimReadyMilestone}
+                        >
+                          Claim ready reward
+                        </button>`
+                      : html``
+                  }
+                  <button
+                    class="rounded border border-cyan-300/40 px-2 py-1 text-xs text-cyan-100 hover:bg-cyan-300/10"
+                    @click=${this.requestMasteryRematch}
+                  >
+                    Rematch with this mastery goal
+                  </button>
+                  ${
+                    this.claimStatus
+                      ? html`<span class="self-center text-xs text-slate-300"
+                          >${this.claimStatus}</span
+                        >`
+                      : html``
+                  }
                 </div>
               </div>`
         }

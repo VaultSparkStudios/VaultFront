@@ -72,10 +72,11 @@ export class PatternButton extends LitElement {
 
     return html`
       <div
-        class="no-crazygames flex flex-col items-center justify-between gap-2 p-3 bg-white/5 backdrop-blur-sm border rounded-xl w-48 h-full transition-all duration-200 ${this
-          .selected
-          ? "border-green-500 shadow-[0_0_15px_rgba(34,197,94,0.5)]"
-          : "hover:bg-white/10 hover:border-white/20 hover:shadow-xl border-white/10"}"
+        class="no-crazygames flex flex-col items-center justify-between gap-2 p-3 bg-white/5 backdrop-blur-sm border rounded-xl w-48 h-full transition-all duration-200 ${
+          this.selected
+            ? "border-green-500 shadow-[0_0_15px_rgba(34,197,94,0.5)]"
+            : "hover:bg-white/10 hover:border-white/20 hover:shadow-xl border-white/10"
+        }"
       >
         <button
           class="group relative flex flex-col items-center w-full gap-2 rounded-lg cursor-pointer transition-all duration-200
@@ -85,39 +86,43 @@ export class PatternButton extends LitElement {
         >
           <div class="flex flex-col items-center w-full">
             <div
-              class="text-xs font-bold text-white uppercase tracking-wider mb-1 text-center truncate w-full ${this
-                .requiresPurchase
-                ? "opacity-50"
-                : ""}"
-              title="${isDefaultPattern
-                ? translateText("territory_patterns.pattern.default")
-                : this.translateCosmetic(
-                    "territory_patterns.pattern",
-                    this.pattern!.name,
-                  )}"
+              class="text-xs font-bold text-white uppercase tracking-wider mb-1 text-center truncate w-full ${
+                this.requiresPurchase ? "opacity-50" : ""
+              }"
+              title="${
+                isDefaultPattern
+                  ? translateText("territory_patterns.pattern.default")
+                  : this.translateCosmetic(
+                      "territory_patterns.pattern",
+                      this.pattern!.name,
+                    )
+              }"
             >
-              ${isDefaultPattern
-                ? translateText("territory_patterns.pattern.default")
-                : this.translateCosmetic(
-                    "territory_patterns.pattern",
-                    this.pattern!.name,
-                  )}
+              ${
+                isDefaultPattern
+                  ? translateText("territory_patterns.pattern.default")
+                  : this.translateCosmetic(
+                      "territory_patterns.pattern",
+                      this.pattern!.name,
+                    )
+              }
             </div>
-            ${this.colorPalette !== null
-              ? html`
-                  <div
-                    class="text-[10px] font-bold text-white/40 uppercase tracking-widest mb-2 text-center truncate w-full ${this
-                      .requiresPurchase
-                      ? "opacity-50"
-                      : ""}"
-                  >
-                    ${this.translateCosmetic(
-                      "territory_patterns.color_palette",
-                      this.colorPalette!.name,
-                    )}
-                  </div>
-                `
-              : html`<div class="h-[22px] mb-2 w-full"></div>`}
+            ${
+              this.colorPalette !== null
+                ? html`
+                    <div
+                      class="text-[10px] font-bold text-white/40 uppercase tracking-widest mb-2 text-center truncate w-full ${
+                        this.requiresPurchase ? "opacity-50" : ""
+                      }"
+                    >
+                      ${this.translateCosmetic(
+                        "territory_patterns.color_palette",
+                        this.colorPalette!.name,
+                      )}
+                    </div>
+                  `
+                : html`<div class="h-[22px] mb-2 w-full"></div>`
+            }
           </div>
 
           <div
@@ -137,22 +142,24 @@ export class PatternButton extends LitElement {
           </div>
         </button>
 
-        ${this.requiresPurchase && this.pattern?.product
-          ? html`
-              <div class="w-full mt-2">
-                <button
-                  class="w-full px-4 py-2 bg-green-500/20 text-green-400 border border-green-500/30 rounded-lg text-xs font-bold uppercase tracking-wider cursor-pointer transition-all duration-200
+        ${
+          this.requiresPurchase && this.pattern?.product
+            ? html`
+                <div class="w-full mt-2">
+                  <button
+                    class="w-full px-4 py-2 bg-green-500/20 text-green-400 border border-green-500/30 rounded-lg text-xs font-bold uppercase tracking-wider cursor-pointer transition-all duration-200
                    hover:bg-green-500/30 hover:shadow-[0_0_15px_rgba(74,222,128,0.2)]"
-                  @click=${this.handlePurchase}
-                >
-                  ${translateText("territory_patterns.purchase")}
-                  <span class="ml-1 text-white/60"
-                    >(${this.pattern.product.price})</span
+                    @click=${this.handlePurchase}
                   >
-                </button>
-              </div>
-            `
-          : null}
+                    ${translateText("territory_patterns.purchase")}
+                    <span class="ml-1 text-white/60"
+                      >(${this.pattern.product.price})</span
+                    >
+                  </button>
+                </div>
+              `
+            : null
+        }
       </div>
     `;
   }

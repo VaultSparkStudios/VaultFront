@@ -269,7 +269,7 @@ curl https://play-vaultfront.vaultsparkstudios.com/api/env
 Before promotion, verify:
 
 - the image digest and staging evidence digest are identical
-- staging health, parity, Brevo, Obelisk, theme/web, and Alpha observations are fresh
+- staging health, parity, Zoho project-domain send/receive reply-as-alias, Obelisk, theme/web, and Alpha observations are fresh
 - `/commit.txt` matches the immutable image revision
 - `static/release-evidence.json` remains blocked until every external gate and founder approval is recorded
 

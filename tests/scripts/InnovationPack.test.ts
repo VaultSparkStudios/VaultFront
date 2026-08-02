@@ -76,18 +76,19 @@ describe("innovation-pack regeneration", () => {
     const firstAuthority = first.items.find(
       (item) => item.id === "unified-certified-game-authority",
     );
-    expect(first.items).toHaveLength(45);
+    expect(first.items).toHaveLength(50);
     expect(firstAuthority).toMatchObject({ rank: 37, status: "shipped" });
     expect(
       first.items.find(
         (item) => item.id === "monotonic-innovation-ledger-guard",
       ),
     ).toMatchObject({ rank: 41, status: "shipped" });
-    expect(first.items.slice(-4).map((item) => item.id)).toEqual([
-      "certified-loop-admissibility-receipt",
-      "worker-game-id-route-witness",
-      "startup-brief-source-closure",
-      "service-worker-release-lineage",
+    expect(first.items.slice(-5).map((item) => item.id)).toEqual([
+      "portable-visual-proof-capsule",
+      "progression-receipt-retention-boundary",
+      "post-verification-ci-fan-in",
+      "certified-pressure-contribution-dividend",
+      "semantic-innovation-detector-ratchet",
     ]);
 
     const output = runGenerator();
@@ -103,7 +104,17 @@ describe("innovation-pack regeneration", () => {
         (item) => item.id === "unified-certified-game-authority",
       ),
     ).toMatchObject({ rank: 37, status: "shipped" });
-    expect(output).toContain("2/45 shipped");
+    expect(output).toContain("3/50 shipped");
+  });
+
+  it("recognizes stronger semantic ratchets instead of stale exact values", () => {
+    const generator = fs.readFileSync(
+      path.join(process.cwd(), "scripts", "innovation-pack.mjs"),
+      "utf8",
+    );
+    expect(generator).toContain("atMostNumericConstant");
+    expect(generator).toContain("mutationPolicyPosture");
+    expect(generator).not.toContain("/WORKER_LINE_BUDGET = 3130/");
   });
 
   it("refuses to overwrite when a shipped historical candidate is forgotten", () => {

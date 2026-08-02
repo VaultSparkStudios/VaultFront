@@ -19,8 +19,9 @@
  *   doctor                Print project health summary
  */
 
-import path from "path";
-import { fileURLToPath } from "url";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { commandArgs, OPS_COMMANDS } from "./lib/ops-command-registry.mjs";
 import { spawnSync } from "./lib/safe-spawn.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -28,42 +29,21 @@ const SCRIPTS = __dirname;
 
 const [, , subcommand, ...rest] = process.argv;
 
-const SUBCOMMAND_MAP = {
-  "blocker-preflight": "blocker-preflight.mjs",
-  "startup-brief": "render-startup-brief.mjs",
-  "closeout-board": "render-closeout-board.mjs",
-  "genius-list": "generate-genius-list.mjs",
-  "innovation-pack": "innovation-pack.mjs",
-  "write-session-lock": "write-session-lock.mjs",
-  "check-secrets": "check-secrets.mjs",
-  doctor: "project-doctor.mjs",
-};
-
 if (!subcommand) {
   console.log("Usage: node scripts/ops.mjs <subcommand> [args...]");
-  console.log(
-    "Subcommands:",
-    Object.keys(SUBCOMMAND_MAP).join(", "),
-    ", doctor, compliance-velocity",
-  );
+  console.log("Subcommands:", Object.keys(OPS_COMMANDS).join(", "));
   process.exit(0);
 }
 
-if (subcommand === "compliance-velocity") {
-  console.log("ops.mjs compliance-velocity: not yet tracked");
-  process.exit(0);
-}
-
-const scriptFile = SUBCOMMAND_MAP[subcommand];
-if (!scriptFile) {
+const command = OPS_COMMANDS[subcommand];
+if (!command) {
   console.error(`ops.mjs: unknown subcommand '${subcommand}'`);
-  console.error("Known subcommands:", Object.keys(SUBCOMMAND_MAP).join(", "));
+  console.error("Known subcommands:", Object.keys(OPS_COMMANDS).join(", "));
   process.exit(1);
 }
 
-const scriptPath = path.join(SCRIPTS, scriptFile);
-const mappedArgs =
-  subcommand === "genius-list" && rest.length === 0 ? ["--write"] : rest;
+const scriptPath = path.join(SCRIPTS, command.script);
+const mappedArgs = commandArgs(subcommand, rest);
 const result = spawnSync(process.execPath, [scriptPath, ...mappedArgs], {
   stdio: "inherit",
 });

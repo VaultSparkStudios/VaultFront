@@ -19,6 +19,41 @@
   --vf-accent: #7dd3fc;
   --vf-warm: #fbbf24;
   --vf-shadow: 0 16px 34px rgba(2, 8, 20, 0.42);
+  --vf-modal-bg: rgba(7, 17, 27, 0.9);
+  --vf-panel-text: #f8fafc;
+  --vf-panel-muted: rgba(226, 232, 240, 0.88);
+}
+
+:root[data-vaultfront-theme="light"] {
+  --vf-bg-deep: #f7f9ff;
+  --vf-bg-mid: #dce8f7;
+  --vf-bg-edge: #c7d7eb;
+  --vf-glass: rgba(255, 255, 255, 0.82);
+  --vf-glass-strong: rgba(242, 247, 255, 0.94);
+  --vf-border-soft: rgba(30, 64, 96, 0.28);
+  --vf-border-strong: rgba(30, 64, 96, 0.42);
+  --vf-accent: #0369a1;
+  --vf-warm: #a16207;
+  --vf-shadow: 0 16px 34px rgba(30, 64, 96, 0.18);
+  --vf-modal-bg: rgba(247, 250, 255, 0.96);
+  --vf-panel-text: #102235;
+  --vf-panel-muted: #40566d;
+}
+
+:root[data-vaultfront-theme="competitive"] {
+  --vf-bg-deep: #0a0010;
+  --vf-bg-mid: #1a0827;
+  --vf-bg-edge: #29103a;
+  --vf-glass: rgba(24, 4, 36, 0.82);
+  --vf-glass-strong: rgba(12, 1, 22, 0.94);
+  --vf-border-soft: rgba(192, 132, 252, 0.38);
+  --vf-border-strong: rgba(244, 114, 182, 0.55);
+  --vf-accent: #c084fc;
+  --vf-warm: #fb7185;
+  --vf-shadow: 0 18px 40px rgba(126, 34, 206, 0.3);
+  --vf-modal-bg: rgba(18, 0, 30, 0.94);
+  --vf-panel-text: #f8f0ff;
+  --vf-panel-muted: #d6bced;
 }
 
 @layer base {
@@ -81,6 +116,48 @@ body {
       var(--vf-bg-mid) 52%,
       var(--vf-bg-edge)
     );
+}
+
+:root[data-vaultfront-theme="light"] #background-layer {
+  opacity: 0.2;
+  filter: grayscale(0.25) brightness(1.65) contrast(0.75);
+}
+
+:root[data-vaultfront-theme="competitive"] #background-layer {
+  opacity: 0.38;
+  filter: hue-rotate(65deg) saturate(1.4) brightness(0.72);
+}
+
+:root[data-vaultfront-theme="light"] desktop-nav-bar nav,
+:root[data-vaultfront-theme="light"] mobile-nav-bar nav {
+  background: linear-gradient(90deg, #f8fbff, #e4eef9, #d8e7f5);
+  border-color: rgba(3, 105, 161, 0.28);
+}
+
+:root[data-vaultfront-theme="light"] desktop-nav-bar .nav-menu-item {
+  color: #334155;
+}
+
+:root[data-vaultfront-theme="light"] .vf-brand-wordmark {
+  color: #075985 !important;
+  background: none !important;
+  -webkit-text-fill-color: #075985;
+  text-shadow: none;
+}
+
+:root[data-vaultfront-theme="light"] .vf-theme-input {
+  color: #102235 !important;
+  border-color: rgba(30, 64, 96, 0.36) !important;
+}
+
+:root[data-vaultfront-theme="light"] .vf-theme-input::placeholder {
+  color: #52677d !important;
+}
+
+:root[data-vaultfront-theme="competitive"] desktop-nav-bar nav,
+:root[data-vaultfront-theme="competitive"] mobile-nav-bar nav {
+  background: linear-gradient(90deg, #100018, #210b30, #310f3d);
+  border-color: rgba(192, 132, 252, 0.38);
 }
 
 * {
@@ -176,7 +253,7 @@ body {
 .vf-glass-surface {
   background: linear-gradient(
     148deg,
-    color-mix(in oklab, var(--vf-glass) 84%, #082032) 0%,
+    color-mix(in oklab, var(--vf-glass) 84%, var(--vf-bg-mid)) 0%,
     var(--vf-glass-strong) 72%
   );
   border: 1px solid var(--vf-border-soft);
@@ -190,7 +267,7 @@ body {
 }
 
 .vf-kicker {
-  color: #bae6fd;
+  color: var(--vf-accent);
   letter-spacing: 0.18em;
   text-transform: uppercase;
   font-size: 10px;
@@ -198,15 +275,39 @@ body {
 }
 
 .vf-headline {
-  color: #f8fafc;
+  color: var(--vf-panel-text);
   font-size: clamp(1rem, 1.1vw + 0.6rem, 1.45rem);
   font-weight: 800;
   letter-spacing: 0.01em;
 }
 
 .vf-subhead {
-  color: rgba(226, 232, 240, 0.88);
+  color: var(--vf-panel-muted);
   font-size: 12px;
+}
+
+.vf-modal-surface {
+  background: var(--vf-modal-bg) !important;
+  border-color: var(--vf-border-soft) !important;
+  color: var(--vf-panel-text);
+}
+
+:root[data-vaultfront-theme="light"] .vf-modal-surface [class~="text-white"],
+:root[data-vaultfront-theme="light"] .vf-modal-surface [class*="text-white/"] {
+  color: #102235 !important;
+}
+
+:root[data-vaultfront-theme="light"] .vf-setting-card {
+  background: rgba(255, 255, 255, 0.72) !important;
+  border-color: rgba(30, 64, 96, 0.2) !important;
+}
+
+:root[data-vaultfront-theme="light"] .vf-setting-card .text-white {
+  color: #102235 !important;
+}
+
+:root[data-vaultfront-theme="light"] .vf-setting-card .text-white\/50 {
+  color: #52677d !important;
 }
 
 .vf-chip-row {

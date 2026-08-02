@@ -1,12 +1,7 @@
 import { html, TemplateResult } from "lit";
 
 export type ButtonVariant =
-  | "normal"
-  | "red"
-  | "green"
-  | "indigo"
-  | "yellow"
-  | "sky";
+  "normal" | "red" | "green" | "indigo" | "yellow" | "sky";
 export interface ActionButtonProps {
   onClick: (e: MouseEvent) => void;
   type?: ButtonVariant;

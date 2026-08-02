@@ -71,9 +71,11 @@ export class GameList extends LitElement {
                       class="text-xs text-blue-200/60 font-semibold uppercase tracking-wider"
                     >
                       ${translateText("game_list.mode")}:
-                      ${game.mode === GameMode.FFA
-                        ? translateText("game_mode.ffa")
-                        : html`${translateText("game_mode.teams")}`}
+                      ${
+                        game.mode === GameMode.FFA
+                          ? translateText("game_mode.ffa")
+                          : html`${translateText("game_mode.teams")}`
+                      }
                     </div>
                   </div>
                 </div>
@@ -102,11 +104,9 @@ export class GameList extends LitElement {
 
               <div
                 class="bg-black/20 border-t border-white/5 px-4 text-xs text-gray-400 transition-all duration-300 overflow-hidden"
-                style="max-height:${this.expandedGameId === game.gameId
-                  ? "200px"
-                  : "0"}; opacity:${this.expandedGameId === game.gameId
-                  ? "1"
-                  : "0"}"
+                style="max-height:${
+                  this.expandedGameId === game.gameId ? "200px" : "0"
+                }; opacity:${this.expandedGameId === game.gameId ? "1" : "0"}"
               >
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 py-3">
                   <div>

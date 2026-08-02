@@ -406,8 +406,7 @@ export class NameLayer implements Layer {
         // Special handling for alliance icon with progress indicator
         if (icon.id === "alliance") {
           let allianceWrapper = render.icons.get(icon.id) as
-            | HTMLDivElement
-            | undefined;
+            HTMLDivElement | undefined;
 
           const myPlayer = this.game.myPlayer();
           const allianceView = myPlayer
@@ -468,8 +467,7 @@ export class NameLayer implements Layer {
         }
 
         let imgElement = render.icons.get(icon.id) as
-          | HTMLImageElement
-          | undefined;
+          HTMLImageElement | undefined;
 
         if (!imgElement) {
           imgElement = this.createIconElement(icon.src, iconSize, icon.center);

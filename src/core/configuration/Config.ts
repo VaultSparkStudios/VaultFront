@@ -85,10 +85,7 @@ export interface VaultRuntimeExperiment {
 }
 
 export type VaultWeeklyMutator =
-  | "none"
-  | "lane_fog"
-  | "accelerated_cooldowns"
-  | "double_passive";
+  "none" | "lane_fog" | "accelerated_cooldowns" | "double_passive";
 
 export interface Config {
   spawnImmunityDuration(): Tick;

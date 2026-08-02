@@ -1,8 +1,11 @@
 import { expect, test } from "@playwright/test";
 import { mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
+// @ts-expect-error The proof utility is a runtime ESM module exercised by Vitest.
+import { computeThemeProofSourceEvidence } from "../scripts/lib/theme-proof.mjs";
 
 const themes = ["vaultfront", "light", "competitive"] as const;
+const capturedSource = computeThemeProofSourceEvidence(process.cwd());
 
 // This one spec intentionally captures six full-page visual artifacts in
 // addition to navigation and contrast assertions. Keep its evidence workload
@@ -33,12 +36,17 @@ test("three themes retain readable page, panel, and settings surfaces", async ({
   const artifactDir = path.resolve("output", "playwright");
   mkdirSync(artifactDir, { recursive: true });
   const results: Array<Record<string, unknown>> = [];
+  const renderedBackgrounds: string[] = [];
+  const renderedGlass: string[] = [];
 
   for (const theme of themes) {
     await page.goto("/", { waitUntil: "domcontentloaded" });
     await page.evaluate((selected) => {
       localStorage.setItem("vf-theme", selected);
       localStorage.setItem("settings.brandTheme", selected);
+      // Visual evidence must show the requested page, not the first-run
+      // tutorial overlay that would make every theme look identical.
+      localStorage.setItem("vf-tutorial-seen", "2");
     }, theme);
     await page.reload({ waitUntil: "domcontentloaded" });
     await page.waitForSelector("play-page", { timeout: 10_000 });
@@ -51,9 +59,13 @@ test("three themes retain readable page, panel, and settings surfaces", async ({
     const tokens = await page.evaluate(() => {
       const style = getComputedStyle(document.documentElement);
       return Object.fromEntries(
-        ["--vf-bg", "--vf-surface", "--vf-text", "--vf-text-muted"].map(
-          (name) => [name, style.getPropertyValue(name).trim()],
-        ),
+        [
+          "--vf-bg",
+          "--vf-bg-deep",
+          "--vf-surface",
+          "--vf-text",
+          "--vf-text-muted",
+        ].map((name) => [name, style.getPropertyValue(name).trim()]),
       );
     });
     const ratios = {
@@ -64,6 +76,20 @@ test("three themes retain readable page, panel, and settings surfaces", async ({
     expect(ratios.textOnBackground).toBeGreaterThanOrEqual(4.5);
     expect(ratios.textOnSurface).toBeGreaterThanOrEqual(4.5);
     expect(ratios.mutedOnBackground).toBeGreaterThanOrEqual(4.5);
+
+    const renderedColors = await page.evaluate(() => {
+      const body = getComputedStyle(document.body);
+      const glass = getComputedStyle(
+        document.querySelector(".vf-glass-surface") as HTMLElement,
+      );
+      return {
+        bodyBackground: body.backgroundImage,
+        glassBackground: glass.backgroundImage,
+        glassText: glass.color,
+      };
+    });
+    renderedBackgrounds.push(renderedColors.bodyBackground);
+    renderedGlass.push(renderedColors.glassBackground);
 
     await page.screenshot({
       path: path.join(
@@ -76,6 +102,20 @@ test("three themes retain readable page, panel, and settings surfaces", async ({
     if (testInfo.project.name === "mobile-chrome") {
       await page.locator("#hamburger-btn").click();
       await page.locator('mobile-nav-bar [data-page="page-settings"]').click();
+      expect(
+        await page
+          .locator("#sidebar-menu")
+          .evaluate((element) => element.classList.contains("open")),
+      ).toBe(false);
+      await expect(page.locator("#sidebar-menu")).toHaveAttribute(
+        "aria-hidden",
+        "true",
+      );
+      await expect(page.locator("#sidebar-menu")).not.toHaveAttribute(
+        "aria-modal",
+        "true",
+      );
+      await page.waitForTimeout(350);
     } else {
       await page.locator('desktop-nav-bar [data-page="page-settings"]').click();
     }
@@ -87,13 +127,28 @@ test("three themes retain readable page, panel, and settings surfaces", async ({
       ),
       fullPage: true,
     });
-    results.push({ theme, tokens, ratios, surfaces: ["play", "settings"] });
+    results.push({
+      theme,
+      tokens,
+      ratios,
+      renderedColors,
+      surfaces: ["play", "settings"],
+    });
   }
+
+  expect(new Set(renderedBackgrounds).size).toBe(themes.length);
+  expect(new Set(renderedGlass).size).toBe(themes.length);
 
   writeFileSync(
     path.join(artifactDir, `theme-proof-${testInfo.project.name}.json`),
     JSON.stringify(
-      { project: testInfo.project.name, localOnly: true, results },
+      {
+        project: testInfo.project.name,
+        localOnly: true,
+        capturedAt: new Date().toISOString(),
+        source: capturedSource,
+        results,
+      },
       null,
       2,
     ),

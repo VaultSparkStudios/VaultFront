@@ -787,7 +787,7 @@ export class UserSettingModal extends BaseModal {
     return html`
       <!-- 🚩 Flag Selector -->
       <div
-        class="flex flex-row items-center justify-between w-full p-4 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-all gap-4 cursor-pointer"
+        class="vf-setting-card flex flex-row items-center justify-between w-full p-4 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-all gap-4 cursor-pointer"
         role="button"
         tabindex="0"
         @click=${this.openFlagSelector}

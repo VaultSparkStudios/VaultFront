@@ -16,7 +16,11 @@ import {
 import { PseudoRandom } from "../core/PseudoRandom";
 import { GameConfig, PublicGameType, TeamCountConfig } from "../core/Schemas";
 import { logger } from "./Logger";
-import { getMapLandTiles } from "./MapLandTiles";
+import {
+  getMapCapacityObservation,
+  type MapCapacityObservation,
+  type MapCapacityResolver,
+} from "./MapLandTiles";
 
 const log = logger.child({});
 const ARCADE_MAPS = new Set(mapCategories.arcade);
@@ -128,6 +132,14 @@ export class MapPlaylist {
     special: [],
     team: [],
   };
+  private readonly capacity = new Map<
+    GameMapType,
+    Promise<MapCapacityObservation>
+  >();
+
+  public constructor(
+    private readonly resolveMapCapacity: MapCapacityResolver = getMapCapacityObservation,
+  ) {}
 
   public async gameConfig(type: PublicGameType): Promise<GameConfig> {
     if (type === "special") {
@@ -540,7 +552,7 @@ export class MapPlaylist {
     map: GameMapType,
     playerTeams: TeamCountConfig,
   ): Promise<boolean> {
-    const landTiles = await getMapLandTiles(map);
+    const landTiles = (await this.mapCapacity(map)).landTiles;
     const [l, , s] = this.calculateMapPlayerCounts(landTiles);
     // Worst case: smallest tier with team mode 1.5x multiplier, capped at l
     let p = Math.min(Math.ceil(s * 1.5), l);
@@ -592,7 +604,7 @@ export class MapPlaylist {
     map: GameMapType,
     isCompact: boolean,
   ): Promise<number | undefined> {
-    const landTiles = await getMapLandTiles(map);
+    const landTiles = (await this.mapCapacity(map)).landTiles;
     const [firstPlayerCount] = this.calculateMapPlayerCounts(landTiles);
     if (firstPlayerCount <= 60) {
       return isCompact ? 60 : 125;
@@ -606,7 +618,7 @@ export class MapPlaylist {
     numPlayerTeams: TeamCountConfig | undefined,
     isCompactMap?: boolean,
   ): Promise<number> {
-    const landTiles = await getMapLandTiles(map);
+    const landTiles = (await this.mapCapacity(map)).landTiles;
     const [l, m, s] = this.calculateMapPlayerCounts(landTiles);
     const r = Math.random();
     const base = r < 0.3 ? l : r < 0.6 ? m : s;
@@ -643,6 +655,14 @@ export class MapPlaylist {
         break;
     }
     return p;
+  }
+
+  private mapCapacity(map: GameMapType): Promise<MapCapacityObservation> {
+    const cached = this.capacity.get(map);
+    if (cached) return cached;
+    const observation = this.resolveMapCapacity(map);
+    this.capacity.set(map, observation);
+    return observation;
   }
 
   /**

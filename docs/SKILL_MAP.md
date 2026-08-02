@@ -9,11 +9,11 @@ This is the cheatsheet for every slash command (`/name`) available in any Claude
 
 Muscle memory: **`/start` → `/go` → `/closeout`**. Everything else routes itself.
 
-| Command | When |
-|---|---|
-| **`/start`** | Begin every session. Detects mode (BUILDER vs FOUNDER), loads context, renders the startup brief with SIGNALS + GENIUS HIT LIST + HUMAN PRESSURE. |
-| **`/go`** | Right after `/start`. Refreshes the Unified Genius List (IGNIS-fueled, 12 items), syncs items into TASK_BOARD, captures memory patterns, executes unblocked items at quality bar with risk gating. Proactively suggests a specialty skill if the project type warrants one. |
-| **`/closeout`** | End every session. Write-back in canonical order → score 5 categories → commit + push via autopilot with confirmation. |
+| Command         | When                                                                                                                                                                                                                                                                        |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`/start`**    | Begin every session. Detects mode (BUILDER vs FOUNDER), loads context, renders the startup brief with SIGNALS + GENIUS HIT LIST + HUMAN PRESSURE.                                                                                                                           |
+| **`/go`**       | Right after `/start`. Refreshes the Unified Genius List (IGNIS-fueled, 12 items), syncs items into TASK_BOARD, captures memory patterns, executes unblocked items at quality bar with risk gating. Proactively suggests a specialty skill if the project type warrants one. |
+| **`/closeout`** | End every session. Write-back in canonical order → score 5 categories → commit + push via autopilot with confirmation.                                                                                                                                                      |
 
 ## When you don't know the right command
 
@@ -27,44 +27,44 @@ You rarely need to type these — `/go` proactively suggests them based on proje
 
 ### Creative / design
 
-| Command | Use for | Project types |
-|---|---|---|
-| `/game-loop-review` | Game loop tightness, progression, retention, soul fidelity | `game` |
-| `/novel-continuity-check` | Canon + continuity scan across chapters | `novel` |
-| `/soul-interview` | Define or refresh a project's SOUL.md creative identity | any |
+| Command                   | Use for                                                    | Project types |
+| ------------------------- | ---------------------------------------------------------- | ------------- |
+| `/game-loop-review`       | Game loop tightness, progression, retention, soul fidelity | `game`        |
+| `/novel-continuity-check` | Canon + continuity scan across chapters                    | `novel`       |
+| `/soul-interview`         | Define or refresh a project's SOUL.md creative identity    | any           |
 
 ### Release / ops
 
-| Command | Use for | Project types |
-|---|---|---|
-| `/app-release-gate` | Go/no-go checklist before SPARKED or public launch | `app`, `web-app`, `saas` |
-| `/infra-debt-sweep` | Technical debt audit, stale scripts, divergent renderers | `infrastructure`, `internal-ops` |
-| `/security-check` | One-pass sweep: sanitize settings + scan secrets + audit gateway | any |
+| Command             | Use for                                                          | Project types                    |
+| ------------------- | ---------------------------------------------------------------- | -------------------------------- |
+| `/app-release-gate` | Go/no-go checklist before SPARKED or public launch               | `app`, `web-app`, `saas`         |
+| `/infra-debt-sweep` | Technical debt audit, stale scripts, divergent renderers         | `infrastructure`, `internal-ops` |
+| `/security-check`   | One-pass sweep: sanitize settings + scan secrets + audit gateway | any                              |
 
 ### Studio-wide (run from any repo — operate on the portfolio)
 
-| Command | Use for |
-|---|---|
-| `/studio-status` | Multi-session state across all 28 repos — active sessions, conflicts, stale locks |
-| `/studio-review` | Monthly cross-portfolio strategic review — 6 categories, strategic bets |
-| `/studio-genius-refresh` | Refresh Unified Genius List + Studio Pulse + Founder Queue mid-session |
-| `/initiate` or `/initiate <name>` | Autonomous new-project onboarding — 60-second target |
+| Command                           | Use for                                                                           |
+| --------------------------------- | --------------------------------------------------------------------------------- |
+| `/studio-status`                  | Multi-session state across all 28 repos — active sessions, conflicts, stale locks |
+| `/studio-review`                  | Monthly cross-portfolio strategic review — 6 categories, strategic bets           |
+| `/studio-genius-refresh`          | Refresh Unified Genius List + Studio Pulse + Founder Queue mid-session            |
+| `/initiate` or `/initiate <name>` | Autonomous new-project onboarding — 60-second target                              |
 
 ### Credentials
 
-| Command | Use for |
-|---|---|
+| Command               | Use for                                                                                             |
+| --------------------- | --------------------------------------------------------------------------------------------------- |
 | `/intake-credentials` | Structured wizard to capture missing API keys. Each credential validated via API ping before write. |
 
 ## Claude Code built-ins (available everywhere)
 
-| Command | Use for |
-|---|---|
-| `/init` | Initialize a new CLAUDE.md in a fresh repo |
-| `/review` | Review a pull request |
+| Command            | Use for                                                                                                          |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------- |
+| `/init`            | Initialize a new CLAUDE.md in a fresh repo                                                                       |
+| `/review`          | Review a pull request                                                                                            |
 | `/security-review` | Code-level security review of pending changes (different from `/security-check` which sweeps for leaked secrets) |
-| `/insights` | Report analyzing Claude Code session usage |
-| `/help` | Help |
+| `/insights`        | Report analyzing Claude Code session usage                                                                       |
+| `/help`            | Help                                                                                                             |
 
 ## Decision tree — "what should I type?"
 
@@ -99,5 +99,5 @@ Found a command that's missing, confusing, or near-duplicate? Add it to `TASK_BO
 
 ---
 
-*Canonical source: `vaultspark-studio-ops/docs/templates/project-system/SKILL_MAP.template.md`*
-*Propagated by `scripts/propagate-skill-map.mjs` — do not hand-edit per-repo copies.*
+_Canonical source: `vaultspark-studio-ops/docs/templates/project-system/SKILL_MAP.template.md`_
+_Propagated by `scripts/propagate-skill-map.mjs` — do not hand-edit per-repo copies._

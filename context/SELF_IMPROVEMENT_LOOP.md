@@ -4,12 +4,50 @@ Detailed internal scoring, audit trends, and brainstorming are maintained privat
 
 <!-- rolling-status-start -->
 
-Total: 997/1000 | Velocity: 11 | Debt: ↓ | Velocity trend: →
-Avgs — 3: 996.3 | 5: 995.8 | 10: 993.1 | 25: 989.3 | all: 981.0 | Last 5: 995 → 995 → 995 → 997 → 997 | Intent rate: 100%
-Categories: Dev 100 | Align 100 | Momentum 100 | Engage 98 | Process 100 | Coherence 99 | Security 100 | Ecosystem 100 | Capital 100 | Automation 100
-Last session: 2026-07-29 Session 89 release-bound trust and epistemic-integrity arc
+Total: 997/1000 | Velocity: 20 | Debt: ↓ | Velocity trend: ↑
+Avgs — 3: 997.0 | 5: 996.2 | 10: 994.1 | 25: 991.1 | all: 981.5 | Last 5: 995 → 995 → 997 → 997 → 997 | Intent rate: 100%
+Categories: Dev 100 | Align 100 | Momentum 100 | Engage 99 | Process 100 | Coherence 99 | Security 100 | Ecosystem 99 | Capital 100 | Automation 100
+Last session: 2026-08-02 Session 90 causal community, certified dividends, and portable visual truth
 
 <!-- rolling-status-end -->
+
+## 2026-08-02 — Session 90 | Total: 997/1000 | Velocity: 20
+
+Shipped ten premise-verified audit findings, five generated innovations, and five verification-driven root fixes. The flagship loop now carries causal team and actor evidence from community rule selection through Pressure contribution to certified post-match progression; the release pipeline and visual matrix independently prove their exact local boundaries.
+
+| Category              |        Score | Evidence                                                                                                                                                       |
+| --------------------- | -----------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Dev Health            |          100 | 194 files / 1,069 tests, type, lint, format, contracts, build, Pages, bundles, performance, audit, and final browser gates pass directly.                      |
+| Creative Alignment    |          100 | Community-selected mutators, side-owned Pressure, and visible causal dividends deepen the command-and-extraction identity.                                     |
+| Momentum              |          100 | Audit 10/10 and cumulative innovations 50/50 are exhausted; five broad-gate discoveries were root-fixed without scope handback.                                |
+| Engagement            |           99 | Votes now matter, teammates share the climax, and the debrief explains exact earned progress; no human retention outcome is invented.                          |
+| Process Quality       |          100 | Pull-first chronology, live-premise review, exact exits, semantic ratchets, portable evidence, and direct image inspection make claims auditable.              |
+| Cross-Repo Coherence  |           99 | Canon, Zoho, Obelisk architecture, protocol commands, and Ark boundaries agree locally; externally owned registry reconciliation remains external.             |
+| Security Posture      |          100 | Actor binding, one-vote elections, tamper digests, bounded retention, authenticated dividends, reduced public ingress, and zero production audit are enforced. |
+| Ecosystem Integration |           99 | Human UI, agent evidence, PostgreSQL durability, CI fan-in, release DAG, and local proof align; live staging/identity/delivery remain unearned.                |
+| Capital Efficiency    |          100 | One dependency was removed; no paid API, hosted cron, variable-cost path, or Max-plan cost alarm was introduced.                                               |
+| Automation Coverage   |          100 | Restart, tamper, isolation, composition, exact revision, rendered palette divergence, drawer lifecycle, exhaustion, and doctor boundaries execute.             |
+| **Total**             | **997/1000** | Exact sum; Engagement, Coherence, and Ecosystem remain honestly capped by absent human/live/external evidence.                                                 |
+
+**Rolling data:** Avg3 997.0 · Avg5 996.2 · Avg10 994.1 · Avg25 991.1 · all 981.5 · velocity 20 · debt ↓ · sparkline █████.
+
+**Top win:** One causal chain now connects a verified actor ballot, the effective-week mutator, side-scoped Pressure, each teammate''s delivery contribution, and an exact durable post-match dividend.
+
+**Top gap:** No approved external staging/callback corridor or distinct-human Alpha corpus exists.
+
+### Brainstorm
+
+1. Promote the exact CI revision receipt into staging parity only when an approved deployment can return the same release root.
+2. Tune election cadence and Pressure contribution language only from privacy-safe human evidence, not deterministic tests.
+3. Extract another composition seam only when live code reaches its ratchet; budgets remain ceilings, never targets.
+
+### Commitments
+
+- [SIL:1] A community vote must causally select a durable outcome; never restore anonymous or duplicate-inflatable ballots.
+- [SIL:2] Keep team Pressure side-owned while every earned contribution remains actor-attributable and receipt-bound.
+- [SIL:3] Visual evidence must be unobscured, settled, palette-distinct, source-bound, and reproducible from a clean checkout.
+
+**Honest refusal:** The session did not fabricate staging, delivery, identity, human, revenue, rollback, CI-provider, or founder evidence; did not edit a sibling tree; did not raise composition ceilings to absorb growth; and did not alarm on flat-rate Max-plan cost.
 
 ## 2026-07-29 — Session 89 | Total: 997/1000 | Velocity: 11
 

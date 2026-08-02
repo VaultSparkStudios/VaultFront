@@ -253,6 +253,8 @@ describe("Stats", () => {
   test("certifies the pressure-to-breach victory funnel once", () => {
     stats.vaultPressureAdvanced(player1, 100);
     stats.vaultPressureAdvanced(player1, 110);
+    stats.vaultPressureContribution(player1);
+    stats.vaultPressureContribution(player1);
     stats.vaultBreachOpened(player1, 200);
     stats.vaultBreachOpened(player1, 210);
     stats.vaultDecisiveDelivery(player1, 300);
@@ -260,6 +262,7 @@ describe("Stats", () => {
     expect(stats.getPlayerStats(player1)).toMatchObject({
       vaultfront: {
         firstVaultPressureTick: 100n,
+        vaultPressureContributions: 2n,
         firstBreachOpenTick: 200n,
         decisiveDeliveryTick: 300n,
         vaultBreachVictoryTick: 300n,

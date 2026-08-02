@@ -327,18 +327,20 @@ export class GameConfigSettings extends LitElement {
                     @click=${() =>
                       !isDisabled &&
                       this.handleDifficultySelect(value as Difficulty)}
-                    class="${isDisabled
-                      ? `${DISABLED_CARD} flex flex-col items-center p-4 gap-3`
-                      : cardClass(
-                          isSelected,
-                          "flex flex-col items-center p-4 gap-3",
-                        )}"
+                    class="${
+                      isDisabled
+                        ? `${DISABLED_CARD} flex flex-col items-center p-4 gap-3`
+                        : cardClass(
+                            isSelected,
+                            "flex flex-col items-center p-4 gap-3",
+                          )
+                    }"
                   >
                     <difficulty-display
                       .difficultyKey=${key}
-                      class="transform scale-125 origin-center ${isDisabled
-                        ? "pointer-events-none"
-                        : ""}"
+                      class="transform scale-125 origin-center ${
+                        isDisabled ? "pointer-events-none" : ""
+                      }"
                     ></difficulty-display>
                     <span
                       class="${CARD_LABEL_CLASS} text-center mt-1 text-white"
@@ -368,9 +370,11 @@ export class GameConfigSettings extends LitElement {
                     <span
                       class="text-sm font-bold text-white uppercase tracking-widest"
                     >
-                      ${mode === GameMode.FFA
-                        ? translateText("game_mode.ffa")
-                        : translateText("game_mode.teams")}
+                      ${
+                        mode === GameMode.FFA
+                          ? translateText("game_mode.ffa")
+                          : translateText("game_mode.teams")
+                      }
                     </span>
                   </button>
                 `;
@@ -378,39 +382,45 @@ export class GameConfigSettings extends LitElement {
             </div>
           `,
         )}
-        ${settings.gameMode.selected === GameMode.FFA
-          ? nothing
-          : html`
-              <section class="space-y-6">
-                <div
-                  class="text-xs font-bold text-white/40 uppercase tracking-widest mb-4 pl-2"
-                >
-                  ${translateText("host_modal.team_count")}
-                </div>
-                <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
-                  ${TEAM_COUNT_OPTIONS.map((o) => {
-                    const isSelected = settings.teamCount.selected === o;
-                    return html`
-                      <button
-                        class="${cardClass(
-                          isSelected,
-                          "px-4 py-3 text-center",
-                        )}"
-                        @click=${() => this.handleTeamCountSelect(o)}
-                      >
-                        <span class="${CARD_LABEL_CLASS} text-white">
-                          ${typeof o === "string"
-                            ? o === HumansVsNations
-                              ? translateText("public_lobby.teams_hvn")
-                              : translateText(`host_modal.teams_${o}`)
-                            : translateText("public_lobby.teams", { num: o })}
-                        </span>
-                      </button>
-                    `;
-                  })}
-                </div>
-              </section>
-            `}
+        ${
+          settings.gameMode.selected === GameMode.FFA
+            ? nothing
+            : html`
+                <section class="space-y-6">
+                  <div
+                    class="text-xs font-bold text-white/40 uppercase tracking-widest mb-4 pl-2"
+                  >
+                    ${translateText("host_modal.team_count")}
+                  </div>
+                  <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+                    ${TEAM_COUNT_OPTIONS.map((o) => {
+                      const isSelected = settings.teamCount.selected === o;
+                      return html`
+                        <button
+                          class="${cardClass(
+                            isSelected,
+                            "px-4 py-3 text-center",
+                          )}"
+                          @click=${() => this.handleTeamCountSelect(o)}
+                        >
+                          <span class="${CARD_LABEL_CLASS} text-white">
+                            ${
+                              typeof o === "string"
+                                ? o === HumansVsNations
+                                  ? translateText("public_lobby.teams_hvn")
+                                  : translateText(`host_modal.teams_${o}`)
+                                : translateText("public_lobby.teams", {
+                                    num: o,
+                                  })
+                            }
+                          </span>
+                        </button>
+                      `;
+                    })}
+                  </div>
+                </section>
+              `
+        }
         ${renderSection(
           OPTIONS_ICON,
           "text-orange-400",
@@ -419,10 +429,9 @@ export class GameConfigSettings extends LitElement {
           html`
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
               <div
-                class="col-span-2 rounded-xl p-4 flex flex-col justify-center border transition-all duration-200 ${settings
-                  .options.bots.value > 0
-                  ? ACTIVE_CARD
-                  : INACTIVE_CARD}"
+                class="col-span-2 rounded-xl p-4 flex flex-col justify-center border transition-all duration-200 ${
+                  settings.options.bots.value > 0 ? ACTIVE_CARD : INACTIVE_CARD
+                }"
               >
                 <fluent-slider
                   min="0"
@@ -435,26 +444,29 @@ export class GameConfigSettings extends LitElement {
                 ></fluent-slider>
               </div>
 
-              ${settings.options.nations && !settings.options.nations.hidden
-                ? html`<div
-                    class="col-span-2 rounded-xl p-4 flex flex-col justify-center border transition-all duration-200 ${settings
-                      .options.nations.value > 0
-                      ? ACTIVE_CARD
-                      : INACTIVE_CARD}"
-                  >
-                    <fluent-slider
-                      min="0"
-                      max="400"
-                      step="1"
-                      .value=${settings.options.nations.value}
-                      .defaultValue=${settings.options.nations.defaultValue}
-                      defaultLabelKey="common.map_default"
-                      labelKey=${settings.options.nations.labelKey}
-                      disabledKey=${settings.options.nations.disabledKey}
-                      @value-changed=${this.handleNationsChanged}
-                    ></fluent-slider>
-                  </div>`
-                : nothing}
+              ${
+                settings.options.nations && !settings.options.nations.hidden
+                  ? html`<div
+                      class="col-span-2 rounded-xl p-4 flex flex-col justify-center border transition-all duration-200 ${
+                        settings.options.nations.value > 0
+                          ? ACTIVE_CARD
+                          : INACTIVE_CARD
+                      }"
+                    >
+                      <fluent-slider
+                        min="0"
+                        max="400"
+                        step="1"
+                        .value=${settings.options.nations.value}
+                        .defaultValue=${settings.options.nations.defaultValue}
+                        defaultLabelKey="common.map_default"
+                        labelKey=${settings.options.nations.labelKey}
+                        disabledKey=${settings.options.nations.disabledKey}
+                        @value-changed=${this.handleNationsChanged}
+                      ></fluent-slider>
+                    </div>`
+                  : nothing
+              }
               ${settings.options.toggles.map((toggle) =>
                 this.renderOptionToggle(toggle),
               )}

@@ -12,6 +12,7 @@ const REQUIRED_KERNEL_CALLS = [
   "expireVaultPressureWindow(",
   "projectVaultPressure(",
 ];
+export const SCOPE_AUTHORITY_LINE_BUDGET = 150;
 const FORBIDDEN_EMBEDDED_STATE = [
   "private vaultPressure =",
   "private breachWindowUntilTick =",
@@ -28,6 +29,16 @@ export function inspectVaultFrontExecutionComposition(root = process.cwd()) {
     path.join(root, "src", "core", "execution", "VaultPressureKernel.ts"),
     "utf8",
   );
+  const authority = fs.readFileSync(
+    path.join(
+      root,
+      "src",
+      "core",
+      "execution",
+      "VaultPressureScopeAuthority.ts",
+    ),
+    "utf8",
+  );
   const lines = source.split(/\r?\n/).length;
   const errors = [];
   if (lines > EXECUTION_LINE_BUDGET) {
@@ -35,9 +46,18 @@ export function inspectVaultFrontExecutionComposition(root = process.cwd()) {
       `VaultFrontExecution.ts line budget exceeded: ${lines}/${EXECUTION_LINE_BUDGET}`,
     );
   }
+  const authorityLines = authority.split(/\r?\n/).length;
+  if (authorityLines > SCOPE_AUTHORITY_LINE_BUDGET) {
+    errors.push(
+      `VaultPressureScopeAuthority.ts line budget exceeded: ${authorityLines}/${SCOPE_AUTHORITY_LINE_BUDGET}`,
+    );
+  }
   for (const call of REQUIRED_KERNEL_CALLS) {
-    if (!source.includes(call))
+    if (!authority.includes(call))
       errors.push(`missing pressure kernel composition call: ${call}`);
+  }
+  if (!source.includes("this.getPressureAuthority().deliver(")) {
+    errors.push("execution root does not delegate pressure delivery");
   }
   for (const token of FORBIDDEN_EMBEDDED_STATE) {
     if (source.includes(token))
@@ -49,6 +69,7 @@ export function inspectVaultFrontExecutionComposition(root = process.cwd()) {
   return {
     ok: errors.length === 0,
     execution: { lines, budget: EXECUTION_LINE_BUDGET },
+    authority: { lines: authorityLines, budget: SCOPE_AUTHORITY_LINE_BUDGET },
     errors,
   };
 }

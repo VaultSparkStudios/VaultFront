@@ -34,7 +34,13 @@ function makePlayer(
     tiles = 250,
     troops = 150_000,
     gold = 600_000,
-  }: { tiles?: number; troops?: number; gold?: number } = {},
+    team = null,
+  }: {
+    tiles?: number;
+    troops?: number;
+    gold?: number;
+    team?: string | null;
+  } = {},
 ) {
   let currentGold = BigInt(gold);
   let currentTroops = troops;
@@ -44,7 +50,7 @@ function makePlayer(
     isPlayer: () => true,
     isAlive: () => true,
     displayName: () => `Player${id}`,
-    team: () => null,
+    team: () => team,
     isFriendly: () => false,
     numTilesOwned: () => tiles,
     troops: () => currentTroops,
@@ -78,6 +84,7 @@ function makeGame(
     vaultConvoyIntercepted: vi.fn(),
     vaultConvoyLost: vi.fn(),
     vaultPressureAdvanced: vi.fn(),
+    vaultPressureContribution: vi.fn(),
     vaultBreachOpened: vi.fn(),
     vaultDecisiveDelivery: vi.fn(),
     vaultBreachVictory: vi.fn(),
@@ -383,5 +390,34 @@ describe("VaultFront lifecycle integration", () => {
       breachWindowUntilTick: 0,
       victorySecured: false,
     });
+  });
+
+  test("team deliveries share one pressure state while preserving actor contributions", () => {
+    const first = makePlayer(1, { team: "Red" });
+    const second = makePlayer(2, { team: "Red" });
+    const enemy = makePlayer(3, { team: "Blue" });
+    const { execution, game } = baseExecution([first, second, enemy]);
+
+    execution.advanceVaultPressure(first, 1000, 5);
+    execution.advanceVaultPressure(second, 1010, 5);
+    execution.advanceVaultPressure(first, 1020, 5);
+
+    expect(execution.vaultPressureStates.get(1)).toEqual(
+      execution.vaultPressureStates.get(2),
+    );
+    expect(execution.vaultPressureStates.get(3)).toMatchObject({ pressure: 0 });
+    const projected = execution.buildPressureStates();
+    expect(projected[1]).toMatchObject({
+      scope: "team",
+      scopeKey: "team:Red",
+      pressure: 3,
+      contributors: { 1: 2, 2: 1 },
+    });
+    expect(projected[2]).toEqual(projected[1]);
+
+    execution.advanceVaultPressure(second, 1030, 5);
+    expect(game.setWinner).toHaveBeenCalledWith("Red", {});
+    expect(game._stats.vaultPressureContribution).toHaveBeenCalledTimes(4);
+    expect(game._stats.vaultBreachVictory).toHaveBeenCalledWith(second, 1030);
   });
 });

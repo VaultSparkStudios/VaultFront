@@ -7,6 +7,7 @@ export class FetchGameMapLoader implements GameMapLoader {
   public constructor(
     private readonly prefix: string,
     private readonly cacheBuster?: string,
+    private readonly requestTimeoutMs?: number,
   ) {
     this.maps = new Map<GameMapType, MapData>();
   }
@@ -52,7 +53,7 @@ export class FetchGameMapLoader implements GameMapLoader {
 
   private async loadBinaryFromUrl(url: string) {
     const startTime = performance.now();
-    const response = await fetch(url);
+    const response = await fetch(url, this.fetchOptions());
 
     if (!response.ok) {
       throw new Error(`Failed to load ${url}: ${response.statusText}`);
@@ -66,12 +67,18 @@ export class FetchGameMapLoader implements GameMapLoader {
   }
 
   private async loadJsonFromUrl(url: string) {
-    const response = await fetch(url);
+    const response = await fetch(url, this.fetchOptions());
 
     if (!response.ok) {
       throw new Error(`Failed to load ${url}: ${response.statusText}`);
     }
 
     return response.json();
+  }
+
+  private fetchOptions(): RequestInit | undefined {
+    return this.requestTimeoutMs && this.requestTimeoutMs > 0
+      ? { signal: AbortSignal.timeout(this.requestTimeoutMs) }
+      : undefined;
   }
 }

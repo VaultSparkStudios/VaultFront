@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-07-29T09:17:11.170Z",
+  "generatedAt": "2026-08-02T23:09:30.827Z",
   "source": "scripts/innovation-pack.mjs",
   "primarySource": "latest audit-backed Unified Genius List",
   "items": [
@@ -171,9 +171,9 @@
       "status": "shipped",
       "id": "anonymous-mutation-budget-contraction",
       "title": "Shrink the public-ingest trust boundary after route convergence",
-      "description": "Retire the duplicate anonymous crowd mutation and immediately ratchet the reviewed public-ingest ceiling from eleven to ten so the security gain cannot silently regress.",
+      "description": "Retire duplicate anonymous crowd mutations and ratchet the reviewed public-ingest ceiling whenever a write becomes actor-bound so security gains cannot silently regress.",
       "complete": true,
-      "evidence": "legacy 410 tombstone, authenticated replacement, and ten-route fail-closed public-ingest ceiling"
+      "evidence": "retired duplicate path, authenticated Prediction League and mutator ballots, and nine-route fail-closed public-ingest ceiling"
     },
     {
       "rank": 20,
@@ -182,7 +182,7 @@
       "title": "Cash router extraction into a tighter composition budget",
       "description": "Convert removed inline domains into a lower Worker line ceiling and keep every extracted domain behind bounded, directly tested registrars.",
       "complete": true,
-      "evidence": "3,130-line Worker ceiling, explicit bounded-router ceilings, route reclamation detection, and executable regression test"
+      "evidence": "3,105-line Worker ceiling, bounded season/community and progression registrars, route reclamation detection, and executable regression test"
     },
     {
       "rank": 21,
@@ -408,6 +408,51 @@
       "description": "Project the one compiled worker asset, byte digest, cache namespace, and policy marker into the release-evidence DAG so promotion evidence fails closed if the offline runtime is missing, duplicated, altered, or detached from its release identity.",
       "complete": true,
       "evidence": "single-asset worker projector, content digest and cache identity, release-lineage parent, fail-closed blockers, and missing/duplicate/tamper fixtures"
+    },
+    {
+      "rank": 46,
+      "status": "shipped",
+      "id": "portable-visual-proof-capsule",
+      "title": "Make visual proof independently verifiable from a clean checkout",
+      "description": "Carry canonical browser summaries and hashed screenshot artifacts beside LATEST so doctor verification does not depend on ignored, ephemeral Playwright output.",
+      "complete": true,
+      "evidence": "portable 12-artifact capsule, canonical summary parity, clean-checkout verification, and tamper tests"
+    },
+    {
+      "rank": 47,
+      "status": "shipped",
+      "id": "progression-receipt-retention-boundary",
+      "title": "Give certified progression dividends a privacy-minimal horizon",
+      "description": "Retain actor-bound match dividends long enough for support and replay while pruning PostgreSQL and process-local receipts at one declared 30-day boundary.",
+      "complete": true,
+      "evidence": "30-day deletion contract, indexed durable pruning, process-local parity, and exact-boundary regression"
+    },
+    {
+      "rank": 48,
+      "status": "shipped",
+      "id": "post-verification-ci-fan-in",
+      "title": "Make exact-revision CI mean the whole verification graph passed",
+      "description": "Issue the CI lineage node only from a final fan-in job whose needs cover build, tests, lint, format, security, and bundle gates instead of treating a running build job as success.",
+      "complete": true,
+      "evidence": "six-job CI fan-in, exact-SHA post-verification contract, workflow-bound metadata, and incomplete-job rejection"
+    },
+    {
+      "rank": 49,
+      "status": "shipped",
+      "id": "certified-pressure-contribution-dividend",
+      "title": "Show each teammate's certified contribution to shared Vault Pressure",
+      "description": "Carry the actor-attributed Pressure delivery count from signed match stats into the verified progression dividend so cooperative victory credit is visible rather than inferred.",
+      "complete": true,
+      "evidence": "signed-stat projection, actor-bound dividend field, exact cooperative-credit UI, and client/server regressions"
+    },
+    {
+      "rank": 50,
+      "status": "shipped",
+      "id": "semantic-innovation-detector-ratchet",
+      "title": "Make innovation completion recognize stronger future ratchets",
+      "description": "Replace stale exact-value regexes with semantic ceilings and policy posture checks so stronger security and architecture improvements remain shipped under regeneration.",
+      "complete": true,
+      "evidence": "inequality-aware budget detection, parsed route-policy posture, stronger-value fixtures, and monotonic ledger preservation"
     }
   ]
 }

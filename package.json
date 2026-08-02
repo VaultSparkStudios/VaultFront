@@ -76,7 +76,6 @@
     "@types/pg": "8.20.0",
     "@types/seedrandom": "3.0.8",
     "@types/sinon": "17.0.4",
-    "@types/systeminformation": "3.54.1",
     "@types/ws": "8.18.1",
     "@vitest/coverage-v8": "4.1.10",
     "@vitest/ui": "4.1.10",

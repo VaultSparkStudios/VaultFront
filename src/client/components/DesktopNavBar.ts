@@ -53,7 +53,7 @@ export class DesktopNavBar extends LitElement {
       >
         <div class="flex flex-col items-center justify-center">
           <div
-            class="text-[22px] font-black tracking-[0.2em] uppercase text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-sky-200 to-amber-300 drop-shadow-[0_0_14px_rgba(34,211,238,0.45)]"
+            class="vf-brand-wordmark text-[22px] font-black tracking-[0.2em] uppercase text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-sky-200 to-amber-300 drop-shadow-[0_0_14px_rgba(34,211,238,0.45)]"
           >
             VaultFront
           </div>

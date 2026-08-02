@@ -2,6 +2,16 @@
 
 Append-only. Each session appends one entry. Never edit prior entries.
 
+## 2026-08-02 — Session 90 causal-trust and portable-proof closeout
+
+- Goal: Run one continuous `/start → /audit → /implement → /closeout` mission, exhaust every premise-verified item, generate and implement second-order innovations, and close directly to main with honest external gates.
+- What changed: Shipped ten audit items and five innovations spanning causal community elections, side-scoped Pressure, certified progression dividends, exact-revision CI, portable visual provenance, deterministic map capacity, protocol/task parser closure, composition extraction, and dependency removal.
+- Verification-discovered fixes: Extracted the 149-line Pressure scope authority after a full-suite composition red; corrected a strict-null lint failure; replaced tutorial-obscured theme evidence; made themes visibly distinct and readable; synchronized mobile drawer close/ARIA state.
+- Verification: 194 Vitest files / 1,069 tests; TypeScript; ESLint; formatting; contracts; 28,125 balance scenarios; production build; Pages 10/10 plus worker 1/1; bundle/media budgets; performance; zero production vulnerabilities; 26/26 Playwright; hash-bound 12-artifact theme proof; audit 10/10; innovations 50/50.
+- Remaining boundary: external release remains NO-GO pending real staging/parity, project-domain Zoho delivery, native Obelisk, live-web, three-human Alpha, revenue, rollback, and founder approval.
+
+---
+
 ## 2026-07-22 — Session 80 durable-evidence and trust-boundary closeout
 
 - Goal: Execute one saturated `/start → /audit → /implement → /closeout` arc, exhaust the live-code plan, generate and ship second-order innovations, and preserve honest external gates.

@@ -1,13 +1,13 @@
 <!-- generated-by: scripts/render-startup-brief.mjs v3.1 -->
-<!-- generated-at: 2026-07-29T19:56:29.647Z -->
-<!-- generated-for-session: 90; source-closeout-session: 89 -->
+<!-- generated-at: 2026-08-02T23:17:22.908Z -->
+<!-- generated-for-session: 91; source-closeout-session: 90 -->
 <!-- fast-boot-valid-until: next session if within 24h -->
 <!-- brief-coherent: true -->
-<!-- brief-sources: {"schema":2,"session":89,"sources":{"context/PROJECT_STATUS.json":"98ecac6f3e3d4d9d9e6df434a1b8e68b9759ff304e2d90b4eebb9ae422e5450d","context/TASK_BOARD.md":"610d8e8f38ea934097934952106d58844859ae0132b8360022433c8242a6c792","context/LATEST_HANDOFF.md":"f4e4a62fc423c03da38f73b10bd344080a4a969f2f10567f2e20117a1bfbcd4a","context/SELF_IMPROVEMENT_LOOP.md":"296f7560cc50120018c851b14868f162cf1c43732db99fa96922bd5bee9321f2","context/TRUTH_AUDIT.md":"ec73b8011a989a6e12fbccf3fc3a945aeeebc76fcf5c7e1e9669fa1f43d3977e","context/CURRENT_STATE.md":"0f80e8379cd1c2cb6956c51663ea177629feaf8609ae72e7a6bdca3464988ca1","docs/GENIUS_LIST.md":"654d6c7ecbb074ca296d060acb9cb90aa0919547049995e0337af6dfb3328ca9","docs/SESSION_PLAN.md":"769b8995b8bf4407c89e906d67601a46266d34922a63ab1754440eecb0657aab","docs/CREATIVE_DIRECTION_RECORD.md":"89068fe4367473c333fc7c91cdc5a7e6fb27b187f639c6445a8183cf25a7d4c0"}} -->
+<!-- brief-sources: {"schema":2,"session":90,"sources":{"context/PROJECT_STATUS.json":"5d4b9dd83b576da075e691c9552a48b2d03e7c0f59a14044860e7d58d8aaa211","context/TASK_BOARD.md":"a27ad0d5de73940701d5ae14b03c4ffe66cdcfd411ac33379b2bc94ded9e0d8a","context/LATEST_HANDOFF.md":"a732705a42ec615e3de2575a8c20b73e3e8cd781305b08c58c5005deb05512dc","context/SELF_IMPROVEMENT_LOOP.md":"ec6fa29617e91eeba04fe5727030d2457b66959ff214f11bd3d4fea508a46a51","context/TRUTH_AUDIT.md":"bde81ca2859dc2012c273d7284691d01d58fa9e5c27f4dbb2d6eb04c85800d83","context/CURRENT_STATE.md":"99d9951586875aded693ed94cf097b6e2064e10cdeb5e184117f059021a849a5","docs/GENIUS_LIST.md":"1a80cd5644695d0d47120c03a6e8e67727d1697bc5ad456e5c3fdaf34b0ceee1","docs/SESSION_PLAN.md":"b3bf49e5e8d173eac49219b9021300838b88c80b0b19912520288e66e0870943","docs/CREATIVE_DIRECTION_RECORD.md":"858c602a291ff6ce7e069c17b574b3fc636235c2a63ac71c66b3d4819062bdcf"}} -->
 
 # Startup Brief — VaultFront
 
-> **Fast-boot brief** — rendered for Session 90 from Session 89 closeout evidence · 2026-07-29.
+> **Fast-boot brief** — rendered for Session 91 from Session 90 closeout evidence · 2026-08-02.
 > Valid for next session if started within 24h. For sessions >24h later, load context files fresh (start.md §3).
 
 ---
@@ -16,14 +16,14 @@
 ╔════════════════════════════════════════════════════════════════╗
 ║  🎮 VAULTFRONT                                                   ║
 ║  game · alpha/public-unlaunched · FORGE                          ║
-║  Session 90 · 2026-07-29 · FOUNDER MODE                          ║
+║  Session 91 · 2026-08-02 · FOUNDER MODE                          ║
 ║  Owner: VaultSpark Studios                                       ║
 ╚════════════════════════════════════════════════════════════════╝
 
-╔══ LAST SESSION (S89) - WHAT SHIPPED ═══════════════════════════╗
-║  Session 89 complete: certified chronology and route witnesses,  ║
-║  source-closed startup truth, executable release-bound offline…  ║
-║  Tests  1040/1040 passing (2026-07-29T09:51:31.538Z)             ║
+╔══ LAST SESSION (S90) - WHAT SHIPPED ═══════════════════════════╗
+║  Session 90 complete: ten audit items and five innovations       ║
+║  shipped across causal elections, team Pressure, certified…      ║
+║  Tests  1069/1069 passing (2026-07-29T09:51:31.538Z)             ║
 ║  Deploy NO-GO · no staging/production observation                ║
 ╚════════════════════════════════════════════════════════════════╝
 
@@ -41,44 +41,44 @@
 ╔══ SCORE ═══════════════════════════════════════════════════════╗
 ║                                                                  ║
 ║    997/1000   ███████████████████████░   100%                    ║
-║    SIL v3.0  ·  Avg3: 996.3  ·  Velocity 11→                     ║
+║    SIL v3.0  ·  Avg3: 997  ·  Velocity 20↑                       ║
 ║    Last active: 0d  ·  Last closeout: 0d  ·  (active = newest o  ║
-║    Trend  ▆▆▆▇▇  →  (last 5 sessions)                            ║
+║    Trend  ▆▆▇▇█  ↑  (last 5 sessions)                            ║
 ║                                                                  ║
 ║    Category         Score  Bar        Spark   Δ                  ║
 ║    ─────────────── ────── ────────── ──────── ─                  ║
 ║    Dev Health       100    ██████████  ████████ →                ║
 ║    Alignment        100    ██████████  ████████ →                ║
 ║    Momentum         100    ██████████  ████████ →                ║
-║    Engagement        98    ██████████  ▇▇▇▇▇▇▇▇ →                ║
+║    Engagement        99    ██████████  ▇▇▇▇▇▇▇▇ →                ║
 ║    Process Qual     100    ██████████  ████████ →                ║
 ║    Coherence         99    ██████████  ········ →                ║
 ║    Security         100    ██████████  ········ →                ║
-║    Ecosystem        100    ██████████  ········ →                ║
+║    Ecosystem         99    ██████████  ········ →                ║
 ║    Capital          100    ██████████  ········ →                ║
 ║    Automation       100    ██████████  ········ →                ║
 ║                                                                  ║
 ╚════════════════════════════════════════════════════════════════╝
 
-╔══ WHERE WE LEFT OFF  ·  Session 89 ════════════════════════════╗
+╔══ WHERE WE LEFT OFF  ·  Session 90 ════════════════════════════╗
 ║  Shipped:  see LATEST_HANDOFF.md                                 ║
-║  Tests:    1040/1040 passing  ·  Deploy: N/A                     ║
+║  Tests:    1069/1069 passing  ·  Deploy: N/A                     ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ CONTEXT METER ═══════════════════════════════════════════════╗
-║  ✓  ░░░░░░░░░░░░░░░░░░░░░░░░    2% used                          ║
-║     3,109 / 200,000 tok  ·  unknown/default  ·  heuristic        ║
-║     ~1,555 tok/turn  ·  cache 50%  ·  116 turns to compact       ║
+║  ✓  █████░░░░░░░░░░░░░░░░░░░   20% used                          ║
+║     196,842 / 1,000,000 tok  ·  codex/codex-1m  ·  measured+heu  ║
+║     ~98,421 tok/turn  ·  cache 50%  ·  7 turns to compact        ║
 ║     Verdict: CONTINUE                                            ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ SIGNALS ═════════════════════════════════════════════════════╗
-║  ✓  Tests         1040/1040 passing (2026-07-29T09:51:31.538Z)   ║
-║  ✓  Velocity      11 →  ·  Debt: ↓                               ║
+║  ✓  Tests         1069/1069 passing (2026-07-29T09:51:31.538Z)   ║
+║  ✓  Velocity      20 ↑  ·  Debt: ↓                               ║
 ║  ⚠  Runway        unknown                                        ║
 ║  ⛔  Context age   ?d                                             ║
-║  ✓  IGNIS         41663 FORGE  ·  6d old                         ║
-║  ✓  Truth         green  ·  Genome: 24/25                        ║
+║  ✓  IGNIS         43037 FORGE  ·  1d old                         ║
+║  ⛔  Truth         local green; external launch NO-GO.  ·  Genom  ║
 ║  ✓  Compliance   49/49 (100%) → —                                ║
 ║  ✓  Genome dims   all stable  (24/25)                            ║
 ║  ✓  Entropy       0.053  (healthy)                               ║
@@ -87,8 +87,8 @@
 ║  ✓  Templates     v3.3 aligned                                   ║
 ║  ⛔  Revenue sig.  not found  ⚠ stale                             ║
 ║  ✓  Deploy gaps   no gaps (run: ops deploy-gaps)                 ║
-║  ✓  Doctor        11/11 (100%)  ·  2026-07-29  ✓                 ║
-║  ✓  Cost          real $0.14/7d · 7d notional $2.25 (flat-rate   ║
+║  ✓  Doctor        11/11 (100%)  ·  2026-08-02  ✓                 ║
+║  ✓  Cost          real $0.09/7d · 7d notional $1.44 (flat-rate   ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ ORCHESTRATOR ════════════════════════════════════════════════╗
@@ -105,7 +105,7 @@
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ MOMENTUM METER ══════════════════════════════════════════════╗
-║  Velocity:   ▆▆▆▇▇  11→  (last 5 sessions)                       ║
+║  Velocity:   ▆▆▇▇█  20↑  (last 5 sessions)                       ║
 ║  Intent:     100% achieved last 5                                ║
 ║  Streak:     — (last intent not achieved)                        ║
 ╚════════════════════════════════════════════════════════════════╝
@@ -116,19 +116,27 @@
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ GENIUS HIT LIST ═════════════════════════════════════════════╗
-║  ✓ #1 🔥 Make certified Pressure-to-Breach evidence mathematica  ║
-║     4h · feedback loop / security / observability / gamificatio  ║
-║  ✓ #2 🔥 Make the canonical startup brief refuse confident unkn  ║
-║     4h · observability / process / organization / token reducti  ║
-║  ✓ #3 🔥 Replace Worker game-ID roulette with a tested bounded   ║
-║     5h · reliability / security / organization / speed · sonnet  ║
-║  ✓ #4 ⚡ Bind offline cache ownership to the deployed service-wo  ║
-║     4h · delivery / security / performance / ux · sonnet         ║
+║  ✓ #1 🔥 Make visual proof cryptographically source- and artifa  ║
+║     4h · observability / ux / security / release · sonnet        ║
+║  ✓ #2 🔥 Turn the advisory community vote into a certified caus  ║
+║     8h · retention / security / gamification / observability ·   ║
+║  ✓ #3 🔥 Make every canonical session command executable and se  ║
+║     6h · process / automation / reliability / token reduction ·  ║
+║  ✓ #4 🔥 Bind release admission to exact-revision CI and curren  ║
+║     6h · release / security / observability / ecosystem · sonne  ║
+║  ✓ #5 🔥 Make team victory progress belong to the competitive s  ║
+║     10h · game loop / gamification / security / feedback loop ·  ║
+║  ✓ #6 ⚡ Remove ambient localhost from playlist correctness       ║
+║     4h · speed / reliability / testing / observability · sonnet  ║
+║  ✓ #7 🔥 Turn post-match progression into a certified causal di  ║
+║     12h · progression / engagement / feedback loop / security ·  ║
+║  ✓ #8 ⚡ Make task integrity reject a vacuous zero-row pass       ║
+║     3h · process / observability / organization / automation ·   ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ```
 
 ---
 
-_Generated by `scripts/render-startup-brief.mjs v3.1` · Session 89 closeout · 2026-07-29_
+_Generated by `scripts/render-startup-brief.mjs v3.1` · Session 90 closeout · 2026-08-02_
 _Run `node scripts/ops.mjs doctor` for live health check · `node scripts/ops.mjs genius-list` to refresh hit list_

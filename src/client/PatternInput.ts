@@ -128,19 +128,23 @@ export class PatternInput extends LitElement {
         @click=${this.onInputClick}
       >
         <span
-          class=${showSelect
-            ? "hidden"
-            : "w-full h-full overflow-hidden flex items-center justify-center [&>img]:object-cover [&>img]:w-full [&>img]:h-full [&>img]:pointer-events-none"}
+          class=${
+            showSelect
+              ? "hidden"
+              : "w-full h-full overflow-hidden flex items-center justify-center [&>img]:object-cover [&>img]:w-full [&>img]:h-full [&>img]:pointer-events-none"
+          }
         >
           ${!showSelect ? previewContent : null}
         </span>
-        ${showSelect
-          ? html`<span
-              class="text-[10px] font-black text-white uppercase leading-none break-words w-full text-center px-1"
-            >
-              ${translateText("territory_patterns.select_skin")}
-            </span>`
-          : null}
+        ${
+          showSelect
+            ? html`<span
+                class="text-[10px] font-black text-white uppercase leading-none break-words w-full text-center px-1"
+              >
+                ${translateText("territory_patterns.select_skin")}
+              </span>`
+            : null
+        }
       </button>
     `;
   }

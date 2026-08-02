@@ -1,0 +1,360 @@
+{
+  "project": "mobile-chrome",
+  "localOnly": true,
+  "capturedAt": "2026-08-02T23:13:56.218Z",
+  "source": {
+    "digest": "sha256:1b97b0b30e70b36374d197d0e44096b8c42cef9a126d31318f749194929ec799",
+    "files": [
+      {
+        "path": "e2e/theme-visual-proof.spec.ts",
+        "bytes": 5414,
+        "digest": "sha256:30d85333b41fdc4bbf0313e985946aabb3b75a6ddbf663639f7e463b7beaf55a"
+      },
+      {
+        "path": "src/client/BrandTheme.ts",
+        "bytes": 1204,
+        "digest": "sha256:6c20e76d67e5e5bf8825b5aed45a5cae7a5cd6a28af9a11fb41b9e1f06f8d61f"
+      },
+      {
+        "path": "src/client/UserSettingModal.ts",
+        "bytes": 34706,
+        "digest": "sha256:f2440ed49216921800a37324d644a0e7c9ba6f8f22128896e13ad573bc9adc58"
+      },
+      {
+        "path": "src/client/components/BaseModal.ts",
+        "bytes": 4879,
+        "digest": "sha256:69842f495738ba40efcee573255197c2995f666b249a8c4141666c6eafabc4c7"
+      },
+      {
+        "path": "src/client/components/ContractHudWidget.ts",
+        "bytes": 4061,
+        "digest": "sha256:e044bd1874a28cef920d089de2c8df05c0b4dc3875806b7115fe2fbf9dc569fa"
+      },
+      {
+        "path": "src/client/components/CopyButton.ts",
+        "bytes": 8031,
+        "digest": "sha256:83fe97628a724b487738f27fba2cb214aee214d41708da69535c3b01df05fbf5"
+      },
+      {
+        "path": "src/client/components/DesktopNavBar.ts",
+        "bytes": 7945,
+        "digest": "sha256:043eef466c6b030321fe4cef920ac8fae75e69c028128fe1ff201846ef012af1"
+      },
+      {
+        "path": "src/client/components/Difficulties.ts",
+        "bytes": 4264,
+        "digest": "sha256:8950f7456438ea4d80fe7d17406d879d778035ec11021cf6a420f5c6ed04a3f4"
+      },
+      {
+        "path": "src/client/components/FluentSlider.ts",
+        "bytes": 6952,
+        "digest": "sha256:055091c30f63214c408f745dd9fbdbd1629417820e7d200493c6fd8fe0965af7"
+      },
+      {
+        "path": "src/client/components/Footer.ts",
+        "bytes": 2604,
+        "digest": "sha256:1ad72b53a9e5f84b3639d82b5aff74232ffa47d7e36f15a8ed14f3787c0e6845"
+      },
+      {
+        "path": "src/client/components/GameConfigSettings.ts",
+        "bytes": 17194,
+        "digest": "sha256:d78770a0be730f4b2675340c812d8e302fb18bc7db0a59e03866ae172b043b0a"
+      },
+      {
+        "path": "src/client/components/LobbyConfigItem.ts",
+        "bytes": 845,
+        "digest": "sha256:c7a75f1969514848c11de15c869a844fd0e11a73e9191009da6f2aaa6e6e5ffa"
+      },
+      {
+        "path": "src/client/components/LobbyPlayerView.ts",
+        "bytes": 12319,
+        "digest": "sha256:b7f7b35d46bcc0688cd12c5f2f283be7ad0b3409ba753eb925633341a55c3cea"
+      },
+      {
+        "path": "src/client/components/MainLayout.ts",
+        "bytes": 970,
+        "digest": "sha256:3d51eaf1e4478ebc39e60986d84fd76d0b7fadc473b504cf0d1d0675ae0d3b5d"
+      },
+      {
+        "path": "src/client/components/MobileNavBar.ts",
+        "bytes": 8352,
+        "digest": "sha256:e6f019eb0cbb7e0abeb33a1395ba63103ee451e7ec0c576de71e5e331a2ab7ab"
+      },
+      {
+        "path": "src/client/components/NavNotificationsController.ts",
+        "bytes": 2589,
+        "digest": "sha256:9de3c79f3214c064fb3da1ae8b6b61f52a49943c53b66aabd0fa192de12efd12"
+      },
+      {
+        "path": "src/client/components/PatternButton.ts",
+        "bytes": 9560,
+        "digest": "sha256:5df050039bc367078c8ca588323d6ae4b82b7a1868c641f2972db465a3cf0e54"
+      },
+      {
+        "path": "src/client/components/PlayPage.ts",
+        "bytes": 4900,
+        "digest": "sha256:6d7c45fbf09b7abb5f4f110b97a37b64144f58f9e64dd5ac722bc06c6ba321bc"
+      },
+      {
+        "path": "src/client/components/PredictionLeaguePanel.ts",
+        "bytes": 8057,
+        "digest": "sha256:fc1760924be651d5b6a044b612df8514b27e0ddefcd23fa31b3e2638b8315868"
+      },
+      {
+        "path": "src/client/components/ProgressionDebrief.ts",
+        "bytes": 9682,
+        "digest": "sha256:1f4964dd24fc6c892636067fb492647119266469b991a2c7bfb84017b3d0603b"
+      },
+      {
+        "path": "src/client/components/RankedModal.ts",
+        "bytes": 5426,
+        "digest": "sha256:c94405876ef74f5ef1f7de574901046aee7cdbbf05bdbe42daadf47cb5a603db"
+      },
+      {
+        "path": "src/client/components/ToggleInputCard.ts",
+        "bytes": 6354,
+        "digest": "sha256:3c7375c46c931ccbd8d9c6a9310f8d0a41072800a8106cdfc368f915ee199a97"
+      },
+      {
+        "path": "src/client/components/VideoPromo.ts",
+        "bytes": 6226,
+        "digest": "sha256:9d7366111e65a7f7c9571a1e25865664fcf57342cc46aafcc3a677c555a4346e"
+      },
+      {
+        "path": "src/client/components/baseComponents/Button.ts",
+        "bytes": 2013,
+        "digest": "sha256:12023661a584b8fe734cc9fca3d165aa2c71036cfe3a3f331247643c7999dd56"
+      },
+      {
+        "path": "src/client/components/baseComponents/Modal.ts",
+        "bytes": 3801,
+        "digest": "sha256:9a4c33ddc083e8c78cf5dc0424df067c1ee9b3d224f7c3516f08a0ee3f3f0670"
+      },
+      {
+        "path": "src/client/components/baseComponents/ranking/GameInfoRanking.ts",
+        "bytes": 4999,
+        "digest": "sha256:44f253a414204ff8a64b85120607e017a5dc53fac1326d9c1598e716c3120c01"
+      },
+      {
+        "path": "src/client/components/baseComponents/ranking/PlayerRow.ts",
+        "bytes": 7993,
+        "digest": "sha256:a1c26633dd888a0f278881d7e5e4ee494a3ae29f62bde343ddb76a257cfa216d"
+      },
+      {
+        "path": "src/client/components/baseComponents/ranking/RankingControls.ts",
+        "bytes": 4270,
+        "digest": "sha256:e9af1614152233edcf19d0d2d8fb48478374f25aac1f52d71d76d4123cad86c5"
+      },
+      {
+        "path": "src/client/components/baseComponents/ranking/RankingHeader.ts",
+        "bytes": 3593,
+        "digest": "sha256:3a20f29c84c05c7dddd1726aa55deb17c497cb30b356105d8b325b0af61ce2f2"
+      },
+      {
+        "path": "src/client/components/baseComponents/setting/SettingKeybind.ts",
+        "bytes": 5412,
+        "digest": "sha256:8c639aa9c148c8f31c6f780185b524e2321f23a3f2e77d699fc77030a489e8f5"
+      },
+      {
+        "path": "src/client/components/baseComponents/setting/SettingNumber.ts",
+        "bytes": 2090,
+        "digest": "sha256:f7861f11225450f3992ded874eb88884cec4187244860aca0940b1af3b61841e"
+      },
+      {
+        "path": "src/client/components/baseComponents/setting/SettingSelect.ts",
+        "bytes": 2821,
+        "digest": "sha256:9593c0d45346b5d5f6e914f2c8700b258e6f2aa872d0e14085986bfdc49b0ec3"
+      },
+      {
+        "path": "src/client/components/baseComponents/setting/SettingSlider.ts",
+        "bytes": 4122,
+        "digest": "sha256:8fc137d61cb8b92882a56e7d5c28754dc3f10cdcd916602166717d93f599f9eb"
+      },
+      {
+        "path": "src/client/components/baseComponents/setting/SettingToggle.ts",
+        "bytes": 2386,
+        "digest": "sha256:35f1fba6a0445ee930cb949ae8c1007dc2dc5ae943d5ed761595fbc16651992a"
+      },
+      {
+        "path": "src/client/components/baseComponents/stats/DiscordUserHeader.ts",
+        "bytes": 1427,
+        "digest": "sha256:c9c4d6a786f8d4ed2ce18c46f77b450bf070c323ac8cc71babfde3c3eb9bd31a"
+      },
+      {
+        "path": "src/client/components/baseComponents/stats/GameList.ts",
+        "bytes": 6081,
+        "digest": "sha256:8dfee72ca661c5b15f478fdd83a04ecb5893041eda847ff4854ea6e164479de4"
+      },
+      {
+        "path": "src/client/components/baseComponents/stats/PlayerStatsGrid.ts",
+        "bytes": 1243,
+        "digest": "sha256:4741b6f26b43d82b9e85a1f4df4fbffd429501412be8b61879dbef524a9746d7"
+      },
+      {
+        "path": "src/client/components/baseComponents/stats/PlayerStatsTable.ts",
+        "bytes": 12165,
+        "digest": "sha256:7ba6fc8bda9e1de9ccc191a4cd18035a733b09ed948cabdc75598340b01c082c"
+      },
+      {
+        "path": "src/client/components/baseComponents/stats/PlayerStatsTree.ts",
+        "bytes": 11428,
+        "digest": "sha256:3044160693d64cb80f37f994f32b92bb357aedc6af2c0f119655403ed65433c2"
+      },
+      {
+        "path": "src/client/components/leaderboard/LeaderboardClanTable.ts",
+        "bytes": 15604,
+        "digest": "sha256:6b04152d720e7ee4e98a64faa0eadf8f2e7c87b2aa7a2771f28c7c1b07ef162b"
+      },
+      {
+        "path": "src/client/components/leaderboard/LeaderboardPlayerList.ts",
+        "bytes": 16034,
+        "digest": "sha256:2daa33aff0cb680febf99eb8d65d883f0bb1ec6b09c86de3545da0b110f5972e"
+      },
+      {
+        "path": "src/client/components/leaderboard/LeaderboardTabs.ts",
+        "bytes": 2713,
+        "digest": "sha256:1929d423316fc1b659afcb4249c9f201c865189b6e99159c1a4248210567fe87"
+      },
+      {
+        "path": "src/client/components/map/MapDisplay.ts",
+        "bytes": 5913,
+        "digest": "sha256:3b946181da9e2c013c3384bf41f26f2165fb964b74f472301fc1c361b297ad9c"
+      },
+      {
+        "path": "src/client/components/map/MapPicker.ts",
+        "bytes": 6744,
+        "digest": "sha256:1fd3c0ac3c4cf8ae99f62ddb6dbd7071b3b216022e8e68deb51e2d78e73d8ad1"
+      },
+      {
+        "path": "src/client/components/ui/ActionButton.ts",
+        "bytes": 2176,
+        "digest": "sha256:7391b2239d13d40f51239dcb603b8c8ab298588b7033053752bf6a2148fa445d"
+      },
+      {
+        "path": "src/client/components/ui/Divider.ts",
+        "bytes": 806,
+        "digest": "sha256:41bb4c7374bd386ead4530bdfdcbf8b807c0ba45cc725c480c7f3ca523f2e6f1"
+      },
+      {
+        "path": "src/client/components/ui/ModalHeader.ts",
+        "bytes": 2499,
+        "digest": "sha256:8250ab4e3952d441f6dcb7aab53b95dcf4ae30c9b2539d17daa92c8529285396"
+      },
+      {
+        "path": "src/client/styles.css",
+        "bytes": 18200,
+        "digest": "sha256:cdc7ce21e48ca73658c4a70dd28087dfbbb561186ca9de705417a6a1cdfa5945"
+      },
+      {
+        "path": "src/client/styles/components/button.css",
+        "bytes": 1684,
+        "digest": "sha256:399c8c5d90e9f5c9b74655ca0f92af998cd061eae9c8b28489d8e013e93dc855"
+      },
+      {
+        "path": "src/client/styles/components/controls.css",
+        "bytes": 1488,
+        "digest": "sha256:2a33a8da2cb0a4639a682913edd0f9d4f4f84fcc3849bb2e7e5719b511fe6bdb"
+      },
+      {
+        "path": "src/client/styles/components/setting.css",
+        "bytes": 6494,
+        "digest": "sha256:1845758c973e0c11fb859af80023b86edcd292a29e52766b9ce949333ec9e6c6"
+      },
+      {
+        "path": "src/client/styles/core/flag-animation.css",
+        "bytes": 4327,
+        "digest": "sha256:cf151ab7d3a077eb151587d9e0edd4e325eb5e984170f6911f1459054fc38802"
+      },
+      {
+        "path": "src/client/styles/core/typography.css",
+        "bytes": 173,
+        "digest": "sha256:eab8ef9bfb4ebc08320e0cc63f77a778254d862691cce84b23ba812c482483cf"
+      },
+      {
+        "path": "src/client/styles/core/variables.css",
+        "bytes": 1785,
+        "digest": "sha256:548e9a599b7f9040bcdb7ac5172a2213628ab810c9e51614bb78f970db711470"
+      },
+      {
+        "path": "src/client/styles/layout/container.css",
+        "bytes": 297,
+        "digest": "sha256:ceb25108c396ef17e3ffe9af28930747f7db52b0b4cb4549625a0777f345f44e"
+      },
+      {
+        "path": "src/client/styles/layout/header.css",
+        "bytes": 952,
+        "digest": "sha256:cf1b246a207a24e14edfe971f35ff35b1f30ac0f88c92e543f41cbad4a7473fd"
+      },
+      {
+        "path": "src/client/styles/modal/chat.css",
+        "bytes": 1366,
+        "digest": "sha256:aa4c8ffee7411e873f48542d8c3a5c97586229720d7c11f3dcf2444166ede02b"
+      }
+    ]
+  },
+  "results": [
+    {
+      "theme": "vaultfront",
+      "tokens": {
+        "--vf-bg": "#05070d",
+        "--vf-bg-deep": "#07111a",
+        "--vf-surface": "#0b101c",
+        "--vf-text": "#eef2ff",
+        "--vf-text-muted": "#bac4da"
+      },
+      "ratios": {
+        "textOnBackground": 18.01195868807325,
+        "textOnSurface": 16.993976556649322,
+        "mutedOnBackground": 11.505405700152702
+      },
+      "renderedColors": {
+        "bodyBackground": "radial-gradient(1200px 420px at 14% -18%, rgba(125, 211, 252, 0.12), rgba(0, 0, 0, 0) 70%), radial-gradient(1200px 420px at 90% -14%, rgba(251, 191, 36, 0.1), rgba(0, 0, 0, 0) 70%), linear-gradient(140deg, rgb(7, 17, 26), rgb(16, 38, 56) 52%, rgb(20, 56, 75))",
+        "glassBackground": "linear-gradient(148deg, oklab(0.204512 -0.0123935 -0.028984 / 0.799059) 0%, rgba(7, 17, 27, 0.88) 72%)",
+        "glassText": "rgb(0, 0, 0)"
+      },
+      "surfaces": ["play", "settings"]
+    },
+    {
+      "theme": "light",
+      "tokens": {
+        "--vf-bg": "#f0f4ff",
+        "--vf-bg-deep": "#f7f9ff",
+        "--vf-surface": "#ffffff",
+        "--vf-text": "#111827",
+        "--vf-text-muted": "#4b5563"
+      },
+      "ratios": {
+        "textOnBackground": 16.125678507362128,
+        "textOnSurface": 17.73971700407407,
+        "mutedOnBackground": 6.869774193675399
+      },
+      "renderedColors": {
+        "bodyBackground": "radial-gradient(1200px 420px at 14% -18%, rgba(125, 211, 252, 0.12), rgba(0, 0, 0, 0) 70%), radial-gradient(1200px 420px at 90% -14%, rgba(251, 191, 36, 0.1), rgba(0, 0, 0, 0) 70%), linear-gradient(140deg, rgb(247, 249, 255), rgb(220, 232, 247) 52%, rgb(199, 215, 235))",
+        "glassBackground": "linear-gradient(148deg, oklab(0.986126 -0.00121301 -0.00435322 / 0.848471) 0%, rgba(242, 247, 255, 0.94) 72%)",
+        "glassText": "rgb(0, 0, 0)"
+      },
+      "surfaces": ["play", "settings"]
+    },
+    {
+      "theme": "competitive",
+      "tokens": {
+        "--vf-bg": "#0a0010",
+        "--vf-bg-deep": "#0a0010",
+        "--vf-surface": "#12001e",
+        "--vf-text": "#f5eeff",
+        "--vf-text-muted": "#c4aedd"
+      },
+      "ratios": {
+        "textOnBackground": 18.18554150519875,
+        "textOnSurface": 17.766293530681924,
+        "mutedOnBackground": 10.236953045245846
+      },
+      "renderedColors": {
+        "bodyBackground": "radial-gradient(1200px 420px at 14% -18%, rgba(125, 211, 252, 0.12), rgba(0, 0, 0, 0) 70%), radial-gradient(1200px 420px at 90% -14%, rgba(251, 191, 36, 0.1), rgba(0, 0, 0, 0) 70%), linear-gradient(140deg, rgb(10, 0, 16), rgb(26, 8, 39) 52%, rgb(41, 16, 58))",
+        "glassBackground": "linear-gradient(148deg, oklab(0.171074 0.0428299 -0.0508859 / 0.848471) 0%, rgba(12, 1, 22, 0.94) 72%)",
+        "glassText": "rgb(0, 0, 0)"
+      },
+      "surfaces": ["play", "settings"]
+    }
+  ]
+}

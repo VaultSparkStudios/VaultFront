@@ -22,6 +22,35 @@ const occurrenceCount = (relativePath, token) => {
   if (!fs.existsSync(target)) return 0;
   return fs.readFileSync(target, "utf8").split(token).length - 1;
 };
+const readJson = (relativePath) => {
+  const target = path.join(root, relativePath);
+  if (!fs.existsSync(target)) return null;
+  try {
+    return JSON.parse(fs.readFileSync(target, "utf8"));
+  } catch {
+    return null;
+  }
+};
+
+export function atMostNumericConstant(relativePath, constantName, maximum) {
+  const target = path.join(root, relativePath);
+  if (!fs.existsSync(target)) return false;
+  const source = fs.readFileSync(target, "utf8");
+  const match = source.match(new RegExp(`${constantName}\\s*=\\s*([0-9]+)`));
+  return match ? Number(match[1]) <= maximum : false;
+}
+
+function mutationPolicyPosture() {
+  const policy = readJson("config/mutation-route-policies.json");
+  const routes = Array.isArray(policy?.routes) ? policy.routes : [];
+  return {
+    publicIngestMax: Number(policy?.riskBudget?.publicIngestMax),
+    vote: routes.find((route) => route.path === "/api/mutator-vote"),
+    narrator: routes.find(
+      (route) => route.path === "/api/vaultfront/narrator/:gameId/predict",
+    ),
+  };
+}
 
 export function forgottenShippedInnovationIds(existingItems, generatedItems) {
   const generatedIds = new Set(
@@ -292,19 +321,18 @@ const candidates = [
     id: "anonymous-mutation-budget-contraction",
     title: "Shrink the public-ingest trust boundary after route convergence",
     description:
-      "Retire the duplicate anonymous crowd mutation and immediately ratchet the reviewed public-ingest ceiling from eleven to ten so the security gain cannot silently regress.",
+      "Retire duplicate anonymous crowd mutations and ratchet the reviewed public-ingest ceiling whenever a write becomes actor-bound so security gains cannot silently regress.",
     complete:
-      has("config/mutation-route-policies.json", /"publicIngestMax": 10/) &&
-      has(
-        "config/mutation-route-policies.json",
-        /narrator\/:gameId\/predict[\s\S]*?"auth": "retired"/,
-      ) &&
+      mutationPolicyPosture().publicIngestMax <= 9 &&
+      mutationPolicyPosture().vote?.auth === "verified-actor" &&
+      (!mutationPolicyPosture().narrator ||
+        mutationPolicyPosture().narrator.auth === "retired") &&
       has(
         "src/server/PredictionLeagueRouter.ts",
         /authenticated Prediction League contract/,
       ),
     evidence:
-      "legacy 410 tombstone, authenticated replacement, and ten-route fail-closed public-ingest ceiling",
+      "retired duplicate path, authenticated Prediction League and mutator ballots, and nine-route fail-closed public-ingest ceiling",
   },
   {
     id: "composition-ratchet-contraction",
@@ -312,14 +340,20 @@ const candidates = [
     description:
       "Convert removed inline domains into a lower Worker line ceiling and keep every extracted domain behind bounded, directly tested registrars.",
     complete:
-      has(
+      atMostNumericConstant(
         "scripts/check-worker-composition.mjs",
-        /WORKER_LINE_BUDGET = 3130/,
+        "WORKER_LINE_BUDGET",
+        3105,
       ) &&
+      has(
+        "src/server/SeasonCommunityRouter.ts",
+        /registerSeasonCommunityRoutes/,
+      ) &&
+      has("src/server/ProgressionRouter.ts", /registerProgressionRoutes/) &&
       has("scripts/check-worker-composition.mjs", /forbiddenInWorker/) &&
       has("tests/scripts/WorkerComposition.test.ts", /extracted domains/),
     evidence:
-      "3,130-line Worker ceiling, explicit bounded-router ceilings, route reclamation detection, and executable regression test",
+      "3,105-line Worker ceiling, bounded season/community and progression registrars, route reclamation detection, and executable regression test",
   },
   {
     id: "season-entitlement-identity-projection",
@@ -717,6 +751,95 @@ const candidates = [
       ),
     evidence:
       "single-asset worker projector, content digest and cache identity, release-lineage parent, fail-closed blockers, and missing/duplicate/tamper fixtures",
+  },
+  {
+    id: "portable-visual-proof-capsule",
+    title: "Make visual proof independently verifiable from a clean checkout",
+    description:
+      "Carry canonical browser summaries and hashed screenshot artifacts beside LATEST so doctor verification does not depend on ignored, ephemeral Playwright output.",
+    complete:
+      has(
+        "scripts/render-theme-proof-receipt.mjs",
+        /docs\/visual-qa\/artifacts/,
+      ) &&
+      has(
+        "scripts/check-theme-proof-receipt.mjs",
+        /canonical browser summary/,
+      ) &&
+      has(
+        "tests/scripts/ThemeProofReceipt.test.ts",
+        /ephemeral browser output is removed/,
+      ),
+    evidence:
+      "portable 12-artifact capsule, canonical summary parity, clean-checkout verification, and tamper tests",
+  },
+  {
+    id: "progression-receipt-retention-boundary",
+    title: "Give certified progression dividends a privacy-minimal horizon",
+    description:
+      "Retain actor-bound match dividends long enough for support and replay while pruning PostgreSQL and process-local receipts at one declared 30-day boundary.",
+    complete:
+      has(
+        "src/server/ProgressionReceiptStore.ts",
+        /PROGRESSION_RECEIPT_RETENTION_DAYS = 30/,
+      ) &&
+      has(
+        "src/server/ProgressionReceiptStore.ts",
+        /DELETE FROM match_progression_receipts/,
+      ) &&
+      has(
+        "tests/server/ProgressionReceiptStore.test.ts",
+        /exact 30-day privacy boundary/,
+      ),
+    evidence:
+      "30-day deletion contract, indexed durable pruning, process-local parity, and exact-boundary regression",
+  },
+  {
+    id: "post-verification-ci-fan-in",
+    title: "Make exact-revision CI mean the whole verification graph passed",
+    description:
+      "Issue the CI lineage node only from a final fan-in job whose needs cover build, tests, lint, format, security, and bundle gates instead of treating a running build job as success.",
+    complete:
+      has(
+        ".github/workflows/ci.yml",
+        /release-evidence:[\s\S]*?needs: \[build, test, eslint, prettier, security-audit, bundle-size\]/,
+      ) &&
+      has("scripts/generate-release-evidence.mjs", /CI_VERIFICATION_NEEDS/) &&
+      has(
+        "tests/scripts/ReleaseEvidenceManifest.test.ts",
+        /post-verification fan-in contract/,
+      ),
+    evidence:
+      "six-job CI fan-in, exact-SHA post-verification contract, workflow-bound metadata, and incomplete-job rejection",
+  },
+  {
+    id: "certified-pressure-contribution-dividend",
+    title:
+      "Show each teammate's certified contribution to shared Vault Pressure",
+    description:
+      "Carry the actor-attributed Pressure delivery count from signed match stats into the verified progression dividend so cooperative victory credit is visible rather than inferred.",
+    complete:
+      has("src/server/GameServer.ts", /vaultPressureContributions/) &&
+      has("src/server/MatchProgression.ts", /vaultPressureContributions/) &&
+      has("src/client/components/ProgressionDebrief.ts", /team Pressure/) &&
+      has(
+        "tests/client/components/ProgressionDebrief.test.ts",
+        /team Pressure deliveries/,
+      ),
+    evidence:
+      "signed-stat projection, actor-bound dividend field, exact cooperative-credit UI, and client/server regressions",
+  },
+  {
+    id: "semantic-innovation-detector-ratchet",
+    title: "Make innovation completion recognize stronger future ratchets",
+    description:
+      "Replace stale exact-value regexes with semantic ceilings and policy posture checks so stronger security and architecture improvements remain shipped under regeneration.",
+    complete:
+      has("scripts/innovation-pack.mjs", /atMostNumericConstant/) &&
+      has("scripts/innovation-pack.mjs", /mutationPolicyPosture/) &&
+      has("tests/scripts/InnovationPack.test.ts", /stronger semantic ratchets/),
+    evidence:
+      "inequality-aware budget detection, parsed route-policy posture, stronger-value fixtures, and monotonic ledger preservation",
   },
 ];
 

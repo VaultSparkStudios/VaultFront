@@ -114,6 +114,7 @@ export const VaultFrontPlayerStatsSchema = z
     firstVaultCaptureTick: BigIntStringSchema.optional(),
     firstConvoyOutcomeTick: BigIntStringSchema.optional(),
     firstVaultPressureTick: BigIntStringSchema.optional(),
+    vaultPressureContributions: BigIntStringSchema.optional(),
     firstBreachOpenTick: BigIntStringSchema.optional(),
     decisiveDeliveryTick: BigIntStringSchema.optional(),
     vaultBreachVictoryTick: BigIntStringSchema.optional(),

@@ -141,9 +141,11 @@ export class EventsDisplay extends LitElement implements Layer {
       content: html`<img
         src="${src}"
         class="${toggleButtonSizeMap["default"]}"
-        style="${this.eventsFilters.get(category)
-          ? "filter: grayscale(1) opacity(0.5);"
-          : ""}"
+        style="${
+          this.eventsFilters.get(category)
+            ? "filter: grayscale(1) opacity(0.5);"
+            : ""
+        }"
       />`,
       onClick: () => this.toggleEventFilter(category),
       className: "cursor-pointer pointer-events-auto",
@@ -792,202 +794,225 @@ export class EventsDisplay extends LitElement implements Layer {
     return html`
       ${styles}
       <!-- Events Toggle (when hidden) -->
-      ${this._hidden
-        ? html`
-            <div
-              class="relative w-fit min-[1200px]:bottom-4 min-[1200px]:right-4 z-50"
-            >
-              ${this.renderButton({
-                content: html`
-                  <span class="flex items-center gap-2">
-                    ${translateText("events_display.events")}
-                    ${this.newEvents > 0
-                      ? html`<span
-                          class="inline-block px-2 bg-red-500 rounded-lg text-sm"
-                          >${this.newEvents}</span
-                        >`
-                      : ""}
-                  </span>
-                `,
-                onClick: this.toggleHidden,
-                className:
-                  "text-white cursor-pointer pointer-events-auto w-fit p-2 lg:p-3 min-[1200px]:rounded-lg max-sm:rounded-tr-lg sm:rounded-tl-lg bg-gray-800/70 backdrop-blur-xs",
-              })}
-            </div>
-          `
-        : html`
-            <!-- Main Events Display -->
-            <div
-              class="relative w-full min-[1200px]:bottom-4 min-[1200px]:right-4 z-50 min-[1200px]:w-96 backdrop-blur-sm"
-            >
-              <!-- Button Bar -->
+      ${
+        this._hidden
+          ? html`
               <div
-                class="w-full p-2 lg:p-3 bg-gray-800/70 min-[1200px]:rounded-t-lg sm:rounded-tl-lg"
+                class="relative w-fit min-[1200px]:bottom-4 min-[1200px]:right-4 z-50"
               >
-                <div class="flex justify-between items-center gap-3">
-                  <div class="flex gap-4">
-                    ${this.renderToggleButton(
-                      swordIcon,
-                      MessageCategory.ATTACK,
-                    )}
-                    ${this.renderToggleButton(nukeIcon, MessageCategory.NUKE)}
-                    ${this.renderToggleButton(
-                      donateGoldIcon,
-                      MessageCategory.TRADE,
-                    )}
-                    ${this.renderToggleButton(
-                      allianceIcon,
-                      MessageCategory.ALLIANCE,
-                    )}
-                    ${this.renderToggleButton(chatIcon, MessageCategory.CHAT)}
-                  </div>
-                  <div class="flex items-center gap-3">
-                    ${this.latestGoldAmount !== null
-                      ? html`<span
-                          class="text-green-400 font-semibold transition-all duration-300 ${this
-                            .goldAmountAnimating
-                            ? "animate-pulse scale-110"
-                            : "scale-100"}"
-                          style="animation: ${this.goldAmountAnimating
-                            ? "goldBounce 0.6s ease-out"
-                            : "none"}"
-                          >+${renderNumber(this.latestGoldAmount)}</span
-                        >`
-                      : ""}
-                    ${this.renderButton({
-                      content: translateText("leaderboard.hide"),
-                      onClick: this.toggleHidden,
-                      className:
-                        "text-white cursor-pointer pointer-events-auto",
-                    })}
+                ${this.renderButton({
+                  content: html`
+                    <span class="flex items-center gap-2">
+                      ${translateText("events_display.events")}
+                      ${
+                        this.newEvents > 0
+                          ? html`<span
+                              class="inline-block px-2 bg-red-500 rounded-lg text-sm"
+                              >${this.newEvents}</span
+                            >`
+                          : ""
+                      }
+                    </span>
+                  `,
+                  onClick: this.toggleHidden,
+                  className:
+                    "text-white cursor-pointer pointer-events-auto w-fit p-2 lg:p-3 min-[1200px]:rounded-lg max-sm:rounded-tr-lg sm:rounded-tl-lg bg-gray-800/70 backdrop-blur-xs",
+                })}
+              </div>
+            `
+          : html`
+              <!-- Main Events Display -->
+              <div
+                class="relative w-full min-[1200px]:bottom-4 min-[1200px]:right-4 z-50 min-[1200px]:w-96 backdrop-blur-sm"
+              >
+                <!-- Button Bar -->
+                <div
+                  class="w-full p-2 lg:p-3 bg-gray-800/70 min-[1200px]:rounded-t-lg sm:rounded-tl-lg"
+                >
+                  <div class="flex justify-between items-center gap-3">
+                    <div class="flex gap-4">
+                      ${this.renderToggleButton(
+                        swordIcon,
+                        MessageCategory.ATTACK,
+                      )}
+                      ${this.renderToggleButton(nukeIcon, MessageCategory.NUKE)}
+                      ${this.renderToggleButton(
+                        donateGoldIcon,
+                        MessageCategory.TRADE,
+                      )}
+                      ${this.renderToggleButton(
+                        allianceIcon,
+                        MessageCategory.ALLIANCE,
+                      )}
+                      ${this.renderToggleButton(chatIcon, MessageCategory.CHAT)}
+                    </div>
+                    <div class="flex items-center gap-3">
+                      ${
+                        this.latestGoldAmount !== null
+                          ? html`<span
+                              class="text-green-400 font-semibold transition-all duration-300 ${
+                                this.goldAmountAnimating
+                                  ? "animate-pulse scale-110"
+                                  : "scale-100"
+                              }"
+                              style="animation: ${
+                                this.goldAmountAnimating
+                                  ? "goldBounce 0.6s ease-out"
+                                  : "none"
+                              }"
+                              >+${renderNumber(this.latestGoldAmount)}</span
+                            >`
+                          : ""
+                      }
+                      ${this.renderButton({
+                        content: translateText("leaderboard.hide"),
+                        onClick: this.toggleHidden,
+                        className:
+                          "text-white cursor-pointer pointer-events-auto",
+                      })}
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <!-- Content Area -->
-              <div
-                class="bg-gray-800/70 max-h-[30vh] overflow-y-auto w-full h-full min-[1200px]:rounded-b-xl events-container"
-              >
-                <div>
-                  <table
-                    class="w-full max-h-none border-collapse text-white shadow-lg text-xs lg:text-sm pointer-events-auto"
-                  >
-                    <tbody>
-                      ${filteredEvents.map(
-                        (event, index) => html`
-                          <tr>
-                            <td
-                              class="lg:px-2 lg:py-1 p-1 text-left ${getMessageTypeClasses(
-                                event.type,
-                              )}"
-                            >
-                              ${event.focusID
-                                ? this.renderButton({
-                                    content: this.getEventDescription(event),
-                                    onClick: () => {
-                                      if (event.focusID)
-                                        this.emitGoToPlayerEvent(event.focusID);
-                                    },
-                                    className: "text-left",
-                                  })
-                                : event.unitView
-                                  ? this.renderButton({
-                                      content: this.getEventDescription(event),
-                                      onClick: () => {
-                                        if (event.unitView)
-                                          this.emitGoToUnitEvent(
-                                            event.unitView,
-                                          );
-                                      },
-                                      className: "text-left",
-                                    })
-                                  : this.getEventDescription(event)}
-                              <!-- Events with buttons (Alliance requests) -->
-                              ${event.buttons
-                                ? html`
-                                    <div class="flex flex-wrap gap-1.5 mt-1">
-                                      ${event.buttons.map(
-                                        (btn) => html`
-                                          <button
-                                            class="inline-block px-3 py-1 text-white rounded-sm text-xs lg:text-sm cursor-pointer transition-colors duration-300
-                            ${btn.className.includes("btn-info")
-                                              ? "bg-blue-500 hover:bg-blue-600"
-                                              : btn.className.includes(
-                                                    "btn-gray",
-                                                  )
-                                                ? "bg-gray-500 hover:bg-gray-600"
-                                                : "bg-green-600 hover:bg-green-700"}"
-                                            @click=${() => {
-                                              btn.action();
-                                              if (!btn.preventClose) {
-                                                const originalIndex =
-                                                  this.events.findIndex(
-                                                    (e) => e === event,
-                                                  );
-                                                if (originalIndex !== -1) {
-                                                  this.removeEvent(
-                                                    originalIndex,
-                                                  );
-                                                }
-                                              }
-                                              this.requestUpdate();
-                                            }}
-                                          >
-                                            ${btn.text}
-                                          </button>
-                                        `,
-                                      )}
-                                    </div>
-                                  `
-                                : ""}
-                            </td>
-                          </tr>
-                        `,
-                      )}
-                      <!--- Betrayal debuff timer row -->
-                      ${(() => {
-                        const myPlayer = this.game.myPlayer();
-                        return (
-                          myPlayer &&
-                          myPlayer.isTraitor() &&
-                          myPlayer.getTraitorRemainingTicks() > 0
-                        );
-                      })()
-                        ? html`
-                            <tr class="lg:px-2 lg:py-1 p-1">
-                              <td class="lg:px-2 lg:py-1 p-1 text-left">
-                                ${this.renderBetrayalDebuffTimer()}
-                              </td>
-                            </tr>
-                          `
-                        : ""}
-
-                      <!--- Empty row when no events -->
-                      ${filteredEvents.length === 0 &&
-                      !(() => {
-                        const myPlayer = this.game.myPlayer();
-                        return (
-                          myPlayer &&
-                          myPlayer.isTraitor() &&
-                          myPlayer.getTraitorRemainingTicks() > 0
-                        );
-                      })()
-                        ? html`
+                <!-- Content Area -->
+                <div
+                  class="bg-gray-800/70 max-h-[30vh] overflow-y-auto w-full h-full min-[1200px]:rounded-b-xl events-container"
+                >
+                  <div>
+                    <table
+                      class="w-full max-h-none border-collapse text-white shadow-lg text-xs lg:text-sm pointer-events-auto"
+                    >
+                      <tbody>
+                        ${filteredEvents.map(
+                          (event, index) => html`
                             <tr>
                               <td
-                                class="lg:px-2 lg:py-1 p-1 min-w-72 text-left"
+                                class="lg:px-2 lg:py-1 p-1 text-left ${getMessageTypeClasses(
+                                  event.type,
+                                )}"
                               >
-                                &nbsp;
+                                ${
+                                  event.focusID
+                                    ? this.renderButton({
+                                        content:
+                                          this.getEventDescription(event),
+                                        onClick: () => {
+                                          if (event.focusID)
+                                            this.emitGoToPlayerEvent(
+                                              event.focusID,
+                                            );
+                                        },
+                                        className: "text-left",
+                                      })
+                                    : event.unitView
+                                      ? this.renderButton({
+                                          content:
+                                            this.getEventDescription(event),
+                                          onClick: () => {
+                                            if (event.unitView)
+                                              this.emitGoToUnitEvent(
+                                                event.unitView,
+                                              );
+                                          },
+                                          className: "text-left",
+                                        })
+                                      : this.getEventDescription(event)
+                                }
+                                <!-- Events with buttons (Alliance requests) -->
+                                ${
+                                  event.buttons
+                                    ? html`
+                                        <div
+                                          class="flex flex-wrap gap-1.5 mt-1"
+                                        >
+                                          ${event.buttons.map(
+                                            (btn) => html`
+                                              <button
+                                                class="inline-block px-3 py-1 text-white rounded-sm text-xs lg:text-sm cursor-pointer transition-colors duration-300
+                            ${
+                              btn.className.includes("btn-info")
+                                ? "bg-blue-500 hover:bg-blue-600"
+                                : btn.className.includes("btn-gray")
+                                  ? "bg-gray-500 hover:bg-gray-600"
+                                  : "bg-green-600 hover:bg-green-700"
+                            }"
+                                                @click=${() => {
+                                                  btn.action();
+                                                  if (!btn.preventClose) {
+                                                    const originalIndex =
+                                                      this.events.findIndex(
+                                                        (e) => e === event,
+                                                      );
+                                                    if (originalIndex !== -1) {
+                                                      this.removeEvent(
+                                                        originalIndex,
+                                                      );
+                                                    }
+                                                  }
+                                                  this.requestUpdate();
+                                                }}
+                                              >
+                                                ${btn.text}
+                                              </button>
+                                            `,
+                                          )}
+                                        </div>
+                                      `
+                                    : ""
+                                }
                               </td>
                             </tr>
-                          `
-                        : ""}
-                    </tbody>
-                  </table>
+                          `,
+                        )}
+                        <!--- Betrayal debuff timer row -->
+                        ${
+                          (() => {
+                            const myPlayer = this.game.myPlayer();
+                            return (
+                              myPlayer &&
+                              myPlayer.isTraitor() &&
+                              myPlayer.getTraitorRemainingTicks() > 0
+                            );
+                          })()
+                            ? html`
+                                <tr class="lg:px-2 lg:py-1 p-1">
+                                  <td class="lg:px-2 lg:py-1 p-1 text-left">
+                                    ${this.renderBetrayalDebuffTimer()}
+                                  </td>
+                                </tr>
+                              `
+                            : ""
+                        }
+
+                        <!--- Empty row when no events -->
+                        ${
+                          filteredEvents.length === 0 &&
+                          !(() => {
+                            const myPlayer = this.game.myPlayer();
+                            return (
+                              myPlayer &&
+                              myPlayer.isTraitor() &&
+                              myPlayer.getTraitorRemainingTicks() > 0
+                            );
+                          })()
+                            ? html`
+                                <tr>
+                                  <td
+                                    class="lg:px-2 lg:py-1 p-1 min-w-72 text-left"
+                                  >
+                                    &nbsp;
+                                  </td>
+                                </tr>
+                              `
+                            : ""
+                        }
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
-            </div>
-          `}
+            `
+      }
     `;
   }
 

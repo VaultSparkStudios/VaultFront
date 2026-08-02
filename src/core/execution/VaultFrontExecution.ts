@@ -26,13 +26,10 @@ import {
   VAULTFRONT_RUNTIME_BALANCE,
 } from "./VaultFrontRuntimeBalance";
 import {
-  DEFAULT_VAULT_PRESSURE_CONFIG,
-  deliverToVaultPressure,
-  expireVaultPressureWindow,
   initialVaultPressureState,
-  projectVaultPressure,
   type VaultPressureKernelState,
 } from "./VaultPressureKernel";
+import { VaultPressureScopeAuthority } from "./VaultPressureScopeAuthority";
 
 interface VaultSite {
   id: number;
@@ -125,6 +122,7 @@ export class VaultFrontExecution implements Execution {
   // deterministic simulation memory, so clients and replays derive the same
   // outcome without a server-side timing oracle.
   private vaultPressureStates = new Map<number, VaultPressureKernelState>();
+  private pressureAuthority!: VaultPressureScopeAuthority;
   private vaultBreachVictorID: number | null = null;
 
   // Chain Guardian: consecutive vault captures per player (resets on site loss)
@@ -170,6 +168,10 @@ export class VaultFrontExecution implements Execution {
 
   init(mg: Game): void {
     this.game = mg;
+    this.pressureAuthority = new VaultPressureScopeAuthority(
+      this.game,
+      this.vaultPressureStates,
+    );
     const seed = simpleHash(
       `vaultfront:${mg.width()}x${mg.height()}:${mg.numLandTiles()}`,
     );
@@ -205,6 +207,7 @@ export class VaultFrontExecution implements Execution {
         initialVaultPressureState(),
       );
     }
+    this.pressureAuthority.seed();
 
     this.nextMapEventTick =
       this.tuning.mapEventMinIntervalTicks +
@@ -2713,23 +2716,19 @@ export class VaultFrontExecution implements Execution {
   }
 
   private buildPressureStates(): Record<number, VaultFrontPressureState> {
-    const result: Record<number, VaultFrontPressureState> = {};
-    for (const [playerID, state] of this.vaultPressureStates.entries()) {
-      result[playerID] = projectVaultPressure(
-        state,
-        this.game.ticks(),
-        DEFAULT_VAULT_PRESSURE_CONFIG,
-      );
-    }
-    return result;
+    return this.getPressureAuthority().project(this.game.ticks());
   }
 
   private sweepExpiredBreachWindows(ticks: number): void {
     if (this.vaultBreachVictorID !== null) return;
-    for (const [playerID, state] of this.vaultPressureStates.entries()) {
-      const transition = expireVaultPressureWindow(state, ticks);
-      this.vaultPressureStates.set(playerID, transition.state);
-    }
+    this.getPressureAuthority().expire(ticks);
+  }
+
+  private getPressureAuthority(): VaultPressureScopeAuthority {
+    return (this.pressureAuthority ??= new VaultPressureScopeAuthority(
+      this.game,
+      this.vaultPressureStates,
+    ));
   }
 
   private advanceVaultPressure(
@@ -2742,11 +2741,11 @@ export class VaultFrontExecution implements Execution {
     }
 
     const playerID = owner.smallID();
-    const transition = deliverToVaultPressure(
-      this.vaultPressureStates.get(playerID) ?? initialVaultPressureState(),
+    const { scope, transition } = this.getPressureAuthority().deliver(
+      owner,
       ticks,
     );
-    this.vaultPressureStates.set(playerID, transition.state);
+    this.game.stats().vaultPressureContribution(owner);
     if (transition.events.some((event) => event.type === "pressure-advanced")) {
       this.game.stats().vaultPressureAdvanced(owner, ticks);
     }
@@ -2755,17 +2754,17 @@ export class VaultFrontExecution implements Execution {
     ) {
       this.game.stats().vaultDecisiveDelivery(owner, ticks);
       this.game.stats().vaultBreachVictory(owner, ticks);
-      this.vaultBreachVictorID = playerID;
+      this.vaultBreachVictorID = Math.min(...scope.memberIDs);
       this.emitActivity(
         "vault_breach_victory",
         tile,
         playerID,
         null,
-        `${owner.displayName()} secured a Vault Breach victory`,
+        `${scope.kind === "team" ? owner.team() : owner.displayName()} secured a Vault Breach victory`,
         240,
       );
       this.game.displayMessage(
-        `${owner.displayName()} completed the Vault Breach!`,
+        `${scope.kind === "team" ? owner.team() : owner.displayName()} completed the Vault Breach!`,
         MessageType.CHAT,
         null,
       );
@@ -2788,7 +2787,7 @@ export class VaultFrontExecution implements Execution {
       180,
     );
     this.game.displayMessage(
-      `${owner.displayName()} reached maximum Vault Pressure — stop their next delivery!`,
+      `${scope.kind === "team" ? owner.team() : owner.displayName()} reached maximum Vault Pressure — stop their next delivery!`,
       MessageType.ATTACK_REQUEST,
       null,
     );

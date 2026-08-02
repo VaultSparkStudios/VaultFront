@@ -341,43 +341,47 @@ export class PlayerInfoOverlay extends LitElement implements Layer {
               isFriendly ?? false,
             )}"
           >
-            ${player.cosmetics.flag
-              ? player.cosmetics.flag!.startsWith("!")
-                ? html`<div
-                    class="h-6 aspect-3/4 player-flag"
-                    ${ref((el) => {
-                      if (el instanceof HTMLElement) {
-                        requestAnimationFrame(() => {
-                          renderPlayerFlag(player.cosmetics.flag!, el);
-                        });
-                      }
-                    })}
-                  ></div>`
-                : html`<img
-                    class="h-6 aspect-3/4"
-                    src=${"/flags/" + player.cosmetics.flag! + ".svg"}
-                  />`
-              : html``}
+            ${
+              player.cosmetics.flag
+                ? player.cosmetics.flag!.startsWith("!")
+                  ? html`<div
+                      class="h-6 aspect-3/4 player-flag"
+                      ${ref((el) => {
+                        if (el instanceof HTMLElement) {
+                          requestAnimationFrame(() => {
+                            renderPlayerFlag(player.cosmetics.flag!, el);
+                          });
+                        }
+                      })}
+                    ></div>`
+                  : html`<img
+                      class="h-6 aspect-3/4"
+                      src=${"/flags/" + player.cosmetics.flag! + ".svg"}
+                    />`
+                : html``
+            }
             <span>${player.name()}</span>
-            ${playerTeam !== "" && player.type() !== PlayerType.Bot
-              ? html`<div class="flex flex-col leading-tight">
-                  <span class="text-gray-400 text-xs font-normal"
+            ${
+              playerTeam !== "" && player.type() !== PlayerType.Bot
+                ? html`<div class="flex flex-col leading-tight">
+                    <span class="text-gray-400 text-xs font-normal"
+                      >${playerType}</span
+                    >
+                    <span class="text-xs font-normal text-gray-400"
+                      >[<span
+                        style="color: ${this.game
+                          .config()
+                          .theme()
+                          .teamColor(player.team()!)
+                          .toHex()}"
+                        >${playerTeam}</span
+                      >]</span
+                    >
+                  </div>`
+                : html`<span class="text-gray-400 text-xs font-normal"
                     >${playerType}</span
-                  >
-                  <span class="text-xs font-normal text-gray-400"
-                    >[<span
-                      style="color: ${this.game
-                        .config()
-                        .theme()
-                        .teamColor(player.team()!)
-                        .toHex()}"
-                      >${playerTeam}</span
-                    >]</span
-                  >
-                </div>`
-              : html`<span class="text-gray-400 text-xs font-normal"
-                  >${playerType}</span
-                >`}
+                  >`
+            }
             ${this.renderPlayerNameIcons(player)} ${allianceHtml ?? ""}
           </div>
           <div class="flex gap-0.5 lg:gap-1 items-center mt-1">
@@ -421,18 +425,22 @@ export class PlayerInfoOverlay extends LitElement implements Layer {
         class="w-full mt-1 lg:mt-2 h-5 lg:h-6 border border-gray-600 rounded-md bg-gray-900/60 overflow-hidden relative"
       >
         <div class="h-full flex">
-          ${greenPercent > 0
-            ? html`<div
-                class="h-full bg-green-500 transition-[width] duration-200"
-                style="width: ${greenPercent}%;"
-              ></div>`
-            : ""}
-          ${orangePercent > 0
-            ? html`<div
-                class="h-full bg-orange-400 transition-[width] duration-200"
-                style="width: ${orangePercent}%;"
-              ></div>`
-            : ""}
+          ${
+            greenPercent > 0
+              ? html`<div
+                  class="h-full bg-green-500 transition-[width] duration-200"
+                  style="width: ${greenPercent}%;"
+                ></div>`
+              : ""
+          }
+          ${
+            orangePercent > 0
+              ? html`<div
+                  class="h-full bg-orange-400 transition-[width] duration-200"
+                  style="width: ${orangePercent}%;"
+                ></div>`
+              : ""
+          }
         </div>
         <div
           class="absolute inset-0 flex items-center justify-between px-1.5 text-xs font-bold leading-none pointer-events-none"
@@ -470,16 +478,20 @@ export class PlayerInfoOverlay extends LitElement implements Layer {
         </div>
         <div class="mt-1">
           <div class="text-sm opacity-80">${unit.type()}</div>
-          ${unit.hasHealth()
-            ? html` <div class="text-sm">Health: ${unit.health()}</div> `
-            : ""}
-          ${unit.type() === UnitType.TransportShip
-            ? html`
-                <div class="text-sm">
-                  Troops: ${renderTroops(unit.troops())}
-                </div>
-              `
-            : ""}
+          ${
+            unit.hasHealth()
+              ? html` <div class="text-sm">Health: ${unit.health()}</div> `
+              : ""
+          }
+          ${
+            unit.type() === UnitType.TransportShip
+              ? html`
+                  <div class="text-sm">
+                    Troops: ${renderTroops(unit.troops())}
+                  </div>
+                `
+              : ""
+          }
         </div>
       </div>
     `;

@@ -91,19 +91,21 @@ export class TerritoryPatternsModal extends BaseModal {
       <!-- TEMP DISABlE TAB SWITCHING
         <div class="flex items-center gap-2 justify-center">
           <button
-            class="px-6 py-2 text-xs font-bold transition-all duration-200 rounded-lg uppercase tracking-widest ${this
-        .activeTab === "patterns"
-        ? "bg-blue-500/20 text-blue-400 border border-blue-500/30 shadow-[0_0_15px_rgba(59,130,246,0.2)]"
-        : "text-white/40 hover:text-white hover:bg-white/5 border border-transparent"}"
+            class="px-6 py-2 text-xs font-bold transition-all duration-200 rounded-lg uppercase tracking-widest ${
+              this.activeTab === "patterns"
+                ? "bg-blue-500/20 text-blue-400 border border-blue-500/30 shadow-[0_0_15px_rgba(59,130,246,0.2)]"
+                : "text-white/40 hover:text-white hover:bg-white/5 border border-transparent"
+            }"
             @click=${() => (this.activeTab = "patterns")}
           >
             ${translateText("territory_patterns.title")}
           </button>
           <button
-            class="px-6 py-2 text-xs font-bold transition-all duration-200 rounded-lg uppercase tracking-widest ${this
-        .activeTab === "colors"
-        ? "bg-blue-500/20 text-blue-400 border border-blue-500/30 shadow-[0_0_15px_rgba(59,130,246,0.2)]"
-        : "text-white/40 hover:text-white hover:bg-white/5 border border-transparent"}"
+            class="px-6 py-2 text-xs font-bold transition-all duration-200 rounded-lg uppercase tracking-widest ${
+              this.activeTab === "colors"
+                ? "bg-blue-500/20 text-blue-400 border border-blue-500/30 shadow-[0_0_15px_rgba(59,130,246,0.2)]"
+                : "text-white/40 hover:text-white hover:bg-white/5 border border-transparent"
+            }"
             @click=${() => (this.activeTab = "colors")}
           >
             ${translateText("territory_patterns.colors")}
@@ -153,9 +155,9 @@ export class TerritoryPatternsModal extends BaseModal {
         buttons.push(html`
           <pattern-button
             .pattern=${pattern}
-            .colorPalette=${this.cosmetics?.colorPalettes?.[
-              colorPalette?.name ?? ""
-            ] ?? null}
+            .colorPalette=${
+              this.cosmetics?.colorPalettes?.[colorPalette?.name ?? ""] ?? null
+            }
             .requiresPurchase=${rel === "purchasable"}
             .selected=${isSelected}
             .onSelect=${(p: PlayerPattern | null) => this.selectPattern(p)}
@@ -169,33 +171,38 @@ export class TerritoryPatternsModal extends BaseModal {
     return html`
       <div class="flex flex-col">
         <div class="pt-4 flex justify-center">
-          ${hasLinkedAccount(this.userMeResponse)
-            ? this.renderMySkinsButton()
-            : html``}
+          ${
+            hasLinkedAccount(this.userMeResponse)
+              ? this.renderMySkinsButton()
+              : html``
+          }
         </div>
-        ${!this.showOnlyOwned && buttons.length === 0
-          ? html`<div
-              class="text-white/40 text-sm font-bold uppercase tracking-wider text-center py-8"
-            >
-              ${translateText("territory_patterns.all_owned")}
-            </div>`
-          : html`
-              <div
-                class="flex flex-wrap gap-4 p-2 justify-center items-stretch content-start"
+        ${
+          !this.showOnlyOwned && buttons.length === 0
+            ? html`<div
+                class="text-white/40 text-sm font-bold uppercase tracking-wider text-center py-8"
               >
-                ${buttons}
-              </div>
-            `}
+                ${translateText("territory_patterns.all_owned")}
+              </div>`
+            : html`
+                <div
+                  class="flex flex-wrap gap-4 p-2 justify-center items-stretch content-start"
+                >
+                  ${buttons}
+                </div>
+              `
+        }
       </div>
     `;
   }
 
   private renderMySkinsButton(): TemplateResult {
     return html`<button
-      class="px-4 py-2 text-xs font-bold transition-all duration-200 rounded-lg uppercase tracking-wider border mb-4 ${this
-        .showOnlyOwned
-        ? "bg-blue-500/20 text-blue-400 border-blue-500/50 shadow-[0_0_10px_rgba(59,130,246,0.3)]"
-        : "bg-white/5 text-white/60 border-white/10 hover:bg-white/10 hover:text-white"}"
+      class="px-4 py-2 text-xs font-bold transition-all duration-200 rounded-lg uppercase tracking-wider border mb-4 ${
+        this.showOnlyOwned
+          ? "bg-blue-500/20 text-blue-400 border-blue-500/50 shadow-[0_0_10px_rgba(59,130,246,0.3)]"
+          : "bg-white/5 text-white/60 border-white/10 hover:bg-white/10 hover:text-white"
+      }"
       @click=${() => {
         this.showOnlyOwned = !this.showOnlyOwned;
       }}
@@ -251,9 +258,11 @@ export class TerritoryPatternsModal extends BaseModal {
       <div class="${this.modalContainerClass}">
         ${this.renderTabNavigation()}
         <div class="overflow-y-auto pr-2 custom-scrollbar mr-1">
-          ${this.activeTab === "patterns"
-            ? this.renderPatternGrid()
-            : this.renderColorSwatchGrid()}
+          ${
+            this.activeTab === "patterns"
+              ? this.renderPatternGrid()
+              : this.renderColorSwatchGrid()
+          }
         </div>
       </div>
     `;
@@ -265,9 +274,11 @@ export class TerritoryPatternsModal extends BaseModal {
     return html`
       <o-modal
         id="territoryPatternsModal"
-        title="${this.activeTab === "patterns"
-          ? translateText("territory_patterns.title")
-          : translateText("territory_patterns.colors")}"
+        title="${
+          this.activeTab === "patterns"
+            ? translateText("territory_patterns.title")
+            : translateText("territory_patterns.colors")
+        }"
         ?inline=${this.inline}
         ?hideHeader=${true}
         ?hideCloseButton=${true}

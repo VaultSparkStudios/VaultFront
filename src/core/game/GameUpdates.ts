@@ -445,6 +445,12 @@ export interface VaultFrontPressureState {
   deliveriesRequired: 0 | 1;
   /** True once this player/team secured a Vault Breach victory. */
   victorySecured: boolean;
+  /** Competitive ownership of this state; team members receive one projection. */
+  scope: "player" | "team";
+  /** Stable simulation key, never a client-authored identifier. */
+  scopeKey: string;
+  /** Delivery contributions keyed by actor small ID. */
+  contributors: Record<number, number>;
 }
 
 export interface VaultFrontStatusUpdate {

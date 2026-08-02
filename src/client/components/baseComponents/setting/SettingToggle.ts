@@ -32,7 +32,7 @@ export class SettingToggle extends LitElement {
 
     return html`
       <label
-        class="flex flex-row items-center justify-between w-full p-4 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-all gap-4 cursor-pointer ${rainbowClass}"
+        class="vf-setting-card flex flex-row items-center justify-between w-full p-4 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-all gap-4 cursor-pointer ${rainbowClass}"
       >
         <div class="flex flex-col flex-1 min-w-0 mr-4">
           <div class="text-white font-bold text-base block mb-1">

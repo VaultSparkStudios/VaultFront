@@ -1,13 +1,13 @@
 # IGNIS Batch Genius Summary — VaultFront
 
-Generated: 2026-07-23T03:08:09.272Z
+Generated: 2026-08-01T07:41:45.767Z
 
-**Summary:** VaultFront is technically green with a fully verified codebase but remains NO-GO for public launch pending staging, parity, delivery, and human-evidence gates.
+**Summary:** VaultFront's internal engineering is fully green and certified through Session 89, but public launch remains blocked entirely on externally-owned registry/staging/identity/revenue evidence rather than code.
 
 ## Top 5 Items
 
-1. **Stand up the deliberate external staging origin** — Every remaining release-evidence item (parity, Obelisk, Brevo, Alpha sessions, revenue) is sequentially blocked on this single unresolved corridor; it is the critical path to launch.
-2. **Resolve the outstanding Ark cargo reply before touching the canonical registry profile** — This ecosystem dependency is explicitly flagged as blocking further registry changes; leaving it open risks silent drift or rework if Studio Ops responds with conflicting constraints.
-3. **Capture exact-digest parity and native Obelisk evidence once staging exists** — These are the next two items in the declared release-evidence order and are prerequisites for Brevo delivery and Alpha testing; sequencing them immediately after staging avoids re-deriving the dependency chain later.
-4. **Recruit and schedule the three authenticated human Alpha sessions** — This is the only remaining evidence type requiring lead time (human coordination) rather than infrastructure; starting recruitment now in parallel with staging work removes it from the critical path.
-5. **Define the founder-approval and revenue-evidence acceptance criteria now** — These are the final two gates before launch; clarifying what constitutes sufficient revenue evidence and the approval checklist prevents a last-mile stall after all technical work is done.
+1. **Escalate or timebox the Studio Ops registry dependency** — Ark question 01JUNMMD1162DB95DA5B58A7AB has stalled since acknowledgement 01JUJOJL1K040B6517CAF2EFA9 rejected the type field; this single external blocker gates registry correction and should get a hard follow-up date or an alternate owner-supported path proposed proactively.
+2. **Stand up real external staging with exact-digest parity** — This is the first domino in the NO-GO chain (staging → domain delivery → Obelisk → live-web → Alpha → revenue → rollback → founder evidence); without it, all seven downstream release gates stay permanently unactionable regardless of how green internal verification is.
+3. **Convert the release-evidence checklist into a tracked sequential gate list** — Eight distinct external proofs (staging/parity, domain, Obelisk, live-web, Alpha, revenue, rollback, founder) are currently narrative-only in session notes; formalizing them as an ordered, owned checklist prevents rediscovery cost each session and clarifies what's actually next.
+4. **Package the certified-evidence architecture (admissibility receipts, routed GameID witnesses, fail-closed startup brief) as a reusable trust-layer doc** — Session 89 shipped four independently valuable integrity primitives; documenting them as a coherent trust architecture (not just changelog items) makes them legible to founders/investors as a differentiator during the pending evidence-gathering phase.
+5. **Freeze non-essential feature work until the external corridor moves** — With 1,040 tests, 26/26 Playwright, and audits fully exhausted, further internal hardening has diminishing returns versus risk; redirect the next session's premise-verification cycle toward unblocking or de-risking the external release corridor itself.

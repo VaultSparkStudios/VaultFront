@@ -2,6 +2,19 @@
 
 # Truth Audit
 
+## 2026-08-02 — Session 90
+
+- Work truth: the latest audit is 10/10 shipped and the monotonic innovation ledger is 50/50 shipped; the executable exhaustion checker reports zero pending unblocked items.
+- Causal game truth: authenticated one-vote elections durably select effective-week mutators; competitive sides own Pressure; actor contribution and certified actor/game dividends remain attributable and tamper-evident.
+- Visual truth: six theme/viewport cells produce twelve checked-in artifacts bound to exact UI sources and summary hashes. Direct image inspection found and fixed onboarding occlusion, palette non-propagation, light-theme readability, and mobile drawer transition/ARIA drift.
+- Build truth: TypeScript, lint, formatting, contracts, 28,125 balance scenarios, production build, Pages 10/10 plus worker 1/1, bundle/media budgets, performance, and production audit zero pass directly.
+- Test truth: Vitest passes 194/194 files and 1,069/1,069 tests; Playwright passes 26/26 plus the final focused theme matrix.
+- Release truth: local release evidence is blocked on absent external observations and dirty source before commit. Exact-revision CI evidence can only be issued by the final fan-in job after all six parents pass.
+- Cost truth: no paid dependency or variable-cost path was added; Max-plan cost remains notional.
+- Launch truth: no staging, delivery, native identity, human Alpha, revenue, rollback, or founder approval was fabricated.
+
+Overall status: local green; external launch NO-GO.
+
 ## 2026-07-19 — Session 75
 
 - Audit truth: all 14 newly verified findings are shipped; the cumulative JSON sidecar is 37/37 shipped and Markdown is derived from it. The regenerated innovation pack is 6/6 with three new candidates implemented after primary exhaustion.

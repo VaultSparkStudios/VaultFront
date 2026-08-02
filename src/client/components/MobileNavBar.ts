@@ -76,7 +76,7 @@ export class MobileNavBar extends LitElement {
         >
           <div class="flex flex-col items-center gap-2">
             <div
-              class="text-[clamp(22px,3.8vh,34px)] font-black tracking-[0.16em] uppercase text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-sky-200 to-amber-300 drop-shadow-[0_0_18px_rgba(34,211,238,0.45)]"
+              class="vf-brand-wordmark text-[clamp(22px,3.8vh,34px)] font-black tracking-[0.16em] uppercase text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-sky-200 to-amber-300 drop-shadow-[0_0_18px_rgba(34,211,238,0.45)]"
             >
               VaultFront
             </div>

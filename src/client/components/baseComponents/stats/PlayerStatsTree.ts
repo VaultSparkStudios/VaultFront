@@ -233,17 +233,20 @@ export class PlayerStatsTreeView extends LitElement {
             ${types.map(
               (t) => html`
                 <button
-                  class="text-xs px-3 py-1.5 rounded-md border font-bold uppercase tracking-wider transition-all duration-200 ${this
-                    .selectedType === t
-                    ? "bg-blue-600 border-blue-500 text-white shadow-lg shadow-blue-900/40"
-                    : "bg-white/5 border-white/10 text-gray-400 hover:bg-white/10 hover:text-white"}"
+                  class="text-xs px-3 py-1.5 rounded-md border font-bold uppercase tracking-wider transition-all duration-200 ${
+                    this.selectedType === t
+                      ? "bg-blue-600 border-blue-500 text-white shadow-lg shadow-blue-900/40"
+                      : "bg-white/5 border-white/10 text-gray-400 hover:bg-white/10 hover:text-white"
+                  }"
                   @click=${() => this.setGameType(t)}
                 >
-                  ${t === GameType.Public
-                    ? translateText("player_stats_tree.public")
-                    : t === GameType.Private
-                      ? translateText("player_stats_tree.private")
-                      : translateText("player_stats_tree.solo")}
+                  ${
+                    t === GameType.Public
+                      ? translateText("player_stats_tree.public")
+                      : t === GameType.Private
+                        ? translateText("player_stats_tree.private")
+                        : translateText("player_stats_tree.solo")
+                  }
                 </button>
               `,
             )}
@@ -251,82 +254,90 @@ export class PlayerStatsTreeView extends LitElement {
 
           <div class="flex gap-2">
             <!-- Mode selector -->
-            ${modes.length
-              ? html`<div
-                  class="flex gap-1 bg-black/20 rounded-md p-1 border border-white/5"
-                >
-                  ${modes.map(
-                    (m) => html`
-                      <button
-                        class="text-xs px-3 py-1 rounded-sm transition-colors ${this
-                          .selectedMode === m
-                          ? "bg-white/20 text-white font-bold"
-                          : "text-gray-400 hover:text-white"}"
-                        @click=${() => this.setMode(m)}
-                        title=${translateText("player_stats_tree.mode")}
-                      >
-                        ${this.labelForMode(m)}
-                      </button>
-                    `,
-                  )}
-                </div>`
-              : html``}
+            ${
+              modes.length
+                ? html`<div
+                    class="flex gap-1 bg-black/20 rounded-md p-1 border border-white/5"
+                  >
+                    ${modes.map(
+                      (m) => html`
+                        <button
+                          class="text-xs px-3 py-1 rounded-sm transition-colors ${
+                            this.selectedMode === m
+                              ? "bg-white/20 text-white font-bold"
+                              : "text-gray-400 hover:text-white"
+                          }"
+                          @click=${() => this.setMode(m)}
+                          title=${translateText("player_stats_tree.mode")}
+                        >
+                          ${this.labelForMode(m)}
+                        </button>
+                      `,
+                    )}
+                  </div>`
+                : html``
+            }
 
             <!-- Difficulty selector -->
-            ${!this.shouldMergeDifficulties && diffs.length
-              ? html`<div
-                  class="flex gap-1 bg-black/20 rounded-md p-1 border border-white/5"
-                >
-                  ${diffs.map(
-                    (d) =>
-                      html` <button
-                        class="text-xs px-3 py-1 rounded-sm transition-colors ${this
-                          .selectedDifficulty === d
-                          ? "bg-white/20 text-white font-bold"
-                          : "text-gray-400 hover:text-white"}"
-                        @click=${() => this.setDifficulty(d)}
-                        title=${translateText("difficulty.difficulty")}
-                      >
-                        ${translateText(`difficulty.${d.toLowerCase()}`)}
-                      </button>`,
-                  )}
-                </div>`
-              : html``}
+            ${
+              !this.shouldMergeDifficulties && diffs.length
+                ? html`<div
+                    class="flex gap-1 bg-black/20 rounded-md p-1 border border-white/5"
+                  >
+                    ${diffs.map(
+                      (d) =>
+                        html` <button
+                          class="text-xs px-3 py-1 rounded-sm transition-colors ${
+                            this.selectedDifficulty === d
+                              ? "bg-white/20 text-white font-bold"
+                              : "text-gray-400 hover:text-white"
+                          }"
+                          @click=${() => this.setDifficulty(d)}
+                          title=${translateText("difficulty.difficulty")}
+                        >
+                          ${translateText(`difficulty.${d.toLowerCase()}`)}
+                        </button>`,
+                    )}
+                  </div>`
+                : html``
+            }
           </div>
         </div>
 
-        ${leaf
-          ? html`
-              <div class="space-y-6 mt-2">
-                <player-stats-grid
-                  .titles=${[
-                    translateText("player_stats_tree.stats_wins"),
-                    translateText("player_stats_tree.stats_losses"),
-                    translateText("player_stats_tree.stats_wlr"),
-                    translateText("player_stats_tree.stats_games_played"),
-                  ]}
-                  .values=${[
-                    renderNumber(leaf.wins),
-                    renderNumber(leaf.losses),
-                    wlr.toFixed(2),
-                    renderNumber(leaf.total),
-                  ]}
-                ></player-stats-grid>
+        ${
+          leaf
+            ? html`
+                <div class="space-y-6 mt-2">
+                  <player-stats-grid
+                    .titles=${[
+                      translateText("player_stats_tree.stats_wins"),
+                      translateText("player_stats_tree.stats_losses"),
+                      translateText("player_stats_tree.stats_wlr"),
+                      translateText("player_stats_tree.stats_games_played"),
+                    ]}
+                    .values=${[
+                      renderNumber(leaf.wins),
+                      renderNumber(leaf.losses),
+                      wlr.toFixed(2),
+                      renderNumber(leaf.total),
+                    ]}
+                  ></player-stats-grid>
 
-                <div class="border-t border-white/10 pt-6">
-                  <player-stats-table
-                    .stats=${leaf?.stats ?? null}
-                  ></player-stats-table>
+                  <div class="border-t border-white/10 pt-6">
+                    <player-stats-table
+                      .stats=${leaf?.stats ?? null}
+                    ></player-stats-table>
+                  </div>
                 </div>
-              </div>
-            `
-          : html`
-              <div
-                class="py-12 text-center text-white/30 italic border border-white/5 rounded-xl bg-white/5"
-              >
-                ${translateText("player_stats_tree.no_stats")}
-              </div>
-            `}
+              `
+            : html`
+                <div
+                  class="py-12 text-center text-white/30 italic border border-white/5 rounded-xl bg-white/5"
+                >
+                  ${translateText("player_stats_tree.no_stats")}
+                </div>
+              `
+        }
       </div>
     `;
   }

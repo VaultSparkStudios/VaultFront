@@ -100,9 +100,9 @@ export class RankingHeader extends LitElement {
     return html`
       <button
         @click=${() => this.onSort(type)}
-        class="${this.rankType === type
-          ? "border-b-2 border-b-white"
-          : nothing}"
+        class="${
+          this.rankType === type ? "border-b-2 border-b-white" : nothing
+        }"
       >
         ${label}
       </button>

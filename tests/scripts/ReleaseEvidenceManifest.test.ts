@@ -4,11 +4,13 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { generatePublicShell } from "../../scripts/generate-public-shell.mjs";
 import {
+  buildCiRevisionEvidence,
   buildReleaseEvidence,
   buildServiceWorkerReleaseEvidence,
   canonicalReleaseGateDefinitions,
   evaluateCanonicalReleaseGates,
   generateReleaseEvidence,
+  verifyCiRevisionEvidence,
   verifyReleaseEvidenceLineage,
 } from "../../scripts/generate-release-evidence.mjs";
 
@@ -26,6 +28,25 @@ const transfer = {
     maxFileBytes: 400,
   },
 };
+
+function verifiedCi(gitSha = "abc123") {
+  return buildCiRevisionEvidence({
+    gitSha,
+    observedAt: "2026-07-17T12:00:00.000Z",
+    env: {
+      GITHUB_ACTIONS: "true",
+      GITHUB_REPOSITORY: "vaultspark/vaultfront",
+      GITHUB_WORKFLOW: "CI",
+      GITHUB_RUN_ID: "123456",
+      GITHUB_RUN_ATTEMPT: "2",
+      GITHUB_SHA: gitSha,
+      GITHUB_JOB: "release-evidence",
+      VAULTFRONT_CI_VERIFICATION_COMPLETE: "true",
+      VAULTFRONT_CI_VERIFICATION_NEEDS:
+        "build,test,eslint,prettier,security-audit,bundle-size",
+    },
+  });
+}
 
 describe("Release Evidence Manifest", () => {
   it("binds clean/dirty provenance and exhausted work into the digest", () => {
@@ -193,6 +214,7 @@ describe("Release Evidence Manifest", () => {
         candidates: ["sw-proof.js"],
         detail: "Verified fixture.",
       },
+      ciRevision: verifiedCi(),
     });
 
     expect(evidence).toMatchObject({
@@ -200,6 +222,62 @@ describe("Release Evidence Manifest", () => {
       blockers: [],
       launch: { status: "ready", runtimeAdvertised: true },
     });
+  });
+
+  it("requires the post-verification fan-in contract for the exact release revision", () => {
+    const verified = verifiedCi();
+    expect(verified).toMatchObject({
+      status: "verified",
+      provider: "github-actions",
+      sha: "abc123",
+      runAttempt: "2",
+    });
+    expect(verifyCiRevisionEvidence(verified, "abc123")).toBe(true);
+    expect(verifyCiRevisionEvidence(verified, "different-sha")).toBe(false);
+
+    const stillRunning = buildCiRevisionEvidence({
+      gitSha: "abc123",
+      env: {
+        GITHUB_ACTIONS: "true",
+        GITHUB_REPOSITORY: "vaultspark/vaultfront",
+        GITHUB_WORKFLOW: "CI",
+        GITHUB_RUN_ID: "123456",
+        GITHUB_SHA: "abc123",
+      },
+    });
+    expect(stillRunning).toMatchObject({
+      status: "incomplete",
+      verificationComplete: false,
+    });
+    expect(verifyCiRevisionEvidence(stillRunning, "abc123")).toBe(false);
+
+    const mismatched = buildCiRevisionEvidence({
+      gitSha: "abc123",
+      env: {
+        GITHUB_ACTIONS: "true",
+        GITHUB_REPOSITORY: "vaultspark/vaultfront",
+        GITHUB_WORKFLOW: "CI",
+        GITHUB_RUN_ID: "123456",
+        GITHUB_SHA: "old-sha",
+      },
+    });
+    expect(mismatched.status).toBe("mismatched");
+    const evidence = buildReleaseEvidence({
+      generatedAt: "2026-07-17T12:00:00.000Z",
+      gitSha: "abc123",
+      dirty: false,
+      auditItems: [],
+      innovationItems: [],
+      transfer,
+      ciRevision: mismatched,
+    });
+    expect(evidence.blockers).toContainEqual(
+      expect.stringContaining("ciRevision:"),
+    );
+
+    const tampered = structuredClone(verified);
+    tampered.workflow = "Tampered";
+    expect(verifyCiRevisionEvidence(tampered, "abc123")).toBe(false);
   });
 
   it("binds exact service-worker release evidence and rejects missing, duplicate, or markerless assets", () => {

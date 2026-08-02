@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "scope": "Every POST/PUT/PATCH/DELETE registration in Worker.ts and extracted *Router.ts modules.",
   "riskBudget": {
-    "publicIngestMax": 10,
+    "publicIngestMax": 9,
     "rationale": "Any expansion of unauthenticated ingestion is a reviewed trust-boundary change."
   },
   "routes": [
@@ -90,11 +90,11 @@
     {
       "method": "POST",
       "path": "/api/mutator-vote",
-      "auth": "public-ingest",
-      "rateLimit": "mutatorVoteRateLimit",
-      "evidence": "none",
-      "binding": "MutatorVoteSchema",
-      "rationale": "Public season ballot with one bounded vote per supplied voter key."
+      "auth": "verified-actor",
+      "rateLimit": "voteRateLimit",
+      "evidence": "authenticated-event",
+      "binding": "dependencies.authenticate",
+      "rationale": "Actor-bound ballot with atomic one-vote-per-election enforcement and a digest-verifiable receipt."
     },
     {
       "method": "POST",

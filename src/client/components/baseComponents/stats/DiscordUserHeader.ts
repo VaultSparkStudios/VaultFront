@@ -33,17 +33,19 @@ export class DiscordUserHeader extends LitElement {
   render() {
     return html`
       <div class="flex items-center gap-2">
-        ${this.avatarUrl
-          ? html`
-              <div class="p-[3px] rounded-full bg-gray-500">
-                <img
-                  class="w-12 h-12 rounded-full block"
-                  src="${this.avatarUrl}"
-                  alt="${translateText("discord_user_header.avatar_alt")}"
-                />
-              </div>
-            `
-          : null}
+        ${
+          this.avatarUrl
+            ? html`
+                <div class="p-[3px] rounded-full bg-gray-500">
+                  <img
+                    class="w-12 h-12 rounded-full block"
+                    src="${this.avatarUrl}"
+                    alt="${translateText("discord_user_header.avatar_alt")}"
+                  />
+                </div>
+              `
+            : null
+        }
         <span class="font-semibold text-white">${this.discordDisplayName}</span>
       </div>
     `;

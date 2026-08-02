@@ -148,17 +148,21 @@ For `audience: public-*` projects:
 - **Website scaffold (D-S119.3 · RECOMMENDATION, not a mandate — D-S183.2):** consult `vaultspark-studio-ops/portfolio/STUDIO_WEBSITE_SCAFFOLD/catalog.json` + `patterns.json` as a **recommended starting library** to draw from and elevate per your SOUL — not a strict "only-use-this". Note deviations in DECISIONS so the catalog learns. Make menus/page names/themes/schemas/stack **as project-specific as possible** and keep exploring better options (**CANON-049** — never static). Whatever you start from must clear the elite bar:
   - Start visual implementation from the scaffold's semantic theme layer when useful: `vaultspark-studio-ops/docs/templates/project-system/website-theme-tokens.css` + `patterns.json` theme recipes, then adapt colors/assets to the project's own brand kit.
   - **CANON-041** desktop↔mobile parity + genuinely impressive UI/UX (scrollable 100dvh mobile drawer, never a broken/sticky menu — the pattern is the floor, not the finish).
-  - **CANON-047** theme toggle (≥ dark + light + optional project themes, each a human-best palette tied to branding) — **AI image-test every theme** (screenshot pages/panels/modals; no black-on-black / light-on-white / sub-WCAG-AA; blocking in `/app-release-gate`).
+- **CANON-047** theme toggle (≥ dark + light + optional project themes, each a human-best palette tied to branding) — **AI image-test every theme** (screenshot pages/panels/modals; no black-on-black / light-on-white / sub-WCAG-AA; blocking in `/app-release-gate`).
+  - **CANON-053 rendered-pixel working loop (ABSOLUTE whenever UI/UX changes):** use a real browser + image-capable visual tool while implementing, not only at release. Capture before/after (existing surfaces), desktop ≥1280px + mobile ≤430px, every theme and touched state; inspect the images, fix concrete defects, recapture, and leave a hash-bound `docs/visual-qa/LATEST.json` receipt. Source/DOM review alone never counts. Verify with `node ../vaultspark-studio-ops/scripts/check-visual-qa.mjs --project . --changed`.
   - **CANON-048** dual-audience: built for Humans AND AI Agents (`/agents.json` + `/.well-known/llms.txt` + JSON-LD + Obelisk agent auth) + AI-search-first (GEO/AEO alongside SEO).
   - **CANON-045** Obelisk identity plane — public signup/auth wires Obelisk for ONE studio account across every project + human/agent receipts (Vault SSO contract folding into Obelisk; target Obelisk).
 - **Enforce (legal/IP complete):** branding line per type (CANON-006), footer `© 2026 VaultSpark Studios LLC. All rights reserved.`, proprietary/all-rights-reserved notice (CANON-008), `/privacy` + `/terms`, acronyms spelled out on first use (CANON-030), free tier cost-neutral (CANON-029), staging before prod (CANON-007). `/app-release-gate` checks these before any SPARKED flip.
-- **Contact page + working email (D-S194.1 · MUST · public sites):** every project with a public website ships a `/contact` page with a **working email on the project's own domain** that **forwards/copies to `founder@vaultsparkstudios.com`**. Email infra is **Brevo** (studio-ops secrets capability `brevo`): configure a Brevo inbound/forward route for the project domain → `founder@vaultsparkstudios.com` and verify SPF/DKIM; a contact form may POST the Brevo transactional API, a `mailto:` to the on-domain address is the floor. Reachability is the point — the address must actually deliver. Extends the CANON-011 universal page set; scaffold: `STUDIO_WEBSITE_SCAFFOLD/catalog.json → studioEnforcements.contactRequirement` + `_universal/contact.html.template`.
+- **Contact page + working reply-capable email (D-S194.1 refined by D-S259.2 · MUST · public sites):** every public website ships `/contact` with one address on its own domain. Human mail uses the single **Zoho** organization/mailbox: attach that project address as a send/receive alias to `founder@vaultsparkstudios.com`, configure MX/SPF/DKIM/DMARC, and prove both delivery and reply-as-alias. **Brevo is transactional/app email only**, with authenticated domains and delivery webhooks; Cloudflare/registrar forwarding may remain only until a Zoho alias replacement proves end-to-end delivery. Reachability plus correct reply identity are the gate. Scaffold: `STUDIO_WEBSITE_SCAFFOLD/catalog.json → studioEnforcements.contactRequirement` + `_universal/contact.html.template`.
+
+**Release architecture gates (CANON-007/045 · all deployable/account-bearing projects):** every SPARKED web project has a stable `staging.<owned-project-domain>` origin (or `<slug>.staging.vaultsparkstudios.com` only when it has no owned domain), isolated from production; ephemeral previews are supplementary. Every project declares `obeliskArchitecture: internal | external | hybrid`, and every applicable sign-in/create-account/invitation/recovery/session/logout flow delegates identity to Obelisk. At `/start`, run Canon/Ark reconciliation and surface these gaps; never replace an Obelisk gap with project-local auth.
 
 ## Actively CHECK canon — don't just point at it (S183 founder directive)
 
 Referencing the index below is not enough — **every project actively checks Studio Canon and records its posture.** At `/initiate` (mandatory) and on `/start`, run:
 
 ```bash
+node ../vaultspark-studio-ops/scripts/start-canon-sync.mjs --project . --slug < current-repo-slug > --json
 node ../vaultspark-studio-ops/scripts/check-canon-adoption.mjs --project . --write   # initiate / refresh
 node ../vaultspark-studio-ops/scripts/check-canon-adoption.mjs --project . --suggest # start (pre-fill safe conformance-backed suggestions)
 node ../vaultspark-studio-ops/scripts/check-canon-adoption.mjs --project . --check   # start (verify current)
@@ -225,6 +229,7 @@ It reads the **live** `STUDIO_CANON.md` (always current) and maintains `context/
 - **CANON-050** · Atlas: the foundation that carries the ecosystem — and the standard it is held to
 - **CANON-051** · Web Hardening: every public surface meets the edge-security + standard-files baseline
 - **CANON-052** · Project Lifecycle Ladder: FORGE/SPARKED/VAULTED with sub-stages, gated transitions, and a single write path
+- **CANON-053** · Rendered-Pixel UI Discipline: look at the real interface while building it
 
 <!-- canon-index:end -->
 

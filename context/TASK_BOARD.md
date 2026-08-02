@@ -52,6 +52,15 @@ daily-challenge-system (DailyChallengeStore + HUD card), vault-intelligence-mark
 
 ## Follow-ups
 
+## Completed (2026-08-02 — Session 90 causal-trust and portable-proof arc)
+
+- [done] Audit 109–118: portable hash-bound visual proof; causal community election; complete local protocol commands; exact-revision CI admission; team-scoped Pressure; isolated map capacity; certified match dividends; one task parser; extracted Worker routes; deprecated type-stub removal.
+- [done] Innovation 46–50: checked-in proof capsule, 30-day progression receipt boundary, post-verification CI fan-in, certified Pressure contribution dividend, and semantic innovation-detector ratchet.
+- [done] Full-suite red root-fix: extracted `VaultPressureScopeAuthority` and contracted `VaultFrontExecution` to 2,903/2,907 lines without raising its ceiling.
+- [done] AI visual-review root-fix: removed tutorial-obscured evidence, propagated distinct light/competitive palettes into rendered surfaces, repaired light-theme readability, and made mobile navigation close/ARIA state explicit before capture.
+- [done] Exhaustion proof: audit 10/10 and cumulative innovation ledger 50/50 shipped; zero pending unblocked local work.
+- [release-evidence] External launch remains NO-GO pending approved staging and exact-digest parity, verified project-domain Zoho delivery, native Obelisk relying-party auth, live web evidence, three distinct authenticated humans, revenue, rollback observation, and founder approval.
+
 ## Completed (2026-07-21 — Session 78 saturated product-truth arc)
 
 - [done] Closed certified Prediction League resolution with deterministic delivery/intercept/tie rules and typed receipts.

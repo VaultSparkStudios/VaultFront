@@ -21,6 +21,7 @@ import { logger } from "./Logger";
 import type { PlayerStats } from "./PlayerStatsStore";
 import { playerStatsStore } from "./PlayerStatsStore";
 import { predictionLeagueStore } from "./PredictionLeagueStore";
+import { progressionReceiptStore } from "./ProgressionReceiptStore";
 import {
   seasonMilestoneStore,
   type CertifiedSeasonPassState,
@@ -51,6 +52,7 @@ export interface AuthoritativePlayerOutcome {
   jamBreakerUses?: number;
   convoyEscortCommands?: number;
   defenseFactoryTicks?: number;
+  vaultPressureContributions?: number;
 }
 
 export interface AuthoritativeMatchOutcome {
@@ -66,6 +68,8 @@ export interface AuthoritativeMatchOutcome {
 
 export interface ProgressionReceipt {
   gameId: string;
+  recordedAt: string;
+  durability: "postgres" | "process-local";
   duplicate: boolean;
   playersRecorded: number;
   achievementsUnlocked: number;
@@ -76,8 +80,37 @@ export interface ProgressionReceipt {
   seasonPass: CertifiedSeasonPassState[];
   loopEvidence: CertifiedLoopEvidenceReceipt | null;
   certifiedOutcomes: CertifiedOutcomeReceipt | null;
+  players: PlayerProgressionDividend[];
   /** Digest of the completed fan-out, stable across duplicate observations. */
   receiptDigest: string;
+}
+
+export interface PlayerProgressionSnapshot {
+  eloRating: number;
+  matchesPlayed: number;
+  wins: number;
+  losses: number;
+  vaultCaptures: number;
+  convoyDeliveries: number;
+  executionChains: number;
+}
+
+export interface PlayerProgressionDividend {
+  persistentId: string;
+  before: PlayerProgressionSnapshot | null;
+  after: PlayerProgressionSnapshot | null;
+  delta: PlayerProgressionSnapshot;
+  achievementsUnlocked: string[];
+  dailyMastery: DailyMasteryCompletionReceipt | null;
+  seasonContracts: CertifiedSeasonContractState | null;
+  seasonPass: CertifiedSeasonPassState | null;
+  match: {
+    vaultPressureContributions: number;
+    vaultCaptures: number;
+    convoyDeliveries: number;
+    executionChains: number;
+    won: boolean;
+  };
 }
 
 interface ProgressionDependencies {
@@ -90,6 +123,13 @@ interface ProgressionDependencies {
   recordSeasonContracts: typeof certifiedSeasonContractStore.recordCertifiedMatch;
   recordLoopEvidence: typeof certifiedLoopEvidenceStore.recordCertifiedMatch;
   recordCertifiedOutcomes: typeof certifiedOutcomeStore.recordMatch;
+  loadReceipt: (gameId: string) => Promise<ProgressionReceipt | null>;
+  persistReceipt: (
+    receipt: ProgressionReceipt,
+    actorIds: string[],
+  ) => Promise<void>;
+  receiptDurability: () => "postgres" | "process-local";
+  now: () => Date;
 }
 
 const defaultDependencies: ProgressionDependencies = {
@@ -113,7 +153,52 @@ const defaultDependencies: ProgressionDependencies = {
   recordCertifiedOutcomes: certifiedOutcomeStore.recordMatch.bind(
     certifiedOutcomeStore,
   ),
+  loadReceipt: progressionReceiptStore.get.bind(progressionReceiptStore),
+  persistReceipt: progressionReceiptStore.put.bind(progressionReceiptStore),
+  receiptDurability: progressionReceiptStore.durability.bind(
+    progressionReceiptStore,
+  ),
+  now: () => new Date(),
 };
+
+function progressionSnapshot(
+  stats: PlayerStats | null,
+): PlayerProgressionSnapshot | null {
+  if (!stats) return null;
+  return {
+    eloRating: stats.eloRating,
+    matchesPlayed: stats.matchesPlayed,
+    wins: stats.wins,
+    losses: stats.losses,
+    vaultCaptures: stats.vaultCaptures,
+    convoyDeliveries: stats.convoyDeliveries,
+    executionChains: stats.executionChains,
+  };
+}
+
+function progressionDelta(
+  before: PlayerProgressionSnapshot | null,
+  after: PlayerProgressionSnapshot | null,
+): PlayerProgressionSnapshot {
+  const baseline: PlayerProgressionSnapshot = {
+    eloRating: 1200,
+    matchesPlayed: 0,
+    wins: 0,
+    losses: 0,
+    vaultCaptures: 0,
+    convoyDeliveries: 0,
+    executionChains: 0,
+  };
+  const left = before ?? baseline;
+  const right = after ?? left;
+  return Object.fromEntries(
+    Object.keys(baseline).map((key) => [
+      key,
+      right[key as keyof PlayerProgressionSnapshot] -
+        left[key as keyof PlayerProgressionSnapshot],
+    ]),
+  ) as unknown as PlayerProgressionSnapshot;
+}
 
 export function derivePredictionOutcome(
   players: AuthoritativePlayerOutcome[],
@@ -138,6 +223,8 @@ function digestProgressionReceipt(
     .update(
       JSON.stringify({
         gameId: receipt.gameId,
+        recordedAt: receipt.recordedAt,
+        durability: receipt.durability,
         playersRecorded: receipt.playersRecorded,
         achievementsUnlocked: receipt.achievementsUnlocked,
         predictionOutcome: receipt.predictionOutcome,
@@ -147,6 +234,7 @@ function digestProgressionReceipt(
         seasonPass: receipt.seasonPass,
         loopEvidence: receipt.loopEvidence,
         certifiedOutcomes: receipt.certifiedOutcomes,
+        players: receipt.players,
       }),
     )
     .digest("hex")}`;
@@ -196,6 +284,14 @@ export class ServerAuthoritativeProgressionSpine {
       return this.duplicateReceipt(await concurrent);
     }
 
+    const stored = await this.dependencies.loadReceipt(outcome.gameId);
+    if (stored && verifyProgressionReceipt(stored)) {
+      this.completed.set(outcome.gameId, stored);
+      return this.duplicateReceipt(stored);
+    }
+    const raced = this.inFlight.get(outcome.gameId);
+    if (raced) return this.duplicateReceipt(await raced);
+
     const attempt = this.recordOnce(outcome);
     this.inFlight.set(outcome.gameId, attempt);
     try {
@@ -222,12 +318,26 @@ export class ServerAuthoritativeProgressionSpine {
       seasonPass: [],
       loopEvidence: null,
       certifiedOutcomes: null,
+      players: [],
     };
   }
 
   private async recordOnce(
     outcome: AuthoritativeMatchOutcome,
   ): Promise<ProgressionReceipt> {
+    const beforeByPersistentId = new Map(
+      await Promise.all(
+        outcome.players.map(
+          async (player) =>
+            [
+              player.persistentId,
+              progressionSnapshot(
+                await this.dependencies.getPlayerStats(player.persistentId),
+              ),
+            ] as const,
+        ),
+      ),
+    );
     const predictionOutcome = derivePredictionOutcome(outcome.players);
     const predictionReceipt = await this.dependencies.resolvePrediction(
       outcome.gameId,
@@ -237,8 +347,10 @@ export class ServerAuthoritativeProgressionSpine {
       const certifiedOutcomes =
         await this.dependencies.recordCertifiedOutcomes(outcome);
       const loopEvidence = await this.dependencies.recordLoopEvidence(outcome);
-      return finalizeProgressionReceipt({
+      const receipt = finalizeProgressionReceipt({
         gameId: outcome.gameId,
+        recordedAt: this.dependencies.now().toISOString(),
+        durability: this.dependencies.receiptDurability(),
         duplicate: false,
         playersRecorded: 0,
         achievementsUnlocked: 0,
@@ -249,7 +361,10 @@ export class ServerAuthoritativeProgressionSpine {
         seasonPass: [],
         loopEvidence,
         certifiedOutcomes,
+        players: [],
       });
+      await this.dependencies.persistReceipt(receipt, []);
+      return receipt;
     }
 
     const allPlayers = outcome.players.map((player) => ({
@@ -292,6 +407,7 @@ export class ServerAuthoritativeProgressionSpine {
     const dailyMastery: DailyMasteryCompletionReceipt[] = [];
     const seasonContracts: CertifiedSeasonContractState[] = [];
     const seasonPass: CertifiedSeasonPassState[] = [];
+    const playerDividends: PlayerProgressionDividend[] = [];
     for (const player of outcome.players) {
       const aggregate = await this.dependencies.getPlayerStats(
         player.persistentId,
@@ -328,11 +444,23 @@ export class ServerAuthoritativeProgressionSpine {
       });
 
       let playerUnlocks = 0;
+      const playerUnlockKeys: string[] = [];
       for (const event of events) {
-        playerUnlocks += this.dependencies.checkAndUnlock(
+        const unlocked = this.dependencies.checkAndUnlock(
           player.persistentId,
           event,
-        ).length;
+        );
+        playerUnlocks += unlocked.length;
+        playerUnlockKeys.push(
+          ...unlocked.map((achievement: any) =>
+            String(
+              achievement.id ??
+                achievement.key ??
+                achievement.title ??
+                "achievement",
+            ),
+          ),
+        );
       }
       achievementsUnlocked += playerUnlocks;
 
@@ -363,12 +491,33 @@ export class ServerAuthoritativeProgressionSpine {
       if (seasonReceipt) {
         seasonContracts.push(seasonReceipt);
       }
+      const before = beforeByPersistentId.get(player.persistentId) ?? null;
+      const after = progressionSnapshot(aggregate);
+      playerDividends.push({
+        persistentId: player.persistentId,
+        before,
+        after,
+        delta: progressionDelta(before, after),
+        achievementsUnlocked: [...new Set(playerUnlockKeys)].sort(),
+        dailyMastery: masteryReceipt ?? null,
+        seasonContracts: seasonReceipt ?? null,
+        seasonPass: passReceipt ?? null,
+        match: {
+          vaultPressureContributions: player.vaultPressureContributions ?? 0,
+          vaultCaptures: player.vaultCaptures,
+          convoyDeliveries: player.convoyDeliveries,
+          executionChains: player.executionChains,
+          won: player.won,
+        },
+      });
     }
 
     const loopEvidence = await this.dependencies.recordLoopEvidence(outcome);
 
     const receipt = finalizeProgressionReceipt({
       gameId: outcome.gameId,
+      recordedAt: this.dependencies.now().toISOString(),
+      durability: this.dependencies.receiptDurability(),
       duplicate: false,
       playersRecorded: outcome.players.length,
       achievementsUnlocked,
@@ -379,8 +528,18 @@ export class ServerAuthoritativeProgressionSpine {
       seasonPass,
       loopEvidence,
       certifiedOutcomes,
+      players: playerDividends,
     });
-    log.info("authoritative progression recorded", receipt);
+    await this.dependencies.persistReceipt(
+      receipt,
+      outcome.players.map((player) => player.persistentId),
+    );
+    log.info("authoritative progression recorded", {
+      gameId: receipt.gameId,
+      playersRecorded: receipt.playersRecorded,
+      durability: receipt.durability,
+      receiptDigest: receipt.receiptDigest,
+    });
     return receipt;
   }
 }

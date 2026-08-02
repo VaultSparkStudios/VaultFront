@@ -116,6 +116,7 @@ export interface Stats {
   vaultConvoyIntercepted(interceptor: Player): void;
   vaultConvoyLost(owner: Player, tick?: number): void;
   vaultPressureAdvanced(player: Player, tick: number): void;
+  vaultPressureContribution(player: Player): void;
   vaultBreachOpened(player: Player, tick: number): void;
   vaultDecisiveDelivery(player: Player, tick: number): void;
   vaultBreachVictory(player: Player, tick: number): void;

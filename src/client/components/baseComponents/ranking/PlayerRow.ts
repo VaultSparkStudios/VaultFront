@@ -28,11 +28,13 @@ export class PlayerRow extends LitElement {
     return html`
       <li
         class="${player.winner ? "bg-black/20" : "bg-black/20"} border-b-1
-          ${player.winner
-          ? "border-yellow-500 border-1 box-content"
-          : visibleBorder
-            ? "border-white/5"
-            : "border-transparent"}
+          ${
+            player.winner
+              ? "border-yellow-500 border-1 box-content"
+              : visibleBorder
+                ? "border-white/5"
+                : "border-transparent"
+          }
            relative pt-1 pb-1 pr-2 pl-2 sm:pl-5 sm:pr-5 flex justify-between items-center hover:bg-white/[0.07] transition-colors duration-150 ease-in-out"
       >
         <div
@@ -119,9 +121,11 @@ export class PlayerRow extends LitElement {
   private renderMultiScoreType(value: number, highlight: boolean) {
     return html`
       <div
-        class="${highlight
-          ? "font-bold text-[18px] text-white/80"
-          : "leading-[24px] text-white/40"} min-w-7.5 sm:min-w-15 inline-block text-center"
+        class="${
+          highlight
+            ? "font-bold text-[18px] text-white/80"
+            : "leading-[24px] text-white/40"
+        } min-w-7.5 sm:min-w-15 inline-block text-center"
       >
         ${renderNumber(value)}
       </div>

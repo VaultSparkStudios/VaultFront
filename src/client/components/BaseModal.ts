@@ -23,7 +23,7 @@ export abstract class BaseModal extends LitElement {
    * No rounding on mobile for full-screen appearance.
    */
   protected readonly modalContainerClass =
-    "h-full flex flex-col overflow-hidden bg-black/70 backdrop-blur-xl lg:rounded-2xl lg:border border-white/10";
+    "vf-modal-surface h-full flex flex-col overflow-hidden bg-black/70 backdrop-blur-xl lg:rounded-2xl lg:border border-white/10";
 
   @query("o-modal") protected modalEl?: HTMLElement & {
     open: () => void;
@@ -156,17 +156,19 @@ export abstract class BaseModal extends LitElement {
         class="flex flex-col items-center justify-center p-12 text-white h-full min-h-[400px]"
       >
         <div
-          class="w-12 h-12 border-4 ${colorClasses[
-            spinnerColor
-          ]} rounded-full animate-spin mb-4"
+          class="w-12 h-12 border-4 ${
+            colorClasses[spinnerColor]
+          } rounded-full animate-spin mb-4"
         ></div>
-        ${message
-          ? html`<p
-              class="text-white/60 font-medium tracking-wide animate-pulse"
-            >
-              ${message}
-            </p>`
-          : ""}
+        ${
+          message
+            ? html`<p
+                class="text-white/60 font-medium tracking-wide animate-pulse"
+              >
+                ${message}
+              </p>`
+            : ""
+        }
       </div>
     `;
   }

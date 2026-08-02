@@ -42,9 +42,11 @@ export class OButton extends LitElement {
         type=${this.submit ? "submit" : "button"}
       >
         <span class="block min-w-0">
-          ${this.translationKey === ""
-            ? this.title
-            : translateText(this.translationKey)}
+          ${
+            this.translationKey === ""
+              ? this.title
+              : translateText(this.translationKey)
+          }
         </span>
       </button>
     `;

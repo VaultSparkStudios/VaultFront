@@ -430,9 +430,11 @@ export class BuildMenu extends LitElement implements Layer {
                     @click=${() =>
                       this.sendBuildOrUpgrade(buildableUnit, this.clickedTile)}
                     ?disabled=${!enabled}
-                    title=${!enabled
-                      ? translateText("build_menu.not_enough_money")
-                      : ""}
+                    title=${
+                      !enabled
+                        ? translateText("build_menu.not_enough_money")
+                        : ""
+                    }
                   >
                     <img
                       src=${item.icon}
@@ -444,8 +446,9 @@ export class BuildMenu extends LitElement implements Layer {
                       >${item.key && translateText(item.key)}</span
                     >
                     <span class="build-description"
-                      >${item.description &&
-                      translateText(item.description)}</span
+                      >${
+                        item.description && translateText(item.description)
+                      }</span
                     >
                     <span class="build-cost" translate="no">
                       ${renderNumber(
@@ -459,11 +462,13 @@ export class BuildMenu extends LitElement implements Layer {
                         class="align-middle"
                       />
                     </span>
-                    ${item.countable
-                      ? html`<div class="build-count-chip">
-                          <span class="build-count">${this.count(item)}</span>
-                        </div>`
-                      : ""}
+                    ${
+                      item.countable
+                        ? html`<div class="build-count-chip">
+                            <span class="build-count">${this.count(item)}</span>
+                          </div>`
+                        : ""
+                    }
                   </button>
                 `;
               })}

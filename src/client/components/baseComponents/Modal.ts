@@ -74,41 +74,47 @@ export class OModal extends LitElement {
       !this.inline && this.maxWidth ? `max-width: ${this.maxWidth};` : "";
 
     return html`
-      ${this.isModalOpen
-        ? html`
-            <aside
-              class="${backdropClass}"
-              @click=${this.inline ? null : () => this.close()}
-            >
-              <div
-                @click=${(e: Event) => e.stopPropagation()}
-                class="${wrapperClass}"
-                style="${wrapperStyle}"
+      ${
+        this.isModalOpen
+          ? html`
+              <aside
+                class="${backdropClass}"
+                @click=${this.inline ? null : () => this.close()}
               >
-                ${this.inline || this.hideCloseButton
-                  ? html``
-                  : html`<div
-                      class="absolute top-5 right-5 z-10 text-white cursor-pointer"
-                      @click=${() => this.close()}
-                    >
-                      ✕
-                    </div>`}
-                ${!this.hideHeader && this.title
-                  ? html`<div
-                      class="px-[1.4rem] py-[1rem] text-2xl font-bold text-white"
-                    >
-                      ${this.title}
-                    </div>`
-                  : html``}
-                <section
-                  class="relative flex-1 min-h-0 p-0 lg:p-[1.4rem] text-white bg-[#23232382] backdrop-blur-md lg:rounded-lg overflow-y-auto"
+                <div
+                  @click=${(e: Event) => e.stopPropagation()}
+                  class="${wrapperClass}"
+                  style="${wrapperStyle}"
                 >
-                  <slot></slot>
-                </section>
-              </div>
-            </aside>
-          `
-        : html``}
+                  ${
+                    this.inline || this.hideCloseButton
+                      ? html``
+                      : html`<div
+                          class="absolute top-5 right-5 z-10 text-white cursor-pointer"
+                          @click=${() => this.close()}
+                        >
+                          ✕
+                        </div>`
+                  }
+                  ${
+                    !this.hideHeader && this.title
+                      ? html`<div
+                          class="px-[1.4rem] py-[1rem] text-2xl font-bold text-white"
+                        >
+                          ${this.title}
+                        </div>`
+                      : html``
+                  }
+                  <section
+                    class="relative flex-1 min-h-0 p-0 lg:p-[1.4rem] text-[var(--vf-panel-text)] bg-[var(--vf-modal-bg)] backdrop-blur-md lg:rounded-lg overflow-y-auto"
+                  >
+                    <slot></slot>
+                  </section>
+                </div>
+              </aside>
+            `
+          : html``
+      }
     `;
   }
 }

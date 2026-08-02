@@ -2,6 +2,14 @@
 
 Public-safe decisions only. Detailed internal decision history is maintained privately.
 
+## 2026-08-02 — Causal receipts and portable visual evidence are product contracts
+
+**Decision:** Community elections, team Pressure, and progression rewards must expose actor- and match-bound receipts whose durable authority is the same authority the runtime consumes. Theme evidence must be reproducible from a clean checkout, bind exact sources and artifacts, prove rendered palette divergence, and capture unobscured settled surfaces.
+
+**Why:** A counted vote that cannot select a rule, a team victory fed by player-local state, a cumulative reward snapshot, or a screenshot hidden behind onboarding can each look persuasive while proving nothing causal. Portable evidence plus independently checked lifecycle state makes the player promise and release claim falsifiable.
+
+**Consequence:** Exact-revision release admission is issued only after all CI parents pass; local builds remain honestly blocked. Mobile navigation removes modal state on page change, visual proof waits for its transition, and no external launch evidence is inferred from local success.
+
 ## 2026-07-22 — Evidence trust boundaries require lifecycle and expansion budgets
 
 **Decision:** Authenticated Alpha evidence has a 24-hour release cohort and a 30-day storage ceiling. Every mutation route must appear in a bidirectional machine catalog, and unauthenticated ingestion cannot exceed its explicitly reviewed 11-route budget without changing the rationale-bearing contract.

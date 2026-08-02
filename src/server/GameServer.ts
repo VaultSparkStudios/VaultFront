@@ -1275,6 +1275,9 @@ export class GameServer {
           jamBreakerUses: toCount(vault?.jamBreakerUses),
           convoyEscortCommands: toCount(vault?.convoyEscortCommands),
           defenseFactoryTicks: toCount(vault?.defenseFactoryPulseUptimeTicks),
+          vaultPressureContributions: toCount(
+            vault?.vaultPressureContributions,
+          ),
         },
       ];
     });

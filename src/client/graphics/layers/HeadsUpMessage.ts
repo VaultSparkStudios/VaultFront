@@ -142,46 +142,60 @@ export class HeadsUpMessage extends LitElement implements Layer {
   render() {
     return html`
       <div style="pointer-events: none;">
-        ${this.toastMessage
-          ? html`
-              <div
-                class="fixed top-6 left-1/2 -translate-x-1/2 z-[800] px-6 py-4 rounded-xl transition-all duration-300 animate-fade-in-out"
-                style="max-width: 90vw; min-width: 200px; text-align: center;
-                  background: ${this.toastColor === "red"
-                  ? "rgba(239,68,68,0.1)"
-                  : "rgba(34,197,94,0.1)"};
-                  border: 1px solid ${this.toastColor === "red"
-                  ? "rgba(239,68,68,0.5)"
-                  : "rgba(34,197,94,0.5)"};
+        ${
+          this.toastMessage
+            ? html`
+                <div
+                  class="fixed top-6 left-1/2 -translate-x-1/2 z-[800] px-6 py-4 rounded-xl transition-all duration-300 animate-fade-in-out"
+                  style="max-width: 90vw; min-width: 200px; text-align: center;
+                  background: ${
+                    this.toastColor === "red"
+                      ? "rgba(239,68,68,0.1)"
+                      : "rgba(34,197,94,0.1)"
+                  };
+                  border: 1px solid ${
+                    this.toastColor === "red"
+                      ? "rgba(239,68,68,0.5)"
+                      : "rgba(34,197,94,0.5)"
+                  };
                   color: white;
-                  box-shadow: 0 0 30px 0 ${this.toastColor === "red"
-                  ? "rgba(239,68,68,0.3)"
-                  : "rgba(34,197,94,0.3)"};
+                  box-shadow: 0 0 30px 0 ${
+                    this.toastColor === "red"
+                      ? "rgba(239,68,68,0.3)"
+                      : "rgba(34,197,94,0.3)"
+                  };
                   backdrop-filter: blur(12px);"
-                @contextmenu=${(e: MouseEvent) => e.preventDefault()}
-              >
-                ${typeof this.toastMessage === "string"
-                  ? html`<span class="font-medium">${this.toastMessage}</span>`
-                  : this.toastMessage}
-              </div>
-            `
-          : null}
-        ${this.isVisible
-          ? html`
-              <div
-                class="fixed top-[15%] left-1/2 -translate-x-1/2 z-[799]
+                  @contextmenu=${(e: MouseEvent) => e.preventDefault()}
+                >
+                  ${
+                    typeof this.toastMessage === "string"
+                      ? html`<span class="font-medium"
+                          >${this.toastMessage}</span
+                        >`
+                      : this.toastMessage
+                  }
+                </div>
+              `
+            : null
+        }
+        ${
+          this.isVisible
+            ? html`
+                <div
+                  class="fixed top-[15%] left-1/2 -translate-x-1/2 z-[799]
                             inline-flex items-center justify-center min-h-8 lg:min-h-10
                             w-fit max-w-[90vw]
                             bg-gray-800/70 rounded-md lg:rounded-lg
                             backdrop-blur-xs text-white text-md lg:text-xl px-3 lg:px-4 py-1
                             text-center break-words"
-                style="word-wrap: break-word; hyphens: auto;"
-                @contextmenu=${(e: MouseEvent) => e.preventDefault()}
-              >
-                ${this.getMessage()}
-              </div>
-            `
-          : null}
+                  style="word-wrap: break-word; hyphens: auto;"
+                  @contextmenu=${(e: MouseEvent) => e.preventDefault()}
+                >
+                  ${this.getMessage()}
+                </div>
+              `
+            : null
+        }
       </div>
     `;
   }

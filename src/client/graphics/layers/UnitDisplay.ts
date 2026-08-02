@@ -240,32 +240,34 @@ export class UnitDisplay extends LitElement implements Layer {
           this.requestUpdate();
         }}
       >
-        ${hovered
-          ? html`
-              <div
-                class="absolute -top-[250%] left-1/2 -translate-x-1/2 text-gray-200 text-center w-max text-xs bg-gray-800/90 backdrop-blur-xs rounded-sm p-1 z-20 shadow-lg pointer-events-none"
-              >
-                <div class="font-bold text-sm mb-1">
-                  ${translateText(
-                    "unit_type." + structureKey,
-                  )}${` [${displayHotkey}]`}
+        ${
+          hovered
+            ? html`
+                <div
+                  class="absolute -top-[250%] left-1/2 -translate-x-1/2 text-gray-200 text-center w-max text-xs bg-gray-800/90 backdrop-blur-xs rounded-sm p-1 z-20 shadow-lg pointer-events-none"
+                >
+                  <div class="font-bold text-sm mb-1">
+                    ${translateText(
+                      "unit_type." + structureKey,
+                    )}${` [${displayHotkey}]`}
+                  </div>
+                  <div class="p-2">
+                    ${translateText("build_menu.desc." + structureKey)}
+                  </div>
+                  <div class="flex items-center justify-center gap-1">
+                    <img src=${goldCoinIcon} width="13" height="13" />
+                    <span class="text-yellow-300"
+                      >${renderNumber(this.cost(unitType))}</span
+                    >
+                  </div>
                 </div>
-                <div class="p-2">
-                  ${translateText("build_menu.desc." + structureKey)}
-                </div>
-                <div class="flex items-center justify-center gap-1">
-                  <img src=${goldCoinIcon} width="13" height="13" />
-                  <span class="text-yellow-300"
-                    >${renderNumber(this.cost(unitType))}</span
-                  >
-                </div>
-              </div>
-            `
-          : null}
+              `
+            : null
+        }
         <div
-          class="${this.canBuild(unitType)
-            ? ""
-            : "opacity-40"} border border-slate-500 rounded-sm pr-2 pb-1 flex items-center gap-2 cursor-pointer
+          class="${
+            this.canBuild(unitType) ? "" : "opacity-40"
+          } border border-slate-500 rounded-sm pr-2 pb-1 flex items-center gap-2 cursor-pointer
              ${selected ? "hover:bg-gray-400/10" : "hover:bg-gray-800"}
              rounded-sm text-white ${selected ? "bg-slate-400/20" : ""}"
           @click=${() => {

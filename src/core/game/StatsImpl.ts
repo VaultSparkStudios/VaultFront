@@ -184,7 +184,8 @@ export class StatsImpl implements Stats {
       | "vaultInteractions"
       | "cleanExecutionStreaks"
       | "squadObjectiveCompletions"
-      | "rivalryRevengeCount",
+      | "rivalryRevengeCount"
+      | "vaultPressureContributions",
     value: BigIntLike,
   ): void {
     const p = this._makePlayerStats(player);
@@ -374,6 +375,10 @@ export class StatsImpl implements Stats {
 
   vaultPressureAdvanced(player: Player, tick: number): void {
     this._setVaultFrontFirst(player, "firstVaultPressureTick", tick);
+  }
+
+  vaultPressureContribution(player: Player): void {
+    this._addVaultFront(player, "vaultPressureContributions", 1);
   }
 
   vaultBreachOpened(player: Player, tick: number): void {

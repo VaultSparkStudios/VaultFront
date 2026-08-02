@@ -55,97 +55,103 @@ export class TroubleshootingModal extends BaseModal {
           onBack: () => this.close(),
           ariaLabel: translateText("common.back"),
         })}
-        ${this.loading
-          ? ""
-          : html`
-              <div
-                class="flex-1 overflow-y-auto px-1 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent mr-1"
-              >
-                ${this.section(
-                  "",
-                  html`${this.infoTip(
-                    translateText("troubleshooting.hardware_acceleration_tip"),
-                    true,
-                  )}`,
-                )}
-                ${this.section(
-                  translateText("troubleshooting.environment"),
-                  html`
-                    ${this.row(
-                      translateText("troubleshooting.browser"),
-                      this.diagnostics!.browser.engine,
-                    )}
-                    ${this.row(
-                      translateText("troubleshooting.platform"),
-                      this.diagnostics!.browser.platform,
-                    )}
-                    ${this.row(
-                      translateText("troubleshooting.os"),
-                      this.diagnostics!.browser.os,
-                    )}
-                    ${this.row(
-                      translateText("troubleshooting.device_pixel_ratio"),
-                      this.diagnostics!.browser.dpr,
-                    )}
-                    ${this.infoTip(
-                      translateText("troubleshooting.chromium_tip"),
-                    )}
-                  `,
-                )}
-                ${this.section(
-                  translateText("troubleshooting.rendering"),
-                  html`
-                    ${this.row(
-                      translateText("troubleshooting.renderer"),
-                      this.describeRenderer(this.diagnostics!.rendering),
-                    )}
-                    ${this.row(
-                      translateText("troubleshooting.max_texture_size"),
-                      this.diagnostics!.rendering.maxTextureSize ??
-                        translateText("troubleshooting.unknown"),
-                    )}
-                    ${this.row(
-                      translateText("troubleshooting.high_precision_shaders"),
-                      this.diagnostics!.rendering.shaderHighp === true
-                        ? translateText("troubleshooting.yes")
-                        : translateText("troubleshooting.no"),
-                    )}${this.row(
-                      translateText("troubleshooting.gpu"),
-                      !this.diagnostics!.rendering.gpu ||
-                        this.diagnostics!.rendering.gpu.unavailable
-                        ? translateText("troubleshooting.unavailable")
-                        : `${this.diagnostics!.rendering.gpu.vendor} — ${this.diagnostics!.rendering.gpu.renderer}`,
-                    )}
-                    ${this.infoTip(translateText("troubleshooting.gpu_tip"))}
-                  `,
-                )}
-                ${this.section(
-                  translateText("troubleshooting.power"),
-                  html`
-                    ${this.diagnostics!.power.unavailable
-                      ? this.row(
-                          translateText("troubleshooting.battery"),
-                          translateText("troubleshooting.unavailable"),
-                        )
-                      : html`
-                          ${this.row(
-                            translateText("troubleshooting.charging"),
-                            this.diagnostics!.power.charging
-                              ? translateText("troubleshooting.yes")
-                              : translateText("troubleshooting.no"),
-                          )}
-                          ${this.row(
-                            translateText("troubleshooting.battery_level"),
-                            this.diagnostics!.power.level,
-                          )}
-                        `}
-                    ${this.infoTip(
-                      translateText("troubleshooting.power_saving_tip"),
-                    )}
-                  `,
-                )}
-              </div>
-            `}
+        ${
+          this.loading
+            ? ""
+            : html`
+                <div
+                  class="flex-1 overflow-y-auto px-1 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent mr-1"
+                >
+                  ${this.section(
+                    "",
+                    html`${this.infoTip(
+                      translateText(
+                        "troubleshooting.hardware_acceleration_tip",
+                      ),
+                      true,
+                    )}`,
+                  )}
+                  ${this.section(
+                    translateText("troubleshooting.environment"),
+                    html`
+                      ${this.row(
+                        translateText("troubleshooting.browser"),
+                        this.diagnostics!.browser.engine,
+                      )}
+                      ${this.row(
+                        translateText("troubleshooting.platform"),
+                        this.diagnostics!.browser.platform,
+                      )}
+                      ${this.row(
+                        translateText("troubleshooting.os"),
+                        this.diagnostics!.browser.os,
+                      )}
+                      ${this.row(
+                        translateText("troubleshooting.device_pixel_ratio"),
+                        this.diagnostics!.browser.dpr,
+                      )}
+                      ${this.infoTip(
+                        translateText("troubleshooting.chromium_tip"),
+                      )}
+                    `,
+                  )}
+                  ${this.section(
+                    translateText("troubleshooting.rendering"),
+                    html`
+                      ${this.row(
+                        translateText("troubleshooting.renderer"),
+                        this.describeRenderer(this.diagnostics!.rendering),
+                      )}
+                      ${this.row(
+                        translateText("troubleshooting.max_texture_size"),
+                        this.diagnostics!.rendering.maxTextureSize ??
+                          translateText("troubleshooting.unknown"),
+                      )}
+                      ${this.row(
+                        translateText("troubleshooting.high_precision_shaders"),
+                        this.diagnostics!.rendering.shaderHighp === true
+                          ? translateText("troubleshooting.yes")
+                          : translateText("troubleshooting.no"),
+                      )}${this.row(
+                        translateText("troubleshooting.gpu"),
+                        !this.diagnostics!.rendering.gpu ||
+                          this.diagnostics!.rendering.gpu.unavailable
+                          ? translateText("troubleshooting.unavailable")
+                          : `${this.diagnostics!.rendering.gpu.vendor} — ${this.diagnostics!.rendering.gpu.renderer}`,
+                      )}
+                      ${this.infoTip(translateText("troubleshooting.gpu_tip"))}
+                    `,
+                  )}
+                  ${this.section(
+                    translateText("troubleshooting.power"),
+                    html`
+                      ${
+                        this.diagnostics!.power.unavailable
+                          ? this.row(
+                              translateText("troubleshooting.battery"),
+                              translateText("troubleshooting.unavailable"),
+                            )
+                          : html`
+                              ${this.row(
+                                translateText("troubleshooting.charging"),
+                                this.diagnostics!.power.charging
+                                  ? translateText("troubleshooting.yes")
+                                  : translateText("troubleshooting.no"),
+                              )}
+                              ${this.row(
+                                translateText("troubleshooting.battery_level"),
+                                this.diagnostics!.power.level,
+                              )}
+                            `
+                      }
+                      ${this.infoTip(
+                        translateText("troubleshooting.power_saving_tip"),
+                      )}
+                    `,
+                  )}
+                </div>
+              `
+        }
       </div>
     `;
 
@@ -168,11 +174,11 @@ export class TroubleshootingModal extends BaseModal {
   private infoTip(text: string, warning?: boolean): unknown {
     return html`
       <div
-        class="mt-2 ${warning
-          ? "bg-orange-500/10"
-          : "bg-white/10"} flex gap-2 text-white py-1 px-3 rounded-sm  border-1 ${warning
-          ? "border-orange-400"
-          : "border-white/40"}"
+        class="mt-2 ${
+          warning ? "bg-orange-500/10" : "bg-white/10"
+        } flex gap-2 text-white py-1 px-3 rounded-sm  border-1 ${
+          warning ? "border-orange-400" : "border-white/40"
+        }"
       >
         <img src="${infoIcon}" class="w-4" />
         ${text}

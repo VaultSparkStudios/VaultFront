@@ -808,6 +808,21 @@ export interface MutatorVoteStatus {
   open: boolean;
   candidates: MutatorVoteCandidate[];
   closesAt: number | null;
+  effectiveWeek: number;
+}
+
+export interface MutatorVoteReceipt {
+  accepted: boolean;
+  reason:
+    | "accepted"
+    | "vote-closed"
+    | "invalid-candidate"
+    | "duplicate-actor"
+    | "persistence-unavailable";
+  candidateKey: string;
+  effectiveWeek: number | null;
+  durability: "postgres" | "process-local" | "none";
+  receiptDigest: string;
 }
 
 /** Returns the current vote window (candidates + close time), or null if no vote is open. */
@@ -826,17 +841,24 @@ export async function fetchMutatorVoteStatus(): Promise<MutatorVoteStatus | null
 /** Submits a vote for the given candidate key. Returns true on success. */
 export async function castMutatorVote(
   candidateKey: string,
-  voterId?: string,
-): Promise<boolean> {
+): Promise<MutatorVoteReceipt | null> {
   try {
+    const authorization = await getAuthHeader();
+    if (!authorization) return null;
     const res = await fetch(`${getApiBase()}/api/mutator-vote`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ candidateKey, voterId }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: authorization,
+      },
+      body: JSON.stringify({ candidateKey }),
     });
-    return res.ok;
+    const data = (await res
+      .json()
+      .catch(() => null)) as MutatorVoteReceipt | null;
+    return data?.receiptDigest ? data : null;
   } catch {
-    return false;
+    return null;
   }
 }
 
@@ -1675,6 +1697,72 @@ export async function fetchSeasonProgress(persistentId: string): Promise<{
       evidence?: "certified-match-result";
       durability?: "postgres" | "process-local";
     };
+  } catch {
+    return null;
+  }
+}
+
+export interface PlayerProgressionSnapshot {
+  eloRating: number;
+  matchesPlayed: number;
+  wins: number;
+  losses: number;
+  vaultCaptures: number;
+  convoyDeliveries: number;
+  executionChains: number;
+}
+
+export interface CertifiedProgressionDividend {
+  status: "verified";
+  gameId: string;
+  recordedAt: string;
+  durability: "postgres" | "process-local";
+  receiptDigest: string;
+  dividend: {
+    persistentId: string;
+    before: PlayerProgressionSnapshot | null;
+    after: PlayerProgressionSnapshot | null;
+    delta: PlayerProgressionSnapshot;
+    achievementsUnlocked: string[];
+    dailyMastery: {
+      challengeId: string;
+      progress: number;
+      target: number;
+      rewardMastery: number;
+      completedNow: boolean;
+      durability: "postgres" | "process-local";
+    } | null;
+    seasonPass: {
+      seasonId: string;
+      milestones: SeasonMilestoneProgress[];
+      durability: "postgres" | "process-local";
+    } | null;
+    match: {
+      vaultPressureContributions: number;
+      vaultCaptures: number;
+      convoyDeliveries: number;
+      executionChains: number;
+      won: boolean;
+    };
+  };
+}
+
+export async function fetchMatchProgressionDividend(
+  gameId: string,
+): Promise<CertifiedProgressionDividend | null> {
+  try {
+    const authorization = await getAuthHeader();
+    if (!authorization) return null;
+    const response = await fetch(
+      `${getApiBase()}/api/vaultfront/progression-dividend/${encodeURIComponent(gameId)}`,
+      { headers: { Authorization: authorization } },
+    );
+    if (!response.ok) return null;
+    const body = (await response.json()) as CertifiedProgressionDividend;
+    return body.status === "verified" &&
+      /^sha256:[a-f0-9]{64}$/.test(body.receiptDigest)
+      ? body
+      : null;
   } catch {
     return null;
   }

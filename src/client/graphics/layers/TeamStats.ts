@@ -148,46 +148,48 @@ export class TeamStats extends LitElement implements Layer {
             <div class="p-1.5 md:p-2.5 text-center border-b border-slate-500">
               ${translateText("leaderboard.team")}
             </div>
-            ${this.showUnits
-              ? html`
-                  <div
-                    class="p-1.5 md:p-2.5 text-center border-b border-slate-500"
-                  >
-                    ${translateText("leaderboard.launchers")}
-                  </div>
-                  <div
-                    class="p-1.5 md:p-2.5 text-center border-b border-slate-500"
-                  >
-                    ${translateText("leaderboard.sams")}
-                  </div>
-                  <div
-                    class="p-1.5 md:p-2.5 text-center border-b border-slate-500"
-                  >
-                    ${translateText("leaderboard.warships")}
-                  </div>
-                  <div
-                    class="p-1.5 md:p-2.5 text-center border-b border-slate-500"
-                  >
-                    ${translateText("leaderboard.cities")}
-                  </div>
-                `
-              : html`
-                  <div
-                    class="p-1.5 md:p-2.5 text-center border-b border-slate-500"
-                  >
-                    ${translateText("leaderboard.owned")}
-                  </div>
-                  <div
-                    class="p-1.5 md:p-2.5 text-center border-b border-slate-500"
-                  >
-                    ${translateText("leaderboard.gold")}
-                  </div>
-                  <div
-                    class="p-1.5 md:p-2.5 text-center border-b border-slate-500"
-                  >
-                    ${translateText("leaderboard.maxtroops")}
-                  </div>
-                `}
+            ${
+              this.showUnits
+                ? html`
+                    <div
+                      class="p-1.5 md:p-2.5 text-center border-b border-slate-500"
+                    >
+                      ${translateText("leaderboard.launchers")}
+                    </div>
+                    <div
+                      class="p-1.5 md:p-2.5 text-center border-b border-slate-500"
+                    >
+                      ${translateText("leaderboard.sams")}
+                    </div>
+                    <div
+                      class="p-1.5 md:p-2.5 text-center border-b border-slate-500"
+                    >
+                      ${translateText("leaderboard.warships")}
+                    </div>
+                    <div
+                      class="p-1.5 md:p-2.5 text-center border-b border-slate-500"
+                    >
+                      ${translateText("leaderboard.cities")}
+                    </div>
+                  `
+                : html`
+                    <div
+                      class="p-1.5 md:p-2.5 text-center border-b border-slate-500"
+                    >
+                      ${translateText("leaderboard.owned")}
+                    </div>
+                    <div
+                      class="p-1.5 md:p-2.5 text-center border-b border-slate-500"
+                    >
+                      ${translateText("leaderboard.gold")}
+                    </div>
+                    <div
+                      class="p-1.5 md:p-2.5 text-center border-b border-slate-500"
+                    >
+                      ${translateText("leaderboard.maxtroops")}
+                    </div>
+                  `
+            }
           </div>
 
           <!-- Data rows -->
@@ -195,9 +197,9 @@ export class TeamStats extends LitElement implements Layer {
             this.showUnits
               ? html`
                   <div
-                    class="contents hover:bg-slate-600/60 text-center cursor-pointer ${team.isMyTeam
-                      ? "font-bold"
-                      : ""}"
+                    class="contents hover:bg-slate-600/60 text-center cursor-pointer ${
+                      team.isMyTeam ? "font-bold" : ""
+                    }"
                   >
                     <div class="py-1.5 border-b border-slate-500">
                       ${team.teamName}
@@ -218,9 +220,9 @@ export class TeamStats extends LitElement implements Layer {
                 `
               : html`
                   <div
-                    class="contents hover:bg-slate-600/60 text-center cursor-pointer ${team.isMyTeam
-                      ? "font-bold"
-                      : ""}"
+                    class="contents hover:bg-slate-600/60 text-center cursor-pointer ${
+                      team.isMyTeam ? "font-bold" : ""
+                    }"
                   >
                     <div class="py-1.5 border-b border-slate-500">
                       ${team.teamName}
@@ -246,9 +248,11 @@ export class TeamStats extends LitElement implements Layer {
             this.requestUpdate();
           }}
         >
-          ${this.showUnits
-            ? translateText("leaderboard.show_control")
-            : translateText("leaderboard.show_units")}
+          ${
+            this.showUnits
+              ? translateText("leaderboard.show_control")
+              : translateText("leaderboard.show_units")
+          }
         </button>
       </div>
     `;

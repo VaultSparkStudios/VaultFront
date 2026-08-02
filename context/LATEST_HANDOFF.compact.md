@@ -1,48 +1,52 @@
 <!-- generated-by: scripts/compact-handoff.mjs v3.1 -->
-<!-- source-hash: f4e4a62fc423 -->
-<!-- generated-at: 2026-07-29T19:56:26.767Z -->
+<!-- source-hash: a732705a42ec -->
+<!-- generated-at: 2026-08-02T23:17:08.451Z -->
 
 # LATEST_HANDOFF (compact)
 
-SESSION
+SESSION HANDOFF SUMMARY
 
-- Number: 89 (closeout 2026-07-29)
-- Branch: main
+Session
 
-SHIPPED
+- Session 90 complete (2026-08-02); branch main.
 
-- Audit 4/4 and cumulative innovations 45/45; zero pending unblocked work.
-- Certified funnel chronology: fail-closed, independently receipted.
-- Worker-routed GameID witnesses: exact-shape, collision-owned, bounded, consumer-verified.
-- Startup brief provenance/freshness source-closed.
-- Production service worker: executable, release-scoped, Pages-contracted, bound into release lineage.
+Status
 
-INTENT
+- Local verification green; audit 10/10 and innovations 50/50 exhausted. Zero pending unblocked local work.
 
-- Run full agent-neutral arc (/start → /audit → /implement → /closeout) as one saturated mission using infrastructure rubric plus public-app release lens; verify premises against live code; implement all valid items and second-order innovations; preserve source-derived observability and exit-code truth; canonical write-back, local-staging verification, sanitize, direct-to-main commit/push, Ark broadcast, zero-shell closeout without fabricating external release evidence.
+Shipped (Session 90)
 
-VERIFICATION
+- Causal durable community elections; team-scoped Pressure with actor contribution.
+- Certified durable match dividends; exact-revision CI fan-in; isolated map capacity.
+- Complete protocol commands, converged task parsing, portable hash-bound visual evidence, composition extraction, dependency cleanup.
+- Visual truth: twelve checked-in desktop/mobile artifacts (VaultFront, Light, Competitive) inspected; onboarding occlusion, light-theme readability, and mobile drawer transition root-fixed.
 
-- 187 Vitest files / 1,040 tests with coverage; TypeScript, ESLint, Prettier, contracts, balance, production build, Pages 10/10, service-worker 1/1, bundles/media, performance, production audit zero, Playwright 26/26 green.
+Release Posture
 
-NOW (top 3)
+- Public-unlaunched / NO-GO. Local evidence does not substitute for approved external gates.
 
-- Establish explicitly approved staging origin/callback contract.
-- Collect exact-digest parity evidence.
-- Gather live identity, delivery, theme, human, revenue, rollback, founder evidence in gate order.
+Current Intent
 
-BLOCKERS (top 3)
+- Establish explicitly approved staging origin/callback contract, then collect external evidence in gate order. Do not fabricate or infer from READY credentials.
 
-- Release public-unlaunched / NO-GO; no approved staging/parity, verified project-domain delivery, native Obelisk, live-web, distinct-human Alpha, revenue, rollback, or founder approval.
-- Studio registry type reconciliation externally owned.
-- Closeout tooling incident: Studio Ops board renderer ignored --help and rewrote its owner file.
+Now Bucket (top 3)
 
-HUMAN-BLOCKED (with age)
+- Establish approved staging origin/callback contract.
+- Collect exact-digest staging/parity evidence.
+- Collect live identity, delivery, theme, human, revenue, rollback, and founder-approval evidence in gate order.
 
-- Ark question 01JUNMMD1162DB95DA5B58A7AB: requests owner-supported registry correction path after ack 01JUJOJL1K040B6517CAF2EFA9 rejected `type` as unsupported. Age: current session (S89); prior ack from earlier session.
-- Ark incident 01JUNMP9IR9DF9678CD51FFF1B: requests owner regeneration and non-mutating project-scoped help path. Age: current session (S89).
-- Item 104 (S88) externally blocked pending applied acknowledgement for Ark cargo 01JUJNSAUUE4626BC279319392. Age: 1 session.
+Blockers (top 3)
 
-NEXT
+- No approved staging/parity origin exists; all external evidence blocked behind it.
+- No verified project-domain (Zoho/Brevo) delivery, native Obelisk identity, or live-web health.
+- No three-human Alpha, revenue, rollback drill, or founder approval.
 
-- Pursue owner-supported registry correction and staging contract; do not edit sibling registry directly.
+Human-Blocked Items (with age)
+
+- Studio registry type reconciliation, externally owned; ack 01JUJOJL1K040B6517CAF2EFA9 rejected type as unsupported; open Ark question 01JUNMMD1162DB95DA5B58A7AB requests owner-supported path (since Session 89, ~4 days).
+- Studio Ops board renderer incident 01JUNMP9IR9DF9678CD51FFF1B; requests owner regeneration and non-mutating project-scoped help path (since Session 89, ~4 days).
+- Founder release approval outstanding (ongoing).
+
+Next Session Pointer
+
+- Pursue explicitly approved staging origin/callback contract; begin gate-order external evidence collection without inferring from READY credentials.

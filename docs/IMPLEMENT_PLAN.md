@@ -1,37 +1,39 @@
-# Implementation Plan — Session 89
+# Implementation Plan — Session 90
 
-Source of truth: `docs/AUDIT_2026-07-29.json`
+Source of truth: `docs/AUDIT_2026-08-01.json`
 
-## Wave 1 — Founder-facing truth authority
+## Wave A — Closeout and truth foundations
 
-1. **106 · Startup-brief epistemic integrity** — eliminate confident unknowns, placeholders, provenance conflation, and missing pressure state; verify the freshly rendered canonical brief before any other generated surface depends on it.
+1. **111 · Protocol command-surface parity** — restore every canonical local command/adaptor and contract-test protocol references so closeout is executable before relying on it.
+2. **116 · Task-board parser convergence** — replace the vacuous zero-row integrity pass with a shared, section-aware parser and explicit exhaustion semantics.
+3. **118 · Dead type-stub removal** — remove the proven unused deprecated dependency and verify the graph/lock/supply-chain boundary.
+4. **114 · Isolated map-capacity authority** — remove ambient localhost from playlist policy, restore deterministic tests, and attach capacity provenance.
 
-## Wave 2 — Runtime-certified authorities
+## Wave B — Release and visual provenance
 
-2. **105 · Certified funnel chronology** — reject contradictory Pressure → Breach → decisive delivery → victory timelines before either process-local or PostgreSQL persistence.
-3. **107 · Worker-routed game identity** — extract one eight-character routing preimage authority shared by rematch and matchmaking, with collision/exhaustion tests.
+5. **112 · Exact-revision release admission** — add the CI lineage parent and align Zoho/Obelisk project truth with live Canon.
+6. **109 · Hash-bound theme evidence** — bind visual proof to Git/source/artifact digests and a canonical latest receipt.
 
-## Wave 3 — Deployment and offline ownership
+## Wave C — Causal game/runtime systems
 
-4. **108 · Release-bound service-worker cache** — scope cache identity, deletion, pre-cache roots, and immutable asset ownership to the exact deployed worker release; bind the policy into Pages verification.
+7. **117 · Worker route registrar extraction** — create typed headroom for the season/progression routes without raising the composition ceiling.
+8. **110 · Causal community mutator election** — actor-bind, deduplicate, persist, reload, and execute the elected next-week mutator.
+9. **113 · Team-scoped Vault Pressure** — make competitive-side progression and actor contribution agree with team victory.
+10. **115 · Certified match dividend** — persist and expose actor/game progression receipts; replace delayed cumulative snapshots with exact causal deltas and honest lifecycle states.
 
 ## Expansion gate
 
-After 4/4 primary items pass focused and full verification, run the canonical innovation pack, admit only second-order candidates proven by the shipped diffs, implement them at the same L3 bar, and require monotonic ledger/work-exhaustion proof.
+Completed: all 10/10 primary items passed focused and broad verification. Five live-premise innovations (ranks 46–50) were generated and shipped at L3; the monotonic ledger is 50/50 and work exhaustion reports zero pending unblocked items.
 
-## Implementation outcome
+## Closeout result
 
-- Primary audit: **4/4 shipped**.
-- Second-order innovation ledger: **45/45 shipped**, including all four Session 89 compounds.
-- Complete-all gate: **0 pending unblocked** across the canonical audit and innovation sidecars.
-- External registry-type correction remains explicitly external and evidenced; it did not become fabricated local work.
+All three waves are complete. Full-suite and visual-review reds were root-fixed: Pressure scope moved into a bounded authority without raising the execution ceiling; theme proof now excludes onboarding, proves palette divergence, ships portable artifacts, and verifies settled mobile drawer state. External release remains an honest NO-GO and is not local implementation work.
 
 ## Direct verification
 
-Run each command directly and preserve its exit code:
+Run focused tests after each item. At the phase gate, run every command directly and preserve its exit code:
 
 ```powershell
-npx vitest run tests/scripts/BriefBlocks.test.ts tests/server/CertifiedLoopEvidenceStore.test.ts tests/server/WorkerGameId.test.ts tests/client/ServiceWorkerCachePolicy.test.ts tests/scripts/ReleaseSurfaceContracts.test.ts
 npx tsc --noEmit
 npm run lint
 npm run format:check
@@ -47,4 +49,4 @@ node scripts/check-work-exhaustion.mjs --root . --json
 node scripts/ops.mjs doctor --update-json
 ```
 
-Finish only when every audit and generated innovation item is shipped or honestly deferred with evidence, all applicable direct commands are green, and doctor reports `blockingFailing: 0`.
+Finish only when every primary and generated innovation item is shipped or honestly deferred with evidence, all applicable direct commands are green, and doctor reports `blockingFailing: 0`.

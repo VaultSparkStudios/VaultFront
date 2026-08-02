@@ -38,6 +38,37 @@ function parseBulletItem(line, index) {
   };
 }
 
+function parseChecklistItem(line, index) {
+  const match = line.match(/^- \[([^\]]*)\]\s+(.+)$/);
+  if (!match) return null;
+  const marker = match[1].trim().toLowerCase();
+  const rawItem = match[2].trim();
+  const tags = [...rawItem.matchAll(/\[([^\]]+)\]/g)].map((item) =>
+    item[1].toLowerCase(),
+  );
+  const status =
+    marker === "x"
+      ? "done"
+      : tags.some((tag) =>
+            ["release-evidence", "ecosystem", "externally-blocked"].includes(
+              tag,
+            ),
+          )
+        ? "externally-blocked"
+        : "unblocked";
+  return {
+    rank: String(index + 1),
+    rankNumber: index + 1,
+    tier: "",
+    category: tags.join(" / "),
+    status,
+    effort: "",
+    item: cleanTitle(rawItem),
+    rawItem,
+    title: cleanTitle(rawItem.replace(/^(?:\[[^\]]+\]\s*)+/, "")),
+  };
+}
+
 export function parseUnifiedItems(markdown) {
   const section = extractSection(markdown, "Unified Genius List");
   if (!section) return [];
@@ -76,11 +107,25 @@ export function parseUnifiedItems(markdown) {
 export function parseTaskRows(markdown) {
   const rows = [];
   let section = "(root)";
+  let tableKind = null;
   const lines = String(markdown || "").split(/\r?\n/);
   for (let index = 0; index < lines.length; index++) {
     const line = lines[index];
     const heading = line.match(/^#{2,6}\s+(.+?)\s*$/);
-    if (heading) section = heading[1].trim();
+    if (heading) {
+      section = heading[1].trim();
+      tableKind = null;
+    }
+
+    if (!/^\s*\|/.test(line)) tableKind = null;
+    if (/^\|\s*audit id\s*\|/i.test(line)) {
+      tableKind = "audit";
+      continue;
+    }
+    if (/^\|\s*(?:task\s+)?id\s*\|/i.test(line)) {
+      tableKind = "task";
+      continue;
+    }
 
     if (/^\|\s*\d+(?:\.\d+)?\s*\|/.test(line)) {
       const cells = line
@@ -101,25 +146,69 @@ export function parseTaskRows(markdown) {
         rawItem,
         title: cleanTitle(rawItem.match(/\*\*(.+?)\*\*/)?.[1] ?? rawItem),
         section,
+        tableKind: tableKind ?? "table",
         line: index + 1,
         raw: line,
       });
       continue;
     }
 
-    const bullet = parseBulletItem(line, rows.length);
+    const bullet =
+      parseBulletItem(line, rows.length) ??
+      parseChecklistItem(line, rows.length);
     if (bullet) {
       rows.push({
         ...bullet,
         id: `bullet:${index + 1}`,
         idNumber: null,
         section,
+        tableKind: "checklist",
         line: index + 1,
         raw: line,
       });
     }
   }
   return rows;
+}
+
+export function analyzeTaskBoard(markdown) {
+  const source = String(markdown || "");
+  const rows = parseTaskRows(source);
+  const taskRows = rows.filter(
+    (row) => row.idNumber !== null && row.tableKind !== "audit",
+  );
+  const checklistRows = rows.filter((row) => row.tableKind === "checklist");
+  const activeRows = rows.filter(
+    (row) =>
+      /^(now|next|unified genius list)/i.test(row.section) &&
+      !/^(done|shipped|complete)$/i.test(row.status),
+  );
+  const hasActiveSection = /^## (?:Now|Next|Unified Genius List)\s*$/im.test(
+    source,
+  );
+  const explicitExhaustion =
+    /(?:zero|0)\s+(?:pending\s+)?unblocked|complete-all[^\n]*(?:green|pass)|work exhaustion[^\n]*(?:green|pass)/i.test(
+      source,
+    );
+  const supported = rows.length > 0 || (hasActiveSection && explicitExhaustion);
+  return {
+    supported,
+    rows,
+    taskRows,
+    checklistRows,
+    activeRows,
+    hasActiveSection,
+    explicitExhaustion,
+    counts: {
+      parsed: rows.length,
+      numericTaskIds: taskRows.length,
+      checklist: checklistRows.length,
+      active: activeRows.length,
+      done: rows.filter((row) => /^(done|shipped|complete)$/i.test(row.status))
+        .length,
+      blocked: rows.filter((row) => /blocked/i.test(row.status)).length,
+    },
+  };
 }
 
 export function findTaskRowsById(markdown, id) {

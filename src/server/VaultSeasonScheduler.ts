@@ -1,23 +1,12 @@
-/**
- * VaultSeasonScheduler — authoritative weekly mutator rotation and community voting.
- *
- * Responsibilities:
- *  - Determines the current weekly mutator from UTC week number (same formula
- *    as pages-stub/index.html but server-authoritative).
- *  - Announces new mutators to Discord when the week rolls over.
- *  - Opens a Discord community vote on Sunday 12:00 UTC for next week's mutator.
- *  - Closes the vote on Monday 00:00 UTC and announces the winner.
- *  - Exposes getStatus() for the /api/season/current endpoint.
- */
-
+/** Authoritative, actor-bound weekly mutator election and runtime selection. */
+import { createHash } from "node:crypto";
 import { pool } from "./db/pool";
 import { DiscordNotifier } from "./DiscordNotifier";
 import { logger } from "./Logger";
 import { playerStatsStore } from "./PlayerStatsStore";
 
 const log = logger.child({ comp: "VaultSeasonScheduler" });
-
-// ── Mutator definitions ────────────────────────────────────────────────────
+const WEEK_MS = 7 * 24 * 60 * 60 * 1_000;
 
 interface MutatorDef {
   key: string;
@@ -86,8 +75,7 @@ const MUTATOR_DEFS: Record<string, MutatorDef> = {
   },
 };
 
-// Rotation excludes "none" — same filter as the client-side JS
-const ROTATION_KEYS: string[] = [
+const ROTATION_KEYS = [
   "lane_fog",
   "accelerated_cooldowns",
   "double_passive",
@@ -98,363 +86,619 @@ const ROTATION_KEYS: string[] = [
   "shield_escort",
   "rally_point",
   "execution_rush",
-];
+] as const;
 
-// ── Public API types ───────────────────────────────────────────────────────
+export type ElectionSource =
+  | "community-vote"
+  | "deterministic-no-vote"
+  | "deterministic-tie"
+  | "deterministic-schedule"
+  | "deterministic-persistence-failure";
+
+export interface MutatorElectionOutcome {
+  effectiveWeek: number;
+  selectedKey: string;
+  source: ElectionSource;
+  durability: "postgres" | "process-local" | "runtime-only";
+  winningVotes: number;
+  totalVotes: number;
+  decidedAt: string;
+  receiptDigest: string;
+}
 
 export interface SeasonStatus {
   currentMutator: { key: string; name: string; description: string };
+  selection: MutatorElectionOutcome;
   weekNumber: number;
-  mutatorEndsAt: number; // Unix ms timestamp of next Monday 00:00 UTC
+  effectiveWeek: number;
+  mutatorEndsAt: number;
   vote: {
     open: boolean;
     candidates: Array<{ key: string; name: string }>;
     closesAt: number | null;
+    effectiveWeek: number;
   } | null;
-  /** Top-3 candidates by current vote count (only populated when vote is open) */
   voteStandings: Array<{ key: string; name: string; votes: number }>;
 }
 
-// ── Internal vote state ────────────────────────────────────────────────────
+export interface MutatorVoteReceipt {
+  accepted: boolean;
+  reason:
+    | "accepted"
+    | "vote-closed"
+    | "invalid-candidate"
+    | "duplicate-actor"
+    | "persistence-unavailable";
+  candidateKey: string;
+  effectiveWeek: number | null;
+  durability: "postgres" | "process-local" | "none";
+  receiptDigest: string;
+}
 
 interface VoteState {
+  ballotWeek: number;
+  effectiveWeek: number;
   candidates: string[];
   votes: Map<string, number>;
-  openUntil: number; // Unix ms
+  voters: Set<string>;
+  openUntil: number;
   announced: boolean;
 }
 
-// ── Helpers ────────────────────────────────────────────────────────────────
-
-/**
- * Returns the ISO-style week-of-year for a given UTC date (0-indexed), using
- * the same formula as pages-stub/index.html:
- *   weekNum = floor((now - startOfYear) / 7d)
- */
-function utcWeekNumber(now: Date): number {
-  const startOfYear = Date.UTC(now.getUTCFullYear(), 0, 1);
-  return Math.floor((now.getTime() - startOfYear) / (7 * 24 * 60 * 60 * 1000));
+interface QueryResult<T> {
+  rows: T[];
+  rowCount: number | null;
 }
 
-/** Returns the mutator key for a given week number. */
+interface SeasonDatabase {
+  query<T = Record<string, unknown>>(
+    text: string,
+    values?: unknown[],
+  ): Promise<QueryResult<T>>;
+}
+
+export interface VaultSeasonSchedulerDependencies {
+  now: () => Date;
+  database: () => SeasonDatabase | null;
+  notifier: Pick<
+    typeof DiscordNotifier,
+    "weeklyMutatorAnnounced" | "weeklyVoteOpened" | "voteResultPosted"
+  >;
+  stats: Pick<
+    typeof playerStatsStore,
+    "seasonalSoftReset" | "getTopRatedPlayer" | "awardDynasty"
+  >;
+  setInterval: typeof setInterval;
+  clearInterval: typeof clearInterval;
+}
+
+const defaultDependencies: VaultSeasonSchedulerDependencies = {
+  now: () => new Date(),
+  database: () => pool as SeasonDatabase | null,
+  notifier: DiscordNotifier,
+  stats: playerStatsStore,
+  setInterval,
+  clearInterval,
+};
+
+export function utcWeekNumber(now: Date): number {
+  return Math.floor(
+    (now.getTime() - Date.UTC(now.getUTCFullYear(), 0, 1)) / WEEK_MS,
+  );
+}
+
+export function seasonWeekId(now: Date): number {
+  return now.getUTCFullYear() * 100 + utcWeekNumber(now);
+}
+
 function mutatorKeyForWeek(weekNum: number): string {
   return ROTATION_KEYS[weekNum % ROTATION_KEYS.length];
 }
 
-/** Returns Unix ms timestamp of the next Monday 00:00 UTC after `now`. */
+function candidatesForWeek(weekNum: number): string[] {
+  const offset = weekNum % ROTATION_KEYS.length;
+  return [
+    ROTATION_KEYS[offset],
+    ROTATION_KEYS[(offset + 1) % ROTATION_KEYS.length],
+    ROTATION_KEYS[(offset + 2) % ROTATION_KEYS.length],
+  ];
+}
+
 function nextMondayUtcMs(now: Date): number {
-  const dayOfWeek = now.getUTCDay(); // 0=Sun … 6=Sat
-  const daysUntilMonday = dayOfWeek === 0 ? 1 : 8 - dayOfWeek;
-  const nextMonday = Date.UTC(
+  const daysUntilMonday = now.getUTCDay() === 0 ? 1 : 8 - now.getUTCDay();
+  return Date.UTC(
     now.getUTCFullYear(),
     now.getUTCMonth(),
     now.getUTCDate() + daysUntilMonday,
-    0,
-    0,
-    0,
-    0,
   );
-  return nextMonday;
 }
 
-/** Returns Unix ms timestamp of the coming Sunday 12:00 UTC (or this Sunday if it hasn't passed). */
 function thisSundayNoonUtcMs(now: Date): number {
-  const dayOfWeek = now.getUTCDay(); // 0=Sun
-  const daysUntilSunday = dayOfWeek === 0 ? 0 : 7 - dayOfWeek;
+  const daysUntilSunday = now.getUTCDay() === 0 ? 0 : 7 - now.getUTCDay();
   return Date.UTC(
     now.getUTCFullYear(),
     now.getUTCMonth(),
     now.getUTCDate() + daysUntilSunday,
     12,
-    0,
-    0,
-    0,
   );
 }
 
-// ── Scheduler class ────────────────────────────────────────────────────────
+function sha256(value: unknown): string {
+  return `sha256:${createHash("sha256").update(JSON.stringify(value)).digest("hex")}`;
+}
 
-class VaultSeasonScheduler {
+function finalizeOutcome(
+  outcome: Omit<MutatorElectionOutcome, "receiptDigest">,
+): MutatorElectionOutcome {
+  return { ...outcome, receiptDigest: sha256(outcome) };
+}
+
+export function verifyMutatorElectionOutcome(
+  outcome: MutatorElectionOutcome,
+): boolean {
+  const { receiptDigest, ...payload } = outcome;
+  return receiptDigest === sha256(payload);
+}
+
+export class VaultSeasonScheduler {
   private lastAnnouncedWeek: number | null = null;
   private currentVote: VoteState | null = null;
+  private readonly outcomes = new Map<number, MutatorElectionOutcome>();
   private intervalHandle: ReturnType<typeof setInterval> | null = null;
 
-  /** Call once on server startup. */
-  start(): void {
+  public constructor(
+    private readonly dependencies: VaultSeasonSchedulerDependencies = defaultDependencies,
+  ) {}
+
+  public async start(): Promise<void> {
     log.info("VaultSeasonScheduler starting");
-    this.tick();
-    // Check every hour
-    this.intervalHandle = setInterval(
+    const now = this.dependencies.now();
+    await this.loadOutcomesFromDb(now);
+    await this.recoverCurrentOutcome(now);
+    await this.tick(now);
+    this.intervalHandle = this.dependencies.setInterval(
       () => {
-        this.tick();
+        void this.tick().catch((error) =>
+          log.error("season scheduler tick failed", { err: String(error) }),
+        );
       },
       60 * 60 * 1000,
     );
   }
 
-  stop(): void {
+  public stop(): void {
     if (this.intervalHandle !== null) {
-      clearInterval(this.intervalHandle);
+      this.dependencies.clearInterval(this.intervalHandle);
       this.intervalHandle = null;
     }
   }
 
-  // ── Tick ──────────────────────────────────────────────────────────────
-
-  private tick(): void {
-    const now = new Date();
+  public async tick(now = this.dependencies.now()): Promise<void> {
+    await this.maybeCloseVote(now);
     const weekNum = utcWeekNumber(now);
-    const mutatorKey = mutatorKeyForWeek(weekNum);
-    const mutator = MUTATOR_DEFS[mutatorKey];
-
-    // Announce if new week
-    if (this.lastAnnouncedWeek !== weekNum) {
-      log.info(`New week ${weekNum}: mutator=${mutatorKey}`);
+    const selection = this.selectionFor(now);
+    if (this.lastAnnouncedWeek !== seasonWeekId(now)) {
+      const mutator = MUTATOR_DEFS[selection.selectedKey];
+      log.info(
+        `New week ${seasonWeekId(now)}: mutator=${selection.selectedKey}`,
+        {
+          source: selection.source,
+          receiptDigest: selection.receiptDigest,
+        },
+      );
       if (mutator) {
-        DiscordNotifier.weeklyMutatorAnnounced(
+        this.dependencies.notifier.weeklyMutatorAnnounced(
           mutator.name,
           mutator.description,
           weekNum,
         );
       }
-      this.lastAnnouncedWeek = weekNum;
-
-      // Close any open vote and post result
-      this.maybeCloseVote(now);
+      this.lastAnnouncedWeek = seasonWeekId(now);
     }
-
-    // Open vote window: Sunday 12:00 UTC → Monday 00:00 UTC
-    this.maybeOpenVote(now, weekNum);
+    await this.maybeOpenVote(now);
   }
 
-  // ── Vote management ───────────────────────────────────────────────────
-
-  private maybeOpenVote(now: Date, currentWeek: number): void {
-    const dayOfWeek = now.getUTCDay(); // 0=Sun
-    if (dayOfWeek !== 0) return; // only on Sunday
-
-    const sundayNoon = thisSundayNoonUtcMs(now);
+  private async maybeOpenVote(now: Date): Promise<void> {
+    if (now.getUTCDay() !== 0) return;
+    const openAt = thisSundayNoonUtcMs(now);
     const closeAt = nextMondayUtcMs(now);
-
-    if (now.getTime() < sundayNoon) return; // before noon, not yet
-    if (now.getTime() >= closeAt) return; // already past Monday
-
-    // Vote should be open. Check if we already opened one this week.
-    if (this.currentVote !== null && this.currentVote.openUntil === closeAt) {
-      return; // already open for this window
-    }
-
-    // Candidates = all three rotation keys for next week's possible mutators
-    const nextWeekNum = currentWeek + 1;
-    const nextKey = mutatorKeyForWeek(nextWeekNum);
-    // Offer all three rotation options (shuffle based on nextWeekNum for variety)
-    const offset = nextWeekNum % ROTATION_KEYS.length;
-    const candidates = [
-      ROTATION_KEYS[offset % ROTATION_KEYS.length],
-      ROTATION_KEYS[(offset + 1) % ROTATION_KEYS.length],
-      ROTATION_KEYS[(offset + 2) % ROTATION_KEYS.length],
-    ];
-    void nextKey; // deterministic winner will be the scheduled one; vote is advisory
-
-    const votes = new Map<string, number>();
-    for (const c of candidates) {
-      votes.set(c, 0);
-    }
-
+    if (now.getTime() < openAt || now.getTime() >= closeAt) return;
+    if (this.currentVote?.openUntil === closeAt) return;
+    const effectiveDate = new Date(closeAt + 1);
+    const effectiveWeek = seasonWeekId(effectiveDate);
+    const candidates = candidatesForWeek(utcWeekNumber(effectiveDate));
     this.currentVote = {
+      ballotWeek: seasonWeekId(now),
+      effectiveWeek,
       candidates,
-      votes,
+      votes: new Map(candidates.map((candidate) => [candidate, 0])),
+      voters: new Set(),
       openUntil: closeAt,
       announced: false,
     };
+    await this.loadVotesFromDb();
+    this.openWeeklyVote();
+  }
 
-    if (!this.currentVote.announced) {
-      this.openWeeklyVote();
+  private chooseOutcome(
+    vote: VoteState,
+    decidedAt: Date,
+  ): Omit<MutatorElectionOutcome, "receiptDigest"> {
+    const scheduled = mutatorKeyForWeek(utcWeekNumber(decidedAt));
+    const totalVotes = [...vote.votes.values()].reduce(
+      (sum, count) => sum + count,
+      0,
+    );
+    const highest = Math.max(...vote.votes.values());
+    const leaders = [...vote.votes.entries()]
+      .filter(([, count]) => count === highest)
+      .map(([key]) => key)
+      .sort();
+    const noVote = totalVotes === 0;
+    const tie = !noVote && leaders.length > 1;
+    const selectedKey = noVote
+      ? scheduled
+      : tie
+        ? leaders.includes(scheduled)
+          ? scheduled
+          : leaders[0]
+        : leaders[0];
+    return {
+      effectiveWeek: vote.effectiveWeek,
+      selectedKey,
+      source: noVote
+        ? "deterministic-no-vote"
+        : tie
+          ? "deterministic-tie"
+          : "community-vote",
+      durability: this.dependencies.database() ? "postgres" : "process-local",
+      winningVotes: noVote ? 0 : highest,
+      totalVotes,
+      decidedAt: decidedAt.toISOString(),
+    };
+  }
+
+  private async persistOutcome(
+    candidate: Omit<MutatorElectionOutcome, "receiptDigest">,
+  ): Promise<{ outcome: MutatorElectionOutcome; committed: boolean }> {
+    const database = this.dependencies.database();
+    if (!database) {
+      const outcome = finalizeOutcome(candidate);
+      this.outcomes.set(outcome.effectiveWeek, outcome);
+      return { outcome, committed: true };
+    }
+    const outcome = finalizeOutcome({ ...candidate, durability: "postgres" });
+    try {
+      const inserted = await database.query<{
+        effective_week: number;
+        selected_key: string;
+        source: ElectionSource;
+        durability: "postgres";
+        winning_votes: number;
+        total_votes: number;
+        decided_at: Date | string;
+        receipt_digest: string;
+      }>(
+        `INSERT INTO season_mutator_outcomes
+          (effective_week, selected_key, source, durability, winning_votes, total_votes, decided_at, receipt_digest)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+         ON CONFLICT (effective_week) DO NOTHING
+         RETURNING *`,
+        [
+          outcome.effectiveWeek,
+          outcome.selectedKey,
+          outcome.source,
+          outcome.durability,
+          outcome.winningVotes,
+          outcome.totalVotes,
+          outcome.decidedAt,
+          outcome.receiptDigest,
+        ],
+      );
+      if ((inserted.rowCount ?? inserted.rows.length) > 0) {
+        this.outcomes.set(outcome.effectiveWeek, outcome);
+        return { outcome, committed: true };
+      }
+      const existing = await database.query<{
+        effective_week: number;
+        selected_key: string;
+        source: ElectionSource;
+        durability: "postgres";
+        winning_votes: number;
+        total_votes: number;
+        decided_at: Date | string;
+        receipt_digest: string;
+      }>("SELECT * FROM season_mutator_outcomes WHERE effective_week = $1", [
+        outcome.effectiveWeek,
+      ]);
+      const restored = this.rowToOutcome(existing.rows[0]);
+      if (!restored || !verifyMutatorElectionOutcome(restored))
+        throw new Error(
+          "persisted election outcome failed digest verification",
+        );
+      this.outcomes.set(restored.effectiveWeek, restored);
+      return { outcome: restored, committed: false };
+    } catch (error) {
+      log.error("Failed to persist mutator election outcome", {
+        err: String(error),
+      });
+      const fallback = finalizeOutcome({
+        ...candidate,
+        selectedKey: mutatorKeyForWeek(
+          utcWeekNumber(new Date(candidate.decidedAt)),
+        ),
+        source: "deterministic-persistence-failure",
+        durability: "runtime-only",
+        winningVotes: 0,
+      });
+      this.outcomes.set(fallback.effectiveWeek, fallback);
+      return { outcome: fallback, committed: false };
     }
   }
 
-  private maybeCloseVote(now: Date): void {
-    if (this.currentVote === null) return;
-    if (now.getTime() < this.currentVote.openUntil) return;
-
-    const winner = this.getWinner();
-    if (winner !== null) {
-      const winnerDef = MUTATOR_DEFS[winner.key];
-      const totalVotes = Array.from(this.currentVote.votes.values()).reduce(
-        (a, b) => a + b,
-        0,
-      );
-      if (winnerDef) {
-        DiscordNotifier.voteResultPosted(
-          winnerDef.name,
-          winner.votes,
-          totalVotes,
-        );
-      }
-    }
-
+  private async maybeCloseVote(now: Date): Promise<void> {
+    const vote = this.currentVote;
+    if (!vote || now.getTime() < vote.openUntil) return;
+    const { outcome, committed } = await this.persistOutcome(
+      this.chooseOutcome(vote, now),
+    );
     this.currentVote = null;
-
-    // Seasonal soft-reset: pull all Elo ratings toward default by up to 200 pts
-    void playerStatsStore
-      .seasonalSoftReset()
-      .catch((err) =>
-        log.error("seasonalSoftReset failed", { err: String(err) }),
+    if (!committed) return;
+    const winner = MUTATOR_DEFS[outcome.selectedKey];
+    if (winner)
+      this.dependencies.notifier.voteResultPosted(
+        winner.name,
+        outcome.winningVotes,
+        outcome.totalVotes,
       );
-
-    // Dynasty award: top-rated player earns the season emblem
-    void playerStatsStore.getTopRatedPlayer().then(async (top) => {
+    void this.dependencies.stats
+      .seasonalSoftReset()
+      .catch((error) =>
+        log.error("seasonalSoftReset failed", { err: String(error) }),
+      );
+    void this.dependencies.stats.getTopRatedPlayer().then(async (top) => {
       if (!top) return;
       const emblems = ["👑", "🔱", "⚡", "🌑", "🔥", "💠"];
-      const emblem = emblems[this.getStatus().weekNumber % emblems.length];
-      await playerStatsStore.awardDynasty(top.persistentId, emblem);
-      log.info("dynasty awarded", {
-        persistentId: top.persistentId,
-        displayName: top.displayName,
-        elo: top.eloRating,
-        emblem,
-      });
+      const emblem = emblems[utcWeekNumber(now) % emblems.length];
+      await this.dependencies.stats.awardDynasty(top.persistentId, emblem);
     });
   }
 
-  openWeeklyVote(): void {
-    if (this.currentVote === null) return;
-    const candidates = this.currentVote.candidates
-      .map((k) => MUTATOR_DEFS[k])
-      .filter((d): d is MutatorDef => d !== undefined)
-      .map((d) => ({ key: d.key, name: d.name }));
-
-    DiscordNotifier.weeklyVoteOpened(
+  private openWeeklyVote(): void {
+    if (!this.currentVote || this.currentVote.announced) return;
+    const candidates = this.currentVote.candidates.map((key) => ({
+      key,
+      name: MUTATOR_DEFS[key]?.name ?? key,
+    }));
+    this.dependencies.notifier.weeklyVoteOpened(
       candidates,
       new Date(this.currentVote.openUntil),
     );
     this.currentVote.announced = true;
   }
 
-  // ── Public methods ─────────────────────────────────────────────────────
-
-  /**
-   * Increments the vote count for a candidate key.
-   * No-ops if the vote is not open or the candidate is invalid.
-   * @param voterId - anonymized player ID used for deduplication in Postgres.
-   */
-  recordVote(candidateKey: string, voterId?: string): void {
-    if (this.currentVote === null) return;
-    if (Date.now() >= this.currentVote.openUntil) return;
-    if (!this.currentVote.candidates.includes(candidateKey)) return;
-
-    const current = this.currentVote.votes.get(candidateKey) ?? 0;
-    this.currentVote.votes.set(candidateKey, current + 1);
-
-    // Persist to Postgres (fire-and-forget; one vote per voter per week)
-    if (pool && voterId) {
-      const now = new Date();
-      const weekNum = utcWeekNumber(now);
-      pool
-        .query(
-          `INSERT INTO season_votes (week_number, voter_id, candidate_key)
-           VALUES ($1, $2, $3) ON CONFLICT (week_number, voter_id) DO NOTHING`,
-          [weekNum, voterId, candidateKey],
-        )
-        .catch((err) =>
-          log.error("Failed to persist season vote", {
-            voterId,
-            candidateKey,
-            err: String(err),
-          }),
-        );
-    }
-  }
-
-  /**
-   * Load this week's votes from Postgres into in-memory state.
-   * Call once at startup so vote counts survive server restarts.
-   */
-  async loadVotesFromDb(): Promise<void> {
-    if (!pool || !this.currentVote) return;
-    const weekNum = utcWeekNumber(new Date());
-    try {
-      const res = await pool.query<{ candidate_key: string; count: string }>(
-        `SELECT candidate_key, COUNT(*) AS count
-         FROM season_votes
-         WHERE week_number = $1
-         GROUP BY candidate_key`,
-        [weekNum],
-      );
-      for (const row of res.rows) {
-        const existing = this.currentVote.votes.get(row.candidate_key) ?? 0;
-        this.currentVote.votes.set(
-          row.candidate_key,
-          existing + parseInt(row.count, 10),
-        );
-      }
-      log.info("Loaded season votes from DB", { weekNum, rows: res.rowCount });
-    } catch (err) {
-      log.error("Failed to load season votes from DB", { err: String(err) });
-    }
-  }
-
-  /** Returns the winning candidate or null if vote is still open or no votes cast. */
-  getWinner(): { key: string; votes: number } | null {
-    if (this.currentVote === null) return null;
-    if (Date.now() < this.currentVote.openUntil) return null; // still open
-
-    let winnerKey: string | null = null;
-    let winnerVotes = -1;
-
-    for (const [key, count] of this.currentVote.votes.entries()) {
-      if (count > winnerVotes) {
-        winnerVotes = count;
-        winnerKey = key;
-      }
-    }
-
-    if (winnerKey === null || winnerVotes === 0) return null;
-    return { key: winnerKey, votes: winnerVotes };
-  }
-
-  /** Returns the full season status for the API. */
-  getStatus(): SeasonStatus {
-    const now = new Date();
-    const weekNum = utcWeekNumber(now);
-    const mutatorKey = mutatorKeyForWeek(weekNum);
-    const mutator = MUTATOR_DEFS[mutatorKey] ?? MUTATOR_DEFS["none"];
-    const mutatorEndsAt = nextMondayUtcMs(now);
-
-    let vote: SeasonStatus["vote"] = null;
-    if (this.currentVote !== null && Date.now() < this.currentVote.openUntil) {
-      vote = {
-        open: true,
-        candidates: this.currentVote.candidates
-          .map((k) => MUTATOR_DEFS[k])
-          .filter((d): d is MutatorDef => d !== undefined)
-          .map((d) => ({ key: d.key, name: d.name })),
-        closesAt: this.currentVote.openUntil,
+  public async recordVote(
+    candidateKey: string,
+    actorId: string,
+  ): Promise<MutatorVoteReceipt> {
+    const vote = this.currentVote;
+    const now = this.dependencies.now();
+    const makeReceipt = (
+      accepted: boolean,
+      reason: MutatorVoteReceipt["reason"],
+      durability: MutatorVoteReceipt["durability"],
+    ): MutatorVoteReceipt => {
+      const payload = {
+        accepted,
+        reason,
+        candidateKey,
+        effectiveWeek: vote?.effectiveWeek ?? null,
+        durability,
+        actorDigest: sha256(`actor:${actorId}`),
       };
-    }
+      return { ...payload, receiptDigest: sha256(payload) };
+    };
+    if (!vote || now.getTime() >= vote.openUntil)
+      return makeReceipt(false, "vote-closed", "none");
+    if (!vote.candidates.includes(candidateKey))
+      return makeReceipt(false, "invalid-candidate", "none");
+    if (vote.voters.has(actorId))
+      return makeReceipt(
+        false,
+        "duplicate-actor",
+        this.dependencies.database() ? "postgres" : "process-local",
+      );
 
-    let voteStandings: SeasonStatus["voteStandings"] = [];
-    if (this.currentVote !== null && Date.now() < this.currentVote.openUntil) {
-      voteStandings = [...this.currentVote.votes.entries()]
-        .map(([key, votes]) => ({
-          key,
-          name: MUTATOR_DEFS[key]?.name ?? key,
-          votes,
-        }))
-        .sort((a, b) => b.votes - a.votes)
-        .slice(0, 3);
+    const database = this.dependencies.database();
+    if (database) {
+      try {
+        const inserted = await database.query<{ candidate_key: string }>(
+          `INSERT INTO season_votes (week_number, voter_id, candidate_key)
+           VALUES ($1, $2, $3)
+           ON CONFLICT (week_number, voter_id) DO NOTHING
+           RETURNING candidate_key`,
+          [vote.ballotWeek, actorId, candidateKey],
+        );
+        if ((inserted.rowCount ?? inserted.rows.length) === 0) {
+          vote.voters.add(actorId);
+          return makeReceipt(false, "duplicate-actor", "postgres");
+        }
+      } catch (error) {
+        log.error("Failed to persist season vote", {
+          candidateKey,
+          err: String(error),
+        });
+        return makeReceipt(false, "persistence-unavailable", "none");
+      }
     }
+    vote.voters.add(actorId);
+    vote.votes.set(candidateKey, (vote.votes.get(candidateKey) ?? 0) + 1);
+    return makeReceipt(
+      true,
+      "accepted",
+      database ? "postgres" : "process-local",
+    );
+  }
 
+  private async loadVotesFromDb(): Promise<void> {
+    const database = this.dependencies.database();
+    const vote = this.currentVote;
+    if (!database || !vote) return;
+    try {
+      const result = await database.query<{
+        candidate_key: string;
+        voter_id: string;
+      }>(
+        "SELECT candidate_key, voter_id FROM season_votes WHERE week_number = $1",
+        [vote.ballotWeek],
+      );
+      vote.votes = new Map(vote.candidates.map((candidate) => [candidate, 0]));
+      vote.voters.clear();
+      for (const row of result.rows) {
+        if (!vote.candidates.includes(row.candidate_key)) continue;
+        vote.voters.add(row.voter_id);
+        vote.votes.set(
+          row.candidate_key,
+          (vote.votes.get(row.candidate_key) ?? 0) + 1,
+        );
+      }
+    } catch (error) {
+      log.error("Failed to load season votes from DB", { err: String(error) });
+    }
+  }
+
+  private rowToOutcome(row: any): MutatorElectionOutcome | null {
+    if (!row) return null;
+    return {
+      effectiveWeek: Number(row.effective_week),
+      selectedKey: String(row.selected_key),
+      source: row.source,
+      durability: row.durability,
+      winningVotes: Number(row.winning_votes),
+      totalVotes: Number(row.total_votes),
+      decidedAt: new Date(row.decided_at).toISOString(),
+      receiptDigest: String(row.receipt_digest),
+    };
+  }
+
+  private async loadOutcomesFromDb(now: Date): Promise<void> {
+    const database = this.dependencies.database();
+    if (!database) return;
+    try {
+      const result = await database.query(
+        "SELECT * FROM season_mutator_outcomes WHERE effective_week >= $1 ORDER BY effective_week",
+        [seasonWeekId(new Date(now.getTime() - WEEK_MS))],
+      );
+      for (const row of result.rows) {
+        const outcome = this.rowToOutcome(row);
+        if (outcome && verifyMutatorElectionOutcome(outcome))
+          this.outcomes.set(outcome.effectiveWeek, outcome);
+        else log.error("Rejected tampered mutator election outcome");
+      }
+    } catch (error) {
+      log.error("Failed to load mutator election outcomes", {
+        err: String(error),
+      });
+    }
+  }
+
+  private async recoverCurrentOutcome(now: Date): Promise<void> {
+    const effectiveWeek = seasonWeekId(now);
+    const database = this.dependencies.database();
+    if (!database || this.outcomes.has(effectiveWeek)) return;
+    const priorDate = new Date(now.getTime() - WEEK_MS);
+    try {
+      const result = await database.query<{
+        candidate_key: string;
+        voter_id: string;
+      }>(
+        "SELECT candidate_key, voter_id FROM season_votes WHERE week_number = $1",
+        [seasonWeekId(priorDate)],
+      );
+      const candidates = candidatesForWeek(utcWeekNumber(now));
+      const vote: VoteState = {
+        ballotWeek: seasonWeekId(priorDate),
+        effectiveWeek,
+        candidates,
+        votes: new Map(candidates.map((candidate) => [candidate, 0])),
+        voters: new Set(),
+        openUntil: now.getTime(),
+        announced: true,
+      };
+      for (const row of result.rows) {
+        if (
+          !candidates.includes(row.candidate_key) ||
+          vote.voters.has(row.voter_id)
+        )
+          continue;
+        vote.voters.add(row.voter_id);
+        vote.votes.set(
+          row.candidate_key,
+          (vote.votes.get(row.candidate_key) ?? 0) + 1,
+        );
+      }
+      await this.persistOutcome(this.chooseOutcome(vote, now));
+    } catch (error) {
+      log.error("Failed to recover current mutator outcome", {
+        err: String(error),
+      });
+    }
+  }
+
+  private selectionFor(now: Date): MutatorElectionOutcome {
+    const effectiveWeek = seasonWeekId(now);
+    const persisted = this.outcomes.get(effectiveWeek);
+    if (persisted) return persisted;
+    return finalizeOutcome({
+      effectiveWeek,
+      selectedKey: mutatorKeyForWeek(utcWeekNumber(now)),
+      source: "deterministic-schedule",
+      durability: "runtime-only",
+      winningVotes: 0,
+      totalVotes: 0,
+      decidedAt: new Date(
+        Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()),
+      ).toISOString(),
+    });
+  }
+
+  public getStatus(now = this.dependencies.now()): SeasonStatus {
+    const selection = this.selectionFor(now);
+    const mutator = MUTATOR_DEFS[selection.selectedKey] ?? MUTATOR_DEFS.none;
+    const voteOpen =
+      this.currentVote && now.getTime() < this.currentVote.openUntil;
     return {
       currentMutator: {
         key: mutator.key,
         name: mutator.name,
         description: mutator.description,
       },
-      weekNumber: weekNum,
-      mutatorEndsAt,
-      vote,
-      voteStandings,
+      selection,
+      weekNumber: utcWeekNumber(now),
+      effectiveWeek: seasonWeekId(now),
+      mutatorEndsAt: nextMondayUtcMs(now),
+      vote:
+        voteOpen && this.currentVote
+          ? {
+              open: true,
+              candidates: this.currentVote.candidates.map((key) => ({
+                key,
+                name: MUTATOR_DEFS[key]?.name ?? key,
+              })),
+              closesAt: this.currentVote.openUntil,
+              effectiveWeek: this.currentVote.effectiveWeek,
+            }
+          : null,
+      voteStandings:
+        voteOpen && this.currentVote
+          ? [...this.currentVote.votes.entries()]
+              .map(([key, votes]) => ({
+                key,
+                name: MUTATOR_DEFS[key]?.name ?? key,
+                votes,
+              }))
+              .sort((a, b) => b.votes - a.votes || a.key.localeCompare(b.key))
+          : [],
     };
   }
 }

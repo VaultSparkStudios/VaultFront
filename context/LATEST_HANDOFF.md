@@ -1,3 +1,11 @@
+## Where We Left Off — Session 90 complete (2026-08-02)
+
+- Branch: `main`; direct local verification green; audit 10/10 and innovations 50/50 exhausted.
+- Shipped: causal durable community elections, team-scoped Pressure with actor contribution, certified durable match dividends, exact-revision CI fan-in, isolated map capacity, complete protocol commands, converged task parsing, portable hash-bound visual evidence, composition extraction, and dependency cleanup.
+- Visual truth: twelve checked-in desktop/mobile artifacts across VaultFront, Light, and Competitive themes were directly inspected; onboarding occlusion, light-theme readability, and the mobile drawer transition were root-fixed.
+- Release: public-unlaunched / NO-GO. Local evidence does not substitute for approved staging/parity, Zoho delivery, native Obelisk, live-web, three-human Alpha, revenue, rollback, or founder approval.
+- Next: establish the explicitly approved staging origin/callback contract, then collect external evidence in gate order. Do not fabricate or infer it from READY credentials.
+
 ## Where We Left Off — Session 89 closeout (2026-07-29)
 
 - Branch: `main`; audit 4/4 and cumulative innovations 45/45 shipped with zero pending local work.
@@ -26,6 +34,12 @@
 # Latest Handoff
 
 This repo keeps only public-safe recent handoff history. Detailed operational history is maintained privately.
+
+## Session Intent — 2026-08-01 — Session 90
+
+Run the complete agent-neutral /start → /audit → /implement → /closeout arc as one continuous saturated mission: use the founder-requested infrastructure rubric plus VaultFront's public-app/game release lens; verify every premise against live code; exhaust every valid Unified Genius List item; generate and implement second-order innovations while the context meter permits; preserve source-derived observability and direct exit-code truth; then perform canonical write-back, local-staging verification, sanitization, direct-to-main commit/push, Ark broadcast, and zero-running-shell closeout without fabricating external release evidence.
+
+---
 
 ## Session Intent — 2026-07-29 — Session 89
 

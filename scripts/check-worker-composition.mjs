@@ -5,10 +5,16 @@ import { fileURLToPath } from "node:url";
 
 // Session 82 convergence floor: the root is 3,108 physical lines after the
 // experiment and season-pass extractions. Twenty-two lines make growth explicit.
-export const WORKER_LINE_BUDGET = 3130;
+export const WORKER_LINE_BUDGET = 3105;
 export const ROUTER_LINE_BUDGET = 180;
 
 export const EXTRACTED_DOMAINS = [
+  {
+    router: "SeasonCommunityRouter.ts",
+    registration: "registerSeasonCommunityRoutes",
+    forbiddenInWorker: "/api/mutator-vote",
+    lineBudget: 100,
+  },
   {
     router: "AchievementRouter.ts",
     registration: "registerAchievementRoutes",
@@ -41,10 +47,10 @@ export const EXTRACTED_DOMAINS = [
     lineBudget: 750,
   },
   {
-    router: "SeasonPassRouter.ts",
-    registration: "registerSeasonPassRoutes",
+    router: "ProgressionRouter.ts",
+    registration: "registerProgressionRoutes",
     forbiddenInWorker: "/api/vaultfront/season-progress",
-    lineBudget: 130,
+    lineBudget: 140,
   },
   {
     router: "CertifiedOutcomeRouter.ts",

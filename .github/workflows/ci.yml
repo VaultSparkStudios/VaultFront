@@ -110,3 +110,29 @@ jobs:
       - run: npm run build-prod
       - name: Check bundle sizes
         run: npm run bundle:check
+
+  release-evidence:
+    name: 🧾 Exact-revision release evidence
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    needs: [build, test, eslint, prettier, security-audit, bundle-size]
+    steps:
+      - name: Checkout verified revision
+        uses: actions/checkout@v4
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+      - run: npm ci
+      - name: Generate post-verification evidence
+        env:
+          VAULTFRONT_CI_VERIFICATION_COMPLETE: "true"
+          VAULTFRONT_CI_VERIFICATION_NEEDS: "build,test,eslint,prettier,security-audit,bundle-size"
+        run: npm run build-prod
+      - name: Upload exact-revision release evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-evidence-${{ github.sha }}
+          path: static/release-evidence.json
+          retention-days: 30

@@ -158,21 +158,23 @@ export class AccountModal extends BaseModal {
           </div>
 
           <!-- Middle Row: Stats Section -->
-          ${this.hasAnyStats()
-            ? html`<div
-                class="bg-white/5 rounded-xl border border-white/10 p-6"
-              >
-                <h3
-                  class="text-lg font-bold text-white mb-4 flex items-center gap-2"
+          ${
+            this.hasAnyStats()
+              ? html`<div
+                  class="bg-white/5 rounded-xl border border-white/10 p-6"
                 >
-                  <span class="text-blue-400">📊</span>
-                  ${translateText("account_modal.stats_overview")}
-                </h3>
-                <player-stats-tree-view
-                  .statsTree=${this.statsTree}
-                ></player-stats-tree-view>
-              </div>`
-            : ""}
+                  <h3
+                    class="text-lg font-bold text-white mb-4 flex items-center gap-2"
+                  >
+                    <span class="text-blue-400">📊</span>
+                    ${translateText("account_modal.stats_overview")}
+                  </h3>
+                  <player-stats-tree-view
+                    .statsTree=${this.statsTree}
+                  ></player-stats-tree-view>
+                </div>`
+              : ""
+          }
 
           <!-- Bottom Row: Recent Games Section -->
           <div class="bg-white/5 rounded-xl border border-white/10 p-6">
@@ -280,8 +282,10 @@ export class AccountModal extends BaseModal {
                 class="w-6 h-6 relative z-10"
               />
               <span class="font-bold relative z-10 tracking-wide"
-                >${translateText("main.login_discord") ||
-                translateText("account_modal.link_discord")}</span
+                >${
+                  translateText("main.login_discord") ||
+                  translateText("account_modal.link_discord")
+                }</span
               >
             </button>
 

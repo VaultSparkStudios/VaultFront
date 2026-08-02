@@ -28,6 +28,7 @@ import {
   type FortuneItem,
   getUserMe,
   type MutatorVoteCandidate,
+  type MutatorVoteReceipt,
   recordVaultFrontOutcomeTelemetry,
   recordVaultFrontPlaytestPulse,
   recordVaultFrontRecapEvent,
@@ -195,6 +196,9 @@ export class WinModal extends LitElement implements Layer {
 
   @state()
   private mutatorVoteSentKey: string | null = null;
+
+  @state()
+  private mutatorVoteReceipt: MutatorVoteReceipt | null = null;
 
   @state()
   private eloData: {
@@ -441,7 +445,7 @@ export class WinModal extends LitElement implements Layer {
   }
 
   private renderMutatorVote() {
-    if (this.mutatorVoteSentKey) {
+    if (this.mutatorVoteSentKey && this.mutatorVoteReceipt) {
       const voted = this.mutatorVoteCandidates.find(
         (c) => c.key === this.mutatorVoteSentKey,
       );
@@ -467,26 +471,37 @@ export class WinModal extends LitElement implements Layer {
               padding: 8px;
             }
           </style>
-          <div class="text-xs text-green-400 font-semibold mb-0.5">
-            ✓ Vote cast!
+          <div
+            class="text-xs ${this.mutatorVoteReceipt.accepted ? "text-green-400" : "text-amber-300"} font-semibold mb-0.5"
+          >
+            ${
+              this.mutatorVoteReceipt.accepted
+                ? "✓ Certified vote accepted"
+                : "Ballot already recorded"
+            }
           </div>
           <div class="text-xs text-slate-300">
             <span class="text-amber-300 font-semibold"
               >${voted?.name ?? this.mutatorVoteSentKey}</span
             >
-            — you'll see it in action next week if it wins.
+            —
+            ${
+              this.mutatorVoteReceipt.accepted
+                ? `the effective-week ${this.mutatorVoteReceipt.effectiveWeek ?? "next"} outcome will causally select the winner.`
+                : "one actor receives one ballot per election."
+            }
           </div>
         </div>
       `;
     }
 
     const vote = async (key: string) => {
-      this.mutatorVoteSentKey = key;
+      const receipt = await castMutatorVote(key);
+      if (receipt) {
+        this.mutatorVoteSentKey = key;
+        this.mutatorVoteReceipt = receipt;
+      }
       this.requestUpdate();
-      const user = await getUserMe().catch(() => null);
-      const voterId =
-        user !== null && user !== false ? user.player.publicId : undefined;
-      await castMutatorVote(key, voterId);
     };
 
     return html`
@@ -1432,6 +1447,7 @@ export class WinModal extends LitElement implements Layer {
     this.showButtons = false;
     this.mutatorVoteCandidates = [];
     this.mutatorVoteSentKey = null;
+    this.mutatorVoteReceipt = null;
     this.dynastyStory = null;
     this.dynastyStoryTyped = "";
 

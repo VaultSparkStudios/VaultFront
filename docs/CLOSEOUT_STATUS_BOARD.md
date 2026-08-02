@@ -1,29 +1,28 @@
 <!-- generated-by: scripts/render-closeout-board.mjs v1.0 -->
-<!-- generated-at: 2026-07-29 (Session 89 closeout) -->
+<!-- generated-at: 2026-08-02 (Session 90 closeout) -->
 
 # Closeout Status Board — VaultFront
 
 ```
-╔══ SESSION CLOSEOUT · VaultFront · S89 ═════════════════════════╗
-║  Date: 2026-07-29 · SIL: 997/1000 · V:11  ·  Debt: down          ║
+╔══ SESSION CLOSEOUT · VaultFront · S90 ═════════════════════════╗
+║  Date: 2026-08-02 · SIL: 997/1000 · V:20  ·  Debt: down          ║
 ║  Mode: FOUNDER  ·  Agent: codex                                  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ WHAT SHIPPED ════════════════════════════════════════════════╗
-║  ✓ Branch: `main`; audit 4/4 and cumulative innovations 45/45 s  ║
-║  ✓ Certified chronology receipts, worker-routed GameID witnesse  ║
-║  ✓ Verification: 187 Vitest files / 1,040 tests with coverage;   ║
-║  ✓ Registry correction remains externally owned. Ark question `  ║
-║  ✓ Release remains public-unlaunched / NO-GO. No external stagi  ║
+║  ✓ Branch: `main`; direct local verification green; audit 10/10  ║
+║  ✓ Shipped: causal durable community elections, team-scoped Pre  ║
+║  ✓ Visual truth: twelve checked-in desktop/mobile artifacts acr  ║
+║  ✓ Release: public-unlaunched / NO-GO. Local evidence does not   ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ SCORES · SIL 997/1000 ═══════════════════════════════════════╗
 ║    Dev Health         100  ██████████                            ║
 ║    Alignment          100  ██████████                            ║
 ║    Momentum           100  ██████████                            ║
-║    Engagement         98   ██████████                            ║
+║    Engagement         99   ██████████                            ║
 ║    Process Qual       100  ██████████                            ║
 ║    Coherence          99   ██████████                            ║
 ║    Security           100  ██████████                            ║
-║    Ecosystem          100  ██████████                            ║
+║    Ecosystem          99   ██████████                            ║
 ║    Capital            100  ██████████                            ║
 ║    Automation         100  ██████████                            ║
 ╚════════════════════════════════════════════════════════════════╝
@@ -40,7 +39,7 @@
 ║  · agent memory (context/BRAIN.md or agent home)                 ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ GIT STATUS ══════════════════════════════════════════════════╗
-║  Changes: 535 files  ·  M:525 A:0 D:0 ?:10                       ║
+║  Changes: 146 files  ·  M:116 A:0 D:0 ?:30                       ║
 ║  Ahead: 0  ·  Behind: 0                                          ║
 ║  Branch: main                                                    ║
 ╚════════════════════════════════════════════════════════════════╝
@@ -51,10 +50,10 @@
 ╔══ POST-SESSION SIGNALS ════════════════════════════════════════╗
 ║  Doctor:        11/11                                            ║
 ║  Compliance:    49/49                                            ║
-║  Tests:         1040/1040                                        ║
-║  IGNIS:         7d ago                                           ║
+║  Tests:         1069/1069                                        ║
+║  IGNIS:         2d ago                                           ║
 ║  Truth:         green                                            ║
-║  Sanitization:  4d ago                                           ║
+║  Sanitization:  8d ago                                           ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ NEXT SESSION ════════════════════════════════════════════════╗
 ║  #1: Unified Genius List exhausted                               ║

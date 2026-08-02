@@ -140,6 +140,31 @@ CREATE TABLE IF NOT EXISTS season_votes (
   PRIMARY KEY (week_number, voter_id)
 );
 
+CREATE TABLE IF NOT EXISTS season_mutator_outcomes (
+  effective_week INT          PRIMARY KEY,
+  selected_key   VARCHAR(64)  NOT NULL,
+  source         VARCHAR(64)  NOT NULL,
+  durability     VARCHAR(32)  NOT NULL DEFAULT 'postgres',
+  winning_votes  INT          NOT NULL CHECK (winning_votes >= 0),
+  total_votes    INT          NOT NULL CHECK (total_votes >= winning_votes),
+  decided_at     TIMESTAMPTZ  NOT NULL,
+  receipt_digest VARCHAR(80)  NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS match_progression_receipts (
+  game_id        VARCHAR(128) PRIMARY KEY,
+  actor_ids      TEXT[]       NOT NULL,
+  receipt        JSONB        NOT NULL,
+  receipt_digest VARCHAR(80)  NOT NULL,
+  recorded_at    TIMESTAMPTZ  NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_match_progression_receipts_actor_ids
+  ON match_progression_receipts USING GIN (actor_ids);
+
+CREATE INDEX IF NOT EXISTS idx_match_progression_receipts_recorded_at
+  ON match_progression_receipts (recorded_at);
+
 -- ── Clans ──────────────────────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS clans (
   id            VARCHAR(32)  PRIMARY KEY,

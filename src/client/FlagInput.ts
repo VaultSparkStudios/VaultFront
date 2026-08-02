@@ -92,13 +92,15 @@ export class FlagInput extends LitElement {
           id="flag-preview"
           class=${showSelect ? "hidden" : "w-full h-full overflow-hidden"}
         ></span>
-        ${showSelect
-          ? html`<span
-              class="text-[10px] font-black text-white uppercase leading-none break-words w-full text-center px-1"
-            >
-              ${translateText("flag_input.title")}
-            </span>`
-          : null}
+        ${
+          showSelect
+            ? html`<span
+                class="text-[10px] font-black text-white uppercase leading-none break-words w-full text-center px-1"
+              >
+                ${translateText("flag_input.title")}
+              </span>`
+            : null
+        }
       </button>
     `;
   }

@@ -6,7 +6,7 @@ describe("WinModal composition", () => {
     expect(inspectWinModalComposition()).toMatchObject({
       ok: true,
       errors: [],
-      modal: { lines: 2383, budget: 2400 },
+      modal: { lines: 2399, budget: 2400 },
       lifecycle: { lines: 234, budget: 240 },
     });
   });

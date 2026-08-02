@@ -103,13 +103,13 @@ export class ChatModal extends LitElement {
                         (phrase) => html`
                           <button
                             class="chat-option-button ${
-                            this.selectedPhraseText ===
-                            translateText(
-                              `chat.${this.selectedCategory}.${phrase.key}`,
-                            )
-                              ? "selected"
-                              : ""
-                          }"
+                              this.selectedPhraseText ===
+                              translateText(
+                                `chat.${this.selectedCategory}.${phrase.key}`,
+                              )
+                                ? "selected"
+                                : ""
+                            }"
                             @click=${() => this.selectPhrase(phrase)}
                           >
                             ${this.renderPhrasePreview(phrase)}
@@ -142,11 +142,11 @@ export class ChatModal extends LitElement {
                         (player) => html`
                           <button
                             class="chat-option-button ${
-                            this.selectedPlayer === player ? "selected" : ""
-                          }"
+                              this.selectedPlayer === player ? "selected" : ""
+                            }"
                             style="border: 2px solid ${player
-                            .territoryColor()
-                            .toHex()};"
+                              .territoryColor()
+                              .toHex()};"
                             @click=${() => this.selectPlayer(player)}
                           >
                             ${player.name()}

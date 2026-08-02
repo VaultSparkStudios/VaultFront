@@ -28,7 +28,13 @@ function reachesVaultFrontExecution(config: GameConfig): boolean {
 }
 
 function deterministicPlaylist(): MapPlaylist {
-  const playlist = new MapPlaylist();
+  const playlist = new MapPlaylist(async (map) => ({
+    map,
+    landTiles: 1_000_000,
+    source: "manifest",
+    observedAt: 1,
+    error: null,
+  }));
   const seam = playlist as unknown as {
     getNextMap: (type: PublicGameType) => GameMapType;
     getTeamCount: (map: GameMapType) => number;

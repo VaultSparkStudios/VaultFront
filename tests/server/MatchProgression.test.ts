@@ -34,22 +34,39 @@ describe("ServerAuthoritativeProgressionSpine", () => {
   });
   test("fans one authoritative outcome into existing stores exactly once", async () => {
     const recordMatch = vi.fn().mockResolvedValue(undefined);
-    const getPlayerStats = vi.fn(async (id: string) => ({
-      persistentId: id,
-      displayName: id,
-      eloRating: id === "p1" ? 1232 : 1184,
-      matchesPlayed: 1,
-      wins: id === "p1" ? 1 : 0,
-      losses: id === "p1" ? 0 : 1,
-      vaultCaptures: id === "p1" ? 2 : 1,
-      convoyDeliveries: id === "p1" ? 3 : 0,
-      executionChains: id === "p1" ? 1 : 0,
-      surgeActivations: 0,
-      placementComplete: false,
-      placementMatchNumber: 2,
-      createdAt: new Date(0).toISOString(),
-      updatedAt: new Date(0).toISOString(),
-    }));
+    const reads = new Map<string, number>();
+    const getPlayerStats = vi.fn(async (id: string) => {
+      const read = reads.get(id) ?? 0;
+      reads.set(id, read + 1);
+      const after = {
+        persistentId: id,
+        displayName: id,
+        eloRating: id === "p1" ? 1232 : 1184,
+        matchesPlayed: 1,
+        wins: id === "p1" ? 1 : 0,
+        losses: id === "p1" ? 0 : 1,
+        vaultCaptures: id === "p1" ? 2 : 1,
+        convoyDeliveries: id === "p1" ? 3 : 0,
+        executionChains: id === "p1" ? 1 : 0,
+        surgeActivations: 0,
+        placementComplete: false,
+        placementMatchNumber: 2,
+        createdAt: new Date(0).toISOString(),
+        updatedAt: new Date(0).toISOString(),
+      };
+      return read === 0
+        ? {
+            ...after,
+            eloRating: 1200,
+            matchesPlayed: 0,
+            wins: 0,
+            losses: 0,
+            vaultCaptures: 0,
+            convoyDeliveries: 0,
+            executionChains: 0,
+          }
+        : after;
+    });
     const checkAndUnlock = vi.fn(
       (_persistentId: string, event: { type: string }) =>
         event.type === "match_ended" ? ([{}] as any[]) : [],
@@ -97,6 +114,7 @@ describe("ServerAuthoritativeProgressionSpine", () => {
       gameId: "game-1",
       evidence: "certified-match-result",
     });
+    const persistReceipt = vi.fn().mockResolvedValue(undefined);
     const spine = new ServerAuthoritativeProgressionSpine({
       recordMatch,
       getPlayerStats,
@@ -107,6 +125,10 @@ describe("ServerAuthoritativeProgressionSpine", () => {
       recordSeasonContracts,
       recordLoopEvidence,
       recordCertifiedOutcomes,
+      loadReceipt: vi.fn().mockResolvedValue(null),
+      persistReceipt,
+      receiptDurability: () => "postgres",
+      now: () => new Date("2026-08-01T20:00:00.000Z"),
     });
     const outcome = {
       gameId: "game-1",
@@ -127,6 +149,7 @@ describe("ServerAuthoritativeProgressionSpine", () => {
           convoysLost: 1,
           executionChains: 1,
           surgeActivations: 1,
+          vaultPressureContributions: 3,
           firstVaultPressureTick: 100,
           firstBreachOpenTick: 200,
           decisiveDeliveryTick: 300,
@@ -159,6 +182,27 @@ describe("ServerAuthoritativeProgressionSpine", () => {
       seasonContracts: [expect.any(Object), expect.any(Object)],
       seasonPass: [expect.any(Object), expect.any(Object)],
       certifiedOutcomes: expect.objectContaining({ recordedPlayers: 2 }),
+      durability: "postgres",
+      recordedAt: "2026-08-01T20:00:00.000Z",
+      players: [
+        expect.objectContaining({
+          persistentId: "p1",
+          delta: expect.objectContaining({
+            eloRating: 32,
+            matchesPlayed: 1,
+            wins: 1,
+            convoyDeliveries: 3,
+          }),
+          match: expect.objectContaining({
+            vaultPressureContributions: 3,
+            won: true,
+          }),
+        }),
+        expect.objectContaining({
+          persistentId: "p2",
+          delta: expect.objectContaining({ eloRating: -16, losses: 1 }),
+        }),
+      ],
       receiptDigest: expect.stringMatching(/^sha256:[a-f0-9]{64}$/),
     });
     expect(duplicate).toMatchObject({ duplicate: true, playersRecorded: 0 });
@@ -175,7 +219,7 @@ describe("ServerAuthoritativeProgressionSpine", () => {
       p1: { vaultCaptures: 2, convoyDeliveries: 3, executionChains: 1 },
       p2: { vaultCaptures: 0, convoyDeliveries: 0, executionChains: 0 },
     });
-    expect(getPlayerStats).toHaveBeenCalledTimes(2);
+    expect(getPlayerStats).toHaveBeenCalledTimes(4);
     expect(checkAndUnlock).toHaveBeenCalledWith("p1", {
       type: "match_ended",
       won: true,
@@ -198,11 +242,68 @@ describe("ServerAuthoritativeProgressionSpine", () => {
     expect(recordLoopEvidence).toHaveBeenCalledWith(outcome);
     expect(recordCertifiedOutcomes).toHaveBeenCalledTimes(1);
     expect(recordCertifiedOutcomes).toHaveBeenCalledWith(outcome);
+    expect(persistReceipt).toHaveBeenCalledWith(first, ["p1", "p2"]);
+    expect(
+      verifyProgressionReceipt({
+        ...first,
+        players: first.players.map((player, index) =>
+          index === 0
+            ? { ...player, delta: { ...player.delta, eloRating: 999 } }
+            : player,
+        ),
+      }),
+    ).toBe(false);
     expect(recordSeasonContracts).toHaveBeenCalledWith(
       "game-1",
       "week-29",
       expect.objectContaining({ persistentId: "p1", convoysLost: 1 }),
     );
+  });
+
+  test("returns a durable duplicate on restart without replaying fan-out", async () => {
+    const stored = await new ServerAuthoritativeProgressionSpine({
+      loadReceipt: vi.fn().mockResolvedValue(null),
+      persistReceipt: vi.fn(),
+      receiptDurability: () => "process-local",
+      now: () => new Date("2026-08-01T20:00:00.000Z"),
+      resolvePrediction: vi.fn(async () => ({
+        gameId: "restart-game",
+        actualOutcome: "delivery" as const,
+        resolvedPredictions: 0,
+        durability: "process-local" as const,
+      })),
+      recordLoopEvidence: vi.fn().mockResolvedValue(null),
+      recordCertifiedOutcomes: vi.fn().mockResolvedValue(null),
+    }).record({
+      gameId: "restart-game",
+      durationSeconds: 0,
+      mapName: "plains",
+      seasonId: "week-30",
+      onMutator: false,
+      turnIntervalMs: 100,
+      intentFunnel: { early: {}, mid: {}, late: {} },
+      players: [],
+    });
+    const recordMatch = vi.fn();
+    const restarted = new ServerAuthoritativeProgressionSpine({
+      loadReceipt: vi.fn().mockResolvedValue(stored),
+      recordMatch,
+    });
+    const duplicate = await restarted.record({
+      gameId: "restart-game",
+      durationSeconds: 0,
+      mapName: "plains",
+      seasonId: "week-30",
+      onMutator: false,
+      turnIntervalMs: 100,
+      intentFunnel: { early: {}, mid: {}, late: {} },
+      players: [],
+    });
+    expect(duplicate).toMatchObject({
+      duplicate: true,
+      receiptDigest: stored.receiptDigest,
+    });
+    expect(recordMatch).not.toHaveBeenCalled();
   });
 
   test("coalesces concurrent envelopes and releases a failed fan-out for retry", async () => {

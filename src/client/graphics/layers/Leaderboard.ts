@@ -183,10 +183,9 @@ export class Leaderboard extends LitElement implements Layer {
     }
     return html`
       <div
-        class="max-h-[35vh] overflow-y-auto text-white text-xs md:text-xs lg:text-sm md:max-h-[50vh] mt-2 ${this
-          .visible
-          ? ""
-          : "hidden"}"
+        class="max-h-[35vh] overflow-y-auto text-white text-xs md:text-xs lg:text-sm md:max-h-[50vh] mt-2 ${
+          this.visible ? "" : "hidden"
+        }"
         @contextmenu=${(e: Event) => e.preventDefault()}
       >
         <div
@@ -207,33 +206,39 @@ export class Leaderboard extends LitElement implements Layer {
               @click=${() => this.setSort("tiles")}
             >
               ${translateText("leaderboard.owned")}
-              ${this._sortKey === "tiles"
-                ? this._sortOrder === "asc"
-                  ? "⬆️"
-                  : "⬇️"
-                : ""}
+              ${
+                this._sortKey === "tiles"
+                  ? this._sortOrder === "asc"
+                    ? "⬆️"
+                    : "⬇️"
+                  : ""
+              }
             </div>
             <div
               class="py-1 md:py-2 text-center border-b border-slate-500 cursor-pointer whitespace-nowrap truncate"
               @click=${() => this.setSort("gold")}
             >
               ${translateText("leaderboard.gold")}
-              ${this._sortKey === "gold"
-                ? this._sortOrder === "asc"
-                  ? "⬆️"
-                  : "⬇️"
-                : ""}
+              ${
+                this._sortKey === "gold"
+                  ? this._sortOrder === "asc"
+                    ? "⬆️"
+                    : "⬇️"
+                  : ""
+              }
             </div>
             <div
               class="py-1 md:py-2 text-center border-b border-slate-500 cursor-pointer whitespace-nowrap truncate"
               @click=${() => this.setSort("maxtroops")}
             >
               ${translateText("leaderboard.maxtroops")}
-              ${this._sortKey === "maxtroops"
-                ? this._sortOrder === "asc"
-                  ? "⬆️"
-                  : "⬇️"
-                : ""}
+              ${
+                this._sortKey === "maxtroops"
+                  ? this._sortOrder === "asc"
+                    ? "⬆️"
+                    : "⬇️"
+                  : ""
+              }
             </div>
           </div>
 
@@ -242,48 +247,53 @@ export class Leaderboard extends LitElement implements Layer {
             (p) => p.player.id(),
             (player, index) => html`
               <div
-                class="contents hover:bg-slate-600/60 ${player.isOnSameTeam
-                  ? "font-bold"
-                  : ""} cursor-pointer"
+                class="contents hover:bg-slate-600/60 ${
+                  player.isOnSameTeam ? "font-bold" : ""
+                } cursor-pointer"
                 @click=${() => this.handleRowClickPlayer(player.player)}
               >
                 <div
-                  class="py-1 md:py-2 text-center ${index <
-                  this.players.length - 1
-                    ? "border-b border-slate-500"
-                    : ""}"
+                  class="py-1 md:py-2 text-center ${
+                    index < this.players.length - 1
+                      ? "border-b border-slate-500"
+                      : ""
+                  }"
                 >
                   ${player.position}
                 </div>
                 <div
-                  class="py-1 md:py-2 text-center ${index <
-                  this.players.length - 1
-                    ? "border-b border-slate-500"
-                    : ""} truncate"
+                  class="py-1 md:py-2 text-center ${
+                    index < this.players.length - 1
+                      ? "border-b border-slate-500"
+                      : ""
+                  } truncate"
                 >
                   ${player.name}
                 </div>
                 <div
-                  class="py-1 md:py-2 text-center ${index <
-                  this.players.length - 1
-                    ? "border-b border-slate-500"
-                    : ""}"
+                  class="py-1 md:py-2 text-center ${
+                    index < this.players.length - 1
+                      ? "border-b border-slate-500"
+                      : ""
+                  }"
                 >
                   ${player.score}
                 </div>
                 <div
-                  class="py-1 md:py-2 text-center ${index <
-                  this.players.length - 1
-                    ? "border-b border-slate-500"
-                    : ""}"
+                  class="py-1 md:py-2 text-center ${
+                    index < this.players.length - 1
+                      ? "border-b border-slate-500"
+                      : ""
+                  }"
                 >
                   ${player.gold}
                 </div>
                 <div
-                  class="py-1 md:py-2 text-center ${index <
-                  this.players.length - 1
-                    ? "border-b border-slate-500"
-                    : ""}"
+                  class="py-1 md:py-2 text-center ${
+                    index < this.players.length - 1
+                      ? "border-b border-slate-500"
+                      : ""
+                  }"
                 >
                   ${player.maxTroops}
                 </div>

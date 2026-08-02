@@ -228,9 +228,9 @@ export class LeaderboardPlayerList extends LitElement {
     return html`
       <tr
         data-current-user=${isCurrentUser ? "true" : "false"}
-        class="border-b border-white/5 hover:bg-white/[0.07] transition-colors group ${isCurrentUser
-          ? "bg-blue-500/15"
-          : ""}"
+        class="border-b border-white/5 hover:bg-white/[0.07] transition-colors group ${
+          isCurrentUser ? "bg-blue-500/15" : ""
+        }"
       >
         <td class="py-3 px-4 text-center">
           <div
@@ -241,17 +241,21 @@ export class LeaderboardPlayerList extends LitElement {
         </td>
         <td class="py-3 px-4">
           <div class="flex items-center gap-2">
-            ${player.clanTag
-              ? html`<div
-                  class="px-2 py-0.5 rounded bg-blue-500/10 border border-blue-500/20 text-[10px] font-bold text-blue-300 shrink-0"
-                >
-                  ${player.clanTag}
-                </div>`
-              : ""}
+            ${
+              player.clanTag
+                ? html`<div
+                    class="px-2 py-0.5 rounded bg-blue-500/10 border border-blue-500/20 text-[10px] font-bold text-blue-300 shrink-0"
+                  >
+                    ${player.clanTag}
+                  </div>`
+                : ""
+            }
             <span class="font-bold text-blue-300 truncate text-base"
-              >${player.clanTag
-                ? player.username.replace(/^\[.*?\]\s*/, "")
-                : player.username}</span
+              >${
+                player.clanTag
+                  ? player.username.replace(/^\[.*?\]\s*/, "")
+                  : player.username
+              }</span
             >
           </div>
         </td>
@@ -264,9 +268,9 @@ export class LeaderboardPlayerList extends LitElement {
         <td class="py-3 px-4 text-right pr-6">
           <div class="inline-flex flex-col items-end">
             <span
-              class="font-mono font-bold ${player.winRate >= 0.5
-                ? "text-green-400"
-                : "text-red-400"}"
+              class="font-mono font-bold ${
+                player.winRate >= 0.5 ? "text-green-400" : "text-red-400"
+              }"
               >${(player.winRate * 100).toFixed(1)}%</span
             >
             <span
@@ -369,10 +373,9 @@ export class LeaderboardPlayerList extends LitElement {
       <div class="h-full">
         <div class="h-full border border-white/5 bg-black/20 relative">
           <div
-            class="scroll-container h-full overflow-y-auto overflow-x-auto scrollbar-thin scrollbar-thumb-white/20 ${this
-              .showStickyUser
-              ? "pb-20"
-              : "pb-0"}"
+            class="scroll-container h-full overflow-y-auto overflow-x-auto scrollbar-thin scrollbar-thumb-white/20 ${
+              this.showStickyUser ? "pb-20" : "pb-0"
+            }"
             @scroll=${() => this.handleScroll()}
           >
             <table class="w-full text-sm border-collapse table-fixed">
@@ -410,51 +413,56 @@ export class LeaderboardPlayerList extends LitElement {
             </table>
             ${this.renderPlayerFooter()}
           </div>
-          ${this.currentUserEntry
-            ? html`
-                <div class="absolute inset-x-0 bottom-0 z-20">
-                  <div
-                    class="bg-blue-600/90 backdrop-blur-md border-t border-blue-400/30 py-4 px-6 shadow-2xl flex items-center transition-all duration-200 ${this
-                      .showStickyUser
-                      ? "opacity-100 translate-y-0"
-                      : "opacity-0 translate-y-3 pointer-events-none"}"
-                    aria-hidden=${this.showStickyUser ? nothing : "true"}
-                  >
-                    <div class="w-10 text-center">
-                      <div
-                        class="w-10 h-10 mx-auto flex items-center justify-center rounded-lg font-bold font-mono text-lg bg-white/20 text-white"
-                      >
-                        ${this.currentUserEntry.rank}
-                      </div>
-                    </div>
-                    <div class="flex-1 flex flex-col ml-4">
-                      <span
-                        class="text-[10px] uppercase font-bold text-blue-200/60 leading-tight"
-                        >${translateText(
-                          "leaderboard_modal.your_ranking",
-                        )}</span
-                      >
-                      <span class="font-bold text-white text-base"
-                        >${this.currentUserEntry.clanTag
-                          ? this.currentUserEntry.username.replace(
-                              /^\[.*?\]\s*/,
-                              "",
-                            )
-                          : this.currentUserEntry.username}</span
-                      >
-                    </div>
-                    <div class="flex flex-col items-end w-20">
-                      <div class="font-mono text-white font-bold text-lg">
-                        ${this.currentUserEntry.elo}
-                        <span class="text-[10px] text-white/60"
-                          >${translateText("leaderboard_modal.elo")}</span
+          ${
+            this.currentUserEntry
+              ? html`
+                  <div class="absolute inset-x-0 bottom-0 z-20">
+                    <div
+                      class="bg-blue-600/90 backdrop-blur-md border-t border-blue-400/30 py-4 px-6 shadow-2xl flex items-center transition-all duration-200 ${
+                        this.showStickyUser
+                          ? "opacity-100 translate-y-0"
+                          : "opacity-0 translate-y-3 pointer-events-none"
+                      }"
+                      aria-hidden=${this.showStickyUser ? nothing : "true"}
+                    >
+                      <div class="w-10 text-center">
+                        <div
+                          class="w-10 h-10 mx-auto flex items-center justify-center rounded-lg font-bold font-mono text-lg bg-white/20 text-white"
                         >
+                          ${this.currentUserEntry.rank}
+                        </div>
+                      </div>
+                      <div class="flex-1 flex flex-col ml-4">
+                        <span
+                          class="text-[10px] uppercase font-bold text-blue-200/60 leading-tight"
+                          >${translateText(
+                            "leaderboard_modal.your_ranking",
+                          )}</span
+                        >
+                        <span class="font-bold text-white text-base"
+                          >${
+                            this.currentUserEntry.clanTag
+                              ? this.currentUserEntry.username.replace(
+                                  /^\[.*?\]\s*/,
+                                  "",
+                                )
+                              : this.currentUserEntry.username
+                          }</span
+                        >
+                      </div>
+                      <div class="flex flex-col items-end w-20">
+                        <div class="font-mono text-white font-bold text-lg">
+                          ${this.currentUserEntry.elo}
+                          <span class="text-[10px] text-white/60"
+                            >${translateText("leaderboard_modal.elo")}</span
+                          >
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              `
-            : ""}
+                `
+              : ""
+          }
         </div>
       </div>
     `;

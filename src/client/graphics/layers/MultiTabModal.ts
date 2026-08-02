@@ -172,8 +172,9 @@ export class MultiTabModal extends LitElement implements Layer {
           >
             <div
               class="bg-red-600 dark:bg-red-500 h-2.5 rounded-full transition-all duration-1000 ease-linear w-(--width)"
-              style="--width: ${(this.countdown / (this.duration / 1000)) *
-              100}%"
+              style="--width: ${
+                (this.countdown / (this.duration / 1000)) * 100
+              }%"
             ></div>
           </div>
 

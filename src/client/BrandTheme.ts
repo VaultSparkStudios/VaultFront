@@ -13,8 +13,14 @@ export function applyVaultFrontBrandTheme(theme: VaultFrontBrandTheme): void {
 
 export function loadSavedVaultFrontTheme(): void {
   try {
-    const saved = localStorage.getItem(THEME_STORAGE_KEY) as VaultFrontBrandTheme | null;
-    if (saved === "light" || saved === "competitive" || saved === "vaultfront") {
+    const saved = localStorage.getItem(
+      THEME_STORAGE_KEY,
+    ) as VaultFrontBrandTheme | null;
+    if (
+      saved === "light" ||
+      saved === "competitive" ||
+      saved === "vaultfront"
+    ) {
       applyVaultFrontBrandTheme(saved);
       return;
     }
