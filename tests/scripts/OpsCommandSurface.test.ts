@@ -68,5 +68,8 @@ describe("Studio command surface", () => {
     expect(source).not.toContain('":(exclude)context/.session-lock"');
     expect(source).toContain('"startup-brief-format"');
     expect(source).toContain('"prettier.cjs"');
+    expect(source).toContain('"closeout-board-stage"');
+    expect(source).toContain('"closeout-board-secret-scan"');
+    expect(source).toContain('"closeout-board-push"');
   });
 });

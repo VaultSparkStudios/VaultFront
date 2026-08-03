@@ -1,18 +1,19 @@
 <!-- generated-by: scripts/render-closeout-board.mjs v1.0 -->
-<!-- generated-at: 2026-08-02 (Session 90 closeout) -->
+<!-- generated-at: 2026-08-03 (Session 91 closeout) -->
 
 # Closeout Status Board — VaultFront
 
 ```
-╔══ SESSION CLOSEOUT · VaultFront · S90 ═════════════════════════╗
-║  Date: 2026-08-02 · SIL: 997/1000 · V:20  ·  Debt: down          ║
+╔══ SESSION CLOSEOUT · VaultFront · S91 ═════════════════════════╗
+║  Date: 2026-08-03 · SIL: 997/1000 · V:12  ·  Debt: down          ║
 ║  Mode: FOUNDER  ·  Agent: codex                                  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ WHAT SHIPPED ════════════════════════════════════════════════╗
-║  ✓ Branch: `main`; direct local verification green; audit 10/10  ║
-║  ✓ Shipped: causal durable community elections, team-scoped Pre  ║
-║  ✓ Visual truth: twelve checked-in desktop/mobile artifacts acr  ║
-║  ✓ Release: public-unlaunched / NO-GO. Local evidence does not   ║
+║  ✓ Branch: `main`; audit 6/6 and cumulative innovations 53/53 e  ║
+║  ✓ Shipped: sole Traefik runtime ingress; semantic rollback/rev  ║
+║  ✓ Visual truth: 18 hash-bound desktop/mobile artifacts cover p  ║
+║  ✓ Verification: 198 Vitest files / 1,088 tests; TypeScript; ES  ║
+║  ✓ Release: public-unlaunched / NO-GO. No staging/parity, proje  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ SCORES · SIL 997/1000 ═══════════════════════════════════════╗
 ║    Dev Health         100  ██████████                            ║
@@ -39,7 +40,7 @@
 ║  · agent memory (context/BRAIN.md or agent home)                 ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ GIT STATUS ══════════════════════════════════════════════════╗
-║  Changes: 146 files  ·  M:116 A:0 D:0 ?:30                       ║
+║  Changes: 0 files  ·  M:0 A:0 D:0 ?:0                            ║
 ║  Ahead: 0  ·  Behind: 0                                          ║
 ║  Branch: main                                                    ║
 ╚════════════════════════════════════════════════════════════════╝
@@ -48,16 +49,16 @@
 ║  Live:     N/A — pre-deploy (FORGE)                              ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ POST-SESSION SIGNALS ════════════════════════════════════════╗
-║  Doctor:        11/11                                            ║
+║  Doctor:        12/12                                            ║
 ║  Compliance:    49/49                                            ║
-║  Tests:         1069/1069                                        ║
-║  IGNIS:         2d ago                                           ║
+║  Tests:         1088/1088                                        ║
+║  IGNIS:         3d ago                                           ║
 ║  Truth:         green                                            ║
-║  Sanitization:  8d ago                                           ║
+║  Sanitization:  9d ago                                           ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ NEXT SESSION ════════════════════════════════════════════════╗
-║  #1: Unified Genius List exhausted                               ║
-║      No pending unblocked audit item remains.                    ║
+║  #1: Make protocol propagation prove it did not erase stronger   ║
+║      The canonical start sync replaced 49 tracked helpers with   ║
 ╚════════════════════════════════════════════════════════════════╝
 ```
 

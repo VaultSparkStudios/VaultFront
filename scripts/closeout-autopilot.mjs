@@ -117,3 +117,25 @@ requireSuccess(
     pushed,
   ]),
 );
+const boardPath = "docs/CLOSEOUT_STATUS_BOARD.md";
+const boardChanged = run("git", ["diff", "--quiet", "--", boardPath]);
+if ((boardChanged.status ?? 1) !== 0) {
+  requireSuccess("closeout-board-stage", run("git", ["add", "--", boardPath]));
+  requireSuccess(
+    "closeout-board-secret-scan",
+    run(process.execPath, [
+      path.join(ROOT, "scripts", "scan-secrets.mjs"),
+      "--staged",
+    ]),
+  );
+  requireSuccess(
+    "closeout-board-commit",
+    run("git", ["commit", "-m", "chore(vaultfront): record closeout board"]),
+  );
+  if (!skipPush) {
+    requireSuccess(
+      "closeout-board-push",
+      run("git", ["push", "origin", "main"]),
+    );
+  }
+}
