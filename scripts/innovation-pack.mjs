@@ -71,6 +71,60 @@ export function forgottenShippedInnovationIds(existingItems, generatedItems) {
 
 const candidates = [
   {
+    id: "tamper-evident-launch-observations",
+    title: "Make launch-event observations verify their own semantics",
+    description:
+      "Canonicalize rollback and revenue event fields into their SHA-256 observation digests so a syntactically valid provenance token cannot be reused after material evidence changes.",
+    complete:
+      has(
+        "scripts/generate-release-evidence.mjs",
+        /buildCanonicalReleaseObservation/,
+      ) &&
+      has(
+        "tests/scripts/ReleaseEvidenceManifest.test.ts",
+        /tampered semantic launch observations/,
+      ),
+    evidence:
+      "canonical launch-observation builder/verifier, semantic digest gate, and tamper fixtures",
+  },
+  {
+    id: "deploy-topology-release-fingerprint",
+    title: "Bind the sole-ingress topology into release provenance",
+    description:
+      "Fingerprint Dockerfile, Supervisor, updater, and operator runbook into a verified local deployment-topology receipt and make it a first-class parent of the release decision.",
+    complete:
+      has(
+        "scripts/generate-release-evidence.mjs",
+        /buildDeployTopologyEvidence/,
+      ) &&
+      has("scripts/generate-release-evidence.mjs", /deployment-topology/) &&
+      has(
+        "tests/scripts/ReleaseEvidenceManifest.test.ts",
+        /topology fingerprint/,
+      ),
+    evidence:
+      "source-bound topology evidence, release-lineage parent, and mutation-sensitive fixture",
+  },
+  {
+    id: "certified-feedback-reachability-receipt",
+    title: "Prove and explain the certified player-feedback path end to end",
+    description:
+      "Fail closed unless the certified route, typed client call, live WinModal mount, and receipt tests remain connected, while showing players the evidence source, storage durability, and retention boundary they actually received.",
+    complete:
+      has(
+        "scripts/check-certified-feedback-reachability.mjs",
+        /certified-match-feedback/,
+      ) &&
+      has("scripts/project-doctor.mjs", /certified-feedback-reachability/) &&
+      has("src/client/CertifiedMatchFeedback.ts", /retentionDays/) &&
+      has(
+        "tests/scripts/CertifiedFeedbackReachability.test.ts",
+        /fails closed/,
+      ),
+    evidence:
+      "cross-layer reachability checker, doctor probe, receipt transparency, and fail-closed fixtures",
+  },
+  {
     id: "runtime-integrity-passport",
     title: "Ship a digestible process-local Runtime Integrity Passport",
     description:

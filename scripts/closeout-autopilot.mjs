@@ -66,6 +66,14 @@ requireSuccess(
   ]),
 );
 requireSuccess(
+  "startup-brief-format",
+  run(process.execPath, [
+    path.join(ROOT, "node_modules", "prettier", "bin", "prettier.cjs"),
+    "--write",
+    "docs/STARTUP_BRIEF.md",
+  ]),
+);
+requireSuccess(
   "brief-validation",
   run(process.execPath, [
     path.join(ROOT, "scripts", "validate-brief-format.mjs"),
@@ -80,14 +88,7 @@ requireSuccess(
 );
 requireSuccess(
   "git-add",
-  run("git", [
-    "add",
-    "--all",
-    "--",
-    ".",
-    ":(exclude)secrets/**",
-    ":(exclude)context/.session-lock",
-  ]),
+  run("git", ["add", "--all", "--", ".", ":(exclude)secrets/**"]),
 );
 requireSuccess(
   "staged-secret-scan",

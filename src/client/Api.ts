@@ -1659,22 +1659,63 @@ export async function fetchCoachDebrief(params: {
   }
 }
 
+export interface MatchRatingReceipt {
+  accepted: boolean;
+  duplicate: boolean;
+  gameId: string;
+  mapName: string;
+  durability: "postgres" | "process-local";
+  evidence: "certified-match-result";
+  retentionDays: 30;
+}
+
+export type MatchRatingSubmission =
+  | { status: "accepted" | "duplicate"; receipt: MatchRatingReceipt }
+  | { status: "rejected" | "unavailable"; detail: string };
+
 export async function postMatchRating(params: {
   gameId: string;
-  persistentId: string;
+  persistentId?: string;
   matchRating: number;
   mapRating: number;
-  mapName: string;
+  mapName?: string;
   comment?: string;
-}): Promise<void> {
-  fetch(`${getApiBase()}/api/vaultfront/match-rating`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      ...(await vaultFrontIdentityHeaders()),
-    },
-    body: JSON.stringify(params),
-  }).catch(() => undefined);
+}): Promise<MatchRatingSubmission> {
+  try {
+    const res = await fetch(`${getApiBase()}/api/vaultfront/match-rating`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...(await vaultFrontIdentityHeaders()),
+      },
+      body: JSON.stringify(params),
+    });
+    const data = (await res.json().catch(() => null)) as
+      MatchRatingReceipt | { error?: string } | null;
+    if (
+      data &&
+      "evidence" in data &&
+      data.evidence === "certified-match-result"
+    ) {
+      if (res.status === 201 && data.accepted) {
+        return { status: "accepted", receipt: data };
+      }
+      if (res.status === 409 && data.duplicate) {
+        return { status: "duplicate", receipt: data };
+      }
+    }
+    const errorDetail = data && "error" in data ? data.error : undefined;
+    return {
+      status: "rejected",
+      detail:
+        errorDetail ?? `Certified feedback was rejected (HTTP ${res.status}).`,
+    };
+  } catch {
+    return {
+      status: "unavailable",
+      detail: "Certified feedback is temporarily unavailable. Please retry.",
+    };
+  }
 }
 
 export async function fetchSeasonProgress(persistentId: string): Promise<{

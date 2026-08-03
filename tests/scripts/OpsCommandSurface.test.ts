@@ -57,5 +57,16 @@ describe("Studio command surface", () => {
     expect(help.status, String(help.stderr)).toBe(0);
     expect(String(help.stdout)).toContain("Project-scoped only");
     expect(after.stdout).toBe(before.stdout);
+  }, 20_000);
+
+  it("does not explicitly pathspec an ignored session lock while staging", () => {
+    const source = fs.readFileSync(
+      path.join(root, "scripts", "closeout-autopilot.mjs"),
+      "utf8",
+    );
+    expect(source).toContain('":(exclude)secrets/**"');
+    expect(source).not.toContain('":(exclude)context/.session-lock"');
+    expect(source).toContain('"startup-brief-format"');
+    expect(source).toContain('"prettier.cjs"');
   });
 });

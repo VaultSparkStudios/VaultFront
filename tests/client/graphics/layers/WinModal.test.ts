@@ -40,6 +40,18 @@ const apiMock = vi.hoisted(() => ({
   recordVaultFrontOutcomeTelemetry: vi.fn(async () => true),
   recordVaultFrontPlaytestPulse: vi.fn(async () => true),
   recordVaultFrontRecapEvent: vi.fn(async () => true),
+  postMatchRating: vi.fn(async () => ({
+    status: "accepted" as const,
+    receipt: {
+      accepted: true,
+      duplicate: false,
+      gameId: "game-1",
+      mapName: "World",
+      durability: "process-local" as const,
+      evidence: "certified-match-result" as const,
+      retentionDays: 30 as const,
+    },
+  })),
   updateVaultFrontSeasonContracts: vi.fn(async () => false),
 }));
 
@@ -72,6 +84,7 @@ vi.mock("../../../../src/client/Api", () => ({
   recordVaultFrontOutcomeTelemetry: apiMock.recordVaultFrontOutcomeTelemetry,
   recordVaultFrontPlaytestPulse: apiMock.recordVaultFrontPlaytestPulse,
   recordVaultFrontRecapEvent: apiMock.recordVaultFrontRecapEvent,
+  postMatchRating: apiMock.postMatchRating,
   updateVaultFrontSeasonContracts: apiMock.updateVaultFrontSeasonContracts,
 }));
 
@@ -257,6 +270,29 @@ describe("VaultFront recap coaching", () => {
     expect(apiMock.recordVaultFrontPlaytestPulse).toHaveBeenCalledTimes(
       pulseCallsBefore,
     );
+  });
+
+  it("promotes ranked continuation as the single dominant next action", () => {
+    const modal = new WinModal() as any;
+    modal.isVisible = true;
+    modal.showButtons = true;
+    modal.isRankedGame = true;
+    modal.game = {
+      gameID: () => "game-1",
+      myPlayer: () => ({ isAlive: () => true }),
+    };
+    const container = document.createElement("div");
+
+    render(modal.render(), container);
+
+    const recommended = container.querySelector(
+      "post-match-continuation-card",
+    ) as any;
+    expect(recommended.context).toMatchObject({
+      isRanked: true,
+      isAlive: true,
+    });
+    expect(container.textContent).not.toContain("Keep Playing");
   });
 });
 

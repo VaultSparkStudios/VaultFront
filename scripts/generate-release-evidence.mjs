@@ -32,6 +32,8 @@ export const canonicalReleaseGateDefinitions = Object.freeze([
   ["obeliskIdentity", "Obelisk relying-party identity"],
   ["themeReadability", "Live theme readability"],
   ["footerManifest", "Public footer manifest"],
+  ["rollbackObservation", "Digest-matched rollback drill"],
+  ["revenueObservation", "Observed live checkout or supporter revenue"],
   ["founderApproval", "Founder launch approval"],
   ["alphaHumanEvidence", "Authenticated human Alpha Gate"],
 ]);
@@ -42,6 +44,45 @@ function digest(value) {
 
 function sha256(value) {
   return `sha256:${createHash("sha256").update(value).digest("hex")}`;
+}
+
+function canonicalReleaseObservationPayload(key, observation) {
+  const common = {
+    gate: key,
+    status: observation?.status ?? null,
+    source: observation?.source ?? null,
+    observedAt: observation?.observedAt ?? null,
+  };
+  if (key === "rollbackObservation") {
+    return {
+      ...common,
+      drillCompleted: observation?.drillCompleted ?? null,
+      imageDigest: observation?.imageDigest ?? null,
+      restoredHealth: observation?.restoredHealth ?? null,
+    };
+  }
+  if (key === "revenueObservation") {
+    return {
+      ...common,
+      live: observation?.live ?? null,
+      eventType: observation?.eventType ?? null,
+      amountCents: observation?.amountCents ?? null,
+    };
+  }
+  return common;
+}
+
+export function buildCanonicalReleaseObservation(key, observation) {
+  const payload = canonicalReleaseObservationPayload(key, observation);
+  return { ...observation, digest: sha256(JSON.stringify(payload)) };
+}
+
+export function verifyCanonicalReleaseObservation(key, observation) {
+  if (!observation) return false;
+  return (
+    observation.digest ===
+    sha256(JSON.stringify(canonicalReleaseObservationPayload(key, observation)))
+  );
 }
 
 function ciRevisionPayload(observation) {
@@ -253,7 +294,26 @@ function evaluateObservation(key, label, observation, now, maxAgeMs) {
   const healthSemanticsPass =
     key !== "healthObservation" ||
     (observation?.httpStatus === 200 && observation?.healthy === true);
-  const pass = provenancePass && healthSemanticsPass;
+  const rollbackSemanticsPass =
+    key !== "rollbackObservation" ||
+    (observation?.drillCompleted === true &&
+      observation?.restoredHealth === true &&
+      /^sha256:[0-9a-f]{64}$/i.test(observation?.imageDigest ?? ""));
+  const revenueSemanticsPass =
+    key !== "revenueObservation" ||
+    (observation?.live === true &&
+      ["checkout", "supporter"].includes(observation?.eventType) &&
+      Number.isInteger(observation?.amountCents) &&
+      observation.amountCents > 0);
+  const semanticDigestPass =
+    !["rollbackObservation", "revenueObservation"].includes(key) ||
+    verifyCanonicalReleaseObservation(key, observation);
+  const pass =
+    provenancePass &&
+    healthSemanticsPass &&
+    rollbackSemanticsPass &&
+    revenueSemanticsPass &&
+    semanticDigestPass;
   let detail;
   if (!observation) detail = "No evidence observation is attached.";
   else if (!verified)
@@ -265,11 +325,38 @@ function evaluateObservation(key, label, observation, now, maxAgeMs) {
   else if (!sourceComplete || !digestComplete)
     detail =
       "Evidence requires a named source and canonical sha256 digest provenance.";
+  else if (!semanticDigestPass)
+    detail =
+      "Evidence digest does not match the canonical semantic launch-observation payload.";
   else if (key === "healthObservation" && observation.httpStatus !== 200)
     detail = `Runtime health probe returned HTTP ${observation.httpStatus ?? "unknown"}; HTTP 200 is required.`;
   else if (key === "healthObservation" && observation.healthy !== true)
     detail =
       "Runtime health probe did not provide an explicit healthy=true observation.";
+  else if (key === "rollbackObservation" && observation.drillCompleted !== true)
+    detail = "Rollback evidence must record drillCompleted=true.";
+  else if (
+    key === "rollbackObservation" &&
+    !/^sha256:[0-9a-f]{64}$/i.test(observation.imageDigest ?? "")
+  )
+    detail =
+      "Rollback evidence must bind the restored image with a canonical sha256 digest.";
+  else if (key === "rollbackObservation" && observation.restoredHealth !== true)
+    detail =
+      "Rollback evidence must record restoredHealth=true after the drill.";
+  else if (key === "revenueObservation" && observation.live !== true)
+    detail = "Revenue evidence must explicitly identify a live event.";
+  else if (
+    key === "revenueObservation" &&
+    !["checkout", "supporter"].includes(observation.eventType)
+  )
+    detail =
+      "Revenue evidence must identify a checkout or supporter event type.";
+  else if (
+    key === "revenueObservation" &&
+    (!Number.isInteger(observation.amountCents) || observation.amountCents <= 0)
+  )
+    detail = "Revenue evidence must include a positive integer amountCents.";
   else
     detail = observation.detail ?? "Fresh provenance-backed evidence verified.";
   return {
@@ -284,6 +371,20 @@ function evaluateObservation(key, label, observation, now, maxAgeMs) {
       ? {
           httpStatus: observation?.httpStatus ?? null,
           healthy: observation?.healthy ?? null,
+        }
+      : {}),
+    ...(key === "rollbackObservation"
+      ? {
+          drillCompleted: observation?.drillCompleted ?? null,
+          imageDigest: observation?.imageDigest ?? null,
+          restoredHealth: observation?.restoredHealth ?? null,
+        }
+      : {}),
+    ...(key === "revenueObservation"
+      ? {
+          live: observation?.live ?? null,
+          eventType: observation?.eventType ?? null,
+          amountCents: observation?.amountCents ?? null,
         }
       : {}),
     freshness: { state: freshnessState, ageMs, maxAgeMs },
@@ -359,7 +460,72 @@ export function buildLocalSurfaceEvidence(projectRoot, observedAt) {
       detail: error instanceof Error ? error.message : String(error),
     };
   }
-  return { healthRouteContract, footerManifest };
+  return {
+    healthRouteContract,
+    footerManifest,
+    deploymentTopology: buildDeployTopologyEvidence(projectRoot, observedAt),
+  };
+}
+
+export function buildDeployTopologyEvidence(projectRoot, observedAt) {
+  const sources = [
+    "Dockerfile",
+    "supervisord.conf",
+    "update.sh",
+    "docs/DEPLOY_RUNTIME_RUNBOOK.md",
+  ];
+  const missing = sources.filter(
+    (relativePath) => !fs.existsSync(path.join(projectRoot, relativePath)),
+  );
+  if (missing.length > 0) {
+    return {
+      schemaVersion: 1,
+      status: "missing",
+      authority: null,
+      source: sources.join(" + "),
+      observedAt,
+      sourceDigest: null,
+      failures: missing.map((relativePath) => `missing:${relativePath}`),
+      detail: `Deployment topology sources are missing: ${missing.join(", ")}.`,
+    };
+  }
+  const dockerfile = fs.readFileSync(
+    path.join(projectRoot, sources[0]),
+    "utf8",
+  );
+  const supervisor = fs.readFileSync(
+    path.join(projectRoot, sources[1]),
+    "utf8",
+  );
+  const updater = fs.readFileSync(path.join(projectRoot, sources[2]), "utf8");
+  const runbook = fs.readFileSync(path.join(projectRoot, sources[3]), "utf8");
+  const failures = [];
+  if (
+    !dockerfile.includes('CMD ["/usr/bin/supervisord"') &&
+    !dockerfile.includes('ENTRYPOINT ["/usr/bin/supervisord"')
+  )
+    failures.push("container-entrypoint-is-not-supervisor");
+  if (!dockerfile.includes("HEALTHCHECK"))
+    failures.push("container-healthcheck-missing");
+  if (/cloudflared|CF_TUNNEL|CF_API_TOKEN/iu.test(dockerfile + supervisor))
+    failures.push("secondary-cloudflare-ingress-present");
+  if (!updater.includes("traefik.http.routers.${CONTAINER_NAME}.rule"))
+    failures.push("traefik-router-label-missing");
+  if (!/Traefik is the sole runtime ingress authority/iu.test(runbook))
+    failures.push("runbook-sole-authority-declaration-missing");
+  return {
+    schemaVersion: 1,
+    status: failures.length === 0 ? "verified" : "failed",
+    authority: failures.length === 0 ? "traefik" : null,
+    source: sources.join(" + "),
+    observedAt,
+    sourceDigest: digestFiles(projectRoot, sources),
+    failures,
+    detail:
+      failures.length === 0
+        ? "Image, Supervisor, updater, and runbook agree on Traefik as the sole ingress authority."
+        : `Deployment topology contradictions: ${failures.join(", ")}.`,
+  };
 }
 
 export function loadReleaseGateObservations(projectRoot) {
@@ -427,6 +593,10 @@ export function buildReleaseEvidence({
       digest: null,
       detail: "Static health-route contract evidence was not supplied.",
     },
+    deploymentTopology: {
+      status: "missing",
+      detail: "Source-bound deployment topology evidence was not supplied.",
+    },
   },
   projectTruth = null,
   balanceEnvelope = null,
@@ -454,11 +624,24 @@ export function buildReleaseEvidence({
     now: Date.parse(generatedAt),
     maxAgeMs: maxEvidenceAgeMs,
   });
+  const deploymentTopology = localSurfaceEvidence.deploymentTopology ?? {
+    schemaVersion: 1,
+    status: "missing",
+    authority: null,
+    source: null,
+    observedAt: null,
+    sourceDigest: null,
+    failures: ["topology-evidence-not-supplied"],
+    detail: "Source-bound deployment topology evidence was not supplied.",
+  };
   const releaseBlockers = [...launchGates.blockers];
   if (localSurfaceEvidence.healthRouteContract.status !== "declared") {
     releaseBlockers.push(
       `healthRouteContract: ${localSurfaceEvidence.healthRouteContract.detail}`,
     );
+  }
+  if (deploymentTopology.status !== "verified") {
+    releaseBlockers.push(`deploymentTopology: ${deploymentTopology.detail}`);
   }
   if (pendingWork.length > 0)
     releaseBlockers.push(`work: ${pendingWork.length} pending item(s)`);
@@ -512,7 +695,7 @@ export function buildReleaseEvidence({
         "pass",
       ...launchGates,
     },
-    localSurface: localSurfaceEvidence,
+    localSurface: { ...localSurfaceEvidence, deploymentTopology },
     projectTruth,
     balance: balanceEnvelope,
     serviceWorkerRelease,
@@ -530,6 +713,7 @@ export function buildReleaseEvidence({
     "ci-exact-revision": evidenceCore.ciRevision,
     launch: evidenceCore.launch,
     "local-surface": evidenceCore.localSurface,
+    "deployment-topology": evidenceCore.localSurface.deploymentTopology,
     "project-truth": evidenceCore.projectTruth,
     balance: evidenceCore.balance,
     "service-worker-release": evidenceCore.serviceWorkerRelease,
@@ -563,6 +747,12 @@ export function buildReleaseEvidence({
       kind: "executable-local-gates",
       parents: ["source"],
       evidence: lineageEvidence["local-surface"],
+    },
+    {
+      id: "deployment-topology",
+      kind: "sole-ingress-runtime-topology",
+      parents: ["source", "local-surface"],
+      evidence: lineageEvidence["deployment-topology"],
     },
     {
       id: "project-truth",
@@ -601,6 +791,7 @@ export function buildReleaseEvidence({
         "ci-exact-revision",
         "launch",
         "local-surface",
+        "deployment-topology",
         "project-truth",
         "balance",
         "service-worker-release",
@@ -623,6 +814,7 @@ export function verifyReleaseEvidenceLineage(evidence) {
     "ci-exact-revision": evidence.ciRevision,
     launch: evidence.launch,
     "local-surface": evidence.localSurface,
+    "deployment-topology": evidence.localSurface?.deploymentTopology,
     "project-truth": evidence.projectTruth,
     balance: evidence.balance,
     "service-worker-release": evidence.serviceWorkerRelease,

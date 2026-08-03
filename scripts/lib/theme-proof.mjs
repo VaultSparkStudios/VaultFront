@@ -11,7 +11,11 @@ export const THEME_PROOF_THEMES = Object.freeze([
   "light",
   "competitive",
 ]);
-export const THEME_PROOF_SURFACES = Object.freeze(["play", "settings"]);
+export const THEME_PROOF_SURFACES = Object.freeze([
+  "play",
+  "settings",
+  "postmatch",
+]);
 export const THEME_PROOF_CLAIM_BOUNDARY =
   "This is local browser evidence, not live staging parity or founder approval.";
 
@@ -34,7 +38,14 @@ export function collectThemeProofSourceFiles(root) {
   const fixed = [
     "e2e/theme-visual-proof.spec.ts",
     "src/client/BrandTheme.ts",
+    "src/client/Api.ts",
+    "src/client/CertifiedMatchFeedback.ts",
+    "src/client/PostMatchContinuation.ts",
+    "src/client/PostMatchContinuationCard.ts",
+    "src/client/PostMatchContinuationPolicy.ts",
+    "src/client/SeasonPassTrack.ts",
     "src/client/UserSettingModal.ts",
+    "src/client/graphics/layers/WinModal.ts",
     "src/client/styles.css",
   ];
   return [

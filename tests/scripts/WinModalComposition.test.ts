@@ -3,11 +3,14 @@ import { inspectWinModalComposition } from "../../scripts/check-win-modal-compos
 
 describe("WinModal composition", () => {
   test("keeps post-match concurrency inside the bounded session owner", () => {
-    expect(inspectWinModalComposition()).toMatchObject({
+    const result = inspectWinModalComposition();
+    expect(result).toMatchObject({
       ok: true,
       errors: [],
-      modal: { lines: 2399, budget: 2400 },
-      lifecycle: { lines: 234, budget: 240 },
+      modal: { budget: 2400 },
+      lifecycle: { budget: 240 },
     });
+    expect(result.modal.lines).toBeLessThanOrEqual(2366);
+    expect(result.lifecycle.lines).toBeLessThanOrEqual(234);
   });
 });

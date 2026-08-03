@@ -127,13 +127,107 @@ test("three themes retain readable page, panel, and settings surfaces", async ({
       ),
       fullPage: true,
     });
+    const postMatchMetrics = await page.evaluate(async () => {
+      await Promise.all([
+        customElements.whenDefined("certified-match-feedback"),
+        customElements.whenDefined("post-match-continuation-card"),
+      ]);
+      const previous = document.querySelector("[data-vf-visual-qa]");
+      previous?.remove();
+      const overlay = document.createElement("main");
+      overlay.dataset.vfVisualQa = "postmatch";
+      overlay.style.cssText =
+        "box-sizing:border-box;position:fixed;inset:0;z-index:2147483647;overflow:auto;padding:40px 20px;background:var(--vf-bg,#07111f);color:var(--vf-text,#f8fafc);font-family:Overpass,sans-serif";
+      const surface = document.createElement("section");
+      surface.style.cssText =
+        "box-sizing:border-box;width:100%;max-width:700px;margin:0 auto;padding:20px;border:1px solid rgba(255,255,255,.15);border-radius:16px;background:rgba(15,23,42,.94);box-shadow:0 24px 60px rgba(0,0,0,.45)";
+      const title = document.createElement("h1");
+      title.textContent = "Post-match command";
+      const subtitle = document.createElement("p");
+      subtitle.textContent =
+        "One next move, then a certified reflection receipt.";
+      const continuation = document.createElement(
+        "post-match-continuation-card",
+      ) as HTMLElement & {
+        context: {
+          isRanked: boolean;
+          rivalryRevengeDelta: number;
+          nextGoalSaved: boolean;
+          isAlive: boolean;
+        };
+      };
+      continuation.context = {
+        isRanked: true,
+        rivalryRevengeDelta: 0,
+        nextGoalSaved: false,
+        isAlive: true,
+      };
+      const feedback = document.createElement(
+        "certified-match-feedback",
+      ) as HTMLElement & { gameId: string };
+      feedback.gameId = "visual-proof-game";
+      surface.append(title, subtitle, continuation, feedback);
+      overlay.append(surface);
+      document.body.append(overlay);
+      return { mounted: true };
+    });
+    expect(postMatchMetrics.mounted).toBe(true);
+    await page.getByRole("button", { name: "Match rating 4 out of 5" }).click();
+    await page.getByRole("button", { name: "Map rating 2 out of 5" }).click();
+    await expect(
+      page.getByRole("button", { name: "Submit both ratings" }),
+    ).toBeEnabled();
+    const renderedPostMatch = await page
+      .locator("[data-vf-visual-qa]")
+      .evaluate((overlay) => {
+        const surface = overlay.querySelector("section") as HTMLElement;
+        const buttons = [...overlay.querySelectorAll("button")];
+        const groups = [...overlay.querySelectorAll('[role="group"]')];
+        const surfaceRect = surface.getBoundingClientRect();
+        const buttonRects = buttons.map((button) =>
+          button.getBoundingClientRect(),
+        );
+        return {
+          overlayOverflow: overlay.scrollWidth > overlay.clientWidth,
+          surfaceOverflow: surface.scrollWidth > surface.clientWidth,
+          surfaceWithinViewport:
+            surfaceRect.left >= 0 && surfaceRect.right <= innerWidth,
+          groupOverflow: groups.some(
+            (group) => group.scrollWidth > group.clientWidth,
+          ),
+          minimumButtonWidth: Math.min(
+            ...buttonRects.map((rect) => rect.width),
+          ),
+          minimumButtonHeight: Math.min(
+            ...buttonRects.map((rect) => rect.height),
+          ),
+        };
+      });
+    expect(renderedPostMatch).toMatchObject({
+      overlayOverflow: false,
+      surfaceOverflow: false,
+      surfaceWithinViewport: true,
+      groupOverflow: false,
+    });
+    expect(renderedPostMatch.minimumButtonWidth).toBeGreaterThanOrEqual(44);
+    expect(renderedPostMatch.minimumButtonHeight).toBeGreaterThanOrEqual(44);
+    await page.locator("[data-vf-visual-qa]").screenshot({
+      path: path.join(
+        artifactDir,
+        `${testInfo.project.name}-${theme}-postmatch.png`,
+      ),
+    });
     results.push({
       theme,
       tokens,
       ratios,
       renderedColors,
-      surfaces: ["play", "settings"],
+      postMatch: renderedPostMatch,
+      surfaces: ["play", "settings", "postmatch"],
     });
+    await page
+      .locator("[data-vf-visual-qa]")
+      .evaluate((overlay) => overlay.remove());
   }
 
   expect(new Set(renderedBackgrounds).size).toBe(themes.length);

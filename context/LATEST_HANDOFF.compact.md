@@ -1,52 +1,36 @@
 <!-- generated-by: scripts/compact-handoff.mjs v3.1 -->
-<!-- source-hash: a732705a42ec -->
-<!-- generated-at: 2026-08-02T23:17:08.451Z -->
+<!-- source-hash: 8970a0626ae2 -->
+<!-- generated-at: 2026-08-03T18:01:51.462Z -->
 
 # LATEST_HANDOFF (compact)
 
-SESSION HANDOFF SUMMARY
+# Handoff Summary — Session 91
 
-Session
+Session: 91 (2026-08-02)
+Branch: main
 
-- Session 90 complete (2026-08-02); branch main.
+Shipped: Traefik runtime ingress, semantic rollback/revenue evidence, immutable topology lineage, certified dual-rating feedback with receipts, context-aware post-match continuation, real Season Pass progress arc, three unused runtime dependencies removed.
 
-Status
+Visual truth: 18 hash-bound desktop/mobile artifacts (VaultFront, Light, Competitive themes); geometry, overflow, action, 44px targets executable.
 
-- Local verification green; audit 10/10 and innovations 50/50 exhausted. Zero pending unblocked local work.
+Verification: 198 Vitest / 1,088 tests; TypeScript, ESLint, Prettier, contracts, balance, production build, Pages, bundle/media, production audit, supply chain, Playwright 26/26 green.
 
-Shipped (Session 90)
+Now-bucket:
 
-- Causal durable community elections; team-scoped Pressure with actor contribution.
-- Certified durable match dividends; exact-revision CI fan-in; isolated map capacity.
-- Complete protocol commands, converged task parsing, portable hash-bound visual evidence, composition extraction, dependency cleanup.
-- Visual truth: twelve checked-in desktop/mobile artifacts (VaultFront, Light, Competitive) inspected; onboarding occlusion, light-theme readability, and mobile drawer transition root-fixed.
+- Establish explicitly approved staging origin/callback contract
+- Collect external observations in gate order (no credential substitution)
+- Do not use synthetic data for verification
 
-Release Posture
+Blockers:
 
-- Public-unlaunched / NO-GO. Local evidence does not substitute for approved external gates.
+- No approved staging/parity
+- No verified project-domain delivery or founder approval inferred
+- External release evidence gate remains empty
 
-Current Intent
+Human-blocked:
 
-- Establish explicitly approved staging origin/callback contract, then collect external evidence in gate order. Do not fabricate or infer from READY credentials.
+- Registry type correction (Ark `01JUNMMD1162DB95DA5B58A7AB` / acknowledgement `01JUJOJL1K040B6517CAF2EFA9`, age 5+ sessions)
+- Ark cargo `01JUJNSAUUE4626BC279319392` applied-acknowledgement block (age 4+ sessions)
+- Studio Ops board renderer help path non-mutating request (age 3+ sessions)
 
-Now Bucket (top 3)
-
-- Establish approved staging origin/callback contract.
-- Collect exact-digest staging/parity evidence.
-- Collect live identity, delivery, theme, human, revenue, rollback, and founder-approval evidence in gate order.
-
-Blockers (top 3)
-
-- No approved staging/parity origin exists; all external evidence blocked behind it.
-- No verified project-domain (Zoho/Brevo) delivery, native Obelisk identity, or live-web health.
-- No three-human Alpha, revenue, rollback drill, or founder approval.
-
-Human-Blocked Items (with age)
-
-- Studio registry type reconciliation, externally owned; ack 01JUJOJL1K040B6517CAF2EFA9 rejected type as unsupported; open Ark question 01JUNMMD1162DB95DA5B58A7AB requests owner-supported path (since Session 89, ~4 days).
-- Studio Ops board renderer incident 01JUNMP9IR9DF9678CD51FFF1B; requests owner regeneration and non-mutating project-scoped help path (since Session 89, ~4 days).
-- Founder release approval outstanding (ongoing).
-
-Next Session Pointer
-
-- Pursue explicitly approved staging origin/callback contract; begin gate-order external evidence collection without inferring from READY credentials.
+Next: Begin Session 92 with founder-approved staging contract, then gate external observations (parity, delivery, identity, live-web, human, revenue, rollback).

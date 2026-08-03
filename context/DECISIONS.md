@@ -389,3 +389,29 @@ Public-safe decisions only. Detailed internal decision history is maintained pri
 **Decision:** Do not retry the unsupported `type` registry-delta or edit Studio Ops. Preserve local `type: game` truth and ask through Ark for an owner-supported correction mechanism, citing acknowledgement `01JUJOJL1K040B6517CAF2EFA9` (`field-not-allowed`).
 
 **Why:** A signed rejection is evidence that the current autonomous write path does not own this field; repeating it or changing a sibling tree would manufacture coherence rather than resolve ownership.
+
+## 2026-08-03 — Session 91 ingress, feedback, launch-evidence, and visual-proof decisions
+
+### Traefik is the sole production ingress authority
+
+**Decision:** The runtime image starts Supervisor directly, owns only nginx and the Node service, and carries no cloudflared binary, tunnel creation, DNS mutation, or Cloudflare credential contract. A source-digested topology receipt over Dockerfile, Supervisor, updater, and runbook is a release-lineage parent.
+
+**Why:** Two mutable ingress authorities create drift, secret sprawl, and an untestable recovery path. Host Traefik already owns routing and can bind the immutable image to one observable topology.
+
+### Certified post-match feedback is the playtest hook
+
+**Decision:** Match feel and map quality remain independent 1–5 signals attached only to the authenticated certified-match result. The player sees accepted, duplicate, unavailable/retry, evidence type, storage durability, and 30-day retention truth; late receipts cannot cross match sessions. No balance values are retuned until qualifying human evidence exists.
+
+**Why:** This closes the core-loop learning seam without replacing human fun evidence with coarse telemetry or allowing browser-authored outcomes to become authoritative.
+
+### Rollback and revenue observations verify semantic payloads
+
+**Decision:** Launch readiness requires fresh sourced rollback and revenue observations whose canonical SHA-256 digests include the material drill/image/health or live-event/type/value fields. A plausible field edit with an old digest fails closed.
+
+**Why:** A syntactically valid digest string is not tamper evidence unless the gate recomputes it over the claim being admitted.
+
+### Post-match visual proof is canonical but locally scoped
+
+**Decision:** The theme proof matrix now covers play, settings, and the real post-match components for VaultFront, light, and competitive themes at desktop and 390px mobile. It selects independent ratings, requires enabled submission, rejects overflow, and enforces 44px targets across 18 hash-bound artifacts. The model-side bitmap viewer was degraded by a Windows `CryptUnprotectData` failure, so no claim of model visual inspection is made; browser screenshots, accessibility snapshots, rendered geometry, interaction state, contrast gates, and artifact hashes are the admitted evidence.
+
+**Why:** Rendered evidence must remain useful and honest even when one inspection channel fails; degraded tooling cannot be silently promoted into a visual claim.

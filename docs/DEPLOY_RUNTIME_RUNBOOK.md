@@ -146,45 +146,30 @@ REDIS_URL=redis://localhost:6379
 
 ## Step 5 — Configure DNS Records
 
-In Cloudflare DNS for `vaultsparkstudios.com`:
+Traefik is the sole runtime ingress authority. The production container starts
+only Nginx and Node; it never creates a provider tunnel, rewrites DNS, or
+receives Cloudflare control-plane credentials.
+
+In Cloudflare DNS for `vaultsparkstudios.com`, point the proxied records at
+the shared VPS:
 
 | Type | Name              | Content    | Proxy   |
 | ---- | ----------------- | ---------- | ------- |
 | `A`  | `play-vaultfront` | `<VPS_IP>` | Proxied |
 | `A`  | `api-vaultfront`  | `<VPS_IP>` | Proxied |
 
-Or if using Cloudflare Tunnels (recommended for zero-trust):
-
-```bash
-# On VPS — create tunnels via cloudflared
-cloudflared tunnel create vaultfront-play
-cloudflared tunnel route dns vaultfront-play play-vaultfront.vaultsparkstudios.com
-
-cloudflared tunnel create vaultfront-api
-cloudflared tunnel route dns vaultfront-api api-vaultfront.vaultsparkstudios.com
-```
+The remote updater joins the existing `web` network and supplies the exact
+Traefik Host rule and internal port label. DNS, TLS termination, and routing
+therefore have one declared owner.
 
 ---
 
-## Step 6 — Configure Caddy
+## Step 6 — Verify the host ingress boundary
 
-Write `/etc/caddy/Caddyfile` (or use `docs/templates/Caddyfile.studio-backend.template`):
-
-```caddyfile
-play-vaultfront.vaultsparkstudios.com {
-  reverse_proxy localhost:8080
-  encode gzip
-}
-
-api-vaultfront.vaultsparkstudios.com {
-  reverse_proxy localhost:3000
-  encode gzip
-}
-```
-
-```bash
-caddy reload --config /etc/caddy/Caddyfile
-```
+A host-level private transport may feed Traefik, but it is provisioned outside
+the application image and must not create per-container DNS or tunnel state.
+Confirm `update.sh` is the only application-owned routing path and that the
+container exposes port 80 only to the shared `web` network.
 
 ---
 

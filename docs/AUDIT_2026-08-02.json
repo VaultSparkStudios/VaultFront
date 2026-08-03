@@ -1,0 +1,328 @@
+{
+  "schemaVersion": "1.0",
+  "session": 91,
+  "generatedBy": "codex",
+  "generatedAt": "2026-08-03T01:55:02.8191417Z",
+  "project": {
+    "slug": "vaultfront",
+    "name": "VaultFront",
+    "type": "game",
+    "registryType": "app",
+    "audience": "public-unlaunched",
+    "stage": "FORGE",
+    "stagingType": "local"
+  },
+  "summary": "Session 91 premise-verified infrastructure audit with public-release and game-loop lenses. Six findings survived live-code review: the canonical propagation source regressed richer local protocol contracts; the production image creates a second mutable Cloudflare ingress behind Traefik; a certified feedback store is unreachable from the player interface; post-match continuation has no singular context-aware action and the Season Pass arc renders empty; three runtime dependency declarations have no production consumer; and release evidence omits required rollback and revenue observations. External launch observations remain NO-GO and are not implementation claims.",
+  "axes": {
+    "featureDepth": 1.5,
+    "innovation": 1.5,
+    "ux": 2,
+    "feedbackLoop": 2,
+    "gamification": 1.5,
+    "aiIntegration": 1,
+    "security": 3,
+    "speedOrganization": 3,
+    "tokenApiReduction": 1.5
+  },
+  "candidateGeneration": {
+    "featureDepth": 4,
+    "innovation": 4,
+    "ux": 5,
+    "feedbackLoop": 5,
+    "gamification": 4,
+    "aiIntegration": 3,
+    "security": 6,
+    "speedOrganization": 6,
+    "tokenApiReduction": 3,
+    "novelCandidates": 6,
+    "culledBelowThresholdOrFalsePremise": 14
+  },
+  "specialtyReviews": {
+    "infrastructure": {
+      "result": "Propagation semantic regression, dual ingress authority, near-ceiling composition roots, duplicated brief renderers, three unused runtime declarations, and runtime-matrix drift were verified. The propagated local downgrade was restored to clean-HEAD contracts and 21/21 focused tests; canonical producer repair was requested through signed Ark cargo 01JV2L8M0KA270B3C3F70EFB49."
+    },
+    "gameLoop": {
+      "scores100": {
+        "loopTightness": 90,
+        "progression": 84,
+        "sessionEngagement": 86,
+        "retention": 78,
+        "soulFidelity": null
+      },
+      "result": "The certified four-delivery loop is real and well tested. The strongest local gaps are unreachable certified player ratings, diluted post-match choice hierarchy, and an empty Season Pass progress arc. Soul fidelity is intentionally unscored because the public SOUL file contains no evaluable pillars; human tuning evidence is absent."
+    },
+    "release": {
+      "verdict": "no-go",
+      "passing": [
+        "local build and test surfaces",
+        "branding, legal, sitemap, and dual-audience files",
+        "cost-neutral declaration and immutable rollback contract",
+        "portable local desktop/mobile multi-theme visual proof"
+      ],
+      "red": [
+        "no approved external staging origin or exact-digest parity observation",
+        "no verified project-domain Zoho send/receive reply-as-alias delivery",
+        "no native Obelisk relying-party proof",
+        "canonical release evidence omits rollback and revenue gate definitions",
+        "workflow deployment secrets have no declared capability contract",
+        "no live web, three-human Alpha, revenue, rollback observation, or founder approval"
+      ]
+    }
+  },
+  "rejectedPremises": [
+    {
+      "candidate": "Treat local preview, READY credentials, or checked-in screenshots as staging or release evidence",
+      "result": "skipped",
+      "evidence": "The release evidence and visual receipts explicitly declare local-only scope; no approved external staging observation exists."
+    },
+    {
+      "candidate": "Retune Comeback Surge, Pressure, or other balance values without human evidence",
+      "result": "deferred",
+      "evidence": "No qualifying distinct-human Alpha cohort exists. Certified instrumentation may improve, but preference and fun cannot be inferred."
+    },
+    {
+      "candidate": "Implement or claim native Obelisk relying-party authentication before origin and callback registration",
+      "result": "externally-blocked",
+      "evidence": "The current architecture status is not-assessed and prior generated helpers are intentionally quarantined until a registered relying-party contract exists."
+    },
+    {
+      "candidate": "Edit Studio Ops directly to repair propagation or registry type",
+      "result": "externally-blocked",
+      "evidence": "CANON-018 forbids sibling-tree edits. The current repo restored only its own known-good contracts and shipped signed Ark cargo 01JV2L8M0KA270B3C3F70EFB49."
+    },
+    {
+      "candidate": "Rewrite Worker, ControlPanel, WinModal, and VaultFrontExecution wholesale",
+      "result": "skipped",
+      "evidence": "Broad rewrites would cross multiple authority boundaries. This audit admits bounded post-match extraction that lowers WinModal pressure while preserving behavior."
+    },
+    {
+      "candidate": "Turn the empty public SOUL pointer into invented creative canon",
+      "result": "skipped",
+      "evidence": "Private creative strategy cannot be reconstructed from code. Soul fidelity remains N/A rather than fabricated."
+    },
+    {
+      "candidate": "Add more remote artificial intelligence features",
+      "result": "skipped",
+      "evidence": "Remote AI is already optional, attributed, certified, and hard-capped. No measured player or operator gap justifies another provider surface."
+    },
+    {
+      "candidate": "Blindly upgrade every outdated dependency",
+      "result": "skipped",
+      "evidence": "Version trains require package-trust and migration evidence. Only three declarations with zero live consumers are admitted for removal."
+    }
+  ],
+  "items": [
+    {
+      "id": 119,
+      "slug": "protocol-propagation-semantic-admission",
+      "tier": "🔥",
+      "axis": "process / automation / observability / ecosystem",
+      "effortHours": 4,
+      "impact": 10,
+      "innovation": 8,
+      "priority": 30.9,
+      "status": "externally-blocked",
+      "title": "Make protocol propagation prove it did not erase stronger target contracts",
+      "why": "The canonical start sync replaced 49 tracked helpers with older bodies, deleted 6,641 lines, and caused 13 of 21 focused protocol tests to fail. A copy-success receipt therefore lied about semantic adoption.",
+      "recipe": "Keep VaultFront at its clean-HEAD helper contracts, rerun the focused parser and observability suites, ship exact before/after evidence to Studio Ops through Ark, and require the producer to compare target capabilities or run target semantic admission tests before accepting a propagation write.",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Restore target helpers and report the regression."
+        },
+        "L2": {
+          "effortHours": 2,
+          "recipe": "Restore, verify the focused semantic suite, and ship signed evidence."
+        },
+        "L3": {
+          "effortHours": 4,
+          "recipe": "Add producer-side target semantic admission and fail-closed provenance before propagation is accepted."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Restored only the 49 tracked scripts downgraded by this session while preserving new S282 files and session state.",
+        "The exact focused suite changed from 13 failures to 21/21 passing with direct exit 0.",
+        "Signed Ark cargo 01JV2L8M0KA270B3C3F70EFB49 requests canonical producer reconciliation and a post-copy semantic admission gate; durable source repair remains externally owned."
+      ],
+      "complete": false,
+      "blockedReason": "Studio Ops owns the canonical producer and CANON-018 forbids a direct sibling-tree fix."
+    },
+    {
+      "id": 120,
+      "slug": "single-ingress-container-authority",
+      "tier": "🔥",
+      "axis": "security / release / reliability / dependency hygiene",
+      "effortHours": 6,
+      "impact": 10,
+      "innovation": 7,
+      "priority": 23.3,
+      "status": "shipped",
+      "title": "Give the production container one ingress authority",
+      "why": "The remote updater routes the image through Traefik, but the image entrypoint also requires Cloudflare credentials, creates a timestamped tunnel, rewrites DNS on every start, and runs an unpinned latest cloudflared binary. The deploy contract never inspects that live topology.",
+      "recipe": "Retain host-level ingress into Traefik, remove runtime tunnel and DNS mutation plus cloudflared from the image, start Supervisor directly, add an image-local healthcheck, and extend the deploy contract to reject cloudflared, Cloudflare secret requirements, mutable download URLs, or a non-Traefik container topology.",
+      "ladder": {
+        "L1": {
+          "effortHours": 2,
+          "recipe": "Remove cloudflared and runtime DNS mutation."
+        },
+        "L2": {
+          "effortHours": 4,
+          "recipe": "Converge entrypoint and Supervisor plus deploy-contract checks."
+        },
+        "L3": {
+          "effortHours": 6,
+          "recipe": "Single ingress authority, healthcheck, executable topology contract, syntax tests, and runbook alignment."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Removed cloudflared, mutable tunnel creation, DNS mutation, and Cloudflare credential requirements from the production image; Supervisor is now the direct entrypoint and /_health is the image healthcheck.",
+        "Extended check-deploy-contract.mjs to reject secondary ingress authority and require the Traefik topology across Dockerfile, Supervisor, updater, and runbook.",
+        "Deploy contract passed 50/50 checks and ReleaseTruth passed 6/6 with direct exit 0."
+      ],
+      "complete": true
+    },
+    {
+      "id": 121,
+      "slug": "certified-player-feedback-panel",
+      "tier": "🔥",
+      "axis": "feedback loop / ux / security / game loop",
+      "effortHours": 6,
+      "impact": 9,
+      "innovation": 8,
+      "priority": 24,
+      "status": "shipped",
+      "title": "Close the certified feedback loop inside the real post-match surface",
+      "why": "The authenticated certificate-bound 1–5 match and map rating route, durable store, and cohort intelligence exist, but postMatchRating has no call site. The Win Modal records only coarse telemetry that cannot truthfully substitute for independent match and map ratings.",
+      "recipe": "Extract a compact accessible Lit panel with separate 1–5 match and map controls, explicit pending/accepted/duplicate/error states, and a typed API receipt. Mount it in the live Win Modal, preserve certificate authority and one-rating semantics, and prove submission, retry, duplicate, accessibility, and stale-session behavior with focused tests.",
+      "coreLoopStep": "reward → reflection → next-match learning",
+      "ladder": {
+        "L1": {
+          "effortHours": 2,
+          "recipe": "Call the existing route from the Win Modal."
+        },
+        "L2": {
+          "effortHours": 4,
+          "recipe": "Separate ratings with honest async state and focused tests."
+        },
+        "L3": {
+          "effortHours": 6,
+          "recipe": "Typed extracted panel, accessible controls, certified receipt semantics, retry/duplicate proof, and WinModal composition headroom."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Added an extracted accessible certified-match feedback panel with independent 1–5 match and map ratings.",
+        "Changed postMatchRating from fire-and-forget to a typed accepted/duplicate/rejected/unavailable receipt and kept certificate authority server-side.",
+        "Proved submission, duplicate, retry, accessibility state, and stale-session isolation in the focused component suite."
+      ],
+      "complete": true
+    },
+    {
+      "id": 122,
+      "slug": "contextual-postmatch-continuation",
+      "tier": "🔥",
+      "axis": "retention / ux / progression / gamification",
+      "effortHours": 6,
+      "impact": 8,
+      "innovation": 8,
+      "priority": 21.3,
+      "status": "shipped",
+      "title": "Turn the post-match action wall into one context-aware next move",
+      "why": "Exit, requeue, keep playing, rematch, sharing, clips, highlights, and result cards compete as near peers even though the certified recap already knows ranked context, Rival Challenge eligibility, and saved mastery goals. The Season Pass also computes a progress arc but renders an empty SVG.",
+      "recipe": "Add a pure continuation projection that promotes exactly one action: ranked requeue, Rival Challenge rematch, saved-goal rematch, or keep playing. Demote utility/share actions to a secondary group, surface the recommendation reason, render the Season Pass arc from bounded progress, and cover every projection plus reduced-motion/accessibility behavior.",
+      "coreLoopStep": "reward → progression → replay",
+      "ladder": {
+        "L1": {
+          "effortHours": 2,
+          "recipe": "Visually promote requeue or rematch."
+        },
+        "L2": {
+          "effortHours": 4,
+          "recipe": "Pure context projection and corrected Season Pass arc."
+        },
+        "L3": {
+          "effortHours": 6,
+          "recipe": "Singular evidence-derived action hierarchy, typed tests, accessibility copy, and complete progress visualization."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Added a pure continuation projection covering ranked requeue, rivalry rematch, saved-goal rematch, keep-playing, and spectate outcomes.",
+        "Replaced the equal-weight action wall with one reasoned dominant continuation and demoted exit/share utilities, including reduced-motion behavior.",
+        "Replaced the empty Season Pass SVG with bounded accessible progress arcs; the combined UI suite passed 26/26."
+      ],
+      "complete": true
+    },
+    {
+      "id": 123,
+      "slug": "dead-runtime-dependency-closure",
+      "tier": "⚡",
+      "axis": "security / speed / organization / token reduction",
+      "effortHours": 1,
+      "impact": 7,
+      "innovation": 4,
+      "priority": 17.7,
+      "status": "shipped",
+      "title": "Remove three proven-unused runtime dependency declarations",
+      "why": "@aws-sdk/client-s3 and js-yaml have no source or script consumer; @lit-labs/virtualizer appears only in an obsolete test mock and is not imported by the production leaderboard. They enlarge install, audit, and reasoning surfaces without behavior.",
+      "recipe": "Re-verify zero live imports, remove the three declarations and lockfile closure without adding packages, run production dependency audit and the Studio supply-chain scanner, and preserve the unrelated coordinated version trains for a separately trusted migration.",
+      "ladder": {
+        "L1": {
+          "effortHours": 0.5,
+          "recipe": "Remove manifest entries."
+        },
+        "L2": {
+          "effortHours": 1,
+          "recipe": "Remove manifest and lockfile closure with focused verification."
+        },
+        "L3": {
+          "effortHours": 2,
+          "recipe": "Removal plus bundle/install delta evidence and supply-chain validation."
+        }
+      },
+      "recommendedModel": "haiku",
+      "executionLog": [
+        "Re-verified zero production consumers, removed @aws-sdk/client-s3, js-yaml, and @lit-labs/virtualizer from package.json and the lockfile, and removed the obsolete virtualizer test mock.",
+        "LeaderboardModal passed 9/9, npm production audit reported zero vulnerabilities, and the Studio supply-chain scanner reported zero affected packages."
+      ],
+      "complete": true
+    },
+    {
+      "id": 124,
+      "slug": "complete-launch-evidence-gates",
+      "tier": "🔥",
+      "axis": "release / observability / security / capital",
+      "effortHours": 4,
+      "impact": 10,
+      "innovation": 7,
+      "priority": 27.1,
+      "status": "shipped",
+      "title": "Make launch evidence include rollback and real revenue",
+      "why": "Project truth requires a rollback observation and a real checkout or supporter event, but canonicalReleaseGateDefinitions omits both. The generated manifest can therefore enumerate every current gate while never asking these two launch-critical questions.",
+      "recipe": "Add rollbackObservation and revenueObservation to the canonical gate definitions, observation schema, blocker output, release lineage, generated manifest, and adversarial tests. Keep missing observations blocked and source-attributed; never infer revenue from a checkout API or rollback from a runbook.",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Add the two gate definitions."
+        },
+        "L2": {
+          "effortHours": 2,
+          "recipe": "Add definitions, source-attributed blockers, and tests."
+        },
+        "L3": {
+          "effortHours": 4,
+          "recipe": "Close definitions, manifest, lineage, and tamper-sensitive tests while preserving honest NO-GO defaults."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Added rollbackObservation and revenueObservation to the canonical launch gate definitions so they flow through blocker output, manifest status, and evidence lineage.",
+        "Rollback now requires drillCompleted, restoredHealth, and a canonical image digest; revenue requires a live checkout/supporter event and positive integer amountCents.",
+        "Adversarial generic-verified fixtures remain blocked and ReleaseEvidenceManifest passed 10/10 with direct exit 0."
+      ],
+      "complete": true
+    }
+  ]
+}

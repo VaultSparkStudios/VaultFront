@@ -52,6 +52,22 @@ daily-challenge-system (DailyChallengeStore + HUD card), vault-intelligence-mark
 
 ## Follow-ups
 
+## Completed (2026-08-02 — Session 91 certified-reflection and launch-truth arc)
+
+- [done] Audit 119–124: Studio-source propagation routed through signed Ark; sole Traefik runtime ingress; reachable certified post-match feedback; contextual continuation plus a real Season Pass arc; unused runtime dependencies removed; rollback and revenue evidence made semantic and tamper-sensitive.
+- [done] Innovations 51–53: tamper-evident launch observations, deploy-topology release fingerprint, and certified-feedback reachability receipt.
+- [done] Rendered-pixel proof expanded to play, settings, and post-match across three themes × desktop/mobile, producing 18 exact-source artifacts with overflow and 44-pixel touch-target checks.
+- [done] Exhaustion proof: audit 6/6 and cumulative innovation ledger 53/53 shipped; zero pending unblocked local work.
+- [release-evidence] External launch remains NO-GO pending approved staging and exact-digest parity, verified project-domain Zoho send/receive and reply-as-alias, native Obelisk relying-party auth, live web/theme evidence, three distinct authenticated humans, a real positive revenue event, an observed rollback drill, and founder approval.
+
+## Completed (2026-08-02 — Session 91 certified-reflection and launch-truth arc)
+
+- [done] Audit 119–124: Studio-source propagation correctly routed through signed Ark; sole Traefik runtime ingress; reachable certified post-match feedback; context-aware continuation plus a real Season Pass arc; unused runtime dependencies removed; rollback and revenue evidence made semantic and tamper-sensitive.
+- [done] Innovations 51–53: tamper-evident launch observations, deploy-topology release fingerprint, and certified-feedback reachability receipt.
+- [done] Rendered-pixel proof expanded to play, settings, and post-match across three themes × desktop/mobile, producing 18 exact-source artifacts with overflow and 44-pixel touch-target checks.
+- [done] Exhaustion proof: audit 6/6 and cumulative innovation ledger 53/53 shipped; zero pending unblocked local work.
+- [release-evidence] External launch remains NO-GO pending approved staging and exact-digest parity, verified project-domain Zoho send/receive and reply-as-alias, native Obelisk relying-party auth, live web/theme evidence, three distinct authenticated humans, a real positive revenue event, an observed rollback drill, and founder approval.
+
 ## Completed (2026-08-02 — Session 90 causal-trust and portable-proof arc)
 
 - [done] Audit 109–118: portable hash-bound visual proof; causal community election; complete local protocol commands; exact-revision CI admission; team-scoped Pressure; isolated map capacity; certified match dividends; one task parser; extracted Worker routes; deprecated type-stub removal.

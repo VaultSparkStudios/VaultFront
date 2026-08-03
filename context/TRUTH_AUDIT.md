@@ -2,6 +2,17 @@
 
 # Truth Audit
 
+## 2026-08-02 — Session 91 certified feedback, topology, and observation truth
+
+- `docs/AUDIT_2026-08-02.json` is exhausted at 6/6; `docs/INNOVATION_PACK.json` is monotonic and exhausted at 53/53 with zero pending unblocked local work.
+- Runtime ingress truth is singular: Traefik reaches Supervisor-managed nginx and Node; Docker no longer embeds cloudflared, tunnel credentials, or DNS mutation.
+- Rollback truth requires a completed drill, restored health, and exact image digest. Revenue truth requires a live checkout/supporter source and a positive amount. Their semantic projections are digest-bound and tamper-sensitive.
+- Certified feedback is reachable only from post-match, separates match and map ratings, rejects stale-session overwrites, and visibly reports accepted, duplicate, rejected, or unavailable durability scope.
+- Continuation chooses one action from ranked, rivalry, saved-goal, and alive-state evidence. The descriptive card is lazy-loaded; Season Pass progress is a real bounded SVG arc.
+- Visual truth covers play, settings, and post-match across three themes × desktop/mobile. Eighteen artifacts bind exact source and artifact hashes and execute viewport, overflow, submit-reachability, and 44-pixel target checks. The unavailable bitmap viewer is recorded as degraded rather than silently claimed.
+- Direct verification passed: 198 Vitest files / 1,088 tests, TypeScript, ESLint, formatting, 50 deploy checks, 28,125 balance scenarios, production build, Pages, bundle/media budgets, zero production vulnerabilities, supply-chain scan zero matches, and Playwright 26/26.
+- Release remains public-unlaunched / NO-GO. Dirty source clears on commit; no approved staging/parity, verified Zoho reply identity, native Obelisk, live web/theme, distinct-human Alpha, real revenue, observed rollback, or founder approval is inferred.
+
 ## 2026-08-02 — Session 90
 
 - Work truth: the latest audit is 10/10 shipped and the monotonic innovation ledger is 50/50 shipped; the executable exhaustion checker reports zero pending unblocked items.

@@ -1,22 +1,52 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-02T23:53:31.569Z",
+  "generatedAt": "2026-08-03T06:31:45.317Z",
   "scope": "local-only",
   "claimBoundary": "This is local browser evidence, not live staging parity or founder approval.",
   "source": {
-    "gitRevision": "6e1b8ad58342f447ce91d333e1fe489993dda48f",
+    "gitRevision": "ad37f9ef4269254505f8cbd6b0f8e8739672c942",
     "dirty": true,
-    "digest": "sha256:1b97b0b30e70b36374d197d0e44096b8c42cef9a126d31318f749194929ec799",
+    "digest": "sha256:b24281d8ee44f5cb191eee88aa193f78852b9326349977df146c15449f8b8454",
     "files": [
       {
         "path": "e2e/theme-visual-proof.spec.ts",
-        "bytes": 5414,
-        "digest": "sha256:30d85333b41fdc4bbf0313e985946aabb3b75a6ddbf663639f7e463b7beaf55a"
+        "bytes": 9466,
+        "digest": "sha256:7b2ed7c2e7a584ab90d329f07c2579fb3562daed54f927eb69e14235223f5c4a"
+      },
+      {
+        "path": "src/client/Api.ts",
+        "bytes": 52219,
+        "digest": "sha256:1f939cd7cad16f73239d1b7a02db5a21f336fa8e63989e06ec47365d823f6d2d"
       },
       {
         "path": "src/client/BrandTheme.ts",
         "bytes": 1204,
         "digest": "sha256:6c20e76d67e5e5bf8825b5aed45a5cae7a5cd6a28af9a11fb41b9e1f06f8d61f"
+      },
+      {
+        "path": "src/client/CertifiedMatchFeedback.ts",
+        "bytes": 6488,
+        "digest": "sha256:71e841ebb478038a00057dafc57f364dc3c77dae88d1e72f59ceb9d2dcd9ada5"
+      },
+      {
+        "path": "src/client/PostMatchContinuation.ts",
+        "bytes": 1833,
+        "digest": "sha256:5ef23bf3e589d15d3b9802c57985d1cf9884894fab96573a332e1eee7ff8f242"
+      },
+      {
+        "path": "src/client/PostMatchContinuationCard.ts",
+        "bytes": 2197,
+        "digest": "sha256:19164f5fef41419f5285670c49317c1abc26cfb18747413d20d9f437a6041ac1"
+      },
+      {
+        "path": "src/client/PostMatchContinuationPolicy.ts",
+        "bytes": 524,
+        "digest": "sha256:5b5e6a1023c30a697fdff8f88bffcd6910ab9650a088cc4f1aaa05f079312c39"
+      },
+      {
+        "path": "src/client/SeasonPassTrack.ts",
+        "bytes": 9473,
+        "digest": "sha256:bf65a7a379028619505e82ee4617b4e0e21f361ce9c594c5ff366ceaec8401c7"
       },
       {
         "path": "src/client/UserSettingModal.ts",
@@ -244,6 +274,11 @@
         "digest": "sha256:8250ab4e3952d441f6dcb7aab53b95dcf4ae30c9b2539d17daa92c8529285396"
       },
       {
+        "path": "src/client/graphics/layers/WinModal.ts",
+        "bytes": 76075,
+        "digest": "sha256:578729ee1087012bd1d6d6460d848579ac8ef9bcfa8f741fe621bd8bde318567"
+      },
+      {
         "path": "src/client/styles.css",
         "bytes": 18200,
         "digest": "sha256:cdc7ce21e48ca73658c4a70dd28087dfbbb561186ca9de705417a6a1cdfa5945"
@@ -299,13 +334,13 @@
     "summaries": [
       {
         "path": "docs/visual-qa/summaries/theme-proof-chromium.json",
-        "bytes": 14243,
-        "digest": "sha256:ff6416a69865cbe03f4d4609d41b8f137e450b55471b4de922d475560dd83152"
+        "bytes": 16293,
+        "digest": "sha256:227db23fcb9d969924e29c109a3bfebd99f7476798c1ca02004e6b1426fe9827"
       },
       {
         "path": "docs/visual-qa/summaries/theme-proof-mobile-chrome.json",
-        "bytes": 14248,
-        "digest": "sha256:2dd5d8495dcca8b84482e28f7854b239e3b3938bcf1805e5b5fcbc61728a80a8"
+        "bytes": 16298,
+        "digest": "sha256:1ec859ca97a5de299bb0c9f501c2be3c5e26041d7323130d0e2125257abbc631"
       }
     ],
     "artifacts": [
@@ -314,96 +349,144 @@
         "theme": "vaultfront",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-play.png",
-        "bytes": 704048,
-        "digest": "sha256:6ee2f4b1aff3259130b7f603395d15c2820de11a1530fcc409c46c3c522ba19d"
+        "bytes": 717503,
+        "digest": "sha256:1e2bde9c189648928af5303803d6e4b69ae499e571eb9e01232e0f72669909f7"
       },
       {
         "project": "chromium",
         "theme": "vaultfront",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-settings.png",
-        "bytes": 363694,
-        "digest": "sha256:49b322e95d6681df0fded0867d0f77b6abbe2e9a69720ea641c8e335dbef1a59"
+        "bytes": 363728,
+        "digest": "sha256:8d171ff4964d43ea9e5a27f336b0e442aa5882b01d96023e043deba6c0f827ce"
+      },
+      {
+        "project": "chromium",
+        "theme": "vaultfront",
+        "surface": "postmatch",
+        "path": "docs/visual-qa/artifacts/chromium-vaultfront-postmatch.png",
+        "bytes": 61403,
+        "digest": "sha256:882c425c13a8c648f774d0abe246860b8cec5de011ae8ce77d67a265e8952b53"
       },
       {
         "project": "chromium",
         "theme": "light",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/chromium-light-play.png",
-        "bytes": 630355,
-        "digest": "sha256:5f6ff96e565f0ef59a1306625ea53d038791d2fe798588a24fdf82ca83b9718d"
+        "bytes": 633897,
+        "digest": "sha256:4c29752709bacc911dc300338c5d2f4e040162b6d4c5b8198803504fa4f04a76"
       },
       {
         "project": "chromium",
         "theme": "light",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/chromium-light-settings.png",
-        "bytes": 301636,
-        "digest": "sha256:b0af37cd9b55ddba0f3e8c34fc2f108398fc0f10898d98a354e681d5cc949d73"
+        "bytes": 301492,
+        "digest": "sha256:b5e3f97e98d24f212c930077b37ad592e74e97a0e3fa481e988aa828e17f256f"
+      },
+      {
+        "project": "chromium",
+        "theme": "light",
+        "surface": "postmatch",
+        "path": "docs/visual-qa/artifacts/chromium-light-postmatch.png",
+        "bytes": 69970,
+        "digest": "sha256:25c88bab37abc456d75675008a26d097e06da7588a2cd1e565ed2506bf1f50f8"
       },
       {
         "project": "chromium",
         "theme": "competitive",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/chromium-competitive-play.png",
-        "bytes": 675087,
-        "digest": "sha256:92b52840ffad195f8995648e6c7abada7501cbc28d69f2542ba7d41829b4688e"
+        "bytes": 675187,
+        "digest": "sha256:a971b605f4b77b0eb4bd1b01596994bf651eeadca14417e9f1470a30051818e5"
       },
       {
         "project": "chromium",
         "theme": "competitive",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/chromium-competitive-settings.png",
-        "bytes": 340555,
-        "digest": "sha256:3cd5ad396c49f72699ba5d4c12efbac39fccc8fb128a22dc6d38e01c14c0eb5a"
+        "bytes": 340798,
+        "digest": "sha256:9ba679f66f65e7f2403fd4b5e0ea14a6b055bd36cce2b0ff7d02436960fe0c1f"
+      },
+      {
+        "project": "chromium",
+        "theme": "competitive",
+        "surface": "postmatch",
+        "path": "docs/visual-qa/artifacts/chromium-competitive-postmatch.png",
+        "bytes": 61655,
+        "digest": "sha256:b0e7b28325a628ec5ea915d4f4879e0274a4ee3f3b48eb9c4beedd5b5585d531"
       },
       {
         "project": "mobile-chrome",
         "theme": "vaultfront",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-play.png",
-        "bytes": 1186249,
-        "digest": "sha256:2b40da199c007dc83c08a59d10c1bca4e9cbcc3a69258fb25f7b36ad66b26c66"
+        "bytes": 1184732,
+        "digest": "sha256:26fba2ec1e61315f4b85f4863db429b875c6414d52cc2f59dc51c01512032169"
       },
       {
         "project": "mobile-chrome",
         "theme": "vaultfront",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-settings.png",
-        "bytes": 309272,
-        "digest": "sha256:84b36cd1d6fd6f8da18dd098389b5c44725ecf535b474ddc4df1b2b6e2adbe63"
+        "bytes": 309285,
+        "digest": "sha256:4bccfa718c8f1b3c6f725e6767e8c35da35b62f544db95621a2b09abf3709676"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "vaultfront",
+        "surface": "postmatch",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-postmatch.png",
+        "bytes": 139975,
+        "digest": "sha256:09804440b9a17403b0e05a8bcf210205cd5ea3ab012f026197f76f64960aa23f"
       },
       {
         "project": "mobile-chrome",
         "theme": "light",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/mobile-chrome-light-play.png",
-        "bytes": 1085507,
-        "digest": "sha256:cc8f7483a1c494fe7954a617d3971ebe3e801fbf3a765d861b6015357c2c4444"
+        "bytes": 1084805,
+        "digest": "sha256:fb2b5ac5ec87a1bb59897a0b236dc84bfcfa348c006a63710c88281ca4f749fb"
       },
       {
         "project": "mobile-chrome",
         "theme": "light",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/mobile-chrome-light-settings.png",
-        "bytes": 231232,
-        "digest": "sha256:509a56a15a3ce0a6805659ed3440ca171a2e2fb6694b12dc159c60c8508504cb"
+        "bytes": 231143,
+        "digest": "sha256:05a7b431a467e7de7b96000dbc5543942bd79188ba0bebc5e15bf06dad3ab7ba"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "light",
+        "surface": "postmatch",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-light-postmatch.png",
+        "bytes": 159305,
+        "digest": "sha256:47ec457471e59c116b33b35784e9d1d318220a80cb880d66cd0cd05fee7f47dc"
       },
       {
         "project": "mobile-chrome",
         "theme": "competitive",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-play.png",
-        "bytes": 1137875,
-        "digest": "sha256:621bffa15b237552afb85acce09369a43b1fb81e0f78ab0979243199b80a2680"
+        "bytes": 1134464,
+        "digest": "sha256:24921eb0ed8d0515cf298a26ddc2962b98b80ebe2b573c1eb9920b3b4927d17f"
       },
       {
         "project": "mobile-chrome",
         "theme": "competitive",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-settings.png",
-        "bytes": 254039,
-        "digest": "sha256:19de218260a0f4135dc3175afc267c08592a2cac66d3c947e09b4e61a31e9676"
+        "bytes": 254405,
+        "digest": "sha256:a0887ba01bc8e18d7b6fc73bc2b6f0844bb1c80ed4cbe4f9d3b3a7bafa6bc207"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "competitive",
+        "surface": "postmatch",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-postmatch.png",
+        "bytes": 141171,
+        "digest": "sha256:40675b04bb8eb6a22a0be704643dfec1946bbe06f69d1dbd11518abb1c26d595"
       }
     ]
   },
@@ -411,19 +494,49 @@
     {
       "project": "chromium",
       "localOnly": true,
-      "capturedAt": "2026-08-02T23:13:02.570Z",
+      "capturedAt": "2026-08-03T06:31:33.047Z",
       "source": {
-        "digest": "sha256:1b97b0b30e70b36374d197d0e44096b8c42cef9a126d31318f749194929ec799",
+        "digest": "sha256:b24281d8ee44f5cb191eee88aa193f78852b9326349977df146c15449f8b8454",
         "files": [
           {
             "path": "e2e/theme-visual-proof.spec.ts",
-            "bytes": 5414,
-            "digest": "sha256:30d85333b41fdc4bbf0313e985946aabb3b75a6ddbf663639f7e463b7beaf55a"
+            "bytes": 9466,
+            "digest": "sha256:7b2ed7c2e7a584ab90d329f07c2579fb3562daed54f927eb69e14235223f5c4a"
+          },
+          {
+            "path": "src/client/Api.ts",
+            "bytes": 52219,
+            "digest": "sha256:1f939cd7cad16f73239d1b7a02db5a21f336fa8e63989e06ec47365d823f6d2d"
           },
           {
             "path": "src/client/BrandTheme.ts",
             "bytes": 1204,
             "digest": "sha256:6c20e76d67e5e5bf8825b5aed45a5cae7a5cd6a28af9a11fb41b9e1f06f8d61f"
+          },
+          {
+            "path": "src/client/CertifiedMatchFeedback.ts",
+            "bytes": 6488,
+            "digest": "sha256:71e841ebb478038a00057dafc57f364dc3c77dae88d1e72f59ceb9d2dcd9ada5"
+          },
+          {
+            "path": "src/client/PostMatchContinuation.ts",
+            "bytes": 1833,
+            "digest": "sha256:5ef23bf3e589d15d3b9802c57985d1cf9884894fab96573a332e1eee7ff8f242"
+          },
+          {
+            "path": "src/client/PostMatchContinuationCard.ts",
+            "bytes": 2197,
+            "digest": "sha256:19164f5fef41419f5285670c49317c1abc26cfb18747413d20d9f437a6041ac1"
+          },
+          {
+            "path": "src/client/PostMatchContinuationPolicy.ts",
+            "bytes": 524,
+            "digest": "sha256:5b5e6a1023c30a697fdff8f88bffcd6910ab9650a088cc4f1aaa05f079312c39"
+          },
+          {
+            "path": "src/client/SeasonPassTrack.ts",
+            "bytes": 9473,
+            "digest": "sha256:bf65a7a379028619505e82ee4617b4e0e21f361ce9c594c5ff366ceaec8401c7"
           },
           {
             "path": "src/client/UserSettingModal.ts",
@@ -651,6 +764,11 @@
             "digest": "sha256:8250ab4e3952d441f6dcb7aab53b95dcf4ae30c9b2539d17daa92c8529285396"
           },
           {
+            "path": "src/client/graphics/layers/WinModal.ts",
+            "bytes": 76075,
+            "digest": "sha256:578729ee1087012bd1d6d6460d848579ac8ef9bcfa8f741fe621bd8bde318567"
+          },
+          {
             "path": "src/client/styles.css",
             "bytes": 18200,
             "digest": "sha256:cdc7ce21e48ca73658c4a70dd28087dfbbb561186ca9de705417a6a1cdfa5945"
@@ -722,7 +840,15 @@
             "glassBackground": "linear-gradient(148deg, oklab(0.204512 -0.0123935 -0.028984 / 0.799059) 0%, rgba(7, 17, 27, 0.88) 72%)",
             "glassText": "rgb(0, 0, 0)"
           },
-          "surfaces": ["play", "settings"]
+          "postMatch": {
+            "overlayOverflow": false,
+            "surfaceOverflow": false,
+            "surfaceWithinViewport": true,
+            "groupOverflow": false,
+            "minimumButtonWidth": 44,
+            "minimumButtonHeight": 44
+          },
+          "surfaces": ["play", "settings", "postmatch"]
         },
         {
           "theme": "light",
@@ -743,7 +869,15 @@
             "glassBackground": "linear-gradient(148deg, oklab(0.986126 -0.00121301 -0.00435322 / 0.848471) 0%, rgba(242, 247, 255, 0.94) 72%)",
             "glassText": "rgb(0, 0, 0)"
           },
-          "surfaces": ["play", "settings"]
+          "postMatch": {
+            "overlayOverflow": false,
+            "surfaceOverflow": false,
+            "surfaceWithinViewport": true,
+            "groupOverflow": false,
+            "minimumButtonWidth": 44,
+            "minimumButtonHeight": 44
+          },
+          "surfaces": ["play", "settings", "postmatch"]
         },
         {
           "theme": "competitive",
@@ -764,26 +898,64 @@
             "glassBackground": "linear-gradient(148deg, oklab(0.171074 0.0428299 -0.0508859 / 0.848471) 0%, rgba(12, 1, 22, 0.94) 72%)",
             "glassText": "rgb(0, 0, 0)"
           },
-          "surfaces": ["play", "settings"]
+          "postMatch": {
+            "overlayOverflow": false,
+            "surfaceOverflow": false,
+            "surfaceWithinViewport": true,
+            "groupOverflow": false,
+            "minimumButtonWidth": 44,
+            "minimumButtonHeight": 44
+          },
+          "surfaces": ["play", "settings", "postmatch"]
         }
       ]
     },
     {
       "project": "mobile-chrome",
       "localOnly": true,
-      "capturedAt": "2026-08-02T23:13:56.218Z",
+      "capturedAt": "2026-08-03T06:31:36.521Z",
       "source": {
-        "digest": "sha256:1b97b0b30e70b36374d197d0e44096b8c42cef9a126d31318f749194929ec799",
+        "digest": "sha256:b24281d8ee44f5cb191eee88aa193f78852b9326349977df146c15449f8b8454",
         "files": [
           {
             "path": "e2e/theme-visual-proof.spec.ts",
-            "bytes": 5414,
-            "digest": "sha256:30d85333b41fdc4bbf0313e985946aabb3b75a6ddbf663639f7e463b7beaf55a"
+            "bytes": 9466,
+            "digest": "sha256:7b2ed7c2e7a584ab90d329f07c2579fb3562daed54f927eb69e14235223f5c4a"
+          },
+          {
+            "path": "src/client/Api.ts",
+            "bytes": 52219,
+            "digest": "sha256:1f939cd7cad16f73239d1b7a02db5a21f336fa8e63989e06ec47365d823f6d2d"
           },
           {
             "path": "src/client/BrandTheme.ts",
             "bytes": 1204,
             "digest": "sha256:6c20e76d67e5e5bf8825b5aed45a5cae7a5cd6a28af9a11fb41b9e1f06f8d61f"
+          },
+          {
+            "path": "src/client/CertifiedMatchFeedback.ts",
+            "bytes": 6488,
+            "digest": "sha256:71e841ebb478038a00057dafc57f364dc3c77dae88d1e72f59ceb9d2dcd9ada5"
+          },
+          {
+            "path": "src/client/PostMatchContinuation.ts",
+            "bytes": 1833,
+            "digest": "sha256:5ef23bf3e589d15d3b9802c57985d1cf9884894fab96573a332e1eee7ff8f242"
+          },
+          {
+            "path": "src/client/PostMatchContinuationCard.ts",
+            "bytes": 2197,
+            "digest": "sha256:19164f5fef41419f5285670c49317c1abc26cfb18747413d20d9f437a6041ac1"
+          },
+          {
+            "path": "src/client/PostMatchContinuationPolicy.ts",
+            "bytes": 524,
+            "digest": "sha256:5b5e6a1023c30a697fdff8f88bffcd6910ab9650a088cc4f1aaa05f079312c39"
+          },
+          {
+            "path": "src/client/SeasonPassTrack.ts",
+            "bytes": 9473,
+            "digest": "sha256:bf65a7a379028619505e82ee4617b4e0e21f361ce9c594c5ff366ceaec8401c7"
           },
           {
             "path": "src/client/UserSettingModal.ts",
@@ -1011,6 +1183,11 @@
             "digest": "sha256:8250ab4e3952d441f6dcb7aab53b95dcf4ae30c9b2539d17daa92c8529285396"
           },
           {
+            "path": "src/client/graphics/layers/WinModal.ts",
+            "bytes": 76075,
+            "digest": "sha256:578729ee1087012bd1d6d6460d848579ac8ef9bcfa8f741fe621bd8bde318567"
+          },
+          {
             "path": "src/client/styles.css",
             "bytes": 18200,
             "digest": "sha256:cdc7ce21e48ca73658c4a70dd28087dfbbb561186ca9de705417a6a1cdfa5945"
@@ -1082,7 +1259,15 @@
             "glassBackground": "linear-gradient(148deg, oklab(0.204512 -0.0123935 -0.028984 / 0.799059) 0%, rgba(7, 17, 27, 0.88) 72%)",
             "glassText": "rgb(0, 0, 0)"
           },
-          "surfaces": ["play", "settings"]
+          "postMatch": {
+            "overlayOverflow": false,
+            "surfaceOverflow": false,
+            "surfaceWithinViewport": true,
+            "groupOverflow": false,
+            "minimumButtonWidth": 44,
+            "minimumButtonHeight": 44
+          },
+          "surfaces": ["play", "settings", "postmatch"]
         },
         {
           "theme": "light",
@@ -1103,7 +1288,15 @@
             "glassBackground": "linear-gradient(148deg, oklab(0.986126 -0.00121301 -0.00435322 / 0.848471) 0%, rgba(242, 247, 255, 0.94) 72%)",
             "glassText": "rgb(0, 0, 0)"
           },
-          "surfaces": ["play", "settings"]
+          "postMatch": {
+            "overlayOverflow": false,
+            "surfaceOverflow": false,
+            "surfaceWithinViewport": true,
+            "groupOverflow": false,
+            "minimumButtonWidth": 44,
+            "minimumButtonHeight": 44
+          },
+          "surfaces": ["play", "settings", "postmatch"]
         },
         {
           "theme": "competitive",
@@ -1124,7 +1317,15 @@
             "glassBackground": "linear-gradient(148deg, oklab(0.171074 0.0428299 -0.0508859 / 0.848471) 0%, rgba(12, 1, 22, 0.94) 72%)",
             "glassText": "rgb(0, 0, 0)"
           },
-          "surfaces": ["play", "settings"]
+          "postMatch": {
+            "overlayOverflow": false,
+            "surfaceOverflow": false,
+            "surfaceWithinViewport": true,
+            "groupOverflow": false,
+            "minimumButtonWidth": 44,
+            "minimumButtonHeight": 44
+          },
+          "surfaces": ["play", "settings", "postmatch"]
         }
       ]
     }

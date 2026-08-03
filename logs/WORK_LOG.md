@@ -2,6 +2,17 @@
 
 Append-only. Each session appends one entry. Never edit prior entries.
 
+## 2026-08-02 — Session 91 certified-reflection and launch-truth closeout
+
+- Goal: Run one saturated `/start → /audit → /implement → /closeout` arc, verify every premise against live code, exhaust primary and second-order work, and publish directly to `main` without fabricating external evidence.
+- What changed: Consolidated runtime ingress under Traefik; bound deploy topology, rollback, and revenue semantics into release lineage; made certified dual-rating feedback reachable; added one context-aware continuation action and a real Season Pass progress arc; removed three unused production dependencies.
+- Innovation pass: Added and shipped tamper-evident launch observations, a deploy-topology release fingerprint, and a certified-feedback reachability receipt, bringing the cumulative ledger to 53/53.
+- Visual truth: Recaptured 18 exact-source artifacts for play/settings/post-match across three themes and desktop/mobile, with executable viewport, overflow, submit-reachability, and 44-pixel target checks. The local bitmap viewer was unavailable, so no unsupported model-vision claim was made.
+- Verification: 198 Vitest files / 1,088 tests; TypeScript; ESLint; Prettier ratchet; 50 deploy checks; 28,125 balance scenarios; production build; Pages 10/10 and worker 1/1; bundle/media budgets; production audit zero; supply-chain incident scan zero; Playwright 26/26; audit 6/6; innovations 53/53.
+- Remaining boundary: external release is NO-GO pending approved staging/parity, verified Zoho reply identity, native Obelisk, live web/theme, three distinct humans, a real positive revenue observation, an observed rollback, and founder approval.
+
+---
+
 ## 2026-08-02 — Session 90 causal-trust and portable-proof closeout
 
 - Goal: Run one continuous `/start → /audit → /implement → /closeout` mission, exhaust every premise-verified item, generate and implement second-order innovations, and close directly to main with honest external gates.

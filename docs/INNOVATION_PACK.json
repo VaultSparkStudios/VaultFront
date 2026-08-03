@@ -1,11 +1,38 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-08-02T23:09:30.827Z",
+  "generatedAt": "2026-08-03T04:05:18.888Z",
   "source": "scripts/innovation-pack.mjs",
   "primarySource": "latest audit-backed Unified Genius List",
   "items": [
     {
       "rank": 1,
+      "status": "shipped",
+      "id": "tamper-evident-launch-observations",
+      "title": "Make launch-event observations verify their own semantics",
+      "description": "Canonicalize rollback and revenue event fields into their SHA-256 observation digests so a syntactically valid provenance token cannot be reused after material evidence changes.",
+      "complete": true,
+      "evidence": "canonical launch-observation builder/verifier, semantic digest gate, and tamper fixtures"
+    },
+    {
+      "rank": 2,
+      "status": "shipped",
+      "id": "deploy-topology-release-fingerprint",
+      "title": "Bind the sole-ingress topology into release provenance",
+      "description": "Fingerprint Dockerfile, Supervisor, updater, and operator runbook into a verified local deployment-topology receipt and make it a first-class parent of the release decision.",
+      "complete": true,
+      "evidence": "source-bound topology evidence, release-lineage parent, and mutation-sensitive fixture"
+    },
+    {
+      "rank": 3,
+      "status": "shipped",
+      "id": "certified-feedback-reachability-receipt",
+      "title": "Prove and explain the certified player-feedback path end to end",
+      "description": "Fail closed unless the certified route, typed client call, live WinModal mount, and receipt tests remain connected, while showing players the evidence source, storage durability, and retention boundary they actually received.",
+      "complete": true,
+      "evidence": "cross-layer reachability checker, doctor probe, receipt transparency, and fail-closed fixtures"
+    },
+    {
+      "rank": 4,
       "status": "shipped",
       "id": "runtime-integrity-passport",
       "title": "Ship a digestible process-local Runtime Integrity Passport",
@@ -14,7 +41,7 @@
       "evidence": "RuntimeIntegrityPassport module, admin route, canonical digest and tamper-sensitive tests"
     },
     {
-      "rank": 2,
+      "rank": 5,
       "status": "shipped",
       "id": "release-evidence-manifest",
       "title": "Emit a machine-readable Release Evidence Manifest after every build",
@@ -23,7 +50,7 @@
       "evidence": "post-build manifest generator, build wiring, and clean/dirty provenance tests"
     },
     {
-      "rank": 3,
+      "rank": 6,
       "status": "shipped",
       "id": "exhaustion-proof-gate",
       "title": "Turn complete-all into a machine-enforced Exhaustion Proof gate",
@@ -32,7 +59,7 @@
       "evidence": "audit+innovation exhaustion checker, doctor probe, and pending/deferred fixtures"
     },
     {
-      "rank": 4,
+      "rank": 7,
       "status": "shipped",
       "id": "certified-ai-response-receipts",
       "title": "Bind every remote-AI answer to a verifiable response receipt",
@@ -41,7 +68,7 @@
       "evidence": "canonical AI response-receipt builder/verifier, live Worker wiring across oracle/coach/recap/debrief, cache preservation, and tamper tests"
     },
     {
-      "rank": 5,
+      "rank": 8,
       "status": "shipped",
       "id": "agent-capability-reachability",
       "title": "Publish a fail-closed Human + Agent capability reachability contract",
@@ -50,7 +77,7 @@
       "evidence": "agent-readable capability manifest, source-digested reachability checker, agents.json discovery link, doctor probe, and fail-closed fixtures"
     },
     {
-      "rank": 6,
+      "rank": 9,
       "status": "shipped",
       "id": "release-evidence-lineage-dag",
       "title": "Turn release evidence into a self-verifying provenance DAG",
@@ -59,7 +86,7 @@
       "evidence": "canonical evidence DAG builder/verifier, release-manifest integration, root receipt, and tamper/ordering tests"
     },
     {
-      "rank": 7,
+      "rank": 10,
       "status": "shipped",
       "id": "startup-brief-semantic-sentinel",
       "title": "Make the startup brief prove its own arithmetic",
@@ -68,7 +95,7 @@
       "evidence": "semantic brief validator, contradiction diagnostics, and adversarial context/SIL fixtures"
     },
     {
-      "rank": 8,
+      "rank": 11,
       "status": "shipped",
       "id": "release-truth-fingerprint",
       "title": "Bind cross-surface project truth into release provenance",
@@ -77,7 +104,7 @@
       "evidence": "canonical project-truth fingerprint, source digests, release-lineage node, and mutation-sensitive tests"
     },
     {
-      "rank": 9,
+      "rank": 12,
       "status": "shipped",
       "id": "operator-rollback-receipt-contract",
       "title": "Turn rollback prose into an executable receipt contract",
@@ -86,7 +113,7 @@
       "evidence": "digest-addressed operator runbook, 25-check deploy contract gate, and protocol regression execution"
     },
     {
-      "rank": 10,
+      "rank": 13,
       "status": "shipped",
       "id": "external-block-status-parity",
       "title": "Make externally blocked audit truth exhaustible without becoming invisible",
@@ -95,7 +122,7 @@
       "evidence": "shared exhaustion taxonomy and externally-blocked regression fixture"
     },
     {
-      "rank": 11,
+      "rank": 14,
       "status": "shipped",
       "id": "local-theme-proof-freshness-gate",
       "title": "Make local theme evidence self-expiring and claim-boundary aware",
@@ -104,7 +131,7 @@
       "evidence": "theme receipt validator, doctor probe, freshness/contrast/claim-boundary fixtures"
     },
     {
-      "rank": 12,
+      "rank": 15,
       "status": "shipped",
       "id": "bounded-test-worker-contract",
       "title": "Make test parallelism a repository-owned resource contract",
@@ -113,7 +140,7 @@
       "evidence": "four-worker ceilings on default, server, and production coverage commands plus a clean 143-file run"
     },
     {
-      "rank": 13,
+      "rank": 16,
       "status": "shipped",
       "id": "coverage-surface-visibility-contract",
       "title": "Make unloaded production code visible even before it earns coverage",
@@ -122,7 +149,7 @@
       "evidence": "production-inclusive V8 configuration, Worker observed-module invariant, ten measured critical-module floors, and regression fixtures"
     },
     {
-      "rank": 14,
+      "rank": 17,
       "status": "shipped",
       "id": "authenticated-route-seam",
       "title": "Extract a fully testable trust boundary from the router god-object",
@@ -131,7 +158,7 @@
       "evidence": "dependency-injected route registrar, Worker composition, authorization/isolation/error tests, and 100% route coverage"
     },
     {
-      "rank": 15,
+      "rank": 18,
       "status": "shipped",
       "id": "bounded-alpha-evidence-retention",
       "title": "Give durable Alpha evidence a privacy-minimal lifecycle",
@@ -140,7 +167,7 @@
       "evidence": "30-day retention constant, transactional PostgreSQL pruning, process-local parity, and binding-release regression test"
     },
     {
-      "rank": 16,
+      "rank": 19,
       "status": "shipped",
       "id": "public-ingest-risk-budget",
       "title": "Ratchet unauthenticated ingestion as an explicit risk budget",
@@ -149,7 +176,7 @@
       "evidence": "11-route public-ingest ceiling, catalog rationale, fail-closed validator, and hostile over-budget fixture"
     },
     {
-      "rank": 17,
+      "rank": 20,
       "status": "shipped",
       "id": "trusted-base-validator-pin",
       "title": "Make the dependency automation validator self-protecting",
@@ -158,7 +185,7 @@
       "evidence": "three trusted-base workflow invariants added to the directly executed deploy contract gate"
     },
     {
-      "rank": 18,
+      "rank": 21,
       "status": "shipped",
       "id": "certified-crowd-consensus-pulse",
       "title": "Turn spectator opinion into a certified live consensus pulse",
@@ -167,7 +194,7 @@
       "evidence": "durable consensus aggregation, authenticated single-write path, narrator broadcast seam, live accessible meter, and closed-game tests"
     },
     {
-      "rank": 19,
+      "rank": 22,
       "status": "shipped",
       "id": "anonymous-mutation-budget-contraction",
       "title": "Shrink the public-ingest trust boundary after route convergence",
@@ -176,7 +203,7 @@
       "evidence": "retired duplicate path, authenticated Prediction League and mutator ballots, and nine-route fail-closed public-ingest ceiling"
     },
     {
-      "rank": 20,
+      "rank": 23,
       "status": "shipped",
       "id": "composition-ratchet-contraction",
       "title": "Cash router extraction into a tighter composition budget",
@@ -185,7 +212,7 @@
       "evidence": "3,105-line Worker ceiling, bounded season/community and progression registrars, route reclamation detection, and executable regression test"
     },
     {
-      "rank": 21,
+      "rank": 24,
       "status": "shipped",
       "id": "season-entitlement-identity-projection",
       "title": "Project claimed Season Pass cosmetics back into visible player identity",
@@ -194,7 +221,7 @@
       "evidence": "server-derived cosmetic chips, certified durability label, and no client-invented reward state"
     },
     {
-      "rank": 22,
+      "rank": 25,
       "status": "shipped",
       "id": "experiment-reset-scope",
       "title": "Make experiment aggregate reset boundaries machine-readable",
@@ -203,7 +230,7 @@
       "evidence": "shared storage-posture contract across dock, recap, runtime, unified, and outcome summaries with direct test"
     },
     {
-      "rank": 23,
+      "rank": 26,
       "status": "shipped",
       "id": "byte-stable-balance-envelope",
       "title": "Make identical balance inputs produce byte-identical evidence",
@@ -212,7 +239,7 @@
       "evidence": "deterministic public artifact with 28,125 scenarios, stable SHA-256 scenario digest, and no timestamp entropy"
     },
     {
-      "rank": 24,
+      "rank": 27,
       "status": "shipped",
       "id": "balance-lineage-tamper-proof",
       "title": "Make balance evidence tampering invalidate release lineage",
@@ -221,7 +248,7 @@
       "evidence": "release-lineage balance parent, artifact/source digests, tamper test, and read-only agent discovery"
     },
     {
-      "rank": 25,
+      "rank": 28,
       "status": "shipped",
       "id": "season-ledger-restart-proof",
       "title": "Prove certified Season Pass entitlements survive a fresh store instance",
@@ -230,7 +257,7 @@
       "evidence": "fresh-store restoration fixture, composite certified-event key, entitlement table contract, and cross-actor rejection"
     },
     {
-      "rank": 26,
+      "rank": 29,
       "status": "shipped",
       "id": "progression-receipt-verifier",
       "title": "Make progression completion receipts independently tamper-verifiable",
@@ -239,7 +266,7 @@
       "evidence": "canonical completion payload, constant-time digest verification, duplicate-boundary rule, and tamper regression"
     },
     {
-      "rank": 27,
+      "rank": 30,
       "status": "shipped",
       "id": "state-scope-catalog-fingerprint",
       "title": "Fingerprint persistence capability truth inside runtime evidence",
@@ -248,7 +275,7 @@
       "evidence": "stable SHA-256 catalog fingerprint, runtime-ledger projection, and mutation-sensitive test"
     },
     {
-      "rank": 28,
+      "rank": 31,
       "status": "shipped",
       "id": "release-bound-vault-pressure-rules",
       "title": "Promote the flagship climax rules into release-bound balance evidence",
@@ -257,7 +284,7 @@
       "evidence": "single JSON authority, executable threshold/window invariants, deterministic public projection, and release-lineage source binding"
     },
     {
-      "rank": 29,
+      "rank": 32,
       "status": "shipped",
       "id": "privacy-bounded-match-feedback",
       "title": "Give certified match feedback a declared deletion horizon",
@@ -266,7 +293,7 @@
       "evidence": "30-day deletion contract, PostgreSQL/process-local pruning parity, retention-labeled summaries, and boundary tests"
     },
     {
-      "rank": 30,
+      "rank": 33,
       "status": "shipped",
       "id": "certified-feedback-cohort-intelligence",
       "title": "Join player sentiment to certified outcome and style cohorts",
@@ -275,7 +302,7 @@
       "evidence": "certificate-derived outcome projection, privacy-safe cohort aggregates, durable/fallback parity, and no actor identifiers in summaries"
     },
     {
-      "rank": 31,
+      "rank": 34,
       "status": "shipped",
       "id": "signed-replay-balance-identity",
       "title": "Cryptographically bind every replay to its gameplay authority",
@@ -284,7 +311,7 @@
       "evidence": "canonical balance identity, signed replay snapshot binding, compatibility verifier, and mismatch/tamper tests"
     },
     {
-      "rank": 32,
+      "rank": 35,
       "status": "shipped",
       "id": "postmatch-lifecycle-receipt",
       "title": "Make progressive post-match hydration measurably honest",
@@ -293,7 +320,7 @@
       "evidence": "generation-scoped receipt counters, exactly-once healthy/degraded pulse, stale-result accounting, and deterministic timer tests"
     },
     {
-      "rank": 33,
+      "rank": 36,
       "status": "shipped",
       "id": "evidence-keyed-replay-share-cache",
       "title": "Make replay share caches obey signed evidence identity",
@@ -302,7 +329,7 @@
       "evidence": "signature-keyed cache, independent projection verifier, restart-stability proof, and altered-evidence rejection"
     },
     {
-      "rank": 34,
+      "rank": 37,
       "status": "shipped",
       "id": "certificate-bound-archived-rematch",
       "title": "Bind archived rematches to the result certificate roster",
@@ -311,7 +338,7 @@
       "evidence": "pure archived authorization kernel, certificate verification, actor/client binding, and tamper/nonparticipant tests"
     },
     {
-      "rank": 35,
+      "rank": 38,
       "status": "shipped",
       "id": "postmatch-route-policy-triad",
       "title": "Make post-match trust seams executable route policy",
@@ -320,7 +347,7 @@
       "evidence": "manifest-bound route assertions, explicit evidence taxonomy, and policy validation coverage"
     },
     {
-      "rank": 36,
+      "rank": 39,
       "status": "shipped",
       "id": "deterministic-epsilon-route-ordering",
       "title": "Make safest-route ordering mathematically stable at the epsilon boundary",
@@ -329,7 +356,7 @@
       "evidence": "symmetric epsilon comparator, seeded property sequence, explicit adversarial boundary, and no stochastic gate flicker"
     },
     {
-      "rank": 37,
+      "rank": 40,
       "status": "shipped",
       "id": "unified-certified-game-authority",
       "title": "Unify certified archived-game authority across consumers",
@@ -338,7 +365,7 @@
       "evidence": "shared CertifiedGameAuthority kernel, focused authority tests, and multiple production consumers in dynasty and tournament flows"
     },
     {
-      "rank": 38,
+      "rank": 41,
       "status": "shipped",
       "id": "fresh-worker-quorum-proof",
       "title": "Make master health prove a fresh worker quorum",
@@ -347,7 +374,7 @@
       "evidence": "fresh-worker quorum projection, typed workerHealth IPC evidence, stale-worker rejection, and focused master health tests"
     },
     {
-      "rank": 39,
+      "rank": 42,
       "status": "shipped",
       "id": "validated-artifact-isomorphism",
       "title": "Make the deployed Pages artifact identical to the validated artifact",
@@ -356,7 +383,7 @@
       "evidence": "artifact contract checker, workflow invocation against static, and upload-pages binding to the same static directory"
     },
     {
-      "rank": 40,
+      "rank": 43,
       "status": "shipped",
       "id": "hosted-cron-zero-invariant",
       "title": "Keep hosted workflow cron at exactly zero",
@@ -365,7 +392,7 @@
       "evidence": "repository-wide hosted-cron checker plus schedule-free brief-format and stale-PR workflows with explicit manual dispatch"
     },
     {
-      "rank": 41,
+      "rank": 44,
       "status": "shipped",
       "id": "monotonic-innovation-ledger-guard",
       "title": "Make shipped innovation evidence monotonic under regeneration",
@@ -374,7 +401,7 @@
       "evidence": "pure shipped-ID comparison helper, pre-write fail-closed guard, exact forgotten-ID diagnostic, and isolated no-overwrite regression"
     },
     {
-      "rank": 42,
+      "rank": 45,
       "status": "shipped",
       "id": "certified-loop-admissibility-receipt",
       "title": "Make certified funnel chronology independently tamper-verifiable",
@@ -383,7 +410,7 @@
       "evidence": "privacy-minimal canonical timeline digest, independent verifier, store receipt integration, and tamper/order-sensitive tests"
     },
     {
-      "rank": 43,
+      "rank": 46,
       "status": "shipped",
       "id": "worker-game-id-route-witness",
       "title": "Make routed GameID allocation independently re-checkable",
@@ -392,7 +419,7 @@
       "evidence": "worker-bound success witness, independent verifier, live consumer assertion, and malformed/route/collision/count tamper tests"
     },
     {
-      "rank": 44,
+      "rank": 47,
       "status": "shipped",
       "id": "startup-brief-source-closure",
       "title": "Close startup freshness over every core local truth source",
@@ -401,7 +428,7 @@
       "evidence": "closed core-source manifest, per-source SHA-256 fingerprints, and mutation tests across every newly tracked renderer input"
     },
     {
-      "rank": 45,
+      "rank": 48,
       "status": "shipped",
       "id": "service-worker-release-lineage",
       "title": "Bind the executable service worker into release provenance",
@@ -410,7 +437,7 @@
       "evidence": "single-asset worker projector, content digest and cache identity, release-lineage parent, fail-closed blockers, and missing/duplicate/tamper fixtures"
     },
     {
-      "rank": 46,
+      "rank": 49,
       "status": "shipped",
       "id": "portable-visual-proof-capsule",
       "title": "Make visual proof independently verifiable from a clean checkout",
@@ -419,7 +446,7 @@
       "evidence": "portable 12-artifact capsule, canonical summary parity, clean-checkout verification, and tamper tests"
     },
     {
-      "rank": 47,
+      "rank": 50,
       "status": "shipped",
       "id": "progression-receipt-retention-boundary",
       "title": "Give certified progression dividends a privacy-minimal horizon",
@@ -428,7 +455,7 @@
       "evidence": "30-day deletion contract, indexed durable pruning, process-local parity, and exact-boundary regression"
     },
     {
-      "rank": 48,
+      "rank": 51,
       "status": "shipped",
       "id": "post-verification-ci-fan-in",
       "title": "Make exact-revision CI mean the whole verification graph passed",
@@ -437,7 +464,7 @@
       "evidence": "six-job CI fan-in, exact-SHA post-verification contract, workflow-bound metadata, and incomplete-job rejection"
     },
     {
-      "rank": 49,
+      "rank": 52,
       "status": "shipped",
       "id": "certified-pressure-contribution-dividend",
       "title": "Show each teammate's certified contribution to shared Vault Pressure",
@@ -446,7 +473,7 @@
       "evidence": "signed-stat projection, actor-bound dividend field, exact cooperative-credit UI, and client/server regressions"
     },
     {
-      "rank": 50,
+      "rank": 53,
       "status": "shipped",
       "id": "semantic-innovation-detector-ratchet",
       "title": "Make innovation completion recognize stronger future ratchets",

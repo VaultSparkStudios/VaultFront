@@ -12,6 +12,21 @@ import {
   type SeasonMilestoneProgress,
 } from "./Api";
 
+export function seasonProgressArc(progress: number, target: number) {
+  const radius = 18;
+  const circumference = 2 * Math.PI * radius;
+  const percent = Math.max(
+    0,
+    Math.min(100, target > 0 ? (progress / target) * 100 : 0),
+  );
+  return {
+    percent,
+    radius,
+    circumference,
+    dash: (percent / 100) * circumference,
+  };
+}
+
 @customElement("season-pass-track")
 export class SeasonPassTrack extends LitElement {
   @state() private milestones: SeasonMilestoneProgress[] = [];
@@ -185,19 +200,6 @@ export class SeasonPassTrack extends LitElement {
     return "🎁";
   }
 
-  private drawProgressArc(pct: number): string {
-    const r = 18;
-    const circ = 2 * Math.PI * r;
-    const dash = (pct / 100) * circ;
-    return `
-      <circle cx="21" cy="21" r="${r}" fill="none" stroke="rgba(71,85,105,0.3)" stroke-width="2.5"/>
-      <circle cx="21" cy="21" r="${r}" fill="none" stroke="rgba(251,191,36,0.6)" stroke-width="2.5"
-        stroke-dasharray="${dash} ${circ}" stroke-dashoffset="${circ / 4}"
-        stroke-linecap="round" transform="rotate(-90 21 21)"
-      />
-    `;
-  }
-
   render() {
     if (this.loading)
       return html`<div class="empty">Loading season track…</div>`;
@@ -232,6 +234,7 @@ export class SeasonPassTrack extends LitElement {
             m.milestone.reward.type,
             m.milestone.reward.value,
           );
+          const arc = seasonProgressArc(m.progress, m.target);
           return html`
             ${
               i > 0
@@ -256,10 +259,32 @@ export class SeasonPassTrack extends LitElement {
                             class="progress-arc"
                             viewBox="0 0 42 42"
                             xmlns="http://www.w3.org/2000/svg"
+                            role="img"
+                            aria-label="${Math.round(
+                              arc.percent,
+                            )}% progress toward ${m.milestone.title}"
                           >
-                            ${
-                              /* raw SVG as unsafeHTML workaround — inline via template */ ""
-                            }
+                            <circle
+                              cx="21"
+                              cy="21"
+                              r=${arc.radius}
+                              fill="none"
+                              stroke="rgba(71,85,105,0.3)"
+                              stroke-width="2.5"
+                            ></circle>
+                            <circle
+                              cx="21"
+                              cy="21"
+                              r=${arc.radius}
+                              fill="none"
+                              stroke="rgba(251,191,36,0.72)"
+                              stroke-width="2.5"
+                              stroke-dasharray="${arc.dash} ${
+                                arc.circumference
+                              }"
+                              stroke-linecap="round"
+                              transform="rotate(-90 21 21)"
+                            ></circle>
                           </svg>
                           <span style="opacity:0.5;font-size:0.85rem">🔒</span>
                         `

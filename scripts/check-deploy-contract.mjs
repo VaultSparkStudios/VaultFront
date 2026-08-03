@@ -29,6 +29,8 @@ const e2eWorkflow = read(".github/workflows/e2e.yml");
 const promoteWorkflow = read(".github/workflows/promote.yml");
 const prWorkflow = read(".github/workflows/pr-description.yml");
 const runbook = read("docs/DEPLOY_RUNTIME_RUNBOOK.md");
+const dockerfile = read("Dockerfile");
+const supervisor = read("supervisord.conf");
 
 check(
   !fs.existsSync(path.join(ROOT, ".github/workflows/release.yml")),
@@ -137,6 +139,40 @@ requireText(
   /staging_evidence_digest/u,
   "promotion lacks explicit staging evidence",
 );
+check(
+  update.includes("traefik.http.routers.${CONTAINER_NAME}.rule"),
+  "remote updater does not declare Traefik as the container ingress authority",
+);
+requireText(
+  dockerfile,
+  /ENTRYPOINT ["\/usr\/bin\/supervisord", "-c", "\/etc\/supervisor\/conf.d\/supervisord.conf"]/u,
+  "production image does not start Supervisor directly",
+);
+requireText(
+  dockerfile,
+  /HEALTHCHECK[^\n]*127.0.0.1\/_health/u,
+  "production image has no local canonical healthcheck",
+);
+check(
+  !fs.existsSync(path.join(ROOT, "startup.sh")),
+  "legacy runtime tunnel/DNS mutation entrypoint still exists",
+);
+for (const [name, body] of [
+  ["Dockerfile", dockerfile],
+  ["Supervisor config", supervisor],
+]) {
+  check(
+    !/cloudflared|CF_API_TOKEN|CF_ACCOUNT_ID|CLOUDFLARE_TUNNEL_TOKEN/u.test(
+      body,
+    ),
+    `${name} still owns Cloudflare tunnel or DNS credentials`,
+  );
+}
+requireText(
+  supervisor,
+  /[program:nginx][sS]*[program:node]/u,
+  "Supervisor does not own the bounded Nginx + Node process set",
+);
 
 requireText(
   runbook,
@@ -171,6 +207,15 @@ requireText(
   runbook,
   /### Rollback receipt/u,
   "runbook has no auditable rollback receipt contract",
+);
+requireText(
+  runbook,
+  /Traefik is the sole runtime ingress authority/u,
+  "runbook does not declare the single ingress authority",
+);
+check(
+  !/Configure Caddy|cloudflared tunnel create/u.test(runbook),
+  "runbook still instructs a second ingress authority",
 );
 
 for (const script of ["build-deploy.sh", "deploy.sh", "update.sh"]) {

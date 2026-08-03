@@ -1,12 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-vi.mock("@lit-labs/virtualizer/virtualize.js", async () => {
-  const { html } = await import("lit");
-  return {
-    virtualize: vi.fn(() => html``),
-  };
-});
-
 vi.mock("../../src/client/Utils", () => ({
   translateText: vi.fn((key: string) => {
     const translations: Record<string, string> = {

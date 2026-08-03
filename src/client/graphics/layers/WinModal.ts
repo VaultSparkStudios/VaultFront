@@ -50,6 +50,11 @@ import {
 import { crazyGamesSDK } from "../../CrazyGamesSDK";
 import { Platform } from "../../Platform";
 import {
+  type PostMatchContinuationAction,
+  type PostMatchContinuationInput,
+  selectPostMatchContinuationAction,
+} from "../../PostMatchContinuationPolicy";
+import {
   PostMatchSessionOrchestrator,
   type PostMatchSessionReceipt,
   type PostMatchSessionScope,
@@ -61,6 +66,8 @@ import {
 } from "../PlayStyleClassifier";
 import { Layer } from "./Layer";
 import { GoToPositionEvent } from "./Leaderboard";
+void import("../../CertifiedMatchFeedback");
+void import("../../PostMatchContinuationCard");
 
 interface RecapCard {
   key: "vault" | "convoy" | "pulse" | "focus";
@@ -189,9 +196,6 @@ export class WinModal extends LitElement implements Layer {
     [];
 
   @state()
-  private microFeedbackSent: "epic" | "balanced" | "off" | null = null;
-
-  @state()
   private mutatorVoteCandidates: MutatorVoteCandidate[] = [];
 
   @state()
@@ -245,11 +249,10 @@ export class WinModal extends LitElement implements Layer {
     return this;
   }
 
-  constructor() {
-    super();
-  }
-
   render() {
+    const continuationContext = this.continuationContext();
+    const continuationAction =
+      selectPostMatchContinuationAction(continuationContext);
     return html`
       <div
         class="${
@@ -287,41 +290,34 @@ export class WinModal extends LitElement implements Layer {
                 ${this.renderRecapSection()} ${this.innerHtml()}
               `
         }
-        ${this.showButtons ? this.renderMicroFeedback() : null}
+        ${
+          this.showButtons
+            ? html`<certified-match-feedback
+                .gameId=${this.game?.gameID() ?? ""}
+              ></certified-match-feedback>`
+            : null
+        }
         ${
           this.showButtons && this.mutatorVoteCandidates.length > 0
             ? this.renderMutatorVote()
             : null
         }
         <div class="${this.showButtons ? "flex flex-col gap-2" : "hidden"}">
-          <div class="flex justify-between gap-2.5">
+          <div class="grid grid-cols-[minmax(0,2fr)_minmax(0,1fr)] gap-2.5">
+            <post-match-continuation-card
+              .context=${continuationContext}
+              .pending=${
+                continuationAction === "rematch" && this.rematchPending
+              }
+              @post-match-continue=${(
+                event: CustomEvent<{ action: PostMatchContinuationAction }>,
+              ) => this.activateContinuation(event.detail.action)}
+            ></post-match-continuation-card>
             <button
               @click=${this._handleExit}
-              class="flex-1 px-3 py-3 text-base cursor-pointer bg-blue-500/60 text-white border-0 rounded-sm transition-all duration-200 hover:bg-blue-500/80 hover:-translate-y-px active:translate-y-px"
+              class="px-3 py-3 text-sm cursor-pointer bg-slate-700/70 text-slate-100 border border-slate-500/40 rounded-md transition-all duration-200 hover:bg-slate-600/80 hover:-translate-y-px active:translate-y-px"
             >
-              ${translateText("win_modal.exit")}
-            </button>
-            ${
-              this.isRankedGame
-                ? html`
-                    <button
-                      @click=${this._handleRequeue}
-                      class="flex-1 px-3 py-3 text-base cursor-pointer bg-purple-600 text-white border-0 rounded-sm transition-all duration-200 hover:bg-purple-500 hover:-translate-y-px active:translate-y-px"
-                    >
-                      ${translateText("win_modal.requeue")}
-                    </button>
-                  `
-                : null
-            }
-            <button
-              @click=${this.hide}
-              class="flex-1 px-3 py-3 text-base cursor-pointer bg-blue-500/60 text-white border-0 rounded-sm transition-all duration-200 hover:bg-blue-500/80 hover:-translate-y-px active:translate-y-px"
-            >
-              ${
-                this.game?.myPlayer()?.isAlive()
-                  ? translateText("win_modal.keep")
-                  : translateText("win_modal.spectate")
-              }
+              Exit match
             </button>
           </div>
           <div class="flex justify-between gap-2.5">
@@ -331,21 +327,25 @@ export class WinModal extends LitElement implements Layer {
             >
               ${this.shareCopied ? "Link copied!" : "Share Match"}
             </button>
-            <button
-              @click=${this._handleRematch}
-              class="flex-1 px-3 py-2 text-sm cursor-pointer bg-orange-500/70 text-white border-0 rounded-sm transition-all duration-200 hover:bg-orange-500/90 hover:-translate-y-px active:translate-y-px disabled:cursor-wait disabled:opacity-60"
-              ?disabled=${this.rematchPending}
-            >
-              ${
-                this.rematchPending
-                  ? "Creating rematch…"
-                  : this.rematchResult
-                    ? "Open rematch lobby"
-                    : this.rematchError
-                      ? "Retry rematch"
-                      : "Rematch"
-              }
-            </button>
+            ${
+              continuationAction === "rematch"
+                ? null
+                : html`<button
+                    @click=${this._handleRematch}
+                    class="flex-1 px-3 py-2 text-sm cursor-pointer bg-orange-500/70 text-white border-0 rounded-sm transition-all duration-200 hover:bg-orange-500/90 hover:-translate-y-px active:translate-y-px disabled:cursor-wait disabled:opacity-60"
+                    ?disabled=${this.rematchPending}
+                  >
+                    ${
+                      this.rematchPending
+                        ? "Creating rematch…"
+                        : this.rematchResult
+                          ? "Open rematch lobby"
+                          : this.rematchError
+                            ? "Retry rematch"
+                            : "Rematch"
+                    }
+                  </button>`
+            }
             <button
               @click=${this._handleShareHighlight}
               class="flex-1 px-3 py-2 text-sm cursor-pointer bg-indigo-600/70 text-white border-0 rounded-sm transition-all duration-200 hover:bg-indigo-600/90 hover:-translate-y-px active:translate-y-px"
@@ -395,53 +395,19 @@ export class WinModal extends LitElement implements Layer {
     `;
   }
 
-  private renderMicroFeedback() {
-    if (this.microFeedbackSent) {
-      return html`
-        <div class="text-center text-slate-400 text-xs py-2">
-          Thanks for the feedback!
-        </div>
-      `;
-    }
-    const send = (signal: "epic" | "balanced" | "off") => {
-      this.microFeedbackSent = signal;
-      this.requestUpdate();
-      // Best-effort fire-and-forget; failure is acceptable for telemetry
-      void recordVaultFrontRecapEvent({
-        event: `match_feedback_${signal}`,
-        variant: this.recapCtaVariant,
-        value: 1,
-      });
-      void recordVaultFrontPlaytestPulse({
-        surface: "match",
-        event: `feedback_${signal}`,
-      });
+  private continuationContext(): PostMatchContinuationInput {
+    return {
+      isRanked: this.isRankedGame,
+      rivalryRevengeDelta: this.rivalryRevengeDelta,
+      nextGoalSaved: this.nextGoalSaved,
+      isAlive: Boolean(this.game?.myPlayer()?.isAlive()),
     };
-    return html`
-      <div class="flex justify-center gap-3 py-2 border-t border-white/10 mt-2">
-        <button
-          @click=${() => send("epic")}
-          class="px-3 py-1.5 text-sm bg-transparent border border-amber-500/40 text-amber-300 rounded-md cursor-pointer hover:bg-amber-500/20 transition-colors"
-          title="Epic match"
-        >
-          🔥 Epic
-        </button>
-        <button
-          @click=${() => send("balanced")}
-          class="px-3 py-1.5 text-sm bg-transparent border border-slate-500/40 text-slate-300 rounded-md cursor-pointer hover:bg-slate-500/20 transition-colors"
-          title="Felt balanced"
-        >
-          ⚖️ Balanced
-        </button>
-        <button
-          @click=${() => send("off")}
-          class="px-3 py-1.5 text-sm bg-transparent border border-slate-500/40 text-slate-400 rounded-md cursor-pointer hover:bg-slate-500/20 transition-colors"
-          title="Something was off"
-        >
-          😤 Off
-        </button>
-      </div>
-    `;
+  }
+
+  private activateContinuation(action: PostMatchContinuationAction) {
+    if (action === "requeue") this._handleRequeue();
+    else if (action === "rematch") void this._handleRematch();
+    else this.hide();
   }
 
   private renderMutatorVote() {

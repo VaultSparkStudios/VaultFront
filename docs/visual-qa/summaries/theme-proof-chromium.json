@@ -1,19 +1,49 @@
 {
   "project": "chromium",
   "localOnly": true,
-  "capturedAt": "2026-08-02T23:13:02.570Z",
+  "capturedAt": "2026-08-03T06:31:33.047Z",
   "source": {
-    "digest": "sha256:1b97b0b30e70b36374d197d0e44096b8c42cef9a126d31318f749194929ec799",
+    "digest": "sha256:b24281d8ee44f5cb191eee88aa193f78852b9326349977df146c15449f8b8454",
     "files": [
       {
         "path": "e2e/theme-visual-proof.spec.ts",
-        "bytes": 5414,
-        "digest": "sha256:30d85333b41fdc4bbf0313e985946aabb3b75a6ddbf663639f7e463b7beaf55a"
+        "bytes": 9466,
+        "digest": "sha256:7b2ed7c2e7a584ab90d329f07c2579fb3562daed54f927eb69e14235223f5c4a"
+      },
+      {
+        "path": "src/client/Api.ts",
+        "bytes": 52219,
+        "digest": "sha256:1f939cd7cad16f73239d1b7a02db5a21f336fa8e63989e06ec47365d823f6d2d"
       },
       {
         "path": "src/client/BrandTheme.ts",
         "bytes": 1204,
         "digest": "sha256:6c20e76d67e5e5bf8825b5aed45a5cae7a5cd6a28af9a11fb41b9e1f06f8d61f"
+      },
+      {
+        "path": "src/client/CertifiedMatchFeedback.ts",
+        "bytes": 6488,
+        "digest": "sha256:71e841ebb478038a00057dafc57f364dc3c77dae88d1e72f59ceb9d2dcd9ada5"
+      },
+      {
+        "path": "src/client/PostMatchContinuation.ts",
+        "bytes": 1833,
+        "digest": "sha256:5ef23bf3e589d15d3b9802c57985d1cf9884894fab96573a332e1eee7ff8f242"
+      },
+      {
+        "path": "src/client/PostMatchContinuationCard.ts",
+        "bytes": 2197,
+        "digest": "sha256:19164f5fef41419f5285670c49317c1abc26cfb18747413d20d9f437a6041ac1"
+      },
+      {
+        "path": "src/client/PostMatchContinuationPolicy.ts",
+        "bytes": 524,
+        "digest": "sha256:5b5e6a1023c30a697fdff8f88bffcd6910ab9650a088cc4f1aaa05f079312c39"
+      },
+      {
+        "path": "src/client/SeasonPassTrack.ts",
+        "bytes": 9473,
+        "digest": "sha256:bf65a7a379028619505e82ee4617b4e0e21f361ce9c594c5ff366ceaec8401c7"
       },
       {
         "path": "src/client/UserSettingModal.ts",
@@ -241,6 +271,11 @@
         "digest": "sha256:8250ab4e3952d441f6dcb7aab53b95dcf4ae30c9b2539d17daa92c8529285396"
       },
       {
+        "path": "src/client/graphics/layers/WinModal.ts",
+        "bytes": 76075,
+        "digest": "sha256:578729ee1087012bd1d6d6460d848579ac8ef9bcfa8f741fe621bd8bde318567"
+      },
+      {
         "path": "src/client/styles.css",
         "bytes": 18200,
         "digest": "sha256:cdc7ce21e48ca73658c4a70dd28087dfbbb561186ca9de705417a6a1cdfa5945"
@@ -312,7 +347,15 @@
         "glassBackground": "linear-gradient(148deg, oklab(0.204512 -0.0123935 -0.028984 / 0.799059) 0%, rgba(7, 17, 27, 0.88) 72%)",
         "glassText": "rgb(0, 0, 0)"
       },
-      "surfaces": ["play", "settings"]
+      "postMatch": {
+        "overlayOverflow": false,
+        "surfaceOverflow": false,
+        "surfaceWithinViewport": true,
+        "groupOverflow": false,
+        "minimumButtonWidth": 44,
+        "minimumButtonHeight": 44
+      },
+      "surfaces": ["play", "settings", "postmatch"]
     },
     {
       "theme": "light",
@@ -333,7 +376,15 @@
         "glassBackground": "linear-gradient(148deg, oklab(0.986126 -0.00121301 -0.00435322 / 0.848471) 0%, rgba(242, 247, 255, 0.94) 72%)",
         "glassText": "rgb(0, 0, 0)"
       },
-      "surfaces": ["play", "settings"]
+      "postMatch": {
+        "overlayOverflow": false,
+        "surfaceOverflow": false,
+        "surfaceWithinViewport": true,
+        "groupOverflow": false,
+        "minimumButtonWidth": 44,
+        "minimumButtonHeight": 44
+      },
+      "surfaces": ["play", "settings", "postmatch"]
     },
     {
       "theme": "competitive",
@@ -354,7 +405,15 @@
         "glassBackground": "linear-gradient(148deg, oklab(0.171074 0.0428299 -0.0508859 / 0.848471) 0%, rgba(12, 1, 22, 0.94) 72%)",
         "glassText": "rgb(0, 0, 0)"
       },
-      "surfaces": ["play", "settings"]
+      "postMatch": {
+        "overlayOverflow": false,
+        "surfaceOverflow": false,
+        "surfaceWithinViewport": true,
+        "groupOverflow": false,
+        "minimumButtonWidth": 44,
+        "minimumButtonHeight": 44
+      },
+      "surfaces": ["play", "settings", "postmatch"]
     }
   ]
 }

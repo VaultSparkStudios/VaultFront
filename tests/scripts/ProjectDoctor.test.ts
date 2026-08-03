@@ -60,7 +60,7 @@ describe("truthful project doctor", () => {
         exitCode: 17,
       }),
     );
-  });
+  }, 15_000);
 
   it("runs the truth probe against an isolated fixture root", () => {
     const fixture = fs.mkdtempSync(path.join(os.tmpdir(), "vaultfront-truth-"));

@@ -123,6 +123,19 @@ export function runProjectDoctor({
         ],
       },
       {
+        id: "certified-feedback-reachability",
+        command: process.execPath,
+        args: [
+          path.join(
+            defaultRoot,
+            "scripts",
+            "check-certified-feedback-reachability.mjs",
+          ),
+          "--root",
+          root,
+        ],
+      },
+      {
         id: "work-exhaustion",
         command: process.execPath,
         args: [

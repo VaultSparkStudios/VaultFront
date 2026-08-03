@@ -67,6 +67,22 @@ describe("release truth boundary", () => {
     );
   });
 
+  it("keeps runtime ingress outside the container and health-checks locally", () => {
+    const dockerfile = read("Dockerfile");
+    const supervisor = read("supervisord.conf");
+    const updater = read("update.sh");
+
+    expect(updater).toContain("traefik.http.routers.${CONTAINER_NAME}.rule");
+    expect(dockerfile).toContain(
+      'ENTRYPOINT ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]',
+    );
+    expect(dockerfile).toContain("127.0.0.1/_health");
+    expect(dockerfile).not.toMatch(
+      /cloudflared|CF_API_TOKEN|CF_ACCOUNT_ID|startup.sh/u,
+    );
+    expect(supervisor).not.toMatch(/cloudflared|CLOUDFLARE_TUNNEL_TOKEN/u);
+  });
+
   it("verifies promotion by the image Git revision instead of its tag", () => {
     const promote = read(".github/workflows/promote.yml");
     expect(promote).toContain("org.opencontainers.image.revision");

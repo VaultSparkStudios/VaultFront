@@ -4,7 +4,9 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { generatePublicShell } from "../../scripts/generate-public-shell.mjs";
 import {
+  buildCanonicalReleaseObservation,
   buildCiRevisionEvidence,
+  buildDeployTopologyEvidence,
   buildReleaseEvidence,
   buildServiceWorkerReleaseEvidence,
   canonicalReleaseGateDefinitions,
@@ -172,18 +174,35 @@ describe("Release Evidence Manifest", () => {
   it("becomes ready only with every fresh sourced gate and a healthy observed runtime", () => {
     const generatedAt = "2026-07-17T12:00:00.000Z";
     const releaseObservations = Object.fromEntries(
-      canonicalReleaseGateDefinitions.map(([gate], index) => [
-        gate,
-        {
+      canonicalReleaseGateDefinitions.map(([gate], index) => {
+        const observation = {
           status: "verified",
           observedAt: "2026-07-17T11:30:00.000Z",
           source: `probe:${gate}`,
-          digest: `sha256:${index.toString(16).padStart(64, "0")}`,
           ...(gate === "healthObservation"
             ? { httpStatus: 200, healthy: true }
             : {}),
-        },
-      ]),
+          ...(gate === "rollbackObservation"
+            ? {
+                drillCompleted: true,
+                restoredHealth: true,
+                imageDigest: `sha256:${"e".repeat(64)}`,
+              }
+            : {}),
+          ...(gate === "revenueObservation"
+            ? { live: true, eventType: "checkout", amountCents: 500 }
+            : {}),
+        };
+        return [
+          gate,
+          ["rollbackObservation", "revenueObservation"].includes(gate)
+            ? buildCanonicalReleaseObservation(gate, observation)
+            : {
+                ...observation,
+                digest: `sha256:${index.toString(16).padStart(64, "0")}`,
+              },
+        ];
+      }),
     );
     const evidence = buildReleaseEvidence({
       generatedAt,
@@ -201,6 +220,16 @@ describe("Release Evidence Manifest", () => {
           observedAt: generatedAt,
           digest: `sha256:${"f".repeat(64)}`,
           detail: "Both routes are statically declared.",
+        },
+        deploymentTopology: {
+          schemaVersion: 1,
+          status: "verified",
+          authority: "traefik",
+          source: "fixture",
+          observedAt: generatedAt,
+          sourceDigest: `sha256:${"8".repeat(64)}`,
+          failures: [],
+          detail: "Verified fixture.",
         },
       },
       serviceWorkerRelease: {
@@ -222,6 +251,112 @@ describe("Release Evidence Manifest", () => {
       blockers: [],
       launch: { status: "ready", runtimeAdvertised: true },
     });
+  });
+
+  it("rejects provenance-complete rollback and revenue claims without real event semantics", () => {
+    const now = Date.parse("2026-07-17T12:00:00.000Z");
+    const generic = {
+      status: "verified",
+      observedAt: "2026-07-17T11:30:00.000Z",
+      source: "operator-note",
+      digest: `sha256:${"a".repeat(64)}`,
+    };
+    const evaluated = evaluateCanonicalReleaseGates(
+      {
+        rollbackObservation: generic,
+        revenueObservation: generic,
+      },
+      { now },
+    );
+
+    expect(
+      evaluated.gates.find((gate) => gate.gate === "rollbackObservation"),
+    ).toMatchObject({
+      status: "block",
+      drillCompleted: null,
+      restoredHealth: null,
+    });
+    expect(
+      evaluated.gates.find((gate) => gate.gate === "revenueObservation"),
+    ).toMatchObject({
+      status: "block",
+      live: null,
+      amountCents: null,
+    });
+  });
+
+  it("rejects tampered semantic launch observations even when fields remain plausible", () => {
+    const observedAt = "2026-07-17T11:30:00.000Z";
+    const certified = buildCanonicalReleaseObservation("revenueObservation", {
+      status: "verified",
+      observedAt,
+      source: "checkout:webhook:event-123",
+      live: true,
+      eventType: "checkout",
+      amountCents: 500,
+    });
+    const tampered = { ...certified, amountCents: 900 };
+    const evaluated = evaluateCanonicalReleaseGates(
+      { revenueObservation: tampered },
+      { now: Date.parse("2026-07-17T12:00:00.000Z") },
+    );
+
+    expect(
+      evaluated.gates.find((gate) => gate.gate === "revenueObservation"),
+    ).toMatchObject({ status: "block", amountCents: 900 });
+    expect(
+      evaluated.gates.find((gate) => gate.gate === "revenueObservation")
+        ?.detail,
+    ).toContain("canonical semantic launch-observation payload");
+  });
+
+  it("binds the sole-ingress topology fingerprint and fails on a secondary ingress", () => {
+    const fixture = fs.mkdtempSync(
+      path.join(os.tmpdir(), "vaultfront-topology-"),
+    );
+    try {
+      fs.mkdirSync(path.join(fixture, "docs"), { recursive: true });
+      fs.writeFileSync(
+        path.join(fixture, "Dockerfile"),
+        'HEALTHCHECK CMD curl -f http://127.0.0.1/_health\nCMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]\n',
+      );
+      fs.writeFileSync(
+        path.join(fixture, "supervisord.conf"),
+        "[supervisord]\n",
+      );
+      fs.writeFileSync(
+        path.join(fixture, "update.sh"),
+        "traefik.http.routers.${CONTAINER_NAME}.rule\n",
+      );
+      fs.writeFileSync(
+        path.join(fixture, "docs/DEPLOY_RUNTIME_RUNBOOK.md"),
+        "Traefik is the sole runtime ingress authority.\n",
+      );
+      const verified = buildDeployTopologyEvidence(
+        fixture,
+        "2026-07-17T12:00:00.000Z",
+      );
+      fs.appendFileSync(
+        path.join(fixture, "Dockerfile"),
+        "RUN cloudflared tunnel run\n",
+      );
+      const contradicted = buildDeployTopologyEvidence(
+        fixture,
+        "2026-07-17T12:00:00.000Z",
+      );
+
+      expect(verified).toMatchObject({
+        status: "verified",
+        authority: "traefik",
+      });
+      expect(contradicted).toMatchObject({ status: "failed", authority: null });
+      expect(contradicted.failures).toContain(
+        "secondary-cloudflare-ingress-present",
+      );
+      expect(contradicted.sourceDigest).not.toBe(verified.sourceDigest);
+    } finally {
+      fs.rmSync(fixture, { recursive: true, force: true });
+    }
   });
 
   it("requires the post-verification fan-in contract for the exact release revision", () => {

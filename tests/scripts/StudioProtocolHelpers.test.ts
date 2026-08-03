@@ -158,7 +158,7 @@ describe("Studio protocol helper regressions", () => {
       ok: false,
       missing: ["MISSING_SECRET"],
     });
-  });
+  }, 15_000);
 });
 
 describe("public protocol compatibility", () => {

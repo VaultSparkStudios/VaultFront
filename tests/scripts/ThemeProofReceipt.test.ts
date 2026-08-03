@@ -76,7 +76,7 @@ describe("local theme proof receipt", () => {
       ok: true,
       scope: "local-only",
       matrixCells: 6,
-      artifactCount: 12,
+      artifactCount: 18,
       errors: [],
     });
   });
@@ -108,7 +108,7 @@ describe("local theme proof receipt", () => {
     fs.rmSync(path.join(root, "output"), { recursive: true, force: true });
     expect(checkThemeProofReceipt(root, now)).toMatchObject({
       ok: true,
-      artifactCount: 12,
+      artifactCount: 18,
       errors: [],
     });
   });
