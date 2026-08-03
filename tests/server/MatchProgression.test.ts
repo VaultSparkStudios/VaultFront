@@ -354,9 +354,14 @@ describe("ServerAuthoritativeProgressionSpine", () => {
 
     const first = spine.record(outcome);
     const concurrent = spine.record(outcome);
+    await vi.waitFor(() => expect(resolvePrediction).toHaveBeenCalledTimes(1));
+    const lateConcurrent = spine.record(outcome);
     releaseFirst();
     await expect(first).rejects.toThrow("temporary downstream failure");
     await expect(concurrent).rejects.toThrow("temporary downstream failure");
+    await expect(lateConcurrent).rejects.toThrow(
+      "temporary downstream failure",
+    );
 
     const recovered = await spine.record(outcome);
     expect(recovered).toMatchObject({ duplicate: false, gameId: "retry-game" });
