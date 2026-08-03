@@ -54,6 +54,7 @@
 ║  Tests:         1088/1088                                        ║
 ║  IGNIS:         3d ago                                           ║
 ║  Truth:         green                                            ║
+║  Shell hygiene: 0 running                                        ║
 ║  Sanitization:  9d ago                                           ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ NEXT SESSION ════════════════════════════════════════════════╗
