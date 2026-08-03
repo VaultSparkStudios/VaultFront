@@ -71,5 +71,11 @@ describe("Studio command surface", () => {
     expect(source).toContain('"closeout-board-stage"');
     expect(source).toContain('"closeout-board-secret-scan"');
     expect(source).toContain('"closeout-board-push"');
+    const boardSource = fs.readFileSync(
+      path.join(root, "scripts", "render-closeout-board.mjs"),
+      "utf8",
+    );
+    expect(boardSource).toContain("Shell hygiene:");
+    expect(boardSource).toContain("sessionShellHygiene");
   });
 });

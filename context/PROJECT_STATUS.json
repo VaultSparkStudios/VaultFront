@@ -362,12 +362,10 @@
     }
   ],
   "sessionShellHygiene": {
-    "session": 90,
-    "started": 8,
-    "closed": 8,
+    "session": 91,
     "running": 0,
-    "enumeratedAt": "2026-08-02T23:18:32.697Z",
-    "scope": "Final Win32 process enumeration found zero Node, Vite, Playwright, Chrome, or Chromium command lines referencing the VaultFront workspace; both bounded desktop/mobile E2E project servers and all browser children exited cleanly."
+    "enumeratedAt": "2026-08-03T18:13:00.000Z",
+    "scope": "Final Win32 enumeration found zero Node, Vite, Playwright, Chrome, Chromium, or Edge processes referencing the VaultFront workspace; test ports 9000 and 39081 had zero listeners."
   },
   "testsLastRun": "2026-08-03T07:35:04.000Z",
   "testsLastRunMode": "full+e2e+focused-visual-proof",

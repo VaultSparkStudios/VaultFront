@@ -373,6 +373,7 @@ function postSessionSignals(status) {
   const ignisDays = daysSinceISO(status?.ignisLastComputed);
   const ignisLabel = ignisDays == null ? "—" : `${ignisDays}d ago`;
   const truth = status?.truthAuditStatus || status?.truthGenome?.status || "—";
+  const shellRunning = status?.sessionShellHygiene?.running;
   return {
     doctor,
     compliance:
@@ -382,6 +383,7 @@ function postSessionSignals(status) {
     tests,
     ignis: ignisLabel,
     truth,
+    shellHygiene: shellRunning == null ? "—" : `${shellRunning} running`,
     sanitization: status?.sanitizationLastCleared
       ? `${daysSinceISO(status.sanitizationLastCleared) ?? "—"}d ago`
       : "—",
@@ -505,6 +507,7 @@ function render() {
   lines.push(row(`Tests:         ${sig.tests}`));
   lines.push(row(`IGNIS:         ${sig.ignis}`));
   lines.push(row(`Truth:         ${sig.truth}`));
+  lines.push(row(`Shell hygiene: ${sig.shellHygiene}`));
   lines.push(row(`Sanitization:  ${sig.sanitization}`));
   lines.push(bottom());
 
