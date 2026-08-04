@@ -9,11 +9,11 @@
 ║  Mode: FOUNDER  ·  Agent: codex                                  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ WHAT SHIPPED ════════════════════════════════════════════════╗
-║  ✓ Branch: `main`; audit 10/10 and cumulative innovations 57/57  ║
+║  ✓ Branch: `main`; audit 10/10 and cumulative innovations 59/59  ║
 ║  ✓ Shipped: layered Studio capability discovery; one semantic r  ║
 ║  ✓ Recovery innovation: live promotion now requires an exact su  ║
 ║  ✓ Provider-CI root fix: the single-build artifact upload now p  ║
-║  ✓ Visual truth: 36 hash-bound captures cover play, settings, p  ║
+║  ✓ Release-tool root fix: removed Semantic Release and its bund  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ SCORES · SIL 997/1000 ═══════════════════════════════════════╗
 ║    Dev Health         100  ██████████                            ║
@@ -51,7 +51,7 @@
 ╔══ POST-SESSION SIGNALS ════════════════════════════════════════╗
 ║  Doctor:        12/12                                            ║
 ║  Compliance:    49/49                                            ║
-║  Tests:         1134/1134                                        ║
+║  Tests:         1141/1141                                        ║
 ║  IGNIS:         3d ago                                           ║
 ║  Truth:         green                                            ║
 ║  Shell hygiene: 0 running                                        ║
