@@ -1,19 +1,19 @@
 <!-- generated-by: scripts/render-closeout-board.mjs v1.0 -->
-<!-- generated-at: 2026-08-03 (Session 91 closeout) -->
+<!-- generated-at: 2026-08-04 (Session 92 closeout) -->
 
 # Closeout Status Board — VaultFront
 
 ```
-╔══ SESSION CLOSEOUT · VaultFront · S91 ═════════════════════════╗
-║  Date: 2026-08-03 · SIL: 997/1000 · V:12  ·  Debt: down          ║
+╔══ SESSION CLOSEOUT · VaultFront · S92 ═════════════════════════╗
+║  Date: 2026-08-04 · SIL: 997/1000 · V:14  ·  Debt: down          ║
 ║  Mode: FOUNDER  ·  Agent: codex                                  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ WHAT SHIPPED ════════════════════════════════════════════════╗
-║  ✓ Branch: `main`; audit 6/6 and cumulative innovations 53/53 e  ║
-║  ✓ Shipped: sole Traefik runtime ingress; semantic rollback/rev  ║
-║  ✓ Visual truth: 18 hash-bound desktop/mobile artifacts cover p  ║
-║  ✓ Verification: 198 Vitest files / 1,088 tests; TypeScript; ES  ║
-║  ✓ Release: public-unlaunched / NO-GO. No staging/parity, proje  ║
+║  ✓ Branch: `main`; audit 10/10 and cumulative innovations 56/56  ║
+║  ✓ Shipped: layered Studio capability discovery; one semantic r  ║
+║  ✓ Recovery innovation: live promotion now requires an exact su  ║
+║  ✓ Visual truth: 36 hash-bound captures cover play, settings, p  ║
+║  ✓ Verification: 209 Vitest files / 1,134 tests; TypeScript; li  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ SCORES · SIL 997/1000 ═══════════════════════════════════════╗
 ║    Dev Health         100  ██████████                            ║
@@ -51,7 +51,7 @@
 ╔══ POST-SESSION SIGNALS ════════════════════════════════════════╗
 ║  Doctor:        12/12                                            ║
 ║  Compliance:    49/49                                            ║
-║  Tests:         1088/1088                                        ║
+║  Tests:         1134/1134                                        ║
 ║  IGNIS:         3d ago                                           ║
 ║  Truth:         green                                            ║
 ║  Shell hygiene: 0 running                                        ║
