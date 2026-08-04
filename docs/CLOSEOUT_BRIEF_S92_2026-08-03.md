@@ -83,7 +83,7 @@
 
   🛡  No synthetic launch evidence
          Local tests, READY credentials, and a build receipt do not prove staging, delivery,
-         identity, human use, revenue, rollback, provider CI, or founder approval.
+         identity, human use, revenue, rollback, or founder approval.
 
   🛡  No ceiling inflation
          The Brotli regression was fixed by removing non-actionable production chatter;
@@ -97,7 +97,7 @@
 
   FOLLOW-UPS (next session entry points)
     • Approve the staging origin/callback corridor, then exercise the retained dry-run validation artifact.
-    • Collect exact-digest parity, Zoho reply identity, native Obelisk, live-web, human Alpha, revenue, rollback, provider CI, and founder evidence in gate order.
+    • Collect exact-digest parity, Zoho reply identity, native Obelisk, live-web, human Alpha, revenue, rollback, and founder evidence in gate order.
 
   BLOCKERS
     • Public launch remains NO-GO on external observations; no local implementation blocker remains.
