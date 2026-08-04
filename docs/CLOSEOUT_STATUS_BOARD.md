@@ -9,11 +9,11 @@
 ║  Mode: FOUNDER  ·  Agent: codex                                  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ WHAT SHIPPED ════════════════════════════════════════════════╗
-║  ✓ Branch: `main`; audit 10/10 and cumulative innovations 56/56  ║
+║  ✓ Branch: `main`; audit 10/10 and cumulative innovations 57/57  ║
 ║  ✓ Shipped: layered Studio capability discovery; one semantic r  ║
 ║  ✓ Recovery innovation: live promotion now requires an exact su  ║
+║  ✓ Provider-CI root fix: the single-build artifact upload now p  ║
 ║  ✓ Visual truth: 36 hash-bound captures cover play, settings, p  ║
-║  ✓ Verification: 209 Vitest files / 1,134 tests; TypeScript; li  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ SCORES · SIL 997/1000 ═══════════════════════════════════════╗
 ║    Dev Health         100  ██████████                            ║
