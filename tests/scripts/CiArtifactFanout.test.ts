@@ -17,6 +17,9 @@ describe("single-build CI artifact fanout", () => {
     expect(
       workflow.match(/actions\/download-artifact@[0-9a-f]{40}/gu),
     ).toHaveLength(2);
+    expect(workflow).toMatch(
+      /name: static-build-\$\{\{ github\.sha \}\}[\s\S]*?include-hidden-files: true/u,
+    );
   });
 
   it("projects post-verification evidence without rebuilding", () => {

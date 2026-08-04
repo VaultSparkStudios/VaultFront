@@ -441,3 +441,9 @@ Public-safe decisions only. Detailed internal decision history is maintained pri
 **Decision:** Production builds strip `console.debug`, `console.info`, and `console.log` while retaining `console.warn` and `console.error`; gzip/Brotli/media and composition ceilings remain unchanged.
 
 **Why:** Non-actionable browser chatter costs transfer and obscures useful failures. Verification-driven growth should first reclaim bytes without weakening the budget or operational error signals.
+
+### Manifest admission includes hidden public-contract paths
+
+**Decision:** Any uploaded CI artifact verified against the complete `static/` manifest must set `include-hidden-files: true`; downstream verification continues to compare the exact file set and digests before any consumer runs.
+
+**Why:** `.well-known/llms.txt` is part of the public dual-audience contract. Hashing it and then silently omitting it during transport creates a false mismatch and an incomplete deployable surface.

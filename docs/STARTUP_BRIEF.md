@@ -1,9 +1,9 @@
 <!-- generated-by: scripts/render-startup-brief.mjs v3.1 -->
-<!-- generated-at: 2026-08-04T00:29:12.790Z -->
+<!-- generated-at: 2026-08-04T00:44:32.576Z -->
 <!-- generated-for-session: 93; source-closeout-session: 92 -->
 <!-- fast-boot-valid-until: next session if within 24h -->
 <!-- brief-coherent: true -->
-<!-- brief-sources: {"schema":2,"session":92,"sources":{"context/PROJECT_STATUS.json":"6f116f2f2eefb96ac1f52d9c630dd23b555ccd5a8a3e8acf5944fd6604850a97","context/TASK_BOARD.md":"c174052b86e7fabc90410dfe3b87abcbf9a159613a035757ad00148b0d8d1dd7","context/LATEST_HANDOFF.md":"ca1b577b044b51a39aadf5d779816c5af6b59cef746ef9a406a370a2e8db2d78","context/SELF_IMPROVEMENT_LOOP.md":"0d7201500eb4f0c6c70a3a5974ab2554e916ec1d5f5aa66a827a6c49c74bd6f5","context/TRUTH_AUDIT.md":"f0b5d3e3469965234e5e0a0b5430893692ed5eef57b97f2e854d659e229e42bd","context/CURRENT_STATE.md":"e3a984d2ad4b84ec90e6565ed7d6bb2f13b09366a61c73ccfc231b2ba87f0d91","docs/GENIUS_LIST.md":"b09fbfabf77031be8aa45cbd2d82adf42a8cc12e0a7bea0ab44be772e18a0464","docs/SESSION_PLAN.md":"b3bf49e5e8d173eac49219b9021300838b88c80b0b19912520288e66e0870943","docs/CREATIVE_DIRECTION_RECORD.md":"f6d7c0626a5307652a7f1c01fc35fcda46ff7e8b999d462141e38b1ec94a46b2"}} -->
+<!-- brief-sources: {"schema":2,"session":92,"sources":{"context/PROJECT_STATUS.json":"2be45400ae8176e5ec04dc3f875bfe71baae387167b3aaee253804025e8f3477","context/TASK_BOARD.md":"232be6eb7ad8f3b49fd3d6e8d9710ab409f71c6bf363481052c552e84ad85258","context/LATEST_HANDOFF.md":"6e0e81872b9b40e42e19913957263402673a855afdb73bada7362c45e4396383","context/SELF_IMPROVEMENT_LOOP.md":"0d7201500eb4f0c6c70a3a5974ab2554e916ec1d5f5aa66a827a6c49c74bd6f5","context/TRUTH_AUDIT.md":"f54958dd511bd61e50e986e9503286c06e1485f7fe2b17cb3f33284c8403c1fe","context/CURRENT_STATE.md":"f4fb9e429be8063086c2cc74002b22cb0dc098e2552460bba226d21ef4a0e349","docs/GENIUS_LIST.md":"b09fbfabf77031be8aa45cbd2d82adf42a8cc12e0a7bea0ab44be772e18a0464","docs/SESSION_PLAN.md":"b3bf49e5e8d173eac49219b9021300838b88c80b0b19912520288e66e0870943","docs/CREATIVE_DIRECTION_RECORD.md":"f6d7c0626a5307652a7f1c01fc35fcda46ff7e8b999d462141e38b1ec94a46b2"}} -->
 
 # Startup Brief — VaultFront
 
@@ -21,9 +21,9 @@
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ LAST SESSION (S92) - WHAT SHIPPED ═══════════════════════════╗
-║  Session 92 complete: ten audit items and four innovation        ║
-║  outcomes shipped across staging/rollback lineage, database…     ║
-║  Tests  1134/1134 passing (2026-08-04T00:17:43.096Z)             ║
+║  Session 92 complete: ten audit items and five innovation        ║
+║  outcomes shipped across staging/rollback lineage, lossless…     ║
+║  Tests  1134/1134 passing (2026-08-04T00:42:44.711Z)             ║
 ║  Deploy NO-GO · no staging/production observation                ║
 ╚════════════════════════════════════════════════════════════════╝
 
@@ -66,14 +66,14 @@
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ CONTEXT METER ═══════════════════════════════════════════════╗
-║  ✓  ███░░░░░░░░░░░░░░░░░░░░░   14% used                          ║
-║     143,507 / 1,000,000 tok  ·  codex/codex-1m  ·  measured+heu  ║
-║     ~71,754 tok/turn  ·  cache 50%  ·  10 turns to compact       ║
+║  ✓  ░░░░░░░░░░░░░░░░░░░░░░░░    2% used                          ║
+║     3,261 / 200,000 tok  ·  unknown/default  ·  heuristic        ║
+║     ~1,631 tok/turn  ·  cache 50%  ·  110 turns to compact       ║
 ║     Verdict: CONTINUE                                            ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ SIGNALS ═════════════════════════════════════════════════════╗
-║  ✓  Tests         1134/1134 passing (2026-08-04T00:17:43.096Z)   ║
+║  ✓  Tests         1134/1134 passing (2026-08-04T00:42:44.711Z)   ║
 ║  ✓  Velocity      14 ↑  ·  Debt: ↓                               ║
 ║  ⚠  Runway        unknown                                        ║
 ║  ⛔  Context age   ?d                                             ║

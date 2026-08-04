@@ -11,7 +11,7 @@
 ║  PROJECT IMPACT     █████████░   94/100                                                       ║
 ║  ECOSYSTEM IMPACT   ████████▌░   85/100                                                       ║
 ║  SIL DELTA          997 → 997  (→0 · structural win — coherence/honesty, not score)           ║
-║  PROOF OF WORK      91 files · +4628/-1187 · suite 209/209 files · 1134/1134 tests · 26/26 E2E · tests +46 · probes +13  ║
+║  PROOF OF WORK      91 files · +4628/-1187 · suite 209/209 files · 1134/1134 tests · 26/26 E2E · tests +46 · probes +14  ║
 ║                                                                                               ║
 ╚═════════════════════════════════════════════════════════════════════════════════════════════╝
 
@@ -23,7 +23,7 @@
          A live promotion must admit the exact successful dry-run receipt. Rollback proves
          both the replaced and restored staging revisions and retains canonical observed
          production health and revision bytes in a self-verifying outcome.
-         → scripts/lib/promotion-receipt.mjs; .github/workflows/promote.yml; 56/56 innovations
+         → scripts/lib/promotion-receipt.mjs; .github/workflows/promote.yml; 57/57 innovations
 
   [126/127]  staging-and-durability-admission                     Proj 10  ·  Eco 9
          ── security ────────────────────────────────────────────────────────────────────────

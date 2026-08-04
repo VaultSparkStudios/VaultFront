@@ -960,6 +960,20 @@ const candidates = [
     evidence:
       "canonical health/revision digests, validation-parent digest, self-verification, 90-day retained artifact, and adversarial outcomes",
   },
+  {
+    id: "lossless-hidden-path-artifact-transport",
+    title: "Make artifact transport preserve the verified path universe",
+    description:
+      "Require CI artifact upload to retain hidden public-contract paths so the downloaded payload is byte-for-byte equal to the manifest that admitted it, including .well-known agent surfaces.",
+    complete:
+      has(".github/workflows/ci.yml", /include-hidden-files:\s*true/) &&
+      has(
+        "tests/scripts/CiArtifactFanout.test.ts",
+        /include-hidden-files: true/,
+      ),
+    evidence:
+      "provider-discovered manifest mismatch, explicit hidden-file transport, semantic regression coverage, and downstream exact-artifact verification",
+  },
 ];
 
 const payload = {

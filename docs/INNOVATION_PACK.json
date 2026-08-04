@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-08-03T23:42:14.415Z",
+  "generatedAt": "2026-08-04T00:35:51.150Z",
   "source": "scripts/innovation-pack.mjs",
   "primarySource": "latest audit-backed Unified Genius List",
   "items": [
@@ -507,6 +507,15 @@
       "description": "Hash the canonical production health response, exact revision response, timing boundary, admitted target, and prior validation into a self-verified retained outcome artifact.",
       "complete": true,
       "evidence": "canonical health/revision digests, validation-parent digest, self-verification, 90-day retained artifact, and adversarial outcomes"
+    },
+    {
+      "rank": 57,
+      "status": "shipped",
+      "id": "lossless-hidden-path-artifact-transport",
+      "title": "Make artifact transport preserve the verified path universe",
+      "description": "Require CI artifact upload to retain hidden public-contract paths so the downloaded payload is byte-for-byte equal to the manifest that admitted it, including .well-known agent surfaces.",
+      "complete": true,
+      "evidence": "provider-discovered manifest mismatch, explicit hidden-file transport, semantic regression coverage, and downstream exact-artifact verification"
     }
   ]
 }

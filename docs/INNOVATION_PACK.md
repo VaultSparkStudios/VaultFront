@@ -1,5 +1,5 @@
 <!-- generated-by: scripts/innovation-pack.mjs -->
-<!-- generated-at: 2026-08-03T23:42:14.415Z -->
+<!-- generated-at: 2026-08-04T00:35:51.150Z -->
 
 # Second-Order Innovation Pack
 
@@ -61,3 +61,4 @@ Generated only after the audit-backed Unified Genius List was exhausted. Complet
 54. [x] **dry-run-intent-admission** — Make dry-run-first an admitted release fact instead of operator memory. Retain a hash-bound dry-run receipt and require a later live promotion to admit the exact successful repository workflow, staging run, target, operation, rollback reason, and attestation digests. Evidence: retained validation artifact, successful-run admission, full intent cross-binding, and mismatch/tamper regression.
 55. [x] **dual-attestation-rollback-lineage** — Prove both sides of a rollback transition. Admit the target and currently deployed revisions through separate same-repository staging attestations so a rollback receipt states exactly what was replaced and what was restored. Evidence: two independently verified staging artifacts, unequal run constraint, dual digest lineage, and rollback-specific validation.
 56. [x] **observed-production-outcome-receipt** — Close promotion lineage over observed production bytes. Hash the canonical production health response, exact revision response, timing boundary, admitted target, and prior validation into a self-verified retained outcome artifact. Evidence: canonical health/revision digests, validation-parent digest, self-verification, 90-day retained artifact, and adversarial outcomes.
+57. [x] **lossless-hidden-path-artifact-transport** — Make artifact transport preserve the verified path universe. Require CI artifact upload to retain hidden public-contract paths so the downloaded payload is byte-for-byte equal to the manifest that admitted it, including .well-known agent surfaces. Evidence: provider-discovered manifest mismatch, explicit hidden-file transport, semantic regression coverage, and downstream exact-artifact verification.

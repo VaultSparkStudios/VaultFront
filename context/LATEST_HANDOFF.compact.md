@@ -1,51 +1,54 @@
 <!-- generated-by: scripts/compact-handoff.mjs v3.1 -->
-<!-- source-hash: ca1b577b044b -->
-<!-- generated-at: 2026-08-04T00:23:10.899Z -->
+<!-- source-hash: 6e0e81872b9b -->
+<!-- generated-at: 2026-08-04T00:36:36.961Z -->
 
 # LATEST_HANDOFF (compact)
 
-SESSION 92 HANDOFF SUMMARY
-
-Status
+SESSION
 
 - Session 92 complete (2026-08-03); branch main.
-- Audit 10/10 and cumulative innovations 56/56 exhausted; zero pending unblocked local work.
 
-Shipped (Session 92)
+STATUS
 
-- Layered Studio capability discovery; one semantic release-gate catalog; run-bound staging admission; durable DB readiness; one-build CI fan-out; immutable Actions/images/SSH trust; exact telemetry lifecycle; ordered bounded transport recovery; balance-bound accessible execution-chain HUD; removed phantom server tutorial authority.
-- Recovery: live promotion requires exact successful dry-run receipt; rollback admits replaced and restored staging attestations; retained production outcome binds canonical health and revision bytes into lineage.
-- Visual: 36 hash-bound captures (play, settings, post-match, normal/rush execution, reduced-motion completion) across three themes, desktop/mobile; Light completion state inspected, contrast/clipping clean.
+- Audit 10/10; innovations 57/57 exhausted; zero pending unblocked local work.
 
-Verification (all green)
+SHIPPED (S92)
 
-- 209 Vitest files / 1,134 tests; TypeScript; lint; formatting; contracts; deterministic balance; production build; Pages; transfer/media budgets; production audit; supply-chain scan; Playwright 26/26; CANON-053; work exhaustion; final doctor.
+- Live promotion requires exact successful dry-run receipt; rollback admits replaced+restored staging attestations; production outcome binds canonical health and revision bytes into lineage.
+- Provider-CI fix: single-build artifact upload preserves hidden .well-known paths so downloaded bytes equal admitting manifest; regression test + ledger entry protect contract.
+- Layered Studio capability discovery, semantic release-gate catalog, run-bound staging admission, durable DB readiness, one-build CI fan-out, immutable Actions/images/SSH trust, exact telemetry lifecycle, ordered bounded transport recovery, balance-bound accessible execution-chain HUD; phantom server tutorial authority removed.
 
-Current Intent
+VERIFICATION
 
-- Run continuous /start -> /audit -> /implement -> /closeout arc with founder infrastructure rubric plus VaultFront game/product/release lens; verify premises against live code; exhaust valid list items; generate second-order innovations; preserve source-derived observability and direct exit-code truth; canonical write-back, local-staging verify, sanitize, direct-to-main commit/push, Ark broadcast, zero-shell closeout without fabricating external release evidence.
+- 209 Vitest files / 1,134 tests green; TypeScript, lint, format, contracts, deterministic balance, production build, Pages, transfer/media budgets, production audit, supply-chain scan, Playwright 26/26, CANON-053, work exhaustion, final doctor all green.
+- 36 hash-bound visual captures across three themes, desktop/mobile; Light completion state inspected clean.
 
-Now Bucket (top 3)
+INTENT
 
-- Establish explicitly approved staging origin/callback contract.
-- Execute the dry-run receipt path against approved staging.
-- Collect external observations in gate order without substituting local evidence.
+- Advance public-launch gate order using external observations only; do not substitute local evidence for external proof.
 
-Blockers (top 3)
+NOW (top 3)
 
-- Release NO-GO: no approved staging/parity evidence.
-- No verified Zoho reply identity, native Obelisk, or live-web health.
-- No three-human Alpha, real revenue, observed rollback, provider CI, or founder approval.
+- Establish approved staging origin/callback contract.
+- Execute the dry-run receipt promotion path against approved staging.
+- Collect external observations in gate order (parity, identity, delivery, live health).
 
-Human-Blocked Items (with age)
+BLOCKERS (top 3)
 
-- Studio registry type reconciliation: externally owned since Session 89 (2026-07-29), ~5 days; awaiting owner-supported correction path via Ark after acknowledgement 01JUJOJL1K040B6517CAF2EFA9 rejected type field.
-- Studio Ops board renderer incident (non-mutating help path): Ark incident 01JUNMP9IR9DF9678CD51FFF1B open since Session 89, ~5 days; awaiting owner regeneration.
+- No approved staging/parity origin exists.
+- No fully green provider CI observation.
+- No founder approval / distinct-human Alpha / real revenue / observed rollback.
 
-Release Posture
+HUMAN-BLOCKED (with age)
 
-- Public-unlaunched / NO-GO. Local evidence does not substitute for external gate observations.
+- Studio registry type reconciliation: externally owned since S89 (ack 01JUJOJL1K040B6517CAF2EFA9 rejected `type`); ~3 sessions. Request owner-supported correction via Ark; do not edit sibling registry.
+- Ark question 01JUNMMD1162DB95DA5B58A7AB (owner-supported path): open since S89; ~3 sessions.
+- Studio Ops board renderer incident 01JUNMP9IR9DF9678CD51FFF1B (owner regeneration + non-mutating help path): open since S89; ~3 sessions.
 
-Next Session Pointer
+RELEASE
 
-- Begin by securing the approved staging origin/callback contract, then run the dry-run receipt path and gather external gate evidence in order.
+- Public-unlaunched / NO-GO.
+
+NEXT
+
+- Next session: stand up the approved staging origin/callback contract, then run the dry-run receipt path and gather external gate-order evidence.

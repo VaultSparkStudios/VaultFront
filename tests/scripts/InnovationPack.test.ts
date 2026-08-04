@@ -76,19 +76,20 @@ describe("innovation-pack regeneration", () => {
     const firstAuthority = first.items.find(
       (item) => item.id === "unified-certified-game-authority",
     );
-    expect(first.items).toHaveLength(56);
+    expect(first.items).toHaveLength(57);
     expect(firstAuthority).toMatchObject({ rank: 40, status: "shipped" });
     expect(
       first.items.find(
         (item) => item.id === "monotonic-innovation-ledger-guard",
       ),
     ).toMatchObject({ rank: 44, status: "shipped" });
-    expect(first.items.slice(-5).map((item) => item.id)).toEqual([
+    expect(first.items.slice(-6).map((item) => item.id)).toEqual([
       "certified-pressure-contribution-dividend",
       "semantic-innovation-detector-ratchet",
       "dry-run-intent-admission",
       "dual-attestation-rollback-lineage",
       "observed-production-outcome-receipt",
+      "lossless-hidden-path-artifact-transport",
     ]);
 
     const output = runGenerator();
@@ -104,7 +105,7 @@ describe("innovation-pack regeneration", () => {
         (item) => item.id === "unified-certified-game-authority",
       ),
     ).toMatchObject({ rank: 40, status: "shipped" });
-    expect(output).toContain("3/56 shipped");
+    expect(output).toContain("3/57 shipped");
   }, 30_000);
 
   it("recognizes stronger semantic ratchets instead of stale exact values", () => {
