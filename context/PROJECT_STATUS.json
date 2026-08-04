@@ -374,12 +374,14 @@
   "lastSessionSummary": "Session 92 complete: ten audit items and six innovation outcomes shipped across staging/rollback lineage, lossless artifact transport, dependency-free release planning, database durability, trust hardening, telemetry, resilient transport, balance-bound HUD, tutorial retirement, and 36-artifact visual proof; all direct local and provider gates green.",
   "providerCiStatus": {
     "status": "success",
-    "revision": "9cf270705d0f1a070b6ac3b1849e072327a22642",
-    "ciRunId": 30866560939,
-    "e2eRunId": 30866560933,
-    "ciUrl": "https://github.com/VaultSparkStudios/vaultfront/actions/runs/30866560939",
-    "e2eUrl": "https://github.com/VaultSparkStudios/vaultfront/actions/runs/30866560933",
-    "observedAt": "2026-08-04T00:50:23.189Z",
+    "revision": "edb9fece59c9cc5a84912f520228f46cec3dcbe1",
+    "ciRunId": 30878311700,
+    "e2eRunId": 30878311715,
+    "releasePlannerRunId": 30878311702,
+    "ciUrl": "https://github.com/VaultSparkStudios/vaultfront/actions/runs/30878311700",
+    "e2eUrl": "https://github.com/VaultSparkStudios/vaultfront/actions/runs/30878311715",
+    "releasePlannerUrl": "https://github.com/VaultSparkStudios/vaultfront/actions/runs/30878311702",
+    "observedAt": "2026-08-04T04:42:48.000Z",
     "source": "GitHub Actions terminal conclusions"
   },
   "dependencyAudit": {
