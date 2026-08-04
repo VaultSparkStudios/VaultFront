@@ -415,3 +415,29 @@ Public-safe decisions only. Detailed internal decision history is maintained pri
 **Decision:** The theme proof matrix now covers play, settings, and the real post-match components for VaultFront, light, and competitive themes at desktop and 390px mobile. It selects independent ratings, requires enabled submission, rejects overflow, and enforces 44px targets across 18 hash-bound artifacts. The model-side bitmap viewer was degraded by a Windows `CryptUnprotectData` failure, so no claim of model visual inspection is made; browser screenshots, accessibility snapshots, rendered geometry, interaction state, contrast gates, and artifact hashes are the admitted evidence.
 
 **Why:** Rendered evidence must remain useful and honest even when one inspection channel fails; degraded tooling cannot be silently promoted into a visual claim.
+
+## 2026-08-03 — Session 92 staging admission, rollback lineage, recovery, and transfer decisions
+
+### Promotion identity comes from an admitted staging run
+
+**Decision:** Production promotion accepts a successful same-repository staging workflow run ID, downloads its retained attestation, verifies repository/workflow/ref/conclusion/freshness/health/revision/image evidence, and derives the image digest. Caller-authored image or matching evidence strings are forbidden.
+
+**Why:** Equality between two operator inputs proves only that the same value was typed twice; it does not prove the image ran successfully on the intended staging origin.
+
+### Dry-run-first and rollback are retained evidence lineages
+
+**Decision:** A live promotion must admit a prior successful dry-run receipt with identical target, operation, staging evidence, and rollback intent. Rollback additionally admits an unequal staging run for the currently deployed revision and retains a self-verified outcome over canonical production health/revision bytes for 90 days.
+
+**Why:** Recovery instructions drift unless both sides of the transition and the observed outcome are independently re-checkable after the incident.
+
+### Connection recovery preserves intent rather than merely reopening a socket
+
+**Decision:** Multiplayer transport queues intents FIFO under a reject-newest ceiling, emits state and overflow evidence, retries with bounded deterministic-testable backoff, resets attempts only after synchronization succeeds, and ignores stale socket generations. Leave and protocol refusal suppress retries.
+
+**Why:** A reconnected socket is not a recovered game if intents reorder, memory grows unbounded, a stale socket wins, or failed synchronization is reported as healthy.
+
+### Production transfer removes chatter before budgets move
+
+**Decision:** Production builds strip `console.debug`, `console.info`, and `console.log` while retaining `console.warn` and `console.error`; gzip/Brotli/media and composition ceilings remain unchanged.
+
+**Why:** Non-actionable browser chatter costs transfer and obscures useful failures. Verification-driven growth should first reclaim bytes without weakening the budget or operational error signals.

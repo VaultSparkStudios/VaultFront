@@ -1,0 +1,46 @@
+{
+  "staging": {
+    "label": "Staging deployment",
+    "semantic": "staging-origin"
+  },
+  "healthObservation": {
+    "label": "Live runtime health observation",
+    "semantic": "health"
+  },
+  "stagingParity": {
+    "label": "Staging parity",
+    "semantic": "provenance"
+  },
+  "contactEmail": {
+    "label": "Zoho project-domain send/receive reply-as alias",
+    "semantic": "provenance"
+  },
+  "obeliskIdentity": {
+    "label": "Obelisk relying-party identity",
+    "semantic": "provenance"
+  },
+  "themeReadability": {
+    "label": "Live theme readability",
+    "semantic": "provenance"
+  },
+  "footerManifest": {
+    "label": "Public footer manifest",
+    "semantic": "provenance"
+  },
+  "rollbackObservation": {
+    "label": "Digest-matched rollback drill",
+    "semantic": "rollback"
+  },
+  "revenueObservation": {
+    "label": "Observed live checkout or supporter revenue",
+    "semantic": "revenue"
+  },
+  "founderApproval": {
+    "label": "Founder launch approval",
+    "semantic": "provenance"
+  },
+  "alphaHumanEvidence": {
+    "label": "Authenticated human Alpha Gate",
+    "semantic": "alpha-human"
+  }
+}

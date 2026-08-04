@@ -1,14 +1,16 @@
 import * as logsAPI from "@opentelemetry/api-logs";
 import { OTLPLogExporter } from "@opentelemetry/exporter-logs-otlp-http";
 import {
+  BatchLogRecordProcessor,
   LoggerProvider,
-  SimpleLogRecordProcessor,
 } from "@opentelemetry/sdk-logs";
 import { OpenTelemetryTransportV3 } from "@opentelemetry/winston-transport";
 import * as dotenv from "dotenv";
 import winston from "winston";
 import { getServerConfigFromServer } from "../core/configuration/ConfigLoader";
 import { getOtelResource } from "./OtelResource";
+import { getTelemetryIdentity } from "./TelemetryIdentity";
+import { registerTelemetryHandle } from "./TelemetryLifecycle";
 dotenv.config();
 
 const config = getServerConfigFromServer();
@@ -29,11 +31,12 @@ if (config.otelEnabled()) {
   // SDK 0.220 registers processors at provider construction time.
   const loggerProvider = new LoggerProvider({
     resource,
-    processors: [new SimpleLogRecordProcessor({ exporter: logExporter })],
+    processors: [new BatchLogRecordProcessor({ exporter: logExporter })],
   });
 
   // Set as the global logger provider
   logsAPI.logs.setGlobalLoggerProvider(loggerProvider);
+  registerTelemetryHandle("logs", loggerProvider);
 } else {
   console.log(
     "No OTLP endpoint and credentials provided, remote logging disabled",
@@ -57,8 +60,7 @@ const logger = winston.createLogger({
     winston.format.json(),
   ),
   defaultMeta: {
-    service: "openfront",
-    environment: process.env.GAME_ENV ?? "prod",
+    ...getTelemetryIdentity(),
   },
   transports: [
     new winston.transports.Console(),

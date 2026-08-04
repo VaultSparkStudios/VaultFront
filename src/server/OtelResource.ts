@@ -4,13 +4,17 @@ import {
   ATTR_SERVICE_VERSION,
 } from "@opentelemetry/semantic-conventions";
 import { getServerConfigFromServer } from "../core/configuration/ConfigLoader";
+import { getTelemetryIdentity } from "./TelemetryIdentity";
 
 const config = getServerConfigFromServer();
 
 export function getOtelResource() {
+  const identity = getTelemetryIdentity();
   return resourceFromAttributes({
-    [ATTR_SERVICE_NAME]: "openfront",
-    [ATTR_SERVICE_VERSION]: "1.0.0",
+    [ATTR_SERVICE_NAME]: identity.service,
+    [ATTR_SERVICE_VERSION]: identity.version,
+    "deployment.environment.name": identity.environment,
+    "vcs.ref.head.revision": identity.revision,
     ...getPromLabels(),
   });
 }
@@ -18,11 +22,11 @@ export function getOtelResource() {
 export function getPromLabels() {
   return {
     "service.instance.id": process.env.HOSTNAME,
-    "openfront.environment": config.env(),
-    "openfront.host": process.env.HOST,
-    "openfront.domain": process.env.DOMAIN,
-    "openfront.subdomain": process.env.SUBDOMAIN,
-    "openfront.component": process.env.WORKER_ID
+    "vaultfront.environment": config.env(),
+    "vaultfront.host": process.env.HOST,
+    "vaultfront.domain": process.env.DOMAIN,
+    "vaultfront.subdomain": process.env.SUBDOMAIN,
+    "vaultfront.component": process.env.WORKER_ID
       ? "Worker " + process.env.WORKER_ID
       : "Master",
   };

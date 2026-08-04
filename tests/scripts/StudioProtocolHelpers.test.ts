@@ -8,6 +8,7 @@ import {
   enforceTileBudgets,
   validateStartupBrief,
 } from "../../scripts/validate-brief-format.mjs";
+import { PROCESS_INTEGRATION_TIMEOUT_MS } from "../helpers/processBudget";
 
 const root = path.resolve(__dirname, "../..");
 const tempDirs: string[] = [];
@@ -22,14 +23,18 @@ function tempSecretsDir() {
   return dir;
 }
 
-function runCheckSecrets(args: string[], secretsDir: string) {
+function runCheckSecrets(
+  args: string[],
+  secretsDir: string,
+  studioOpsSecretsDir = path.join(secretsDir, "__missing_studio_ops__"),
+) {
   return spawnSync(process.execPath, ["scripts/check-secrets.mjs", ...args], {
     cwd: root,
     encoding: "utf8",
     env: {
       ...process.env,
       VAULTSPARK_SECRETS_DIR_OVERRIDE: secretsDir,
-      STUDIO_OPS_SECRETS_DIR: path.join(secretsDir, "__missing_studio_ops__"),
+      STUDIO_OPS_SECRETS_DIR: studioOpsSecretsDir,
     },
   });
 }
@@ -117,48 +122,146 @@ describe("Studio protocol helper regressions", () => {
     expect(after.overBudget).toHaveLength(0);
   });
 
-  it("resolves capability readiness from the secrets gateway override", () => {
-    const secretsDir = tempSecretsDir();
-    writeFileSync(
-      path.join(secretsDir, "CAPABILITY_MAP.json"),
-      JSON.stringify(
-        {
-          capabilities: {
-            "demo.ready": { env: ["DEMO_SECRET"] },
-            "demo.missing": { env: ["MISSING_SECRET"] },
+  it(
+    "resolves capability readiness from the secrets gateway override",
+    () => {
+      const secretsDir = tempSecretsDir();
+      writeFileSync(
+        path.join(secretsDir, "CAPABILITY_MAP.json"),
+        JSON.stringify(
+          {
+            capabilities: {
+              "demo.ready": { env: ["DEMO_SECRET"] },
+              "demo.missing": { env: ["MISSING_SECRET"] },
+            },
           },
-        },
-        null,
-        2,
-      ),
-    );
-    writeFileSync(
-      path.join(secretsDir, "demo.env"),
-      "DEMO_SECRET=ready-value-123\n",
-    );
+          null,
+          2,
+        ),
+      );
+      writeFileSync(
+        path.join(secretsDir, "demo.env"),
+        "DEMO_SECRET=ready-value-123\n",
+      );
 
-    const ready = runCheckSecrets(
-      ["--for", "demo.ready", "--json"],
-      secretsDir,
-    );
-    const missing = runCheckSecrets(
-      ["--for", "demo.missing", "--json"],
-      secretsDir,
-    );
+      const ready = runCheckSecrets(
+        ["--for", "demo.ready", "--json"],
+        secretsDir,
+      );
+      const missing = runCheckSecrets(
+        ["--for", "demo.missing", "--json"],
+        secretsDir,
+      );
 
-    expect(ready.status).toBe(0);
-    expect(JSON.parse(ready.stdout)[0]).toMatchObject({
-      capability: "demo.ready",
-      ok: true,
-      found: ["DEMO_SECRET"],
-    });
-    expect(missing.status).toBe(1);
-    expect(JSON.parse(missing.stdout)[0]).toMatchObject({
-      capability: "demo.missing",
-      ok: false,
-      missing: ["MISSING_SECRET"],
-    });
-  }, 15_000);
+      expect(ready.status).toBe(0);
+      expect(JSON.parse(ready.stdout)[0]).toMatchObject({
+        capability: "demo.ready",
+        ok: true,
+        found: ["DEMO_SECRET"],
+      });
+      expect(missing.status).toBe(1);
+      expect(JSON.parse(missing.stdout)[0]).toMatchObject({
+        capability: "demo.missing",
+        ok: false,
+        missing: ["MISSING_SECRET"],
+      });
+    },
+    PROCESS_INTEGRATION_TIMEOUT_MS,
+  );
+
+  it(
+    "layers the sibling capability authority under deterministic local overrides",
+    () => {
+      const localDir = tempSecretsDir();
+      const studioOpsDir = tempSecretsDir();
+      writeFileSync(
+        path.join(studioOpsDir, "CAPABILITY_MAP.json"),
+        JSON.stringify({
+          capabilities: {
+            "base.only": { env: ["BASE_ONLY_SECRET"] },
+            "shared.capability": { env: ["BASE_SHARED_SECRET"] },
+          },
+        }),
+      );
+      writeFileSync(
+        path.join(localDir, "CAPABILITY_MAP.json"),
+        JSON.stringify({
+          capabilities: {
+            "local.only": { env: ["LOCAL_ONLY_SECRET"] },
+            "shared.capability": { env: ["LOCAL_SHARED_SECRET"] },
+          },
+        }),
+      );
+      writeFileSync(
+        path.join(studioOpsDir, "studio.env"),
+        "BASE_ONLY_SECRET=base-ready-123\nBASE_SHARED_SECRET=base-shared-123\n",
+      );
+      writeFileSync(
+        path.join(localDir, "local.env"),
+        "LOCAL_ONLY_SECRET=local-ready-123\nLOCAL_SHARED_SECRET=local-shared-123\n",
+      );
+
+      const siblingOnly = runCheckSecrets(
+        ["--for", "base.only", "--json"],
+        localDir,
+        studioOpsDir,
+      );
+      const overridden = runCheckSecrets(
+        ["--for", "shared.capability", "--json"],
+        localDir,
+        studioOpsDir,
+      );
+      const listed = runCheckSecrets(["--json"], localDir, studioOpsDir);
+
+      expect(siblingOnly.status).toBe(0);
+      expect(JSON.parse(siblingOnly.stdout)[0]).toMatchObject({
+        capability: "base.only",
+        required: ["BASE_ONLY_SECRET"],
+        found: ["BASE_ONLY_SECRET"],
+      });
+      expect(overridden.status).toBe(0);
+      expect(JSON.parse(overridden.stdout)[0]).toMatchObject({
+        capability: "shared.capability",
+        required: ["LOCAL_SHARED_SECRET"],
+        found: ["LOCAL_SHARED_SECRET"],
+      });
+      expect(
+        JSON.parse(listed.stdout).map(
+          (row: { capability: string }) => row.capability,
+        ),
+      ).toEqual(["base.only", "local.only", "shared.capability"]);
+    },
+    PROCESS_INTEGRATION_TIMEOUT_MS,
+  );
+
+  it.each([
+    ["studio-ops", true],
+    ["project-local", false],
+  ])(
+    "fails loudly when the %s capability authority is corrupt",
+    (layer, corruptBase) => {
+      const localDir = tempSecretsDir();
+      const studioOpsDir = tempSecretsDir();
+      writeFileSync(
+        path.join(studioOpsDir, "CAPABILITY_MAP.json"),
+        corruptBase ? "{not-json" : JSON.stringify({ capabilities: {} }),
+      );
+      writeFileSync(
+        path.join(localDir, "CAPABILITY_MAP.json"),
+        corruptBase ? JSON.stringify({ capabilities: {} }) : "{not-json",
+      );
+
+      const result = runCheckSecrets(["--json"], localDir, studioOpsDir);
+
+      expect(result.status).not.toBe(0);
+      expect(result.stdout).toBe("");
+      expect(result.stderr).toContain(
+        `${layer} CAPABILITY_MAP.json is present but UNPARSEABLE`,
+      );
+      expect(result.stderr).not.toContain("0/0 capabilities ready");
+    },
+    15_000,
+  );
 });
 
 describe("public protocol compatibility", () => {

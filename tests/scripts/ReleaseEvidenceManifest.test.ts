@@ -244,6 +244,7 @@ describe("Release Evidence Manifest", () => {
         detail: "Verified fixture.",
       },
       ciRevision: verifiedCi(),
+      authenticatedAlphaGateStatus: "ready",
     });
 
     expect(evidence).toMatchObject({

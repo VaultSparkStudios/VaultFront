@@ -86,7 +86,7 @@ export function joinLobby(
   const onconnect = () => {
     // Always send join - server will detect reconnection via persistentID
     console.log(`Joining game lobby ${lobbyConfig.gameID}`);
-    transport.joinGame();
+    return transport.joinGame();
   };
   let terrainLoad: Promise<TerrainMapData> | null = null;
 
@@ -392,7 +392,7 @@ export class ClientGameRunner {
 
     const onconnect = () => {
       console.log("Connected to game server!");
-      this.transport.rejoinGame(this.turnsSeen);
+      return this.transport.rejoinGame(this.turnsSeen);
     };
     const onmessage = (message: ServerMessage) => {
       this.lastMessageTime = Date.now();

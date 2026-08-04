@@ -1,6 +1,7 @@
 import { vi } from "vitest";
 import { bigintToSafeNumber } from "../../../src/core/execution/SafeNumber";
 import { VaultFrontExecution } from "../../../src/core/execution/VaultFrontExecution";
+import { projectVaultFrontMutatorBalance } from "../../../src/core/execution/VaultFrontRuntimeBalance";
 import { UnitType, VaultFrontCommand } from "../../../src/core/game/Game";
 
 function defaultRewardTuning() {
@@ -198,6 +199,11 @@ describe("VaultFrontExecution", () => {
     execution.publishStatusUpdate();
 
     const statusUpdate = addUpdate.mock.calls.at(-1)?.[0];
+    expect(statusUpdate).toMatchObject({
+      weeklyMutator: "none",
+      executionChainWindowTicks: 1_500,
+      executionChainRewardMultiplier: 1.2,
+    });
     expect(statusUpdate.convoys).toHaveLength(1);
     expect(statusUpdate.convoys[0]).toMatchObject({
       ownerID: 1,
@@ -221,6 +227,37 @@ describe("VaultFrontExecution", () => {
     expect(
       execution.statusProjectionPosture().p95BuildMs,
     ).toBeGreaterThanOrEqual(0);
+  });
+
+  test("status projection publishes execution-rush chain authority", () => {
+    const execution = new VaultFrontExecution() as any;
+    const addUpdate = vi.fn();
+    execution.game = {
+      ticks: () => 20,
+      addUpdate,
+      playerBySmallID: () => null,
+      setVaultSiteControllerIDs: vi.fn(),
+    };
+    execution.weeklyMutator = "execution_rush";
+    execution.mutatorBalance =
+      projectVaultFrontMutatorBalance("execution_rush");
+    execution.vaultSites = [];
+    execution.convoys = [];
+    execution.beacons = new Map();
+    vi.spyOn(execution, "buildExecutionChainStates").mockReturnValue({});
+    vi.spyOn(execution, "buildSurgeStates").mockReturnValue({});
+    vi.spyOn(execution, "buildSquadObjectiveStates").mockReturnValue([]);
+    vi.spyOn(execution, "buildPressureStates").mockReturnValue({});
+
+    execution.publishStatusUpdate(20);
+
+    expect(addUpdate).toHaveBeenCalledWith(
+      expect.objectContaining({
+        weeklyMutator: "execution_rush",
+        executionChainWindowTicks: 3_000,
+        executionChainRewardMultiplier: 1.5,
+      }),
+    );
   });
 
   test("status projection does not trust a colliding digest without canonical equivalence", () => {

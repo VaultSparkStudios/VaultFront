@@ -4,12 +4,50 @@ Detailed internal scoring, audit trends, and brainstorming are maintained privat
 
 <!-- rolling-status-start -->
 
-Total: 997/1000 | Velocity: 12 | Debt: ↓ | Velocity trend: →
-Avgs — 3: 997.0 | 5: 996.6 | 10: 994.6 | 25: 991.5 | all: 981.8 | Last 5: 995 → 997 → 997 → 997 → 997 | Intent rate: 100%
+Total: 997/1000 | Velocity: 14 | Debt: ↓ | Velocity trend: ↑
+Avgs — 3: 997.0 | 5: 997.0 | 10: 995.6 | 25: 989.6 | all: 989.4 | Last 5: 997 → 997 → 997 → 997 → 997 | Intent rate: 100%
 Categories: Dev 100 | Align 100 | Momentum 100 | Engage 99 | Process 100 | Coherence 99 | Security 100 | Ecosystem 99 | Capital 100 | Automation 100
-Last session: 2026-08-02 Session 91 certified reflection, decisive continuation, and launch truth
+Last session: 2026-08-03 Session 92 durable release admission, resilient play, and execution-chain truth
 
 <!-- rolling-status-end -->
+
+## 2026-08-03 — Session 92 | Total: 997/1000 | Velocity: 14
+
+Shipped ten premise-verified audit items, four executable innovation outcomes, and four verification-driven root fixes. The release plane now proves staging, dry-run intent, both sides of rollback, production health/revision bytes, database durability, immutable delivery inputs, and exact telemetry identity. The live game survives hostile socket lifecycle transitions and exposes a balance-bound execution-chain state that remains readable and accessible across every supported theme.
+
+| Category              |        Score | Evidence                                                                                                                                                                |
+| --------------------- | -----------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Dev Health            |          100 | 209 files / 1,134 tests, type, lint, format, contracts, build, Pages, bundle, audit, supply-chain, browser, visual, exhaustion, and doctor gates pass directly.         |
+| Creative Alignment    |          100 | The execution-chain HUD makes precision, tempo, and reward legible without inventing a parallel ruleset; phantom tutorial authority is retired.                         |
+| Momentum              |          100 | Audit 10/10 and innovations 56/56 are exhausted; suite-timeout, lint, transfer, and visual-receipt discoveries were root-fixed without handback.                        |
+| Engagement            |           99 | Players receive an accessible, reduced-motion-aware execution chain and safer reconnect behavior; no human retention or fun outcome is fabricated.                      |
+| Process Quality       |          100 | Pull-first chronology, live premise checks, exact exits, run-bound attestations, semantic digests, source hashes, pixel inspection, and exhaustion are reproducible.    |
+| Cross-Repo Coherence  |           99 | Canonical sibling capability truth is layered read-only and a signed Ark producer pattern was sent; externally owned registry reconciliation remains external.          |
+| Security Posture      |          100 | Same-repository run admission, protected host keys, immutable Actions/images, dual rollback attestations, constant-time receipt digests, and zero prod advisories.      |
+| Ecosystem Integration |           99 | Human UI, agent evidence, PostgreSQL, CI artifacts, staging lineage, and telemetry agree locally; live staging, identity, delivery, and provider evidence remain due.   |
+| Capital Efficiency    |          100 | One build fans out, hosted cron stays zero, no dependency was added, production console noise shrank transfer, and Max-plan cost remains correctly notional.            |
+| Automation Coverage   |          100 | Recovery churn, release-catalog mutation, staging/rollback tamper, DB posture, telemetry shutdown, tutorial reachability, 36 visual captures, and 91 deploy checks run. |
+| **Total**             | **997/1000** | Exact sum; Engagement, Coherence, and Ecosystem remain honestly capped by absent human/live/external observations.                                                      |
+
+**Rolling data:** Avg3 997.0 · Avg5 997.0 · Avg10 995.6 · Avg25 989.6 · all 989.4 · velocity 14 · debt ↓ · sparkline █████.
+
+**Top win:** Release recovery is now a verifiable transition rather than instructions: the exact dry-run, replaced revision, restored revision, staging attestations, production health, and production revision form one retained lineage.
+
+**Top gap:** No approved external staging/callback corridor or distinct-human Alpha corpus exists, so local release machinery cannot make the product launch-ready by itself.
+
+### Brainstorm
+
+1. Execute the new dry-run validation artifact on the approved staging corridor and admit it into a live promotion only after provider CI and parity evidence match.
+2. Project privacy-minimal transport recovery rates into the runtime integrity passport only after a durable aggregation boundary is defined.
+3. Use distinct-human Alpha evidence to test whether execution-chain timing and copy improve comprehension before tuning the balance authority.
+
+### Commitments
+
+- [SIL:1] A live promotion must admit the exact successful dry-run receipt; operator memory and caller-equal digests never count.
+- [SIL:2] Every rollback must prove both the replaced and restored immutable revisions and retain observed production health/revision bytes.
+- [SIL:3] Recovery buffers remain ordered, bounded, generation-safe, and visible; retries never manufacture successful synchronization.
+
+**Honest refusal:** The session did not fabricate staging, delivery, identity, human, revenue, rollback, CI-provider, or founder evidence; did not edit a sibling tree; did not raise transfer or composition ceilings; and did not alarm on flat-rate Max-plan cost.
 
 ## 2026-08-02 — Session 91 | Total: 997/1000 | Velocity: 12
 

@@ -7,6 +7,10 @@ import {
   selectFirstPendingUnblocked,
 } from "../../scripts/lib/genius-cache.mjs";
 import { spawnSync } from "../../scripts/lib/safe-spawn.mjs";
+import {
+  PROCESS_INTEGRATION_SLO_MS,
+  PROCESS_INTEGRATION_TIMEOUT_MS,
+} from "../helpers/processBudget";
 
 const fixtures: string[] = [];
 
@@ -73,53 +77,61 @@ describe("versioned genius cache contract", () => {
       parseGeniusCache(fs.readFileSync(cachePath, "utf8")).items,
     ).toHaveLength(2);
   });
-  it("flows the latest audit cache into the closeout next-session hint", () => {
-    const startedAt = performance.now();
-    const root = process.cwd();
-    const generated = spawnSync(
-      process.execPath,
-      ["scripts/generate-genius-list.mjs", "--json"],
-      { cwd: root, encoding: "utf8" },
-    );
-    expect(generated.status).toBe(0);
-    const cache = JSON.parse(generated.stdout);
-    const expected = selectFirstPendingUnblocked(cache);
-    expect(cache.auditSource).toMatch(/^docs\/AUDIT_\d{4}-\d{2}-\d{2}\.json$/);
-
-    const fixture = fs.mkdtempSync(
-      path.join(os.tmpdir(), "vaultfront-closeout-"),
-    );
-    fixtures.push(fixture);
-    fs.mkdirSync(path.join(fixture, "context"), { recursive: true });
-    fs.writeFileSync(
-      path.join(fixture, "context", "PROJECT_STATUS.json"),
-      JSON.stringify({ name: "Fixture", currentSession: 1, silScore: 0 }),
-    );
-    const cachePath = path.join(fixture, "genius-list.json");
-    fs.writeFileSync(cachePath, generated.stdout);
-    const rendered = spawnSync(
-      process.execPath,
-      [
-        "scripts/render-closeout-board.mjs",
-        "--project",
-        fixture,
-        "--genius-cache",
-        cachePath,
-        "--stdout",
-      ],
-      { cwd: root, encoding: "utf8" },
-    );
-
-    expect(rendered.status).toBe(0);
-    expect(rendered.stdout).toContain("NEXT SESSION");
-    if (expected) {
-      expect(rendered.stdout).toContain(expected.title.slice(0, 58));
-    } else {
-      expect(rendered.stdout).toContain("Unified Genius List exhausted");
-      expect(rendered.stdout).toContain(
-        "No pending unblocked audit item remains.",
+  it(
+    "flows the latest audit cache into the closeout next-session hint",
+    () => {
+      const startedAt = performance.now();
+      const root = process.cwd();
+      const generated = spawnSync(
+        process.execPath,
+        ["scripts/generate-genius-list.mjs", "--json"],
+        { cwd: root, encoding: "utf8" },
       );
-    }
-    expect(performance.now() - startedAt).toBeLessThan(12_000);
-  }, 15_000);
+      expect(generated.status).toBe(0);
+      const cache = JSON.parse(generated.stdout);
+      const expected = selectFirstPendingUnblocked(cache);
+      expect(cache.auditSource).toMatch(
+        /^docs\/AUDIT_\d{4}-\d{2}-\d{2}\.json$/,
+      );
+
+      const fixture = fs.mkdtempSync(
+        path.join(os.tmpdir(), "vaultfront-closeout-"),
+      );
+      fixtures.push(fixture);
+      fs.mkdirSync(path.join(fixture, "context"), { recursive: true });
+      fs.writeFileSync(
+        path.join(fixture, "context", "PROJECT_STATUS.json"),
+        JSON.stringify({ name: "Fixture", currentSession: 1, silScore: 0 }),
+      );
+      const cachePath = path.join(fixture, "genius-list.json");
+      fs.writeFileSync(cachePath, generated.stdout);
+      const rendered = spawnSync(
+        process.execPath,
+        [
+          "scripts/render-closeout-board.mjs",
+          "--project",
+          fixture,
+          "--genius-cache",
+          cachePath,
+          "--stdout",
+        ],
+        { cwd: root, encoding: "utf8" },
+      );
+
+      expect(rendered.status).toBe(0);
+      expect(rendered.stdout).toContain("NEXT SESSION");
+      if (expected) {
+        expect(rendered.stdout).toContain(expected.title.slice(0, 58));
+      } else {
+        expect(rendered.stdout).toContain("Unified Genius List exhausted");
+        expect(rendered.stdout).toContain(
+          "No pending unblocked audit item remains.",
+        );
+      }
+      expect(performance.now() - startedAt).toBeLessThan(
+        PROCESS_INTEGRATION_SLO_MS,
+      );
+    },
+    PROCESS_INTEGRATION_TIMEOUT_MS,
+  );
 });

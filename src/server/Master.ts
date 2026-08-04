@@ -13,6 +13,7 @@ import { logger } from "./Logger";
 import { MapPlaylist } from "./MapPlaylist";
 import { MasterLobbyService } from "./MasterLobbyService";
 import { renderHtml } from "./RenderHtml";
+import { shutdownTelemetry } from "./TelemetryLifecycle";
 import { buildVaultFrontReadiness } from "./VaultFrontReadiness";
 
 const config = getServerConfigFromServer();
@@ -166,8 +167,12 @@ export async function startMaster() {
       for (const worker of Object.values(cluster.workers ?? {})) {
         worker?.process.kill(signal as NodeJS.Signals);
       }
-      setTimeout(() => {
+      setTimeout(async () => {
         log.info(`[master] exiting`);
+        const telemetry = await shutdownTelemetry(5_000);
+        if (telemetry.failures.length > 0) {
+          console.error("telemetry shutdown incomplete", telemetry);
+        }
         process.exit(0);
       }, 35_000); // give workers 35 s to drain
     });

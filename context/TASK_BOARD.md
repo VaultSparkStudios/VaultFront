@@ -354,3 +354,27 @@ All three premise-verified L3 findings in `docs/AUDIT_2026-07-25.json` shipped. 
 - [done] ✨ observability / process · `startup-brief-source-closure` — **DONE S89:** Freshness schema v2 tracks every core local truth input with full SHA-256 fingerprints, including missing-to-present transitions.
 - [done] ✨ delivery / security · `service-worker-release-lineage` — **DONE S89:** Release evidence binds the one compiled worker asset, its exact digest, byte length, cache namespace, and policy marker into the provenance DAG.
 - [externally-blocked] ⚡ ecosystem / observability / process · `registry-type-source-reconciliation` — Studio Ops rejected type as `field-not-allowed` in ack `01JUJOJL1K040B6517CAF2EFA9`; keep local truth fail-closed and request an owner-supported correction path through Ark.
+
+## Unified Genius List (2026-08-03 — Session 92 /arc)
+
+- [done] 🔥 security / process / observability / ecosystem · 2h · `sibling-capability-map-authority` — Layered sibling authority, local overrides, loud corruption, honest discovery, and signed Ark producer feedback.
+- [done] 🔥 release / security / observability / automation · 5h · `provenance-bound-staging-promotion` — Promotion now derives its image from a verified successful same-repository staging-run attestation.
+- [done] 🔥 reliability / security / release / observability · 6h · `production-durability-admission` — Migrated PostgreSQL and durable readiness are mandatory outside explicit development.
+- [done] 🔥 observability / release / organization / token reduction · 3h · `single-release-gate-catalog` — One semantic, fingerprinted gate catalog now feeds runtime and generated evidence.
+- [done] 🔥 game loop / reliability / UX / performance · 5h · `ordered-bounded-transport-recovery` — Ordered intents survive bounded, generation-safe reconnect lifecycle and adversarial socket failure.
+- [done] 🔥 feedback loop / observability / UX / accessibility · 4h · `balance-bound-execution-chain-hud` — Chain time/reward comes from live balance authority with accessible, reduced-motion, contrast-verified truth.
+- [done] 🔥 speed / organization / capital / observability · 4h · `single-build-ci-artifact-fanout` — CI builds and hashes one complete artifact, then verifies that exact payload without rebuilding.
+- [done] 🔥 security / release / dependency hygiene · 4h · `immutable-workflow-and-host-trust` — Actions and official images are immutable; SSH trusts validated protected host evidence.
+- [done] 🔥 observability / reliability / release / automation · 4h · `release-identity-telemetry-lifecycle` — Telemetry emits exact VaultFront revision identity and drains through a bounded idempotent lifecycle.
+- [done] ⚡ feature depth / UX / security / token reduction · 3h · `retire-phantom-tutorial-authority` — Removed the unreachable phantom server tutorial and added a reachability regression contract.
+
+## Completed (2026-08-03 — Session 92 durable release and resilient-play arc)
+
+All ten premise-verified audit items and four executable innovation outcomes shipped. `docs/AUDIT_2026-08-03.json` is 10/10, `docs/INNOVATION_PACK.json` is 56/56, and the work-exhaustion gate reports zero pending unblocked items.
+
+- [done] `operator-rollback-receipt-contract` — Replaced rollback prose with verified dry-run and production outcome receipts.
+- [done] `dry-run-intent-admission` — A live promotion admits the exact successful repository run, target, operation, staging evidence, and rollback reason from a retained validation artifact.
+- [done] `dual-attestation-rollback-lineage` — Rollback independently proves the current and restored revisions through unequal same-repository staging runs.
+- [done] `observed-production-outcome-receipt` — Canonical health/revision bytes, timing, target, and validation parent form one self-verifying retained outcome.
+- [done] Verification root-fixes — Centralized bounded subprocess-fixture budgets, made the executable release catalog lint-visible, preserved nonblank telemetry fallbacks, and removed production debug/info/log noise without suppressing warnings or errors.
+- [done] Full proof — 209 files / 1,134 tests; type, lint, format, contracts, balance, production build, Pages, exact transfer/media budgets, production audit, supply-chain scan, Playwright 26/26, CANON-053 36/36, audit 10/10, innovations 56/56, and zero pending unblocked work.

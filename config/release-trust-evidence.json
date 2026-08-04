@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "containerImages": [
+    {
+      "source": "Dockerfile",
+      "reference": "node:24-slim@sha256:235600a8101ab264e117b1768e925532262668dc9b581ef1dd7d96ced463b8e7",
+      "status": "verified",
+      "registry": "docker.io/library/node",
+      "manifestDigest": "sha256:235600a8101ab264e117b1768e925532262668dc9b581ef1dd7d96ced463b8e7",
+      "sourceRepository": "https://github.com/nodejs/docker-node.git",
+      "sourceRevision": "53252eea9caacaa50bdf58f4d34f0bff8d259999",
+      "observedAt": "2026-08-03T22:13:57.150Z",
+      "verification": "docker buildx imagetools inspect node:24-slim"
+    },
+    {
+      "source": ".github/workflows/db-migrate.yml",
+      "reference": "postgres:16-alpine@sha256:57c72fd2a128e416c7fcc499958864df5301e940bca0a56f58fddf30ffc07777",
+      "status": "verified",
+      "registry": "docker.io/library/postgres",
+      "manifestDigest": "sha256:57c72fd2a128e416c7fcc499958864df5301e940bca0a56f58fddf30ffc07777",
+      "sourceRepository": "https://github.com/docker-library/postgres.git",
+      "sourceRevision": "4f9ced003ba58a854656ba150d146243d27ae3ac",
+      "observedAt": "2026-08-03T22:13:57.150Z",
+      "verification": "docker buildx imagetools inspect postgres:16-alpine"
+    }
+  ]
+}

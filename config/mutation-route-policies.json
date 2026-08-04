@@ -281,22 +281,6 @@
     },
     {
       "method": "POST",
-      "path": "/api/tutorial/complete",
-      "auth": "verified-actor",
-      "rateLimit": "global-standard",
-      "evidence": "authenticated-event",
-      "binding": "requireVaultFrontActor"
-    },
-    {
-      "method": "POST",
-      "path": "/api/tutorial/reset",
-      "auth": "verified-actor",
-      "rateLimit": "global-standard",
-      "evidence": "authenticated-event",
-      "binding": "requireVaultFrontActor"
-    },
-    {
-      "method": "POST",
       "path": "/api/tournaments",
       "auth": "verified-actor",
       "rateLimit": "tourneyRateLimit",

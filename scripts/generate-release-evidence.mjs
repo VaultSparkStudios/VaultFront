@@ -4,6 +4,13 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import {
+  buildCanonicalReleaseObservation,
+  canonicalReleaseGateCatalog,
+  canonicalReleaseGateDefinitions,
+  evaluateReleaseGateCatalog,
+  verifyCanonicalReleaseObservation,
+} from "../src/shared/release-gate-catalog.mjs";
+import {
   effectiveByteLimit,
   extractInitialEntryAssetPaths,
   measureCompressedAssets,
@@ -19,24 +26,16 @@ import {
 import { buildProjectTruthFingerprint } from "./lib/project-truth.mjs";
 import { spawnSync } from "./lib/safe-spawn.mjs";
 
+export {
+  buildCanonicalReleaseObservation,
+  canonicalReleaseGateDefinitions,
+  verifyCanonicalReleaseObservation,
+};
+
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DEFAULT_MAX_AGE_MS = 24 * 60 * 60 * 1_000;
 export const CI_VERIFICATION_NEEDS =
   "build,test,eslint,prettier,security-audit,bundle-size";
-
-export const canonicalReleaseGateDefinitions = Object.freeze([
-  ["staging", "Staging deployment"],
-  ["healthObservation", "Live runtime health observation"],
-  ["stagingParity", "Staging parity"],
-  ["contactEmail", "Zoho project-domain send/receive reply-as alias"],
-  ["obeliskIdentity", "Obelisk relying-party identity"],
-  ["themeReadability", "Live theme readability"],
-  ["footerManifest", "Public footer manifest"],
-  ["rollbackObservation", "Digest-matched rollback drill"],
-  ["revenueObservation", "Observed live checkout or supporter revenue"],
-  ["founderApproval", "Founder launch approval"],
-  ["alphaHumanEvidence", "Authenticated human Alpha Gate"],
-]);
 
 function digest(value) {
   return createHash("sha256").update(JSON.stringify(value)).digest("hex");
@@ -44,45 +43,6 @@ function digest(value) {
 
 function sha256(value) {
   return `sha256:${createHash("sha256").update(value).digest("hex")}`;
-}
-
-function canonicalReleaseObservationPayload(key, observation) {
-  const common = {
-    gate: key,
-    status: observation?.status ?? null,
-    source: observation?.source ?? null,
-    observedAt: observation?.observedAt ?? null,
-  };
-  if (key === "rollbackObservation") {
-    return {
-      ...common,
-      drillCompleted: observation?.drillCompleted ?? null,
-      imageDigest: observation?.imageDigest ?? null,
-      restoredHealth: observation?.restoredHealth ?? null,
-    };
-  }
-  if (key === "revenueObservation") {
-    return {
-      ...common,
-      live: observation?.live ?? null,
-      eventType: observation?.eventType ?? null,
-      amountCents: observation?.amountCents ?? null,
-    };
-  }
-  return common;
-}
-
-export function buildCanonicalReleaseObservation(key, observation) {
-  const payload = canonicalReleaseObservationPayload(key, observation);
-  return { ...observation, digest: sha256(JSON.stringify(payload)) };
-}
-
-export function verifyCanonicalReleaseObservation(key, observation) {
-  if (!observation) return false;
-  return (
-    observation.digest ===
-    sha256(JSON.stringify(canonicalReleaseObservationPayload(key, observation)))
-  );
 }
 
 function ciRevisionPayload(observation) {
@@ -271,145 +231,19 @@ function statusCounts(items = []) {
   }, {});
 }
 
-function evaluateObservation(key, label, observation, now, maxAgeMs) {
-  const observedAtMs = observation?.observedAt
-    ? Date.parse(observation.observedAt)
-    : Number.NaN;
-  const ageMs = Number.isFinite(observedAtMs) ? now - observedAtMs : null;
-  const freshnessState =
-    ageMs == null
-      ? "missing"
-      : ageMs < 0
-        ? "future"
-        : ageMs > maxAgeMs
-          ? "stale"
-          : "fresh";
-  const sourceComplete = Boolean(observation?.source?.trim());
-  const digestComplete = /^sha256:[0-9a-f]{64}$/i.test(
-    observation?.digest ?? "",
-  );
-  const verified = observation?.status === "verified";
-  const provenancePass =
-    verified && freshnessState === "fresh" && sourceComplete && digestComplete;
-  const healthSemanticsPass =
-    key !== "healthObservation" ||
-    (observation?.httpStatus === 200 && observation?.healthy === true);
-  const rollbackSemanticsPass =
-    key !== "rollbackObservation" ||
-    (observation?.drillCompleted === true &&
-      observation?.restoredHealth === true &&
-      /^sha256:[0-9a-f]{64}$/i.test(observation?.imageDigest ?? ""));
-  const revenueSemanticsPass =
-    key !== "revenueObservation" ||
-    (observation?.live === true &&
-      ["checkout", "supporter"].includes(observation?.eventType) &&
-      Number.isInteger(observation?.amountCents) &&
-      observation.amountCents > 0);
-  const semanticDigestPass =
-    !["rollbackObservation", "revenueObservation"].includes(key) ||
-    verifyCanonicalReleaseObservation(key, observation);
-  const pass =
-    provenancePass &&
-    healthSemanticsPass &&
-    rollbackSemanticsPass &&
-    revenueSemanticsPass &&
-    semanticDigestPass;
-  let detail;
-  if (!observation) detail = "No evidence observation is attached.";
-  else if (!verified)
-    detail =
-      observation.detail ??
-      `Evidence status is ${observation.status ?? "missing"}.`;
-  else if (freshnessState !== "fresh")
-    detail = `Evidence timestamp is ${freshnessState}; a fresh observation is required.`;
-  else if (!sourceComplete || !digestComplete)
-    detail =
-      "Evidence requires a named source and canonical sha256 digest provenance.";
-  else if (!semanticDigestPass)
-    detail =
-      "Evidence digest does not match the canonical semantic launch-observation payload.";
-  else if (key === "healthObservation" && observation.httpStatus !== 200)
-    detail = `Runtime health probe returned HTTP ${observation.httpStatus ?? "unknown"}; HTTP 200 is required.`;
-  else if (key === "healthObservation" && observation.healthy !== true)
-    detail =
-      "Runtime health probe did not provide an explicit healthy=true observation.";
-  else if (key === "rollbackObservation" && observation.drillCompleted !== true)
-    detail = "Rollback evidence must record drillCompleted=true.";
-  else if (
-    key === "rollbackObservation" &&
-    !/^sha256:[0-9a-f]{64}$/i.test(observation.imageDigest ?? "")
-  )
-    detail =
-      "Rollback evidence must bind the restored image with a canonical sha256 digest.";
-  else if (key === "rollbackObservation" && observation.restoredHealth !== true)
-    detail =
-      "Rollback evidence must record restoredHealth=true after the drill.";
-  else if (key === "revenueObservation" && observation.live !== true)
-    detail = "Revenue evidence must explicitly identify a live event.";
-  else if (
-    key === "revenueObservation" &&
-    !["checkout", "supporter"].includes(observation.eventType)
-  )
-    detail =
-      "Revenue evidence must identify a checkout or supporter event type.";
-  else if (
-    key === "revenueObservation" &&
-    (!Number.isInteger(observation.amountCents) || observation.amountCents <= 0)
-  )
-    detail = "Revenue evidence must include a positive integer amountCents.";
-  else
-    detail = observation.detail ?? "Fresh provenance-backed evidence verified.";
-  return {
-    gate: key,
-    label,
-    status: pass ? "pass" : "block",
-    evidenceStatus: observation?.status ?? "missing",
-    source: observation?.source ?? null,
-    observedAt: observation?.observedAt ?? null,
-    digest: observation?.digest ?? null,
-    ...(key === "healthObservation"
-      ? {
-          httpStatus: observation?.httpStatus ?? null,
-          healthy: observation?.healthy ?? null,
-        }
-      : {}),
-    ...(key === "rollbackObservation"
-      ? {
-          drillCompleted: observation?.drillCompleted ?? null,
-          imageDigest: observation?.imageDigest ?? null,
-          restoredHealth: observation?.restoredHealth ?? null,
-        }
-      : {}),
-    ...(key === "revenueObservation"
-      ? {
-          live: observation?.live ?? null,
-          eventType: observation?.eventType ?? null,
-          amountCents: observation?.amountCents ?? null,
-        }
-      : {}),
-    freshness: { state: freshnessState, ageMs, maxAgeMs },
-    detail,
-  };
-}
-
 export function evaluateCanonicalReleaseGates(
   observations = {},
-  { now = Date.now(), maxAgeMs = DEFAULT_MAX_AGE_MS } = {},
+  {
+    now = Date.now(),
+    maxAgeMs = DEFAULT_MAX_AGE_MS,
+    alphaGateStatus = "not-started",
+  } = {},
 ) {
-  const gates = canonicalReleaseGateDefinitions.map(([key, label]) =>
-    evaluateObservation(key, label, observations[key], now, maxAgeMs),
-  );
-  const blockers = gates
-    .filter((gate) => gate.status === "block")
-    .map((gate) => `${gate.gate}: ${gate.detail}`);
-  return {
-    schemaVersion: 1,
-    status: blockers.length === 0 ? "ready" : "blocked",
-    evaluatedAt: new Date(now).toISOString(),
+  return evaluateReleaseGateCatalog(observations, {
+    now,
     maxAgeMs,
-    gates,
-    blockers,
-  };
+    alphaGateStatus,
+  });
 }
 
 export function buildLocalSurfaceEvidence(projectRoot, observedAt) {
@@ -607,6 +441,7 @@ export function buildReleaseEvidence({
   },
   ciRevision = null,
   maxEvidenceAgeMs = DEFAULT_MAX_AGE_MS,
+  authenticatedAlphaGateStatus = "not-started",
 }) {
   const audit = statusCounts(auditItems);
   const innovations = statusCounts(innovationItems);
@@ -623,6 +458,7 @@ export function buildReleaseEvidence({
   const launchGates = evaluateCanonicalReleaseGates(releaseObservations, {
     now: Date.parse(generatedAt),
     maxAgeMs: maxEvidenceAgeMs,
+    alphaGateStatus: authenticatedAlphaGateStatus,
   });
   const deploymentTopology = localSurfaceEvidence.deploymentTopology ?? {
     schemaVersion: 1,
@@ -635,6 +471,14 @@ export function buildReleaseEvidence({
     detail: "Source-bound deployment topology evidence was not supplied.",
   };
   const releaseBlockers = [...launchGates.blockers];
+  const gateStatusBySemantic = (semantic) => {
+    const gateId = canonicalReleaseGateCatalog.find(
+      (definition) => definition.semantic === semantic,
+    )?.id;
+    return launchGates.gates.find((gate) => gate.gate === gateId)?.status;
+  };
+  const stagingStatus = gateStatusBySemantic("staging-origin");
+  const healthStatus = gateStatusBySemantic("health");
   if (localSurfaceEvidence.healthRouteContract.status !== "declared") {
     releaseBlockers.push(
       `healthRouteContract: ${localSurfaceEvidence.healthRouteContract.detail}`,
@@ -685,14 +529,8 @@ export function buildReleaseEvidence({
     launch: {
       mode: "join-alpha",
       status: launchGates.status,
-      runtimeAdvertised:
-        launchGates.gates.find((gate) => gate.gate === "staging")?.status ===
-          "pass" &&
-        launchGates.gates.find((gate) => gate.gate === "healthObservation")
-          ?.status === "pass",
-      liveOriginVerified:
-        launchGates.gates.find((gate) => gate.gate === "staging")?.status ===
-        "pass",
+      runtimeAdvertised: stagingStatus === "pass" && healthStatus === "pass",
+      liveOriginVerified: stagingStatus === "pass",
       ...launchGates,
     },
     localSurface: { ...localSurfaceEvidence, deploymentTopology },

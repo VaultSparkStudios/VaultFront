@@ -1,13 +1,13 @@
 <!-- generated-by: scripts/render-startup-brief.mjs v3.1 -->
-<!-- generated-at: 2026-08-03T18:07:18.132Z -->
-<!-- generated-for-session: 92; source-closeout-session: 91 -->
+<!-- generated-at: 2026-08-04T00:29:12.790Z -->
+<!-- generated-for-session: 93; source-closeout-session: 92 -->
 <!-- fast-boot-valid-until: next session if within 24h -->
 <!-- brief-coherent: true -->
-<!-- brief-sources: {"schema":2,"session":91,"sources":{"context/PROJECT_STATUS.json":"70713d30d4758cadc52cb0820e990b5b9479e8927027bae56b5b6adcb1e111ed","context/TASK_BOARD.md":"b2313819c9872c3d2b24185411c9543bfc9fcbf10df893442bf25ce40e626d7d","context/LATEST_HANDOFF.md":"8970a0626ae223610abae914176ffb156d1c54f30e8eb93bc706572e5008ca6e","context/SELF_IMPROVEMENT_LOOP.md":"d627f4c6fa8d381fa96c71dd2b591b0016fedc65156d31414f7877a128afceee","context/TRUTH_AUDIT.md":"0479a50f27d2385102822b4623f3f14e067e17b72a9ad2208f7456cfed1229ce","context/CURRENT_STATE.md":"08e7b9fdbacb1492ae70212920936c70d7dd21474759a8441ba6fb8dba081418","docs/GENIUS_LIST.md":"b09fbfabf77031be8aa45cbd2d82adf42a8cc12e0a7bea0ab44be772e18a0464","docs/SESSION_PLAN.md":"b3bf49e5e8d173eac49219b9021300838b88c80b0b19912520288e66e0870943","docs/CREATIVE_DIRECTION_RECORD.md":"43f8ee496d63d41a3c0b6ea6fb5999e14bd39d9697cd130c9a77acd627fed0c8"}} -->
+<!-- brief-sources: {"schema":2,"session":92,"sources":{"context/PROJECT_STATUS.json":"6f116f2f2eefb96ac1f52d9c630dd23b555ccd5a8a3e8acf5944fd6604850a97","context/TASK_BOARD.md":"c174052b86e7fabc90410dfe3b87abcbf9a159613a035757ad00148b0d8d1dd7","context/LATEST_HANDOFF.md":"ca1b577b044b51a39aadf5d779816c5af6b59cef746ef9a406a370a2e8db2d78","context/SELF_IMPROVEMENT_LOOP.md":"0d7201500eb4f0c6c70a3a5974ab2554e916ec1d5f5aa66a827a6c49c74bd6f5","context/TRUTH_AUDIT.md":"f0b5d3e3469965234e5e0a0b5430893692ed5eef57b97f2e854d659e229e42bd","context/CURRENT_STATE.md":"e3a984d2ad4b84ec90e6565ed7d6bb2f13b09366a61c73ccfc231b2ba87f0d91","docs/GENIUS_LIST.md":"b09fbfabf77031be8aa45cbd2d82adf42a8cc12e0a7bea0ab44be772e18a0464","docs/SESSION_PLAN.md":"b3bf49e5e8d173eac49219b9021300838b88c80b0b19912520288e66e0870943","docs/CREATIVE_DIRECTION_RECORD.md":"f6d7c0626a5307652a7f1c01fc35fcda46ff7e8b999d462141e38b1ec94a46b2"}} -->
 
 # Startup Brief — VaultFront
 
-> **Fast-boot brief** — rendered for Session 92 from Session 91 closeout evidence · 2026-08-03.
+> **Fast-boot brief** — rendered for Session 93 from Session 92 closeout evidence · 2026-08-04.
 > Valid for next session if started within 24h. For sessions >24h later, load context files fresh (start.md §3).
 
 ---
@@ -16,14 +16,14 @@
 ╔════════════════════════════════════════════════════════════════╗
 ║  🎮 VAULTFRONT                                                   ║
 ║  game · alpha/public-unlaunched · FORGE                          ║
-║  Session 92 · 2026-08-03 · FOUNDER MODE                          ║
+║  Session 93 · 2026-08-04 · FOUNDER MODE                          ║
 ║  Owner: VaultSpark Studios                                       ║
 ╚════════════════════════════════════════════════════════════════╝
 
-╔══ LAST SESSION (S91) - WHAT SHIPPED ═══════════════════════════╗
-║  Session 91 complete: six audit items and three innovations      ║
-║  shipped across sole ingress, semantic launch evidence,…         ║
-║  Tests  1088/1088 passing (2026-08-03T07:35:04.000Z)             ║
+╔══ LAST SESSION (S92) - WHAT SHIPPED ═══════════════════════════╗
+║  Session 92 complete: ten audit items and four innovation        ║
+║  outcomes shipped across staging/rollback lineage, database…     ║
+║  Tests  1134/1134 passing (2026-08-04T00:17:43.096Z)             ║
 ║  Deploy NO-GO · no staging/production observation                ║
 ╚════════════════════════════════════════════════════════════════╝
 
@@ -41,9 +41,9 @@
 ╔══ SCORE ═══════════════════════════════════════════════════════╗
 ║                                                                  ║
 ║    997/1000   ███████████████████████░   100%                    ║
-║    SIL v3.0  ·  Avg3: 997  ·  Velocity 12→                       ║
+║    SIL v3.0  ·  Avg3: 997  ·  Velocity 14↑                       ║
 ║    Last active: 0d  ·  Last closeout: 1d  ·  (active = newest o  ║
-║    Trend  ▆▇▇█▇  →  (last 5 sessions)                            ║
+║    Trend  ▇▇█▇█  ↑  (last 5 sessions)                            ║
 ║                                                                  ║
 ║    Category         Score  Bar        Spark   Δ                  ║
 ║    ─────────────── ────── ────────── ──────── ─                  ║
@@ -60,24 +60,24 @@
 ║                                                                  ║
 ╚════════════════════════════════════════════════════════════════╝
 
-╔══ WHERE WE LEFT OFF  ·  Session 91 ════════════════════════════╗
+╔══ WHERE WE LEFT OFF  ·  Session 92 ════════════════════════════╗
 ║  Shipped:  see LATEST_HANDOFF.md                                 ║
-║  Tests:    1088/1088 passing  ·  Deploy: N/A                     ║
+║  Tests:    1134/1134 passing  ·  Deploy: N/A                     ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ CONTEXT METER ═══════════════════════════════════════════════╗
-║  ✓  █░░░░░░░░░░░░░░░░░░░░░░░    3% used                          ║
-║     27,913 / 1,000,000 tok  ·  codex/codex-1m  ·  measured+heur  ║
-║     ~13,957 tok/turn  ·  cache 50%  ·  63 turns to compact       ║
+║  ✓  ███░░░░░░░░░░░░░░░░░░░░░   14% used                          ║
+║     143,507 / 1,000,000 tok  ·  codex/codex-1m  ·  measured+heu  ║
+║     ~71,754 tok/turn  ·  cache 50%  ·  10 turns to compact       ║
 ║     Verdict: CONTINUE                                            ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ SIGNALS ═════════════════════════════════════════════════════╗
-║  ✓  Tests         1088/1088 passing (2026-08-03T07:35:04.000Z)   ║
-║  ✓  Velocity      12 →  ·  Debt: ↓                               ║
+║  ✓  Tests         1134/1134 passing (2026-08-04T00:17:43.096Z)   ║
+║  ✓  Velocity      14 ↑  ·  Debt: ↓                               ║
 ║  ⚠  Runway        unknown                                        ║
 ║  ⛔  Context age   ?d                                             ║
-║  ✓  IGNIS         43037 FORGE  ·  2d old                         ║
+║  ✓  IGNIS         43037 FORGE  ·  3d old                         ║
 ║  ⛔  Truth         local green; external launch NO-GO.  ·  Genom  ║
 ║  ✓  Compliance   49/49 (100%) → —                                ║
 ║  ✓  Genome dims   all stable  (24/25)                            ║
@@ -87,8 +87,8 @@
 ║  ✓  Templates     v3.3 aligned                                   ║
 ║  ⛔  Revenue sig.  not found  ⚠ stale                             ║
 ║  ✓  Deploy gaps   no gaps (run: ops deploy-gaps)                 ║
-║  ✓  Doctor        12/12 (100%)  ·  2026-08-03  ✓                 ║
-║  ✓  Cost          real $0.08/7d · 7d notional $1.24 (flat-rate   ║
+║  ✓  Doctor        12/12 (100%)  ·  2026-08-04  ✓                 ║
+║  ✓  Cost          real $0.09/7d · 7d notional $1.20 (flat-rate   ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ ORCHESTRATOR ════════════════════════════════════════════════╗
@@ -105,7 +105,7 @@
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ MOMENTUM METER ══════════════════════════════════════════════╗
-║  Velocity:   ▆▇▇█▇  12→  (last 5 sessions)                       ║
+║  Velocity:   ▇▇█▇█  14↑  (last 5 sessions)                       ║
 ║  Intent:     100% achieved last 5                                ║
 ║  Streak:     — (last intent not achieved)                        ║
 ╚════════════════════════════════════════════════════════════════╝
@@ -116,23 +116,27 @@
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ GENIUS HIT LIST ═════════════════════════════════════════════╗
-║  ⏸ #1 🔥 Make protocol propagation prove it did not erase stron  ║
-║     4h · process / automation / observability / ecosystem · son  ║
-║  ✓ #2 🔥 Make launch evidence include rollback and real revenue  ║
-║     4h · release / observability / security / capital · sonnet   ║
-║  ✓ #3 🔥 Close the certified feedback loop inside the real post  ║
-║     6h · feedback loop / ux / security / game loop · sonnet      ║
-║  ✓ #4 🔥 Give the production container one ingress authority     ║
-║     6h · security / release / reliability / dependency hygiene   ║
-║  ✓ #5 🔥 Turn the post-match action wall into one context-aware  ║
-║     6h · retention / ux / progression / gamification · sonnet    ║
-║  ✓ #6 ⚡ Remove three proven-unused runtime dependency declarati  ║
-║     1h · security / speed / organization / token reduction · ha  ║
+║  ✓ #1 🔥 Make capability discovery consume the canonical siblin  ║
+║     2h · security / process / observability / ecosystem · sonne  ║
+║  ✓ #2 🔥 Replace caller-equal digests with run-bound staging at  ║
+║     5h · release / security / observability / automation · sonn  ║
+║  ✓ #3 🔥 Give runtime and build evidence one release-gate autho  ║
+║     3h · observability / release / organization / token reducti  ║
+║  ✓ #4 🔥 Make multiplayer intent delivery ordered, bounded, and  ║
+║     5h · game loop / reliability / UX / performance · sonnet     ║
+║  ✓ #5 🔥 Make telemetry revision-identifiable and shutdown-safe  ║
+║     4h · observability / reliability / release / automation · s  ║
+║  ✓ #6 🔥 Make durable PostgreSQL a staging and production admis  ║
+║     6h · reliability / security / release / observability · son  ║
+║  ✓ #7 🔥 Build once and fan out one exact CI artifact            ║
+║     4h · speed / organization / capital / observability · sonne  ║
+║  ✓ #8 🔥 Make delivery dependencies and SSH host identity immut  ║
+║     4h · security / release / dependency hygiene · sonnet        ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ```
 
 ---
 
-_Generated by `scripts/render-startup-brief.mjs v3.1` · Session 91 closeout · 2026-08-03_
+_Generated by `scripts/render-startup-brief.mjs v3.1` · Session 92 closeout · 2026-08-04_
 _Run `node scripts/ops.mjs doctor` for live health check · `node scripts/ops.mjs genius-list` to refresh hit list_

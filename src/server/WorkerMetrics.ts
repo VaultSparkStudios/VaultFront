@@ -8,6 +8,7 @@ import * as dotenv from "dotenv";
 import { getServerConfigFromServer } from "../core/configuration/ConfigLoader";
 import { GameManager } from "./GameManager";
 import { getOtelResource, getPromLabels } from "./OtelResource";
+import { registerTelemetryHandle } from "./TelemetryLifecycle";
 import { VaultMetrics } from "./VaultMetrics";
 
 dotenv.config();
@@ -46,31 +47,32 @@ export function initWorkerMetrics(gameManager: GameManager): void {
   // Register as the global meter provider so VaultMetrics (and any other
   // module using metrics.getMeter()) picks up this provider automatically.
   metrics.setGlobalMeterProvider(meterProvider);
+  registerTelemetryHandle("metrics", meterProvider);
 
   // Get meter for creating metrics
   const meter = meterProvider.getMeter("worker-metrics");
 
   // Create observable gauges
   const activeGamesGauge = meter.createObservableGauge(
-    "openfront.active_games.gauge",
+    "vaultfront.active_games.gauge",
     {
       description: "Number of active games on this worker",
     },
   );
 
   const connectedClientsGauge = meter.createObservableGauge(
-    "openfront.connected_clients.gauge",
+    "vaultfront.connected_clients.gauge",
     {
       description: "Number of connected clients on this worker",
     },
   );
 
-  const desyncsGauge = meter.createObservableGauge("openfront.desyncs.gauge", {
+  const desyncsGauge = meter.createObservableGauge("vaultfront.desyncs.gauge", {
     description: "Number of detected desyncs on active games on this worker",
   });
 
   const memoryUsageGauge = meter.createObservableGauge(
-    "openfront.memory_usage.bytes",
+    "vaultfront.memory_usage.bytes",
     {
       description: "Current memory usage of the worker process in bytes",
     },

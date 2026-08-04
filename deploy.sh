@@ -60,6 +60,7 @@ if [[ "${DEPLOY_DRY_RUN:-0}" == "1" ]]; then
 fi
 
 : "${SSH_KEY:?SSH_KEY is required}"
+: "${DATABASE_URL:?DATABASE_URL is required for staging and production}"
 SERVER_HOST="${DEPLOY_SERVER_HOST:-}"
 if [[ -z "$SERVER_HOST" ]]; then
     case "$HOST_LABEL" in
@@ -103,6 +104,7 @@ write_env DOMAIN "${DOMAIN:-}"
 write_env SUBDOMAIN "$SUBDOMAIN"
 write_env OTEL_EXPORTER_OTLP_ENDPOINT "${OTEL_EXPORTER_OTLP_ENDPOINT:-}"
 write_env OTEL_AUTH_HEADER "${OTEL_AUTH_HEADER:-}"
+write_env DATABASE_URL "$DATABASE_URL"
 
 scp -i "$SSH_KEY" ./update.sh "$LOCAL_ENV" \
     "${REMOTE_USER}@${SERVER_HOST}:${REMOTE_DIR}/"

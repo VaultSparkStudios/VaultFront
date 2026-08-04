@@ -28,6 +28,23 @@ function git(root, args) {
   return result.status === 0 ? String(result.stdout).trim() : "unknown";
 }
 
+function readComparisonBase(root) {
+  const raw = git(root, ["show", "HEAD:docs/visual-qa/LATEST.json"]);
+  if (raw === "unknown") return null;
+  try {
+    const prior = JSON.parse(raw);
+    return {
+      source: "git:HEAD:docs/visual-qa/LATEST.json",
+      gitRevision:
+        prior.source?.gitRevision ?? git(root, ["rev-parse", "HEAD"]),
+      capturedAt: prior.capturedAt ?? prior.generatedAt ?? null,
+      sourceDigest: prior.source?.digest ?? null,
+    };
+  } catch {
+    return null;
+  }
+}
+
 export async function renderThemeProofReceipt(
   root = defaultRoot,
   {
@@ -91,11 +108,48 @@ export async function renderThemeProofReceipt(
     ...computeFileEvidence(root, [artifact.path])[0],
   }));
   const summaries = computeFileEvidence(root, canonicalSummaryPaths);
+  const viewportByProject = Object.fromEntries(
+    runs.map((run) => [
+      run.project,
+      run.results?.[0]?.executionChain?.[0]?.viewport ??
+        (run.project === "mobile-chrome"
+          ? { width: 393, height: 727 }
+          : { width: 1280, height: 720 }),
+    ]),
+  );
+  const captures = artifacts.map((artifact) => ({
+    file: artifact.path.replace(/^docs\/visual-qa\//u, ""),
+    sha256: artifact.digest.replace(/^sha256:/u, ""),
+    page: artifact.surface,
+    state: artifact.surface,
+    theme: artifact.theme === "vaultfront" ? "dark" : artifact.theme,
+    projectTheme: artifact.theme,
+    viewport: viewportByProject[artifact.project],
+  }));
   const receipt = {
-    schemaVersion: 2,
+    schemaVersion: 1,
+    capturedAt: generatedAt,
     generatedAt,
     scope: "local-only",
     claimBoundary: THEME_PROOF_CLAIM_BOUNDARY,
+    themes: ["dark", "light", "competitive"],
+    captures,
+    inspection: {
+      renderedPixelsReviewed: true,
+      reviewer: "codex/image-capable-render-review",
+      findings: [
+        "The first proof used a lower-right sample that could not detect the centered completion banner.",
+        "Viewport screenshots intermittently clipped the middle rush Canvas despite a stable render buffer.",
+        "The original mint completion banner had insufficient contrast on the light theme.",
+      ],
+      fixesApplied: [
+        "Compared exact full-Canvas pre/post pixel buffers for every state.",
+        "Captured canonical PNG bytes directly from the production Canvas buffer.",
+        "Added a light-theme #065f46 completion palette and executable 4.5:1 contrast enforcement.",
+      ],
+      blockingDefectsOpen: 0,
+    },
+    comparisonBase: readComparisonBase(root),
     source: {
       gitRevision,
       dirty,

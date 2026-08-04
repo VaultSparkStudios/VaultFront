@@ -63,7 +63,19 @@ export function checkThemeProofReceipt(root = defaultRoot, now = Date.now()) {
   } catch (error) {
     errors.push(`unreadable LATEST receipt: ${String(error)}`);
   }
-  if (receipt.schemaVersion !== 2) errors.push("unsupported schemaVersion");
+  if (receipt.schemaVersion !== 1) errors.push("unsupported schemaVersion");
+  if (receipt.capturedAt !== receipt.generatedAt)
+    errors.push("capturedAt and generatedAt must identify one proof run");
+  if (receipt.inspection?.renderedPixelsReviewed !== true)
+    errors.push("rendered pixels were not reviewed");
+  if (!receipt.inspection?.reviewer?.trim())
+    errors.push("visual reviewer is missing");
+  if (!Array.isArray(receipt.inspection?.findings))
+    errors.push("visual findings are missing");
+  if (!Array.isArray(receipt.inspection?.fixesApplied))
+    errors.push("visual fixes are missing");
+  if (receipt.inspection?.blockingDefectsOpen !== 0)
+    errors.push("visual blocking defects remain open");
   if (receipt.scope !== "local-only")
     errors.push("scope must remain local-only");
   if (receipt.claimBoundary !== THEME_PROOF_CLAIM_BOUNDARY)
@@ -87,6 +99,26 @@ export function checkThemeProofReceipt(root = defaultRoot, now = Date.now()) {
   compareEvidence(root, receipt.source?.files, "source", errors);
   compareEvidence(root, receipt.evidence?.summaries, "summary", errors);
   compareEvidence(root, receipt.evidence?.artifacts, "artifact", errors);
+
+  const declaredThemes = new Set(receipt.themes ?? []);
+  for (const theme of ["dark", "light"])
+    if (!declaredThemes.has(theme))
+      errors.push(`missing ${theme} theme declaration`);
+  const captures = receipt.captures ?? [];
+  for (const theme of declaredThemes) {
+    if (
+      !captures.some(
+        (capture) => capture.theme === theme && capture.viewport?.width >= 1280,
+      )
+    )
+      errors.push(`${theme}: desktop capture missing`);
+    if (
+      !captures.some(
+        (capture) => capture.theme === theme && capture.viewport?.width <= 430,
+      )
+    )
+      errors.push(`${theme}: mobile capture missing`);
+  }
 
   const expectedArtifacts = new Set(
     expectedThemeProofArtifacts("docs/visual-qa/artifacts").map(

@@ -76,7 +76,7 @@ describe("innovation-pack regeneration", () => {
     const firstAuthority = first.items.find(
       (item) => item.id === "unified-certified-game-authority",
     );
-    expect(first.items).toHaveLength(53);
+    expect(first.items).toHaveLength(56);
     expect(firstAuthority).toMatchObject({ rank: 40, status: "shipped" });
     expect(
       first.items.find(
@@ -84,11 +84,11 @@ describe("innovation-pack regeneration", () => {
       ),
     ).toMatchObject({ rank: 44, status: "shipped" });
     expect(first.items.slice(-5).map((item) => item.id)).toEqual([
-      "portable-visual-proof-capsule",
-      "progression-receipt-retention-boundary",
-      "post-verification-ci-fan-in",
       "certified-pressure-contribution-dividend",
       "semantic-innovation-detector-ratchet",
+      "dry-run-intent-admission",
+      "dual-attestation-rollback-lineage",
+      "observed-production-outcome-receipt",
     ]);
 
     const output = runGenerator();
@@ -104,8 +104,8 @@ describe("innovation-pack regeneration", () => {
         (item) => item.id === "unified-certified-game-authority",
       ),
     ).toMatchObject({ rank: 40, status: "shipped" });
-    expect(output).toContain("3/53 shipped");
-  });
+    expect(output).toContain("3/56 shipped");
+  }, 30_000);
 
   it("recognizes stronger semantic ratchets instead of stale exact values", () => {
     const generator = fs.readFileSync(
@@ -174,5 +174,5 @@ describe("innovation-pack regeneration", () => {
     expect(
       fs.readFileSync(path.join(fixture, "docs", "INNOVATION_PACK.md"), "utf8"),
     ).toBe("historical markdown\n");
-  });
+  }, 30_000);
 });

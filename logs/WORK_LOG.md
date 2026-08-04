@@ -2,6 +2,18 @@
 
 Append-only. Each session appends one entry. Never edit prior entries.
 
+## 2026-08-03 — Session 92 durable release-admission and resilient-play closeout
+
+- Goal: Execute one continuous saturated `/start → /audit → /implement → /closeout` mission, premise-check every infrastructure finding, exhaust primary and second-order work, and push directly to `main` without fabricating external release evidence.
+- What changed: Layered sibling capability truth; unified runtime/static release gates; admitted staging by run-bound evidence; required migrated PostgreSQL; built and hashed once in CI; pinned Actions, official images, and SSH host evidence; corrected telemetry identity/lifecycle; hardened ordered reconnect recovery; shipped a balance-derived accessible execution-chain HUD; and deleted unreachable tutorial server authority.
+- Innovation pass: Restored the executable rollback contract and generated/shipped dry-run intent admission, dual-attestation rollback lineage, and observed production outcome receipts, taking the cumulative ledger to 56/56.
+- Visual truth: Captured 36 exact-source desktop/mobile artifacts across VaultFront, Light, and Competitive themes for play, settings, post-match, execution normal/rush, and reduced-motion completion. The local proof and canonical CANON-053 check pass; the refreshed Light completion state was directly inspected through a JPEG fallback after the sandbox viewer failed.
+- Verification-discovered fixes: Centralized 30-second subprocess fixture budgets while retaining a 25-second integration SLO; made the shared executable JavaScript authority lint-visible; fixed empty telemetry fallback semantics; and recovered exact transfer budgets by stripping only non-actionable production console debug/info/log output.
+- Verification: 209 Vitest files / 1,134 tests; TypeScript; ESLint; Prettier ratchet; 91 deploy checks; 28,125 balance scenarios; production build; Pages 10/10 and worker 1/1; exact gzip/Brotli/media budgets; production audit zero; supply-chain incident scan zero; Playwright 26/26; 36-artifact visual proof; audit 10/10; innovations 56/56; work exhaustion and doctor green.
+- Remaining boundary: release remains NO-GO pending approved staging/parity, verified Zoho reply identity, native Obelisk, live web/theme, three distinct authenticated humans, real revenue, an observed rollback, provider-attested exact-revision CI, and founder approval.
+
+---
+
 ## 2026-08-02 — Session 91 certified-reflection and launch-truth closeout
 
 - Goal: Run one saturated `/start → /audit → /implement → /closeout` arc, verify every premise against live code, exhaust primary and second-order work, and publish directly to `main` without fabricating external evidence.

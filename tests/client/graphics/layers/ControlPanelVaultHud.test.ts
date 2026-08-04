@@ -147,6 +147,8 @@ describe("ControlPanel vault HUD automation", () => {
       weeklyMutator: "none",
       captureTicksRequired: 90,
       cooldownTicksTotal: 650,
+      executionChainWindowTicks: 1500,
+      executionChainRewardMultiplier: 1.2,
       sites: [],
       convoys: [
         {
@@ -218,6 +220,8 @@ describe("ControlPanel vault HUD automation", () => {
       weeklyMutator: "none",
       captureTicksRequired: 90,
       cooldownTicksTotal: 650,
+      executionChainWindowTicks: 1500,
+      executionChainRewardMultiplier: 1.2,
       sites: [],
       convoys: [
         {
@@ -338,6 +342,8 @@ describe("ControlPanel vault HUD automation", () => {
       weeklyMutator: "none",
       captureTicksRequired: 90,
       cooldownTicksTotal: 650,
+      executionChainWindowTicks: 1500,
+      executionChainRewardMultiplier: 1.2,
       sites: [
         {
           id: 1,
@@ -404,6 +410,8 @@ describe("ControlPanel vault HUD automation", () => {
       weeklyMutator: "none",
       captureTicksRequired: 90,
       cooldownTicksTotal: 650,
+      executionChainWindowTicks: 1500,
+      executionChainRewardMultiplier: 1.2,
       sites: [
         {
           id: 7,
@@ -469,6 +477,8 @@ describe("ControlPanel vault HUD automation", () => {
       weeklyMutator: "none",
       captureTicksRequired: 90,
       cooldownTicksTotal: 650,
+      executionChainWindowTicks: 1500,
+      executionChainRewardMultiplier: 1.2,
       passiveGoldPerMinute: 75000,
       jamBreakerGoldCost:
         DEFAULT_VAULT_GAMEPLAY_BALANCE.defense.jamBreakerGoldCost,
@@ -554,6 +564,8 @@ describe("ControlPanel vault HUD automation", () => {
       weeklyMutator: "none",
       captureTicksRequired: 90,
       cooldownTicksTotal: 650,
+      executionChainWindowTicks: 1500,
+      executionChainRewardMultiplier: 1.2,
       passiveGoldPerMinute: 75000,
       jamBreakerGoldCost:
         DEFAULT_VAULT_GAMEPLAY_BALANCE.defense.jamBreakerGoldCost,

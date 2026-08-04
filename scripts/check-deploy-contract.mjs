@@ -30,7 +30,16 @@ const promoteWorkflow = read(".github/workflows/promote.yml");
 const prWorkflow = read(".github/workflows/pr-description.yml");
 const runbook = read("docs/DEPLOY_RUNTIME_RUNBOOK.md");
 const dockerfile = read("Dockerfile");
+const dockerignore = read(".dockerignore");
 const supervisor = read("supervisord.conf");
+const serverEntrypoint = read("src/server/Server.ts");
+const worker = read("src/server/Worker.ts");
+const releaseEvidenceContract = read("src/server/ReleaseEvidenceContract.ts");
+const releaseGateWrapper = read("src/shared/ReleaseGateCatalog.ts");
+const releaseGateAuthority = read("src/shared/release-gate-catalog.mjs");
+const releaseEvidenceGenerator = read("scripts/generate-release-evidence.mjs");
+const promotionReceipt = read("scripts/lib/promotion-receipt.mjs");
+const promotionReceiptCli = read("scripts/promotion-receipt.mjs");
 
 check(
   !fs.existsSync(path.join(ROOT, ".github/workflows/release.yml")),
@@ -136,8 +145,84 @@ requireText(
 );
 requireText(
   promoteWorkflow,
-  /staging_evidence_digest/u,
-  "promotion lacks explicit staging evidence",
+  /staging_run_id/u,
+  "promotion lacks run-bound staging evidence",
+);
+requireText(
+  promoteWorkflow,
+  /staging-attestation\.mjs verify/u,
+  "promotion does not verify the staging attestation",
+);
+for (const [pattern, failure] of [
+  [/validation_run_id/u, "live promotion has no prior dry-run receipt input"],
+  [
+    /promotion-validation-\$\{\{ github\.run_id \}\}/u,
+    "dry-run receipt is not retained by run ID",
+  ],
+  [/verify-validation/u, "live promotion does not verify dry-run intent"],
+  [/replaced_staging_run_id/u, "rollback does not admit the replaced revision"],
+  [
+    /steps\.replaced_attestation\.outputs\.attestation_digest/u,
+    "rollback receipt omits replaced attestation lineage",
+  ],
+  [
+    /promotion-outcome-\$\{\{ github\.run_id \}\}/u,
+    "production outcome receipt is not retained by run ID",
+  ],
+  [/verify-outcome/u, "production outcome receipt is not self-verified"],
+  [/retention-days:\s*90/u, "operator receipts lack bounded 90-day retention"],
+]) {
+  requireText(promoteWorkflow, pattern, failure);
+}
+requireText(
+  promotionReceipt,
+  /timingSafeEqual/u,
+  "promotion receipt digest comparison is not constant-time",
+);
+requireText(
+  promotionReceipt,
+  /production-revision-mismatch/u,
+  "promotion receipt does not bind the observed production revision",
+);
+requireText(
+  promotionReceiptCli,
+  /create-validation\|verify-validation\|create-outcome\|verify-outcome/u,
+  "promotion receipt CLI does not expose the complete lifecycle",
+);
+check(
+  !/inputs\.image_digest|inputs\.staging_evidence_digest/u.test(
+    promoteWorkflow,
+  ),
+  "promotion still accepts caller-authored digests",
+);
+for (const [name, body] of [
+  ["deploy workflow", deployWorkflow],
+  ["promote workflow", promoteWorkflow],
+]) {
+  requireText(
+    body,
+    /DEPLOY_KNOWN_HOSTS/u,
+    `${name} lacks protected SSH host evidence`,
+  );
+  check(
+    !/ssh-keyscan/u.test(body),
+    `${name} retains trust-on-first-use ssh-keyscan`,
+  );
+  requireText(
+    body,
+    /DATABASE_URL/u,
+    `${name} does not transport durable persistence`,
+  );
+}
+requireText(
+  deploy,
+  /DATABASE_URL:\?DATABASE_URL is required/u,
+  "deploy transport does not require DATABASE_URL",
+);
+requireText(
+  update,
+  /apply-schema\.ts/u,
+  "remote updater does not migrate before traffic",
 );
 check(
   update.includes("traefik.http.routers.${CONTAINER_NAME}.rule"),
@@ -152,6 +237,77 @@ requireText(
   dockerfile,
   /HEALTHCHECK[^\n]*127.0.0.1\/_health/u,
   "production image has no local canonical healthcheck",
+);
+check(
+  (dockerfile.match(/COPY src \.\/src/gu) ?? []).length >= 2,
+  "build and production images do not both package the src runtime tree",
+);
+requireText(
+  dockerfile,
+  /COPY scripts\/? \.\/scripts\/?/u,
+  "build image does not package release-evidence generator scripts",
+);
+for (const source of [
+  ".bundlewatch.json",
+  "Dockerfile supervisord.conf update.sh",
+  ".github",
+  "config",
+  "context",
+  "docs",
+]) {
+  check(
+    dockerfile.includes("COPY " + source),
+    "build image does not package release-evidence input: " + source,
+  );
+}
+requireText(
+  dockerignore,
+  /^!Dockerfile$/mu,
+  "Dockerfile remains unavailable to the release-evidence build stage",
+);
+check(
+  !fs.existsSync(path.join(ROOT, "scripts/lib/release-gate-catalog.mjs")),
+  "duplicate scripts/lib release-gate authority still exists",
+);
+for (const relativePath of [
+  "src/shared/release-gates.json",
+  "src/shared/release-gate-catalog.mjs",
+  "src/shared/ReleaseGateCatalog.ts",
+]) {
+  check(
+    fs.existsSync(path.join(ROOT, relativePath)),
+    `packaged release-gate authority is missing ${relativePath}`,
+  );
+}
+requireText(
+  releaseGateAuthority,
+  /require\("\.\/release-gates\.json"\)/u,
+  "executable release-gate authority does not consume its colocated data catalog",
+);
+requireText(
+  releaseGateWrapper,
+  /from "\.\/release-gate-catalog\.mjs"/u,
+  "typed release-gate wrapper does not consume the packaged executable authority",
+);
+requireText(
+  releaseEvidenceGenerator,
+  /from "\.\.\/src\/shared\/release-gate-catalog\.mjs"/u,
+  "release evidence generator does not consume the packaged executable authority",
+);
+requireText(
+  serverEntrypoint,
+  /from "\.\/Worker"/u,
+  "server entrypoint does not retain the worker runtime import",
+);
+requireText(
+  worker,
+  /from "\.\/VaultFrontReadiness"/u,
+  "worker runtime does not retain release-readiness reachability",
+);
+requireText(
+  releaseEvidenceContract,
+  /from "\.\.\/shared\/ReleaseGateCatalog"/u,
+  "server release contract does not consume the packaged typed authority",
 );
 check(
   !fs.existsSync(path.join(ROOT, "startup.sh")),
@@ -181,13 +337,8 @@ requireText(
 );
 requireText(
   runbook,
-  /`image_digest`/u,
-  "runbook omits the immutable promotion image_digest input",
-);
-requireText(
-  runbook,
-  /`staging_evidence_digest`/u,
-  "runbook omits the matching staging evidence input",
+  /`staging_run_id`/u,
+  "runbook omits the admitted staging run input",
 );
 requireText(
   runbook,
@@ -207,6 +358,16 @@ requireText(
   runbook,
   /### Rollback receipt/u,
   "runbook has no auditable rollback receipt contract",
+);
+requireText(
+  runbook,
+  /`validation_run_id`/u,
+  "runbook does not require the exact successful dry-run receipt",
+);
+requireText(
+  runbook,
+  /promotion-outcome-<run-id>/u,
+  "runbook does not name the retained outcome receipt",
 );
 requireText(
   runbook,

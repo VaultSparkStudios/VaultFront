@@ -1,14 +1,19 @@
 {
   "project": "chromium",
   "localOnly": true,
-  "capturedAt": "2026-08-03T06:31:33.047Z",
+  "capturedAt": "2026-08-04T00:13:14.467Z",
   "source": {
-    "digest": "sha256:b24281d8ee44f5cb191eee88aa193f78852b9326349977df146c15449f8b8454",
+    "digest": "sha256:e404ab9bbfa8e108499190fc39d654ada0dd249f4f9310fa4b0e9b1c5193ddf9",
     "files": [
       {
+        "path": "config/vaultfront-balance.v1.json",
+        "bytes": 7901,
+        "digest": "sha256:a931631d461fc273959644a9a003c8c94f942f2da5127ceb4daf05ade38e7e71"
+      },
+      {
         "path": "e2e/theme-visual-proof.spec.ts",
-        "bytes": 9466,
-        "digest": "sha256:7b2ed7c2e7a584ab90d329f07c2579fb3562daed54f927eb69e14235223f5c4a"
+        "bytes": 17708,
+        "digest": "sha256:dfc6a6e54ce50e09ee0c799122e1fdf4d895b32d78f8ffc10c9e816b4e249b52"
       },
       {
         "path": "src/client/Api.ts",
@@ -271,6 +276,11 @@
         "digest": "sha256:8250ab4e3952d441f6dcb7aab53b95dcf4ae30c9b2539d17daa92c8529285396"
       },
       {
+        "path": "src/client/graphics/layers/VaultFrontLayer.ts",
+        "bytes": 66895,
+        "digest": "sha256:e1e840e834180949204165b8b22d7da9d79c031fd38c26467e3b458c2b79b964"
+      },
+      {
         "path": "src/client/graphics/layers/WinModal.ts",
         "bytes": 76075,
         "digest": "sha256:578729ee1087012bd1d6d6460d848579ac8ef9bcfa8f741fe621bd8bde318567"
@@ -324,6 +334,21 @@
         "path": "src/client/styles/modal/chat.css",
         "bytes": 1366,
         "digest": "sha256:aa4c8ffee7411e873f48542d8c3a5c97586229720d7c11f3dcf2444166ede02b"
+      },
+      {
+        "path": "src/core/execution/VaultFrontExecution.ts",
+        "bytes": 95591,
+        "digest": "sha256:ff9b4e59fedf79f4c50de904ac3f195bd90c25b0c9aa032a228094e292c77dd2"
+      },
+      {
+        "path": "src/core/execution/VaultFrontRuntimeBalance.ts",
+        "bytes": 6783,
+        "digest": "sha256:6f2065eb02997cc64f021c89af9fb4726aab752fe425a9b07aa7ac850fa54d23"
+      },
+      {
+        "path": "src/core/game/GameUpdates.ts",
+        "bytes": 14951,
+        "digest": "sha256:6cdcc9aaa6ec4f60a0d99bf58f8b18670db1cfab90aa39b3c47acbf054815696"
       }
     ]
   },
@@ -355,7 +380,61 @@
         "minimumButtonWidth": 44,
         "minimumButtonHeight": 44
       },
-      "surfaces": ["play", "settings", "postmatch"]
+      "surfaces": [
+        "play",
+        "settings",
+        "postmatch",
+        "execution-normal",
+        "execution-rush",
+        "execution-rush-reduced-complete"
+      ],
+      "executionChain": [
+        {
+          "state": "normal",
+          "theme": "vaultfront",
+          "reducedMotion": false,
+          "accessibleBefore": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 75 seconds remaining. Next convoy reward ×1.2.",
+          "accessibleAfter": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 75 seconds remaining. Next convoy reward ×1.2.",
+          "changedPixels": 7670,
+          "viewport": {
+            "width": 1280,
+            "height": 720
+          },
+          "scrollY": 0,
+          "background": "#05070d",
+          "completionForeground": "#6ee7b7"
+        },
+        {
+          "state": "rush",
+          "theme": "vaultfront",
+          "reducedMotion": false,
+          "accessibleBefore": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 150 seconds remaining. Next convoy reward ×1.5.",
+          "accessibleAfter": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 150 seconds remaining. Next convoy reward ×1.5.",
+          "changedPixels": 7670,
+          "viewport": {
+            "width": 1280,
+            "height": 720
+          },
+          "scrollY": 0,
+          "background": "#05070d",
+          "completionForeground": "#6ee7b7"
+        },
+        {
+          "state": "rush-reduced-complete",
+          "theme": "vaultfront",
+          "reducedMotion": true,
+          "accessibleBefore": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 150 seconds remaining. Next convoy reward ×1.5.",
+          "accessibleAfter": "",
+          "changedPixels": 15864,
+          "viewport": {
+            "width": 1280,
+            "height": 720
+          },
+          "scrollY": 0,
+          "background": "#05070d",
+          "completionForeground": "#6ee7b7"
+        }
+      ]
     },
     {
       "theme": "light",
@@ -384,7 +463,61 @@
         "minimumButtonWidth": 44,
         "minimumButtonHeight": 44
       },
-      "surfaces": ["play", "settings", "postmatch"]
+      "surfaces": [
+        "play",
+        "settings",
+        "postmatch",
+        "execution-normal",
+        "execution-rush",
+        "execution-rush-reduced-complete"
+      ],
+      "executionChain": [
+        {
+          "state": "normal",
+          "theme": "light",
+          "reducedMotion": false,
+          "accessibleBefore": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 75 seconds remaining. Next convoy reward ×1.2.",
+          "accessibleAfter": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 75 seconds remaining. Next convoy reward ×1.2.",
+          "changedPixels": 7672,
+          "viewport": {
+            "width": 1280,
+            "height": 720
+          },
+          "scrollY": 0,
+          "background": "#f0f4ff",
+          "completionForeground": "#065f46"
+        },
+        {
+          "state": "rush",
+          "theme": "light",
+          "reducedMotion": false,
+          "accessibleBefore": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 150 seconds remaining. Next convoy reward ×1.5.",
+          "accessibleAfter": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 150 seconds remaining. Next convoy reward ×1.5.",
+          "changedPixels": 7672,
+          "viewport": {
+            "width": 1280,
+            "height": 720
+          },
+          "scrollY": 0,
+          "background": "#f0f4ff",
+          "completionForeground": "#065f46"
+        },
+        {
+          "state": "rush-reduced-complete",
+          "theme": "light",
+          "reducedMotion": true,
+          "accessibleBefore": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 150 seconds remaining. Next convoy reward ×1.5.",
+          "accessibleAfter": "",
+          "changedPixels": 14042,
+          "viewport": {
+            "width": 1280,
+            "height": 720
+          },
+          "scrollY": 0,
+          "background": "#f0f4ff",
+          "completionForeground": "#065f46"
+        }
+      ]
     },
     {
       "theme": "competitive",
@@ -413,7 +546,61 @@
         "minimumButtonWidth": 44,
         "minimumButtonHeight": 44
       },
-      "surfaces": ["play", "settings", "postmatch"]
+      "surfaces": [
+        "play",
+        "settings",
+        "postmatch",
+        "execution-normal",
+        "execution-rush",
+        "execution-rush-reduced-complete"
+      ],
+      "executionChain": [
+        {
+          "state": "normal",
+          "theme": "competitive",
+          "reducedMotion": false,
+          "accessibleBefore": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 75 seconds remaining. Next convoy reward ×1.2.",
+          "accessibleAfter": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 75 seconds remaining. Next convoy reward ×1.2.",
+          "changedPixels": 7670,
+          "viewport": {
+            "width": 1280,
+            "height": 720
+          },
+          "scrollY": 0,
+          "background": "#0a0010",
+          "completionForeground": "#6ee7b7"
+        },
+        {
+          "state": "rush",
+          "theme": "competitive",
+          "reducedMotion": false,
+          "accessibleBefore": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 150 seconds remaining. Next convoy reward ×1.5.",
+          "accessibleAfter": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 150 seconds remaining. Next convoy reward ×1.5.",
+          "changedPixels": 7670,
+          "viewport": {
+            "width": 1280,
+            "height": 720
+          },
+          "scrollY": 0,
+          "background": "#0a0010",
+          "completionForeground": "#6ee7b7"
+        },
+        {
+          "state": "rush-reduced-complete",
+          "theme": "competitive",
+          "reducedMotion": true,
+          "accessibleBefore": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 150 seconds remaining. Next convoy reward ×1.5.",
+          "accessibleAfter": "",
+          "changedPixels": 15864,
+          "viewport": {
+            "width": 1280,
+            "height": 720
+          },
+          "scrollY": 0,
+          "background": "#0a0010",
+          "completionForeground": "#6ee7b7"
+        }
+      ]
     }
   ]
 }

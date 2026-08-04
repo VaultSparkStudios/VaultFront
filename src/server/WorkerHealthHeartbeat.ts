@@ -11,6 +11,7 @@ export function buildWorkerHealthHeartbeat(
     gameLoop: GameLoopHealthSnapshot;
     ipc: IpcHealthSnapshot;
     database: DatabasePosture;
+    persistenceRequired?: boolean;
   },
   observedAt = Date.now(),
 ): Omit<WorkerHealthHeartbeat, "type" | "workerId"> {
@@ -22,5 +23,8 @@ export function buildWorkerHealthHeartbeat(
     reasons.push("persistence-connecting");
   }
   if (input.database.state === "failed") reasons.push("persistence-failed");
+  if (input.persistenceRequired && input.database.state === "disabled") {
+    reasons.push("persistence-disabled");
+  }
   return { observedAt, healthy: reasons.length === 0, reasons };
 }

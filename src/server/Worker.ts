@@ -72,6 +72,7 @@ import {
   type RouteAuthorizationContext,
   type RoutePolicyId,
 } from "./RoutePolicyManifest";
+import { shutdownTelemetry } from "./TelemetryLifecycle";
 
 import { GameEnv } from "../core/configuration/Config";
 import { registerAchievementRoutes } from "./AchievementRouter";
@@ -120,7 +121,6 @@ import { buildStateScopeLedger } from "./StateScopeLedger";
 import { streamingBus } from "./StreamingBus";
 import { tournamentStore } from "./TournamentStore";
 import { verifyTurnstileToken } from "./Turnstile";
-import { tutorialOrchestrator } from "./TutorialOrchestrator";
 import {
   canManageClan,
   canManageTournament,
@@ -326,6 +326,7 @@ export async function startWorker() {
         gameLoop: gm.healthSnapshot(),
         ipc: lobbyService.ipcHealthSnapshot(),
         database: getDatabasePosture(),
+        persistenceRequired: config.env() !== GameEnv.Dev,
       }),
     );
   };
@@ -2414,45 +2415,6 @@ export async function startWorker() {
   });
   // ─────────────────────────────────────────────────────────────────────────
 
-  // ── Tutorial API ──────────────────────────────────────────────────────────
-  app.get("/api/tutorial/state/:persistentId", (req, res) => {
-    const state = tutorialOrchestrator.getState(req.params.persistentId);
-    return res.json(state);
-  });
-
-  app.post("/api/tutorial/complete", async (req, res) => {
-    const parsed = z
-      .object({
-        persistentId: z.string().min(1).max(64).optional(),
-        step: z.string().min(1).max(64),
-      })
-      .safeParse(req.body);
-    if (!parsed.success)
-      return res.status(400).json({ error: "Missing fields" });
-    const actor = await requireVaultFrontActor(req, res);
-    if (!actor || !acceptActorClaim(actor, parsed.data.persistentId, res))
-      return;
-    const state = tutorialOrchestrator.completeStep(
-      actor.persistentId,
-      parsed.data.step,
-    );
-    return res.json(state);
-  });
-
-  app.post("/api/tutorial/reset", async (req, res) => {
-    const parsed = z
-      .object({ persistentId: z.string().min(1).max(64).optional() })
-      .safeParse(req.body);
-    if (!parsed.success)
-      return res.status(400).json({ error: "Invalid request" });
-    const actor = await requireVaultFrontActor(req, res);
-    if (!actor || !acceptActorClaim(actor, parsed.data.persistentId, res))
-      return;
-    tutorialOrchestrator.resetProgress(actor.persistentId);
-    return res.json({ ok: true });
-  });
-  // ─────────────────────────────────────────────────────────────────────────
-
   // ── Tournament API ────────────────────────────────────────────────────────
   const tourneyRateLimit = rateLimit({ windowMs: 60_000, max: 20 });
 
@@ -3014,6 +2976,10 @@ export async function startWorker() {
     }
 
     log.info(`[worker ${workerId}] shutdown complete`);
+    const telemetry = await shutdownTelemetry(5_000);
+    if (telemetry.failures.length > 0) {
+      console.error("telemetry shutdown incomplete", telemetry);
+    }
     process.exit(0);
   }
 

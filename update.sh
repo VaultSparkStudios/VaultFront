@@ -29,12 +29,18 @@ fi
 
 docker pull "$GHCR_IMAGE"
 docker image inspect "$GHCR_IMAGE" > /dev/null
+: "${DATABASE_URL:?DATABASE_URL is required for release migration}"
+docker network create web > /dev/null 2>&1 || true
+docker run --rm \
+    --network web \
+    --env-file "$ENV_FILE" \
+    --entrypoint node \
+    "$GHCR_IMAGE" \
+    --import tsx src/server/db/apply-schema.ts
 OLD_IMAGE="$(docker inspect --format '{{.Config.Image}}' "$CONTAINER_NAME" 2> /dev/null || true)"
 if docker container inspect "$CONTAINER_NAME" > /dev/null 2>&1; then
     docker rm -f "$CONTAINER_NAME"
 fi
-docker network create web > /dev/null 2>&1 || true
-
 run_container() {
     local image="$1"
     docker run -d \

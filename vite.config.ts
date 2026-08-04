@@ -55,6 +55,12 @@ export default defineConfig(({ mode }) => {
   };
 
   return {
+    // Keep actionable warn/error telemetry while stripping conversational debug
+    // logs from the shipped client. This reduces transfer and avoids exposing a
+    // noisy browser console without weakening operational failure signals.
+    esbuild: isProduction
+      ? { pure: ["console.debug", "console.info", "console.log"] }
+      : undefined,
     test: {
       globals: true,
       environment: "jsdom",

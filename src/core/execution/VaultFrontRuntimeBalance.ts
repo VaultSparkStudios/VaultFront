@@ -74,6 +74,10 @@ export function projectVaultFrontMutatorBalance(mutator: string) {
   const doublePassive =
     mutator === "double_passive" || mutator === "rally_point";
   return Object.freeze({
+    executionChainRewardMultiplier:
+      mutator === "execution_rush"
+        ? gameplay.rewardDynamics.executionRushRewardMultiplier
+        : VAULTFRONT_RUNTIME_BALANCE.cleanExecutionStreakConvoyMultiplier,
     executionChainWindowTicks:
       mutator === "execution_rush"
         ? VAULTFRONT_RUNTIME_BALANCE.cleanExecutionChainWindowTicks *

@@ -92,17 +92,19 @@ In the GitHub UI: **Settings → Secrets and variables → Actions**
 
 Add the following **Secrets**:
 
-| Secret                        | Value                                               |
-| ----------------------------- | --------------------------------------------------- |
-| `DEPLOY_SERVER_HOST`          | VPS public IPv4 from Step 1                         |
-| `DEPLOY_SSH_KEY`              | Private SSH key content for the VPS deploy user     |
-| `GHCR_TOKEN`                  | GitHub PAT with `write:packages` scope              |
-| `API_KEY`                     | Internal API key shared with api-vaultfront service |
-| `CF_ACCOUNT_ID`               | Cloudflare account ID                               |
-| `CF_API_TOKEN`                | Cloudflare API token with Tunnel + DNS write scope  |
-| `TURNSTILE_SECRET_KEY`        | Cloudflare Turnstile secret for the domain          |
-| `OTEL_EXPORTER_OTLP_ENDPOINT` | Your observability endpoint (or leave blank)        |
-| `OTEL_AUTH_HEADER`            | Auth header for OTEL (or leave blank)               |
+| Secret                        | Value                                                   |
+| ----------------------------- | ------------------------------------------------------- |
+| `DEPLOY_SERVER_HOST`          | VPS public IPv4 from Step 1                             |
+| `DEPLOY_SSH_KEY`              | Private SSH key content for the VPS deploy user         |
+| `GHCR_TOKEN`                  | GitHub PAT with `write:packages` scope                  |
+| `API_KEY`                     | Internal API key shared with api-vaultfront service     |
+| `CF_ACCOUNT_ID`               | Cloudflare account ID                                   |
+| `CF_API_TOKEN`                | Cloudflare API token with Tunnel + DNS write scope      |
+| `TURNSTILE_SECRET_KEY`        | Cloudflare Turnstile secret for the domain              |
+| `OTEL_EXPORTER_OTLP_ENDPOINT` | Your observability endpoint (or leave blank)            |
+| `OTEL_AUTH_HEADER`            | Auth header for OTEL (or leave blank)                   |
+| `DATABASE_URL`                | Durable PostgreSQL connection used by migration/runtime |
+| `DEPLOY_KNOWN_HOSTS`          | Reviewed OpenSSH known_hosts line for the deploy host   |
 
 Add the following **Variables**:
 
@@ -191,25 +193,39 @@ A non-dry staging run:
 - validates `scripts/check-deploy-contract.mjs`
 - builds and pushes an immutable GitHub Container Registry image
 - deploys the digest to the staging host
-- verifies `/commit.txt` equals the workflow commit SHA
+- transactionally applies the idempotent database schema before traffic
+- verifies `/_health` and `/commit.txt` against the workflow commit SHA
+- uploads `staging-attestation-<run-id>` with hash-bound repository, run, origin, health, revision, and image evidence
 
-Record the immutable `sha256:...` image digest from the successful staging run.
+Record the successful staging workflow run ID. The image digest is derived from
+its retained attestation and is never re-entered by an operator.
 
 ### Promote the verified staging digest
 
 1. Go to GitHub Actions → **Promote verified digest**.
 2. Click **Run workflow**.
 3. Set:
-   - `image_digest`: the exact immutable digest deployed to staging
-   - `staging_evidence_digest`: the same digest recorded by staging verification
+   - `staging_run_id`: the successful **Deploy staging** run ID from this repository
+   - `operation`: `promotion`
    - `target_subdomain`: `play-vaultfront`
    - `dry_run`: `true`
-4. Run the promotion validation and require its digest equality check to pass.
-5. Only after all release gates and founder approval are recorded, rerun with `dry_run: false`.
+4. Run the dry-run contract validation. It downloads the named staging artifact,
+   verifies the GitHub run succeeded in this repository, verifies freshness and
+   every bound digest, exercises the production transport without connecting, and
+   retains `promotion-validation-<run-id>`.
+5. Record that successful dry-run run ID as `validation_run_id`.
+6. Only after all release gates and founder approval are recorded, rerun with
+   identical inputs, `validation_run_id`, and `dry_run: false`. The workflow rejects
+   a receipt from another repository, failed workflow, target, staging run, intent,
+   or attestation digest.
 
-Promotion pulls the already-verified image; it does not rebuild source.
+Promotion pulls the already-verified image; it does not rebuild source. After
+canonical health and revision verification, the workflow self-verifies and retains
+`promotion-outcome-<run-id>` for 90 days. That receipt chains the deployed image and
+staging attestation to the exact successful dry run and observed production bytes.
 
-Never invoke production deployment through **Deploy staging**, and never substitute a mutable image tag for the digest pair.
+Never invoke production deployment through **Deploy staging**, and never substitute
+a mutable image tag or caller-authored digest for a staging run attestation.
 
 ---
 
@@ -253,7 +269,7 @@ curl https://play-vaultfront.vaultsparkstudios.com/api/env
 
 Before promotion, verify:
 
-- the image digest and staging evidence digest are identical
+- the staging run is successful, same-repository, fresh, and its artifact digest verifies
 - staging health, parity, Zoho project-domain send/receive reply-as-alias, Obelisk, theme/web, and Alpha observations are fresh
 - `/commit.txt` matches the immutable image revision
 - `static/release-evidence.json` remains blocked until every external gate and founder approval is recorded
@@ -264,30 +280,43 @@ Before promotion, verify:
 
 Rollback is a promotion of a previously verified immutable digest, never a mutable tag.
 
-1. Identify the previous known-good `sha256:...` image digest.
-2. Confirm the retained staging evidence digest for that image is identical.
+1. Identify both the previous known-good successful staging workflow run ID (the
+   rollback target) and the staging workflow run ID for the currently deployed
+   revision (the revision being replaced).
+2. Confirm both retained attestations describe their intended images, revisions,
+   and staging origin.
 3. Go to GitHub Actions → **Promote verified digest**.
 4. Set:
-   - `image_digest`: the previous known-good digest
-   - `staging_evidence_digest`: the matching retained staging digest
+   - `staging_run_id`: the previous known-good staging run
+   - `operation`: `rollback`
+   - `replaced_staging_run_id`: the currently deployed revision's staging run
+   - `rollback_reason`: the incident or decision reference
    - `target_subdomain`: `play-vaultfront`
    - `dry_run`: `true`
-5. Run the validation-only promotion.
+5. Run the validation-only promotion and require its retained
+   `promotion-validation-<run-id>` artifact.
 6. Require digest validation and `scripts/check-deploy-contract.mjs` to pass.
-7. With the rollback decision approved, rerun the same inputs with `dry_run: false`.
-8. Verify `/_health`, `/commit.txt`, WebSocket connectivity, and the environment payload.
+7. With the rollback decision approved, rerun the exact same inputs with that run
+   ID as `validation_run_id` and `dry_run: false`.
+8. Verify `/_health`, `/commit.txt`, WebSocket connectivity, and the environment
+   payload, then retain `promotion-outcome-<run-id>`.
 
-A rollback must never bypass staging attestation by changing `DEPLOY_STAGING_ATTESTATION` or using `latest`, a branch name, a version tag, or a bare commit SHA.
+A rollback must never bypass the admitted staging-run artifact or use `latest`, a
+branch name, a version tag, a caller-entered digest, or a bare commit SHA.
 
 ### Rollback receipt
 
-Record:
+The workflow creates, independently verifies, and retains a hash-bound receipt
+instead of relying on an operator-authored note. It records:
 
 - candidate and restored image digests
-- matching staging evidence digest
+- admitted staging run ID and attestation digest
 - promotion workflow run URL
 - start/end timestamps
 - health and revision verification results
-- rollback reason and approving operator/founder decision
+- rollback reason and the exact successful dry-run decision lineage
+
+The receipt is invalid if any recorded field changes, if production reports a
+revision other than the admitted target, or if the health response is not ready.
 
 Rollback duration is measured from workflow start to verified revision, not estimated in advance.

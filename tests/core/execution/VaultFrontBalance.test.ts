@@ -55,6 +55,7 @@ describe("VaultFront balance authority", () => {
       jamBreakerCooldownTicks: 900,
       escortDurationTicks: 600,
       executionChainWindowTicks: 1_500,
+      executionChainRewardMultiplier: 1.2,
     });
     expect(
       projectVaultFrontMutatorBalance("accelerated_cooldowns"),
@@ -69,10 +70,10 @@ describe("VaultFront balance authority", () => {
       vaultPassiveIncomeIntervalTicks: 300,
       vaultPassiveGoldPerMinute: 150_000n,
     });
-    expect(
-      projectVaultFrontMutatorBalance("execution_rush")
-        .executionChainWindowTicks,
-    ).toBe(3_000);
+    expect(projectVaultFrontMutatorBalance("execution_rush")).toMatchObject({
+      executionChainWindowTicks: 3_000,
+      executionChainRewardMultiplier: 1.5,
+    });
   });
   test("pins a reproducible boundary scenario and multiplier clamp", () => {
     const result = planConvoyReward({

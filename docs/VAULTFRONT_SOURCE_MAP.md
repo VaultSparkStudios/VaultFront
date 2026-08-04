@@ -26,17 +26,25 @@ New files with no upstream equivalent. These are the core VaultFront additions.
 
 ### Client — runtime features
 
-| File                               | Purpose                                                                 |
-| ---------------------------------- | ----------------------------------------------------------------------- |
-| `src/client/sw.ts`                 | Service worker: PWA asset caching and offline shell                     |
-| `src/client/BrandTheme.ts`         | Theme tokens and persistence (dark / light / competitive)               |
-| `src/client/VaultFrontTutorial.ts` | First-run tutorial overlay: 5-step carousel for new players             |
-| `src/client/AchievementToast.ts`   | Fixed bottom-right toast component for achievement unlock notifications |
+| File                               | Purpose                                                                            |
+| ---------------------------------- | ---------------------------------------------------------------------------------- |
+| `src/client/sw.ts`                 | Service worker: PWA asset caching and offline shell                                |
+| `src/client/BrandTheme.ts`         | Theme tokens and persistence (dark / light / competitive)                          |
+| `src/client/VaultFrontTutorial.ts` | First-run two-step orientation projected from the canonical First Extraction quest |
+| `src/client/AchievementToast.ts`   | Fixed bottom-right toast component for achievement unlock notifications            |
 
 Every listed client feature must be reachable from the production
 `src/client/Main.ts` module graph. `scripts/check-client-reachability.mjs`
 enforces the invariant and prevents unwired scaffolds from masquerading as
 shipped product.
+
+### Shared release-gate authority
+
+| File                                  | Purpose                                                                                  |
+| ------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `src/shared/release-gates.json`       | Single data catalog for release-gate identifiers, labels, and semantic validator classes |
+| `src/shared/release-gate-catalog.mjs` | Packaged executable catalog loader, semantic evaluator, and evidence-digest authority    |
+| `src/shared/ReleaseGateCatalog.ts`    | Typed server projection of the same executable catalog authority                         |
 
 ### Server — features (scaffolded)
 
@@ -158,7 +166,6 @@ upstream changes, check these files for conflicts.
 | ------------------------------------ | ------------------------------------------------------------------------------- |
 | `src/server/ClanStore.ts`            | Clan persistence — create/join/leave/leaderboard, Postgres dual-path (C-20)     |
 | `src/server/TournamentStore.ts`      | Single-elimination bracket — Elo seeding, result reporting, auto-advance (C-22) |
-| `src/server/TutorialOrchestrator.ts` | Per-player 5-step tutorial state machine, game-event auto-advance (C-21)        |
 | `src/server/RematchStore.ts`         | Post-game rematch intents with 5-min TTL and nanoid share codes (C-6)           |
 | `src/server/ReplayHighlightStore.ts` | Sliding-window peak-turn scoring → shareable highlight clip metadata (C-19)     |
 

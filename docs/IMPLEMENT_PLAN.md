@@ -1,48 +1,46 @@
-# Implementation Plan — Session 91
+# Implementation Plan — Session 92
 
-Source of truth: `docs/AUDIT_2026-08-02.json`
+Source of truth: `docs/AUDIT_2026-08-03.json`
 
-## Wave A — Shrink the trusted surface
+## Wave A — Authority before consumers
 
-1. **[shipped] 123 · Dead runtime dependency closure** — re-proved zero consumers, removed three declarations and their lock closure, and passed production/supply-chain scans.
+1. **125 · Sibling capability-map authority** — layer the canonical Studio map beneath project overrides, fail loudly on corruption, prove honest real discovery, and return the producer pattern through Ark.
+2. **128 · Single release-gate catalog** — make runtime readiness and static release evidence consume one typed, mutation-sensitive authority.
 
-## Wave B — Release topology and evidence truth
+## Wave B — Runtime truth and player feedback
 
-2. **[shipped] 120 · Single ingress container authority** — host-level Traefik is sole authority; the image has no tunnel/DNS mutation, starts Supervisor directly, exposes health, and passes executable topology contracts.
-3. **[shipped] 124 · Complete launch evidence gates** — rollback and real-revenue observations are canonical, semantic-digest-bound, lineage-linked, and adversarially tested.
+3. **134 · Retire phantom tutorial authority** — remove unreachable server tutorial routes/state and forbid route claims without a mounted canonical consumer.
+4. **130 · Balance-bound execution-chain HUD** — project duration and reward from the active balance authority, add an accessible mirror, respect reduced motion, and capture real rendered evidence.
+5. **129 · Ordered bounded transport recovery** — preserve intent order through connection churn with explicit states, bounded buffering, deterministic backoff, and generation-safe lifecycle behavior.
 
-## Wave C — Certified post-match experience
+## Wave C — Release admission and immutable delivery
 
-4. **[shipped] 121 · Certified player feedback panel** — accessible independent ratings now await typed certified receipts with accepted, duplicate, retry, unavailable, stale-session, durability, and retention states.
-5. **[shipped] 122 · Contextual post-match continuation** — one evidence-derived continuation card is dominant, utilities are secondary, the Season Pass arc renders, and WinModal composition pressure is lower.
-
-## External honesty ledger
-
-- **119 · Protocol propagation semantic admission** — local downgrade restored and 21/21 focused tests green; signed Ark cargo `01JV2L8M0KA270B3C3F70EFB49` requests the producer-side semantic gate. Durable source repair is externally owned under CANON-018.
-- External staging, Zoho reply identity, native Obelisk, live-web/theme, three-human Alpha, revenue, rollback-drill, and founder observations remain NO-GO rather than inferred.
+6. **127 · Production durability admission** — require migrated PostgreSQL and expose persistence posture in non-development health.
+7. **126 · Provenance-bound staging promotion** — derive promotion identity from a successful same-repository staging run artifact rather than caller-equal strings.
+8. **132 · Immutable workflow and host trust** — pin delivery dependencies and replace trust-on-first-use with protected host evidence.
+9. **131 · Single-build CI artifact fan-out** — build once, hash once, and verify/project the same complete artifact.
+10. **133 · Release-identity telemetry lifecycle** — emit canonical VaultFront revision identity and drain telemetry within bounded shutdown.
 
 ## Expansion gate
 
-Completed: regenerated the innovation pack from 50/53 to 53/53 after shipping tamper-evident launch observations, a deployment-topology lineage fingerprint, and certified-feedback reachability/receipt transparency. Compound refinements added a standalone continuation card, a canonical 18-artifact post-match theme matrix, and 44px mobile controls with measured overflow protection.
+After all ten primary items are verified, regenerate the Unified Genius innovation pack, validate every new premise against the shipped code, and implement all accepted second-order candidates before closeout. Existing 53/53 exhaustion is a baseline, not a stopping condition.
 
-## Direct verification
+## Honesty and release boundary
 
-Run focused tests after each item. At the phase gate, run every command directly and preserve its exit code:
+- No external staging, live health, human playtest, Zoho reply identity, native Obelisk, revenue, rollback, or founder evidence may be inferred from local tests.
+- Public launch remains NO-GO until those external observations exist.
+- No sibling tree edits are allowed; producer fixes travel only through signed Studio Ark cargo.
+- No dependency upgrades are included merely because newer versions exist.
 
-```powershell
-npx tsc --noEmit
-npm run lint
-npm run format:check
-npm run verify:contracts
-npm test
-npm run balance:verify
-npm run build-prod
-npm run verify:pages
-npm run bundle:check
-npm audit --omit=dev
-npm run e2e
-node scripts/check-work-exhaustion.mjs --root . --json
-node scripts/ops.mjs doctor --update-json
-```
+## Direct phase verification
 
-Finish only when every primary and generated innovation item is shipped or honestly deferred with evidence, all applicable direct commands are green, and doctor reports `blockingFailing: 0`.
+Every focused and full command runs directly so its exit code is preserved. The phase completes only after all primary and generated innovation items are shipped or explicitly rejected/deferred with evidence, visual changes have hash-bound desktop/mobile/theme proof, the suite is green, and doctor reports `blockingFailing: 0`.
+
+## Completion — Session 92
+
+- Wave A: complete.
+- Wave B: complete with 36-artifact CANON-053 proof.
+- Wave C: complete.
+- Expansion: complete; cumulative innovation ledger advanced from 53/53 to 56/56.
+- Exhaustion: audit 10/10, innovations 56/56, pending unblocked 0.
+- Release posture: local implementation and verification green; public launch remains NO-GO on external observations.

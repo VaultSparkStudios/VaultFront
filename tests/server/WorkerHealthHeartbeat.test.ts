@@ -58,4 +58,44 @@ describe("worker health heartbeat", () => {
       reasons: ["game-loop-stale", "ipc-disconnected", "persistence-failed"],
     });
   });
+
+  it("blocks release health when durable persistence is disabled", () => {
+    expect(
+      buildWorkerHealthHeartbeat(
+        {
+          ...healthyInput,
+          persistenceRequired: true,
+          database: {
+            ...healthyInput.database,
+            configured: false,
+            state: "disabled",
+            fallbackAllowed: true,
+          },
+        },
+        10_000,
+      ),
+    ).toEqual({
+      observedAt: 10_000,
+      healthy: false,
+      reasons: ["persistence-disabled"],
+    });
+  });
+
+  it("preserves explicit process-local fallback in development", () => {
+    expect(
+      buildWorkerHealthHeartbeat(
+        {
+          ...healthyInput,
+          persistenceRequired: false,
+          database: {
+            ...healthyInput.database,
+            configured: false,
+            state: "disabled",
+            fallbackAllowed: true,
+          },
+        },
+        10_000,
+      ),
+    ).toEqual({ observedAt: 10_000, healthy: true, reasons: [] });
+  });
 });

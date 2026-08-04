@@ -4,6 +4,7 @@ import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
 import { checkHostedCronContract } from "../../scripts/check-hosted-cron-contract.mjs";
 import { spawnSync } from "../../scripts/lib/safe-spawn.mjs";
+import { PROCESS_INTEGRATION_TIMEOUT_MS } from "../helpers/processBudget";
 
 const fixtures: string[] = [];
 
@@ -81,40 +82,44 @@ describe("release surface contracts", () => {
     );
   });
 
-  it("accepts the built public surface and rejects missing files or stub drift", () => {
-    const root = validPagesFixture();
-    const script = path.join(
-      process.cwd(),
-      "scripts/check-pages-deploy-contract.mjs",
-    );
-    const valid = spawnSync(
-      process.execPath,
-      [script, "--artifact", "static"],
-      {
-        cwd: root,
-        encoding: "utf8",
-      },
-    );
-    expect(valid.status).toBe(0);
-    expect(valid.stdout).toContain("Pages artifact contract: 10/10");
-    expect(valid.stdout).toContain("service-worker 1/1");
+  it(
+    "accepts the built public surface and rejects missing files or stub drift",
+    () => {
+      const root = validPagesFixture();
+      const script = path.join(
+        process.cwd(),
+        "scripts/check-pages-deploy-contract.mjs",
+      );
+      const valid = spawnSync(
+        process.execPath,
+        [script, "--artifact", "static"],
+        {
+          cwd: root,
+          encoding: "utf8",
+        },
+      );
+      expect(valid.status).toBe(0);
+      expect(valid.stdout).toContain("Pages artifact contract: 10/10");
+      expect(valid.stdout).toContain("service-worker 1/1");
 
-    fs.rmSync(path.join(root, "static/404.html"));
-    fs.rmSync(path.join(root, "static/assets/sw-fixture123.js"));
-    const workflow = path.join(root, ".github/workflows/deploy-pages.yml");
-    fs.appendFileSync(workflow, "\npath: pages-stub\n");
-    const invalid = spawnSync(
-      process.execPath,
-      [script, "--artifact", "static"],
-      { cwd: root, encoding: "utf8" },
-    );
-    expect(invalid.status).toBe(1);
-    expect(invalid.stderr).toContain("404.html");
-    expect(invalid.stderr).toContain("workflow:pages-stub");
-    expect(invalid.stderr).toContain(
-      "service-worker:expected-one-compiled-asset-found-0",
-    );
-  });
+      fs.rmSync(path.join(root, "static/404.html"));
+      fs.rmSync(path.join(root, "static/assets/sw-fixture123.js"));
+      const workflow = path.join(root, ".github/workflows/deploy-pages.yml");
+      fs.appendFileSync(workflow, "\npath: pages-stub\n");
+      const invalid = spawnSync(
+        process.execPath,
+        [script, "--artifact", "static"],
+        { cwd: root, encoding: "utf8" },
+      );
+      expect(invalid.status).toBe(1);
+      expect(invalid.stderr).toContain("404.html");
+      expect(invalid.stderr).toContain("workflow:pages-stub");
+      expect(invalid.stderr).toContain(
+        "service-worker:expected-one-compiled-asset-found-0",
+      );
+    },
+    PROCESS_INTEGRATION_TIMEOUT_MS,
+  );
 
   it("forbids hosted workflow cron without treating Dependabot metadata as hosted cron", () => {
     const root = fixtureRoot();

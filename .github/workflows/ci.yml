@@ -17,30 +17,35 @@ jobs:
     timeout-minutes: 30
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           submodules: false
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 20
       - run: npm ci
       - run: npm run build-prod
-      - uses: actions/upload-artifact@v4
+      - name: Hash complete build artifact
+        run: node scripts/build-artifact-manifest.mjs --root static --output build-artifact-manifest.json --revision "$GITHUB_SHA"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          path: static/index.html
-          retention-days: 1
+          name: static-build-${{ github.sha }}
+          path: |
+            static/
+            build-artifact-manifest.json
+          retention-days: 7
   test:
     name: 🔬 Test
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           submodules: false
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 20
       - run: npm ci
@@ -49,7 +54,7 @@ jobs:
         run: npm run verify:contracts
       - name: Enforce checked-in coverage ratchet
         run: node scripts/check-coverage-ratchet.mjs
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:
           name: coverage-summary
@@ -61,8 +66,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: "20"
           cache: "npm"
@@ -74,8 +79,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: "20"
           cache: "npm"
@@ -87,8 +92,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: "20"
           cache: "npm"
@@ -101,13 +106,17 @@ jobs:
     timeout-minutes: 30
     needs: [build]
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: "20"
           cache: "npm"
-      - run: npm ci
-      - run: npm run build-prod
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: static-build-${{ github.sha }}
+          path: .
+      - name: Verify exact build artifact
+        run: node scripts/build-artifact-manifest.mjs --root static --output build-artifact-manifest.json --verify
       - name: Check bundle sizes
         run: npm run bundle:check
 
@@ -118,21 +127,30 @@ jobs:
     needs: [build, test, eslint, prettier, security-audit, bundle-size]
     steps:
       - name: Checkout verified revision
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: static-build-${{ github.sha }}
+          path: .
+      - name: Verify exact build artifact before projecting evidence
+        run: node scripts/build-artifact-manifest.mjs --root static --output build-artifact-manifest.json --verify
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: "20"
           cache: "npm"
-      - run: npm ci
       - name: Generate post-verification evidence
         env:
           VAULTFRONT_CI_VERIFICATION_COMPLETE: "true"
           VAULTFRONT_CI_VERIFICATION_NEEDS: "build,test,eslint,prettier,security-audit,bundle-size"
-        run: npm run build-prod
+        run: node scripts/generate-release-evidence.mjs
+      - name: Hash admitted release artifact
+        run: node scripts/build-artifact-manifest.mjs --root static --output release-artifact-manifest.json --revision "$GITHUB_SHA"
       - name: Upload exact-revision release evidence
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: release-evidence-${{ github.sha }}
-          path: static/release-evidence.json
+          path: |
+            static/release-evidence.json
+            release-artifact-manifest.json
           retention-days: 30

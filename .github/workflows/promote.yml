@@ -3,13 +3,32 @@ name: Promote verified digest
 on:
   workflow_dispatch:
     inputs:
-      image_digest:
-        description: "Immutable staging image digest (sha256:...)"
+      staging_run_id:
+        description: "Successful Deploy staging workflow run ID"
         required: true
         type: string
-      staging_evidence_digest:
-        description: "Digest recorded by staging verification; must match exactly"
+      operation:
+        description: "Promotion intent; rollback requires independently admitted replaced evidence"
         required: true
+        default: promotion
+        type: choice
+        options:
+          - promotion
+          - rollback
+      replaced_staging_run_id:
+        description: "Rollback only: staging run for the currently deployed revision"
+        required: false
+        default: ""
+        type: string
+      rollback_reason:
+        description: "Rollback only: durable incident/decision reason"
+        required: false
+        default: ""
+        type: string
+      validation_run_id:
+        description: "Live only: successful dry-run Promote workflow run ID with identical intent"
+        required: false
+        default: ""
         type: string
       target_subdomain:
         description: "Production subdomain"
@@ -24,6 +43,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 jobs:
   promote:
@@ -36,31 +56,127 @@ jobs:
       SUBDOMAIN: ${{ inputs.target_subdomain }}
       FQDN: ${{ inputs.target_subdomain == 'main' && vars.DOMAIN || format('{0}.{1}', inputs.target_subdomain, vars.DOMAIN) }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
-      - name: Validate immutable staging evidence
+      - name: Validate repository promotion contract
+        run: |
+          node scripts/check-deploy-contract.mjs
+          node scripts/check-release-input-trust.mjs
+
+      - name: Admit same-repository successful staging run
+        id: attestation
         env:
-          IMAGE_DIGEST: ${{ inputs.image_digest }}
-          STAGING_DIGEST: ${{ inputs.staging_evidence_digest }}
+          GH_TOKEN: ${{ github.token }}
+          STAGING_RUN_ID: ${{ inputs.staging_run_id }}
+          IS_DRY_RUN: ${{ inputs.dry_run }}
         run: |
           set -euo pipefail
-          [[ "$IMAGE_DIGEST" =~ ^sha256:[0-9a-f]{64}$ ]]
-          [[ "$IMAGE_DIGEST" == "$STAGING_DIGEST" ]]
-          node scripts/check-deploy-contract.mjs
+          [[ "$STAGING_RUN_ID" =~ ^[1-9][0-9]*$ ]]
+          if [[ "$IS_DRY_RUN" != "true" ]]; then
+            node scripts/check-release-input-trust.mjs --release
+          fi
+          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${STAGING_RUN_ID}" > staging-run.json
+          mkdir -p .staging-attestation
+          gh run download "$STAGING_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "staging-attestation-${STAGING_RUN_ID}" --dir .staging-attestation
+          node scripts/staging-attestation.mjs verify --attestation .staging-attestation/staging-attestation.json --run-metadata staging-run.json --repository "$GITHUB_REPOSITORY"
+
+      - name: Admit replaced revision evidence for rollback
+        id: replaced_attestation
+        if: ${{ inputs.operation == 'rollback' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPLACED_STAGING_RUN_ID: ${{ inputs.replaced_staging_run_id }}
+        run: |
+          set -euo pipefail
+          [[ "$REPLACED_STAGING_RUN_ID" =~ ^[1-9][0-9]*$ ]]
+          [[ "$REPLACED_STAGING_RUN_ID" != "${{ inputs.staging_run_id }}" ]]
+          test -n "${{ inputs.rollback_reason }}"
+          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${REPLACED_STAGING_RUN_ID}" > replaced-staging-run.json
+          mkdir -p .replaced-staging-attestation
+          gh run download "$REPLACED_STAGING_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "staging-attestation-${REPLACED_STAGING_RUN_ID}" --dir .replaced-staging-attestation
+          node scripts/staging-attestation.mjs verify --attestation .replaced-staging-attestation/staging-attestation.json --run-metadata replaced-staging-run.json --repository "$GITHUB_REPOSITORY"
 
       - name: Exercise dry-run promotion
         if: ${{ inputs.dry_run }}
         env:
           DEPLOY_DRY_RUN: "1"
           DEPLOY_HEALTH_URL: https://${{ env.FQDN }}/_health
-          DEPLOY_STAGING_ATTESTATION: ${{ inputs.staging_evidence_digest }}
+          DEPLOY_STAGING_ATTESTATION: ${{ steps.attestation.outputs.image_digest }}
           GHCR_REPO: ${{ vars.GHCR_REPO || 'vaultfront' }}
           GHCR_USERNAME: ${{ vars.GHCR_USERNAME || 'vaultsparkstudios' }}
-        run: ./deploy.sh prod primary "${{ inputs.image_digest }}" "$SUBDOMAIN"
+        run: ./deploy.sh prod primary "${{ steps.attestation.outputs.image_digest }}" "$SUBDOMAIN"
+
+      - name: Create dry-run validation receipt
+        if: ${{ inputs.dry_run }}
+        env:
+          OPERATION: ${{ inputs.operation }}
+          ROLLBACK_REASON: ${{ inputs.rollback_reason }}
+        run: |
+          set -euo pipefail
+          args=(
+            create-validation
+            --repository "$GITHUB_REPOSITORY"
+            --workflow-run-id "$GITHUB_RUN_ID"
+            --workflow-run-attempt "$GITHUB_RUN_ATTEMPT"
+            --operation "$OPERATION"
+            --target-subdomain "$SUBDOMAIN"
+            --staging-run-id "${{ inputs.staging_run_id }}"
+            --target-attestation .staging-attestation/staging-attestation.json
+            --output promotion-validation.json
+          )
+          if [[ "$OPERATION" == "rollback" ]]; then
+            args+=(
+              --replaced-staging-run-id "${{ inputs.replaced_staging_run_id }}"
+              --replaced-attestation .replaced-staging-attestation/staging-attestation.json
+              --rollback-reason "$ROLLBACK_REASON"
+            )
+          fi
+          node scripts/promotion-receipt.mjs "${args[@]}"
+
+      - name: Retain dry-run validation receipt
+        if: ${{ inputs.dry_run }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: promotion-validation-${{ github.run_id }}
+          path: promotion-validation.json
+          retention-days: 90
+
+      - name: Admit matching successful dry-run validation
+        if: ${{ !inputs.dry_run }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OPERATION: ${{ inputs.operation }}
+          ROLLBACK_REASON: ${{ inputs.rollback_reason }}
+          VALIDATION_RUN_ID: ${{ inputs.validation_run_id }}
+        run: |
+          set -euo pipefail
+          [[ "$VALIDATION_RUN_ID" =~ ^[1-9][0-9]*$ ]]
+          [[ "$VALIDATION_RUN_ID" != "$GITHUB_RUN_ID" ]]
+          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${VALIDATION_RUN_ID}" > validation-run.json
+          mkdir -p .promotion-validation
+          gh run download "$VALIDATION_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "promotion-validation-${VALIDATION_RUN_ID}" --dir .promotion-validation
+          args=(
+            verify-validation
+            --receipt .promotion-validation/promotion-validation.json
+            --run-metadata validation-run.json
+            --repository "$GITHUB_REPOSITORY"
+            --operation "$OPERATION"
+            --target-subdomain "$SUBDOMAIN"
+            --staging-run-id "${{ inputs.staging_run_id }}"
+            --target-attestation-digest "${{ steps.attestation.outputs.attestation_digest }}"
+          )
+          if [[ "$OPERATION" == "rollback" ]]; then
+            args+=(
+              --replaced-staging-run-id "${{ inputs.replaced_staging_run_id }}"
+              --replaced-attestation-digest "${{ steps.replaced_attestation.outputs.attestation_digest }}"
+              --rollback-reason "$ROLLBACK_REASON"
+            )
+          fi
+          node scripts/promotion-receipt.mjs "${args[@]}"
 
       - name: Log in to GitHub Container Registry
         if: ${{ !inputs.dry_run }}
-        uses: docker/login-action@v3
+        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3
         with:
           registry: ghcr.io
           username: ${{ vars.GHCR_USERNAME }}
@@ -69,7 +185,8 @@ jobs:
       - name: Resolve promoted image revision
         if: ${{ !inputs.dry_run }}
         env:
-          IMAGE_DIGEST: ${{ inputs.image_digest }}
+          IMAGE_DIGEST: ${{ steps.attestation.outputs.image_digest }}
+          ATTESTED_GIT_SHA: ${{ steps.attestation.outputs.git_sha }}
           GHCR_REPO: ${{ vars.GHCR_REPO }}
           GHCR_USERNAME: ${{ vars.GHCR_USERNAME }}
         run: |
@@ -78,6 +195,7 @@ jobs:
           docker pull "$IMAGE_REF"
           EXPECTED_GIT_SHA="$(docker image inspect --format '{{ index .Config.Labels "org.opencontainers.image.revision" }}' "$IMAGE_REF")"
           [[ "$EXPECTED_GIT_SHA" =~ ^[0-9a-f]{40}$ ]]
+          [[ "$EXPECTED_GIT_SHA" == "$ATTESTED_GIT_SHA" ]]
           echo "EXPECTED_GIT_SHA=$EXPECTED_GIT_SHA" >> "$GITHUB_ENV"
 
       - name: Create SSH private key
@@ -85,13 +203,14 @@ jobs:
         env:
           DEPLOY_SERVER_HOST: ${{ secrets.DEPLOY_SERVER_HOST }}
           DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
         run: |
           set -euo pipefail
           mkdir -p ~/.ssh
           printf '%s' "$DEPLOY_SSH_KEY" > ~/.ssh/id_rsa
           test -n "$DEPLOY_SERVER_HOST"
-          ssh-keyscan -H "$DEPLOY_SERVER_HOST" >> ~/.ssh/known_hosts
           chmod 600 ~/.ssh/id_rsa
+          node scripts/prepare-deploy-ssh.mjs ~/.ssh/known_hosts
 
       - name: Deploy promoted digest
         if: ${{ !inputs.dry_run }}
@@ -103,7 +222,8 @@ jobs:
           DEPLOY_HEALTH_URL: https://${{ env.FQDN }}/_health
           DEPLOY_REMOTE_USER: ${{ vars.DEPLOY_REMOTE_USER || 'vaultfront' }}
           DEPLOY_SERVER_HOST: ${{ secrets.DEPLOY_SERVER_HOST }}
-          DEPLOY_STAGING_ATTESTATION: ${{ inputs.staging_evidence_digest }}
+          DEPLOY_STAGING_ATTESTATION: ${{ steps.attestation.outputs.image_digest }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
           GHCR_REPO: ${{ vars.GHCR_REPO }}
           GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
           GHCR_USERNAME: ${{ vars.GHCR_USERNAME }}
@@ -111,18 +231,66 @@ jobs:
           OTEL_EXPORTER_OTLP_ENDPOINT: ${{ secrets.OTEL_EXPORTER_OTLP_ENDPOINT }}
           SSH_KEY: ~/.ssh/id_rsa
           TURNSTILE_SECRET_KEY: ${{ secrets.TURNSTILE_SECRET_KEY }}
-        run: ./deploy.sh prod primary "${{ inputs.image_digest }}" "$SUBDOMAIN"
+        run: |
+          echo "PROMOTION_STARTED_AT=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_ENV"
+          ./deploy.sh prod primary "${{ steps.attestation.outputs.image_digest }}" "$SUBDOMAIN"
 
       - name: Verify promoted revision
         if: ${{ !inputs.dry_run }}
         run: |
           set -euo pipefail
           for attempt in {1..30}; do
-            if [[ "$(curl -fsS --max-time 5 "https://${FQDN}/commit.txt" || true)" == "$EXPECTED_GIT_SHA" ]]; then
+            curl -fsS --max-time 5 "https://${FQDN}/_health" -o production-health.json || true
+            curl -fsS --max-time 5 "https://${FQDN}/commit.txt" -o production-revision.txt || true
+            if [[ "$(cat production-revision.txt 2>/dev/null || true)" == "$EXPECTED_GIT_SHA" ]] && [[ -s production-health.json ]]; then
               echo "Verified promoted revision ${EXPECTED_GIT_SHA}" >> "$GITHUB_STEP_SUMMARY"
-              exit 0
+              break
+            fi
+            if [[ "$attempt" == "30" ]]; then
+              echo "Promotion revision verification timed out" >&2
+              exit 1
             fi
             sleep 10
           done
-          echo "Promotion revision verification timed out" >&2
-          exit 1
+
+      - name: Create and self-verify retained outcome receipt
+        if: ${{ !inputs.dry_run }}
+        env:
+          OPERATION: ${{ inputs.operation }}
+          ROLLBACK_REASON: ${{ inputs.rollback_reason }}
+        run: |
+          set -euo pipefail
+          args=(
+            create-outcome
+            --validation-receipt .promotion-validation/promotion-validation.json
+            --validation-run-metadata validation-run.json
+            --repository "$GITHUB_REPOSITORY"
+            --workflow-run-id "$GITHUB_RUN_ID"
+            --workflow-run-attempt "$GITHUB_RUN_ATTEMPT"
+            --operation "$OPERATION"
+            --target-subdomain "$SUBDOMAIN"
+            --staging-run-id "${{ inputs.staging_run_id }}"
+            --target-attestation-digest "${{ steps.attestation.outputs.attestation_digest }}"
+            --production-origin "https://${FQDN}"
+            --health-response production-health.json
+            --revision-response production-revision.txt
+            --started-at "$PROMOTION_STARTED_AT"
+            --output promotion-outcome.json
+          )
+          if [[ "$OPERATION" == "rollback" ]]; then
+            args+=(
+              --replaced-staging-run-id "${{ inputs.replaced_staging_run_id }}"
+              --replaced-attestation-digest "${{ steps.replaced_attestation.outputs.attestation_digest }}"
+              --rollback-reason "$ROLLBACK_REASON"
+            )
+          fi
+          node scripts/promotion-receipt.mjs "${args[@]}"
+          node scripts/promotion-receipt.mjs verify-outcome --receipt promotion-outcome.json
+
+      - name: Retain promotion or rollback outcome receipt
+        if: ${{ !inputs.dry_run }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: promotion-outcome-${{ github.run_id }}
+          path: promotion-outcome.json
+          retention-days: 90

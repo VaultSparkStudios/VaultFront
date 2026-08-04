@@ -27,3 +27,6 @@ if [[ ! "$IMAGE_DIGEST" =~ ^sha256:[0-9a-f]{64}$ ]]; then
 fi
 
 ./deploy.sh "$ENVIRONMENT" "$HOST_LABEL" "$IMAGE_DIGEST" "$SUBDOMAIN"
+if [[ -n "${GITHUB_OUTPUT:-}" ]]; then
+    printf 'image_digest=%s\n' "$IMAGE_DIGEST" >> "$GITHUB_OUTPUT"
+fi

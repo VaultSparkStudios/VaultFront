@@ -38,6 +38,7 @@ export const WorkerHealthReasonSchema = z.enum([
   "ipc-stale",
   "persistence-connecting",
   "persistence-failed",
+  "persistence-disabled",
 ]);
 
 const WorkerHealthHeartbeatSchema = z
@@ -46,7 +47,7 @@ const WorkerHealthHeartbeatSchema = z
     workerId: z.number().int().nonnegative(),
     observedAt: z.number().int().nonnegative(),
     healthy: z.boolean(),
-    reasons: z.array(WorkerHealthReasonSchema).max(5),
+    reasons: z.array(WorkerHealthReasonSchema).max(6),
   })
   .refine((value) => value.healthy === (value.reasons.length === 0), {
     message: "healthy must agree with reasons",

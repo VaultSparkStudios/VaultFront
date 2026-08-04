@@ -22,6 +22,88 @@ interface ActiveVaultFrontPing extends VaultFrontActivityUpdate {
   expiresAtTick: number;
 }
 
+export interface ExecutionChainHudProjection {
+  step: 1 | 2;
+  remainingTicks: number;
+  durationTicks: number;
+  progressRatio: number;
+  rewardMultiplier: number;
+  nextAction: string;
+  accessibleText: string;
+}
+
+export function projectExecutionChainHud(
+  status: VaultFrontStatusUpdate,
+  playerID: number,
+  currentTick: number,
+): ExecutionChainHudProjection | null {
+  const chain = status.executionChains[playerID];
+  if (!chain || chain.step === 0) return null;
+  const remainingTicks = chain.expiresAtTick - currentTick;
+  if (remainingTicks <= 0) return null;
+
+  const durationTicks = Math.max(1, status.executionChainWindowTicks);
+  const progressRatio = Math.max(
+    0,
+    Math.min(1, remainingTicks / durationTicks),
+  );
+  const nextAction =
+    chain.step === 1
+      ? "Deliver the captured Vault Convoy"
+      : "Deny an enemy pulse with Jam Breaker";
+  const secondsRemaining = Math.ceil(remainingTicks / 10);
+  const reward = formatExecutionChainMultiplier(
+    status.executionChainRewardMultiplier,
+  );
+  return {
+    step: chain.step,
+    remainingTicks,
+    durationTicks,
+    progressRatio,
+    rewardMultiplier: status.executionChainRewardMultiplier,
+    nextAction,
+    accessibleText:
+      `Clean execution chain: ${chain.step} of 3 actions complete. ` +
+      `Next: ${nextAction}. ${secondsRemaining} seconds remaining. ` +
+      `Next convoy reward ×${reward}.`,
+  };
+}
+
+export function surgeOverlayPulse(
+  currentTick: number,
+  reducedMotion: boolean,
+): number {
+  return reducedMotion
+    ? 0.45
+    : 0.45 + 0.25 * Math.sin((currentTick / 4) * Math.PI);
+}
+
+export function hudTransitionAlpha(
+  elapsedTicks: number,
+  durationTicks: number,
+  reducedMotion: boolean,
+): number {
+  return reducedMotion
+    ? 1
+    : Math.max(0, 1 - elapsedTicks / Math.max(1, durationTicks));
+}
+
+export function executionCompletionPalette(theme: string | null | undefined) {
+  return theme === "light"
+    ? {
+        foreground: "#065f46",
+        shadow: "rgba(5, 150, 105, 0.35)",
+      }
+    : {
+        foreground: "#6ee7b7",
+        shadow: "rgba(52, 211, 153, 0.9)",
+      };
+}
+
+function formatExecutionChainMultiplier(multiplier: number): string {
+  return multiplier.toFixed(2).replace(/0+$/, "").replace(/\.$/, "");
+}
+
 export class VaultFrontLayer implements Layer {
   private status: VaultFrontStatusUpdate | null = null;
   private activePings: ActiveVaultFrontPing[] = [];
@@ -81,6 +163,8 @@ export class VaultFrontLayer implements Layer {
     shownAtTick: number;
   } | null = null;
   private readonly INTEL_TOOLTIP_TICKS = 120; // 12s
+  private accessibleChainStatus: HTMLElement | null = null;
+  private accessibleChainStatusKey = "";
 
   constructor(
     private game: GameView,
@@ -95,9 +179,30 @@ export class VaultFrontLayer implements Layer {
     return false;
   }
 
+  init(): void {
+    const selector = "[data-vaultfront-execution-chain-status]";
+    const existing = document.querySelector<HTMLElement>(selector);
+    this.accessibleChainStatus = existing ?? document.createElement("div");
+    this.accessibleChainStatusKey = "__initial__";
+    if (!existing) {
+      this.accessibleChainStatus.dataset.vaultfrontExecutionChainStatus = "";
+      this.accessibleChainStatus.setAttribute("role", "status");
+      this.accessibleChainStatus.setAttribute("aria-live", "polite");
+      this.accessibleChainStatus.setAttribute("aria-atomic", "true");
+      this.accessibleChainStatus.style.cssText =
+        "position:fixed;width:1px;height:1px;padding:0;margin:-1px;" +
+        "overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0";
+      document.body.appendChild(this.accessibleChainStatus);
+    }
+  }
+
   tick(): void {
     const updates = this.game.updatesSinceLastTick();
-    if (!updates) return;
+    const now = this.game.ticks();
+    if (!updates) {
+      this.updateAccessibleChainStatus(now);
+      return;
+    }
 
     const statusUpdates = updates[
       GameUpdateType.VaultFrontStatus
@@ -109,7 +214,6 @@ export class VaultFrontLayer implements Layer {
     const activityUpdates = updates[
       GameUpdateType.VaultFrontActivity
     ] as VaultFrontActivityUpdate[];
-    const now = this.game.ticks();
     for (const ping of activityUpdates) {
       this.activePings.push({
         ...ping,
@@ -219,6 +323,22 @@ export class VaultFrontLayer implements Layer {
     if (now === this.VOTE_BANNER_START_TICK && this.voteBannerShownAtTick < 0) {
       void this.fetchVoteStandings(now);
     }
+    this.updateAccessibleChainStatus(now);
+  }
+
+  private updateAccessibleChainStatus(currentTick: number): void {
+    if (!this.accessibleChainStatus) return;
+    const player = this.game.myPlayer();
+    const projection =
+      this.status && player
+        ? projectExecutionChainHud(this.status, player.smallID(), currentTick)
+        : null;
+    const key = projection
+      ? `${projection.step}:${Math.ceil(projection.remainingTicks / 50)}:${projection.rewardMultiplier}`
+      : "";
+    if (key === this.accessibleChainStatusKey) return;
+    this.accessibleChainStatusKey = key;
+    this.accessibleChainStatus.textContent = projection?.accessibleText ?? "";
   }
 
   private async fetchVoteStandings(atTick: number): Promise<void> {
@@ -1017,12 +1137,15 @@ export class VaultFrontLayer implements Layer {
     if (!this.status) return;
     const myPlayer = this.game.myPlayer();
     if (!myPlayer) return;
-    const chainState = this.status.executionChains[myPlayer.smallID()];
-    if (!chainState || chainState.step === 0) return;
-
     const now = this.game.ticks();
-    const remaining = chainState.expiresAtTick - now;
-    if (remaining <= 0) return;
+    this.drawExecutionChainOutcomeBanner(ctx, now);
+    const projection = projectExecutionChainHud(
+      this.status,
+      myPlayer.smallID(),
+      now,
+    );
+    if (!projection) return;
+    const chainState = this.status.executionChains[myPlayer.smallID()];
 
     const w = ctx.canvas.width;
     const h = ctx.canvas.height;
@@ -1092,8 +1215,6 @@ export class VaultFrontLayer implements Layer {
     }
 
     // Timer arc around the pill
-    const windowTicks = 1500; // cleanExecutionChainWindowTicks from GAMEPLAY_DESIGN.md
-    const timerRatio = Math.max(0, Math.min(1, remaining / windowTicks));
     const timerX = baseX + nodeSpacing;
     ctx.strokeStyle = "rgba(52, 211, 153, 0.5)";
     ctx.lineWidth = 1.5;
@@ -1103,41 +1224,63 @@ export class VaultFrontLayer implements Layer {
       baseY - 22,
       6,
       -Math.PI / 2,
-      -Math.PI / 2 + Math.PI * 2 * timerRatio,
+      -Math.PI / 2 + Math.PI * 2 * projection.progressRatio,
     );
     ctx.stroke();
 
-    // Combo completion / break banner
-    const now2 = this.game.ticks();
-    const bw = ctx.canvas.width;
-    const bh = ctx.canvas.height;
+    ctx.restore();
+  }
+
+  private drawExecutionChainOutcomeBanner(
+    ctx: CanvasRenderingContext2D,
+    currentTick: number,
+  ): void {
+    if (!this.status) return;
     const completedElapsed =
-      this.chainCompletedAtTick >= 0 ? now2 - this.chainCompletedAtTick : -1;
-    const brokElapsed =
-      this.chainBrokAtTick >= 0 ? now2 - this.chainBrokAtTick : -1;
+      this.chainCompletedAtTick >= 0
+        ? currentTick - this.chainCompletedAtTick
+        : -1;
+    const brokenElapsed =
+      this.chainBrokAtTick >= 0 ? currentTick - this.chainBrokAtTick : -1;
+    const w = ctx.canvas.width;
+    const h = ctx.canvas.height;
 
     if (completedElapsed >= 0 && completedElapsed < this.comboBannerTicks) {
-      const fade = Math.max(0, 1 - completedElapsed / this.comboBannerTicks);
+      const fade = hudTransitionAlpha(
+        completedElapsed,
+        this.comboBannerTicks,
+        this.prefersReducedMotion(),
+      );
+      const multiplier = formatExecutionChainMultiplier(
+        this.status.executionChainRewardMultiplier,
+      );
+      const palette = executionCompletionPalette(
+        typeof document === "undefined"
+          ? null
+          : document.documentElement.getAttribute("data-vaultfront-theme"),
+      );
       ctx.save();
-      ctx.shadowColor = `rgba(52, 211, 153, ${fade * 0.9})`;
+      ctx.globalAlpha = fade;
+      ctx.shadowColor = palette.shadow;
       ctx.shadowBlur = 18;
-      ctx.fillStyle = `rgba(110, 231, 183, ${fade})`;
-      ctx.font = `bold ${Math.round(bh * 0.03)}px Overpass, sans-serif`;
+      ctx.fillStyle = palette.foreground;
+      ctx.font = `bold ${Math.round(h * 0.03)}px Overpass, sans-serif`;
       ctx.textAlign = "center";
-      ctx.fillText("CLEAN EXECUTION ×1.2", bw / 2, bh * 0.28);
-      ctx.shadowBlur = 0;
+      ctx.fillText(`CLEAN EXECUTION ×${multiplier}`, w / 2, h * 0.28);
       ctx.restore();
-    } else if (brokElapsed >= 0 && brokElapsed < 20) {
-      const fade = Math.max(0, 1 - brokElapsed / 20);
+    } else if (brokenElapsed >= 0 && brokenElapsed < 20) {
+      const fade = hudTransitionAlpha(
+        brokenElapsed,
+        20,
+        this.prefersReducedMotion(),
+      );
       ctx.save();
       ctx.fillStyle = `rgba(148, 163, 184, ${fade * 0.7})`;
-      ctx.font = `${Math.round(bh * 0.022)}px Overpass, sans-serif`;
+      ctx.font = `${Math.round(h * 0.022)}px Overpass, sans-serif`;
       ctx.textAlign = "center";
-      ctx.fillText("chain broken", bw / 2, bh * 0.28);
+      ctx.fillText("chain broken", w / 2, h * 0.28);
       ctx.restore();
     }
-
-    ctx.restore();
   }
 
   /**
@@ -1162,7 +1305,9 @@ export class VaultFrontLayer implements Layer {
     const bh2 = Math.round(40 * sc);
     const x = 16;
     const y = h - bh2 - 24;
-    const pulse = 0.7 + 0.3 * Math.sin((now / 5) * Math.PI);
+    const pulse = this.prefersReducedMotion()
+      ? 0.7
+      : 0.7 + 0.3 * Math.sin((now / 5) * Math.PI);
     const secsLeft = Math.ceil(remaining / 10);
 
     ctx.save();
@@ -1852,7 +1997,7 @@ export class VaultFrontLayer implements Layer {
   private drawSurgeOverlays(ctx: CanvasRenderingContext2D): void {
     if (!this.status) return;
     const now = this.game.ticks();
-    const pulse = 0.45 + 0.25 * Math.sin((now / 4) * Math.PI);
+    const pulse = surgeOverlayPulse(now, this.prefersReducedMotion());
     const radius = Math.max(60, this.transform.scale * 28);
 
     for (const [smallIDStr, surgeState] of Object.entries(this.status.surges)) {

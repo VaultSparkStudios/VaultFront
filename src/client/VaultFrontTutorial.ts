@@ -3,7 +3,7 @@
  *
  * Architecture:
  * - Shows once per browser (localStorage key "vf-tutorial-seen")
- * - 5-step carousel explaining VaultFront's core mechanics
+ * - Two-step orientation projected from the canonical First Extraction quest
  * - Non-blocking: player can dismiss at any time
  * - No forced path — just contextual highlights with skip option
  *

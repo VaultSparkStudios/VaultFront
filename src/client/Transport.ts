@@ -202,15 +202,71 @@ export class SendVaultRolePingIntentEvent implements GameEvent {
   ) {}
 }
 
+export type TransportConnectionState =
+  "idle" | "connecting" | "synchronizing" | "open" | "waiting" | "closed";
+
+export class TransportConnectionStateEvent implements GameEvent {
+  constructor(
+    public readonly state: TransportConnectionState,
+    public readonly reconnectAttempt: number,
+    public readonly outboxDepth: number,
+    public readonly retryInMs: number | null = null,
+    public readonly reason: string | null = null,
+  ) {}
+}
+
+export class TransportOutboxOverflowEvent implements GameEvent {
+  constructor(
+    public readonly capacity: number,
+    public readonly outboxDepth: number,
+    public readonly rejectedMessageType: ClientMessage["type"],
+  ) {}
+}
+
+export interface TransportRecoveryOptions {
+  maxOutboxMessages?: number;
+  reconnectBaseDelayMs?: number;
+  reconnectMaxDelayMs?: number;
+  createWebSocket?: (url: string) => WebSocket;
+  scheduleTimeout?: (callback: () => void, delayMs: number) => number;
+  cancelTimeout?: (timer: number) => void;
+  jitterDelay?: (delayMs: number, reconnectAttempt: number) => number;
+}
+
+interface OutboxEntry {
+  payload: string;
+  messageType: ClientMessage["type"];
+}
+
 export class Transport {
   private socket: WebSocket | null = null;
 
   private localServer: LocalServer;
 
-  private buffer: string[] = [];
+  private readonly outbox: OutboxEntry[] = [];
 
-  private onconnect: () => void;
+  private onconnect: () => void | Promise<void>;
   private onmessage: (msg: ServerMessage) => void;
+
+  private connectionState: TransportConnectionState = "idle";
+  private reconnectAttempt = 0;
+  private reconnectTimer: number | null = null;
+  private connectionGeneration = 0;
+  private intentionalShutdown = false;
+
+  private readonly maxOutboxMessages: number;
+  private readonly reconnectBaseDelayMs: number;
+  private readonly reconnectMaxDelayMs: number;
+  private readonly createWebSocket: (url: string) => WebSocket;
+  private readonly scheduleTimeout: (
+    callback: () => void,
+    delayMs: number,
+  ) => number;
+  private readonly cancelTimeout: (timer: number) => void;
+  private readonly jitterDelay: (
+    delayMs: number,
+    reconnectAttempt: number,
+  ) => number;
 
   private pingInterval: number | null = null;
   public readonly isLocal: boolean;
@@ -218,7 +274,21 @@ export class Transport {
   constructor(
     private lobbyConfig: LobbyConfig,
     private eventBus: EventBus,
+    recovery: TransportRecoveryOptions = {},
   ) {
+    this.maxOutboxMessages = recovery.maxOutboxMessages ?? 256;
+    this.reconnectBaseDelayMs = recovery.reconnectBaseDelayMs ?? 250;
+    this.reconnectMaxDelayMs = recovery.reconnectMaxDelayMs ?? 8000;
+    this.createWebSocket =
+      recovery.createWebSocket ?? ((url) => new WebSocket(url));
+    this.scheduleTimeout =
+      recovery.scheduleTimeout ??
+      ((callback, delayMs) => window.setTimeout(callback, delayMs));
+    this.cancelTimeout =
+      recovery.cancelTimeout ?? ((timer) => window.clearTimeout(timer));
+    this.jitterDelay =
+      recovery.jitterDelay ??
+      ((delayMs) => Math.round(delayMs * (0.8 + Math.random() * 0.4)));
     // If gameRecord is not null, we are replaying an archived game.
     // For multiplayer games, GameConfig is not known until game starts.
     this.isLocal =
@@ -310,9 +380,15 @@ export class Transport {
     if (this.isLocal) return;
     this.pingInterval ??= window.setInterval(() => {
       if (this.socket !== null && this.socket.readyState === WebSocket.OPEN) {
-        this.sendMsg({
-          type: "ping",
-        } satisfies ClientPingMessage);
+        this.sendMsg(
+          {
+            type: "ping",
+          } satisfies ClientPingMessage,
+          {
+            allowDuringSynchronization: true,
+            buffer: false,
+          },
+        );
       }
     }, 5 * 1000);
   }
@@ -325,7 +401,7 @@ export class Transport {
   }
 
   public connect(
-    onconnect: () => void,
+    onconnect: () => void | Promise<void>,
     onmessage: (message: ServerMessage) => void,
   ) {
     if (this.isLocal) {
@@ -336,7 +412,7 @@ export class Transport {
   }
 
   public updateCallback(
-    onconnect: () => void,
+    onconnect: () => void | Promise<void>,
     onmessage: (message: ServerMessage) => void,
   ) {
     if (this.isLocal) {
@@ -348,7 +424,7 @@ export class Transport {
   }
 
   private connectLocal(
-    onconnect: () => void,
+    onconnect: () => void | Promise<void>,
     onmessage: (message: ServerMessage) => void,
   ) {
     this.localServer = new LocalServer(
@@ -361,35 +437,43 @@ export class Transport {
   }
 
   private connectRemote(
-    onconnect: () => void,
+    onconnect: () => void | Promise<void>,
     onmessage: (message: ServerMessage) => void,
   ) {
+    this.intentionalShutdown = false;
+    this.clearReconnectTimer();
     this.startPing();
     this.killExistingSocket();
     const workerPath = this.lobbyConfig.serverConfig.workerPath(
       this.lobbyConfig.gameID,
     );
-    this.socket = new WebSocket(workerSocketUrl(workerPath));
+    const generation = ++this.connectionGeneration;
+    const socket = this.createWebSocket(workerSocketUrl(workerPath));
+    this.socket = socket;
     this.onconnect = onconnect;
     this.onmessage = onmessage;
-    this.socket.onopen = () => {
+    this.publishConnectionState("connecting");
+    socket.onopen = async () => {
+      if (!this.isCurrentSocket(socket, generation)) return;
       console.log("Connected to game server!");
-      if (this.socket === null) {
-        console.error("socket is null");
+      this.publishConnectionState("synchronizing");
+      try {
+        await onconnect();
+      } catch (error) {
+        console.error("Transport synchronization failed:", error);
+        if (this.isCurrentSocket(socket, generation)) {
+          this.scheduleReconnect("synchronization-failed");
+          socket.close();
+        }
         return;
       }
-      while (this.buffer.length > 0) {
-        console.log("sending dropped message");
-        const msg = this.buffer.pop();
-        if (msg === undefined) {
-          console.warn("msg is undefined");
-          continue;
-        }
-        this.socket.send(msg);
-      }
-      onconnect();
+      if (!this.isCurrentSocket(socket, generation)) return;
+      this.reconnectAttempt = 0;
+      this.publishConnectionState("open");
+      this.flushOutbox(socket);
     };
-    this.socket.onmessage = (event: MessageEvent) => {
+    socket.onmessage = (event: MessageEvent) => {
+      if (!this.isCurrentSocket(socket, generation)) return;
       try {
         const parsed = JSON.parse(event.data);
         const result = ServerMessageSchema.safeParse(parsed);
@@ -404,27 +488,48 @@ export class Transport {
         return;
       }
     };
-    this.socket.onerror = (err) => {
+    socket.onerror = (err) => {
+      if (!this.isCurrentSocket(socket, generation)) return;
       console.error("Socket encountered error: ", err, "Closing socket");
-      if (this.socket === null) return;
-      this.socket.close();
+      this.scheduleReconnect("socket-error");
+      socket.close();
     };
-    this.socket.onclose = (event: CloseEvent) => {
+    socket.onclose = (event: CloseEvent) => {
+      if (!this.isCurrentSocket(socket, generation)) return;
+      this.socket = null;
       console.log(
         `WebSocket closed. Code: ${event.code}, Reason: ${event.reason}`,
       );
+      if (this.intentionalShutdown) {
+        this.publishConnectionState("closed", null, "intentional-shutdown");
+        return;
+      }
       if (event.code === 1002) {
+        this.clearReconnectTimer();
+        this.publishConnectionState("closed", null, event.reason);
         // TODO: make this a modal
         alert(`connection refused: ${event.reason}`);
       } else if (event.code !== 1000) {
-        console.log(`received error code ${event.code}, reconnecting`);
-        this.reconnect();
+        console.log(`received error code ${event.code}, scheduling reconnect`);
+        this.scheduleReconnect(`socket-close-${event.code}`);
+      } else if (this.reconnectTimer === null) {
+        this.publishConnectionState("closed", null, event.reason || null);
       }
     };
   }
 
   public reconnect() {
-    this.connect(this.onconnect, this.onmessage);
+    if (this.isLocal || this.intentionalShutdown) return;
+    this.clearReconnectTimer();
+    this.connectRemote(this.onconnect, this.onmessage);
+  }
+
+  public connectionSnapshot() {
+    return {
+      state: this.connectionState,
+      reconnectAttempt: this.reconnectAttempt,
+      outboxDepth: this.outbox.length,
+    } as const;
   }
 
   public turnComplete() {
@@ -434,25 +539,36 @@ export class Transport {
   }
 
   async joinGame() {
-    this.sendMsg({
-      type: "join",
-      gameID: this.lobbyConfig.gameID,
-      // Note: clientID is not sent - server assigns it based on persistentID
-      username: this.lobbyConfig.playerName,
-      cosmetics: this.lobbyConfig.cosmetics,
-      turnstileToken: this.lobbyConfig.turnstileToken,
-      token: await getPlayToken(),
-    } satisfies ClientJoinMessage);
+    const accepted = this.sendMsg(
+      {
+        type: "join",
+        gameID: this.lobbyConfig.gameID,
+        // Note: clientID is not sent - server assigns it based on persistentID
+        username: this.lobbyConfig.playerName,
+        cosmetics: this.lobbyConfig.cosmetics,
+        turnstileToken: this.lobbyConfig.turnstileToken,
+        token: await getPlayToken(),
+      } satisfies ClientJoinMessage,
+      { allowDuringSynchronization: true, buffer: false },
+    );
+    if (!accepted)
+      throw new Error("join message was not accepted by transport");
   }
 
   async rejoinGame(lastTurn: number) {
-    this.sendMsg({
-      type: "rejoin",
-      gameID: this.lobbyConfig.gameID,
-      // Note: clientID is not sent - server looks it up from persistentID in token
-      lastTurn: lastTurn,
-      token: await getPlayToken(),
-    } satisfies ClientRejoinMessage);
+    const accepted = this.sendMsg(
+      {
+        type: "rejoin",
+        gameID: this.lobbyConfig.gameID,
+        // Note: clientID is not sent - server looks it up from persistentID in token
+        lastTurn: lastTurn,
+        token: await getPlayToken(),
+      } satisfies ClientRejoinMessage,
+      { allowDuringSynchronization: true, buffer: false },
+    );
+    if (!accepted) {
+      throw new Error("rejoin message was not accepted by transport");
+    }
   }
 
   leaveGame() {
@@ -460,19 +576,13 @@ export class Transport {
       this.localServer.endGame();
       return;
     }
+    this.intentionalShutdown = true;
+    this.connectionGeneration += 1;
+    this.clearReconnectTimer();
     this.stopPing();
-    if (this.socket === null) return;
-    if (this.socket.readyState === WebSocket.OPEN) {
-      console.log("on stop: leaving game");
-      this.killExistingSocket();
-    } else {
-      console.log(
-        "WebSocket is not open. Current state:",
-        this.socket.readyState,
-      );
-      console.error("attempting reconnect");
-      this.killExistingSocket();
-    }
+    this.outbox.length = 0;
+    this.killExistingSocket();
+    this.publishConnectionState("closed", null, "intentional-shutdown");
   }
 
   private onSendAllianceRequest(event: SendAllianceRequestIntentEvent) {
@@ -716,42 +826,155 @@ export class Transport {
   }
 
   private sendIntent(intent: Intent) {
-    if (this.isLocal || this.socket?.readyState === WebSocket.OPEN) {
-      const msg = {
-        type: "intent",
-        intent: intent,
-      } satisfies ClientIntentMessage;
-      this.sendMsg(msg);
-    } else {
-      console.log(
-        "WebSocket is not open. Current state:",
-        this.socket?.readyState,
-      );
-      console.log("attempting reconnect");
-    }
+    this.sendMsg({
+      type: "intent",
+      intent: intent,
+    } satisfies ClientIntentMessage);
   }
 
-  private sendMsg(msg: ClientMessage) {
+  private sendMsg(
+    msg: ClientMessage,
+    options: { allowDuringSynchronization?: boolean; buffer?: boolean } = {},
+  ): boolean {
     if (this.isLocal) {
       // Forward message to local server
       this.localServer.onMessage(msg);
-      return;
-    } else if (this.socket === null) {
-      // Socket missing, do nothing
-      return;
+      return true;
     }
     const str = JSON.stringify(msg, replacer);
-    if (this.socket.readyState === WebSocket.CLOSED) {
-      // Buffer message
-      console.warn("socket not ready, closing and trying later");
-      this.socket.close();
-      this.socket = null;
-      this.connectRemote(this.onconnect, this.onmessage);
-      this.buffer.push(str);
-    } else {
-      // Send the message directly
-      this.socket.send(str);
+    const canSend =
+      this.socket?.readyState === WebSocket.OPEN &&
+      (this.connectionState !== "synchronizing" ||
+        options.allowDuringSynchronization === true);
+    let sendFailed = false;
+    if (canSend) {
+      try {
+        this.socket?.send(str);
+        return true;
+      } catch (error) {
+        console.warn(
+          "Socket send failed; retaining message for recovery:",
+          error,
+        );
+        sendFailed = true;
+      }
     }
+    if (options.buffer === false || this.intentionalShutdown) {
+      if (sendFailed) {
+        this.scheduleReconnect("control-message-send-failed");
+        this.socket?.close();
+      }
+      return false;
+    }
+    const accepted = this.enqueueMessage(str, msg.type);
+    if (
+      sendFailed ||
+      this.socket === null ||
+      this.socket.readyState === WebSocket.CLOSED ||
+      this.socket.readyState === WebSocket.CLOSING
+    ) {
+      this.scheduleReconnect("outbox-awaiting-connection");
+      if (sendFailed) this.socket?.close();
+    }
+    return accepted;
+  }
+
+  private enqueueMessage(
+    payload: string,
+    messageType: ClientMessage["type"],
+  ): boolean {
+    if (this.outbox.length >= this.maxOutboxMessages) {
+      this.eventBus.emit(
+        new TransportOutboxOverflowEvent(
+          this.maxOutboxMessages,
+          this.outbox.length,
+          messageType,
+        ),
+      );
+      return false;
+    }
+    this.outbox.push({ payload, messageType });
+    this.publishConnectionState(this.connectionState);
+    return true;
+  }
+
+  private flushOutbox(socket: WebSocket): void {
+    while (
+      this.socket === socket &&
+      socket.readyState === WebSocket.OPEN &&
+      this.outbox.length > 0
+    ) {
+      const next = this.outbox[0];
+      try {
+        socket.send(next.payload);
+        this.outbox.shift();
+      } catch (error) {
+        console.warn("Outbox flush paused after send failure:", error);
+        this.scheduleReconnect("outbox-flush-failed");
+        socket.close();
+        break;
+      }
+    }
+    this.publishConnectionState(this.connectionState);
+  }
+
+  private scheduleReconnect(reason: string): void {
+    if (
+      this.isLocal ||
+      this.intentionalShutdown ||
+      this.reconnectTimer !== null
+    ) {
+      return;
+    }
+    const attempt = this.reconnectAttempt + 1;
+    const exponentialDelay = Math.min(
+      this.reconnectBaseDelayMs * 2 ** (attempt - 1),
+      this.reconnectMaxDelayMs,
+    );
+    const delay = Math.max(
+      0,
+      Math.round(this.jitterDelay(exponentialDelay, attempt)),
+    );
+    const generation = this.connectionGeneration;
+    this.reconnectAttempt = attempt;
+    this.publishConnectionState("waiting", delay, reason);
+    this.reconnectTimer = this.scheduleTimeout(() => {
+      this.reconnectTimer = null;
+      if (
+        this.intentionalShutdown ||
+        generation !== this.connectionGeneration
+      ) {
+        return;
+      }
+      this.connectRemote(this.onconnect, this.onmessage);
+    }, delay);
+  }
+
+  private clearReconnectTimer(): void {
+    if (this.reconnectTimer === null) return;
+    this.cancelTimeout(this.reconnectTimer);
+    this.reconnectTimer = null;
+  }
+
+  private isCurrentSocket(socket: WebSocket, generation: number): boolean {
+    return this.socket === socket && this.connectionGeneration === generation;
+  }
+
+  private publishConnectionState(
+    state: TransportConnectionState,
+    retryInMs: number | null = null,
+    reason: string | null = null,
+  ): void {
+    this.connectionState = state;
+    this.eventBus.emit(
+      new TransportConnectionStateEvent(
+        state,
+        this.reconnectAttempt,
+        this.outbox.length,
+        retryInMs,
+        reason,
+      ),
+    );
   }
 
   private killExistingSocket(): void {

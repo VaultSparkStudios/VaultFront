@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-08-03T04:05:18.888Z",
+  "generatedAt": "2026-08-03T23:42:14.415Z",
   "source": "scripts/innovation-pack.mjs",
   "primarySource": "latest audit-backed Unified Genius List",
   "items": [
@@ -110,7 +110,7 @@
       "title": "Turn rollback prose into an executable receipt contract",
       "description": "Require immutable image and staging-evidence digests, dry-run-first promotion, canonical health verification, and a retained rollback receipt so recovery instructions cannot drift from workflow inputs.",
       "complete": true,
-      "evidence": "digest-addressed operator runbook, 25-check deploy contract gate, and protocol regression execution"
+      "evidence": "digest-addressed dry-run lineage, independently admitted rollback target and replaced revision, observed production outcome, and retained self-verifying receipt"
     },
     {
       "rank": 13,
@@ -480,6 +480,33 @@
       "description": "Replace stale exact-value regexes with semantic ceilings and policy posture checks so stronger security and architecture improvements remain shipped under regeneration.",
       "complete": true,
       "evidence": "inequality-aware budget detection, parsed route-policy posture, stronger-value fixtures, and monotonic ledger preservation"
+    },
+    {
+      "rank": 54,
+      "status": "shipped",
+      "id": "dry-run-intent-admission",
+      "title": "Make dry-run-first an admitted release fact instead of operator memory",
+      "description": "Retain a hash-bound dry-run receipt and require a later live promotion to admit the exact successful repository workflow, staging run, target, operation, rollback reason, and attestation digests.",
+      "complete": true,
+      "evidence": "retained validation artifact, successful-run admission, full intent cross-binding, and mismatch/tamper regression"
+    },
+    {
+      "rank": 55,
+      "status": "shipped",
+      "id": "dual-attestation-rollback-lineage",
+      "title": "Prove both sides of a rollback transition",
+      "description": "Admit the target and currently deployed revisions through separate same-repository staging attestations so a rollback receipt states exactly what was replaced and what was restored.",
+      "complete": true,
+      "evidence": "two independently verified staging artifacts, unequal run constraint, dual digest lineage, and rollback-specific validation"
+    },
+    {
+      "rank": 56,
+      "status": "shipped",
+      "id": "observed-production-outcome-receipt",
+      "title": "Close promotion lineage over observed production bytes",
+      "description": "Hash the canonical production health response, exact revision response, timing boundary, admitted target, and prior validation into a self-verified retained outcome artifact.",
+      "complete": true,
+      "evidence": "canonical health/revision digests, validation-parent digest, self-verification, 90-day retained artifact, and adversarial outcomes"
     }
   ]
 }

@@ -235,14 +235,21 @@ const candidates = [
     description:
       "Require immutable image and staging-evidence digests, dry-run-first promotion, canonical health verification, and a retained rollback receipt so recovery instructions cannot drift from workflow inputs.",
     complete:
-      has("docs/DEPLOY_RUNTIME_RUNBOOK.md", /staging_evidence_digest/) &&
-      has("scripts/check-deploy-contract.mjs", /rollback receipt/) &&
+      has("docs/DEPLOY_RUNTIME_RUNBOOK.md", /`validation_run_id`/) &&
       has(
-        "tests/scripts/StudioProtocolHelpers.test.ts",
-        /check-deploy-contract/,
+        "scripts/lib/promotion-receipt.mjs",
+        /createPromotionOutcomeReceipt/,
+      ) &&
+      has(
+        ".github/workflows/promote.yml",
+        /promotion-outcome-\$\{\{ github\.run_id \}\}/,
+      ) &&
+      has(
+        "tests/scripts/PromotionReceipt.test.ts",
+        /chains a verified production outcome/,
       ),
     evidence:
-      "digest-addressed operator runbook, 25-check deploy contract gate, and protocol regression execution",
+      "digest-addressed dry-run lineage, independently admitted rollback target and replaced revision, observed production outcome, and retained self-verifying receipt",
   },
   {
     id: "external-block-status-parity",
@@ -894,6 +901,64 @@ const candidates = [
       has("tests/scripts/InnovationPack.test.ts", /stronger semantic ratchets/),
     evidence:
       "inequality-aware budget detection, parsed route-policy posture, stronger-value fixtures, and monotonic ledger preservation",
+  },
+  {
+    id: "dry-run-intent-admission",
+    title:
+      "Make dry-run-first an admitted release fact instead of operator memory",
+    description:
+      "Retain a hash-bound dry-run receipt and require a later live promotion to admit the exact successful repository workflow, staging run, target, operation, rollback reason, and attestation digests.",
+    complete:
+      has(".github/workflows/promote.yml", /validation_run_id/) &&
+      has(".github/workflows/promote.yml", /verify-validation/) &&
+      has("scripts/lib/promotion-receipt.mjs", /validation-was-not-dry-run/) &&
+      has(
+        "tests/scripts/PromotionReceipt.test.ts",
+        /rejects changed live intent/,
+      ),
+    evidence:
+      "retained validation artifact, successful-run admission, full intent cross-binding, and mismatch/tamper regression",
+  },
+  {
+    id: "dual-attestation-rollback-lineage",
+    title: "Prove both sides of a rollback transition",
+    description:
+      "Admit the target and currently deployed revisions through separate same-repository staging attestations so a rollback receipt states exactly what was replaced and what was restored.",
+    complete:
+      has(".github/workflows/promote.yml", /replaced_staging_run_id/) &&
+      has(
+        ".github/workflows/promote.yml",
+        /replaced_attestation\.outputs\.attestation_digest/,
+      ) &&
+      has(
+        "scripts/lib/promotion-receipt.mjs",
+        /rollback-missing-replaced-lineage/,
+      ) &&
+      has(
+        "tests/scripts/PromotionReceipt.test.ts",
+        /both admitted staging attestations/,
+      ),
+    evidence:
+      "two independently verified staging artifacts, unequal run constraint, dual digest lineage, and rollback-specific validation",
+  },
+  {
+    id: "observed-production-outcome-receipt",
+    title: "Close promotion lineage over observed production bytes",
+    description:
+      "Hash the canonical production health response, exact revision response, timing boundary, admitted target, and prior validation into a self-verified retained outcome artifact.",
+    complete:
+      has("scripts/lib/promotion-receipt.mjs", /production-health-not-ready/) &&
+      has(
+        "scripts/lib/promotion-receipt.mjs",
+        /production-revision-mismatch/,
+      ) &&
+      has(
+        ".github/workflows/promote.yml",
+        /promotion-outcome-\$\{\{ github\.run_id \}\}/,
+      ) &&
+      has("tests/scripts/PromotionReceipt.test.ts", /outcome tamper/),
+    evidence:
+      "canonical health/revision digests, validation-parent digest, self-verification, 90-day retained artifact, and adversarial outcomes",
   },
 ];
 

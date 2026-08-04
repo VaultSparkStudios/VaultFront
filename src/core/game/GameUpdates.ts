@@ -472,6 +472,10 @@ export interface VaultFrontStatusUpdate {
   passiveGoldPerMinute?: number;
   jamBreakerGoldCost?: number;
   escortDurationTicks?: number;
+  /** Authoritative duration of the current execution-chain window. */
+  executionChainWindowTicks: number;
+  /** Authoritative next-convoy reward multiplier for a completed chain. */
+  executionChainRewardMultiplier: number;
   sites: VaultFrontSiteState[];
   convoys: VaultFrontConvoyState[];
   beacons: VaultFrontBeaconState[];

@@ -15,6 +15,9 @@ export const THEME_PROOF_SURFACES = Object.freeze([
   "play",
   "settings",
   "postmatch",
+  "execution-normal",
+  "execution-rush",
+  "execution-rush-reduced-complete",
 ]);
 export const THEME_PROOF_CLAIM_BOUNDARY =
   "This is local browser evidence, not live staging parity or founder approval.";
@@ -46,6 +49,11 @@ export function collectThemeProofSourceFiles(root) {
     "src/client/SeasonPassTrack.ts",
     "src/client/UserSettingModal.ts",
     "src/client/graphics/layers/WinModal.ts",
+    "src/client/graphics/layers/VaultFrontLayer.ts",
+    "src/core/execution/VaultFrontExecution.ts",
+    "src/core/execution/VaultFrontRuntimeBalance.ts",
+    "src/core/game/GameUpdates.ts",
+    "config/vaultfront-balance.v1.json",
     "src/client/styles.css",
   ];
   return [

@@ -47,7 +47,10 @@ function findStudioOpsSecretsDir() {
   return null;
 }
 const STUDIO_OPS_SECRETS_DIR = findStudioOpsSecretsDir();
-const CAP_MAP_PATH = path.join(SECRETS_DIR, "CAPABILITY_MAP.json");
+const LOCAL_CAP_MAP_PATH = path.join(SECRETS_DIR, "CAPABILITY_MAP.json");
+const STUDIO_OPS_CAP_MAP_PATH = STUDIO_OPS_SECRETS_DIR
+  ? path.join(STUDIO_OPS_SECRETS_DIR, "CAPABILITY_MAP.json")
+  : null;
 const ACCESS_LOG = path.join(SECRETS_DIR, ".access.log");
 
 let _cache = null; // flat merged env
@@ -110,39 +113,100 @@ function loadEnv() {
   return merged;
 }
 
-function loadCapMap() {
-  if (_capMap) return _capMap;
-  // S180 [audit #2] — distinguish ABSENT (legit: CI without secrets/, silent) from
-  // CORRUPT (the file exists but won't parse — e.g. smart-quote/encoding damage).
-  // The old blanket `catch { empty }` made a corrupted CAPABILITY_MAP.json degrade
-  // every capability resolution SILENTLY (a CANON-031 observability violation): a
-  // single curly quote could make getSecret/resolveCapability fail to find any
-  // capability with no signal. Corruption now fails LOUD (stderr + access log)
-  // while still returning empty so callers degrade gracefully rather than crash.
-  if (!fs.existsSync(CAP_MAP_PATH)) {
-    _capMap = { capabilities: {} };
-    return _capMap;
+function readCapabilityMapLayer(filePath, layer) {
+  if (!filePath || !fs.existsSync(filePath)) {
+    return { layer, path: filePath, state: "absent", value: null };
   }
   try {
-    _capMap = JSON.parse(fs.readFileSync(CAP_MAP_PATH, "utf8"));
+    const value = JSON.parse(fs.readFileSync(filePath, "utf8"));
+    if (
+      !value ||
+      typeof value !== "object" ||
+      Array.isArray(value) ||
+      !value.capabilities ||
+      typeof value.capabilities !== "object" ||
+      Array.isArray(value.capabilities)
+    ) {
+      throw new Error("root must contain an object-valued capabilities field");
+    }
+    return { layer, path: filePath, state: "loaded", value };
   } catch (e) {
     const msg =
-      `CAPABILITY_MAP.json is present but UNPARSEABLE (${e.message}). ` +
-      `Capability resolution is degraded to empty — fix the file. ` +
+      `${layer} CAPABILITY_MAP.json is present but UNPARSEABLE (${e.message}). ` +
+      `Capability resolution cannot continue until this authority is repaired. ` +
       `Common cause: smart quotes (U+201C/U+201D) or encoding mojibake from a paste.`;
+    const error = new Error(msg, { cause: e });
+    error.code = "CAPABILITY_MAP_CORRUPT";
+    error.layer = layer;
+    error.capabilityMapPath = filePath;
+    throw error;
+  }
+}
+
+/**
+ * Load the canonical Studio Ops capability catalog, then overlay project-local
+ * definitions by capability. This is intentionally read-only composition:
+ * project repos consume the sibling authority without copying or mutating it.
+ */
+export function loadCapabilityMapLayers({
+  basePath = STUDIO_OPS_CAP_MAP_PATH,
+  overridePath = LOCAL_CAP_MAP_PATH,
+} = {}) {
+  const resolvedBase = basePath ? path.resolve(basePath) : null;
+  const resolvedOverride = overridePath ? path.resolve(overridePath) : null;
+  const base = readCapabilityMapLayer(resolvedBase, "studio-ops");
+  const override =
+    resolvedOverride && resolvedOverride === resolvedBase
+      ? {
+          layer: "project-local",
+          path: resolvedOverride,
+          state: "deduplicated",
+          value: null,
+        }
+      : readCapabilityMapLayer(resolvedOverride, "project-local");
+  const baseValue = base.value ?? {};
+  const overrideValue = override.value ?? {};
+  return {
+    ...baseValue,
+    ...overrideValue,
+    credentialOwnership: {
+      ...(baseValue.credentialOwnership ?? {}),
+      ...(overrideValue.credentialOwnership ?? {}),
+    },
+    capabilities: {
+      ...(baseValue.capabilities ?? {}),
+      ...(overrideValue.capabilities ?? {}),
+    },
+    _authority: {
+      base: { path: base.path, state: base.state },
+      override: { path: override.path, state: override.state },
+    },
+  };
+}
+
+function loadCapMap() {
+  if (_capMap) return _capMap;
+  try {
+    _capMap = loadCapabilityMapLayers();
+    return _capMap;
+  } catch (e) {
+    const message = e instanceof Error ? e.message : String(e);
     try {
-      process.stderr.write(`⚠ secrets: ${msg}\n`);
+      process.stderr.write(`⚠ secrets: ${message}\n`);
     } catch {
       /* stream closed */
     }
     try {
-      audit({ event: "capability-map-corrupt", error: e.message });
+      audit({
+        event: "capability-map-corrupt",
+        layer: e?.layer ?? "unknown",
+        error: message,
+      });
     } catch {
-      /* never break callers */
+      /* never hide the authority failure */
     }
-    _capMap = { capabilities: {}, _corrupt: true, _corruptError: e.message };
+    throw e;
   }
-  return _capMap;
 }
 
 function audit(entry) {
@@ -250,7 +314,7 @@ export function resolveCapability(capability) {
  */
 export function listCapabilities() {
   const map = loadCapMap();
-  const caps = Object.keys(map.capabilities || {});
+  const caps = Object.keys(map.capabilities || {}).sort();
   return caps.map((c) => ({ capability: c, ...resolveCapability(c) }));
 }
 

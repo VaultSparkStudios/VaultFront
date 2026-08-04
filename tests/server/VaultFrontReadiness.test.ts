@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { canonicalReleaseGateNames } from "../../src/server/ReleaseEvidenceContract";
 import { buildStateScopeLedger } from "../../src/server/StateScopeLedger";
 import { buildVaultFrontReadiness } from "../../src/server/VaultFrontReadiness";
+import {
+  buildCanonicalReleaseObservation,
+  canonicalReleaseGateCatalog,
+} from "../../src/shared/ReleaseGateCatalog";
 
 describe("buildVaultFrontReadiness", () => {
   it("preserves scoped runtime health evidence without implying fleet health", () => {
@@ -230,15 +233,37 @@ describe("buildVaultFrontReadiness", () => {
       releaseEvidence: {
         now: Date.parse("2026-07-16T12:15:00.000Z"),
         observations: Object.fromEntries(
-          canonicalReleaseGateNames.map((gate) => [
-            gate,
-            {
+          canonicalReleaseGateCatalog.map((definition) => {
+            const base = {
               status: "verified" as const,
               observedAt: "2026-07-16T12:10:00.000Z",
-              source: `test:${gate}`,
-              digest: `sha256:${gate}`,
-            },
-          ]),
+              source: `test:${definition.id}`,
+            };
+            const semantic =
+              definition.semantic === "health"
+                ? { ...base, httpStatus: 200, healthy: true }
+                : definition.semantic === "rollback"
+                  ? {
+                      ...base,
+                      drillCompleted: true,
+                      restoredHealth: true,
+                      imageDigest: `sha256:${"b".repeat(64)}`,
+                    }
+                  : definition.semantic === "revenue"
+                    ? {
+                        ...base,
+                        live: true,
+                        eventType: "checkout" as const,
+                        amountCents: 500,
+                      }
+                    : base;
+            const observation = ["rollback", "revenue"].includes(
+              definition.semantic,
+            )
+              ? buildCanonicalReleaseObservation(definition.id, semantic)
+              : { ...semantic, digest: `sha256:${"a".repeat(64)}` };
+            return [definition.id, observation];
+          }),
         ),
       },
     });

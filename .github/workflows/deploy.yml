@@ -33,10 +33,16 @@ jobs:
       SUBDOMAIN: ${{ inputs.target_subdomain }}
       FQDN: ${{ format('{0}.{1}', inputs.target_subdomain, vars.DOMAIN) }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
       - name: Validate repository deployment contract
-        run: node scripts/check-deploy-contract.mjs
+        run: |
+          node scripts/check-deploy-contract.mjs
+          node scripts/check-release-input-trust.mjs
+
+      - name: Require immutable live-release inputs
+        if: ${{ !inputs.dry_run }}
+        run: node scripts/check-release-input-trust.mjs --release
 
       - name: Exercise dry-run contract
         if: ${{ inputs.dry_run }}
@@ -49,7 +55,7 @@ jobs:
 
       - name: Log in to GitHub Container Registry
         if: ${{ !inputs.dry_run }}
-        uses: docker/login-action@v3
+        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3
         with:
           registry: ghcr.io
           username: ${{ vars.GHCR_USERNAME }}
@@ -60,15 +66,17 @@ jobs:
         env:
           DEPLOY_SERVER_HOST: ${{ secrets.DEPLOY_SERVER_HOST }}
           DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
         run: |
           set -euo pipefail
           mkdir -p ~/.ssh
           printf '%s' "$DEPLOY_SSH_KEY" > ~/.ssh/id_rsa
           test -n "$DEPLOY_SERVER_HOST"
-          ssh-keyscan -H "$DEPLOY_SERVER_HOST" >> ~/.ssh/known_hosts
           chmod 600 ~/.ssh/id_rsa
+          node scripts/prepare-deploy-ssh.mjs ~/.ssh/known_hosts
 
       - name: Build and deploy immutable staging image
+        id: staging_deploy
         if: ${{ !inputs.dry_run }}
         env:
           APP_NAME: vaultfront
@@ -78,6 +86,7 @@ jobs:
           DEPLOY_HEALTH_URL: https://${{ env.FQDN }}/_health
           DEPLOY_REMOTE_USER: ${{ vars.DEPLOY_REMOTE_USER || 'vaultfront' }}
           DEPLOY_SERVER_HOST: ${{ secrets.DEPLOY_SERVER_HOST }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
           GHCR_REPO: ${{ vars.GHCR_REPO }}
           GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
           GHCR_USERNAME: ${{ vars.GHCR_USERNAME }}
@@ -92,7 +101,9 @@ jobs:
         run: |
           set -euo pipefail
           for attempt in {1..30}; do
-            if [[ "$(curl -fsS --max-time 5 "https://${FQDN}/commit.txt" || true)" == "$GITHUB_SHA" ]]; then
+            curl -fsS --max-time 5 "https://${FQDN}/_health" -o staging-health.json || true
+            curl -fsS --max-time 5 "https://${FQDN}/commit.txt" -o staging-revision.txt || true
+            if [[ "$(cat staging-revision.txt 2>/dev/null || true)" == "$GITHUB_SHA" ]] && [[ -s staging-health.json ]]; then
               echo "Verified deployed revision ${GITHUB_SHA}" >> "$GITHUB_STEP_SUMMARY"
               exit 0
             fi
@@ -100,3 +111,25 @@ jobs:
           done
           echo "Deployment revision verification timed out" >&2
           exit 1
+
+      - name: Create hash-bound staging attestation
+        if: ${{ !inputs.dry_run }}
+        run: >-
+          node scripts/staging-attestation.mjs create
+          --repository "$GITHUB_REPOSITORY"
+          --run-id "$GITHUB_RUN_ID"
+          --run-attempt "$GITHUB_RUN_ATTEMPT"
+          --git-sha "$GITHUB_SHA"
+          --origin "https://${FQDN}"
+          --image-digest "${{ steps.staging_deploy.outputs.image_digest }}"
+          --health-response staging-health.json
+          --revision-response staging-revision.txt
+          --output staging-attestation.json
+
+      - name: Upload run-bound staging attestation
+        if: ${{ !inputs.dry_run }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: staging-attestation-${{ github.run_id }}
+          path: staging-attestation.json
+          retention-days: 30

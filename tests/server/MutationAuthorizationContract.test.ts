@@ -30,8 +30,6 @@ const protectedRoutes = [
   "/api/clans",
   "/api/clans/:clanId/join",
   "/api/clans/leave",
-  "/api/tutorial/complete",
-  "/api/tutorial/reset",
   "/api/tournaments",
   "/api/tournaments/:id/register",
   "/api/tournaments/:id/seed",

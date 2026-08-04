@@ -1,17 +1,371 @@
 {
-  "schemaVersion": 2,
-  "generatedAt": "2026-08-03T06:31:45.317Z",
+  "schemaVersion": 1,
+  "capturedAt": "2026-08-04T00:14:27.389Z",
+  "generatedAt": "2026-08-04T00:14:27.389Z",
   "scope": "local-only",
   "claimBoundary": "This is local browser evidence, not live staging parity or founder approval.",
-  "source": {
+  "themes": ["dark", "light", "competitive"],
+  "captures": [
+    {
+      "file": "artifacts/chromium-vaultfront-play.png",
+      "sha256": "33cebb7af26f86cf2c67726146b6b9cf5a427dc8245b33128398f8a452be1545",
+      "page": "play",
+      "state": "play",
+      "theme": "dark",
+      "projectTheme": "vaultfront",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-vaultfront-settings.png",
+      "sha256": "33eab10aaa899600d9c2d806d29ba1c9f5aa65aae02f9fe868ac717fc0e7300b",
+      "page": "settings",
+      "state": "settings",
+      "theme": "dark",
+      "projectTheme": "vaultfront",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-vaultfront-postmatch.png",
+      "sha256": "6aa14a51374c48b5a3b08c042a211d6e5de17ab83c75159c8fd7bfdb15ed5920",
+      "page": "postmatch",
+      "state": "postmatch",
+      "theme": "dark",
+      "projectTheme": "vaultfront",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-vaultfront-execution-normal.png",
+      "sha256": "792459eeedfe7a59bdc9f3522eddc1113f6f6a90fe25914b4281e87dea87951b",
+      "page": "execution-normal",
+      "state": "execution-normal",
+      "theme": "dark",
+      "projectTheme": "vaultfront",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-vaultfront-execution-rush.png",
+      "sha256": "bb29b3b9a13f802ee413b673a6d8223c07039b227d71e0221ab86692048dfe48",
+      "page": "execution-rush",
+      "state": "execution-rush",
+      "theme": "dark",
+      "projectTheme": "vaultfront",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-vaultfront-execution-rush-reduced-complete.png",
+      "sha256": "1fc960046d67a17a5d4f42979087b48899374687da0ea5878e2be1a3d45514bf",
+      "page": "execution-rush-reduced-complete",
+      "state": "execution-rush-reduced-complete",
+      "theme": "dark",
+      "projectTheme": "vaultfront",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-light-play.png",
+      "sha256": "47ec2c5376edc7d40ffd4741511bf96a12c60d0701d17b968364d6d0359dcfd8",
+      "page": "play",
+      "state": "play",
+      "theme": "light",
+      "projectTheme": "light",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-light-settings.png",
+      "sha256": "007b75376cf825503037dbee5306ff1b99a2cb873988d41cbeed45e98aeaeb9a",
+      "page": "settings",
+      "state": "settings",
+      "theme": "light",
+      "projectTheme": "light",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-light-postmatch.png",
+      "sha256": "0551cd7207ff3faf3b317cab5d6b8003ca18319e8f57ab25ebeb4e9c616f174f",
+      "page": "postmatch",
+      "state": "postmatch",
+      "theme": "light",
+      "projectTheme": "light",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-light-execution-normal.png",
+      "sha256": "68e0b3931fe58a4a0e1b58147a8cffc1c25750b3956285410c9e55d0b2aaec1c",
+      "page": "execution-normal",
+      "state": "execution-normal",
+      "theme": "light",
+      "projectTheme": "light",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-light-execution-rush.png",
+      "sha256": "e83950750482b6893e4187f50cc178e639a70ed8ca151f7f65eabd2c735e837b",
+      "page": "execution-rush",
+      "state": "execution-rush",
+      "theme": "light",
+      "projectTheme": "light",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-light-execution-rush-reduced-complete.png",
+      "sha256": "47f242ecd570b06de4d9e629d5e25f8595589e53087e766c1203834559132ed1",
+      "page": "execution-rush-reduced-complete",
+      "state": "execution-rush-reduced-complete",
+      "theme": "light",
+      "projectTheme": "light",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-competitive-play.png",
+      "sha256": "9f468a1d52747e5955711a78b2eab61212494715079b3e18e1cb0136a37f73a0",
+      "page": "play",
+      "state": "play",
+      "theme": "competitive",
+      "projectTheme": "competitive",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-competitive-settings.png",
+      "sha256": "3534fc303450a03de9b75c68ba69e1ce47acb32f8b7246effc046da1ee660129",
+      "page": "settings",
+      "state": "settings",
+      "theme": "competitive",
+      "projectTheme": "competitive",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-competitive-postmatch.png",
+      "sha256": "3fa9839f722633eda023e6802db29ce8b4c517d6b566b77e9c00ff07787f5ec2",
+      "page": "postmatch",
+      "state": "postmatch",
+      "theme": "competitive",
+      "projectTheme": "competitive",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-competitive-execution-normal.png",
+      "sha256": "6e663939380836ae2c18b6df741b36cecdf5d0a218c8acefe2ecae4c653dcf48",
+      "page": "execution-normal",
+      "state": "execution-normal",
+      "theme": "competitive",
+      "projectTheme": "competitive",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-competitive-execution-rush.png",
+      "sha256": "3ee66521aa8ffde41b04b9d4ec6017415c45b63f5002c58a9944d61081ec555a",
+      "page": "execution-rush",
+      "state": "execution-rush",
+      "theme": "competitive",
+      "projectTheme": "competitive",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-competitive-execution-rush-reduced-complete.png",
+      "sha256": "55d775d0f36a7a626f0ffceacad57971f6665f2b2333965ebbafc93455def0c2",
+      "page": "execution-rush-reduced-complete",
+      "state": "execution-rush-reduced-complete",
+      "theme": "competitive",
+      "projectTheme": "competitive",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-vaultfront-play.png",
+      "sha256": "b826416cc88aaab14c2e53851b8f48303722332c289acc56b57eb54d91b41bf2",
+      "page": "play",
+      "state": "play",
+      "theme": "dark",
+      "projectTheme": "vaultfront",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-vaultfront-settings.png",
+      "sha256": "4bccfa718c8f1b3c6f725e6767e8c35da35b62f544db95621a2b09abf3709676",
+      "page": "settings",
+      "state": "settings",
+      "theme": "dark",
+      "projectTheme": "vaultfront",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-vaultfront-postmatch.png",
+      "sha256": "09804440b9a17403b0e05a8bcf210205cd5ea3ab012f026197f76f64960aa23f",
+      "page": "postmatch",
+      "state": "postmatch",
+      "theme": "dark",
+      "projectTheme": "vaultfront",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-vaultfront-execution-normal.png",
+      "sha256": "c3af5272143deb1a6bd8980b390932a74d00698e3cc0536a3bb2b02b24c212f2",
+      "page": "execution-normal",
+      "state": "execution-normal",
+      "theme": "dark",
+      "projectTheme": "vaultfront",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-vaultfront-execution-rush.png",
+      "sha256": "888e1962b9882e4c7f0bc22167429b7119e74eee07df45787f80d7d2d17d4b62",
+      "page": "execution-rush",
+      "state": "execution-rush",
+      "theme": "dark",
+      "projectTheme": "vaultfront",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-vaultfront-execution-rush-reduced-complete.png",
+      "sha256": "f474d00a4fad70f1963c53a7679705d67406fde2afb359bd6586ab232b0e2df5",
+      "page": "execution-rush-reduced-complete",
+      "state": "execution-rush-reduced-complete",
+      "theme": "dark",
+      "projectTheme": "vaultfront",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-light-play.png",
+      "sha256": "f7180b3ba72b61ec54abf99b6a43d028ef217b9b784abf6aa80926ca47d5ece8",
+      "page": "play",
+      "state": "play",
+      "theme": "light",
+      "projectTheme": "light",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-light-settings.png",
+      "sha256": "b449bc281e1d6af752e53b3bdf1a0079292559bcbb9fe4b6f9d1f4e493228050",
+      "page": "settings",
+      "state": "settings",
+      "theme": "light",
+      "projectTheme": "light",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-light-postmatch.png",
+      "sha256": "98983c64f38a3a97d627326554ce9992154b9b58d70e531a0090abab29e3170a",
+      "page": "postmatch",
+      "state": "postmatch",
+      "theme": "light",
+      "projectTheme": "light",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-light-execution-normal.png",
+      "sha256": "6698a6e7b6e78aa4fc316e638c4be0f6e496d9f604d56fbc69dffbaae04603d7",
+      "page": "execution-normal",
+      "state": "execution-normal",
+      "theme": "light",
+      "projectTheme": "light",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-light-execution-rush.png",
+      "sha256": "b2b80c9cbd2c3e0914bfb0a7e15c6dc8dfbc0bc39a3f24685033ff1f2b4b409e",
+      "page": "execution-rush",
+      "state": "execution-rush",
+      "theme": "light",
+      "projectTheme": "light",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-light-execution-rush-reduced-complete.png",
+      "sha256": "904febe521fe78cea2bb951c9a0656753f3f895c92336cd9b2d90ed6c3ce2635",
+      "page": "execution-rush-reduced-complete",
+      "state": "execution-rush-reduced-complete",
+      "theme": "light",
+      "projectTheme": "light",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-competitive-play.png",
+      "sha256": "dba05f942bfb645a0adbeb6f213335f4043de5532317b39a234d9b46d305041e",
+      "page": "play",
+      "state": "play",
+      "theme": "competitive",
+      "projectTheme": "competitive",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-competitive-settings.png",
+      "sha256": "a0887ba01bc8e18d7b6fc73bc2b6f0844bb1c80ed4cbe4f9d3b3a7bafa6bc207",
+      "page": "settings",
+      "state": "settings",
+      "theme": "competitive",
+      "projectTheme": "competitive",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-competitive-postmatch.png",
+      "sha256": "7c1f2d7fe6cf0cf7b13925ce0df0bf8365b1d556347c13b6689f7ec1ac9ecb08",
+      "page": "postmatch",
+      "state": "postmatch",
+      "theme": "competitive",
+      "projectTheme": "competitive",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-competitive-execution-normal.png",
+      "sha256": "7b2668e5a14f841a98992345116ed65b610a105367e299cb34c3a6ed69d7217f",
+      "page": "execution-normal",
+      "state": "execution-normal",
+      "theme": "competitive",
+      "projectTheme": "competitive",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-competitive-execution-rush.png",
+      "sha256": "70e546ec1dd29dc2f9dc97a0bf9529df133bcb0e7a5135db604e8633f06eb416",
+      "page": "execution-rush",
+      "state": "execution-rush",
+      "theme": "competitive",
+      "projectTheme": "competitive",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-competitive-execution-rush-reduced-complete.png",
+      "sha256": "41774cb08c074e4b8a5a1128198f8bbfab6a691e58cee75f03e008b9bd01a608",
+      "page": "execution-rush-reduced-complete",
+      "state": "execution-rush-reduced-complete",
+      "theme": "competitive",
+      "projectTheme": "competitive",
+      "viewport": { "width": 393, "height": 727 }
+    }
+  ],
+  "inspection": {
+    "renderedPixelsReviewed": true,
+    "reviewer": "codex/image-capable-render-review",
+    "findings": [
+      "The first proof used a lower-right sample that could not detect the centered completion banner.",
+      "Viewport screenshots intermittently clipped the middle rush Canvas despite a stable render buffer.",
+      "The original mint completion banner had insufficient contrast on the light theme."
+    ],
+    "fixesApplied": [
+      "Compared exact full-Canvas pre/post pixel buffers for every state.",
+      "Captured canonical PNG bytes directly from the production Canvas buffer.",
+      "Added a light-theme #065f46 completion palette and executable 4.5:1 contrast enforcement."
+    ],
+    "blockingDefectsOpen": 0
+  },
+  "comparisonBase": {
+    "source": "git:HEAD:docs/visual-qa/LATEST.json",
     "gitRevision": "ad37f9ef4269254505f8cbd6b0f8e8739672c942",
+    "capturedAt": "2026-08-03T06:31:45.317Z",
+    "sourceDigest": "sha256:b24281d8ee44f5cb191eee88aa193f78852b9326349977df146c15449f8b8454"
+  },
+  "source": {
+    "gitRevision": "5393db79991293e2f42024e611f3f8f273554d4c",
     "dirty": true,
-    "digest": "sha256:b24281d8ee44f5cb191eee88aa193f78852b9326349977df146c15449f8b8454",
+    "digest": "sha256:e404ab9bbfa8e108499190fc39d654ada0dd249f4f9310fa4b0e9b1c5193ddf9",
     "files": [
       {
+        "path": "config/vaultfront-balance.v1.json",
+        "bytes": 7901,
+        "digest": "sha256:a931631d461fc273959644a9a003c8c94f942f2da5127ceb4daf05ade38e7e71"
+      },
+      {
         "path": "e2e/theme-visual-proof.spec.ts",
-        "bytes": 9466,
-        "digest": "sha256:7b2ed7c2e7a584ab90d329f07c2579fb3562daed54f927eb69e14235223f5c4a"
+        "bytes": 17708,
+        "digest": "sha256:dfc6a6e54ce50e09ee0c799122e1fdf4d895b32d78f8ffc10c9e816b4e249b52"
       },
       {
         "path": "src/client/Api.ts",
@@ -274,6 +628,11 @@
         "digest": "sha256:8250ab4e3952d441f6dcb7aab53b95dcf4ae30c9b2539d17daa92c8529285396"
       },
       {
+        "path": "src/client/graphics/layers/VaultFrontLayer.ts",
+        "bytes": 66895,
+        "digest": "sha256:e1e840e834180949204165b8b22d7da9d79c031fd38c26467e3b458c2b79b964"
+      },
+      {
         "path": "src/client/graphics/layers/WinModal.ts",
         "bytes": 76075,
         "digest": "sha256:578729ee1087012bd1d6d6460d848579ac8ef9bcfa8f741fe621bd8bde318567"
@@ -327,6 +686,21 @@
         "path": "src/client/styles/modal/chat.css",
         "bytes": 1366,
         "digest": "sha256:aa4c8ffee7411e873f48542d8c3a5c97586229720d7c11f3dcf2444166ede02b"
+      },
+      {
+        "path": "src/core/execution/VaultFrontExecution.ts",
+        "bytes": 95591,
+        "digest": "sha256:ff9b4e59fedf79f4c50de904ac3f195bd90c25b0c9aa032a228094e292c77dd2"
+      },
+      {
+        "path": "src/core/execution/VaultFrontRuntimeBalance.ts",
+        "bytes": 6783,
+        "digest": "sha256:6f2065eb02997cc64f021c89af9fb4726aab752fe425a9b07aa7ac850fa54d23"
+      },
+      {
+        "path": "src/core/game/GameUpdates.ts",
+        "bytes": 14951,
+        "digest": "sha256:6cdcc9aaa6ec4f60a0d99bf58f8b18670db1cfab90aa39b3c47acbf054815696"
       }
     ]
   },
@@ -334,13 +708,13 @@
     "summaries": [
       {
         "path": "docs/visual-qa/summaries/theme-proof-chromium.json",
-        "bytes": 16293,
-        "digest": "sha256:227db23fcb9d969924e29c109a3bfebd99f7476798c1ca02004e6b1426fe9827"
+        "bytes": 23550,
+        "digest": "sha256:7b9e5bfed5e1a218d1363018a48a6d08148c6393099a058749e2c61b17d38d3f"
       },
       {
         "path": "docs/visual-qa/summaries/theme-proof-mobile-chrome.json",
-        "bytes": 16298,
-        "digest": "sha256:1ec859ca97a5de299bb0c9f501c2be3c5e26041d7323130d0e2125257abbc631"
+        "bytes": 23546,
+        "digest": "sha256:c13b82e6dc13e61ada26076b8dcd77dfc1353e6567728b4cf08dfa7ac2045df9"
       }
     ],
     "artifacts": [
@@ -349,80 +723,152 @@
         "theme": "vaultfront",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-play.png",
-        "bytes": 717503,
-        "digest": "sha256:1e2bde9c189648928af5303803d6e4b69ae499e571eb9e01232e0f72669909f7"
+        "bytes": 703874,
+        "digest": "sha256:33cebb7af26f86cf2c67726146b6b9cf5a427dc8245b33128398f8a452be1545"
       },
       {
         "project": "chromium",
         "theme": "vaultfront",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-settings.png",
-        "bytes": 363728,
-        "digest": "sha256:8d171ff4964d43ea9e5a27f336b0e442aa5882b01d96023e043deba6c0f827ce"
+        "bytes": 363974,
+        "digest": "sha256:33eab10aaa899600d9c2d806d29ba1c9f5aa65aae02f9fe868ac717fc0e7300b"
       },
       {
         "project": "chromium",
         "theme": "vaultfront",
         "surface": "postmatch",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-postmatch.png",
-        "bytes": 61403,
-        "digest": "sha256:882c425c13a8c648f774d0abe246860b8cec5de011ae8ce77d67a265e8952b53"
+        "bytes": 61392,
+        "digest": "sha256:6aa14a51374c48b5a3b08c042a211d6e5de17ab83c75159c8fd7bfdb15ed5920"
+      },
+      {
+        "project": "chromium",
+        "theme": "vaultfront",
+        "surface": "execution-normal",
+        "path": "docs/visual-qa/artifacts/chromium-vaultfront-execution-normal.png",
+        "bytes": 35439,
+        "digest": "sha256:792459eeedfe7a59bdc9f3522eddc1113f6f6a90fe25914b4281e87dea87951b"
+      },
+      {
+        "project": "chromium",
+        "theme": "vaultfront",
+        "surface": "execution-rush",
+        "path": "docs/visual-qa/artifacts/chromium-vaultfront-execution-rush.png",
+        "bytes": 35743,
+        "digest": "sha256:bb29b3b9a13f802ee413b673a6d8223c07039b227d71e0221ab86692048dfe48"
+      },
+      {
+        "project": "chromium",
+        "theme": "vaultfront",
+        "surface": "execution-rush-reduced-complete",
+        "path": "docs/visual-qa/artifacts/chromium-vaultfront-execution-rush-reduced-complete.png",
+        "bytes": 53421,
+        "digest": "sha256:1fc960046d67a17a5d4f42979087b48899374687da0ea5878e2be1a3d45514bf"
       },
       {
         "project": "chromium",
         "theme": "light",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/chromium-light-play.png",
-        "bytes": 633897,
-        "digest": "sha256:4c29752709bacc911dc300338c5d2f4e040162b6d4c5b8198803504fa4f04a76"
+        "bytes": 669616,
+        "digest": "sha256:47ec2c5376edc7d40ffd4741511bf96a12c60d0701d17b968364d6d0359dcfd8"
       },
       {
         "project": "chromium",
         "theme": "light",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/chromium-light-settings.png",
-        "bytes": 301492,
-        "digest": "sha256:b5e3f97e98d24f212c930077b37ad592e74e97a0e3fa481e988aa828e17f256f"
+        "bytes": 301543,
+        "digest": "sha256:007b75376cf825503037dbee5306ff1b99a2cb873988d41cbeed45e98aeaeb9a"
       },
       {
         "project": "chromium",
         "theme": "light",
         "surface": "postmatch",
         "path": "docs/visual-qa/artifacts/chromium-light-postmatch.png",
-        "bytes": 69970,
-        "digest": "sha256:25c88bab37abc456d75675008a26d097e06da7588a2cd1e565ed2506bf1f50f8"
+        "bytes": 69954,
+        "digest": "sha256:0551cd7207ff3faf3b317cab5d6b8003ca18319e8f57ab25ebeb4e9c616f174f"
+      },
+      {
+        "project": "chromium",
+        "theme": "light",
+        "surface": "execution-normal",
+        "path": "docs/visual-qa/artifacts/chromium-light-execution-normal.png",
+        "bytes": 35180,
+        "digest": "sha256:68e0b3931fe58a4a0e1b58147a8cffc1c25750b3956285410c9e55d0b2aaec1c"
+      },
+      {
+        "project": "chromium",
+        "theme": "light",
+        "surface": "execution-rush",
+        "path": "docs/visual-qa/artifacts/chromium-light-execution-rush.png",
+        "bytes": 35514,
+        "digest": "sha256:e83950750482b6893e4187f50cc178e639a70ed8ca151f7f65eabd2c735e837b"
+      },
+      {
+        "project": "chromium",
+        "theme": "light",
+        "surface": "execution-rush-reduced-complete",
+        "path": "docs/visual-qa/artifacts/chromium-light-execution-rush-reduced-complete.png",
+        "bytes": 50779,
+        "digest": "sha256:47f242ecd570b06de4d9e629d5e25f8595589e53087e766c1203834559132ed1"
       },
       {
         "project": "chromium",
         "theme": "competitive",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/chromium-competitive-play.png",
-        "bytes": 675187,
-        "digest": "sha256:a971b605f4b77b0eb4bd1b01596994bf651eeadca14417e9f1470a30051818e5"
+        "bytes": 715030,
+        "digest": "sha256:9f468a1d52747e5955711a78b2eab61212494715079b3e18e1cb0136a37f73a0"
       },
       {
         "project": "chromium",
         "theme": "competitive",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/chromium-competitive-settings.png",
-        "bytes": 340798,
-        "digest": "sha256:9ba679f66f65e7f2403fd4b5e0ea14a6b055bd36cce2b0ff7d02436960fe0c1f"
+        "bytes": 341147,
+        "digest": "sha256:3534fc303450a03de9b75c68ba69e1ce47acb32f8b7246effc046da1ee660129"
       },
       {
         "project": "chromium",
         "theme": "competitive",
         "surface": "postmatch",
         "path": "docs/visual-qa/artifacts/chromium-competitive-postmatch.png",
-        "bytes": 61655,
-        "digest": "sha256:b0e7b28325a628ec5ea915d4f4879e0274a4ee3f3b48eb9c4beedd5b5585d531"
+        "bytes": 61652,
+        "digest": "sha256:3fa9839f722633eda023e6802db29ce8b4c517d6b566b77e9c00ff07787f5ec2"
+      },
+      {
+        "project": "chromium",
+        "theme": "competitive",
+        "surface": "execution-normal",
+        "path": "docs/visual-qa/artifacts/chromium-competitive-execution-normal.png",
+        "bytes": 35902,
+        "digest": "sha256:6e663939380836ae2c18b6df741b36cecdf5d0a218c8acefe2ecae4c653dcf48"
+      },
+      {
+        "project": "chromium",
+        "theme": "competitive",
+        "surface": "execution-rush",
+        "path": "docs/visual-qa/artifacts/chromium-competitive-execution-rush.png",
+        "bytes": 36230,
+        "digest": "sha256:3ee66521aa8ffde41b04b9d4ec6017415c45b63f5002c58a9944d61081ec555a"
+      },
+      {
+        "project": "chromium",
+        "theme": "competitive",
+        "surface": "execution-rush-reduced-complete",
+        "path": "docs/visual-qa/artifacts/chromium-competitive-execution-rush-reduced-complete.png",
+        "bytes": 53825,
+        "digest": "sha256:55d775d0f36a7a626f0ffceacad57971f6665f2b2333965ebbafc93455def0c2"
       },
       {
         "project": "mobile-chrome",
         "theme": "vaultfront",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-play.png",
-        "bytes": 1184732,
-        "digest": "sha256:26fba2ec1e61315f4b85f4863db429b875c6414d52cc2f59dc51c01512032169"
+        "bytes": 1198000,
+        "digest": "sha256:b826416cc88aaab14c2e53851b8f48303722332c289acc56b57eb54d91b41bf2"
       },
       {
         "project": "mobile-chrome",
@@ -442,35 +888,83 @@
       },
       {
         "project": "mobile-chrome",
+        "theme": "vaultfront",
+        "surface": "execution-normal",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-execution-normal.png",
+        "bytes": 20117,
+        "digest": "sha256:c3af5272143deb1a6bd8980b390932a74d00698e3cc0536a3bb2b02b24c212f2"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "vaultfront",
+        "surface": "execution-rush",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-execution-rush.png",
+        "bytes": 20397,
+        "digest": "sha256:888e1962b9882e4c7f0bc22167429b7119e74eee07df45787f80d7d2d17d4b62"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "vaultfront",
+        "surface": "execution-rush-reduced-complete",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-execution-rush-reduced-complete.png",
+        "bytes": 38461,
+        "digest": "sha256:f474d00a4fad70f1963c53a7679705d67406fde2afb359bd6586ab232b0e2df5"
+      },
+      {
+        "project": "mobile-chrome",
         "theme": "light",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/mobile-chrome-light-play.png",
-        "bytes": 1084805,
-        "digest": "sha256:fb2b5ac5ec87a1bb59897a0b236dc84bfcfa348c006a63710c88281ca4f749fb"
+        "bytes": 1115753,
+        "digest": "sha256:f7180b3ba72b61ec54abf99b6a43d028ef217b9b784abf6aa80926ca47d5ece8"
       },
       {
         "project": "mobile-chrome",
         "theme": "light",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/mobile-chrome-light-settings.png",
-        "bytes": 231143,
-        "digest": "sha256:05a7b431a467e7de7b96000dbc5543942bd79188ba0bebc5e15bf06dad3ab7ba"
+        "bytes": 229929,
+        "digest": "sha256:b449bc281e1d6af752e53b3bdf1a0079292559bcbb9fe4b6f9d1f4e493228050"
       },
       {
         "project": "mobile-chrome",
         "theme": "light",
         "surface": "postmatch",
         "path": "docs/visual-qa/artifacts/mobile-chrome-light-postmatch.png",
-        "bytes": 159305,
-        "digest": "sha256:47ec457471e59c116b33b35784e9d1d318220a80cb880d66cd0cd05fee7f47dc"
+        "bytes": 159279,
+        "digest": "sha256:98983c64f38a3a97d627326554ce9992154b9b58d70e531a0090abab29e3170a"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "light",
+        "surface": "execution-normal",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-light-execution-normal.png",
+        "bytes": 19595,
+        "digest": "sha256:6698a6e7b6e78aa4fc316e638c4be0f6e496d9f604d56fbc69dffbaae04603d7"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "light",
+        "surface": "execution-rush",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-light-execution-rush.png",
+        "bytes": 19958,
+        "digest": "sha256:b2b80c9cbd2c3e0914bfb0a7e15c6dc8dfbc0bc39a3f24685033ff1f2b4b409e"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "light",
+        "surface": "execution-rush-reduced-complete",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-light-execution-rush-reduced-complete.png",
+        "bytes": 35152,
+        "digest": "sha256:904febe521fe78cea2bb951c9a0656753f3f895c92336cd9b2d90ed6c3ce2635"
       },
       {
         "project": "mobile-chrome",
         "theme": "competitive",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-play.png",
-        "bytes": 1134464,
-        "digest": "sha256:24921eb0ed8d0515cf298a26ddc2962b98b80ebe2b573c1eb9920b3b4927d17f"
+        "bytes": 1187235,
+        "digest": "sha256:dba05f942bfb645a0adbeb6f213335f4043de5532317b39a234d9b46d305041e"
       },
       {
         "project": "mobile-chrome",
@@ -485,8 +979,32 @@
         "theme": "competitive",
         "surface": "postmatch",
         "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-postmatch.png",
-        "bytes": 141171,
-        "digest": "sha256:40675b04bb8eb6a22a0be704643dfec1946bbe06f69d1dbd11518abb1c26d595"
+        "bytes": 141147,
+        "digest": "sha256:7c1f2d7fe6cf0cf7b13925ce0df0bf8365b1d556347c13b6689f7ec1ac9ecb08"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "competitive",
+        "surface": "execution-normal",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-execution-normal.png",
+        "bytes": 20262,
+        "digest": "sha256:7b2668e5a14f841a98992345116ed65b610a105367e299cb34c3a6ed69d7217f"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "competitive",
+        "surface": "execution-rush",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-execution-rush.png",
+        "bytes": 20667,
+        "digest": "sha256:70e546ec1dd29dc2f9dc97a0bf9529df133bcb0e7a5135db604e8633f06eb416"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "competitive",
+        "surface": "execution-rush-reduced-complete",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-execution-rush-reduced-complete.png",
+        "bytes": 38661,
+        "digest": "sha256:41774cb08c074e4b8a5a1128198f8bbfab6a691e58cee75f03e008b9bd01a608"
       }
     ]
   },
@@ -494,14 +1012,19 @@
     {
       "project": "chromium",
       "localOnly": true,
-      "capturedAt": "2026-08-03T06:31:33.047Z",
+      "capturedAt": "2026-08-04T00:13:14.467Z",
       "source": {
-        "digest": "sha256:b24281d8ee44f5cb191eee88aa193f78852b9326349977df146c15449f8b8454",
+        "digest": "sha256:e404ab9bbfa8e108499190fc39d654ada0dd249f4f9310fa4b0e9b1c5193ddf9",
         "files": [
           {
+            "path": "config/vaultfront-balance.v1.json",
+            "bytes": 7901,
+            "digest": "sha256:a931631d461fc273959644a9a003c8c94f942f2da5127ceb4daf05ade38e7e71"
+          },
+          {
             "path": "e2e/theme-visual-proof.spec.ts",
-            "bytes": 9466,
-            "digest": "sha256:7b2ed7c2e7a584ab90d329f07c2579fb3562daed54f927eb69e14235223f5c4a"
+            "bytes": 17708,
+            "digest": "sha256:dfc6a6e54ce50e09ee0c799122e1fdf4d895b32d78f8ffc10c9e816b4e249b52"
           },
           {
             "path": "src/client/Api.ts",
@@ -764,6 +1287,11 @@
             "digest": "sha256:8250ab4e3952d441f6dcb7aab53b95dcf4ae30c9b2539d17daa92c8529285396"
           },
           {
+            "path": "src/client/graphics/layers/VaultFrontLayer.ts",
+            "bytes": 66895,
+            "digest": "sha256:e1e840e834180949204165b8b22d7da9d79c031fd38c26467e3b458c2b79b964"
+          },
+          {
             "path": "src/client/graphics/layers/WinModal.ts",
             "bytes": 76075,
             "digest": "sha256:578729ee1087012bd1d6d6460d848579ac8ef9bcfa8f741fe621bd8bde318567"
@@ -817,6 +1345,21 @@
             "path": "src/client/styles/modal/chat.css",
             "bytes": 1366,
             "digest": "sha256:aa4c8ffee7411e873f48542d8c3a5c97586229720d7c11f3dcf2444166ede02b"
+          },
+          {
+            "path": "src/core/execution/VaultFrontExecution.ts",
+            "bytes": 95591,
+            "digest": "sha256:ff9b4e59fedf79f4c50de904ac3f195bd90c25b0c9aa032a228094e292c77dd2"
+          },
+          {
+            "path": "src/core/execution/VaultFrontRuntimeBalance.ts",
+            "bytes": 6783,
+            "digest": "sha256:6f2065eb02997cc64f021c89af9fb4726aab752fe425a9b07aa7ac850fa54d23"
+          },
+          {
+            "path": "src/core/game/GameUpdates.ts",
+            "bytes": 14951,
+            "digest": "sha256:6cdcc9aaa6ec4f60a0d99bf58f8b18670db1cfab90aa39b3c47acbf054815696"
           }
         ]
       },
@@ -848,7 +1391,52 @@
             "minimumButtonWidth": 44,
             "minimumButtonHeight": 44
           },
-          "surfaces": ["play", "settings", "postmatch"]
+          "surfaces": [
+            "play",
+            "settings",
+            "postmatch",
+            "execution-normal",
+            "execution-rush",
+            "execution-rush-reduced-complete"
+          ],
+          "executionChain": [
+            {
+              "state": "normal",
+              "theme": "vaultfront",
+              "reducedMotion": false,
+              "accessibleBefore": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 75 seconds remaining. Next convoy reward ×1.2.",
+              "accessibleAfter": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 75 seconds remaining. Next convoy reward ×1.2.",
+              "changedPixels": 7670,
+              "viewport": { "width": 1280, "height": 720 },
+              "scrollY": 0,
+              "background": "#05070d",
+              "completionForeground": "#6ee7b7"
+            },
+            {
+              "state": "rush",
+              "theme": "vaultfront",
+              "reducedMotion": false,
+              "accessibleBefore": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 150 seconds remaining. Next convoy reward ×1.5.",
+              "accessibleAfter": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 150 seconds remaining. Next convoy reward ×1.5.",
+              "changedPixels": 7670,
+              "viewport": { "width": 1280, "height": 720 },
+              "scrollY": 0,
+              "background": "#05070d",
+              "completionForeground": "#6ee7b7"
+            },
+            {
+              "state": "rush-reduced-complete",
+              "theme": "vaultfront",
+              "reducedMotion": true,
+              "accessibleBefore": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 150 seconds remaining. Next convoy reward ×1.5.",
+              "accessibleAfter": "",
+              "changedPixels": 15864,
+              "viewport": { "width": 1280, "height": 720 },
+              "scrollY": 0,
+              "background": "#05070d",
+              "completionForeground": "#6ee7b7"
+            }
+          ]
         },
         {
           "theme": "light",
@@ -877,7 +1465,52 @@
             "minimumButtonWidth": 44,
             "minimumButtonHeight": 44
           },
-          "surfaces": ["play", "settings", "postmatch"]
+          "surfaces": [
+            "play",
+            "settings",
+            "postmatch",
+            "execution-normal",
+            "execution-rush",
+            "execution-rush-reduced-complete"
+          ],
+          "executionChain": [
+            {
+              "state": "normal",
+              "theme": "light",
+              "reducedMotion": false,
+              "accessibleBefore": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 75 seconds remaining. Next convoy reward ×1.2.",
+              "accessibleAfter": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 75 seconds remaining. Next convoy reward ×1.2.",
+              "changedPixels": 7672,
+              "viewport": { "width": 1280, "height": 720 },
+              "scrollY": 0,
+              "background": "#f0f4ff",
+              "completionForeground": "#065f46"
+            },
+            {
+              "state": "rush",
+              "theme": "light",
+              "reducedMotion": false,
+              "accessibleBefore": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 150 seconds remaining. Next convoy reward ×1.5.",
+              "accessibleAfter": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 150 seconds remaining. Next convoy reward ×1.5.",
+              "changedPixels": 7672,
+              "viewport": { "width": 1280, "height": 720 },
+              "scrollY": 0,
+              "background": "#f0f4ff",
+              "completionForeground": "#065f46"
+            },
+            {
+              "state": "rush-reduced-complete",
+              "theme": "light",
+              "reducedMotion": true,
+              "accessibleBefore": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 150 seconds remaining. Next convoy reward ×1.5.",
+              "accessibleAfter": "",
+              "changedPixels": 14042,
+              "viewport": { "width": 1280, "height": 720 },
+              "scrollY": 0,
+              "background": "#f0f4ff",
+              "completionForeground": "#065f46"
+            }
+          ]
         },
         {
           "theme": "competitive",
@@ -906,21 +1539,71 @@
             "minimumButtonWidth": 44,
             "minimumButtonHeight": 44
           },
-          "surfaces": ["play", "settings", "postmatch"]
+          "surfaces": [
+            "play",
+            "settings",
+            "postmatch",
+            "execution-normal",
+            "execution-rush",
+            "execution-rush-reduced-complete"
+          ],
+          "executionChain": [
+            {
+              "state": "normal",
+              "theme": "competitive",
+              "reducedMotion": false,
+              "accessibleBefore": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 75 seconds remaining. Next convoy reward ×1.2.",
+              "accessibleAfter": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 75 seconds remaining. Next convoy reward ×1.2.",
+              "changedPixels": 7670,
+              "viewport": { "width": 1280, "height": 720 },
+              "scrollY": 0,
+              "background": "#0a0010",
+              "completionForeground": "#6ee7b7"
+            },
+            {
+              "state": "rush",
+              "theme": "competitive",
+              "reducedMotion": false,
+              "accessibleBefore": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 150 seconds remaining. Next convoy reward ×1.5.",
+              "accessibleAfter": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 150 seconds remaining. Next convoy reward ×1.5.",
+              "changedPixels": 7670,
+              "viewport": { "width": 1280, "height": 720 },
+              "scrollY": 0,
+              "background": "#0a0010",
+              "completionForeground": "#6ee7b7"
+            },
+            {
+              "state": "rush-reduced-complete",
+              "theme": "competitive",
+              "reducedMotion": true,
+              "accessibleBefore": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 150 seconds remaining. Next convoy reward ×1.5.",
+              "accessibleAfter": "",
+              "changedPixels": 15864,
+              "viewport": { "width": 1280, "height": 720 },
+              "scrollY": 0,
+              "background": "#0a0010",
+              "completionForeground": "#6ee7b7"
+            }
+          ]
         }
       ]
     },
     {
       "project": "mobile-chrome",
       "localOnly": true,
-      "capturedAt": "2026-08-03T06:31:36.521Z",
+      "capturedAt": "2026-08-04T00:14:11.802Z",
       "source": {
-        "digest": "sha256:b24281d8ee44f5cb191eee88aa193f78852b9326349977df146c15449f8b8454",
+        "digest": "sha256:e404ab9bbfa8e108499190fc39d654ada0dd249f4f9310fa4b0e9b1c5193ddf9",
         "files": [
           {
+            "path": "config/vaultfront-balance.v1.json",
+            "bytes": 7901,
+            "digest": "sha256:a931631d461fc273959644a9a003c8c94f942f2da5127ceb4daf05ade38e7e71"
+          },
+          {
             "path": "e2e/theme-visual-proof.spec.ts",
-            "bytes": 9466,
-            "digest": "sha256:7b2ed7c2e7a584ab90d329f07c2579fb3562daed54f927eb69e14235223f5c4a"
+            "bytes": 17708,
+            "digest": "sha256:dfc6a6e54ce50e09ee0c799122e1fdf4d895b32d78f8ffc10c9e816b4e249b52"
           },
           {
             "path": "src/client/Api.ts",
@@ -1183,6 +1866,11 @@
             "digest": "sha256:8250ab4e3952d441f6dcb7aab53b95dcf4ae30c9b2539d17daa92c8529285396"
           },
           {
+            "path": "src/client/graphics/layers/VaultFrontLayer.ts",
+            "bytes": 66895,
+            "digest": "sha256:e1e840e834180949204165b8b22d7da9d79c031fd38c26467e3b458c2b79b964"
+          },
+          {
             "path": "src/client/graphics/layers/WinModal.ts",
             "bytes": 76075,
             "digest": "sha256:578729ee1087012bd1d6d6460d848579ac8ef9bcfa8f741fe621bd8bde318567"
@@ -1236,6 +1924,21 @@
             "path": "src/client/styles/modal/chat.css",
             "bytes": 1366,
             "digest": "sha256:aa4c8ffee7411e873f48542d8c3a5c97586229720d7c11f3dcf2444166ede02b"
+          },
+          {
+            "path": "src/core/execution/VaultFrontExecution.ts",
+            "bytes": 95591,
+            "digest": "sha256:ff9b4e59fedf79f4c50de904ac3f195bd90c25b0c9aa032a228094e292c77dd2"
+          },
+          {
+            "path": "src/core/execution/VaultFrontRuntimeBalance.ts",
+            "bytes": 6783,
+            "digest": "sha256:6f2065eb02997cc64f021c89af9fb4726aab752fe425a9b07aa7ac850fa54d23"
+          },
+          {
+            "path": "src/core/game/GameUpdates.ts",
+            "bytes": 14951,
+            "digest": "sha256:6cdcc9aaa6ec4f60a0d99bf58f8b18670db1cfab90aa39b3c47acbf054815696"
           }
         ]
       },
@@ -1267,7 +1970,52 @@
             "minimumButtonWidth": 44,
             "minimumButtonHeight": 44
           },
-          "surfaces": ["play", "settings", "postmatch"]
+          "surfaces": [
+            "play",
+            "settings",
+            "postmatch",
+            "execution-normal",
+            "execution-rush",
+            "execution-rush-reduced-complete"
+          ],
+          "executionChain": [
+            {
+              "state": "normal",
+              "theme": "vaultfront",
+              "reducedMotion": false,
+              "accessibleBefore": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 75 seconds remaining. Next convoy reward ×1.2.",
+              "accessibleAfter": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 75 seconds remaining. Next convoy reward ×1.2.",
+              "changedPixels": 7670,
+              "viewport": { "width": 393, "height": 727 },
+              "scrollY": 0,
+              "background": "#05070d",
+              "completionForeground": "#6ee7b7"
+            },
+            {
+              "state": "rush",
+              "theme": "vaultfront",
+              "reducedMotion": false,
+              "accessibleBefore": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 150 seconds remaining. Next convoy reward ×1.5.",
+              "accessibleAfter": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 150 seconds remaining. Next convoy reward ×1.5.",
+              "changedPixels": 7670,
+              "viewport": { "width": 393, "height": 727 },
+              "scrollY": 0,
+              "background": "#05070d",
+              "completionForeground": "#6ee7b7"
+            },
+            {
+              "state": "rush-reduced-complete",
+              "theme": "vaultfront",
+              "reducedMotion": true,
+              "accessibleBefore": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 150 seconds remaining. Next convoy reward ×1.5.",
+              "accessibleAfter": "",
+              "changedPixels": 15841,
+              "viewport": { "width": 393, "height": 727 },
+              "scrollY": 0,
+              "background": "#05070d",
+              "completionForeground": "#6ee7b7"
+            }
+          ]
         },
         {
           "theme": "light",
@@ -1296,7 +2044,52 @@
             "minimumButtonWidth": 44,
             "minimumButtonHeight": 44
           },
-          "surfaces": ["play", "settings", "postmatch"]
+          "surfaces": [
+            "play",
+            "settings",
+            "postmatch",
+            "execution-normal",
+            "execution-rush",
+            "execution-rush-reduced-complete"
+          ],
+          "executionChain": [
+            {
+              "state": "normal",
+              "theme": "light",
+              "reducedMotion": false,
+              "accessibleBefore": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 75 seconds remaining. Next convoy reward ×1.2.",
+              "accessibleAfter": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 75 seconds remaining. Next convoy reward ×1.2.",
+              "changedPixels": 7672,
+              "viewport": { "width": 393, "height": 727 },
+              "scrollY": 0,
+              "background": "#f0f4ff",
+              "completionForeground": "#065f46"
+            },
+            {
+              "state": "rush",
+              "theme": "light",
+              "reducedMotion": false,
+              "accessibleBefore": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 150 seconds remaining. Next convoy reward ×1.5.",
+              "accessibleAfter": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 150 seconds remaining. Next convoy reward ×1.5.",
+              "changedPixels": 7672,
+              "viewport": { "width": 393, "height": 727 },
+              "scrollY": 0,
+              "background": "#f0f4ff",
+              "completionForeground": "#065f46"
+            },
+            {
+              "state": "rush-reduced-complete",
+              "theme": "light",
+              "reducedMotion": true,
+              "accessibleBefore": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 150 seconds remaining. Next convoy reward ×1.5.",
+              "accessibleAfter": "",
+              "changedPixels": 14051,
+              "viewport": { "width": 393, "height": 727 },
+              "scrollY": 0,
+              "background": "#f0f4ff",
+              "completionForeground": "#065f46"
+            }
+          ]
         },
         {
           "theme": "competitive",
@@ -1325,7 +2118,52 @@
             "minimumButtonWidth": 44,
             "minimumButtonHeight": 44
           },
-          "surfaces": ["play", "settings", "postmatch"]
+          "surfaces": [
+            "play",
+            "settings",
+            "postmatch",
+            "execution-normal",
+            "execution-rush",
+            "execution-rush-reduced-complete"
+          ],
+          "executionChain": [
+            {
+              "state": "normal",
+              "theme": "competitive",
+              "reducedMotion": false,
+              "accessibleBefore": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 75 seconds remaining. Next convoy reward ×1.2.",
+              "accessibleAfter": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 75 seconds remaining. Next convoy reward ×1.2.",
+              "changedPixels": 7670,
+              "viewport": { "width": 393, "height": 727 },
+              "scrollY": 0,
+              "background": "#0a0010",
+              "completionForeground": "#6ee7b7"
+            },
+            {
+              "state": "rush",
+              "theme": "competitive",
+              "reducedMotion": false,
+              "accessibleBefore": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 150 seconds remaining. Next convoy reward ×1.5.",
+              "accessibleAfter": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 150 seconds remaining. Next convoy reward ×1.5.",
+              "changedPixels": 7670,
+              "viewport": { "width": 393, "height": 727 },
+              "scrollY": 0,
+              "background": "#0a0010",
+              "completionForeground": "#6ee7b7"
+            },
+            {
+              "state": "rush-reduced-complete",
+              "theme": "competitive",
+              "reducedMotion": true,
+              "accessibleBefore": "Clean execution chain: 2 of 3 actions complete. Next: Deny an enemy pulse with Jam Breaker. 150 seconds remaining. Next convoy reward ×1.5.",
+              "accessibleAfter": "",
+              "changedPixels": 15841,
+              "viewport": { "width": 393, "height": 727 },
+              "scrollY": 0,
+              "background": "#0a0010",
+              "completionForeground": "#6ee7b7"
+            }
+          ]
         }
       ]
     }

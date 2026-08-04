@@ -1573,10 +1573,7 @@ export class VaultFrontExecution implements Execution {
       this.resetExecutionChain(playerID);
       return;
     }
-    const streakMultiplier =
-      this.weeklyMutator === "execution_rush"
-        ? this.tuning.gameplay.rewardDynamics.executionRushRewardMultiplier
-        : this.tuning.cleanExecutionStreakConvoyMultiplier;
+    const streakMultiplier = this.mutatorBalance.executionChainRewardMultiplier;
     this.executionStreakNextConvoyMultiplier.set(playerID, streakMultiplier);
     this.game.stats().cleanExecutionStreak(player);
     this.resetExecutionChain(playerID);
@@ -2607,6 +2604,9 @@ export class VaultFrontExecution implements Execution {
       ),
       jamBreakerGoldCost: bigintToSafeNumber(this.tuning.jamBreakerGoldCost),
       escortDurationTicks: this.mutatorBalance.escortDurationTicks,
+      executionChainWindowTicks: this.mutatorBalance.executionChainWindowTicks,
+      executionChainRewardMultiplier:
+        this.mutatorBalance.executionChainRewardMultiplier,
       sites: this.vaultSites.map((site) => {
         const projected = this.projectedSiteReward(site);
         return {

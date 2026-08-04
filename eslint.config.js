@@ -95,6 +95,17 @@ export default [
     },
   },
   {
+    files: ["src/shared/**/*.mjs"],
+    languageOptions: {
+      parserOptions: {
+        projectService: false,
+      },
+    },
+    rules: {
+      "@typescript-eslint/prefer-nullish-coalescing": "off",
+    },
+  },
+  {
     files: ["scripts/**/*.{mjs,cjs}"],
     languageOptions: {
       parserOptions: {

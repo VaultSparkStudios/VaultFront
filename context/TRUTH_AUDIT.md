@@ -2,6 +2,20 @@
 
 # Truth Audit
 
+## 2026-08-03 — Session 92 release-admission, runtime-recovery, and rendered-state truth
+
+- Capability truth: project discovery layers the canonical Studio capability map under deterministic local overrides, fails loudly on corrupt authority, and reports the full catalog without exposing secret values.
+- Release-gate truth: runtime readiness and generated release evidence consume one packaged semantic catalog and fingerprint; synthetic generic observations cannot satisfy the human Alpha gate.
+- Staging truth: production promotion derives image/revision/origin from a fresh successful same-repository `deploy.yml` run and retained hash-bound attestation; caller-authored image and staging digests are absent.
+- Recovery truth: a live promotion requires an exact successful dry-run receipt. Rollback separately admits the replaced and restored staging attestations, then retains a self-verified production health/revision outcome for 90 days.
+- Persistence truth: non-development deployment requires `DATABASE_URL`, applies the idempotent schema before traffic, and exposes database posture through worker/master health rather than claiming durability from configuration alone.
+- Delivery truth: CI builds and hashes one complete artifact for downstream consumers; Actions, official image manifests, and SSH host evidence are immutable and provenance-checked.
+- Runtime truth: transport recovery is FIFO, reject-newest bounded, generation-safe, synchronization-gated, and explicit about retry state. Telemetry service/version/revision/environment derive from VaultFront source identity and bounded idempotent shutdown.
+- Product truth: execution-chain timing/reward come from the active balance authority; accessibility and reduced motion are first-class. Unreachable server tutorial routes/state were deleted and cannot reappear without a mounted-consumer contract.
+- Visual truth: 36 current hash-bound captures cover three themes, two viewports, and six surfaces/states. Browser assertions cover contrast, overflow, scroll, source parity, accessibility, and reduced motion; refreshed Light completion pixels were directly inspected through a local JPEG fallback.
+- Verification truth: 209/209 Vitest files and 1,134/1,134 tests; type, lint, format, contracts, balance, production build, Pages, exact transfer/media budgets, production audit, supply-chain scan, Playwright 26/26, CANON-053, audit 10/10, innovations 56/56, exhaustion, and doctor pass directly.
+- Release truth: public launch remains NO-GO. Approved staging/parity, project-domain Zoho reply identity, native Obelisk, live-web evidence, three distinct authenticated humans, real revenue, observed rollback, provider-attested exact-revision CI, and founder approval are absent and were not inferred.
+
 ## 2026-08-02 — Session 91 certified feedback, topology, and observation truth
 
 - `docs/AUDIT_2026-08-02.json` is exhausted at 6/6; `docs/INNOVATION_PACK.json` is monotonic and exhausted at 53/53 with zero pending unblocked local work.

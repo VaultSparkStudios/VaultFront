@@ -1,5 +1,5 @@
 # Use an official Node runtime as the base image
-FROM node:24-slim AS base
+FROM node:24-slim@sha256:235600a8101ab264e117b1768e925532262668dc9b581ef1dd7d96ced463b8e7 AS base
 WORKDIR /usr/src/app
 
 # Build stage - install all dependencies and build.
@@ -12,9 +12,16 @@ COPY tsconfig.json ./
 COPY vite.config.ts ./
 COPY eslint.config.js ./
 COPY index.html ./
+COPY .bundlewatch.json ./
+COPY Dockerfile supervisord.conf update.sh ./
+COPY .github ./.github
+COPY config ./config
+COPY context ./context
+COPY docs ./docs
 COPY public ./public
 COPY resources ./resources
 COPY proprietary ./proprietary
+COPY scripts ./scripts
 COPY src ./src
 
 ARG GIT_COMMIT=unknown
