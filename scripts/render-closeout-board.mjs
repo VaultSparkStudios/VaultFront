@@ -286,12 +286,27 @@ function agentMemoryRecentlyTouched() {
   } catch {
     /* best-effort */
   }
-  // Check whether agent memory (~/.claude/projects/<slug>/memory) has files
-  // modified within the last 24h. Best-effort — cross-platform path resolution
-  // varies; absence is reported as "·" rather than failing.
+  // Check whether agent-neutral memory has files modified within the last 24h.
+  // Best-effort — cross-platform path resolution varies; absence is reported as
+  // "·" rather than failing.
   const home = os?.homedir?.() || process.env.HOME || process.env.USERPROFILE;
   if (!home) return false;
   const slug = path.basename(ROOT);
+  const codexMemoryDirs = [
+    path.join(home, ".codex", "memories", slug),
+    path.join(home, ".codex", "memories", slug.toLowerCase()),
+  ];
+  try {
+    for (const memoryDir of new Set(codexMemoryDirs)) {
+      if (!fs.existsSync(memoryDir)) continue;
+      for (const file of fs.readdirSync(memoryDir)) {
+        const stat = fs.statSync(path.join(memoryDir, file));
+        if (stat.isFile() && stat.mtimeMs > cutoff) return true;
+      }
+    }
+  } catch {
+    /* best-effort */
+  }
   // Project memory dirs use a prefix-encoded form; fall back to a glob scan.
   const projectsDir = path.join(home, ".claude", "projects");
   if (!fs.existsSync(projectsDir)) return false;
@@ -344,7 +359,7 @@ function writeBackCoverage() {
     }
   }
   const result = TARGETS.map((t) => ({ file: t, touched: touched.has(t) }));
-  // 10th item (per closeout spec): agent memory at ~/.claude/projects/<slug>/memory/
+  // 10th item (per closeout spec): agent-neutral memory in the project or agent home.
   result.push({
     file: "agent memory (context/BRAIN.md or agent home)",
     touched: agentMemoryRecentlyTouched(),

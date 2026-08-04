@@ -389,10 +389,10 @@
     }
   ],
   "sessionShellHygiene": {
-    "session": 92,
+    "session": 93,
     "running": 0,
-    "enumeratedAt": "2026-08-04T02:29:10.3848791Z",
-    "scope": "Final Win32 enumeration found zero Node, Vite, Playwright, Chrome, Chromium, or Edge processes referencing the VaultFront workspace; test ports 9000 and 39081 had zero listeners."
+    "enumeratedAt": "2026-08-04T07:41:23.777Z",
+    "scope": "Final Win32 enumeration found zero processes whose command line references the VaultFront workspace; VaultFront test ports 4173, 5173, 9000, and 39081 had zero listeners. Unrelated listeners on 3000/3001 were left untouched."
   },
   "testsLastRun": "2026-08-04T06:18:10.182Z",
   "testsLastRunMode": "full-vitest-2-workers+type+lint+contracts+balance+production-compile-vite+rendered-pixel+visual-qa+doctor",
