@@ -447,3 +447,9 @@ Public-safe decisions only. Detailed internal decision history is maintained pri
 **Decision:** Any uploaded CI artifact verified against the complete `static/` manifest must set `include-hidden-files: true`; downstream verification continues to compare the exact file set and digests before any consumer runs.
 
 **Why:** `.well-known/llms.txt` is part of the public dual-audience contract. Hashing it and then silently omitting it during transport creates a false mismatch and an incomplete deployable surface.
+
+### GitHub release planning is repository-owned and dependency-free
+
+**Decision:** Replace Semantic Release, its plugins, and bundled npm with `scripts/plan-github-release.mjs` plus the runner-provided GitHub CLI. The planner reads live semantic tags and full conventional-commit bodies, computes one deterministic major/minor/patch result, emits only sanitized outputs, serializes runs, and creates a release only behind `SEMANTIC_RELEASE_ENABLED=true`.
+
+**Why:** Production-only auditing hid high/moderate release-tool advisories. The registry-recommended major downgrade increased the finding count from 7 to 18, while bundled npm internals could not be safely overridden. Owning the narrow required behavior removes 406 packages, eliminates the full audit surface, and makes no-op/release intent executable under seven adversarial tests.

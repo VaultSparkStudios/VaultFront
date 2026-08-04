@@ -1,5 +1,5 @@
 <!-- generated-by: scripts/innovation-pack.mjs -->
-<!-- generated-at: 2026-08-04T00:35:51.150Z -->
+<!-- generated-at: 2026-08-04T02:36:03.644Z -->
 
 # Second-Order Innovation Pack
 
@@ -62,3 +62,5 @@ Generated only after the audit-backed Unified Genius List was exhausted. Complet
 55. [x] **dual-attestation-rollback-lineage** — Prove both sides of a rollback transition. Admit the target and currently deployed revisions through separate same-repository staging attestations so a rollback receipt states exactly what was replaced and what was restored. Evidence: two independently verified staging artifacts, unequal run constraint, dual digest lineage, and rollback-specific validation.
 56. [x] **observed-production-outcome-receipt** — Close promotion lineage over observed production bytes. Hash the canonical production health response, exact revision response, timing boundary, admitted target, and prior validation into a self-verified retained outcome artifact. Evidence: canonical health/revision digests, validation-parent digest, self-verification, 90-day retained artifact, and adversarial outcomes.
 57. [x] **lossless-hidden-path-artifact-transport** — Make artifact transport preserve the verified path universe. Require CI artifact upload to retain hidden public-contract paths so the downloaded payload is byte-for-byte equal to the manifest that admitted it, including .well-known agent surfaces. Evidence: provider-discovered manifest mismatch, explicit hidden-file transport, semantic regression coverage, and downstream exact-artifact verification.
+58. [x] **dependency-free-github-release-planner** — Collapse the release toolchain to one auditable planner. Replace the vulnerable Semantic Release and bundled npm graph with a repository-owned conventional-commit planner and GitHub CLI release step that is deterministic, no-op aware, serialized, and side-effect gated. Evidence: 406-package trusted-computing-base reduction, zero full-graph vulnerabilities, live-tag planner check, seven adversarial tests, serialized variable-gated release.
+59. [x] **format-stable-canonical-closeout** — Make canonical closeout preserve its own formatting invariant. Format every generated closeout truth surface after doctor write-back so the canonical commit path cannot create a Prettier-ratchet regression while recording a green doctor result. Evidence: doctor-to-formatter ordering, canonical status inclusion, and command-surface regression coverage.

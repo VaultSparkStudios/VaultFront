@@ -6,6 +6,7 @@ import {
   OPS_COMMANDS,
 } from "../../scripts/lib/ops-command-registry.mjs";
 import { spawnSync } from "../../scripts/lib/safe-spawn.mjs";
+import { PROCESS_INTEGRATION_TIMEOUT_MS } from "../helpers/processBudget";
 
 const root = process.cwd();
 
@@ -25,18 +26,22 @@ describe("Studio command surface", () => {
     expect(commandArgs("does-not-exist", [])).toBeNull();
   });
 
-  it("covers every mandatory protocol command and standalone script", () => {
-    const result = spawnSync(
-      process.execPath,
-      ["scripts/check-protocol-command-surface.mjs", "--json"],
-      { cwd: root, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] },
-    );
-    expect(result.status, String(result.stderr)).toBe(0);
-    expect(JSON.parse(String(result.stdout))).toMatchObject({
-      ok: true,
-      errors: [],
-    });
-  });
+  it(
+    "covers every mandatory protocol command and standalone script",
+    () => {
+      const result = spawnSync(
+        process.execPath,
+        ["scripts/check-protocol-command-surface.mjs", "--json"],
+        { cwd: root, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] },
+      );
+      expect(result.status, String(result.stderr)).toBe(0);
+      expect(JSON.parse(String(result.stdout))).toMatchObject({
+        ok: true,
+        errors: [],
+      });
+    },
+    PROCESS_INTEGRATION_TIMEOUT_MS,
+  );
 
   it("keeps closeout help inspection-only", () => {
     const before = spawnSync("git", ["status", "--porcelain"], {
@@ -66,8 +71,9 @@ describe("Studio command surface", () => {
     );
     expect(source).toContain('":(exclude)secrets/**"');
     expect(source).not.toContain('":(exclude)context/.session-lock"');
-    expect(source).toContain('"startup-brief-format"');
+    expect(source).toContain('"generated-closeout-format"');
     expect(source).toContain('"prettier.cjs"');
+    expect(source).toContain('"context/PROJECT_STATUS.json"');
     expect(source).toContain('"closeout-board-stage"');
     expect(source).toContain('"closeout-board-secret-scan"');
     expect(source).toContain('"closeout-board-push"');

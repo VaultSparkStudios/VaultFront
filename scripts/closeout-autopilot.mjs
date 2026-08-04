@@ -66,11 +66,12 @@ requireSuccess(
   ]),
 );
 requireSuccess(
-  "startup-brief-format",
+  "generated-closeout-format",
   run(process.execPath, [
     path.join(ROOT, "node_modules", "prettier", "bin", "prettier.cjs"),
     "--write",
     "docs/STARTUP_BRIEF.md",
+    "context/PROJECT_STATUS.json",
   ]),
 );
 requireSuccess(

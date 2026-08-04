@@ -8,6 +8,7 @@ import {
   evaluateProjectTruth,
 } from "../../scripts/lib/project-truth.mjs";
 import { spawnSync } from "../../scripts/lib/safe-spawn.mjs";
+import { PROCESS_INTEGRATION_TIMEOUT_MS } from "../helpers/processBudget";
 
 const root = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -31,66 +32,76 @@ describe("truthful project doctor", () => {
     );
   });
 
-  it("propagates a forced probe failure through JSON and the process exit", () => {
-    const result = spawnSync(
-      process.execPath,
-      [
-        "scripts/project-doctor.mjs",
-        "--json",
-        "--truth-only",
-        "--force-failure",
-      ],
-      { cwd: root, encoding: "utf8" },
-    );
-    const payload = JSON.parse(result.stdout);
+  it(
+    "propagates a forced probe failure through JSON and the process exit",
+    () => {
+      const result = spawnSync(
+        process.execPath,
+        [
+          "scripts/project-doctor.mjs",
+          "--json",
+          "--truth-only",
+          "--force-failure",
+        ],
+        { cwd: root, encoding: "utf8" },
+      );
+      const payload = JSON.parse(result.stdout);
 
-    expect(result.status).toBe(1);
-    expect(payload).toMatchObject({
-      source: "scripts/project-doctor.mjs",
-      blockingFailing: expect.any(Number),
-      observedAt: expect.any(String),
-      checks: expect.any(Array),
-      warnings: expect.any(Array),
-    });
-    expect(payload.blockingFailing).toBeGreaterThanOrEqual(1);
-    expect(payload.checks).toContainEqual(
-      expect.objectContaining({
-        id: "forced-failure",
-        status: "fail",
-        exitCode: 17,
-      }),
-    );
-  }, 15_000);
+      expect(result.status).toBe(1);
+      expect(payload).toMatchObject({
+        source: "scripts/project-doctor.mjs",
+        blockingFailing: expect.any(Number),
+        observedAt: expect.any(String),
+        checks: expect.any(Array),
+        warnings: expect.any(Array),
+      });
+      expect(payload.blockingFailing).toBeGreaterThanOrEqual(1);
+      expect(payload.checks).toContainEqual(
+        expect.objectContaining({
+          id: "forced-failure",
+          status: "fail",
+          exitCode: 17,
+        }),
+      );
+    },
+    PROCESS_INTEGRATION_TIMEOUT_MS,
+  );
 
-  it("runs the truth probe against an isolated fixture root", () => {
-    const fixture = fs.mkdtempSync(path.join(os.tmpdir(), "vaultfront-truth-"));
-    fs.mkdirSync(path.join(fixture, "context"), { recursive: true });
-    fs.writeFileSync(
-      path.join(fixture, "context", "PROJECT_STATUS.json"),
-      JSON.stringify({ audience: "internal" }),
-    );
-    fs.writeFileSync(
-      path.join(fixture, "context", "CANON_ADOPTION.md"),
-      "Audience: internal\n",
-    );
-    const result = spawnSync(
-      process.execPath,
-      [
-        path.join(root, "scripts", "check-project-truth.mjs"),
-        "--root",
-        fixture,
-        "--json",
-      ],
-      { cwd: root, encoding: "utf8" },
-    );
+  it(
+    "runs the truth probe against an isolated fixture root",
+    () => {
+      const fixture = fs.mkdtempSync(
+        path.join(os.tmpdir(), "vaultfront-truth-"),
+      );
+      fs.mkdirSync(path.join(fixture, "context"), { recursive: true });
+      fs.writeFileSync(
+        path.join(fixture, "context", "PROJECT_STATUS.json"),
+        JSON.stringify({ audience: "internal" }),
+      );
+      fs.writeFileSync(
+        path.join(fixture, "context", "CANON_ADOPTION.md"),
+        "Audience: internal\n",
+      );
+      const result = spawnSync(
+        process.execPath,
+        [
+          path.join(root, "scripts", "check-project-truth.mjs"),
+          "--root",
+          fixture,
+          "--json",
+        ],
+        { cwd: root, encoding: "utf8" },
+      );
 
-    expect(result.status).toBe(0);
-    expect(JSON.parse(result.stdout)).toMatchObject({
-      ok: true,
-      audience: "internal",
-      contradictions: [],
-    });
-  });
+      expect(result.status).toBe(0);
+      expect(JSON.parse(result.stdout)).toMatchObject({
+        ok: true,
+        audience: "internal",
+        contradictions: [],
+      });
+    },
+    PROCESS_INTEGRATION_TIMEOUT_MS,
+  );
 });
 
 describe("project manifest coherence", () => {

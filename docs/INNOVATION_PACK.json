@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-08-04T00:35:51.150Z",
+  "generatedAt": "2026-08-04T02:36:03.644Z",
   "source": "scripts/innovation-pack.mjs",
   "primarySource": "latest audit-backed Unified Genius List",
   "items": [
@@ -516,6 +516,24 @@
       "description": "Require CI artifact upload to retain hidden public-contract paths so the downloaded payload is byte-for-byte equal to the manifest that admitted it, including .well-known agent surfaces.",
       "complete": true,
       "evidence": "provider-discovered manifest mismatch, explicit hidden-file transport, semantic regression coverage, and downstream exact-artifact verification"
+    },
+    {
+      "rank": 58,
+      "status": "shipped",
+      "id": "dependency-free-github-release-planner",
+      "title": "Collapse the release toolchain to one auditable planner",
+      "description": "Replace the vulnerable Semantic Release and bundled npm graph with a repository-owned conventional-commit planner and GitHub CLI release step that is deterministic, no-op aware, serialized, and side-effect gated.",
+      "complete": true,
+      "evidence": "406-package trusted-computing-base reduction, zero full-graph vulnerabilities, live-tag planner check, seven adversarial tests, serialized variable-gated release"
+    },
+    {
+      "rank": 59,
+      "status": "shipped",
+      "id": "format-stable-canonical-closeout",
+      "title": "Make canonical closeout preserve its own formatting invariant",
+      "description": "Format every generated closeout truth surface after doctor write-back so the canonical commit path cannot create a Prettier-ratchet regression while recording a green doctor result.",
+      "complete": true,
+      "evidence": "doctor-to-formatter ordering, canonical status inclusion, and command-surface regression coverage"
     }
   ]
 }

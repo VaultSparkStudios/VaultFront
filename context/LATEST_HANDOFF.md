@@ -1,11 +1,12 @@
 ## Where We Left Off — Session 92 complete (2026-08-03)
 
-- Branch: `main`; audit 10/10 and cumulative innovations 57/57 exhausted with zero pending unblocked local work.
+- Branch: `main`; audit 10/10 and cumulative innovations 59/59 exhausted with zero pending unblocked local work.
 - Shipped: layered Studio capability discovery; one semantic release-gate catalog; run-bound staging admission; durable database readiness; one-build CI fan-out; immutable Actions/images/SSH trust; exact telemetry lifecycle; ordered bounded transport recovery; balance-bound accessible execution-chain HUD; and removal of the phantom server tutorial authority.
 - Recovery innovation: live promotion now requires an exact successful dry-run receipt; rollback admits both replaced and restored staging attestations; the retained production outcome binds canonical health and revision bytes into the lineage.
 - Provider-CI root fix: the single-build artifact upload now preserves hidden `.well-known` paths, keeping downloaded bytes equal to the admitting manifest; a semantic regression test and innovation-ledger entry protect the contract.
+- Release-tool root fix: removed Semantic Release and its bundled npm trusted-computing base after the safe-downgrade path proved worse; a deterministic conventional-commit planner plus GitHub CLI now owns variable-gated releases. Clean `npm ci` installs 710 packages and the full production+development audit is 0.
 - Visual truth: 36 hash-bound captures cover play, settings, post-match, normal/rush execution, and reduced-motion completion across three themes and desktop/mobile. The refreshed Light completion state was directly inspected after local image-viewer fallback; contrast and clipping are clean.
-- Verification: 209 Vitest files / 1,134 tests; TypeScript; lint; formatting; contracts; deterministic balance; production build; Pages; transfer/media budgets; production audit and supply-chain scan; Playwright 26/26; CANON-053; work exhaustion; and final doctor are green. Provider main CI `30866560939` and E2E `30866560933` passed after the hidden-path transport repair.
+- Verification: 210 Vitest files / 1,141 tests; TypeScript; lint; formatting; contracts; deterministic balance; production build; Pages; transfer/media budgets; full dependency audit and supply-chain scan; Playwright 26/26; CANON-053; work exhaustion; and final doctor are green. Provider main CI `30866560939` and E2E `30866560933` passed after the hidden-path transport repair.
 - Release: public-unlaunched / NO-GO. No approved staging/parity, Zoho reply identity, native Obelisk, live web, three-human Alpha, real revenue, observed rollback, or founder approval was inferred.
 - Next: establish the approved staging origin/callback contract, execute the dry-run receipt path, and collect external observations in gate order without substituting local evidence.
 

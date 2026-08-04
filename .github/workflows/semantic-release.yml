@@ -1,42 +1,21 @@
-name: Semantic Release
+name: GitHub Release
 
 on:
   push:
     branches: [main]
+
+concurrency:
+  group: github-release-${{ github.ref }}
+  cancel-in-progress: false
 
 permissions:
   contents: read
 
 jobs:
   verify:
-    name: Verify release toolchain
+    name: Verify proprietary release planner
     runs-on: ubuntu-latest
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-        with:
-          persist-credentials: false
-
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
-        with:
-          node-version: 24.14.0
-          cache: npm
-
-      - run: npm ci --ignore-scripts
-
-      - name: Load configured semantic-release plugins
-        run: node --input-type=module -e "for (const p of ['semantic-release','@semantic-release/commit-analyzer','@semantic-release/release-notes-generator','@semantic-release/changelog','@semantic-release/github']) await import(p)"
-
-  release:
-    name: Release
-    if: ${{ vars.SEMANTIC_RELEASE_ENABLED == 'true' }}
-    needs: verify
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    permissions:
-      contents: write
-      issues: write
-      pull-requests: write
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
@@ -46,11 +25,51 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 24.14.0
-          cache: npm
 
-      - run: npm ci --ignore-scripts
+      - name: Plan release without side effects
+        run: node scripts/plan-github-release.mjs --check
 
-      - name: Run semantic-release
+  release:
+    name: Create GitHub release
+    if: ${{ vars.SEMANTIC_RELEASE_ENABLED == 'true' }}
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 24.14.0
+
+      - name: Plan exact conventional release
+        id: plan
+        run: node scripts/plan-github-release.mjs
+
+      - name: Create immutable GitHub release
+        if: ${{ steps.plan.outputs.should_release == 'true' }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ steps.plan.outputs.tag }}
+          RELEASE_TITLE: ${{ steps.plan.outputs.title }}
+          RELEASE_BASE_TAG: ${{ steps.plan.outputs.base_tag }}
+        run: |
+          args=(
+            "$RELEASE_TAG"
+            --target "$GITHUB_SHA"
+            --title "$RELEASE_TITLE"
+            --generate-notes
+          )
+          if [[ -n "$RELEASE_BASE_TAG" ]]; then
+            args+=(--notes-start-tag "$RELEASE_BASE_TAG")
+          fi
+          gh release create "${args[@]}"
+
+      - name: Report no-op release
+        if: ${{ steps.plan.outputs.should_release != 'true' }}
+        run: echo "No release-bearing conventional commit since the latest semantic tag."

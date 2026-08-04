@@ -406,24 +406,28 @@ describe("public protocol compatibility", () => {
     });
   });
 
-  it("scans dynamic TypeScript child-process imports and the live deploy contract", async () => {
-    const fixture = tempSecretsDir();
-    const file = path.join(fixture, "dynamic.ts");
-    const rawModule = ["node", "child_process"].join(":");
-    writeFileSync(file, `const cp = await import("${rawModule}");\n`);
-    const { scanDirectChildProcessImports } =
-      await import("../../scripts/check-windows-hide.mjs");
-    expect(scanDirectChildProcessImports(fixture)).toHaveLength(1);
-    const contract = spawnSync(
-      process.execPath,
-      ["scripts/check-deploy-contract.mjs"],
-      {
-        cwd: root,
-        encoding: "utf8",
-      },
-    );
-    expect(contract.status).toBe(0);
-  }, 30_000);
+  it(
+    "scans dynamic TypeScript child-process imports and the live deploy contract",
+    async () => {
+      const fixture = tempSecretsDir();
+      const file = path.join(fixture, "dynamic.ts");
+      const rawModule = ["node", "child_process"].join(":");
+      writeFileSync(file, `const cp = await import("${rawModule}");\n`);
+      const { scanDirectChildProcessImports } =
+        await import("../../scripts/check-windows-hide.mjs");
+      expect(scanDirectChildProcessImports(fixture)).toHaveLength(1);
+      const contract = spawnSync(
+        process.execPath,
+        ["scripts/check-deploy-contract.mjs"],
+        {
+          cwd: root,
+          encoding: "utf8",
+        },
+      );
+      expect(contract.status).toBe(0);
+    },
+    PROCESS_INTEGRATION_TIMEOUT_MS,
+  );
 
   it("classifies lint-staged residue without treating it as committed work", async () => {
     const { classifyRecovery } =

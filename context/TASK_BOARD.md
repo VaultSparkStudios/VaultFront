@@ -370,12 +370,13 @@ All three premise-verified L3 findings in `docs/AUDIT_2026-07-25.json` shipped. 
 
 ## Completed (2026-08-03 — Session 92 durable release and resilient-play arc)
 
-All ten premise-verified audit items and five executable innovation outcomes shipped. `docs/AUDIT_2026-08-03.json` is 10/10, `docs/INNOVATION_PACK.json` is 57/57, and the work-exhaustion gate reports zero pending unblocked items.
+All ten premise-verified audit items and six executable innovation outcomes shipped. `docs/AUDIT_2026-08-03.json` is 10/10, `docs/INNOVATION_PACK.json` is 59/59, and the work-exhaustion gate reports zero pending unblocked items.
 
 - [done] `operator-rollback-receipt-contract` — Replaced rollback prose with verified dry-run and production outcome receipts.
 - [done] `dry-run-intent-admission` — A live promotion admits the exact successful repository run, target, operation, staging evidence, and rollback reason from a retained validation artifact.
 - [done] `dual-attestation-rollback-lineage` — Rollback independently proves the current and restored revisions through unequal same-repository staging runs.
 - [done] `observed-production-outcome-receipt` — Canonical health/revision bytes, timing, target, and validation parent form one self-verifying retained outcome.
 - [done] `lossless-hidden-path-artifact-transport` — Provider CI proved hidden `.well-known` paths were omitted in transit; upload now preserves the complete manifest-admitted path universe.
+- [done] `dependency-free-github-release-planner` — Replaced the vulnerable Semantic Release/npm graph with a deterministic, serialized, variable-gated proprietary planner and GitHub CLI release step; removed 406 packages and reached zero full-graph vulnerabilities.
 - [done] Verification root-fixes — Centralized bounded subprocess-fixture budgets, made the executable release catalog lint-visible, preserved nonblank telemetry fallbacks, and removed production debug/info/log noise without suppressing warnings or errors.
-- [done] Full proof — 209 files / 1,134 tests; type, lint, format, contracts, balance, production build, Pages, exact transfer/media budgets, production audit, supply-chain scan, Playwright 26/26, CANON-053 36/36, audit 10/10, innovations 57/57, and zero pending unblocked work.
+- [done] Full proof — 210 files / 1,141 tests; type, lint, format, contracts, balance, production build, Pages, exact transfer/media budgets, full dependency audit, supply-chain scan, Playwright 26/26, CANON-053 36/36, audit 10/10, innovations 59/59, and zero pending unblocked work.

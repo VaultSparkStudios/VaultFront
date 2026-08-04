@@ -974,6 +974,37 @@ const candidates = [
     evidence:
       "provider-discovered manifest mismatch, explicit hidden-file transport, semantic regression coverage, and downstream exact-artifact verification",
   },
+  {
+    id: "dependency-free-github-release-planner",
+    title: "Collapse the release toolchain to one auditable planner",
+    description:
+      "Replace the vulnerable Semantic Release and bundled npm graph with a repository-owned conventional-commit planner and GitHub CLI release step that is deterministic, no-op aware, serialized, and side-effect gated.",
+    complete:
+      has("scripts/plan-github-release.mjs", /planGithubRelease/) &&
+      has(".github/workflows/semantic-release.yml", /gh release create/) &&
+      has(
+        "tests/scripts/GithubReleasePlanner.test.ts",
+        /dependency-free and side-effect gated/,
+      ) &&
+      !has("package.json", /"semantic-release"/),
+    evidence:
+      "406-package trusted-computing-base reduction, zero full-graph vulnerabilities, live-tag planner check, seven adversarial tests, serialized variable-gated release",
+  },
+  {
+    id: "format-stable-canonical-closeout",
+    title: "Make canonical closeout preserve its own formatting invariant",
+    description:
+      "Format every generated closeout truth surface after doctor write-back so the canonical commit path cannot create a Prettier-ratchet regression while recording a green doctor result.",
+    complete:
+      has("scripts/closeout-autopilot.mjs", /generated-closeout-format/) &&
+      has("scripts/closeout-autopilot.mjs", /context\/PROJECT_STATUS\.json/) &&
+      has(
+        "tests/scripts/OpsCommandSurface.test.ts",
+        /context\/PROJECT_STATUS\.json/,
+      ),
+    evidence:
+      "doctor-to-formatter ordering, canonical status inclusion, and command-surface regression coverage",
+  },
 ];
 
 const payload = {

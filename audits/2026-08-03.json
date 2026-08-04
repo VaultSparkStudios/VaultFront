@@ -26,20 +26,21 @@
   "work": {
     "audit": { "total": 10, "shipped": 10, "pendingUnblocked": 0 },
     "innovations": {
-      "total": 57,
-      "shipped": 57,
-      "newlyImplemented": 5,
-      "newlyGenerated": 4,
+      "total": 59,
+      "shipped": 59,
+      "newlyImplemented": 6,
+      "newlyGenerated": 5,
       "pendingUnblocked": 0
     }
   },
   "verification": {
-    "vitest": "209/209 files; 1134/1134 tests",
+    "vitest": "210/210 files; 1141/1141 tests",
     "playwright": "26/26 full matrix; exact-source visual matrix 36 artifacts",
     "balanceScenarios": 28125,
     "deployContractChecks": 91,
     "pages": "10/10 plus service-worker 1/1",
     "productionVulnerabilities": 0,
+    "fullGraphVulnerabilities": 0,
     "supplyChainIncidentMatches": 0,
     "doctorBlockingFailing": 0
   },

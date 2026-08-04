@@ -11,7 +11,7 @@
 ║  PROJECT IMPACT     █████████░   94/100                                                       ║
 ║  ECOSYSTEM IMPACT   ████████▌░   85/100                                                       ║
 ║  SIL DELTA          997 → 997  (→0 · structural win — coherence/honesty, not score)           ║
-║  PROOF OF WORK      91 files · +4628/-1187 · suite 209/209 files · 1134/1134 tests · 26/26 E2E · tests +46 · probes +14  ║
+║  PROOF OF WORK      91 files · +4628/-1187 · suite 210/210 files · 1141/1141 tests · 26/26 E2E · tests +53 · probes +15  ║
 ║                                                                                               ║
 ╚═════════════════════════════════════════════════════════════════════════════════════════════╝
 
@@ -23,7 +23,7 @@
          A live promotion must admit the exact successful dry-run receipt. Rollback proves
          both the replaced and restored staging revisions and retains canonical observed
          production health and revision bytes in a self-verifying outcome.
-         → scripts/lib/promotion-receipt.mjs; .github/workflows/promote.yml; 57/57 innovations
+         → scripts/lib/promotion-receipt.mjs; .github/workflows/promote.yml; 59/59 innovations
 
   [126/127]  staging-and-durability-admission                     Proj 10  ·  Eco 9
          ── security ────────────────────────────────────────────────────────────────────────
@@ -48,11 +48,11 @@
 
   [closeout]  verification-root-fixes                             Proj 9  ·  Eco 8
          ── speed ───────────────────────────────────────────────────────────────────────────
-         Subprocess contention received a shared bounded test budget, executable JavaScript
-         authority became lint-visible, and transfer passed without raising its ceiling.
-         Production strips non-actionable console chatter while preserving warnings and
-         errors.
-         → 209/209 files; 1134/1134 tests; Playwright 26/26; bundle and production audit PASS
+         Subprocess contention received a shared bounded cold-install budget, executable
+         JavaScript authority became lint-visible, and transfer passed without raising its
+         ceiling. A 406-package vulnerable release toolchain became one tested proprietary
+         planner, taking the full dependency audit to zero.
+         → 210/210 files; 1141/1141 tests; Playwright 26/26; full dependency audit PASS
 
   [130]  balance-bound-execution-chain                            Proj 10  ·  Eco 7
          ── ux ──────────────────────────────────────────────────────────────────────────────
