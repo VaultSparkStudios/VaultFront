@@ -9,15 +9,6 @@ const source = readFileSync(
 
 const contracts = [
   {
-    route: "/api/vaultfront/battle-narrative",
-    order: [
-      "resolveVaultFrontIdentity",
-      "safeParse(req.body)",
-      "reserveRemoteAiCall",
-      "anthropic.messages.create",
-    ],
-  },
-  {
     route: "/api/vaultfront/match-prophecy",
     order: [
       "cachedProphecy",
@@ -36,30 +27,11 @@ const contracts = [
     ],
   },
   {
-    route: "/api/vaultfront/match-coach",
-    order: [
-      "requireVaultFrontActor",
-      "safeParse(req.body)",
-      "loadCertifiedAiContext",
-      "matchCoachCache.get",
-      "reserveRemoteAiCall",
-      "anthropic.messages.create",
-    ],
-  },
-  {
     route: "/api/vaultfront/dynasty-story",
     order: [
       "requireVaultFrontActor",
       "safeParse(req.body)",
       "loadCertifiedAiContext",
-      "reserveRemoteAiCall",
-      "anthropic.messages.create",
-    ],
-  },
-  {
-    route: "/api/vaultfront/bot-persona",
-    order: [
-      "personaCache.get",
       "reserveRemoteAiCall",
       "anthropic.messages.create",
     ],

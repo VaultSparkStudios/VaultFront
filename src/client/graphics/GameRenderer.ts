@@ -10,6 +10,7 @@ import { FrameProfiler } from "./FrameProfiler";
 import { AlertFrame } from "./layers/AlertFrame";
 import { AttacksDisplay } from "./layers/AttacksDisplay";
 import { BuildMenu } from "./layers/BuildMenu";
+import { CertifiedNarratorLayer } from "./layers/CertifiedNarratorLayer";
 import { ChatDisplay } from "./layers/ChatDisplay";
 import { ChatModal } from "./layers/ChatModal";
 import { CoachHintEngine } from "./layers/CoachHintEngine";
@@ -29,7 +30,6 @@ import { Leaderboard } from "./layers/Leaderboard";
 import { MainRadialMenu } from "./layers/MainRadialMenu";
 import { MultiTabModal } from "./layers/MultiTabModal";
 import { NameLayer } from "./layers/NameLayer";
-import { NarratorReporter } from "./layers/NarratorReporter";
 import { NukeTrajectoryPreviewLayer } from "./layers/NukeTrajectoryPreviewLayer";
 import { PerformanceOverlay } from "./layers/PerformanceOverlay";
 import { PlayerInfoOverlay } from "./layers/PlayerInfoOverlay";
@@ -211,9 +211,7 @@ export function createRenderer(
     playStyleChip.game = game;
   }
 
-  const narratorRep = new NarratorReporter();
-  narratorRep.game = game;
-  narratorRep.setGameId(game.gameID());
+  const certifiedNarrator = new CertifiedNarratorLayer(game.gameID());
 
   const replayPanel = document.querySelector("replay-panel") as ReplayPanel;
   if (!(replayPanel instanceof ReplayPanel)) {
@@ -353,7 +351,7 @@ export function createRenderer(
     coachHint,
     progressionDebrief,
     playStyleChip,
-    narratorRep,
+    certifiedNarrator,
     eventsDisplay,
     attacksDisplay,
     chatDisplay,

@@ -12,6 +12,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import type { Response } from "express";
 import { BoundedSseTransport, type SseAdmission } from "./BoundedSseTransport";
+import type { CertifiedNarrationEvent } from "./CertifiedNarrationProjection";
 import { logger as Logger } from "./Logger";
 import { canAttemptRemoteAi, reserveRemoteAiCall } from "./RemoteAiPolicy";
 
@@ -77,6 +78,7 @@ interface GameNarratorState {
   timer: ReturnType<typeof setTimeout> | null;
   /** NarratorContextSnapshot — injected by Worker.ts for contextual commentary */
   context: NarratorContextSnapshot | null;
+  lastCertifiedLabel: string | null;
 }
 
 export interface NarratorContextSnapshot {
@@ -101,6 +103,7 @@ export class NarratorBus {
         pendingEvents: [],
         timer: null,
         context: null,
+        lastCertifiedLabel: null,
       });
     }
     return this.games.get(gameId)!;
@@ -145,15 +148,27 @@ export class NarratorBus {
     return admission;
   }
 
-  /** Queue an activity event for narration. */
-  queueEvent(
+  /** Queue a privacy-minimal event projected from an accepted game intent. */
+  queueCertifiedEvent(
     gameId: string,
-    activityLabel: string,
+    event: CertifiedNarrationEvent,
     context?: NarratorContextSnapshot,
   ): void {
-    if (!canAttemptRemoteAi()) return;
     const state = this.games.get(gameId);
     if (!state || state.clients.size === 0) return;
+    if (state.lastCertifiedLabel === event.label) return;
+    state.lastCertifiedLabel = event.label;
+    this.broadcastRaw(gameId, {
+      type: "commentary",
+      text: event.label,
+      persona: "certified",
+      authority: event.authority,
+      baseline: true,
+    });
+
+    // The certified deterministic line is the product baseline. Remote AI is
+    // an optional enrichment and never controls whether narration exists.
+    if (!canAttemptRemoteAi()) return;
 
     if (context) {
       // Auto-compute blendMode from match phase + site balance
@@ -161,10 +176,7 @@ export class NarratorBus {
       state.context = { ...context, blendMode };
     }
 
-    if (state.pendingEvents[state.pendingEvents.length - 1] === activityLabel) {
-      return;
-    }
-    state.pendingEvents.push(activityLabel);
+    state.pendingEvents.push(event.label);
     if (state.pendingEvents.length > MAX_PENDING_EVENTS) {
       state.pendingEvents.splice(
         0,

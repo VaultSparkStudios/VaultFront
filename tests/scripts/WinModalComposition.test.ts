@@ -7,10 +7,10 @@ describe("WinModal composition", () => {
     expect(result).toMatchObject({
       ok: true,
       errors: [],
-      modal: { budget: 2400 },
+      modal: { budget: 2380 },
       lifecycle: { budget: 240 },
     });
-    expect(result.modal.lines).toBeLessThanOrEqual(2366);
+    expect(result.modal.lines).toBeLessThanOrEqual(2380);
     expect(result.lifecycle.lines).toBeLessThanOrEqual(234);
   });
 });

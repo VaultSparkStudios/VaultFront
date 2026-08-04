@@ -545,6 +545,31 @@ describe("Translation System", () => {
       }
     }
 
+    const routeGraphPath = path.join(
+      PROJECT_ROOT,
+      "src",
+      "shared",
+      "PublicRouteGraph.json",
+    );
+    if (fs.existsSync(routeGraphPath)) {
+      const routeGraph = JSON.parse(
+        fs.readFileSync(routeGraphPath, "utf-8"),
+      ) as {
+        footerLinks?: Array<{ i18n?: string; ariaI18n?: string }>;
+        appExternalLinks?: Array<{ i18n?: string; ariaI18n?: string }>;
+      };
+      for (const link of [
+        ...(routeGraph.footerLinks ?? []),
+        ...(routeGraph.appExternalLinks ?? []),
+      ]) {
+        for (const key of [link.i18n, link.ariaI18n]) {
+          if (!key) continue;
+          referencedStaticKeys.add(key);
+          if (enKeySet.has(key)) usedKeys.add(key);
+        }
+      }
+    }
+
     const derivedDynamicPatterns = Array.from(dynamicPrefixes)
       .sort()
       .map((prefix) => prefixToRegex(prefix));

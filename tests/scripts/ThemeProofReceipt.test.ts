@@ -79,7 +79,10 @@ describe("local theme proof receipt", () => {
         ok: true,
         scope: "local-only",
         matrixCells: 6,
-        artifactCount: 36,
+        artifactCount:
+          THEME_PROOF_PROJECTS.length *
+          THEME_PROOF_THEMES.length *
+          THEME_PROOF_SURFACES.length,
         errors: [],
       });
     },
@@ -122,7 +125,10 @@ describe("local theme proof receipt", () => {
       fs.rmSync(path.join(root, "output"), { recursive: true, force: true });
       expect(checkThemeProofReceipt(root, now)).toMatchObject({
         ok: true,
-        artifactCount: 36,
+        artifactCount:
+          THEME_PROOF_PROJECTS.length *
+          THEME_PROOF_THEMES.length *
+          THEME_PROOF_SURFACES.length,
         errors: [],
       });
     },

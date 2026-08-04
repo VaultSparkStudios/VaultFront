@@ -1,0 +1,174 @@
+{
+  "schemaVersion": 1,
+  "scope": "Interactive match features that cross server route, client transport, and visible product consumer boundaries.",
+  "features": [
+    {
+      "id": "prematch-oracle",
+      "method": "GET",
+      "route": "/api/vaultfront/match-oracle",
+      "server": {
+        "file": "src/server/Worker.ts",
+        "marker": "app.get(\"/api/vaultfront/match-oracle\""
+      },
+      "transport": {
+        "file": "src/client/Api.ts",
+        "marker": "/api/vaultfront/match-oracle?"
+      },
+      "consumers": [
+        {
+          "file": "src/client/GameStartingModal.ts",
+          "marker": "fetchMatchOracle(playerIds"
+        }
+      ]
+    },
+    {
+      "id": "prematch-prophecy",
+      "method": "POST",
+      "route": "/api/vaultfront/match-prophecy",
+      "server": {
+        "file": "src/server/Worker.ts",
+        "marker": "\"/api/vaultfront/match-prophecy\""
+      },
+      "transport": {
+        "file": "src/client/Api.ts",
+        "marker": "/api/vaultfront/match-prophecy"
+      },
+      "consumers": [
+        {
+          "file": "src/client/GameStartingModal.ts",
+          "marker": "fetchMatchProphecy("
+        }
+      ]
+    },
+    {
+      "id": "prematch-brief",
+      "method": "GET",
+      "route": "/api/vaultfront/prematch-brief",
+      "server": {
+        "file": "src/server/Worker.ts",
+        "marker": "\"/api/vaultfront/prematch-brief\""
+      },
+      "transport": {
+        "file": "src/client/Api.ts",
+        "marker": "/api/vaultfront/prematch-brief"
+      },
+      "consumers": [
+        {
+          "file": "src/client/GameStartingModal.ts",
+          "marker": "fetchPrematchBrief(myPlayerId"
+        }
+      ]
+    },
+    {
+      "id": "micro-coach-hint",
+      "method": "GET",
+      "route": "/api/vaultfront/micro-hint",
+      "server": {
+        "file": "src/server/Worker.ts",
+        "marker": "\"/api/vaultfront/micro-hint\""
+      },
+      "transport": {
+        "file": "src/client/Api.ts",
+        "marker": "export async function fetchMicroHint"
+      },
+      "consumers": [
+        {
+          "file": "src/client/graphics/layers/CoachHintEngine.ts",
+          "marker": "fetchMicroHint({ gold, sites, trigger })"
+        }
+      ]
+    },
+    {
+      "id": "certified-dynasty-story",
+      "method": "POST",
+      "route": "/api/vaultfront/dynasty-story",
+      "server": {
+        "file": "src/server/Worker.ts",
+        "marker": "app.post(\n    \"/api/vaultfront/dynasty-story\""
+      },
+      "transport": {
+        "file": "src/client/Api.ts",
+        "marker": "export async function generateDynastyStoryChapter"
+      },
+      "consumers": [
+        {
+          "file": "src/client/graphics/layers/WinModal.ts",
+          "marker": "generateDynastyStoryChapter({ gameId"
+        }
+      ]
+    },
+    {
+      "id": "certified-match-recap",
+      "method": "GET",
+      "route": "/api/vaultfront/match-recap/:gameId",
+      "server": {
+        "file": "src/server/Worker.ts",
+        "marker": "assertRoutePolicyBinding(\n    \"match-recap\""
+      },
+      "transport": {
+        "file": "src/client/Api.ts",
+        "marker": "/api/vaultfront/match-recap/"
+      },
+      "consumers": [
+        {
+          "file": "src/client/graphics/layers/WinModal.ts",
+          "marker": "fetchMatchRecap("
+        }
+      ]
+    },
+    {
+      "id": "certified-coach-debrief",
+      "method": "POST",
+      "route": "/api/vaultfront/coach-debrief",
+      "server": {
+        "file": "src/server/Worker.ts",
+        "marker": "assertRoutePolicyBinding(\n    \"coach-debrief\""
+      },
+      "transport": {
+        "file": "src/client/Api.ts",
+        "marker": "/api/vaultfront/coach-debrief"
+      },
+      "consumers": [
+        {
+          "file": "src/client/graphics/layers/WinModal.ts",
+          "marker": "fetchCoachDebrief({"
+        }
+      ]
+    },
+    {
+      "id": "certified-live-narrator",
+      "method": "GET",
+      "route": "/api/vaultfront/narrator/:gameId",
+      "server": {
+        "file": "src/server/Worker.ts",
+        "marker": "app.get(\"/api/vaultfront/narrator/:gameId\""
+      },
+      "transport": {
+        "file": "src/client/Api.ts",
+        "marker": "/api/vaultfront/narrator/"
+      },
+      "consumers": [
+        {
+          "file": "src/client/graphics/layers/CertifiedNarratorLayer.ts",
+          "marker": "subscribeNarrator(this.gameId"
+        }
+      ]
+    }
+  ],
+  "retiredRoutes": [
+    "/api/vaultfront/battle-narrative",
+    "/api/vaultfront/bot-lore/:personality",
+    "/api/vaultfront/match-commentary",
+    "/api/vaultfront/match-mission",
+    "/api/vaultfront/match-coach",
+    "/api/vaultfront/bot-persona",
+    "/api/vaultfront/intel-purchase",
+    "/api/vaultfront/intel-list",
+    "/api/vaultfront/clan-war/challenge",
+    "/api/vaultfront/clan-war/accept",
+    "/api/vaultfront/clan-war/decline",
+    "/api/vaultfront/clan-war/upcoming",
+    "/api/vaultfront/clan-war/:clanId",
+    "/api/vaultfront/narrator/:gameId/event"
+  ]
+}

@@ -79,7 +79,6 @@ import { registerAchievementRoutes } from "./AchievementRouter";
 import { achievementStore } from "./AchievementStore";
 import { antiCheatMonitor } from "./AntiCheatMonitor";
 import { clanStore } from "./ClanStore";
-import { clanWarStore } from "./ClanWarStore";
 import {
   databaseAllowsRequest,
   databaseReady,
@@ -98,11 +97,7 @@ import { registerProgressionRoutes } from "./ProgressionRouter";
 import { authorizeArchivedRematchSource } from "./RematchAuthorization";
 import { registerRematchRoutes } from "./RematchRouter";
 import { rematchStore } from "./RematchStore";
-import {
-  canAttemptRemoteAi,
-  remoteAiPosture,
-  reserveRemoteAiCall,
-} from "./RemoteAiPolicy";
+import { remoteAiPosture, reserveRemoteAiCall } from "./RemoteAiPolicy";
 import { replayHighlightStore } from "./ReplayHighlightStore";
 import {
   createReplayShareProjection,
@@ -122,7 +117,6 @@ import { streamingBus } from "./StreamingBus";
 import { tournamentStore } from "./TournamentStore";
 import { verifyTurnstileToken } from "./Turnstile";
 import {
-  canManageClan,
   canManageTournament,
   verifyOptionalIdentityClaim,
   type VerifiedVaultFrontActor,
@@ -228,7 +222,7 @@ function authorizeRoutePolicy(
 async function loadCertifiedAiContext(
   gameID: string,
   actor: VerifiedVaultFrontActor,
-  policyId: "match-coach" | "match-recap" | "coach-debrief" | "dynasty-story",
+  policyId: "match-recap" | "coach-debrief" | "dynasty-story",
   res: Response,
 ) {
   const certified = certifyArchivedGame(
@@ -278,6 +272,9 @@ export async function startWorker() {
   const __dirname = path.dirname(__filename);
 
   const app = express();
+  const anthropic = new Anthropic({
+    apiKey: process.env.ANTHROPIC_API_KEY ?? "",
+  });
 
   // ── Security middleware ───────────────────────────────────────────────────
   const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(",").map((s) =>
@@ -869,86 +866,6 @@ export async function startWorker() {
   });
   // ─────────────────────────────────────────────────────────────────────────
 
-  // ── Battle Narrative API ─────────────────────────────────────────────────
-  const narrativeRateLimit = rateLimit({
-    windowMs: 60_000,
-    max: 10, // generous — one per match per player
-  });
-
-  const BattleNarrativeInputSchema = z.object({
-    matchId: z.string().max(64),
-    events: z
-      .array(
-        z.object({
-          type: z.string(),
-          player: z.string().optional(),
-          tick: z.number().optional(),
-          detail: z.string().optional(),
-        }),
-      )
-      .max(20),
-    winnerId: z.string().optional(),
-    durationSeconds: z.number().int().min(0).max(7200),
-  });
-
-  const anthropic = new Anthropic({
-    apiKey: process.env.ANTHROPIC_API_KEY ?? "",
-  });
-
-  app.post(
-    "/api/vaultfront/battle-narrative",
-    narrativeRateLimit,
-    async (req, res) => {
-      const identity = await resolveVaultFrontIdentity(req);
-      if (!identity) {
-        return res.status(401).json({ error: "Missing identity" });
-      }
-      const parsed = BattleNarrativeInputSchema.safeParse(req.body);
-      if (!parsed.success) {
-        return res.status(400).json({ error: z.prettifyError(parsed.error) });
-      }
-      const { events, winnerId, durationSeconds } = parsed.data;
-      const eventSummary = events
-        .map(
-          (e) =>
-            `[${e.type}]${e.player ? ` ${e.player}` : ""}${e.detail ? `: ${e.detail}` : ""}`,
-        )
-        .join("\n");
-      const minutes = Math.floor(durationSeconds / 60);
-
-      try {
-        if (!reserveRemoteAiCall("debrief").allowed) {
-          return res
-            .status(503)
-            .json({ error: "Narrative service unavailable" });
-        }
-        const message = await anthropic.messages.create({
-          model: "claude-haiku-4-5-20251001",
-          max_tokens: 400,
-          system: [
-            {
-              type: "text",
-              text: "You are a battle chronicler for VaultFront, a browser real-time strategy game where players contest vault sites, route convoys, and trigger comeback surges. Write a 3-paragraph battle chronicle in an epic, cinematic tone. First paragraph: the opening moves and territory struggles. Second paragraph: the pivotal vault and convoy moments. Third paragraph: the endgame and outcome. Keep each paragraph to 2-3 sentences.",
-              cache_control: { type: "ephemeral" },
-            },
-          ],
-          messages: [
-            {
-              role: "user",
-              content: `Match duration: ${minutes} minutes\n${winnerId ? `Winner: ${winnerId}\n` : ""}Key events:\n${eventSummary}`,
-            },
-          ],
-        });
-        const narrative =
-          message.content[0].type === "text" ? message.content[0].text : "";
-        return res.json({ ok: true, narrative });
-      } catch (err) {
-        logger.error("battle-narrative generation failed", err);
-        return res.status(500).json({ error: "Narrative generation failed" });
-      }
-    },
-  );
-
   // ── Vault Prophecy ────────────────────────────────────────────────────────
   const prophecyRateLimit = rateLimit({ windowMs: 10_000, max: 5 });
   const PROPHECY_SYSTEM_PROMPT =
@@ -1002,197 +919,8 @@ export async function startWorker() {
     },
   );
 
-  // ── Live Event Commentary ─────────────────────────────────────────────────
-  const commentaryRateLimit = rateLimit({ windowMs: 10_000, max: 5 });
-  const COMMENTARY_SYSTEM_PROMPT =
-    'You are a sports commentator for a real-time strategy game called VaultFront. Generate exactly 10 one-line commentary strings keyed by event type. Return ONLY valid JSON: {"vault_captured": "...", "convoy_intercepted": "...", "convoy_delivered": "...", "last_stand": "...", "heist_executed": "...", "bounty_collected": "...", "comeback_surge": "...", "warchest_hunt": "...", "map_event": "...", "general": "..."}. Be dramatic and concise — max 10 words per line.';
-
-  app.post(
-    "/api/vaultfront/match-commentary",
-    commentaryRateLimit,
-    async (req, res) => {
-      const {
-        playerCount = 4,
-        mutator = "none",
-        mapName = "unknown",
-      } = req.body ?? {};
-      try {
-        if (!reserveRemoteAiCall("narrator").allowed) {
-          return res
-            .status(503)
-            .json({ error: "Commentary service unavailable" });
-        }
-        const message = await anthropic.messages.create({
-          model: "claude-haiku-4-5-20251001",
-          max_tokens: 300,
-          system: [
-            {
-              type: "text",
-              text: COMMENTARY_SYSTEM_PROMPT,
-              cache_control: { type: "ephemeral" },
-            },
-          ],
-          messages: [
-            {
-              role: "user",
-              content: `${playerCount} players, map: ${mapName}, mutator: ${mutator}. Generate commentary.`,
-            },
-          ],
-        });
-        const raw =
-          message.content[0].type === "text" ? message.content[0].text : "{}";
-        let commentary: Record<string, string> = {};
-        try {
-          commentary = JSON.parse(raw);
-        } catch {
-          commentary = { general: "The battle rages on!" };
-        }
-        return res.json({ ok: true, commentary });
-      } catch (err) {
-        logger.error("match-commentary generation failed", err);
-        return res.status(500).json({ error: "Commentary generation failed" });
-      }
-    },
-  );
-
-  // ── NPC Lore Generation ────────────────────────────────────────────────────
-  const BOT_LORE_SYSTEM_PROMPT =
-    'You generate faction lore for AI opponents in a real-time strategy game. Return ONLY valid JSON with fields: {"factionName": string, "emblem": string (single emoji), "defeatQuote": string (max 12 words, dramatic), "victoryQuote": string (max 12 words, triumphant)}.';
-
-  const botLoreCache = new Map<
-    string,
-    {
-      factionName: string;
-      emblem: string;
-      defeatQuote: string;
-      victoryQuote: string;
-    }
-  >();
-
-  const BOT_PERSONALITIES = [
-    "aggressive",
-    "economic",
-    "diplomatic",
-    "ghost",
-  ] as const;
-
-  async function initBotLore(): Promise<void> {
-    if (!canAttemptRemoteAi()) return;
-    for (const personality of BOT_PERSONALITIES) {
-      if (!reserveRemoteAiCall("other").allowed) break;
-      try {
-        const message = await anthropic.messages.create({
-          model: "claude-haiku-4-5-20251001",
-          max_tokens: 120,
-          system: [
-            {
-              type: "text",
-              text: BOT_LORE_SYSTEM_PROMPT,
-              cache_control: { type: "ephemeral" },
-            },
-          ],
-          messages: [
-            {
-              role: "user",
-              content: `Generate lore for a ${personality} AI faction.`,
-            },
-          ],
-        });
-        const raw =
-          message.content[0].type === "text" ? message.content[0].text : "{}";
-        try {
-          const lore = JSON.parse(raw);
-          botLoreCache.set(personality, lore);
-        } catch {
-          botLoreCache.set(personality, {
-            factionName: `The ${personality.charAt(0).toUpperCase() + personality.slice(1)} Order`,
-            emblem: "⚔️",
-            defeatQuote: "We shall not be forgotten.",
-            victoryQuote: "The vaults are ours.",
-          });
-        }
-      } catch (err) {
-        logger.error(`bot-lore generation failed for ${personality}`, err);
-      }
-    }
-  }
-
-  initBotLore().catch((err) => logger.error("bot-lore init failed", err));
-
-  app.get("/api/vaultfront/bot-lore/:personality", (req, res) => {
-    const personality = req.params.personality;
-    const lore = botLoreCache.get(personality);
-    if (!lore) {
-      return res.status(404).json({ error: "Lore not yet generated" });
-    }
-    return res.json({ ok: true, lore });
-  });
-
-  // ── Mission Brief System ───────────────────────────────────────────────────
-  const missionRateLimit = rateLimit({ windowMs: 10_000, max: 5 });
-  const MISSION_SYSTEM_PROMPT =
-    'You generate unique match objectives for a real-time strategy game called VaultFront. Return ONLY valid JSON: {"objectiveText": string (max 20 words, specific and achievable), "conditionType": "VAULTS_CAPTURED" | "CONVOYS_DELIVERED" | "TICKS_HELD_LEAD", "conditionValue": number, "bonusElo": number (10-40)}. Make objectives specific and achievable in a typical match.';
-
-  app.post(
-    "/api/vaultfront/match-mission",
-    missionRateLimit,
-    async (req, res) => {
-      const {
-        mapName = "unknown",
-        playerCount = 4,
-        mutator = "none",
-        vaultSiteCount = 5,
-      } = req.body ?? {};
-      try {
-        if (!reserveRemoteAiCall("briefing").allowed) {
-          return res.status(503).json({ error: "Mission service unavailable" });
-        }
-        const message = await anthropic.messages.create({
-          model: "claude-haiku-4-5-20251001",
-          max_tokens: 150,
-          system: [
-            {
-              type: "text",
-              text: MISSION_SYSTEM_PROMPT,
-              cache_control: { type: "ephemeral" },
-            },
-          ],
-          messages: [
-            {
-              role: "user",
-              content: `Map: ${mapName}. Players: ${playerCount}. Mutator: ${mutator}. Vault sites: ${vaultSiteCount}. Generate a mission.`,
-            },
-          ],
-        });
-        const raw =
-          message.content[0].type === "text" ? message.content[0].text : "{}";
-        let mission: {
-          objectiveText: string;
-          conditionType: string;
-          conditionValue: number;
-          bonusElo: number;
-        } = {
-          objectiveText: "Capture 2 vault sites before tick 500.",
-          conditionType: "VAULTS_CAPTURED",
-          conditionValue: 2,
-          bonusElo: 20,
-        };
-        try {
-          mission = JSON.parse(raw);
-        } catch {
-          // use default
-        }
-        return res.json({ ok: true, mission });
-      } catch (err) {
-        logger.error("match-mission generation failed", err);
-        return res.status(500).json({ error: "Mission generation failed" });
-      }
-    },
-  );
-
   // ── In-Game Micro-Coach Hint ─────────────────────────────────────────────
-  const microHintRateLimit = rateLimit({ windowMs: 180_000, max: 1 }); // 1 per 3 min
-
+  const microHintRateLimit = rateLimit({ windowMs: 180_000, max: 1 });
   const MICRO_HINT_SYSTEM_PROMPT =
     "You are a VaultFront real-time strategy coach. Give the player ONE concise in-game hint (max 90 characters). Focus on the most impactful immediate action they are not taking. Be specific, tactical, present-tense. No greeting, no punctuation at end.";
 
@@ -1380,100 +1108,6 @@ export async function startWorker() {
     }
   });
 
-  // ── AI Coach Overlay ───────────────────────────────────────────────────────
-  const coachRateLimit = rateLimit({ windowMs: 60_000, max: 3 });
-  const COACH_SYSTEM_PROMPT =
-    "You are a tactical coach for VaultFront. Use only the certified server record. Return ONLY a JSON array of 2-3 objects: {tick, decision, optimal, why}. No prose or markdown.";
-
-  const matchCoachCache = new BoundedTtlCache<{
-    moments: ReturnType<typeof parseCoachProviderOutput>;
-    receipt: ReturnType<typeof buildCanonicalAiResponseReceipt>;
-  }>({ maxEntries: 500, ttlMs: AI_CACHE_TTL_MS });
-
-  assertRoutePolicyBinding(
-    "match-coach",
-    "POST",
-    "/api/vaultfront/match-coach",
-  );
-  app.post("/api/vaultfront/match-coach", coachRateLimit, async (req, res) => {
-    const actor = await requireVaultFrontActor(req, res);
-    if (!actor) return;
-    const parsedRequest = z
-      .object({ gameId: z.string().regex(/^[A-Za-z0-9]{8}$/) })
-      .strict()
-      .safeParse(req.body);
-    if (!parsedRequest.success)
-      return res.status(400).json({ error: "Certified gameId required" });
-    const context = await loadCertifiedAiContext(
-      parsedRequest.data.gameId,
-      actor,
-      "match-coach",
-      res,
-    );
-    if (!context) return;
-    const canonicalInputs = {
-      info: context.record.info,
-      turns: context.record.turns,
-      result: context.certificate.result,
-    };
-    const evidence = buildCanonicalAiEvidence({
-      feature: "coach",
-      certificate: context.certificate,
-      canonicalInputs,
-      requester: actor.persistentId,
-    });
-    const cached = matchCoachCache.get(evidence.cacheKey);
-    if (cached)
-      return res.json({ ok: true, ...cached, cached: true, evidence });
-
-    if (!reserveRemoteAiCall("coach").allowed) {
-      return res.status(503).json({ error: "Coach service unavailable" });
-    }
-    try {
-      const message = await withAiDeadline(
-        (signal) =>
-          anthropic.messages.create(
-            {
-              model: "claude-sonnet-4-6",
-              max_tokens: 600,
-              system: [
-                {
-                  type: "text",
-                  text: COACH_SYSTEM_PROMPT,
-                  cache_control: { type: "ephemeral" },
-                },
-              ],
-              messages: [
-                {
-                  role: "user",
-                  content: JSON.stringify({ evidence, canonicalInputs }),
-                },
-              ],
-            },
-            { signal },
-          ),
-        10_000,
-      );
-      const raw =
-        message.content[0]?.type === "text" ? message.content[0].text : "[]";
-      const moments = parseCoachProviderOutput(
-        raw,
-        context.record.info.num_turns,
-      );
-      const receipt = buildCanonicalAiResponseReceipt({
-        evidence,
-        output: moments,
-        provider: "anthropic",
-        model: "claude-sonnet-4-6",
-      });
-      matchCoachCache.set(evidence.cacheKey, { moments, receipt });
-      return res.json({ ok: true, moments, evidence, receipt });
-    } catch (err) {
-      logger.error("match-coach failed", err);
-      return res.status(500).json({ error: "Coach generation failed" });
-    }
-  });
-
   // ── Dynasty Story Engine ─────────────────────────────────────────────────
   const dynastyRateLimit = rateLimit({ windowMs: 60_000, max: 10 });
 
@@ -1555,74 +1189,7 @@ export async function startWorker() {
     return res.json({ ok: true, story });
   });
 
-  // ── Bot Persona Backstories ───────────────────────────────────────────────
-  const personaCache = new Map<string, string>();
-
-  const BOT_PERSONA_SYSTEM_PROMPT =
-    "Generate a VaultFront bot commander persona. Format: 'CODENAME — one sentence origin story (max 100 chars)'. Tone: gritty, tactical, specific to the personality archetype. No quotes around the output.";
-
-  app.get("/api/vaultfront/bot-persona", async (req, res) => {
-    const personality = String(req.query["personality"] ?? "").slice(0, 32);
-    const seed = String(req.query["seed"] ?? "").slice(0, 32);
-    const cacheKey = `${personality}:${seed}`;
-    const cached = personaCache.get(cacheKey);
-    if (cached) return res.json({ ok: true, persona: cached });
-
-    const archetypes: Record<string, string> = {
-      aggressor: "relentless attacker who sacrifices economy for dominance",
-      economist: "trade-focused strategist who wins through convoy supremacy",
-      diplomat: "alliance builder who betrays at the critical moment",
-      ghost: "deception specialist who moves convoys through ghost routes",
-    };
-    const archetype = archetypes[personality] ?? "mysterious commander";
-    try {
-      if (!reserveRemoteAiCall("other").allowed) {
-        return res.status(503).json({ error: "Persona service unavailable" });
-      }
-      const msg = await anthropic.messages.create({
-        model: "claude-haiku-4-5-20251001",
-        max_tokens: 60,
-        system: [
-          {
-            type: "text",
-            text: BOT_PERSONA_SYSTEM_PROMPT,
-            cache_control: { type: "ephemeral" },
-          },
-        ],
-        messages: [
-          {
-            role: "user",
-            content: `Personality: ${personality} — ${archetype}. Seed: ${seed}`,
-          },
-        ],
-      });
-      const persona =
-        (msg.content[0] as { type: string; text: string }).text?.trim() ?? "";
-      if (persona) personaCache.set(cacheKey, persona);
-      return res.json({ ok: true, persona });
-    } catch (err) {
-      logger.error("bot-persona generation failed", err);
-      return res.status(500).json({ error: "Persona generation failed" });
-    }
-  });
-
   // ── Living Match Narrator (SSE) ──────────────────────────────────────────
-  const narratorEventRateLimit = rateLimit({ windowMs: 2_000, max: 3 }); // 3/2s per IP
-
-  const NarratorEventSchema = z.object({
-    activity: z.string().max(64),
-    label: z.string().max(128).optional(),
-    persistentId: z.string().max(64).optional(),
-    context: z
-      .object({
-        tickBucket: z.enum(["early", "mid", "late"]),
-        leadingPlayer: z.string().max(32),
-        siteBalance: z.string().max(32),
-        mutator: z.string().max(32),
-      })
-      .optional(),
-  });
-
   // Spectators / clients subscribe to commentary stream
   app.get("/api/vaultfront/narrator/:gameId", (req, res) => {
     const gameId = req.params.gameId;
@@ -1647,97 +1214,6 @@ export async function startWorker() {
     res.setHeader("Connection", "keep-alive");
     res.flushHeaders();
     narratorBus.subscribe(gameId, res, clientKey, persona);
-  });
-
-  // Game clients push activity events for narration
-  app.post(
-    "/api/vaultfront/narrator/:gameId/event",
-    narratorEventRateLimit,
-    (req, res) => {
-      const gameId = req.params.gameId;
-      if (!gameId || gameId.length > 64) {
-        return res.status(400).json({ error: "Invalid gameId" });
-      }
-      const parsed = NarratorEventSchema.safeParse(req.body);
-      if (!parsed.success) {
-        return res.status(400).json({ error: "Invalid event" });
-      }
-      const label =
-        parsed.data.label ?? parsed.data.activity.replace(/_/g, " ");
-      narratorBus.queueEvent(gameId, label, parsed.data.context);
-
-      return res.json({ ok: true });
-    },
-  );
-
-  // ── Vault Intelligence Market ────────────────────────────────────────────
-  // In-memory per-game intel listings: gameId → Map<sellerId, routeRisk>
-  const intelListings = new Map<
-    string,
-    Map<
-      string,
-      { routeRisk: number; interceptProbability: number; tileRef: number }
-    >
-  >();
-
-  const intelRateLimit = rateLimit({ windowMs: 10_000, max: 5 });
-
-  app.post(
-    "/api/vaultfront/intel-purchase",
-    intelRateLimit,
-    async (req, res) => {
-      const parsed = z
-        .object({
-          gameId: z.string().max(64),
-          buyerPersistentId: z.string().max(64),
-          sellerId: z.string().max(64),
-          tileRef: z.number().int().optional(),
-        })
-        .safeParse(req.body);
-
-      if (!parsed.success)
-        return res.status(400).json({ error: "Invalid request" });
-
-      const { gameId, sellerId, tileRef } = parsed.data;
-      const gameListings = intelListings.get(gameId);
-      const listing = gameListings?.get(sellerId);
-
-      // Return available intel (or synthesised from route geometry)
-      const routeRisk = listing?.routeRisk ?? Math.random() * 0.6 + 0.2;
-      const interceptProbability =
-        listing?.interceptProbability ?? routeRisk * 0.8;
-
-      log.info("intel-purchase", { gameId, sellerId, tileRef });
-      return res.json({
-        ok: true,
-        routeRisk: Math.round(routeRisk * 100) / 100,
-        interceptProbability: Math.round(interceptProbability * 100) / 100,
-        tileRef: tileRef ?? listing?.tileRef ?? 0,
-        goldCost: 2000,
-      });
-    },
-  );
-
-  app.post("/api/vaultfront/intel-list", intelRateLimit, (req, res) => {
-    const parsed = z
-      .object({
-        gameId: z.string().max(64),
-        sellerId: z.string().max(64),
-        routeRisk: z.number().min(0).max(1),
-        interceptProbability: z.number().min(0).max(1),
-        tileRef: z.number().int(),
-      })
-      .safeParse(req.body);
-    if (!parsed.success)
-      return res.status(400).json({ error: "Invalid listing" });
-
-    const { gameId, sellerId, routeRisk, interceptProbability, tileRef } =
-      parsed.data;
-    if (!intelListings.has(gameId)) intelListings.set(gameId, new Map());
-    intelListings
-      .get(gameId)!
-      .set(sellerId, { routeRisk, interceptProbability, tileRef });
-    return res.json({ ok: true });
   });
 
   // ── Pre-Match Intelligence Brief ─────────────────────────────────────────
@@ -2064,117 +1540,6 @@ export async function startWorker() {
       return res.json({ ok: true, item, alreadyOwned });
     },
   );
-
-  // ── Clan War Scheduler ────────────────────────────────────────────────────
-  const clanWarRateLimit = rateLimit({ windowMs: 60_000, max: 10 });
-
-  app.post(
-    "/api/vaultfront/clan-war/challenge",
-    clanWarRateLimit,
-    async (req, res) => {
-      const parsed = z
-        .object({
-          challengerClanId: z.string().max(64),
-          targetClanId: z.string().max(64),
-          proposedAt: z
-            .number()
-            .int()
-            .min(Date.now() - 60_000), // not too far in past
-          mapName: z.string().max(64).optional(),
-          notes: z.string().max(200).optional(),
-          seriesFormat: z.enum(["bo3", "bo1"]).optional(),
-        })
-        .safeParse(req.body);
-      if (!parsed.success)
-        return res.status(400).json({ error: "Invalid request" });
-      const actor = await requireVaultFrontActor(req, res);
-      if (!actor) return;
-      if (
-        !canManageClan(
-          clanStore.getClan(parsed.data.challengerClanId),
-          actor.persistentId,
-        )
-      ) {
-        return res.status(403).json({ error: "Clan officer role required" });
-      }
-      const war = clanWarStore.challenge(parsed.data);
-      return res.json({ ok: true, war });
-    },
-  );
-
-  app.post(
-    "/api/vaultfront/clan-war/accept",
-    clanWarRateLimit,
-    async (req, res) => {
-      const parsed = z
-        .object({
-          warId: z.string().max(32),
-          byPersistentId: z.string().max(64).optional(),
-        })
-        .safeParse(req.body);
-      if (!parsed.success)
-        return res.status(400).json({ error: "Invalid request" });
-      const actor = await requireVaultFrontActor(req, res);
-      if (!actor || !acceptActorClaim(actor, parsed.data.byPersistentId, res))
-        return;
-      const pendingWar = clanWarStore.getWar(parsed.data.warId);
-      if (!pendingWar) return res.status(404).json({ error: "War not found" });
-      if (
-        !canManageClan(
-          clanStore.getClan(pendingWar.targetClanId),
-          actor.persistentId,
-        )
-      ) {
-        return res
-          .status(403)
-          .json({ error: "Target clan officer role required" });
-      }
-      const war = clanWarStore.accept(parsed.data.warId, actor.persistentId);
-      if (!war)
-        return res
-          .status(404)
-          .json({ error: "War not found or already accepted" });
-      return res.json({ ok: true, war });
-    },
-  );
-
-  app.post(
-    "/api/vaultfront/clan-war/decline",
-    clanWarRateLimit,
-    async (req, res) => {
-      const parsed = z
-        .object({ warId: z.string().max(32) })
-        .safeParse(req.body);
-      if (!parsed.success)
-        return res.status(400).json({ error: "Invalid request" });
-      const actor = await requireVaultFrontActor(req, res);
-      if (!actor) return;
-      const pendingWar = clanWarStore.getWar(parsed.data.warId);
-      if (!pendingWar) return res.status(404).json({ error: "War not found" });
-      if (
-        !canManageClan(
-          clanStore.getClan(pendingWar.targetClanId),
-          actor.persistentId,
-        )
-      ) {
-        return res
-          .status(403)
-          .json({ error: "Target clan officer role required" });
-      }
-      const war = clanWarStore.decline(parsed.data.warId);
-      if (!war) return res.status(404).json({ error: "War not found" });
-      return res.json({ ok: true, war });
-    },
-  );
-
-  app.get("/api/vaultfront/clan-war/upcoming", (req, res) => {
-    return res.json({ ok: true, wars: clanWarStore.getUpcoming() });
-  });
-
-  app.get("/api/vaultfront/clan-war/:clanId", (req, res) => {
-    const clanId = String(req.params.clanId ?? "").slice(0, 64);
-    return res.json({ ok: true, wars: clanWarStore.getForClan(clanId) });
-  });
 
   registerProgressionRoutes(app, {
     authenticate: (req, res) => requireVaultFrontActor(req, res),

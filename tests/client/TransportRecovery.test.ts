@@ -181,7 +181,7 @@ describe("Transport recovery", () => {
 
   test("protocol refusal cancels a retry already scheduled by socket error", async () => {
     const alert = vi.spyOn(window, "alert").mockImplementation(() => {});
-    const { sockets, transport } = createHarness();
+    const { sockets, states, transport } = createHarness();
     transport.connect(
       () => {},
       () => {},
@@ -193,7 +193,11 @@ describe("Transport recovery", () => {
     await vi.advanceTimersByTimeAsync(2_000);
 
     expect(sockets).toHaveLength(1);
-    expect(alert).toHaveBeenCalledOnce();
+    expect(alert).not.toHaveBeenCalled();
+    expect(states.at(-1)).toMatchObject({
+      state: "closed",
+      reason: "protocol-refused",
+    });
   });
 
   test("scheduled recovery replaces a stale socket even without a close event", async () => {
@@ -235,7 +239,7 @@ describe("Transport recovery", () => {
   });
 
   test("synchronizes first, then flushes queued intents in order", async () => {
-    const { eventBus, sockets, transport } = createHarness();
+    const { eventBus, sockets, states, transport } = createHarness();
     transport.connect(
       async () => {
         (transport as any).sendMsg(
@@ -259,6 +263,9 @@ describe("Transport recovery", () => {
       "rejoin",
       "intent",
     ]);
+    const openStates = states.filter((event) => event.state === "open");
+    expect(openStates).toHaveLength(1);
+    expect(openStates[0].outboxDepth).toBe(0);
   });
 
   test("backs off failed control synchronization without flushing gameplay", async () => {

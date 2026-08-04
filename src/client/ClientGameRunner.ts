@@ -28,6 +28,7 @@ import { loadTerrainMap, TerrainMapData } from "../core/game/TerrainMapLoader";
 import { UserSettings } from "../core/game/UserSettings";
 import { WorkerClient } from "../core/worker/WorkerClient";
 import { getPersistentID } from "./Auth";
+import { ConnectionRecoveryPresenter } from "./ConnectionRecoveryPresenter";
 import {
   AutoUpgradeEvent,
   DoBoatAttackEvent,
@@ -79,6 +80,7 @@ export function joinLobby(
   const userSettings: UserSettings = new UserSettings();
   startGame(lobbyConfig.gameID, lobbyConfig.gameStartInfo?.config ?? {});
 
+  const connectionRecovery = new ConnectionRecoveryPresenter(eventBus);
   const transport = new Transport(lobbyConfig, eventBus);
 
   let currentGameRunner: ClientGameRunner | null = null;
@@ -187,6 +189,7 @@ export function joinLobby(
     console.log("leaving game");
 
     currentGameRunner = null;
+    connectionRecovery.dispose();
     transport.leaveGame();
 
     return true;

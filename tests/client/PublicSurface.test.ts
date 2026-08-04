@@ -68,11 +68,20 @@ describe("public launch foundation", () => {
 
   it("renders the application footer with legal and attribution links", () => {
     const footer = read("src/client/components/Footer.ts");
-    expect(footer).toContain(
+    const routeGraph = JSON.parse(read("src/shared/PublicRouteGraph.json")) as {
+      copyright: string;
+      upstreamNotice: string;
+      footerLinks: Array<{ href: string }>;
+    };
+    expect(routeGraph.copyright).toBe(
       "© 2026 VaultSpark Studios LLC. All rights reserved.",
     );
-    expect(footer).toContain('href="/contact/"');
-    expect(footer).toContain('href="/ip/"');
-    expect(footer).toContain("Based on OpenFrontIO");
+    expect(routeGraph.footerLinks.map((link) => link.href)).toEqual(
+      expect.arrayContaining(["/contact/", "/ip/"]),
+    );
+    expect(routeGraph.upstreamNotice).toContain("Based on OpenFrontIO");
+    expect(footer).toContain("routeGraph.footerLinks.map");
+    expect(footer).toContain("routeGraph.copyright");
+    expect(footer).toContain("routeGraph.upstreamNotice");
   });
 });

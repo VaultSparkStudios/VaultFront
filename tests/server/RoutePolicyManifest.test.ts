@@ -23,26 +23,6 @@ describe("typed route policy manifest", () => {
     ).toMatchObject({ allowed: true });
   });
 
-  it("requires a verified certificate bound to the verified AI requester", () => {
-    expect(
-      evaluateRouteAuthorization("match-coach", { hasVerifiedActor: true }),
-    ).toMatchObject({ allowed: false, status: 409 });
-    expect(
-      evaluateRouteAuthorization("match-coach", {
-        hasVerifiedActor: true,
-        hasVerifiedCertificate: true,
-        certificateBindsActor: false,
-      }),
-    ).toMatchObject({ allowed: false, status: 403 });
-    expect(
-      evaluateRouteAuthorization("match-coach", {
-        hasVerifiedActor: true,
-        hasVerifiedCertificate: true,
-        certificateBindsActor: true,
-      }),
-    ).toMatchObject({ allowed: true });
-  });
-
   it("binds every experiment mutation to an exact verified-actor route", () => {
     for (const experiment of ["dock", "recap", "runtime"] as const) {
       const policy = routePolicyManifest.find(

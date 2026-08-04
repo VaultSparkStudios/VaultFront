@@ -2,6 +2,18 @@
 
 # Truth Audit
 
+## 2026-08-04 — Session 93 reachability, narration, recovery, and rendered-pixel truth
+
+- Work truth: `docs/AUDIT_2026-08-04.json` is exhausted at 5/5; all four Session 93 second-order innovations are shipped; the cumulative innovation ledger remains monotonic at 59/59; zero pending unblocked local work remains.
+- Reachability truth: eight admitted runtime capabilities have a machine-checked server/transport/mounted-consumer chain. Fourteen retired routes carry explicit tombstones; their handler literals and deleted implementation modules cannot silently return.
+- Narration truth: only accepted GameServer events enter the certified privacy-minimal projection. A deterministic local line is always available; remote artificial-intelligence enrichment is optional and cannot replace or delay the baseline. Public browser-authored narrator event ingestion is absent.
+- Prematch truth: one presentation generation owns its requests, abort signal, six-second deadline, cleanup, and result admission. Loading, degraded, and ready are distinct accessible states; a stale or hidden session cannot mutate the current modal.
+- Recovery truth: reconnect lifecycle states are visible and accessible; bounded FIFO overflow is explicit. Transport `open` occurs once only after rejoin synchronization and queued-intent flush reach zero.
+- Public-route truth: the app footer and generated public mirror project one canonical shared graph. The checker verifies equality, digest stability, consumer ownership, and absence of hard-coded route copies.
+- Visual truth: 90 source- and artifact-hash-bound captures cover fifteen touched states across three themes × desktop/mobile. The initial captures revealed foreground below backdrop despite DOM assertions; final proof requires numeric `foregroundZ > backdropZ` and directly inspected captures show the repaired surfaces.
+- Verification truth: 214/214 Vitest files and 1,147/1,147 tests; TypeScript; warning-free lint; contracts; mutation policy 29/29 with public ingest 4/4; runtime reachability; balance 28,125/28,125; production compilation and Vite bundle; final rendered-pixel Playwright; CANON-053; exhaustion; and doctor with `blockingFailing: 0` pass directly.
+- Release truth: the build's final release-evidence gate correctly returns NO-GO because the source is not yet committed/exact-revision provider-tested and external staging/parity, Zoho reply identity, native Obelisk, live-web, three-human Alpha, revenue, rollback, and founder observations are absent. Nothing was fabricated to turn that boundary green.
+
 ## 2026-08-03 — Session 92 release-admission, runtime-recovery, and rendered-state truth
 
 - Capability truth: project discovery layers the canonical Studio capability map under deterministic local overrides, fails loudly on corrupt authority, and reports the full catalog without exposing secret values.

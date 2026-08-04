@@ -85,6 +85,18 @@ export function runProjectDoctor({
         ],
       },
       {
+        id: "runtime-feature-reachability",
+        command: process.execPath,
+        args: [
+          path.join(
+            defaultRoot,
+            "scripts",
+            "check-runtime-feature-reachability.mjs",
+          ),
+        ],
+        blocking: true,
+      },
+      {
         id: "mutation-route-policy-coverage",
         command: process.execPath,
         args: ["scripts/check-route-policy-coverage.mjs"],

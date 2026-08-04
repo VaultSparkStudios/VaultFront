@@ -469,8 +469,17 @@ export class Transport {
       }
       if (!this.isCurrentSocket(socket, generation)) return;
       this.reconnectAttempt = 0;
-      this.publishConnectionState("open");
+      // Transition internally so the FIFO can drain, but publish `open` only
+      // after delivery succeeds. Player-facing recovery must not claim success
+      // while protected commands are still queued.
+      this.connectionState = "open";
       this.flushOutbox(socket);
+      if (
+        this.isCurrentSocket(socket, generation) &&
+        this.connectionState === "open"
+      ) {
+        this.publishConnectionState("open");
+      }
     };
     socket.onmessage = (event: MessageEvent) => {
       if (!this.isCurrentSocket(socket, generation)) return;
@@ -506,9 +515,11 @@ export class Transport {
       }
       if (event.code === 1002) {
         this.clearReconnectTimer();
-        this.publishConnectionState("closed", null, event.reason);
-        // TODO: make this a modal
-        alert(`connection refused: ${event.reason}`);
+        this.publishConnectionState(
+          "closed",
+          null,
+          event.reason || "protocol-refused",
+        );
       } else if (event.code !== 1000) {
         console.log(`received error code ${event.code}, scheduling reconnect`);
         this.scheduleReconnect(`socket-close-${event.code}`);
@@ -915,7 +926,6 @@ export class Transport {
         break;
       }
     }
-    this.publishConnectionState(this.connectionState);
   }
 
   private scheduleReconnect(reason: string): void {

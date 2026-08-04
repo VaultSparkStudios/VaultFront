@@ -47,6 +47,8 @@ describe("public footer manifest", () => {
       pageCount: 10,
       headerLinkCount: 4,
       footerLinkCount: 7,
+      appExternalLinkCount: 2,
+      appConsumer: "src/client/components/Footer.ts",
       errors: [],
     });
   });

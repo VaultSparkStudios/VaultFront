@@ -3,7 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-export const WIN_MODAL_LINE_BUDGET = 2400;
+export const WIN_MODAL_LINE_BUDGET = 2380;
 export const POST_MATCH_SESSION_LINE_BUDGET = 240;
 
 export function inspectWinModalComposition(root = process.cwd()) {

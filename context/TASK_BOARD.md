@@ -52,6 +52,14 @@ daily-challenge-system (DailyChallengeStore + HUD card), vault-intelligence-mark
 
 ## Follow-ups
 
+## Completed (2026-08-04 — Session 93 certified-runtime and recovery-truth arc)
+
+- [done] Audit 135–139: certified server-admitted narration; runtime feature reachability closure; session-bound prematch intelligence; one public route graph; and player-visible recovery lifecycle.
+- [done] Second-order innovations: deterministic local narration baseline; authenticated dynasty-writer reachability; post-flush `open` truth; and rendered-pixel z-order self-check.
+- [done] Rendered-pixel proof expanded to fifteen states across three themes × desktop/mobile, producing 90 exact-source artifacts; direct inspection exposed and root-fixed a modal layering defect before final capture.
+- [done] Exhaustion proof: audit 5/5 and all four Session 93 second-order innovations shipped; cumulative innovation ledger 59/59; zero pending unblocked local work.
+- [release-evidence] External launch remains NO-GO pending approved staging/exact-digest parity, verified project-domain Zoho send/receive and reply-as-alias, native Obelisk relying-party auth, live web/theme evidence, three distinct authenticated humans, a real positive revenue event, an observed rollback drill, exact-revision provider CI, and founder approval.
+
 ## Completed (2026-08-02 — Session 91 certified-reflection and launch-truth arc)
 
 - [done] Audit 119–124: Studio-source propagation routed through signed Ark; sole Traefik runtime ingress; reachable certified post-match feedback; contextual continuation plus a real Season Pass arc; unused runtime dependencies removed; rollback and revenue evidence made semantic and tamper-sensitive.

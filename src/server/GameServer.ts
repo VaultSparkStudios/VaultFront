@@ -26,6 +26,7 @@ import {
 } from "../core/Schemas";
 import { createPartialGameRecord, getClanTag } from "../core/Util";
 import { archive, finalizeGameRecord } from "./Archive";
+import { projectCertifiedNarration } from "./CertifiedNarrationProjection";
 import { Client } from "./Client";
 import { matchProgressionSpine } from "./MatchProgression";
 import {
@@ -723,6 +724,10 @@ export class GameServer {
     }
     this.recordIntentFunnel(intent);
     this.intents.push(intent);
+    if (this._hasStarted && !this._hasEnded) {
+      const narration = projectCertifiedNarration(intent);
+      if (narration) narratorBus.queueCertifiedEvent(this.id, narration);
+    }
   }
 
   private intentRateKey(intent: StampedIntent): string {

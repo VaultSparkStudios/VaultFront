@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "capturedAt": "2026-08-04T00:14:27.389Z",
-  "generatedAt": "2026-08-04T00:14:27.389Z",
+  "capturedAt": "2026-08-04T07:01:30.011Z",
+  "generatedAt": "2026-08-04T07:01:30.011Z",
   "scope": "local-only",
   "claimBoundary": "This is local browser evidence, not live staging parity or founder approval.",
   "themes": ["dark", "light", "competitive"],
   "captures": [
     {
       "file": "artifacts/chromium-vaultfront-play.png",
-      "sha256": "33cebb7af26f86cf2c67726146b6b9cf5a427dc8245b33128398f8a452be1545",
+      "sha256": "02fa522478f4f10ab637e3765a917f6fdfe114acee816eec7a3e22b538cdf7fb",
       "page": "play",
       "state": "play",
       "theme": "dark",
@@ -17,7 +17,7 @@
     },
     {
       "file": "artifacts/chromium-vaultfront-settings.png",
-      "sha256": "33eab10aaa899600d9c2d806d29ba1c9f5aa65aae02f9fe868ac717fc0e7300b",
+      "sha256": "5a048785ad6a8adc01735ff551cc9f2628b7272e7d6a671ed3c1e3f601a61dd9",
       "page": "settings",
       "state": "settings",
       "theme": "dark",
@@ -26,9 +26,90 @@
     },
     {
       "file": "artifacts/chromium-vaultfront-postmatch.png",
-      "sha256": "6aa14a51374c48b5a3b08c042a211d6e5de17ab83c75159c8fd7bfdb15ed5920",
+      "sha256": "b3cadd385a30943277c39c82ed31ccca0adc61a6b059a79833a6122baa5a5ac5",
       "page": "postmatch",
       "state": "postmatch",
+      "theme": "dark",
+      "projectTheme": "vaultfront",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-vaultfront-prematch-loading.png",
+      "sha256": "4e1c0836cc2714293a33bd10596514a0f60154c2d4789526081d223b8cf10f3c",
+      "page": "prematch-loading",
+      "state": "prematch-loading",
+      "theme": "dark",
+      "projectTheme": "vaultfront",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-vaultfront-prematch-degraded.png",
+      "sha256": "253aafe8a1ac6255537f6648d7acd588f219f0e25a24bca9ebffdf321bf06887",
+      "page": "prematch-degraded",
+      "state": "prematch-degraded",
+      "theme": "dark",
+      "projectTheme": "vaultfront",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-vaultfront-prematch-ready.png",
+      "sha256": "f84e9d9e47fbbe6e9fe7691e0f529d11205a166966b6d6c8a57e3533d13e85d4",
+      "page": "prematch-ready",
+      "state": "prematch-ready",
+      "theme": "dark",
+      "projectTheme": "vaultfront",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-vaultfront-connection-waiting.png",
+      "sha256": "9d0bc4e5d498d269489d5a0e61a379e20156d63c8135ba6e592fd9ee43260ae4",
+      "page": "connection-waiting",
+      "state": "connection-waiting",
+      "theme": "dark",
+      "projectTheme": "vaultfront",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-vaultfront-connection-synchronizing.png",
+      "sha256": "4b6f169a99b2a69974a9ffe41310f2bdbd6b558711e5adccf3457ef25e44217e",
+      "page": "connection-synchronizing",
+      "state": "connection-synchronizing",
+      "theme": "dark",
+      "projectTheme": "vaultfront",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-vaultfront-connection-restored.png",
+      "sha256": "13f1991e03d080537d9ccab4072edb5b957068434636b509776dfd1dd9705f2f",
+      "page": "connection-restored",
+      "state": "connection-restored",
+      "theme": "dark",
+      "projectTheme": "vaultfront",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-vaultfront-connection-fatal.png",
+      "sha256": "d1f66f23d1d0d216c98af10eebb90fa591291e3891d0f749003d9b589fc81a32",
+      "page": "connection-fatal",
+      "state": "connection-fatal",
+      "theme": "dark",
+      "projectTheme": "vaultfront",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-vaultfront-connection-overflow.png",
+      "sha256": "04eb679bf7acc89cbe8a34d084431a4bc889616672342ef1a071d698af749d12",
+      "page": "connection-overflow",
+      "state": "connection-overflow",
+      "theme": "dark",
+      "projectTheme": "vaultfront",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-vaultfront-narrator-certified.png",
+      "sha256": "8bf9fab4442b5aa3d486499266d07c406620a750ff6d85bb72a7e0bd1ce567d9",
+      "page": "narrator-certified",
+      "state": "narrator-certified",
       "theme": "dark",
       "projectTheme": "vaultfront",
       "viewport": { "width": 1280, "height": 720 }
@@ -62,7 +143,7 @@
     },
     {
       "file": "artifacts/chromium-light-play.png",
-      "sha256": "47ec2c5376edc7d40ffd4741511bf96a12c60d0701d17b968364d6d0359dcfd8",
+      "sha256": "8c5dc068f655723687aca08fd3b97e6a6960e9a29b1c84c583dde1c25d21c624",
       "page": "play",
       "state": "play",
       "theme": "light",
@@ -71,7 +152,7 @@
     },
     {
       "file": "artifacts/chromium-light-settings.png",
-      "sha256": "007b75376cf825503037dbee5306ff1b99a2cb873988d41cbeed45e98aeaeb9a",
+      "sha256": "facbe0f8bc6e376c03bf18b7eb85ba256071490e6f8f73c00e1c1ad5fa287d04",
       "page": "settings",
       "state": "settings",
       "theme": "light",
@@ -83,6 +164,87 @@
       "sha256": "0551cd7207ff3faf3b317cab5d6b8003ca18319e8f57ab25ebeb4e9c616f174f",
       "page": "postmatch",
       "state": "postmatch",
+      "theme": "light",
+      "projectTheme": "light",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-light-prematch-loading.png",
+      "sha256": "22b6773f7ad233d1212b81c83eaa80f19850ccafa218e8ad0e542be7a9d50758",
+      "page": "prematch-loading",
+      "state": "prematch-loading",
+      "theme": "light",
+      "projectTheme": "light",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-light-prematch-degraded.png",
+      "sha256": "686a6c785062ae6e0324d970e18299e8f12be58e33c36469a2506a62893ba9dd",
+      "page": "prematch-degraded",
+      "state": "prematch-degraded",
+      "theme": "light",
+      "projectTheme": "light",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-light-prematch-ready.png",
+      "sha256": "da2f50f16e427957108ec91a21bfaebe5cca72d36056302619df01d280561657",
+      "page": "prematch-ready",
+      "state": "prematch-ready",
+      "theme": "light",
+      "projectTheme": "light",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-light-connection-waiting.png",
+      "sha256": "ddc4813caa9c554e0955a9f42c9189b0756691855a2dce2d078433800adeefa9",
+      "page": "connection-waiting",
+      "state": "connection-waiting",
+      "theme": "light",
+      "projectTheme": "light",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-light-connection-synchronizing.png",
+      "sha256": "07d7d11affc1e45c8925da1067126a1c489d4d755cc3f6acc5119e9eedc77139",
+      "page": "connection-synchronizing",
+      "state": "connection-synchronizing",
+      "theme": "light",
+      "projectTheme": "light",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-light-connection-restored.png",
+      "sha256": "5bc6387c4082ad86e941e2d3c7d42b6389b2dc4b19f183a89d0e008304777778",
+      "page": "connection-restored",
+      "state": "connection-restored",
+      "theme": "light",
+      "projectTheme": "light",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-light-connection-fatal.png",
+      "sha256": "ec6e36557199d2b69f0c7b685321846651dba1e2ff3d7e769f614866d8fa0a30",
+      "page": "connection-fatal",
+      "state": "connection-fatal",
+      "theme": "light",
+      "projectTheme": "light",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-light-connection-overflow.png",
+      "sha256": "8cd1130117b914c7c39ac046d2ebd58043172ff4f8a9ea9e60ab526ece7fa720",
+      "page": "connection-overflow",
+      "state": "connection-overflow",
+      "theme": "light",
+      "projectTheme": "light",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-light-narrator-certified.png",
+      "sha256": "92e4621b617d28b87b259c4844400340d5e80f96fc48cce20ad9cdc371da4d80",
+      "page": "narrator-certified",
+      "state": "narrator-certified",
       "theme": "light",
       "projectTheme": "light",
       "viewport": { "width": 1280, "height": 720 }
@@ -116,7 +278,7 @@
     },
     {
       "file": "artifacts/chromium-competitive-play.png",
-      "sha256": "9f468a1d52747e5955711a78b2eab61212494715079b3e18e1cb0136a37f73a0",
+      "sha256": "788651b0fca9b0db8fb00b75714eea28a17996df4defe0910b39d3cc496173cb",
       "page": "play",
       "state": "play",
       "theme": "competitive",
@@ -125,7 +287,7 @@
     },
     {
       "file": "artifacts/chromium-competitive-settings.png",
-      "sha256": "3534fc303450a03de9b75c68ba69e1ce47acb32f8b7246effc046da1ee660129",
+      "sha256": "093529a42e7fa1471850a8286cc8fe7e0e5429744d0f61cc9e4817aa3dbba690",
       "page": "settings",
       "state": "settings",
       "theme": "competitive",
@@ -137,6 +299,87 @@
       "sha256": "3fa9839f722633eda023e6802db29ce8b4c517d6b566b77e9c00ff07787f5ec2",
       "page": "postmatch",
       "state": "postmatch",
+      "theme": "competitive",
+      "projectTheme": "competitive",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-competitive-prematch-loading.png",
+      "sha256": "115229028733fbd2aa3de9387b2abad10879abd4f189cee736d52fc127023fc7",
+      "page": "prematch-loading",
+      "state": "prematch-loading",
+      "theme": "competitive",
+      "projectTheme": "competitive",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-competitive-prematch-degraded.png",
+      "sha256": "6cc916f262a54fb2ce76c84d26999ddd5d31453a9823bb5aff378fc6011bc063",
+      "page": "prematch-degraded",
+      "state": "prematch-degraded",
+      "theme": "competitive",
+      "projectTheme": "competitive",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-competitive-prematch-ready.png",
+      "sha256": "e61da23cc65350dfe0b581d0e99e8fdeba0458ee3beca6cbd88c53aa56787a11",
+      "page": "prematch-ready",
+      "state": "prematch-ready",
+      "theme": "competitive",
+      "projectTheme": "competitive",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-competitive-connection-waiting.png",
+      "sha256": "96d52f78dbb614c8d1440ae9363a252034353a3cd9c45a156e12f5c4d5cb1750",
+      "page": "connection-waiting",
+      "state": "connection-waiting",
+      "theme": "competitive",
+      "projectTheme": "competitive",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-competitive-connection-synchronizing.png",
+      "sha256": "b84004b909b0667c73cab578e15c9526c04318d42dd057ed2a798530a5f34bd5",
+      "page": "connection-synchronizing",
+      "state": "connection-synchronizing",
+      "theme": "competitive",
+      "projectTheme": "competitive",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-competitive-connection-restored.png",
+      "sha256": "174fd8b9bc2a7e56b5a2fbc9b13ea5bb7d0f0d9ec253d1bafa505daeb6c32699",
+      "page": "connection-restored",
+      "state": "connection-restored",
+      "theme": "competitive",
+      "projectTheme": "competitive",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-competitive-connection-fatal.png",
+      "sha256": "82f71e825dcd61bc16a039c4fcffff6893a05d15944941dc8b3df05dc7e16d83",
+      "page": "connection-fatal",
+      "state": "connection-fatal",
+      "theme": "competitive",
+      "projectTheme": "competitive",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-competitive-connection-overflow.png",
+      "sha256": "9c96785456982c25afe50e96f0849362db130e7ecf802d60fb068702d784e29a",
+      "page": "connection-overflow",
+      "state": "connection-overflow",
+      "theme": "competitive",
+      "projectTheme": "competitive",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-competitive-narrator-certified.png",
+      "sha256": "c99aa2028b9cdfa359f9c055473acc12b70b9e63afb18092279e73ec99bead1e",
+      "page": "narrator-certified",
+      "state": "narrator-certified",
       "theme": "competitive",
       "projectTheme": "competitive",
       "viewport": { "width": 1280, "height": 720 }
@@ -170,7 +413,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-vaultfront-play.png",
-      "sha256": "b826416cc88aaab14c2e53851b8f48303722332c289acc56b57eb54d91b41bf2",
+      "sha256": "8decbf3b57b8a0c74ad6ebb732f9f2641f618f837f9204f59c1da4f00074ed0c",
       "page": "play",
       "state": "play",
       "theme": "dark",
@@ -179,7 +422,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-vaultfront-settings.png",
-      "sha256": "4bccfa718c8f1b3c6f725e6767e8c35da35b62f544db95621a2b09abf3709676",
+      "sha256": "0756ded65b88f376808171aa40f693c9b36eb7689075ac0f863828c58486b055",
       "page": "settings",
       "state": "settings",
       "theme": "dark",
@@ -191,6 +434,87 @@
       "sha256": "09804440b9a17403b0e05a8bcf210205cd5ea3ab012f026197f76f64960aa23f",
       "page": "postmatch",
       "state": "postmatch",
+      "theme": "dark",
+      "projectTheme": "vaultfront",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-vaultfront-prematch-loading.png",
+      "sha256": "b294dbcb224eccaf4ad936e17922a01e552eacc6445964dd9da01346098da078",
+      "page": "prematch-loading",
+      "state": "prematch-loading",
+      "theme": "dark",
+      "projectTheme": "vaultfront",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-vaultfront-prematch-degraded.png",
+      "sha256": "b8bf8f09ec7ccb9609a919d9117b9b40b005879b51287a439c3264d2c5e849e6",
+      "page": "prematch-degraded",
+      "state": "prematch-degraded",
+      "theme": "dark",
+      "projectTheme": "vaultfront",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-vaultfront-prematch-ready.png",
+      "sha256": "75cf897858a78af29c0074b81de8d1e79dc761cb60f9b1be34e4b2d5f50b73b0",
+      "page": "prematch-ready",
+      "state": "prematch-ready",
+      "theme": "dark",
+      "projectTheme": "vaultfront",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-vaultfront-connection-waiting.png",
+      "sha256": "184f19e9d92fc8895a1646add9aa894335be7d2c84386ac4fcd5a09a4bdbd72f",
+      "page": "connection-waiting",
+      "state": "connection-waiting",
+      "theme": "dark",
+      "projectTheme": "vaultfront",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-vaultfront-connection-synchronizing.png",
+      "sha256": "dd7f6770ff91e0fa6c06e2f660ee5bd2d0b940404572fa959fb8f9e5b0abae98",
+      "page": "connection-synchronizing",
+      "state": "connection-synchronizing",
+      "theme": "dark",
+      "projectTheme": "vaultfront",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-vaultfront-connection-restored.png",
+      "sha256": "955f58198d27948ede05efafe38874b3bb009e03260430192ecc55bc73d54805",
+      "page": "connection-restored",
+      "state": "connection-restored",
+      "theme": "dark",
+      "projectTheme": "vaultfront",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-vaultfront-connection-fatal.png",
+      "sha256": "070b148615aa6752a48c8f2b7466d2e6505af49d3aa62a9503e3b2f8852dad19",
+      "page": "connection-fatal",
+      "state": "connection-fatal",
+      "theme": "dark",
+      "projectTheme": "vaultfront",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-vaultfront-connection-overflow.png",
+      "sha256": "b6e55c8306d7989db1e21555331d0dfed27680ff2438eff59ab40b199ac6d556",
+      "page": "connection-overflow",
+      "state": "connection-overflow",
+      "theme": "dark",
+      "projectTheme": "vaultfront",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-vaultfront-narrator-certified.png",
+      "sha256": "5414996bcf2d75612a26f29be8e0d1dc68ca4a7c634856d216c784ece452f52b",
+      "page": "narrator-certified",
+      "state": "narrator-certified",
       "theme": "dark",
       "projectTheme": "vaultfront",
       "viewport": { "width": 393, "height": 727 }
@@ -224,7 +548,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-light-play.png",
-      "sha256": "f7180b3ba72b61ec54abf99b6a43d028ef217b9b784abf6aa80926ca47d5ece8",
+      "sha256": "847f327dbee74ae1b971c023aa6a6e5e917bcfa734a6d41ff6a5dab9071d2e9a",
       "page": "play",
       "state": "play",
       "theme": "light",
@@ -233,7 +557,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-light-settings.png",
-      "sha256": "b449bc281e1d6af752e53b3bdf1a0079292559bcbb9fe4b6f9d1f4e493228050",
+      "sha256": "a6dd69669906aed636fa28b2c20a6f807f764d41be238cc11ea1b9d06bbe0f1e",
       "page": "settings",
       "state": "settings",
       "theme": "light",
@@ -245,6 +569,87 @@
       "sha256": "98983c64f38a3a97d627326554ce9992154b9b58d70e531a0090abab29e3170a",
       "page": "postmatch",
       "state": "postmatch",
+      "theme": "light",
+      "projectTheme": "light",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-light-prematch-loading.png",
+      "sha256": "2354348b823620664ca59b3d855a2bd2fc5282b9fb6e049c09600d882db90aab",
+      "page": "prematch-loading",
+      "state": "prematch-loading",
+      "theme": "light",
+      "projectTheme": "light",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-light-prematch-degraded.png",
+      "sha256": "ee99fc8306ee2499fad73f3e67737dd68f48222104ae92631a388da29a5b2b1c",
+      "page": "prematch-degraded",
+      "state": "prematch-degraded",
+      "theme": "light",
+      "projectTheme": "light",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-light-prematch-ready.png",
+      "sha256": "c357ec669ee2c9e6d20de034bf4d6affcfb42cfc5fac66cd5e319c28a0e848fe",
+      "page": "prematch-ready",
+      "state": "prematch-ready",
+      "theme": "light",
+      "projectTheme": "light",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-light-connection-waiting.png",
+      "sha256": "b8570a5e5c41056a22e3c2ace6d1eb65c8b70f3bcc28351e5568f7b98b78af03",
+      "page": "connection-waiting",
+      "state": "connection-waiting",
+      "theme": "light",
+      "projectTheme": "light",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-light-connection-synchronizing.png",
+      "sha256": "63d5e668abc1f6454080a5f78aab8fc950895798b8e9c7abecd57954fc5b9ef4",
+      "page": "connection-synchronizing",
+      "state": "connection-synchronizing",
+      "theme": "light",
+      "projectTheme": "light",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-light-connection-restored.png",
+      "sha256": "4075d414232bca07ba01de193f9d93b7b8b0313738ccf3c470ae54b43e43beb9",
+      "page": "connection-restored",
+      "state": "connection-restored",
+      "theme": "light",
+      "projectTheme": "light",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-light-connection-fatal.png",
+      "sha256": "8ceb781468317ea4639e02f338805247ce8121ffc52a3b9fc5cb951f0c9c588a",
+      "page": "connection-fatal",
+      "state": "connection-fatal",
+      "theme": "light",
+      "projectTheme": "light",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-light-connection-overflow.png",
+      "sha256": "35be8a03216309721f20a3505d2f922f6b594b31bb30f2ebd641bfa2ad1ba203",
+      "page": "connection-overflow",
+      "state": "connection-overflow",
+      "theme": "light",
+      "projectTheme": "light",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-light-narrator-certified.png",
+      "sha256": "43a0764d4a6307406f1512e97964404a719c68a43313ea18bbfa16ba46547666",
+      "page": "narrator-certified",
+      "state": "narrator-certified",
       "theme": "light",
       "projectTheme": "light",
       "viewport": { "width": 393, "height": 727 }
@@ -278,7 +683,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-competitive-play.png",
-      "sha256": "dba05f942bfb645a0adbeb6f213335f4043de5532317b39a234d9b46d305041e",
+      "sha256": "18b112cb781361782ff6c84894bf875c4f4e6962bac56139168e475208258474",
       "page": "play",
       "state": "play",
       "theme": "competitive",
@@ -287,7 +692,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-competitive-settings.png",
-      "sha256": "a0887ba01bc8e18d7b6fc73bc2b6f0844bb1c80ed4cbe4f9d3b3a7bafa6bc207",
+      "sha256": "db05237abb3e360805e8f737060c02f39579f91604a8a958a7e07fe3faaaaa90",
       "page": "settings",
       "state": "settings",
       "theme": "competitive",
@@ -299,6 +704,87 @@
       "sha256": "7c1f2d7fe6cf0cf7b13925ce0df0bf8365b1d556347c13b6689f7ec1ac9ecb08",
       "page": "postmatch",
       "state": "postmatch",
+      "theme": "competitive",
+      "projectTheme": "competitive",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-competitive-prematch-loading.png",
+      "sha256": "a2a7b933af5e3d88c7a116f363c3817bd5b1a94895926aad97e395d5739e0334",
+      "page": "prematch-loading",
+      "state": "prematch-loading",
+      "theme": "competitive",
+      "projectTheme": "competitive",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-competitive-prematch-degraded.png",
+      "sha256": "2f9d27afb83e20d00d33fe5f3f9dc589ea42d64e412f428f9d2f67c862cc6370",
+      "page": "prematch-degraded",
+      "state": "prematch-degraded",
+      "theme": "competitive",
+      "projectTheme": "competitive",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-competitive-prematch-ready.png",
+      "sha256": "39a664d0a58d9690e4d3250ee138fd07772d360f12c1fa56986fa5ccd1e01cd4",
+      "page": "prematch-ready",
+      "state": "prematch-ready",
+      "theme": "competitive",
+      "projectTheme": "competitive",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-competitive-connection-waiting.png",
+      "sha256": "3e6e80ef16a097af62369f6b39438ef0acbbd50562dbd71e7cf6a9216ebd1301",
+      "page": "connection-waiting",
+      "state": "connection-waiting",
+      "theme": "competitive",
+      "projectTheme": "competitive",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-competitive-connection-synchronizing.png",
+      "sha256": "aa9a96559639178f385409e62e433a4b3bf610240ec03f81d313e16d20f16e20",
+      "page": "connection-synchronizing",
+      "state": "connection-synchronizing",
+      "theme": "competitive",
+      "projectTheme": "competitive",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-competitive-connection-restored.png",
+      "sha256": "5337a3631468b74b946d1d410552da46fc0ddf63bf3a0b6c89c6cf81e833447f",
+      "page": "connection-restored",
+      "state": "connection-restored",
+      "theme": "competitive",
+      "projectTheme": "competitive",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-competitive-connection-fatal.png",
+      "sha256": "b36d2d3271cf3b9be0ae3f12a037a6677f821900d035e5b0a3b876a45284e36c",
+      "page": "connection-fatal",
+      "state": "connection-fatal",
+      "theme": "competitive",
+      "projectTheme": "competitive",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-competitive-connection-overflow.png",
+      "sha256": "3f7ddb8d4a3a0bbed83c462447c5dfebfddd03874f004385863600861b8023d3",
+      "page": "connection-overflow",
+      "state": "connection-overflow",
+      "theme": "competitive",
+      "projectTheme": "competitive",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-competitive-narrator-certified.png",
+      "sha256": "16605038636aff7f321b8bd23d6af50a0a2778abd219281205a6a6beaa1addd3",
+      "page": "narrator-certified",
+      "state": "narrator-certified",
       "theme": "competitive",
       "projectTheme": "competitive",
       "viewport": { "width": 393, "height": 727 }
@@ -348,14 +834,14 @@
   },
   "comparisonBase": {
     "source": "git:HEAD:docs/visual-qa/LATEST.json",
-    "gitRevision": "ad37f9ef4269254505f8cbd6b0f8e8739672c942",
-    "capturedAt": "2026-08-03T06:31:45.317Z",
-    "sourceDigest": "sha256:b24281d8ee44f5cb191eee88aa193f78852b9326349977df146c15449f8b8454"
+    "gitRevision": "5393db79991293e2f42024e611f3f8f273554d4c",
+    "capturedAt": "2026-08-04T00:14:27.389Z",
+    "sourceDigest": "sha256:e404ab9bbfa8e108499190fc39d654ada0dd249f4f9310fa4b0e9b1c5193ddf9"
   },
   "source": {
-    "gitRevision": "5393db79991293e2f42024e611f3f8f273554d4c",
+    "gitRevision": "b2f94638fd6fa20951062468a16cf5fee4c7bcbe",
     "dirty": true,
-    "digest": "sha256:e404ab9bbfa8e108499190fc39d654ada0dd249f4f9310fa4b0e9b1c5193ddf9",
+    "digest": "sha256:31ea1f698b4cbf866bb58d39c7f4d7254bdb89b07e89f853f8925e8bad4ed3f8",
     "files": [
       {
         "path": "config/vaultfront-balance.v1.json",
@@ -364,13 +850,13 @@
       },
       {
         "path": "e2e/theme-visual-proof.spec.ts",
-        "bytes": 17708,
-        "digest": "sha256:dfc6a6e54ce50e09ee0c799122e1fdf4d895b32d78f8ffc10c9e816b4e249b52"
+        "bytes": 27581,
+        "digest": "sha256:da3c4cce561dd5b62fcd78b138cda704d9100bcb1eff83bdc946e9734537d9f4"
       },
       {
         "path": "src/client/Api.ts",
-        "bytes": 52219,
-        "digest": "sha256:1f939cd7cad16f73239d1b7a02db5a21f336fa8e63989e06ec47365d823f6d2d"
+        "bytes": 50594,
+        "digest": "sha256:64ad59baa166b29b8497330c5bd58497b0b66e59069bbfbe9c9bafe4cac7ba37"
       },
       {
         "path": "src/client/BrandTheme.ts",
@@ -381,6 +867,16 @@
         "path": "src/client/CertifiedMatchFeedback.ts",
         "bytes": 6488,
         "digest": "sha256:71e841ebb478038a00057dafc57f364dc3c77dae88d1e72f59ceb9d2dcd9ada5"
+      },
+      {
+        "path": "src/client/ConnectionRecoveryPresenter.ts",
+        "bytes": 5927,
+        "digest": "sha256:6678d300daa3c282522f62e7c6d1eb441bf6d9075ccfd9790f30f0cdc5c72780"
+      },
+      {
+        "path": "src/client/GameStartingModal.ts",
+        "bytes": 9117,
+        "digest": "sha256:d0553ac47fbbdc1cc3e4935ad64ed89f6f37e048d81f09b8cabe68be643132d4"
       },
       {
         "path": "src/client/PostMatchContinuation.ts",
@@ -401,6 +897,11 @@
         "path": "src/client/SeasonPassTrack.ts",
         "bytes": 9473,
         "digest": "sha256:bf65a7a379028619505e82ee4617b4e0e21f361ce9c594c5ff366ceaec8401c7"
+      },
+      {
+        "path": "src/client/Transport.ts",
+        "bytes": 28615,
+        "digest": "sha256:acbeaf6141288ce9a5c7e3490f6c5c3a203e31f801e3c1a33ec50e176f930775"
       },
       {
         "path": "src/client/UserSettingModal.ts",
@@ -439,8 +940,8 @@
       },
       {
         "path": "src/client/components/Footer.ts",
-        "bytes": 2604,
-        "digest": "sha256:1ad72b53a9e5f84b3639d82b5aff74232ffa47d7e36f15a8ed14f3787c0e6845"
+        "bytes": 2372,
+        "digest": "sha256:9cd89013b9f65ec5b00948c2a1663698dbfa4b8e272e547f800c401bc9b5a812"
       },
       {
         "path": "src/client/components/GameConfigSettings.ts",
@@ -628,14 +1129,19 @@
         "digest": "sha256:8250ab4e3952d441f6dcb7aab53b95dcf4ae30c9b2539d17daa92c8529285396"
       },
       {
+        "path": "src/client/graphics/layers/CertifiedNarratorLayer.ts",
+        "bytes": 1865,
+        "digest": "sha256:2cf9617534cb41c989500f765abc9f703d34332f743fc0c34785ddb585f43c60"
+      },
+      {
         "path": "src/client/graphics/layers/VaultFrontLayer.ts",
         "bytes": 66895,
         "digest": "sha256:e1e840e834180949204165b8b22d7da9d79c031fd38c26467e3b458c2b79b964"
       },
       {
         "path": "src/client/graphics/layers/WinModal.ts",
-        "bytes": 76075,
-        "digest": "sha256:578729ee1087012bd1d6d6460d848579ac8ef9bcfa8f741fe621bd8bde318567"
+        "bytes": 76356,
+        "digest": "sha256:d650e0541842c40ed45013179aee81f1454bebdb284b8ded47a9c73231c93aec"
       },
       {
         "path": "src/client/styles.css",
@@ -701,6 +1207,11 @@
         "path": "src/core/game/GameUpdates.ts",
         "bytes": 14951,
         "digest": "sha256:6cdcc9aaa6ec4f60a0d99bf58f8b18670db1cfab90aa39b3c47acbf054815696"
+      },
+      {
+        "path": "src/shared/PublicRouteGraph.json",
+        "bytes": 2094,
+        "digest": "sha256:10b01cb23179a76e488be022612939e9e24f8860667ca046c689bbbc6b49c17a"
       }
     ]
   },
@@ -708,13 +1219,13 @@
     "summaries": [
       {
         "path": "docs/visual-qa/summaries/theme-proof-chromium.json",
-        "bytes": 23550,
-        "digest": "sha256:7b9e5bfed5e1a218d1363018a48a6d08148c6393099a058749e2c61b17d38d3f"
+        "bytes": 38032,
+        "digest": "sha256:86f3cebbad0acaa194d9edb4631009da8adad8fd806e90fe9f2884d55d02a30b"
       },
       {
         "path": "docs/visual-qa/summaries/theme-proof-mobile-chrome.json",
-        "bytes": 23546,
-        "digest": "sha256:c13b82e6dc13e61ada26076b8dcd77dfc1353e6567728b4cf08dfa7ac2045df9"
+        "bytes": 38028,
+        "digest": "sha256:4d991f05dafc60623c7d74217f459f43fca32b05f0c7acf218babf52489e8299"
       }
     ],
     "artifacts": [
@@ -723,24 +1234,96 @@
         "theme": "vaultfront",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-play.png",
-        "bytes": 703874,
-        "digest": "sha256:33cebb7af26f86cf2c67726146b6b9cf5a427dc8245b33128398f8a452be1545"
+        "bytes": 704268,
+        "digest": "sha256:02fa522478f4f10ab637e3765a917f6fdfe114acee816eec7a3e22b538cdf7fb"
       },
       {
         "project": "chromium",
         "theme": "vaultfront",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-settings.png",
-        "bytes": 363974,
-        "digest": "sha256:33eab10aaa899600d9c2d806d29ba1c9f5aa65aae02f9fe868ac717fc0e7300b"
+        "bytes": 364015,
+        "digest": "sha256:5a048785ad6a8adc01735ff551cc9f2628b7272e7d6a671ed3c1e3f601a61dd9"
       },
       {
         "project": "chromium",
         "theme": "vaultfront",
         "surface": "postmatch",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-postmatch.png",
-        "bytes": 61392,
-        "digest": "sha256:6aa14a51374c48b5a3b08c042a211d6e5de17ab83c75159c8fd7bfdb15ed5920"
+        "bytes": 61383,
+        "digest": "sha256:b3cadd385a30943277c39c82ed31ccca0adc61a6b059a79833a6122baa5a5ac5"
+      },
+      {
+        "project": "chromium",
+        "theme": "vaultfront",
+        "surface": "prematch-loading",
+        "path": "docs/visual-qa/artifacts/chromium-vaultfront-prematch-loading.png",
+        "bytes": 18231,
+        "digest": "sha256:4e1c0836cc2714293a33bd10596514a0f60154c2d4789526081d223b8cf10f3c"
+      },
+      {
+        "project": "chromium",
+        "theme": "vaultfront",
+        "surface": "prematch-degraded",
+        "path": "docs/visual-qa/artifacts/chromium-vaultfront-prematch-degraded.png",
+        "bytes": 19104,
+        "digest": "sha256:253aafe8a1ac6255537f6648d7acd588f219f0e25a24bca9ebffdf321bf06887"
+      },
+      {
+        "project": "chromium",
+        "theme": "vaultfront",
+        "surface": "prematch-ready",
+        "path": "docs/visual-qa/artifacts/chromium-vaultfront-prematch-ready.png",
+        "bytes": 33147,
+        "digest": "sha256:f84e9d9e47fbbe6e9fe7691e0f529d11205a166966b6d6c8a57e3533d13e85d4"
+      },
+      {
+        "project": "chromium",
+        "theme": "vaultfront",
+        "surface": "connection-waiting",
+        "path": "docs/visual-qa/artifacts/chromium-vaultfront-connection-waiting.png",
+        "bytes": 10757,
+        "digest": "sha256:9d0bc4e5d498d269489d5a0e61a379e20156d63c8135ba6e592fd9ee43260ae4"
+      },
+      {
+        "project": "chromium",
+        "theme": "vaultfront",
+        "surface": "connection-synchronizing",
+        "path": "docs/visual-qa/artifacts/chromium-vaultfront-connection-synchronizing.png",
+        "bytes": 11361,
+        "digest": "sha256:4b6f169a99b2a69974a9ffe41310f2bdbd6b558711e5adccf3457ef25e44217e"
+      },
+      {
+        "project": "chromium",
+        "theme": "vaultfront",
+        "surface": "connection-restored",
+        "path": "docs/visual-qa/artifacts/chromium-vaultfront-connection-restored.png",
+        "bytes": 11248,
+        "digest": "sha256:13f1991e03d080537d9ccab4072edb5b957068434636b509776dfd1dd9705f2f"
+      },
+      {
+        "project": "chromium",
+        "theme": "vaultfront",
+        "surface": "connection-fatal",
+        "path": "docs/visual-qa/artifacts/chromium-vaultfront-connection-fatal.png",
+        "bytes": 11378,
+        "digest": "sha256:d1f66f23d1d0d216c98af10eebb90fa591291e3891d0f749003d9b589fc81a32"
+      },
+      {
+        "project": "chromium",
+        "theme": "vaultfront",
+        "surface": "connection-overflow",
+        "path": "docs/visual-qa/artifacts/chromium-vaultfront-connection-overflow.png",
+        "bytes": 12429,
+        "digest": "sha256:04eb679bf7acc89cbe8a34d084431a4bc889616672342ef1a071d698af749d12"
+      },
+      {
+        "project": "chromium",
+        "theme": "vaultfront",
+        "surface": "narrator-certified",
+        "path": "docs/visual-qa/artifacts/chromium-vaultfront-narrator-certified.png",
+        "bytes": 73408,
+        "digest": "sha256:8bf9fab4442b5aa3d486499266d07c406620a750ff6d85bb72a7e0bd1ce567d9"
       },
       {
         "project": "chromium",
@@ -771,16 +1354,16 @@
         "theme": "light",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/chromium-light-play.png",
-        "bytes": 669616,
-        "digest": "sha256:47ec2c5376edc7d40ffd4741511bf96a12c60d0701d17b968364d6d0359dcfd8"
+        "bytes": 670127,
+        "digest": "sha256:8c5dc068f655723687aca08fd3b97e6a6960e9a29b1c84c583dde1c25d21c624"
       },
       {
         "project": "chromium",
         "theme": "light",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/chromium-light-settings.png",
-        "bytes": 301543,
-        "digest": "sha256:007b75376cf825503037dbee5306ff1b99a2cb873988d41cbeed45e98aeaeb9a"
+        "bytes": 301846,
+        "digest": "sha256:facbe0f8bc6e376c03bf18b7eb85ba256071490e6f8f73c00e1c1ad5fa287d04"
       },
       {
         "project": "chromium",
@@ -789,6 +1372,78 @@
         "path": "docs/visual-qa/artifacts/chromium-light-postmatch.png",
         "bytes": 69954,
         "digest": "sha256:0551cd7207ff3faf3b317cab5d6b8003ca18319e8f57ab25ebeb4e9c616f174f"
+      },
+      {
+        "project": "chromium",
+        "theme": "light",
+        "surface": "prematch-loading",
+        "path": "docs/visual-qa/artifacts/chromium-light-prematch-loading.png",
+        "bytes": 21994,
+        "digest": "sha256:22b6773f7ad233d1212b81c83eaa80f19850ccafa218e8ad0e542be7a9d50758"
+      },
+      {
+        "project": "chromium",
+        "theme": "light",
+        "surface": "prematch-degraded",
+        "path": "docs/visual-qa/artifacts/chromium-light-prematch-degraded.png",
+        "bytes": 22900,
+        "digest": "sha256:686a6c785062ae6e0324d970e18299e8f12be58e33c36469a2506a62893ba9dd"
+      },
+      {
+        "project": "chromium",
+        "theme": "light",
+        "surface": "prematch-ready",
+        "path": "docs/visual-qa/artifacts/chromium-light-prematch-ready.png",
+        "bytes": 36725,
+        "digest": "sha256:da2f50f16e427957108ec91a21bfaebe5cca72d36056302619df01d280561657"
+      },
+      {
+        "project": "chromium",
+        "theme": "light",
+        "surface": "connection-waiting",
+        "path": "docs/visual-qa/artifacts/chromium-light-connection-waiting.png",
+        "bytes": 15492,
+        "digest": "sha256:ddc4813caa9c554e0955a9f42c9189b0756691855a2dce2d078433800adeefa9"
+      },
+      {
+        "project": "chromium",
+        "theme": "light",
+        "surface": "connection-synchronizing",
+        "path": "docs/visual-qa/artifacts/chromium-light-connection-synchronizing.png",
+        "bytes": 16150,
+        "digest": "sha256:07d7d11affc1e45c8925da1067126a1c489d4d755cc3f6acc5119e9eedc77139"
+      },
+      {
+        "project": "chromium",
+        "theme": "light",
+        "surface": "connection-restored",
+        "path": "docs/visual-qa/artifacts/chromium-light-connection-restored.png",
+        "bytes": 15960,
+        "digest": "sha256:5bc6387c4082ad86e941e2d3c7d42b6389b2dc4b19f183a89d0e008304777778"
+      },
+      {
+        "project": "chromium",
+        "theme": "light",
+        "surface": "connection-fatal",
+        "path": "docs/visual-qa/artifacts/chromium-light-connection-fatal.png",
+        "bytes": 16151,
+        "digest": "sha256:ec6e36557199d2b69f0c7b685321846651dba1e2ff3d7e769f614866d8fa0a30"
+      },
+      {
+        "project": "chromium",
+        "theme": "light",
+        "surface": "connection-overflow",
+        "path": "docs/visual-qa/artifacts/chromium-light-connection-overflow.png",
+        "bytes": 17455,
+        "digest": "sha256:8cd1130117b914c7c39ac046d2ebd58043172ff4f8a9ea9e60ab526ece7fa720"
+      },
+      {
+        "project": "chromium",
+        "theme": "light",
+        "surface": "narrator-certified",
+        "path": "docs/visual-qa/artifacts/chromium-light-narrator-certified.png",
+        "bytes": 70367,
+        "digest": "sha256:92e4621b617d28b87b259c4844400340d5e80f96fc48cce20ad9cdc371da4d80"
       },
       {
         "project": "chromium",
@@ -819,16 +1474,16 @@
         "theme": "competitive",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/chromium-competitive-play.png",
-        "bytes": 715030,
-        "digest": "sha256:9f468a1d52747e5955711a78b2eab61212494715079b3e18e1cb0136a37f73a0"
+        "bytes": 715404,
+        "digest": "sha256:788651b0fca9b0db8fb00b75714eea28a17996df4defe0910b39d3cc496173cb"
       },
       {
         "project": "chromium",
         "theme": "competitive",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/chromium-competitive-settings.png",
-        "bytes": 341147,
-        "digest": "sha256:3534fc303450a03de9b75c68ba69e1ce47acb32f8b7246effc046da1ee660129"
+        "bytes": 341018,
+        "digest": "sha256:093529a42e7fa1471850a8286cc8fe7e0e5429744d0f61cc9e4817aa3dbba690"
       },
       {
         "project": "chromium",
@@ -837,6 +1492,78 @@
         "path": "docs/visual-qa/artifacts/chromium-competitive-postmatch.png",
         "bytes": 61652,
         "digest": "sha256:3fa9839f722633eda023e6802db29ce8b4c517d6b566b77e9c00ff07787f5ec2"
+      },
+      {
+        "project": "chromium",
+        "theme": "competitive",
+        "surface": "prematch-loading",
+        "path": "docs/visual-qa/artifacts/chromium-competitive-prematch-loading.png",
+        "bytes": 18331,
+        "digest": "sha256:115229028733fbd2aa3de9387b2abad10879abd4f189cee736d52fc127023fc7"
+      },
+      {
+        "project": "chromium",
+        "theme": "competitive",
+        "surface": "prematch-degraded",
+        "path": "docs/visual-qa/artifacts/chromium-competitive-prematch-degraded.png",
+        "bytes": 19216,
+        "digest": "sha256:6cc916f262a54fb2ce76c84d26999ddd5d31453a9823bb5aff378fc6011bc063"
+      },
+      {
+        "project": "chromium",
+        "theme": "competitive",
+        "surface": "prematch-ready",
+        "path": "docs/visual-qa/artifacts/chromium-competitive-prematch-ready.png",
+        "bytes": 33200,
+        "digest": "sha256:e61da23cc65350dfe0b581d0e99e8fdeba0458ee3beca6cbd88c53aa56787a11"
+      },
+      {
+        "project": "chromium",
+        "theme": "competitive",
+        "surface": "connection-waiting",
+        "path": "docs/visual-qa/artifacts/chromium-competitive-connection-waiting.png",
+        "bytes": 10856,
+        "digest": "sha256:96d52f78dbb614c8d1440ae9363a252034353a3cd9c45a156e12f5c4d5cb1750"
+      },
+      {
+        "project": "chromium",
+        "theme": "competitive",
+        "surface": "connection-synchronizing",
+        "path": "docs/visual-qa/artifacts/chromium-competitive-connection-synchronizing.png",
+        "bytes": 11462,
+        "digest": "sha256:b84004b909b0667c73cab578e15c9526c04318d42dd057ed2a798530a5f34bd5"
+      },
+      {
+        "project": "chromium",
+        "theme": "competitive",
+        "surface": "connection-restored",
+        "path": "docs/visual-qa/artifacts/chromium-competitive-connection-restored.png",
+        "bytes": 11341,
+        "digest": "sha256:174fd8b9bc2a7e56b5a2fbc9b13ea5bb7d0f0d9ec253d1bafa505daeb6c32699"
+      },
+      {
+        "project": "chromium",
+        "theme": "competitive",
+        "surface": "connection-fatal",
+        "path": "docs/visual-qa/artifacts/chromium-competitive-connection-fatal.png",
+        "bytes": 11481,
+        "digest": "sha256:82f71e825dcd61bc16a039c4fcffff6893a05d15944941dc8b3df05dc7e16d83"
+      },
+      {
+        "project": "chromium",
+        "theme": "competitive",
+        "surface": "connection-overflow",
+        "path": "docs/visual-qa/artifacts/chromium-competitive-connection-overflow.png",
+        "bytes": 12554,
+        "digest": "sha256:9c96785456982c25afe50e96f0849362db130e7ecf802d60fb068702d784e29a"
+      },
+      {
+        "project": "chromium",
+        "theme": "competitive",
+        "surface": "narrator-certified",
+        "path": "docs/visual-qa/artifacts/chromium-competitive-narrator-certified.png",
+        "bytes": 74716,
+        "digest": "sha256:c99aa2028b9cdfa359f9c055473acc12b70b9e63afb18092279e73ec99bead1e"
       },
       {
         "project": "chromium",
@@ -867,16 +1594,16 @@
         "theme": "vaultfront",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-play.png",
-        "bytes": 1198000,
-        "digest": "sha256:b826416cc88aaab14c2e53851b8f48303722332c289acc56b57eb54d91b41bf2"
+        "bytes": 1185326,
+        "digest": "sha256:8decbf3b57b8a0c74ad6ebb732f9f2641f618f837f9204f59c1da4f00074ed0c"
       },
       {
         "project": "mobile-chrome",
         "theme": "vaultfront",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-settings.png",
-        "bytes": 309285,
-        "digest": "sha256:4bccfa718c8f1b3c6f725e6767e8c35da35b62f544db95621a2b09abf3709676"
+        "bytes": 309958,
+        "digest": "sha256:0756ded65b88f376808171aa40f693c9b36eb7689075ac0f863828c58486b055"
       },
       {
         "project": "mobile-chrome",
@@ -885,6 +1612,78 @@
         "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-postmatch.png",
         "bytes": 139975,
         "digest": "sha256:09804440b9a17403b0e05a8bcf210205cd5ea3ab012f026197f76f64960aa23f"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "vaultfront",
+        "surface": "prematch-loading",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-prematch-loading.png",
+        "bytes": 66841,
+        "digest": "sha256:b294dbcb224eccaf4ad936e17922a01e552eacc6445964dd9da01346098da078"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "vaultfront",
+        "surface": "prematch-degraded",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-prematch-degraded.png",
+        "bytes": 68425,
+        "digest": "sha256:b8bf8f09ec7ccb9609a919d9117b9b40b005879b51287a439c3264d2c5e849e6"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "vaultfront",
+        "surface": "prematch-ready",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-prematch-ready.png",
+        "bytes": 138076,
+        "digest": "sha256:75cf897858a78af29c0074b81de8d1e79dc761cb60f9b1be34e4b2d5f50b73b0"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "vaultfront",
+        "surface": "connection-waiting",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-connection-waiting.png",
+        "bytes": 36720,
+        "digest": "sha256:184f19e9d92fc8895a1646add9aa894335be7d2c84386ac4fcd5a09a4bdbd72f"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "vaultfront",
+        "surface": "connection-synchronizing",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-connection-synchronizing.png",
+        "bytes": 43413,
+        "digest": "sha256:dd7f6770ff91e0fa6c06e2f660ee5bd2d0b940404572fa959fb8f9e5b0abae98"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "vaultfront",
+        "surface": "connection-restored",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-connection-restored.png",
+        "bytes": 38443,
+        "digest": "sha256:955f58198d27948ede05efafe38874b3bb009e03260430192ecc55bc73d54805"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "vaultfront",
+        "surface": "connection-fatal",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-connection-fatal.png",
+        "bytes": 43340,
+        "digest": "sha256:070b148615aa6752a48c8f2b7466d2e6505af49d3aa62a9503e3b2f8852dad19"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "vaultfront",
+        "surface": "connection-overflow",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-connection-overflow.png",
+        "bytes": 45338,
+        "digest": "sha256:b6e55c8306d7989db1e21555331d0dfed27680ff2438eff59ab40b199ac6d556"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "vaultfront",
+        "surface": "narrator-certified",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-narrator-certified.png",
+        "bytes": 25145,
+        "digest": "sha256:5414996bcf2d75612a26f29be8e0d1dc68ca4a7c634856d216c784ece452f52b"
       },
       {
         "project": "mobile-chrome",
@@ -915,16 +1714,16 @@
         "theme": "light",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/mobile-chrome-light-play.png",
-        "bytes": 1115753,
-        "digest": "sha256:f7180b3ba72b61ec54abf99b6a43d028ef217b9b784abf6aa80926ca47d5ece8"
+        "bytes": 1116510,
+        "digest": "sha256:847f327dbee74ae1b971c023aa6a6e5e917bcfa734a6d41ff6a5dab9071d2e9a"
       },
       {
         "project": "mobile-chrome",
         "theme": "light",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/mobile-chrome-light-settings.png",
-        "bytes": 229929,
-        "digest": "sha256:b449bc281e1d6af752e53b3bdf1a0079292559bcbb9fe4b6f9d1f4e493228050"
+        "bytes": 231455,
+        "digest": "sha256:a6dd69669906aed636fa28b2c20a6f807f764d41be238cc11ea1b9d06bbe0f1e"
       },
       {
         "project": "mobile-chrome",
@@ -933,6 +1732,78 @@
         "path": "docs/visual-qa/artifacts/mobile-chrome-light-postmatch.png",
         "bytes": 159279,
         "digest": "sha256:98983c64f38a3a97d627326554ce9992154b9b58d70e531a0090abab29e3170a"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "light",
+        "surface": "prematch-loading",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-light-prematch-loading.png",
+        "bytes": 80017,
+        "digest": "sha256:2354348b823620664ca59b3d855a2bd2fc5282b9fb6e049c09600d882db90aab"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "light",
+        "surface": "prematch-degraded",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-light-prematch-degraded.png",
+        "bytes": 81564,
+        "digest": "sha256:ee99fc8306ee2499fad73f3e67737dd68f48222104ae92631a388da29a5b2b1c"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "light",
+        "surface": "prematch-ready",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-light-prematch-ready.png",
+        "bytes": 151676,
+        "digest": "sha256:c357ec669ee2c9e6d20de034bf4d6affcfb42cfc5fac66cd5e319c28a0e848fe"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "light",
+        "surface": "connection-waiting",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-light-connection-waiting.png",
+        "bytes": 50726,
+        "digest": "sha256:b8570a5e5c41056a22e3c2ace6d1eb65c8b70f3bcc28351e5568f7b98b78af03"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "light",
+        "surface": "connection-synchronizing",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-light-connection-synchronizing.png",
+        "bytes": 58359,
+        "digest": "sha256:63d5e668abc1f6454080a5f78aab8fc950895798b8e9c7abecd57954fc5b9ef4"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "light",
+        "surface": "connection-restored",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-light-connection-restored.png",
+        "bytes": 52260,
+        "digest": "sha256:4075d414232bca07ba01de193f9d93b7b8b0313738ccf3c470ae54b43e43beb9"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "light",
+        "surface": "connection-fatal",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-light-connection-fatal.png",
+        "bytes": 58298,
+        "digest": "sha256:8ceb781468317ea4639e02f338805247ce8121ffc52a3b9fc5cb951f0c9c588a"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "light",
+        "surface": "connection-overflow",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-light-connection-overflow.png",
+        "bytes": 60279,
+        "digest": "sha256:35be8a03216309721f20a3505d2f922f6b594b31bb30f2ebd641bfa2ad1ba203"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "light",
+        "surface": "narrator-certified",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-light-narrator-certified.png",
+        "bytes": 28191,
+        "digest": "sha256:43a0764d4a6307406f1512e97964404a719c68a43313ea18bbfa16ba46547666"
       },
       {
         "project": "mobile-chrome",
@@ -963,16 +1834,16 @@
         "theme": "competitive",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-play.png",
-        "bytes": 1187235,
-        "digest": "sha256:dba05f942bfb645a0adbeb6f213335f4043de5532317b39a234d9b46d305041e"
+        "bytes": 1187515,
+        "digest": "sha256:18b112cb781361782ff6c84894bf875c4f4e6962bac56139168e475208258474"
       },
       {
         "project": "mobile-chrome",
         "theme": "competitive",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-settings.png",
-        "bytes": 254405,
-        "digest": "sha256:a0887ba01bc8e18d7b6fc73bc2b6f0844bb1c80ed4cbe4f9d3b3a7bafa6bc207"
+        "bytes": 255029,
+        "digest": "sha256:db05237abb3e360805e8f737060c02f39579f91604a8a958a7e07fe3faaaaa90"
       },
       {
         "project": "mobile-chrome",
@@ -981,6 +1852,78 @@
         "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-postmatch.png",
         "bytes": 141147,
         "digest": "sha256:7c1f2d7fe6cf0cf7b13925ce0df0bf8365b1d556347c13b6689f7ec1ac9ecb08"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "competitive",
+        "surface": "prematch-loading",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-prematch-loading.png",
+        "bytes": 67398,
+        "digest": "sha256:a2a7b933af5e3d88c7a116f363c3817bd5b1a94895926aad97e395d5739e0334"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "competitive",
+        "surface": "prematch-degraded",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-prematch-degraded.png",
+        "bytes": 68946,
+        "digest": "sha256:2f9d27afb83e20d00d33fe5f3f9dc589ea42d64e412f428f9d2f67c862cc6370"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "competitive",
+        "surface": "prematch-ready",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-prematch-ready.png",
+        "bytes": 138674,
+        "digest": "sha256:39a664d0a58d9690e4d3250ee138fd07772d360f12c1fa56986fa5ccd1e01cd4"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "competitive",
+        "surface": "connection-waiting",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-connection-waiting.png",
+        "bytes": 36979,
+        "digest": "sha256:3e6e80ef16a097af62369f6b39438ef0acbbd50562dbd71e7cf6a9216ebd1301"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "competitive",
+        "surface": "connection-synchronizing",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-connection-synchronizing.png",
+        "bytes": 43937,
+        "digest": "sha256:aa9a96559639178f385409e62e433a4b3bf610240ec03f81d313e16d20f16e20"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "competitive",
+        "surface": "connection-restored",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-connection-restored.png",
+        "bytes": 38695,
+        "digest": "sha256:5337a3631468b74b946d1d410552da46fc0ddf63bf3a0b6c89c6cf81e833447f"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "competitive",
+        "surface": "connection-fatal",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-connection-fatal.png",
+        "bytes": 43870,
+        "digest": "sha256:b36d2d3271cf3b9be0ae3f12a037a6677f821900d035e5b0a3b876a45284e36c"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "competitive",
+        "surface": "connection-overflow",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-connection-overflow.png",
+        "bytes": 45861,
+        "digest": "sha256:3f7ddb8d4a3a0bbed83c462447c5dfebfddd03874f004385863600861b8023d3"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "competitive",
+        "surface": "narrator-certified",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-narrator-certified.png",
+        "bytes": 25038,
+        "digest": "sha256:16605038636aff7f321b8bd23d6af50a0a2778abd219281205a6a6beaa1addd3"
       },
       {
         "project": "mobile-chrome",
@@ -1012,9 +1955,9 @@
     {
       "project": "chromium",
       "localOnly": true,
-      "capturedAt": "2026-08-04T00:13:14.467Z",
+      "capturedAt": "2026-08-04T07:00:07.182Z",
       "source": {
-        "digest": "sha256:e404ab9bbfa8e108499190fc39d654ada0dd249f4f9310fa4b0e9b1c5193ddf9",
+        "digest": "sha256:31ea1f698b4cbf866bb58d39c7f4d7254bdb89b07e89f853f8925e8bad4ed3f8",
         "files": [
           {
             "path": "config/vaultfront-balance.v1.json",
@@ -1023,13 +1966,13 @@
           },
           {
             "path": "e2e/theme-visual-proof.spec.ts",
-            "bytes": 17708,
-            "digest": "sha256:dfc6a6e54ce50e09ee0c799122e1fdf4d895b32d78f8ffc10c9e816b4e249b52"
+            "bytes": 27581,
+            "digest": "sha256:da3c4cce561dd5b62fcd78b138cda704d9100bcb1eff83bdc946e9734537d9f4"
           },
           {
             "path": "src/client/Api.ts",
-            "bytes": 52219,
-            "digest": "sha256:1f939cd7cad16f73239d1b7a02db5a21f336fa8e63989e06ec47365d823f6d2d"
+            "bytes": 50594,
+            "digest": "sha256:64ad59baa166b29b8497330c5bd58497b0b66e59069bbfbe9c9bafe4cac7ba37"
           },
           {
             "path": "src/client/BrandTheme.ts",
@@ -1040,6 +1983,16 @@
             "path": "src/client/CertifiedMatchFeedback.ts",
             "bytes": 6488,
             "digest": "sha256:71e841ebb478038a00057dafc57f364dc3c77dae88d1e72f59ceb9d2dcd9ada5"
+          },
+          {
+            "path": "src/client/ConnectionRecoveryPresenter.ts",
+            "bytes": 5927,
+            "digest": "sha256:6678d300daa3c282522f62e7c6d1eb441bf6d9075ccfd9790f30f0cdc5c72780"
+          },
+          {
+            "path": "src/client/GameStartingModal.ts",
+            "bytes": 9117,
+            "digest": "sha256:d0553ac47fbbdc1cc3e4935ad64ed89f6f37e048d81f09b8cabe68be643132d4"
           },
           {
             "path": "src/client/PostMatchContinuation.ts",
@@ -1060,6 +2013,11 @@
             "path": "src/client/SeasonPassTrack.ts",
             "bytes": 9473,
             "digest": "sha256:bf65a7a379028619505e82ee4617b4e0e21f361ce9c594c5ff366ceaec8401c7"
+          },
+          {
+            "path": "src/client/Transport.ts",
+            "bytes": 28615,
+            "digest": "sha256:acbeaf6141288ce9a5c7e3490f6c5c3a203e31f801e3c1a33ec50e176f930775"
           },
           {
             "path": "src/client/UserSettingModal.ts",
@@ -1098,8 +2056,8 @@
           },
           {
             "path": "src/client/components/Footer.ts",
-            "bytes": 2604,
-            "digest": "sha256:1ad72b53a9e5f84b3639d82b5aff74232ffa47d7e36f15a8ed14f3787c0e6845"
+            "bytes": 2372,
+            "digest": "sha256:9cd89013b9f65ec5b00948c2a1663698dbfa4b8e272e547f800c401bc9b5a812"
           },
           {
             "path": "src/client/components/GameConfigSettings.ts",
@@ -1287,14 +2245,19 @@
             "digest": "sha256:8250ab4e3952d441f6dcb7aab53b95dcf4ae30c9b2539d17daa92c8529285396"
           },
           {
+            "path": "src/client/graphics/layers/CertifiedNarratorLayer.ts",
+            "bytes": 1865,
+            "digest": "sha256:2cf9617534cb41c989500f765abc9f703d34332f743fc0c34785ddb585f43c60"
+          },
+          {
             "path": "src/client/graphics/layers/VaultFrontLayer.ts",
             "bytes": 66895,
             "digest": "sha256:e1e840e834180949204165b8b22d7da9d79c031fd38c26467e3b458c2b79b964"
           },
           {
             "path": "src/client/graphics/layers/WinModal.ts",
-            "bytes": 76075,
-            "digest": "sha256:578729ee1087012bd1d6d6460d848579ac8ef9bcfa8f741fe621bd8bde318567"
+            "bytes": 76356,
+            "digest": "sha256:d650e0541842c40ed45013179aee81f1454bebdb284b8ded47a9c73231c93aec"
           },
           {
             "path": "src/client/styles.css",
@@ -1360,6 +2323,11 @@
             "path": "src/core/game/GameUpdates.ts",
             "bytes": 14951,
             "digest": "sha256:6cdcc9aaa6ec4f60a0d99bf58f8b18670db1cfab90aa39b3c47acbf054815696"
+          },
+          {
+            "path": "src/shared/PublicRouteGraph.json",
+            "bytes": 2094,
+            "digest": "sha256:10b01cb23179a76e488be022612939e9e24f8860667ca046c689bbbc6b49c17a"
           }
         ]
       },
@@ -1395,10 +2363,109 @@
             "play",
             "settings",
             "postmatch",
+            "prematch-loading",
+            "prematch-degraded",
+            "prematch-ready",
+            "connection-waiting",
+            "connection-synchronizing",
+            "connection-restored",
+            "connection-fatal",
+            "connection-overflow",
+            "narrator-certified",
             "execution-normal",
             "execution-rush",
             "execution-rush-reduced-complete"
           ],
+          "prematch": [
+            {
+              "state": "loading",
+              "role": "dialog",
+              "ariaModal": "true",
+              "horizontalOverflow": false,
+              "verticalFit": true,
+              "withinViewport": true,
+              "text": "\n        \n          © VaultFront and Contributors\n        \n        Credits\n        \n          Code licensed under AGPL-3.0 (no warranty)\n        \n        \n          Game is Starting...\n        \n        \n        Scanning certified match signals…\n       \n         \n      "
+            },
+            {
+              "state": "degraded",
+              "role": "dialog",
+              "ariaModal": "true",
+              "horizontalOverflow": false,
+              "verticalFit": true,
+              "withinViewport": true,
+              "text": "\n        \n          © VaultFront and Contributors\n        \n        Credits\n        \n          Code licensed under AGPL-3.0 (no warranty)\n        \n        \n          Game is Starting...\n        \n        \n        Starting with local match data; live intelligence is unavailable.\n       \n         \n      "
+            },
+            {
+              "state": "ready",
+              "role": "dialog",
+              "ariaModal": "true",
+              "horizontalOverflow": false,
+              "verticalFit": true,
+              "withinViewport": true,
+              "text": "\n        \n          © VaultFront and Contributors\n        \n        Credits\n        \n          Code licensed under AGPL-3.0 (no warranty)\n        \n        \n          Game is Starting...\n        \n         \n      \n        \n          🎯 Pre-Match Brief\n        \n        \n          Secure the western vault lane, then reserve your escort for the first pulse.\n        \n      \n    \n        \n      \n        \n          🔮 THE ORACLE SPEAKS\n        \n        \n          \"The quiet convoy carries the loudest consequence.\"\n        \n      \n     \n      \n        \n          ⚡ Oracle Prediction\n        \n        \n          Win →\n          +18 ELO\n        \n        \n          Loss →\n          -11 ELO\n        \n        \n                ⚠ Biggest threat:\n                The eastern interceptor\n              \n      \n    \n      "
+            }
+          ],
+          "connectionRecovery": [
+            {
+              "state": "waiting",
+              "renderedState": "waiting",
+              "role": "status",
+              "hidden": false,
+              "withinViewport": true,
+              "foregroundZ": 10020,
+              "backdropZ": 9999,
+              "text": "Connection interruptedRetrying in 2s · 3 commands protected"
+            },
+            {
+              "state": "synchronizing",
+              "renderedState": "synchronizing",
+              "role": "status",
+              "hidden": false,
+              "withinViewport": true,
+              "foregroundZ": 10020,
+              "backdropZ": 9999,
+              "text": "Rejoining match…Synchronizing server turns before replaying 3 commands protected."
+            },
+            {
+              "state": "restored",
+              "renderedState": "restored",
+              "role": "status",
+              "hidden": false,
+              "withinViewport": true,
+              "foregroundZ": 10020,
+              "backdropZ": 9999,
+              "text": "Connection restoredMatch synchronized. Protected commands delivered in order."
+            },
+            {
+              "state": "fatal",
+              "renderedState": "fatal",
+              "role": "alert",
+              "hidden": false,
+              "withinViewport": true,
+              "foregroundZ": 10020,
+              "backdropZ": 9999,
+              "text": "Connection refusedThe server declined this game connection. Return to the lobby and try again."
+            },
+            {
+              "state": "overflow",
+              "renderedState": "overflow",
+              "role": "alert",
+              "hidden": false,
+              "withinViewport": true,
+              "foregroundZ": 10020,
+              "backdropZ": 9999,
+              "text": "Command queue fullThe newest intent command was not sent. Wait for reconnection before issuing more commands."
+            }
+          ],
+          "certifiedNarrator": {
+            "authority": "accepted-game-intent",
+            "role": "status",
+            "hidden": false,
+            "withinViewport": true,
+            "foregroundZ": 40,
+            "backdropZ": 30,
+            "text": "A vault heist was committed."
+          },
           "executionChain": [
             {
               "state": "normal",
@@ -1469,10 +2536,109 @@
             "play",
             "settings",
             "postmatch",
+            "prematch-loading",
+            "prematch-degraded",
+            "prematch-ready",
+            "connection-waiting",
+            "connection-synchronizing",
+            "connection-restored",
+            "connection-fatal",
+            "connection-overflow",
+            "narrator-certified",
             "execution-normal",
             "execution-rush",
             "execution-rush-reduced-complete"
           ],
+          "prematch": [
+            {
+              "state": "loading",
+              "role": "dialog",
+              "ariaModal": "true",
+              "horizontalOverflow": false,
+              "verticalFit": true,
+              "withinViewport": true,
+              "text": "\n        \n          © VaultFront and Contributors\n        \n        Credits\n        \n          Code licensed under AGPL-3.0 (no warranty)\n        \n        \n          Game is Starting...\n        \n        \n        Scanning certified match signals…\n       \n         \n      "
+            },
+            {
+              "state": "degraded",
+              "role": "dialog",
+              "ariaModal": "true",
+              "horizontalOverflow": false,
+              "verticalFit": true,
+              "withinViewport": true,
+              "text": "\n        \n          © VaultFront and Contributors\n        \n        Credits\n        \n          Code licensed under AGPL-3.0 (no warranty)\n        \n        \n          Game is Starting...\n        \n        \n        Starting with local match data; live intelligence is unavailable.\n       \n         \n      "
+            },
+            {
+              "state": "ready",
+              "role": "dialog",
+              "ariaModal": "true",
+              "horizontalOverflow": false,
+              "verticalFit": true,
+              "withinViewport": true,
+              "text": "\n        \n          © VaultFront and Contributors\n        \n        Credits\n        \n          Code licensed under AGPL-3.0 (no warranty)\n        \n        \n          Game is Starting...\n        \n         \n      \n        \n          🎯 Pre-Match Brief\n        \n        \n          Secure the western vault lane, then reserve your escort for the first pulse.\n        \n      \n    \n        \n      \n        \n          🔮 THE ORACLE SPEAKS\n        \n        \n          \"The quiet convoy carries the loudest consequence.\"\n        \n      \n     \n      \n        \n          ⚡ Oracle Prediction\n        \n        \n          Win →\n          +18 ELO\n        \n        \n          Loss →\n          -11 ELO\n        \n        \n                ⚠ Biggest threat:\n                The eastern interceptor\n              \n      \n    \n      "
+            }
+          ],
+          "connectionRecovery": [
+            {
+              "state": "waiting",
+              "renderedState": "waiting",
+              "role": "status",
+              "hidden": false,
+              "withinViewport": true,
+              "foregroundZ": 10020,
+              "backdropZ": 9999,
+              "text": "Connection interruptedRetrying in 2s · 3 commands protected"
+            },
+            {
+              "state": "synchronizing",
+              "renderedState": "synchronizing",
+              "role": "status",
+              "hidden": false,
+              "withinViewport": true,
+              "foregroundZ": 10020,
+              "backdropZ": 9999,
+              "text": "Rejoining match…Synchronizing server turns before replaying 3 commands protected."
+            },
+            {
+              "state": "restored",
+              "renderedState": "restored",
+              "role": "status",
+              "hidden": false,
+              "withinViewport": true,
+              "foregroundZ": 10020,
+              "backdropZ": 9999,
+              "text": "Connection restoredMatch synchronized. Protected commands delivered in order."
+            },
+            {
+              "state": "fatal",
+              "renderedState": "fatal",
+              "role": "alert",
+              "hidden": false,
+              "withinViewport": true,
+              "foregroundZ": 10020,
+              "backdropZ": 9999,
+              "text": "Connection refusedThe server declined this game connection. Return to the lobby and try again."
+            },
+            {
+              "state": "overflow",
+              "renderedState": "overflow",
+              "role": "alert",
+              "hidden": false,
+              "withinViewport": true,
+              "foregroundZ": 10020,
+              "backdropZ": 9999,
+              "text": "Command queue fullThe newest intent command was not sent. Wait for reconnection before issuing more commands."
+            }
+          ],
+          "certifiedNarrator": {
+            "authority": "accepted-game-intent",
+            "role": "status",
+            "hidden": false,
+            "withinViewport": true,
+            "foregroundZ": 40,
+            "backdropZ": 30,
+            "text": "A vault heist was committed."
+          },
           "executionChain": [
             {
               "state": "normal",
@@ -1543,10 +2709,109 @@
             "play",
             "settings",
             "postmatch",
+            "prematch-loading",
+            "prematch-degraded",
+            "prematch-ready",
+            "connection-waiting",
+            "connection-synchronizing",
+            "connection-restored",
+            "connection-fatal",
+            "connection-overflow",
+            "narrator-certified",
             "execution-normal",
             "execution-rush",
             "execution-rush-reduced-complete"
           ],
+          "prematch": [
+            {
+              "state": "loading",
+              "role": "dialog",
+              "ariaModal": "true",
+              "horizontalOverflow": false,
+              "verticalFit": true,
+              "withinViewport": true,
+              "text": "\n        \n          © VaultFront and Contributors\n        \n        Credits\n        \n          Code licensed under AGPL-3.0 (no warranty)\n        \n        \n          Game is Starting...\n        \n        \n        Scanning certified match signals…\n       \n         \n      "
+            },
+            {
+              "state": "degraded",
+              "role": "dialog",
+              "ariaModal": "true",
+              "horizontalOverflow": false,
+              "verticalFit": true,
+              "withinViewport": true,
+              "text": "\n        \n          © VaultFront and Contributors\n        \n        Credits\n        \n          Code licensed under AGPL-3.0 (no warranty)\n        \n        \n          Game is Starting...\n        \n        \n        Starting with local match data; live intelligence is unavailable.\n       \n         \n      "
+            },
+            {
+              "state": "ready",
+              "role": "dialog",
+              "ariaModal": "true",
+              "horizontalOverflow": false,
+              "verticalFit": true,
+              "withinViewport": true,
+              "text": "\n        \n          © VaultFront and Contributors\n        \n        Credits\n        \n          Code licensed under AGPL-3.0 (no warranty)\n        \n        \n          Game is Starting...\n        \n         \n      \n        \n          🎯 Pre-Match Brief\n        \n        \n          Secure the western vault lane, then reserve your escort for the first pulse.\n        \n      \n    \n        \n      \n        \n          🔮 THE ORACLE SPEAKS\n        \n        \n          \"The quiet convoy carries the loudest consequence.\"\n        \n      \n     \n      \n        \n          ⚡ Oracle Prediction\n        \n        \n          Win →\n          +18 ELO\n        \n        \n          Loss →\n          -11 ELO\n        \n        \n                ⚠ Biggest threat:\n                The eastern interceptor\n              \n      \n    \n      "
+            }
+          ],
+          "connectionRecovery": [
+            {
+              "state": "waiting",
+              "renderedState": "waiting",
+              "role": "status",
+              "hidden": false,
+              "withinViewport": true,
+              "foregroundZ": 10020,
+              "backdropZ": 9999,
+              "text": "Connection interruptedRetrying in 2s · 3 commands protected"
+            },
+            {
+              "state": "synchronizing",
+              "renderedState": "synchronizing",
+              "role": "status",
+              "hidden": false,
+              "withinViewport": true,
+              "foregroundZ": 10020,
+              "backdropZ": 9999,
+              "text": "Rejoining match…Synchronizing server turns before replaying 3 commands protected."
+            },
+            {
+              "state": "restored",
+              "renderedState": "restored",
+              "role": "status",
+              "hidden": false,
+              "withinViewport": true,
+              "foregroundZ": 10020,
+              "backdropZ": 9999,
+              "text": "Connection restoredMatch synchronized. Protected commands delivered in order."
+            },
+            {
+              "state": "fatal",
+              "renderedState": "fatal",
+              "role": "alert",
+              "hidden": false,
+              "withinViewport": true,
+              "foregroundZ": 10020,
+              "backdropZ": 9999,
+              "text": "Connection refusedThe server declined this game connection. Return to the lobby and try again."
+            },
+            {
+              "state": "overflow",
+              "renderedState": "overflow",
+              "role": "alert",
+              "hidden": false,
+              "withinViewport": true,
+              "foregroundZ": 10020,
+              "backdropZ": 9999,
+              "text": "Command queue fullThe newest intent command was not sent. Wait for reconnection before issuing more commands."
+            }
+          ],
+          "certifiedNarrator": {
+            "authority": "accepted-game-intent",
+            "role": "status",
+            "hidden": false,
+            "withinViewport": true,
+            "foregroundZ": 40,
+            "backdropZ": 30,
+            "text": "A vault heist was committed."
+          },
           "executionChain": [
             {
               "state": "normal",
@@ -1591,9 +2856,9 @@
     {
       "project": "mobile-chrome",
       "localOnly": true,
-      "capturedAt": "2026-08-04T00:14:11.802Z",
+      "capturedAt": "2026-08-04T07:00:44.075Z",
       "source": {
-        "digest": "sha256:e404ab9bbfa8e108499190fc39d654ada0dd249f4f9310fa4b0e9b1c5193ddf9",
+        "digest": "sha256:31ea1f698b4cbf866bb58d39c7f4d7254bdb89b07e89f853f8925e8bad4ed3f8",
         "files": [
           {
             "path": "config/vaultfront-balance.v1.json",
@@ -1602,13 +2867,13 @@
           },
           {
             "path": "e2e/theme-visual-proof.spec.ts",
-            "bytes": 17708,
-            "digest": "sha256:dfc6a6e54ce50e09ee0c799122e1fdf4d895b32d78f8ffc10c9e816b4e249b52"
+            "bytes": 27581,
+            "digest": "sha256:da3c4cce561dd5b62fcd78b138cda704d9100bcb1eff83bdc946e9734537d9f4"
           },
           {
             "path": "src/client/Api.ts",
-            "bytes": 52219,
-            "digest": "sha256:1f939cd7cad16f73239d1b7a02db5a21f336fa8e63989e06ec47365d823f6d2d"
+            "bytes": 50594,
+            "digest": "sha256:64ad59baa166b29b8497330c5bd58497b0b66e59069bbfbe9c9bafe4cac7ba37"
           },
           {
             "path": "src/client/BrandTheme.ts",
@@ -1619,6 +2884,16 @@
             "path": "src/client/CertifiedMatchFeedback.ts",
             "bytes": 6488,
             "digest": "sha256:71e841ebb478038a00057dafc57f364dc3c77dae88d1e72f59ceb9d2dcd9ada5"
+          },
+          {
+            "path": "src/client/ConnectionRecoveryPresenter.ts",
+            "bytes": 5927,
+            "digest": "sha256:6678d300daa3c282522f62e7c6d1eb441bf6d9075ccfd9790f30f0cdc5c72780"
+          },
+          {
+            "path": "src/client/GameStartingModal.ts",
+            "bytes": 9117,
+            "digest": "sha256:d0553ac47fbbdc1cc3e4935ad64ed89f6f37e048d81f09b8cabe68be643132d4"
           },
           {
             "path": "src/client/PostMatchContinuation.ts",
@@ -1639,6 +2914,11 @@
             "path": "src/client/SeasonPassTrack.ts",
             "bytes": 9473,
             "digest": "sha256:bf65a7a379028619505e82ee4617b4e0e21f361ce9c594c5ff366ceaec8401c7"
+          },
+          {
+            "path": "src/client/Transport.ts",
+            "bytes": 28615,
+            "digest": "sha256:acbeaf6141288ce9a5c7e3490f6c5c3a203e31f801e3c1a33ec50e176f930775"
           },
           {
             "path": "src/client/UserSettingModal.ts",
@@ -1677,8 +2957,8 @@
           },
           {
             "path": "src/client/components/Footer.ts",
-            "bytes": 2604,
-            "digest": "sha256:1ad72b53a9e5f84b3639d82b5aff74232ffa47d7e36f15a8ed14f3787c0e6845"
+            "bytes": 2372,
+            "digest": "sha256:9cd89013b9f65ec5b00948c2a1663698dbfa4b8e272e547f800c401bc9b5a812"
           },
           {
             "path": "src/client/components/GameConfigSettings.ts",
@@ -1866,14 +3146,19 @@
             "digest": "sha256:8250ab4e3952d441f6dcb7aab53b95dcf4ae30c9b2539d17daa92c8529285396"
           },
           {
+            "path": "src/client/graphics/layers/CertifiedNarratorLayer.ts",
+            "bytes": 1865,
+            "digest": "sha256:2cf9617534cb41c989500f765abc9f703d34332f743fc0c34785ddb585f43c60"
+          },
+          {
             "path": "src/client/graphics/layers/VaultFrontLayer.ts",
             "bytes": 66895,
             "digest": "sha256:e1e840e834180949204165b8b22d7da9d79c031fd38c26467e3b458c2b79b964"
           },
           {
             "path": "src/client/graphics/layers/WinModal.ts",
-            "bytes": 76075,
-            "digest": "sha256:578729ee1087012bd1d6d6460d848579ac8ef9bcfa8f741fe621bd8bde318567"
+            "bytes": 76356,
+            "digest": "sha256:d650e0541842c40ed45013179aee81f1454bebdb284b8ded47a9c73231c93aec"
           },
           {
             "path": "src/client/styles.css",
@@ -1939,6 +3224,11 @@
             "path": "src/core/game/GameUpdates.ts",
             "bytes": 14951,
             "digest": "sha256:6cdcc9aaa6ec4f60a0d99bf58f8b18670db1cfab90aa39b3c47acbf054815696"
+          },
+          {
+            "path": "src/shared/PublicRouteGraph.json",
+            "bytes": 2094,
+            "digest": "sha256:10b01cb23179a76e488be022612939e9e24f8860667ca046c689bbbc6b49c17a"
           }
         ]
       },
@@ -1974,10 +3264,109 @@
             "play",
             "settings",
             "postmatch",
+            "prematch-loading",
+            "prematch-degraded",
+            "prematch-ready",
+            "connection-waiting",
+            "connection-synchronizing",
+            "connection-restored",
+            "connection-fatal",
+            "connection-overflow",
+            "narrator-certified",
             "execution-normal",
             "execution-rush",
             "execution-rush-reduced-complete"
           ],
+          "prematch": [
+            {
+              "state": "loading",
+              "role": "dialog",
+              "ariaModal": "true",
+              "horizontalOverflow": false,
+              "verticalFit": true,
+              "withinViewport": true,
+              "text": "\n        \n          © VaultFront and Contributors\n        \n        Credits\n        \n          Code licensed under AGPL-3.0 (no warranty)\n        \n        \n          Game is Starting...\n        \n        \n        Scanning certified match signals…\n       \n         \n      "
+            },
+            {
+              "state": "degraded",
+              "role": "dialog",
+              "ariaModal": "true",
+              "horizontalOverflow": false,
+              "verticalFit": true,
+              "withinViewport": true,
+              "text": "\n        \n          © VaultFront and Contributors\n        \n        Credits\n        \n          Code licensed under AGPL-3.0 (no warranty)\n        \n        \n          Game is Starting...\n        \n        \n        Starting with local match data; live intelligence is unavailable.\n       \n         \n      "
+            },
+            {
+              "state": "ready",
+              "role": "dialog",
+              "ariaModal": "true",
+              "horizontalOverflow": false,
+              "verticalFit": true,
+              "withinViewport": true,
+              "text": "\n        \n          © VaultFront and Contributors\n        \n        Credits\n        \n          Code licensed under AGPL-3.0 (no warranty)\n        \n        \n          Game is Starting...\n        \n         \n      \n        \n          🎯 Pre-Match Brief\n        \n        \n          Secure the western vault lane, then reserve your escort for the first pulse.\n        \n      \n    \n        \n      \n        \n          🔮 THE ORACLE SPEAKS\n        \n        \n          \"The quiet convoy carries the loudest consequence.\"\n        \n      \n     \n      \n        \n          ⚡ Oracle Prediction\n        \n        \n          Win →\n          +18 ELO\n        \n        \n          Loss →\n          -11 ELO\n        \n        \n                ⚠ Biggest threat:\n                The eastern interceptor\n              \n      \n    \n      "
+            }
+          ],
+          "connectionRecovery": [
+            {
+              "state": "waiting",
+              "renderedState": "waiting",
+              "role": "status",
+              "hidden": false,
+              "withinViewport": true,
+              "foregroundZ": 10020,
+              "backdropZ": 9999,
+              "text": "Connection interruptedRetrying in 2s · 3 commands protected"
+            },
+            {
+              "state": "synchronizing",
+              "renderedState": "synchronizing",
+              "role": "status",
+              "hidden": false,
+              "withinViewport": true,
+              "foregroundZ": 10020,
+              "backdropZ": 9999,
+              "text": "Rejoining match…Synchronizing server turns before replaying 3 commands protected."
+            },
+            {
+              "state": "restored",
+              "renderedState": "restored",
+              "role": "status",
+              "hidden": false,
+              "withinViewport": true,
+              "foregroundZ": 10020,
+              "backdropZ": 9999,
+              "text": "Connection restoredMatch synchronized. Protected commands delivered in order."
+            },
+            {
+              "state": "fatal",
+              "renderedState": "fatal",
+              "role": "alert",
+              "hidden": false,
+              "withinViewport": true,
+              "foregroundZ": 10020,
+              "backdropZ": 9999,
+              "text": "Connection refusedThe server declined this game connection. Return to the lobby and try again."
+            },
+            {
+              "state": "overflow",
+              "renderedState": "overflow",
+              "role": "alert",
+              "hidden": false,
+              "withinViewport": true,
+              "foregroundZ": 10020,
+              "backdropZ": 9999,
+              "text": "Command queue fullThe newest intent command was not sent. Wait for reconnection before issuing more commands."
+            }
+          ],
+          "certifiedNarrator": {
+            "authority": "accepted-game-intent",
+            "role": "status",
+            "hidden": false,
+            "withinViewport": true,
+            "foregroundZ": 40,
+            "backdropZ": 30,
+            "text": "A vault heist was committed."
+          },
           "executionChain": [
             {
               "state": "normal",
@@ -2048,10 +3437,109 @@
             "play",
             "settings",
             "postmatch",
+            "prematch-loading",
+            "prematch-degraded",
+            "prematch-ready",
+            "connection-waiting",
+            "connection-synchronizing",
+            "connection-restored",
+            "connection-fatal",
+            "connection-overflow",
+            "narrator-certified",
             "execution-normal",
             "execution-rush",
             "execution-rush-reduced-complete"
           ],
+          "prematch": [
+            {
+              "state": "loading",
+              "role": "dialog",
+              "ariaModal": "true",
+              "horizontalOverflow": false,
+              "verticalFit": true,
+              "withinViewport": true,
+              "text": "\n        \n          © VaultFront and Contributors\n        \n        Credits\n        \n          Code licensed under AGPL-3.0 (no warranty)\n        \n        \n          Game is Starting...\n        \n        \n        Scanning certified match signals…\n       \n         \n      "
+            },
+            {
+              "state": "degraded",
+              "role": "dialog",
+              "ariaModal": "true",
+              "horizontalOverflow": false,
+              "verticalFit": true,
+              "withinViewport": true,
+              "text": "\n        \n          © VaultFront and Contributors\n        \n        Credits\n        \n          Code licensed under AGPL-3.0 (no warranty)\n        \n        \n          Game is Starting...\n        \n        \n        Starting with local match data; live intelligence is unavailable.\n       \n         \n      "
+            },
+            {
+              "state": "ready",
+              "role": "dialog",
+              "ariaModal": "true",
+              "horizontalOverflow": false,
+              "verticalFit": true,
+              "withinViewport": true,
+              "text": "\n        \n          © VaultFront and Contributors\n        \n        Credits\n        \n          Code licensed under AGPL-3.0 (no warranty)\n        \n        \n          Game is Starting...\n        \n         \n      \n        \n          🎯 Pre-Match Brief\n        \n        \n          Secure the western vault lane, then reserve your escort for the first pulse.\n        \n      \n    \n        \n      \n        \n          🔮 THE ORACLE SPEAKS\n        \n        \n          \"The quiet convoy carries the loudest consequence.\"\n        \n      \n     \n      \n        \n          ⚡ Oracle Prediction\n        \n        \n          Win →\n          +18 ELO\n        \n        \n          Loss →\n          -11 ELO\n        \n        \n                ⚠ Biggest threat:\n                The eastern interceptor\n              \n      \n    \n      "
+            }
+          ],
+          "connectionRecovery": [
+            {
+              "state": "waiting",
+              "renderedState": "waiting",
+              "role": "status",
+              "hidden": false,
+              "withinViewport": true,
+              "foregroundZ": 10020,
+              "backdropZ": 9999,
+              "text": "Connection interruptedRetrying in 2s · 3 commands protected"
+            },
+            {
+              "state": "synchronizing",
+              "renderedState": "synchronizing",
+              "role": "status",
+              "hidden": false,
+              "withinViewport": true,
+              "foregroundZ": 10020,
+              "backdropZ": 9999,
+              "text": "Rejoining match…Synchronizing server turns before replaying 3 commands protected."
+            },
+            {
+              "state": "restored",
+              "renderedState": "restored",
+              "role": "status",
+              "hidden": false,
+              "withinViewport": true,
+              "foregroundZ": 10020,
+              "backdropZ": 9999,
+              "text": "Connection restoredMatch synchronized. Protected commands delivered in order."
+            },
+            {
+              "state": "fatal",
+              "renderedState": "fatal",
+              "role": "alert",
+              "hidden": false,
+              "withinViewport": true,
+              "foregroundZ": 10020,
+              "backdropZ": 9999,
+              "text": "Connection refusedThe server declined this game connection. Return to the lobby and try again."
+            },
+            {
+              "state": "overflow",
+              "renderedState": "overflow",
+              "role": "alert",
+              "hidden": false,
+              "withinViewport": true,
+              "foregroundZ": 10020,
+              "backdropZ": 9999,
+              "text": "Command queue fullThe newest intent command was not sent. Wait for reconnection before issuing more commands."
+            }
+          ],
+          "certifiedNarrator": {
+            "authority": "accepted-game-intent",
+            "role": "status",
+            "hidden": false,
+            "withinViewport": true,
+            "foregroundZ": 40,
+            "backdropZ": 30,
+            "text": "A vault heist was committed."
+          },
           "executionChain": [
             {
               "state": "normal",
@@ -2122,10 +3610,109 @@
             "play",
             "settings",
             "postmatch",
+            "prematch-loading",
+            "prematch-degraded",
+            "prematch-ready",
+            "connection-waiting",
+            "connection-synchronizing",
+            "connection-restored",
+            "connection-fatal",
+            "connection-overflow",
+            "narrator-certified",
             "execution-normal",
             "execution-rush",
             "execution-rush-reduced-complete"
           ],
+          "prematch": [
+            {
+              "state": "loading",
+              "role": "dialog",
+              "ariaModal": "true",
+              "horizontalOverflow": false,
+              "verticalFit": true,
+              "withinViewport": true,
+              "text": "\n        \n          © VaultFront and Contributors\n        \n        Credits\n        \n          Code licensed under AGPL-3.0 (no warranty)\n        \n        \n          Game is Starting...\n        \n        \n        Scanning certified match signals…\n       \n         \n      "
+            },
+            {
+              "state": "degraded",
+              "role": "dialog",
+              "ariaModal": "true",
+              "horizontalOverflow": false,
+              "verticalFit": true,
+              "withinViewport": true,
+              "text": "\n        \n          © VaultFront and Contributors\n        \n        Credits\n        \n          Code licensed under AGPL-3.0 (no warranty)\n        \n        \n          Game is Starting...\n        \n        \n        Starting with local match data; live intelligence is unavailable.\n       \n         \n      "
+            },
+            {
+              "state": "ready",
+              "role": "dialog",
+              "ariaModal": "true",
+              "horizontalOverflow": false,
+              "verticalFit": true,
+              "withinViewport": true,
+              "text": "\n        \n          © VaultFront and Contributors\n        \n        Credits\n        \n          Code licensed under AGPL-3.0 (no warranty)\n        \n        \n          Game is Starting...\n        \n         \n      \n        \n          🎯 Pre-Match Brief\n        \n        \n          Secure the western vault lane, then reserve your escort for the first pulse.\n        \n      \n    \n        \n      \n        \n          🔮 THE ORACLE SPEAKS\n        \n        \n          \"The quiet convoy carries the loudest consequence.\"\n        \n      \n     \n      \n        \n          ⚡ Oracle Prediction\n        \n        \n          Win →\n          +18 ELO\n        \n        \n          Loss →\n          -11 ELO\n        \n        \n                ⚠ Biggest threat:\n                The eastern interceptor\n              \n      \n    \n      "
+            }
+          ],
+          "connectionRecovery": [
+            {
+              "state": "waiting",
+              "renderedState": "waiting",
+              "role": "status",
+              "hidden": false,
+              "withinViewport": true,
+              "foregroundZ": 10020,
+              "backdropZ": 9999,
+              "text": "Connection interruptedRetrying in 2s · 3 commands protected"
+            },
+            {
+              "state": "synchronizing",
+              "renderedState": "synchronizing",
+              "role": "status",
+              "hidden": false,
+              "withinViewport": true,
+              "foregroundZ": 10020,
+              "backdropZ": 9999,
+              "text": "Rejoining match…Synchronizing server turns before replaying 3 commands protected."
+            },
+            {
+              "state": "restored",
+              "renderedState": "restored",
+              "role": "status",
+              "hidden": false,
+              "withinViewport": true,
+              "foregroundZ": 10020,
+              "backdropZ": 9999,
+              "text": "Connection restoredMatch synchronized. Protected commands delivered in order."
+            },
+            {
+              "state": "fatal",
+              "renderedState": "fatal",
+              "role": "alert",
+              "hidden": false,
+              "withinViewport": true,
+              "foregroundZ": 10020,
+              "backdropZ": 9999,
+              "text": "Connection refusedThe server declined this game connection. Return to the lobby and try again."
+            },
+            {
+              "state": "overflow",
+              "renderedState": "overflow",
+              "role": "alert",
+              "hidden": false,
+              "withinViewport": true,
+              "foregroundZ": 10020,
+              "backdropZ": 9999,
+              "text": "Command queue fullThe newest intent command was not sent. Wait for reconnection before issuing more commands."
+            }
+          ],
+          "certifiedNarrator": {
+            "authority": "accepted-game-intent",
+            "role": "status",
+            "hidden": false,
+            "withinViewport": true,
+            "foregroundZ": 40,
+            "backdropZ": 30,
+            "text": "A vault heist was committed."
+          },
           "executionChain": [
             {
               "state": "normal",

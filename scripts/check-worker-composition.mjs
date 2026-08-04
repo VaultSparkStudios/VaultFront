@@ -3,9 +3,9 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-// Session 82 convergence floor: the root is 3,108 physical lines after the
-// experiment and season-pass extractions. Twenty-two lines make growth explicit.
-export const WORKER_LINE_BUDGET = 3105;
+// Session 93 reachability closure retired unsupported feature surfaces. Keep
+// the reclaimed complexity from silently returning to the central worker.
+export const WORKER_LINE_BUDGET = 2440;
 export const ROUTER_LINE_BUDGET = 180;
 
 export const EXTRACTED_DOMAINS = [

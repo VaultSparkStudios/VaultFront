@@ -81,15 +81,6 @@ export const routePolicyManifest = [
     evidence: "none",
   },
   {
-    id: "match-coach",
-    method: "POST",
-    path: "/api/vaultfront/match-coach",
-    auth: "certificate-actor",
-    mutation: false,
-    rateLimit: "remote-ai-coach",
-    evidence: "result-certificate",
-  },
-  {
     id: "match-recap",
     method: "GET",
     path: "/api/vaultfront/match-recap/:gameId",

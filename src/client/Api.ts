@@ -762,41 +762,6 @@ export async function recordVaultFrontRecapEvent(input: {
   }
 }
 
-export interface BattleNarrativeInput {
-  matchId: string;
-  events: Array<{
-    type: string;
-    player?: string;
-    tick?: number;
-    detail?: string;
-  }>;
-  winnerId?: string;
-  durationSeconds: number;
-}
-
-export async function fetchBattleNarrative(
-  input: BattleNarrativeInput,
-): Promise<string | null> {
-  try {
-    const response = await fetch(
-      `${getApiBase()}/api/vaultfront/battle-narrative`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          ...(await vaultFrontIdentityHeaders()),
-        },
-        body: JSON.stringify(input),
-      },
-    );
-    if (!response.ok) return null;
-    const data = (await response.json()) as { ok: boolean; narrative?: string };
-    return data.narrative ?? null;
-  } catch {
-    return null;
-  }
-}
-
 // ── Mutator Vote ─────────────────────────────────────────────────────────────
 
 export interface MutatorVoteCandidate {
@@ -1300,7 +1265,10 @@ export async function generateDynastyStoryChapter(input: {
   try {
     const res = await fetch(`${getApiBase()}/api/vaultfront/dynasty-story`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        ...(await vaultFrontIdentityHeaders()),
+      },
       body: JSON.stringify(input),
     });
     if (!res.ok) return null;
@@ -1311,24 +1279,6 @@ export async function generateDynastyStoryChapter(input: {
     };
     if (!data.ok) return null;
     return { chapter: data.chapter ?? "", story: data.story ?? "" };
-  } catch {
-    return null;
-  }
-}
-
-// ── Bot Persona Backstories ─────────────────────────────────────────────────
-
-export async function fetchBotPersona(
-  personality: string,
-  seed: string,
-): Promise<string | null> {
-  try {
-    const res = await fetch(
-      `${getApiBase()}/api/vaultfront/bot-persona?personality=${encodeURIComponent(personality)}&seed=${encodeURIComponent(seed)}`,
-    );
-    if (!res.ok) return null;
-    const data = (await res.json()) as { persona?: string };
-    return data.persona ?? null;
   } catch {
     return null;
   }
@@ -1354,7 +1304,10 @@ export async function recordIgnisSignal(input: {
 
 // ── Match Oracle (pre-match ELO prediction) ─────────────────────────────────
 
-export async function fetchMatchOracle(playerIds: string[]): Promise<{
+export async function fetchMatchOracle(
+  playerIds: string[],
+  signal?: AbortSignal,
+): Promise<{
   predictions: Array<{
     playerId: string;
     deltaIfWin: number;
@@ -1367,7 +1320,7 @@ export async function fetchMatchOracle(playerIds: string[]): Promise<{
     playerIds.forEach((id) => params.append("players", id));
     const res = await fetch(
       `${getApiBase()}/api/vaultfront/match-oracle?${params.toString()}`,
-      { headers: await vaultFrontIdentityHeaders() },
+      { headers: await vaultFrontIdentityHeaders(), signal },
     );
     if (!res.ok) return null;
     return (await res.json()) as {
@@ -1387,12 +1340,14 @@ export async function fetchMatchProphecy(
   mapName: string,
   playerCount: number,
   mutator: string,
+  signal?: AbortSignal,
 ): Promise<string | null> {
   try {
     const res = await fetch(`${getApiBase()}/api/vaultfront/match-prophecy`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ mapName, playerCount, mutator }),
+      signal,
     });
     if (!res.ok) return null;
     const data = (await res.json()) as { ok: boolean; prophecy?: string };
@@ -1403,21 +1358,6 @@ export async function fetchMatchProphecy(
 }
 
 // ── Micro-Coach Hint ────────────────────────────────────────────────────────
-
-export function pushNarratorEvent(
-  gameId: string,
-  activity: string,
-  label?: string,
-): void {
-  fetch(
-    `${getApiBase()}/api/vaultfront/narrator/${encodeURIComponent(gameId)}/event`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ activity, label }),
-    },
-  ).catch(() => undefined);
-}
 
 export function subscribeNarrator(
   gameId: string,
@@ -1583,6 +1523,7 @@ export async function fetchPrematchBrief(
   persistentId: string,
   mapName: string,
   style?: PlayStyle,
+  signal?: AbortSignal,
 ): Promise<string | null> {
   try {
     const url = new URL(`${getApiBase()}/api/vaultfront/prematch-brief`);
@@ -1591,6 +1532,7 @@ export async function fetchPrematchBrief(
     if (style) url.searchParams.set("style", style);
     const res = await fetch(url.toString(), {
       headers: await vaultFrontIdentityHeaders(),
+      signal,
     });
     if (!res.ok) return null;
     const data = (await res.json()) as { brief?: string };

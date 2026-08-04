@@ -1,9 +1,9 @@
 {
   "project": "mobile-chrome",
   "localOnly": true,
-  "capturedAt": "2026-08-04T00:14:11.802Z",
+  "capturedAt": "2026-08-04T07:00:44.075Z",
   "source": {
-    "digest": "sha256:e404ab9bbfa8e108499190fc39d654ada0dd249f4f9310fa4b0e9b1c5193ddf9",
+    "digest": "sha256:31ea1f698b4cbf866bb58d39c7f4d7254bdb89b07e89f853f8925e8bad4ed3f8",
     "files": [
       {
         "path": "config/vaultfront-balance.v1.json",
@@ -12,13 +12,13 @@
       },
       {
         "path": "e2e/theme-visual-proof.spec.ts",
-        "bytes": 17708,
-        "digest": "sha256:dfc6a6e54ce50e09ee0c799122e1fdf4d895b32d78f8ffc10c9e816b4e249b52"
+        "bytes": 27581,
+        "digest": "sha256:da3c4cce561dd5b62fcd78b138cda704d9100bcb1eff83bdc946e9734537d9f4"
       },
       {
         "path": "src/client/Api.ts",
-        "bytes": 52219,
-        "digest": "sha256:1f939cd7cad16f73239d1b7a02db5a21f336fa8e63989e06ec47365d823f6d2d"
+        "bytes": 50594,
+        "digest": "sha256:64ad59baa166b29b8497330c5bd58497b0b66e59069bbfbe9c9bafe4cac7ba37"
       },
       {
         "path": "src/client/BrandTheme.ts",
@@ -29,6 +29,16 @@
         "path": "src/client/CertifiedMatchFeedback.ts",
         "bytes": 6488,
         "digest": "sha256:71e841ebb478038a00057dafc57f364dc3c77dae88d1e72f59ceb9d2dcd9ada5"
+      },
+      {
+        "path": "src/client/ConnectionRecoveryPresenter.ts",
+        "bytes": 5927,
+        "digest": "sha256:6678d300daa3c282522f62e7c6d1eb441bf6d9075ccfd9790f30f0cdc5c72780"
+      },
+      {
+        "path": "src/client/GameStartingModal.ts",
+        "bytes": 9117,
+        "digest": "sha256:d0553ac47fbbdc1cc3e4935ad64ed89f6f37e048d81f09b8cabe68be643132d4"
       },
       {
         "path": "src/client/PostMatchContinuation.ts",
@@ -49,6 +59,11 @@
         "path": "src/client/SeasonPassTrack.ts",
         "bytes": 9473,
         "digest": "sha256:bf65a7a379028619505e82ee4617b4e0e21f361ce9c594c5ff366ceaec8401c7"
+      },
+      {
+        "path": "src/client/Transport.ts",
+        "bytes": 28615,
+        "digest": "sha256:acbeaf6141288ce9a5c7e3490f6c5c3a203e31f801e3c1a33ec50e176f930775"
       },
       {
         "path": "src/client/UserSettingModal.ts",
@@ -87,8 +102,8 @@
       },
       {
         "path": "src/client/components/Footer.ts",
-        "bytes": 2604,
-        "digest": "sha256:1ad72b53a9e5f84b3639d82b5aff74232ffa47d7e36f15a8ed14f3787c0e6845"
+        "bytes": 2372,
+        "digest": "sha256:9cd89013b9f65ec5b00948c2a1663698dbfa4b8e272e547f800c401bc9b5a812"
       },
       {
         "path": "src/client/components/GameConfigSettings.ts",
@@ -276,14 +291,19 @@
         "digest": "sha256:8250ab4e3952d441f6dcb7aab53b95dcf4ae30c9b2539d17daa92c8529285396"
       },
       {
+        "path": "src/client/graphics/layers/CertifiedNarratorLayer.ts",
+        "bytes": 1865,
+        "digest": "sha256:2cf9617534cb41c989500f765abc9f703d34332f743fc0c34785ddb585f43c60"
+      },
+      {
         "path": "src/client/graphics/layers/VaultFrontLayer.ts",
         "bytes": 66895,
         "digest": "sha256:e1e840e834180949204165b8b22d7da9d79c031fd38c26467e3b458c2b79b964"
       },
       {
         "path": "src/client/graphics/layers/WinModal.ts",
-        "bytes": 76075,
-        "digest": "sha256:578729ee1087012bd1d6d6460d848579ac8ef9bcfa8f741fe621bd8bde318567"
+        "bytes": 76356,
+        "digest": "sha256:d650e0541842c40ed45013179aee81f1454bebdb284b8ded47a9c73231c93aec"
       },
       {
         "path": "src/client/styles.css",
@@ -349,6 +369,11 @@
         "path": "src/core/game/GameUpdates.ts",
         "bytes": 14951,
         "digest": "sha256:6cdcc9aaa6ec4f60a0d99bf58f8b18670db1cfab90aa39b3c47acbf054815696"
+      },
+      {
+        "path": "src/shared/PublicRouteGraph.json",
+        "bytes": 2094,
+        "digest": "sha256:10b01cb23179a76e488be022612939e9e24f8860667ca046c689bbbc6b49c17a"
       }
     ]
   },
@@ -384,10 +409,109 @@
         "play",
         "settings",
         "postmatch",
+        "prematch-loading",
+        "prematch-degraded",
+        "prematch-ready",
+        "connection-waiting",
+        "connection-synchronizing",
+        "connection-restored",
+        "connection-fatal",
+        "connection-overflow",
+        "narrator-certified",
         "execution-normal",
         "execution-rush",
         "execution-rush-reduced-complete"
       ],
+      "prematch": [
+        {
+          "state": "loading",
+          "role": "dialog",
+          "ariaModal": "true",
+          "horizontalOverflow": false,
+          "verticalFit": true,
+          "withinViewport": true,
+          "text": "\n        \n          © VaultFront and Contributors\n        \n        Credits\n        \n          Code licensed under AGPL-3.0 (no warranty)\n        \n        \n          Game is Starting...\n        \n        \n        Scanning certified match signals…\n       \n         \n      "
+        },
+        {
+          "state": "degraded",
+          "role": "dialog",
+          "ariaModal": "true",
+          "horizontalOverflow": false,
+          "verticalFit": true,
+          "withinViewport": true,
+          "text": "\n        \n          © VaultFront and Contributors\n        \n        Credits\n        \n          Code licensed under AGPL-3.0 (no warranty)\n        \n        \n          Game is Starting...\n        \n        \n        Starting with local match data; live intelligence is unavailable.\n       \n         \n      "
+        },
+        {
+          "state": "ready",
+          "role": "dialog",
+          "ariaModal": "true",
+          "horizontalOverflow": false,
+          "verticalFit": true,
+          "withinViewport": true,
+          "text": "\n        \n          © VaultFront and Contributors\n        \n        Credits\n        \n          Code licensed under AGPL-3.0 (no warranty)\n        \n        \n          Game is Starting...\n        \n         \n      \n        \n          🎯 Pre-Match Brief\n        \n        \n          Secure the western vault lane, then reserve your escort for the first pulse.\n        \n      \n    \n        \n      \n        \n          🔮 THE ORACLE SPEAKS\n        \n        \n          \"The quiet convoy carries the loudest consequence.\"\n        \n      \n     \n      \n        \n          ⚡ Oracle Prediction\n        \n        \n          Win →\n          +18 ELO\n        \n        \n          Loss →\n          -11 ELO\n        \n        \n                ⚠ Biggest threat:\n                The eastern interceptor\n              \n      \n    \n      "
+        }
+      ],
+      "connectionRecovery": [
+        {
+          "state": "waiting",
+          "renderedState": "waiting",
+          "role": "status",
+          "hidden": false,
+          "withinViewport": true,
+          "foregroundZ": 10020,
+          "backdropZ": 9999,
+          "text": "Connection interruptedRetrying in 2s · 3 commands protected"
+        },
+        {
+          "state": "synchronizing",
+          "renderedState": "synchronizing",
+          "role": "status",
+          "hidden": false,
+          "withinViewport": true,
+          "foregroundZ": 10020,
+          "backdropZ": 9999,
+          "text": "Rejoining match…Synchronizing server turns before replaying 3 commands protected."
+        },
+        {
+          "state": "restored",
+          "renderedState": "restored",
+          "role": "status",
+          "hidden": false,
+          "withinViewport": true,
+          "foregroundZ": 10020,
+          "backdropZ": 9999,
+          "text": "Connection restoredMatch synchronized. Protected commands delivered in order."
+        },
+        {
+          "state": "fatal",
+          "renderedState": "fatal",
+          "role": "alert",
+          "hidden": false,
+          "withinViewport": true,
+          "foregroundZ": 10020,
+          "backdropZ": 9999,
+          "text": "Connection refusedThe server declined this game connection. Return to the lobby and try again."
+        },
+        {
+          "state": "overflow",
+          "renderedState": "overflow",
+          "role": "alert",
+          "hidden": false,
+          "withinViewport": true,
+          "foregroundZ": 10020,
+          "backdropZ": 9999,
+          "text": "Command queue fullThe newest intent command was not sent. Wait for reconnection before issuing more commands."
+        }
+      ],
+      "certifiedNarrator": {
+        "authority": "accepted-game-intent",
+        "role": "status",
+        "hidden": false,
+        "withinViewport": true,
+        "foregroundZ": 40,
+        "backdropZ": 30,
+        "text": "A vault heist was committed."
+      },
       "executionChain": [
         {
           "state": "normal",
@@ -467,10 +591,109 @@
         "play",
         "settings",
         "postmatch",
+        "prematch-loading",
+        "prematch-degraded",
+        "prematch-ready",
+        "connection-waiting",
+        "connection-synchronizing",
+        "connection-restored",
+        "connection-fatal",
+        "connection-overflow",
+        "narrator-certified",
         "execution-normal",
         "execution-rush",
         "execution-rush-reduced-complete"
       ],
+      "prematch": [
+        {
+          "state": "loading",
+          "role": "dialog",
+          "ariaModal": "true",
+          "horizontalOverflow": false,
+          "verticalFit": true,
+          "withinViewport": true,
+          "text": "\n        \n          © VaultFront and Contributors\n        \n        Credits\n        \n          Code licensed under AGPL-3.0 (no warranty)\n        \n        \n          Game is Starting...\n        \n        \n        Scanning certified match signals…\n       \n         \n      "
+        },
+        {
+          "state": "degraded",
+          "role": "dialog",
+          "ariaModal": "true",
+          "horizontalOverflow": false,
+          "verticalFit": true,
+          "withinViewport": true,
+          "text": "\n        \n          © VaultFront and Contributors\n        \n        Credits\n        \n          Code licensed under AGPL-3.0 (no warranty)\n        \n        \n          Game is Starting...\n        \n        \n        Starting with local match data; live intelligence is unavailable.\n       \n         \n      "
+        },
+        {
+          "state": "ready",
+          "role": "dialog",
+          "ariaModal": "true",
+          "horizontalOverflow": false,
+          "verticalFit": true,
+          "withinViewport": true,
+          "text": "\n        \n          © VaultFront and Contributors\n        \n        Credits\n        \n          Code licensed under AGPL-3.0 (no warranty)\n        \n        \n          Game is Starting...\n        \n         \n      \n        \n          🎯 Pre-Match Brief\n        \n        \n          Secure the western vault lane, then reserve your escort for the first pulse.\n        \n      \n    \n        \n      \n        \n          🔮 THE ORACLE SPEAKS\n        \n        \n          \"The quiet convoy carries the loudest consequence.\"\n        \n      \n     \n      \n        \n          ⚡ Oracle Prediction\n        \n        \n          Win →\n          +18 ELO\n        \n        \n          Loss →\n          -11 ELO\n        \n        \n                ⚠ Biggest threat:\n                The eastern interceptor\n              \n      \n    \n      "
+        }
+      ],
+      "connectionRecovery": [
+        {
+          "state": "waiting",
+          "renderedState": "waiting",
+          "role": "status",
+          "hidden": false,
+          "withinViewport": true,
+          "foregroundZ": 10020,
+          "backdropZ": 9999,
+          "text": "Connection interruptedRetrying in 2s · 3 commands protected"
+        },
+        {
+          "state": "synchronizing",
+          "renderedState": "synchronizing",
+          "role": "status",
+          "hidden": false,
+          "withinViewport": true,
+          "foregroundZ": 10020,
+          "backdropZ": 9999,
+          "text": "Rejoining match…Synchronizing server turns before replaying 3 commands protected."
+        },
+        {
+          "state": "restored",
+          "renderedState": "restored",
+          "role": "status",
+          "hidden": false,
+          "withinViewport": true,
+          "foregroundZ": 10020,
+          "backdropZ": 9999,
+          "text": "Connection restoredMatch synchronized. Protected commands delivered in order."
+        },
+        {
+          "state": "fatal",
+          "renderedState": "fatal",
+          "role": "alert",
+          "hidden": false,
+          "withinViewport": true,
+          "foregroundZ": 10020,
+          "backdropZ": 9999,
+          "text": "Connection refusedThe server declined this game connection. Return to the lobby and try again."
+        },
+        {
+          "state": "overflow",
+          "renderedState": "overflow",
+          "role": "alert",
+          "hidden": false,
+          "withinViewport": true,
+          "foregroundZ": 10020,
+          "backdropZ": 9999,
+          "text": "Command queue fullThe newest intent command was not sent. Wait for reconnection before issuing more commands."
+        }
+      ],
+      "certifiedNarrator": {
+        "authority": "accepted-game-intent",
+        "role": "status",
+        "hidden": false,
+        "withinViewport": true,
+        "foregroundZ": 40,
+        "backdropZ": 30,
+        "text": "A vault heist was committed."
+      },
       "executionChain": [
         {
           "state": "normal",
@@ -550,10 +773,109 @@
         "play",
         "settings",
         "postmatch",
+        "prematch-loading",
+        "prematch-degraded",
+        "prematch-ready",
+        "connection-waiting",
+        "connection-synchronizing",
+        "connection-restored",
+        "connection-fatal",
+        "connection-overflow",
+        "narrator-certified",
         "execution-normal",
         "execution-rush",
         "execution-rush-reduced-complete"
       ],
+      "prematch": [
+        {
+          "state": "loading",
+          "role": "dialog",
+          "ariaModal": "true",
+          "horizontalOverflow": false,
+          "verticalFit": true,
+          "withinViewport": true,
+          "text": "\n        \n          © VaultFront and Contributors\n        \n        Credits\n        \n          Code licensed under AGPL-3.0 (no warranty)\n        \n        \n          Game is Starting...\n        \n        \n        Scanning certified match signals…\n       \n         \n      "
+        },
+        {
+          "state": "degraded",
+          "role": "dialog",
+          "ariaModal": "true",
+          "horizontalOverflow": false,
+          "verticalFit": true,
+          "withinViewport": true,
+          "text": "\n        \n          © VaultFront and Contributors\n        \n        Credits\n        \n          Code licensed under AGPL-3.0 (no warranty)\n        \n        \n          Game is Starting...\n        \n        \n        Starting with local match data; live intelligence is unavailable.\n       \n         \n      "
+        },
+        {
+          "state": "ready",
+          "role": "dialog",
+          "ariaModal": "true",
+          "horizontalOverflow": false,
+          "verticalFit": true,
+          "withinViewport": true,
+          "text": "\n        \n          © VaultFront and Contributors\n        \n        Credits\n        \n          Code licensed under AGPL-3.0 (no warranty)\n        \n        \n          Game is Starting...\n        \n         \n      \n        \n          🎯 Pre-Match Brief\n        \n        \n          Secure the western vault lane, then reserve your escort for the first pulse.\n        \n      \n    \n        \n      \n        \n          🔮 THE ORACLE SPEAKS\n        \n        \n          \"The quiet convoy carries the loudest consequence.\"\n        \n      \n     \n      \n        \n          ⚡ Oracle Prediction\n        \n        \n          Win →\n          +18 ELO\n        \n        \n          Loss →\n          -11 ELO\n        \n        \n                ⚠ Biggest threat:\n                The eastern interceptor\n              \n      \n    \n      "
+        }
+      ],
+      "connectionRecovery": [
+        {
+          "state": "waiting",
+          "renderedState": "waiting",
+          "role": "status",
+          "hidden": false,
+          "withinViewport": true,
+          "foregroundZ": 10020,
+          "backdropZ": 9999,
+          "text": "Connection interruptedRetrying in 2s · 3 commands protected"
+        },
+        {
+          "state": "synchronizing",
+          "renderedState": "synchronizing",
+          "role": "status",
+          "hidden": false,
+          "withinViewport": true,
+          "foregroundZ": 10020,
+          "backdropZ": 9999,
+          "text": "Rejoining match…Synchronizing server turns before replaying 3 commands protected."
+        },
+        {
+          "state": "restored",
+          "renderedState": "restored",
+          "role": "status",
+          "hidden": false,
+          "withinViewport": true,
+          "foregroundZ": 10020,
+          "backdropZ": 9999,
+          "text": "Connection restoredMatch synchronized. Protected commands delivered in order."
+        },
+        {
+          "state": "fatal",
+          "renderedState": "fatal",
+          "role": "alert",
+          "hidden": false,
+          "withinViewport": true,
+          "foregroundZ": 10020,
+          "backdropZ": 9999,
+          "text": "Connection refusedThe server declined this game connection. Return to the lobby and try again."
+        },
+        {
+          "state": "overflow",
+          "renderedState": "overflow",
+          "role": "alert",
+          "hidden": false,
+          "withinViewport": true,
+          "foregroundZ": 10020,
+          "backdropZ": 9999,
+          "text": "Command queue fullThe newest intent command was not sent. Wait for reconnection before issuing more commands."
+        }
+      ],
+      "certifiedNarrator": {
+        "authority": "accepted-game-intent",
+        "role": "status",
+        "hidden": false,
+        "withinViewport": true,
+        "foregroundZ": 40,
+        "backdropZ": 30,
+        "text": "A vault heist was committed."
+      },
       "executionChain": [
         {
           "state": "normal",

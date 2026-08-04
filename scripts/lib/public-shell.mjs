@@ -24,9 +24,24 @@ function renderLinks(links) {
 }
 
 export function loadPublicShellManifest(root) {
+  const canonical = path.resolve(root, "src/shared/PublicRouteGraph.json");
   return JSON.parse(
-    readFileSync(path.resolve(root, "public/footer-manifest.json"), "utf8"),
+    readFileSync(
+      fsExists(canonical)
+        ? canonical
+        : path.resolve(root, "public/footer-manifest.json"),
+      "utf8",
+    ),
   );
+}
+
+function fsExists(file) {
+  try {
+    readFileSync(file, "utf8");
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 export function resolvePublicPage(root, source) {

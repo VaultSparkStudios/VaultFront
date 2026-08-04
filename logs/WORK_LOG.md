@@ -2,6 +2,16 @@
 
 Append-only. Each session appends one entry. Never edit prior entries.
 
+## 2026-08-04 — Session 93 certified-runtime and recovery-truth closeout
+
+- Goal: Run one continuous saturated `/start → /audit → /implement → /closeout` mission; exhaust every verified primary item and generated second-order innovation without manufacturing external evidence.
+- What changed: Replaced browser-writable narrator ingestion with server-certified post-admission projection and a deterministic local baseline; closed authenticated dynasty generation reachability; retired fourteen unreachable mutation paths plus clan-war/reporter implementation weight; added a self-validating runtime reachability catalog; made prematch intelligence abortable, deadline-bounded, stale-proof, responsive, and state-explicit; converged public navigation on one canonical route graph; and made transport recovery player-visible with post-sync/post-flush `open` semantics.
+- Second order: Implemented certified-local narration, dynasty writer reachability, post-flush open truth, and rendered-pixel z-order self-check. The initial visual proof exposed a real foreground/backdrop inversion; it was fixed and recaptured rather than explained away.
+- Verification: 214/214 Vitest files and 1,147/1,147 tests; TypeScript; ESLint with zero warnings; contracts; 29/29 mutation policies and public ingest 4/4; runtime reachability; 28,125 balance scenarios; production compilation/Vite bundle; 90-artifact Playwright rendered-pixel proof; CANON-053; work exhaustion; and doctor `blockingFailing: 0`.
+- Claim boundary: the release-evidence phase correctly returns NO-GO on absent staging/parity, Zoho reply identity, native Obelisk, live web/theme, three-human Alpha, revenue, observed rollback, exact-revision provider CI, and founder approval. No local/credential evidence substitutes for those observations.
+
+---
+
 ## 2026-08-03 — Session 92 durable release-admission and resilient-play closeout
 
 - Goal: Execute one continuous saturated `/start → /audit → /implement → /closeout` mission, premise-check every infrastructure finding, exhaust primary and second-order work, and push directly to `main` without fabricating external release evidence.

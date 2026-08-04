@@ -1,0 +1,320 @@
+{
+  "schemaVersion": "1.0",
+  "session": 93,
+  "generatedBy": "codex",
+  "generatedAt": "2026-08-04T05:15:00.000Z",
+  "project": {
+    "slug": "vaultfront",
+    "name": "VaultFront",
+    "type": "game",
+    "registryType": "app",
+    "audience": "public-unlaunched",
+    "stage": "FORGE",
+    "stagingType": "local"
+  },
+  "summary": "Session 93 premise-verified infrastructure audit with public-release and game-loop lenses. Five findings survived live-code review: browser-authored narration can trigger server AI without certified game authority; multiple Worker feature authorities are unreachable and one parallel Intel market returns invented uncharged risk; pre-match intelligence has no stale-session or timeout ownership; the generated public shell and application footer use separate route authorities; and the new transport recovery state is test-visible but player-invisible while fatal refusal still calls alert(). External launch observations remain NO-GO and are not implementation claims.",
+  "axes": {
+    "featureDepth": 1.5,
+    "innovation": 1.5,
+    "ux": 2,
+    "feedbackLoop": 2,
+    "gamification": 1.5,
+    "aiIntegration": 1.5,
+    "security": 3,
+    "speedOrganization": 3,
+    "tokenApiReduction": 2
+  },
+  "candidateGeneration": {
+    "featureDepth": 4,
+    "innovation": 5,
+    "ux": 5,
+    "feedbackLoop": 4,
+    "gamification": 4,
+    "aiIntegration": 5,
+    "security": 6,
+    "speedOrganization": 6,
+    "tokenApiReduction": 4,
+    "novelCandidates": 8,
+    "culledBelowThresholdOrFalsePremise": 19
+  },
+  "specialtyReviews": {
+    "infrastructure": {
+      "result": "Worker route reachability, browser-authored authority, remote-AI admission surfaces, lifecycle ownership, duplicated navigation producers, god-object boundaries, workflow freshness, dependency posture, and local release evidence were inspected against live sources."
+    },
+    "gameLoop": {
+      "scores100": {
+        "loopTightness": 88,
+        "progression": 82,
+        "sessionEngagement": 84,
+        "retention": 80,
+        "soulFidelity": null
+      },
+      "result": "The certified Capture-to-Breach loop and progression spine are strong. The highest-value remaining player seams are truthful live narration, lifecycle-safe pre-match intelligence, and legible recovery during multiplayer disruption. Soul fidelity remains intentionally unscored because the public SOUL file contains no evaluable pillars."
+    },
+    "release": {
+      "verdict": "no-go",
+      "passing": [
+        "latest current-revision GitHub workflow runs observed green",
+        "cost-neutral declaration and portfolio cost gate",
+        "sitemap 10/10, footer manifest 7/7, legal, branding, and dual-audience source contracts",
+        "local deploy, route, balance, composition, theme-proof, and public-surface contracts"
+      ],
+      "red": [
+        "no approved public staging origin or exact-digest live parity observation",
+        "no verified project-domain Zoho send/receive reply-as-alias delivery",
+        "no native Obelisk relying-party proof",
+        "no live CSP/HSTS/Core Web Vitals or theme observation",
+        "no three-human Alpha, real revenue, observed rollback, or founder approval"
+      ],
+      "toolingDisagreement": "The portfolio release checker reports Private by default because context/STUDIO_MANIFEST.json intentionally says privateByDefault=false for this already-public, sanitized AGPL-derived repository. AGENTS.md explicitly declares the repository public. The mismatch is recorded as a checker-premise defect and is not repaired by falsifying the local manifest or editing Studio Ops."
+    }
+  },
+  "rejectedPremises": [
+    {
+      "candidate": "Treat the registry app classification as more authoritative than the local game manifest and status",
+      "result": "externally-blocked",
+      "evidence": "Local PROJECT_STATUS, STUDIO_MANIFEST, agents metadata, and gameplay source agree on game. The registry delta was rejected as field-not-allowed; CANON-018 requires an owner-supported Ark path rather than a sibling edit."
+    },
+    {
+      "candidate": "Set privateByDefault=true merely to green the portfolio release checker",
+      "result": "skipped",
+      "evidence": "AGENTS.md explicitly defines this as a public repository and the upstream AGPL source obligation is public. Changing the manifest would make local truth worse."
+    },
+    {
+      "candidate": "Treat local E2E, READY credentials, or checked-in screenshots as staging or launch evidence",
+      "result": "skipped",
+      "evidence": "No approved external origin or fresh live observation exists; local evidence remains local-only."
+    },
+    {
+      "candidate": "Implement native Obelisk relying-party identity before origin and callback registration",
+      "result": "externally-blocked",
+      "evidence": "The architecture remains external/not-assessed and prior incompatible generated helpers are deliberately quarantined until a registered relying-party contract exists."
+    },
+    {
+      "candidate": "Retune convoy, Pressure, progression, or reward values",
+      "result": "deferred",
+      "evidence": "No qualifying distinct-human cohort exists. Correctness and authority can be improved, but player preference cannot be fabricated."
+    },
+    {
+      "candidate": "Raise a cost alarm for this flat-rate session or remove optional AI solely to reduce notional usage",
+      "result": "skipped",
+      "evidence": "The founder explicitly defined session cost as notional flat-rate Max Plan. Runtime remote AI remains default-off under the existing attributed-cap decision; this audit addresses authority and abuse surfaces, not notional session cost."
+    },
+    {
+      "candidate": "Wholesale rewrite ControlPanel, Worker, VaultFrontExecution, WinModal, or Api",
+      "result": "skipped",
+      "evidence": "The files remain large, but broad rewrites cross stable authority boundaries. This audit admits bounded extractions and measurable composition contraction only."
+    },
+    {
+      "candidate": "Blindly upgrade current dependencies",
+      "result": "skipped",
+      "evidence": "The complete dependency audit is zero and no live defect requires a package change. Package-trust and migration evidence would be required before any upgrade."
+    }
+  ],
+  "items": [
+    {
+      "id": 135,
+      "slug": "server-certified-narration-spine",
+      "tier": "🔥",
+      "axis": "security / feedback loop / AI / observability",
+      "effortHours": 5,
+      "impact": 10,
+      "innovation": 9,
+      "priority": 96,
+      "status": "shipped",
+      "title": "Make live narration inherit server-certified match authority",
+      "why": "NarratorReporter lets any browser POST an arbitrary activity and label for any gameId into NarratorBus. The server validates shape and IP rate only; it does not verify actor membership, live game ownership, or that the event occurred. GameServer imports NarratorBus only to close it, so AI commentary can be driven by browser-authored fiction.",
+      "recipe": "Project a privacy-minimal narration event only after GameServer accepts authoritative intents and certified lifecycle outcomes; remove the public narrator event mutation and client reporter; preserve bounded SSE subscription; define a typed event catalog with no actor identifiers; lower the public-ingest ceiling; and prove fake game IDs, rejected intents, duplicate events, and browser posts cannot trigger commentary.",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Reject browser-authored narration events."
+        },
+        "L2": {
+          "effortHours": 3,
+          "recipe": "Emit narration from accepted GameServer events and remove the client reporter."
+        },
+        "L3": {
+          "effortHours": 5,
+          "recipe": "Certified typed projection, privacy-minimal deduplication, route-policy contraction, integrity counters, and adversarial tests."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Removed the browser-writable narrator event route and NarratorReporter client mutation.",
+        "Added a typed privacy-minimal projection after GameServer intent admission; rejected intents and caller prose cannot enter narration.",
+        "Added a deterministic certified baseline with optional remote enrichment, a visible aria-live consumer, and adversarial authority tests.",
+        "Contract result: 29 declared/registered mutations, public ingest 4/4."
+      ],
+      "complete": true
+    },
+    {
+      "id": 136,
+      "slug": "runtime-feature-reachability-closure",
+      "tier": "🔥",
+      "axis": "security / speed / organization / token reduction",
+      "effortHours": 6,
+      "impact": 10,
+      "innovation": 8,
+      "priority": 82,
+      "status": "shipped",
+      "title": "Give every runtime feature authority a reachable consumer or retire it",
+      "why": "Worker exposes multiple feature surfaces with no client, agent, or operator consumer: match-mission, match-commentary, bot-lore, match-coach, clan-war, and parallel Intel market routes. The Intel routes accept caller identities, keep unbounded game maps, return random fallback risk, advertise a 2,000-gold cost, and never mutate the certified economy. Unused Api helpers also preserve phantom battle-narrative and bot-persona authority.",
+      "recipe": "Create an executable runtime-feature reachability catalog that binds each admitted route to a source consumer and audience. Remove unreachable routes, imports, stores, client helpers, policies, and tests; keep core in-match Intel commands as the sole economy authority; forbid random quote data and uncharged cost claims; ratchet Worker and public-ingest ceilings downward; and mutation-test reintroduction.",
+      "ladder": {
+        "L1": {
+          "effortHours": 2,
+          "recipe": "Remove the unconsumed Intel HTTP market and random quote fallback."
+        },
+        "L2": {
+          "effortHours": 4,
+          "recipe": "Retire all verified unreachable feature clusters and reconcile policies/imports."
+        },
+        "L3": {
+          "effortHours": 6,
+          "recipe": "Source-backed reachability catalog, measurable composition contraction, exact route-policy ceilings, and negative reintroduction tests."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Retired fourteen verified unreachable routes across battle narrative, commentary, missions, bot lore/persona, match coach, Intel HTTP market, clan war, and browser narrator ingestion.",
+        "Removed the unreachable ClanWarStore and client helpers while preserving and explicitly cataloging the live micro-coach and progression router.",
+        "Added a source-backed catalog for eight admitted route→transport→consumer chains, fourteen retired-route tombstones, mutation tests, doctor coverage, and a sha256 evidence digest.",
+        "Worker contracted from 2,849 audited lines to 2,420 with a 2,440-line ratchet."
+      ],
+      "complete": true
+    },
+    {
+      "id": 137,
+      "slug": "session-bound-prematch-intelligence",
+      "tier": "🔥",
+      "axis": "UX / AI / reliability / accessibility",
+      "effortHours": 4,
+      "impact": 9,
+      "innovation": 8,
+      "priority": 72,
+      "status": "shipped",
+      "title": "Make pre-match intelligence bounded, abortable, and stale-session-proof",
+      "why": "GameStartingModal launches three provider-backed requests with Promise.all and owns neither an AbortController nor a session generation. hide() leaves requests and two timeouts alive; an earlier match can overwrite a later modal, and the fixed 300px surface can overflow when all three cards arrive on mobile. There is no focused lifecycle test.",
+      "recipe": "Introduce a generation-scoped pre-match session with AbortController, bounded per-task deadlines, all-settled status, timer cleanup, stale-result rejection, and exact hide/disconnect teardown. Render an accessible responsive shell with deterministic loading/degraded states, validate provider payloads before projection, and capture desktop/mobile evidence across all themes.",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Reject stale async results and clear timers on hide."
+        },
+        "L2": {
+          "effortHours": 2,
+          "recipe": "Add abort signals, per-task deadlines, and lifecycle tests."
+        },
+        "L3": {
+          "effortHours": 4,
+          "recipe": "Session receipt, accessible responsive state machine, three-theme desktop/mobile rendered proof, and exact cleanup invariants."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Added generation ownership, AbortController propagation, a six-second deadline, all-settled projection, stale-result rejection, and exact timer teardown.",
+        "Added accessible loading/degraded/ready states and a 92vw/32rem, 85dvh responsive dialog.",
+        "Focused lifecycle tests prove hide abort and cross-match stale suppression; the three-state desktop/mobile/theme matrix is included in the 90-artifact visual receipt."
+      ],
+      "complete": true
+    },
+    {
+      "id": 138,
+      "slug": "single-public-route-graph",
+      "tier": "⚡",
+      "axis": "UX / organization / release / accessibility",
+      "effortHours": 3,
+      "impact": 8,
+      "innovation": 7,
+      "priority": 55,
+      "status": "shipped",
+      "title": "Generate static and in-app public navigation from one route graph",
+      "why": "public/footer-manifest.json generates and validates ten static pages, but the Lit application footer repeats routes, copyright, brand, and attribution by hand. It omits the required Play destination and adds Wiki/Source links outside the checked graph, so the green footer gate does not cover the actual app footer.",
+      "recipe": "Make one typed public route manifest drive static shell generation and the Lit footer projection, explicitly classify app-only external links, and extend the scoped checker to validate the application consumer. Preserve ordering, labels, legal pages, branding, upstream attribution, and current visual output; add digest/reachability tests and close the local half of the aged SIL item without claiming staging screenshots.",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Import footer links from the existing manifest into the app."
+        },
+        "L2": {
+          "effortHours": 2,
+          "recipe": "Type the manifest and include app-only external links."
+        },
+        "L3": {
+          "effortHours": 3,
+          "recipe": "One projection authority, app/static parity checker, digest evidence, and drift mutation tests."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Created src/shared/PublicRouteGraph.json as the canonical typed route graph and kept public/footer-manifest.json as an exact checked mirror.",
+        "The static shell generator and Lit footer now project the same seven routes, ownership, copyright, attribution, and two classified app-external links.",
+        "Footer checker now validates app consumption, mirror parity, hard-coded-route absence, and a sha256 graph digest."
+      ],
+      "complete": true
+    },
+    {
+      "id": 139,
+      "slug": "player-visible-transport-recovery",
+      "tier": "🔥",
+      "axis": "UX / reliability / feedback loop / accessibility",
+      "effortHours": 4,
+      "impact": 9,
+      "innovation": 8,
+      "priority": 72,
+      "status": "shipped",
+      "title": "Turn transport recovery evidence into calm player-visible state",
+      "why": "Transport now emits exact connection state, retry attempt, outbox depth, and overflow events, but only tests consume them. Players see no waiting/recovering/synchronized feedback, queued actions are invisible, and protocol refusal still uses blocking alert(), bypassing the app's accessible modal and theme system.",
+      "recipe": "Add a dedicated recovery presenter subscribed to transport state/overflow events: a non-blocking aria-live banner for waiting/recovering/synchronized states, queued-action count and reject-newest overflow guidance, and an accessible fatal-refusal modal. Keep transient states generation-safe, never claim synchronized before rejoin succeeds, test event-to-view semantics, and capture all themes at desktop/mobile widths.",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Replace alert() with the existing modal path."
+        },
+        "L2": {
+          "effortHours": 2,
+          "recipe": "Render waiting/recovery/overflow state from transport events."
+        },
+        "L3": {
+          "effortHours": 4,
+          "recipe": "Accessible generation-safe presenter, honest synchronization lifecycle, theme/mobile proof, and adversarial event tests."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Added an accessible player-visible presenter for connecting, waiting, synchronizing, restored, fatal refusal, and reject-newest overflow states.",
+        "Removed blocking alert(), sanitized fatal reason text, and bound retry/outbox language to exact transport events.",
+        "Reordered transport truth so open is published only after authoritative rejoin and FIFO flush; focused tests prove one zero-depth open event.",
+        "All five states pass desktop/mobile/theme rendered proof."
+      ],
+      "complete": true
+    }
+  ],
+  "secondOrderInnovations": [
+    {
+      "slug": "certified-local-narration-baseline",
+      "status": "shipped",
+      "premise": "The authority fix revealed that default-off remote AI also made the newly certified visible feature disappear.",
+      "result": "Every certified high-signal event now broadcasts a deterministic privacy-minimal line immediately; remote AI only enriches it."
+    },
+    {
+      "slug": "dynasty-writer-reachability",
+      "status": "shipped",
+      "premise": "The new reachability contract found a visible dynasty reader and certified writer with no call edge between them.",
+      "result": "WinModal now invokes the authenticated certificate-bound writer before reading the clan chronicle, with the source consumer recorded in the reachability graph."
+    },
+    {
+      "slug": "post-flush-open-truth",
+      "status": "shipped",
+      "premise": "The recovery presenter exposed that Transport emitted open before protected commands actually drained.",
+      "result": "Transport now publishes a single open event only after synchronization and successful FIFO delivery, so restored copy cannot outrun source truth."
+    },
+    {
+      "slug": "pixel-proof-z-order-self-check",
+      "status": "shipped",
+      "premise": "Initial browser assertions passed while synthetic proof backdrops visually occluded the recovery and narrator surfaces.",
+      "result": "The proof harness now asserts foreground z-order numerically and the recaptured images visibly contain every claimed state."
+    }
+  ]
+}

@@ -453,3 +453,29 @@ Public-safe decisions only. Detailed internal decision history is maintained pri
 **Decision:** Replace Semantic Release, its plugins, and bundled npm with `scripts/plan-github-release.mjs` plus the runner-provided GitHub CLI. The planner reads live semantic tags and full conventional-commit bodies, computes one deterministic major/minor/patch result, emits only sanitized outputs, serializes runs, and creates a release only behind `SEMANTIC_RELEASE_ENABLED=true`.
 
 **Why:** Production-only auditing hid high/moderate release-tool advisories. The registry-recommended major downgrade increased the finding count from 7 to 18, while bundled npm internals could not be safely overridden. Owning the narrow required behavior removes 406 packages, eliminates the full audit surface, and makes no-op/release intent executable under seven adversarial tests.
+
+## 2026-08-04 — Session 93 certified-runtime and recovery-truth decisions
+
+### Runtime feature admission requires end-to-end reachability
+
+**Decision:** A shipped runtime capability must prove an admitted server producer, authoritative writer boundary, registered transport, mounted production consumer, and executable regression coverage. Unreachable capabilities are retired and receive catalog tombstones that forbid their handler literals and implementation modules from silently returning.
+
+**Why:** Handler existence and UI source existence are independent facts. Without a verified path between them, polished feature inventory becomes phantom product surface and unnecessary attack/composition weight.
+
+### Narration is locally deterministic and server-certified
+
+**Decision:** Game narration begins only after authoritative GameServer admission, projects a privacy-minimal certified event, immediately emits a deterministic local baseline, and treats remote artificial-intelligence text as optional enrichment. Browser-authored narrator event ingestion remains retired.
+
+**Why:** Player context must remain available and trustworthy when a provider is disabled, slow, or unavailable; caller prose must never become match authority merely because it is narratively plausible.
+
+### Transport open means recovered intent, not socket availability
+
+**Decision:** Recovery reports explicit intermediate/failure states and emits one `open` only after the active generation rejoins, synchronizes, flushes its ordered bounded FIFO, and reaches zero queued intent.
+
+**Why:** A WebSocket can be open while the game is stale or player intent is stranded. Observability must name the recovered semantic boundary, not the earliest convenient network event.
+
+### Public navigation has one typed route authority
+
+**Decision:** `src/shared/PublicRouteGraph.json` is the route-label-key authority for the app footer and static public generator; `public/footer-manifest.json` is an exact checked mirror, not an independently maintained source.
+
+**Why:** Public leaves, application navigation, localization scans, and agent-visible topology cannot stay coherent when they copy paths under separate ownership.

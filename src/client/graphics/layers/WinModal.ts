@@ -26,6 +26,7 @@ import {
   fetchVaultFrontRecapAssignment,
   fetchWinFortune,
   type FortuneItem,
+  generateDynastyStoryChapter,
   getUserMe,
   type MutatorVoteCandidate,
   type MutatorVoteReceipt,
@@ -1297,6 +1298,8 @@ export class WinModal extends LitElement implements Layer {
   private async hydrateDynastyStory(
     session: PostMatchSessionScope,
   ): Promise<void> {
+    const gameId = this.game?.gameID();
+    if (!gameId) return;
     const me = await session.settle(getUserMe(), 2_000, "identity");
     const clanId =
       me &&
@@ -1308,11 +1311,18 @@ export class WinModal extends LitElement implements Layer {
         ? (me.user as { clanId?: string }).clanId
         : undefined;
     if (!clanId || !session.isCurrent()) return;
-    const story = await session.settle(
-      fetchDynastyStory(clanId),
+    const chapter = await session.settle(
+      generateDynastyStoryChapter({ gameId }),
       4_000,
-      "dynasty-story",
+      "dynasty-story-chapter",
     );
+    const story =
+      chapter?.story ??
+      (await session.settle(
+        fetchDynastyStory(clanId),
+        4_000,
+        "dynasty-story-read",
+      ));
     if (!story) return;
     session.commit(() => {
       this.dynastyStory = story;

@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "scope": "Every POST/PUT/PATCH/DELETE registration in Worker.ts and extracted *Router.ts modules.",
   "riskBudget": {
-    "publicIngestMax": 9,
+    "publicIngestMax": 4,
     "rationale": "Any expansion of unauthenticated ingestion is a reviewed trust-boundary change."
   },
   "routes": [
@@ -98,14 +98,6 @@
     },
     {
       "method": "POST",
-      "path": "/api/vaultfront/battle-narrative",
-      "auth": "identity",
-      "rateLimit": "narrativeRateLimit",
-      "evidence": "none",
-      "binding": "resolveVaultFrontIdentity"
-    },
-    {
-      "method": "POST",
       "path": "/api/vaultfront/match-prophecy",
       "auth": "public-ingest",
       "rateLimit": "prophecyRateLimit",
@@ -115,64 +107,11 @@
     },
     {
       "method": "POST",
-      "path": "/api/vaultfront/match-commentary",
-      "auth": "public-ingest",
-      "rateLimit": "commentaryRateLimit",
-      "evidence": "none",
-      "binding": "reserveRemoteAiCall",
-      "rationale": "Read-like generated response using a bounded reservation; it does not mutate player state."
-    },
-    {
-      "method": "POST",
-      "path": "/api/vaultfront/match-mission",
-      "auth": "public-ingest",
-      "rateLimit": "missionRateLimit",
-      "evidence": "none",
-      "binding": "reserveRemoteAiCall",
-      "rationale": "Read-like generated response using a bounded reservation; it does not mutate player state."
-    },
-    {
-      "method": "POST",
-      "path": "/api/vaultfront/match-coach",
-      "auth": "verified-actor",
-      "rateLimit": "coachRateLimit",
-      "evidence": "result-certificate",
-      "binding": "requireVaultFrontActor"
-    },
-    {
-      "method": "POST",
       "path": "/api/vaultfront/dynasty-story",
       "auth": "verified-actor",
       "rateLimit": "dynastyRateLimit",
       "evidence": "result-certificate",
       "binding": "requireVaultFrontActor"
-    },
-    {
-      "method": "POST",
-      "path": "/api/vaultfront/narrator/:gameId/event",
-      "auth": "public-ingest",
-      "rateLimit": "narratorEventRateLimit",
-      "evidence": "none",
-      "binding": "NarratorEventSchema",
-      "rationale": "Ephemeral game-scoped narration intake; bounded and schema-constrained."
-    },
-    {
-      "method": "POST",
-      "path": "/api/vaultfront/intel-purchase",
-      "auth": "public-ingest",
-      "rateLimit": "intelRateLimit",
-      "evidence": "none",
-      "binding": "safeParse",
-      "rationale": "Ephemeral game-scoped quote response; no authoritative economy balance is mutated."
-    },
-    {
-      "method": "POST",
-      "path": "/api/vaultfront/intel-list",
-      "auth": "public-ingest",
-      "rateLimit": "intelRateLimit",
-      "evidence": "none",
-      "binding": "safeParse",
-      "rationale": "Ephemeral game-scoped listing intake; bounded and excluded from certified progression."
     },
     {
       "method": "POST",
@@ -213,30 +152,6 @@
       "rateLimit": "predictionRateLimit",
       "evidence": "game-lifecycle",
       "binding": "dependencies.authenticate"
-    },
-    {
-      "method": "POST",
-      "path": "/api/vaultfront/clan-war/challenge",
-      "auth": "verified-actor",
-      "rateLimit": "clanWarRateLimit",
-      "evidence": "authenticated-event",
-      "binding": "requireVaultFrontActor"
-    },
-    {
-      "method": "POST",
-      "path": "/api/vaultfront/clan-war/accept",
-      "auth": "verified-actor",
-      "rateLimit": "clanWarRateLimit",
-      "evidence": "authenticated-event",
-      "binding": "requireVaultFrontActor"
-    },
-    {
-      "method": "POST",
-      "path": "/api/vaultfront/clan-war/decline",
-      "auth": "verified-actor",
-      "rateLimit": "clanWarRateLimit",
-      "evidence": "authenticated-event",
-      "binding": "requireVaultFrontActor"
     },
     {
       "method": "POST",

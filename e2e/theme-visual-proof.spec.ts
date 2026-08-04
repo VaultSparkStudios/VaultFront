@@ -233,6 +233,261 @@ test("three themes retain readable page, panel, and settings surfaces", async ({
       .locator("[data-vf-visual-qa]")
       .evaluate((overlay) => overlay.remove());
 
+    const prematchProof: Array<Record<string, unknown>> = [];
+    for (const state of ["loading", "degraded", "ready"] as const) {
+      const metrics = await page.evaluate(async (state) => {
+        document.querySelector("[data-vf-visual-qa-prematch]")?.remove();
+        // @ts-expect-error Vite serves this production TypeScript module to the browser harness.
+        await import("/src/client/GameStartingModal.ts");
+        const overlay = document.createElement("main");
+        overlay.dataset.vfVisualQaPrematch = state;
+        overlay.style.cssText =
+          "position:fixed;inset:0;z-index:2147483647;overflow:auto;background:var(--vf-bg,#07111f);color:var(--vf-text,#f8fafc);font-family:Overpass,sans-serif";
+        const modal = document.createElement(
+          "game-starting-modal",
+        ) as HTMLElement & {
+          isVisible: boolean;
+          intelligenceStatus: string;
+          prophecy: string | null;
+          prophecyVisible: boolean;
+          prematchBrief: string | null;
+          myPrediction: Record<string, unknown> | null;
+          requestUpdate(): void;
+          updateComplete: Promise<unknown>;
+        };
+        modal.isVisible = true;
+        modal.intelligenceStatus = state;
+        if (state === "ready") {
+          modal.prematchBrief =
+            "Secure the western vault lane, then reserve your escort for the first pulse.";
+          modal.prophecy = "The quiet convoy carries the loudest consequence.";
+          modal.prophecyVisible = true;
+          modal.myPrediction = {
+            playerId: "visual-player",
+            deltaIfWin: 18,
+            deltaIfLoss: -11,
+            threat: "The eastern interceptor",
+          };
+        }
+        overlay.append(modal);
+        document.body.append(overlay);
+        modal.requestUpdate();
+        await modal.updateComplete;
+        const dialog = modal.querySelector<HTMLElement>('[role="dialog"]');
+        if (!dialog) throw new Error("prematch dialog did not render");
+        const rect = dialog.getBoundingClientRect();
+        return {
+          state,
+          role: dialog.getAttribute("role"),
+          ariaModal: dialog.getAttribute("aria-modal"),
+          horizontalOverflow: overlay.scrollWidth > overlay.clientWidth,
+          verticalFit: rect.height <= innerHeight * 0.86,
+          withinViewport: rect.left >= 0 && rect.right <= innerWidth,
+          text: dialog.textContent,
+        };
+      }, state);
+      expect(metrics).toMatchObject({
+        state,
+        role: "dialog",
+        ariaModal: "true",
+        horizontalOverflow: false,
+        verticalFit: true,
+        withinViewport: true,
+      });
+      await page.locator("[data-vf-visual-qa-prematch]").screenshot({
+        path: path.join(
+          artifactDir,
+          `${testInfo.project.name}-${theme}-prematch-${state}.png`,
+        ),
+      });
+      prematchProof.push(metrics);
+      await page
+        .locator("[data-vf-visual-qa-prematch]")
+        .evaluate((overlay) => overlay.remove());
+    }
+
+    const connectionProof: Array<Record<string, unknown>> = [];
+    for (const state of [
+      "waiting",
+      "synchronizing",
+      "restored",
+      "fatal",
+      "overflow",
+    ] as const) {
+      const metrics = await page.evaluate(async (state) => {
+        const [{ EventBus }, presenterModule, transportModule] =
+          await Promise.all([
+            // @ts-expect-error Vite serves this production TypeScript module to the browser harness.
+            import("/src/core/EventBus.ts"),
+            // @ts-expect-error Vite serves this production TypeScript module to the browser harness.
+            import("/src/client/ConnectionRecoveryPresenter.ts"),
+            // @ts-expect-error Vite serves this production TypeScript module to the browser harness.
+            import("/src/client/Transport.ts"),
+          ]);
+        const backdrop = document.createElement("main");
+        backdrop.dataset.vfVisualQaConnection = state;
+        backdrop.style.cssText =
+          "position:fixed;inset:0;z-index:9999;background:var(--vf-bg,#07111f);color:var(--vf-text,#f8fafc);font-family:Overpass,sans-serif";
+        document.body.append(backdrop);
+        const bus = new EventBus();
+        const presenter = new presenterModule.ConnectionRecoveryPresenter(bus);
+        if (state === "waiting") {
+          bus.emit(
+            new transportModule.TransportConnectionStateEvent(
+              "waiting",
+              2,
+              3,
+              1_250,
+              "socket-error",
+            ),
+          );
+        } else if (state === "synchronizing") {
+          bus.emit(
+            new transportModule.TransportConnectionStateEvent(
+              "synchronizing",
+              2,
+              3,
+            ),
+          );
+        } else if (state === "restored") {
+          bus.emit(
+            new transportModule.TransportConnectionStateEvent(
+              "waiting",
+              1,
+              2,
+              250,
+              "socket-error",
+            ),
+          );
+          bus.emit(
+            new transportModule.TransportConnectionStateEvent("open", 0, 0),
+          );
+        } else if (state === "fatal") {
+          bus.emit(
+            new transportModule.TransportConnectionStateEvent(
+              "closed",
+              1,
+              0,
+              null,
+              "protocol-refused",
+            ),
+          );
+        } else {
+          bus.emit(
+            new transportModule.TransportOutboxOverflowEvent(
+              256,
+              256,
+              "intent",
+            ),
+          );
+        }
+        const element = document.querySelector<HTMLElement>(
+          "#connection-recovery-status",
+        );
+        if (!element) throw new Error("connection presenter did not render");
+        const rect = element.getBoundingClientRect();
+        (
+          window as typeof window & { __vfConnectionCleanup?: () => void }
+        ).__vfConnectionCleanup = () => {
+          presenter.dispose();
+          backdrop.remove();
+        };
+        return {
+          state,
+          renderedState: element.dataset.state,
+          role: element.getAttribute("role"),
+          hidden: element.hidden,
+          withinViewport: rect.left >= 0 && rect.right <= innerWidth,
+          foregroundZ: Number(getComputedStyle(element).zIndex),
+          backdropZ: Number(getComputedStyle(backdrop).zIndex),
+          text: element.textContent,
+        };
+      }, state);
+      expect(metrics).toMatchObject({
+        state,
+        renderedState: state,
+        hidden: false,
+        withinViewport: true,
+      });
+      expect(metrics.foregroundZ).toBeGreaterThan(metrics.backdropZ);
+      await page.screenshot({
+        path: path.join(
+          artifactDir,
+          `${testInfo.project.name}-${theme}-connection-${state}.png`,
+        ),
+      });
+      connectionProof.push(metrics);
+      await page.evaluate(() => {
+        const target = window as typeof window & {
+          __vfConnectionCleanup?: () => void;
+        };
+        target.__vfConnectionCleanup?.();
+        delete target.__vfConnectionCleanup;
+      });
+    }
+
+    const narratorProof = await page.evaluate(async () => {
+      // @ts-expect-error Vite serves this production TypeScript module to the browser harness.
+      const { CertifiedNarratorLayer } =
+        await import("/src/client/graphics/layers/CertifiedNarratorLayer.ts");
+      const backdrop = document.createElement("main");
+      backdrop.dataset.vfVisualQaNarrator = "certified";
+      backdrop.style.cssText =
+        "position:fixed;inset:0;z-index:30;background:var(--vf-bg,#07111f);color:var(--vf-text,#f8fafc);font-family:Overpass,sans-serif";
+      document.body.append(backdrop);
+      const layer = new CertifiedNarratorLayer("visual-proof-game") as {
+        init(): void;
+        present(text: string): void;
+        dispose(): void;
+      };
+      layer.init();
+      layer.present("A vault heist was committed.");
+      const element = document.querySelector<HTMLElement>(
+        "#certified-narrator",
+      );
+      if (!element) throw new Error("certified narrator did not render");
+      const rect = element.getBoundingClientRect();
+      (
+        window as typeof window & { __vfNarratorCleanup?: () => void }
+      ).__vfNarratorCleanup = () => {
+        layer.dispose();
+        backdrop.remove();
+      };
+      return {
+        authority: element.dataset.authority,
+        role: element.getAttribute("role"),
+        hidden: element.hidden,
+        withinViewport: rect.left >= 0 && rect.right <= innerWidth,
+        foregroundZ: Number(getComputedStyle(element).zIndex),
+        backdropZ: Number(getComputedStyle(backdrop).zIndex),
+        text: element.textContent,
+      };
+    });
+    expect(narratorProof).toMatchObject({
+      authority: "accepted-game-intent",
+      role: "status",
+      hidden: false,
+      withinViewport: true,
+      text: "A vault heist was committed.",
+    });
+    expect(narratorProof.foregroundZ).toBeGreaterThan(narratorProof.backdropZ);
+    await page.screenshot({
+      path: path.join(
+        artifactDir,
+        `${testInfo.project.name}-${theme}-narrator-certified.png`,
+      ),
+    });
+    await page.evaluate(() => {
+      const target = window as typeof window & {
+        __vfNarratorCleanup?: () => void;
+      };
+      target.__vfNarratorCleanup?.();
+      delete target.__vfNarratorCleanup;
+    });
+    results[results.length - 1].prematch = prematchProof;
+    results[results.length - 1].connectionRecovery = connectionProof;
+    results[results.length - 1].certifiedNarrator = narratorProof;
+
     const executionProof: Array<Record<string, unknown>> = [];
     for (const state of executionStates) {
       const reducedMotion = state === "rush-reduced-complete";
@@ -437,6 +692,15 @@ test("three themes retain readable page, panel, and settings surfaces", async ({
       "play",
       "settings",
       "postmatch",
+      "prematch-loading",
+      "prematch-degraded",
+      "prematch-ready",
+      "connection-waiting",
+      "connection-synchronizing",
+      "connection-restored",
+      "connection-fatal",
+      "connection-overflow",
+      "narrator-certified",
       "execution-normal",
       "execution-rush",
       "execution-rush-reduced-complete",

@@ -1,9 +1,9 @@
 {
   "vectorVersion": "1.0",
   "generatedAt": "2026-08-04",
-  "generatedAtMs": 1785802960416,
-  "session": 92,
-  "vectorHash": "e101c075d0e210e9",
+  "generatedAtMs": 1785824324302,
+  "session": 93,
+  "vectorHash": "49b771fc93184402",
   "silTotal": 997,
   "silAvg3": 997,
   "velocity": 14,
@@ -33,8 +33,8 @@
   "slug": "vaultfront",
   "type": "game",
   "lifecycle": "alpha",
-  "nextMilestone": "Establish the approved staging origin/callback contract, exercise the retained dry-run validation path, then collect exact-digest parity and live identity/email/theme/human/revenue/rollback/provider evidence in gate order.",
-  "currentFocus": "Session 92 complete: durable release admission, resilient transport, execution-chain HUD, and 56/56 innovation exhaustion shipped.",
+  "nextMilestone": "Establish the approved staging origin/callback contract, deploy the final immutable revision, then collect exact-digest parity and live identity/email/theme/human/revenue/rollback evidence in gate order.",
+  "currentFocus": "Session 93 complete: certified narration, end-to-end runtime feature reachability, session-bound prematch intelligence, canonical public navigation, player-visible recovery, and rendered-pixel z-order truth shipped.",
   "lastShipped": "see LATEST_HANDOFF.md",
   "blockers": []
 }
