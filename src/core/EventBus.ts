@@ -4,6 +4,10 @@ export interface EventConstructor<T extends GameEvent = GameEvent> {
   new (...args: any[]): T;
 }
 
+export interface EventBusCheckpoint {
+  readonly listenerCounts: ReadonlyMap<EventConstructor, number>;
+}
+
 export class EventBus {
   private listeners: Map<EventConstructor, Array<(event: GameEvent) => void>> =
     new Map();
@@ -21,12 +25,13 @@ export class EventBus {
   on<T extends GameEvent>(
     eventType: EventConstructor<T>,
     callback: (event: T) => void,
-  ): void {
+  ): () => void {
     if (!this.listeners.has(eventType)) {
       this.listeners.set(eventType, []);
     }
     const callbacks = this.listeners.get(eventType)!;
     callbacks.push(callback as (event: GameEvent) => void);
+    return () => this.off(eventType, callback);
   }
 
   off<T extends GameEvent>(
@@ -40,5 +45,34 @@ export class EventBus {
         callbacks.splice(index, 1);
       }
     }
+  }
+
+  checkpoint(): EventBusCheckpoint {
+    return {
+      listenerCounts: new Map(
+        [...this.listeners].map(([eventType, callbacks]) => [
+          eventType,
+          callbacks.length,
+        ]),
+      ),
+    };
+  }
+
+  restore(checkpoint: EventBusCheckpoint): void {
+    for (const [eventType, callbacks] of this.listeners) {
+      const retained = checkpoint.listenerCounts.get(eventType) ?? 0;
+      if (retained === 0) {
+        this.listeners.delete(eventType);
+      } else if (callbacks.length > retained) {
+        callbacks.splice(retained);
+      }
+    }
+  }
+
+  listenerCountForTest(): number {
+    return [...this.listeners.values()].reduce(
+      (sum, callbacks) => sum + callbacks.length,
+      0,
+    );
   }
 }

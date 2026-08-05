@@ -1447,25 +1447,6 @@ export function subscribeNarrator(
   return () => es.close();
 }
 
-export async function fetchMicroHint(params: {
-  gold: number;
-  sites: number;
-  trigger?: string;
-}): Promise<string | null> {
-  try {
-    const url = new URL(`${getApiBase()}/api/vaultfront/micro-hint`);
-    url.searchParams.set("gold", String(params.gold));
-    url.searchParams.set("sites", String(params.sites));
-    if (params.trigger) url.searchParams.set("trigger", params.trigger);
-    const res = await fetch(url.toString());
-    if (!res.ok) return null;
-    const data = (await res.json()) as { hint?: string };
-    return data.hint ?? null;
-  } catch {
-    return null;
-  }
-}
-
 // ── Session 5 API functions ────────────────────────────────────────────────
 
 export type PlayStyle =
@@ -1669,6 +1650,15 @@ export async function fetchCoachDebrief(params: {
   }
 }
 
+export type MatchFeedbackSignal =
+  | "decisive-convoy"
+  | "comeback-tension"
+  | "clear-objectives"
+  | "pacing-drag"
+  | "map-flow"
+  | "control-friction"
+  | "technical-friction";
+
 export interface MatchRatingReceipt {
   accepted: boolean;
   duplicate: boolean;
@@ -1677,6 +1667,7 @@ export interface MatchRatingReceipt {
   durability: "postgres" | "process-local";
   evidence: "certified-match-result";
   retentionDays: 30;
+  signal: MatchFeedbackSignal | null;
 }
 
 export type MatchRatingSubmission =
@@ -1689,7 +1680,7 @@ export async function postMatchRating(params: {
   matchRating: number;
   mapRating: number;
   mapName?: string;
-  comment?: string;
+  signal?: MatchFeedbackSignal;
 }): Promise<MatchRatingSubmission> {
   try {
     const res = await fetch(`${getApiBase()}/api/vaultfront/match-rating`, {

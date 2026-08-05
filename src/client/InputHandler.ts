@@ -158,7 +158,8 @@ export class InputHandler {
 
   private alternateView = false;
 
-  private moveInterval: NodeJS.Timeout | null = null;
+  private moveFrame: number | null = null;
+  private listenerAbortController: AbortController | null = null;
   private activeKeys = new Set<string>();
   private keybinds: Record<string, string> = {};
   private coordinateGridEnabled = false;
@@ -175,6 +176,9 @@ export class InputHandler {
   ) {}
 
   initialize() {
+    this.listenerAbortController?.abort();
+    this.listenerAbortController = new AbortController();
+    const { signal } = this.listenerAbortController;
     let saved: Record<string, string> = {};
     try {
       const parsed = JSON.parse(
@@ -237,8 +241,12 @@ export class InputHandler {
       ...saved,
     };
 
-    this.canvas.addEventListener("pointerdown", (e) => this.onPointerDown(e));
-    window.addEventListener("pointerup", (e) => this.onPointerUp(e));
+    this.canvas.addEventListener("pointerdown", (e) => this.onPointerDown(e), {
+      signal,
+    });
+    window.addEventListener("pointerup", (e) => this.onPointerUp(e), {
+      signal,
+    });
     this.canvas.addEventListener(
       "wheel",
       (e) => {
@@ -246,18 +254,27 @@ export class InputHandler {
         this.onShiftScroll(e);
         e.preventDefault();
       },
-      { passive: false },
+      { passive: false, signal },
     );
-    window.addEventListener("pointermove", this.onPointerMove.bind(this));
-    this.canvas.addEventListener("contextmenu", (e) => this.onContextMenu(e));
-    window.addEventListener("mousemove", (e) => {
-      if (e.movementX || e.movementY) {
-        this.eventBus.emit(new MouseMoveEvent(e.clientX, e.clientY));
-      }
+    window.addEventListener("pointermove", this.onPointerMove.bind(this), {
+      signal,
     });
+    this.canvas.addEventListener("contextmenu", (e) => this.onContextMenu(e), {
+      signal,
+    });
+    window.addEventListener(
+      "mousemove",
+      (e) => {
+        if (e.movementX || e.movementY) {
+          this.eventBus.emit(new MouseMoveEvent(e.clientX, e.clientY));
+        }
+      },
+      { signal },
+    );
     this.pointers.clear();
 
-    this.moveInterval = setInterval(() => {
+    const runContinuousInput = () => {
+      this.moveFrame = requestAnimationFrame(runContinuousInput);
       let deltaX = 0;
       let deltaY = 0;
 
@@ -309,173 +326,182 @@ export class InputHandler {
       ) {
         this.eventBus.emit(new ZoomEvent(cx, cy, -this.ZOOM_SPEED));
       }
-    }, 1);
+    };
+    this.moveFrame = requestAnimationFrame(runContinuousInput);
 
-    window.addEventListener("keydown", (e) => {
-      const isTextInput = this.isTextInputTarget(e.target);
-      if (isTextInput && e.code !== "Escape") {
-        return;
-      }
-
-      if (e.code === this.keybinds.toggleView) {
-        e.preventDefault();
-        if (!this.alternateView) {
-          this.alternateView = true;
-          this.eventBus.emit(new AlternateViewEvent(true));
+    window.addEventListener(
+      "keydown",
+      (e) => {
+        const isTextInput = this.isTextInputTarget(e.target);
+        if (isTextInput && e.code !== "Escape") {
+          return;
         }
-      }
 
-      if (e.code === this.keybinds.coordinateGrid && !e.repeat) {
-        e.preventDefault();
-        this.coordinateGridEnabled = !this.coordinateGridEnabled;
-        this.eventBus.emit(
-          new ToggleCoordinateGridEvent(this.coordinateGridEnabled),
-        );
-      }
+        if (e.code === this.keybinds.toggleView) {
+          e.preventDefault();
+          if (!this.alternateView) {
+            this.alternateView = true;
+            this.eventBus.emit(new AlternateViewEvent(true));
+          }
+        }
 
-      if (e.code === "Escape") {
-        e.preventDefault();
-        this.eventBus.emit(new CloseViewEvent());
-        this.setGhostStructure(null);
-      }
+        if (e.code === this.keybinds.coordinateGrid && !e.repeat) {
+          e.preventDefault();
+          this.coordinateGridEnabled = !this.coordinateGridEnabled;
+          this.eventBus.emit(
+            new ToggleCoordinateGridEvent(this.coordinateGridEnabled),
+          );
+        }
 
-      if (
-        [
-          this.keybinds.moveUp,
-          this.keybinds.moveDown,
-          this.keybinds.moveLeft,
-          this.keybinds.moveRight,
-          this.keybinds.zoomOut,
-          this.keybinds.zoomIn,
-          "ArrowUp",
-          "ArrowLeft",
-          "ArrowDown",
-          "ArrowRight",
-          "Minus",
-          "Equal",
-          this.keybinds.attackRatioDown,
-          this.keybinds.attackRatioUp,
-          this.keybinds.centerCamera,
-          "ControlLeft",
-          "ControlRight",
-          "ShiftLeft",
-          "ShiftRight",
-        ].includes(e.code)
-      ) {
-        this.activeKeys.add(e.code);
-      }
-    });
-    window.addEventListener("keyup", (e) => {
-      const isTextInput = this.isTextInputTarget(e.target);
-      if (isTextInput && !this.activeKeys.has(e.code)) {
-        return;
-      }
+        if (e.code === "Escape") {
+          e.preventDefault();
+          this.eventBus.emit(new CloseViewEvent());
+          this.setGhostStructure(null);
+        }
 
-      if (e.code === this.keybinds.toggleView) {
-        e.preventDefault();
-        this.alternateView = false;
-        this.eventBus.emit(new AlternateViewEvent(false));
-      }
+        if (
+          [
+            this.keybinds.moveUp,
+            this.keybinds.moveDown,
+            this.keybinds.moveLeft,
+            this.keybinds.moveRight,
+            this.keybinds.zoomOut,
+            this.keybinds.zoomIn,
+            "ArrowUp",
+            "ArrowLeft",
+            "ArrowDown",
+            "ArrowRight",
+            "Minus",
+            "Equal",
+            this.keybinds.attackRatioDown,
+            this.keybinds.attackRatioUp,
+            this.keybinds.centerCamera,
+            "ControlLeft",
+            "ControlRight",
+            "ShiftLeft",
+            "ShiftRight",
+          ].includes(e.code)
+        ) {
+          this.activeKeys.add(e.code);
+        }
+      },
+      { signal },
+    );
+    window.addEventListener(
+      "keyup",
+      (e) => {
+        const isTextInput = this.isTextInputTarget(e.target);
+        if (isTextInput && !this.activeKeys.has(e.code)) {
+          return;
+        }
 
-      const resetKey = this.keybinds.resetGfx ?? "KeyR";
-      if (e.code === resetKey && this.isAltKeyHeld(e)) {
-        e.preventDefault();
-        this.eventBus.emit(new RefreshGraphicsEvent());
-      }
+        if (e.code === this.keybinds.toggleView) {
+          e.preventDefault();
+          this.alternateView = false;
+          this.eventBus.emit(new AlternateViewEvent(false));
+        }
 
-      if (e.code === this.keybinds.boatAttack) {
-        e.preventDefault();
-        this.eventBus.emit(new DoBoatAttackEvent());
-      }
+        const resetKey = this.keybinds.resetGfx ?? "KeyR";
+        if (e.code === resetKey && this.isAltKeyHeld(e)) {
+          e.preventDefault();
+          this.eventBus.emit(new RefreshGraphicsEvent());
+        }
 
-      if (e.code === this.keybinds.groundAttack) {
-        e.preventDefault();
-        this.eventBus.emit(new DoGroundAttackEvent());
-      }
+        if (e.code === this.keybinds.boatAttack) {
+          e.preventDefault();
+          this.eventBus.emit(new DoBoatAttackEvent());
+        }
 
-      if (e.code === this.keybinds.attackRatioDown) {
-        e.preventDefault();
-        const increment = this.userSettings.attackRatioIncrement();
-        this.eventBus.emit(new AttackRatioEvent(-increment));
-      }
+        if (e.code === this.keybinds.groundAttack) {
+          e.preventDefault();
+          this.eventBus.emit(new DoGroundAttackEvent());
+        }
 
-      if (e.code === this.keybinds.attackRatioUp) {
-        e.preventDefault();
-        const increment = this.userSettings.attackRatioIncrement();
-        this.eventBus.emit(new AttackRatioEvent(increment));
-      }
+        if (e.code === this.keybinds.attackRatioDown) {
+          e.preventDefault();
+          const increment = this.userSettings.attackRatioIncrement();
+          this.eventBus.emit(new AttackRatioEvent(-increment));
+        }
 
-      if (e.code === this.keybinds.centerCamera) {
-        e.preventDefault();
-        this.eventBus.emit(new CenterCameraEvent());
-      }
+        if (e.code === this.keybinds.attackRatioUp) {
+          e.preventDefault();
+          const increment = this.userSettings.attackRatioIncrement();
+          this.eventBus.emit(new AttackRatioEvent(increment));
+        }
 
-      if (e.code === this.keybinds.buildCity) {
-        e.preventDefault();
-        this.setGhostStructure(UnitType.City);
-      }
+        if (e.code === this.keybinds.centerCamera) {
+          e.preventDefault();
+          this.eventBus.emit(new CenterCameraEvent());
+        }
 
-      if (e.code === this.keybinds.buildFactory) {
-        e.preventDefault();
-        this.setGhostStructure(UnitType.Factory);
-      }
+        if (e.code === this.keybinds.buildCity) {
+          e.preventDefault();
+          this.setGhostStructure(UnitType.City);
+        }
 
-      if (e.code === this.keybinds.buildPort) {
-        e.preventDefault();
-        this.setGhostStructure(UnitType.Port);
-      }
+        if (e.code === this.keybinds.buildFactory) {
+          e.preventDefault();
+          this.setGhostStructure(UnitType.Factory);
+        }
 
-      if (e.code === this.keybinds.buildDefensePost) {
-        e.preventDefault();
-        this.setGhostStructure(UnitType.DefensePost);
-      }
+        if (e.code === this.keybinds.buildPort) {
+          e.preventDefault();
+          this.setGhostStructure(UnitType.Port);
+        }
 
-      if (e.code === this.keybinds.buildMissileSilo) {
-        e.preventDefault();
-        this.setGhostStructure(UnitType.MissileSilo);
-      }
+        if (e.code === this.keybinds.buildDefensePost) {
+          e.preventDefault();
+          this.setGhostStructure(UnitType.DefensePost);
+        }
 
-      if (e.code === this.keybinds.buildSamLauncher) {
-        e.preventDefault();
-        this.setGhostStructure(UnitType.SAMLauncher);
-      }
+        if (e.code === this.keybinds.buildMissileSilo) {
+          e.preventDefault();
+          this.setGhostStructure(UnitType.MissileSilo);
+        }
 
-      if (e.code === this.keybinds.buildAtomBomb) {
-        e.preventDefault();
-        this.setGhostStructure(UnitType.AtomBomb);
-      }
+        if (e.code === this.keybinds.buildSamLauncher) {
+          e.preventDefault();
+          this.setGhostStructure(UnitType.SAMLauncher);
+        }
 
-      if (e.code === this.keybinds.buildHydrogenBomb) {
-        e.preventDefault();
-        this.setGhostStructure(UnitType.HydrogenBomb);
-      }
+        if (e.code === this.keybinds.buildAtomBomb) {
+          e.preventDefault();
+          this.setGhostStructure(UnitType.AtomBomb);
+        }
 
-      if (e.code === this.keybinds.buildWarship) {
-        e.preventDefault();
-        this.setGhostStructure(UnitType.Warship);
-      }
+        if (e.code === this.keybinds.buildHydrogenBomb) {
+          e.preventDefault();
+          this.setGhostStructure(UnitType.HydrogenBomb);
+        }
 
-      if (e.code === this.keybinds.buildMIRV) {
-        e.preventDefault();
-        this.setGhostStructure(UnitType.MIRV);
-      }
+        if (e.code === this.keybinds.buildWarship) {
+          e.preventDefault();
+          this.setGhostStructure(UnitType.Warship);
+        }
 
-      if (e.code === this.keybinds.swapDirection) {
-        e.preventDefault();
-        const nextDirection = !this.uiState.rocketDirectionUp;
-        this.eventBus.emit(new SwapRocketDirectionEvent(nextDirection));
-      }
+        if (e.code === this.keybinds.buildMIRV) {
+          e.preventDefault();
+          this.setGhostStructure(UnitType.MIRV);
+        }
 
-      // Shift-D to toggle performance overlay
-      console.log(e.code, e.shiftKey, e.ctrlKey, e.altKey, e.metaKey);
-      if (e.code === "KeyD" && e.shiftKey) {
-        e.preventDefault();
-        console.log("TogglePerformanceOverlayEvent");
-        this.eventBus.emit(new TogglePerformanceOverlayEvent());
-      }
+        if (e.code === this.keybinds.swapDirection) {
+          e.preventDefault();
+          const nextDirection = !this.uiState.rocketDirectionUp;
+          this.eventBus.emit(new SwapRocketDirectionEvent(nextDirection));
+        }
 
-      this.activeKeys.delete(e.code);
-    });
+        // Shift-D to toggle performance overlay
+        console.log(e.code, e.shiftKey, e.ctrlKey, e.altKey, e.metaKey);
+        if (e.code === "KeyD" && e.shiftKey) {
+          e.preventDefault();
+          console.log("TogglePerformanceOverlayEvent");
+          this.eventBus.emit(new TogglePerformanceOverlayEvent());
+        }
+
+        this.activeKeys.delete(e.code);
+      },
+      { signal },
+    );
   }
 
   private onPointerDown(event: PointerEvent) {
@@ -648,9 +674,13 @@ export class InputHandler {
   }
 
   destroy() {
-    if (this.moveInterval !== null) {
-      clearInterval(this.moveInterval);
+    if (this.moveFrame !== null) {
+      cancelAnimationFrame(this.moveFrame);
+      this.moveFrame = null;
     }
+    this.listenerAbortController?.abort();
+    this.listenerAbortController = null;
+    this.pointers.clear();
     this.activeKeys.clear();
   }
 

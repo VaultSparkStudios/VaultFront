@@ -375,6 +375,177 @@ test("three themes retain readable page, panel, and settings surfaces", async ({
       .locator("[data-vf-visual-qa]")
       .evaluate((overlay) => overlay.remove());
 
+    const accountRecovery = await page.evaluate(async () => {
+      // @ts-expect-error Vite serves this production TypeScript module to the browser harness.
+      await import("/src/client/AccountModal.ts");
+      const overlay = document.createElement("main");
+      overlay.dataset.vfVisualQaAccountRecovery = "error";
+      overlay.style.cssText =
+        "box-sizing:border-box;position:fixed;inset:0;z-index:2147483647;overflow:auto;padding:16px;background:var(--vf-bg,#07111f);color:var(--vf-text,#f8fafc);font-family:Overpass,sans-serif;display:grid;place-items:center";
+      const modal = document.createElement("account-modal") as any;
+      modal.inline = true;
+      modal.recoveryState = "error";
+      modal.recoveryMessage =
+        "Enter an email address so we can send a recovery link.";
+      overlay.append(modal);
+      document.body.append(overlay);
+      modal.requestUpdate();
+      await modal.updateComplete;
+      const input = modal.querySelector<HTMLInputElement>(
+        'input[type="email"]',
+      );
+      const status = modal.querySelector<HTMLElement>("#email-recovery-status");
+      const button =
+        modal.querySelector<HTMLButtonElement>("button[aria-busy]");
+      if (!input || !status || !button) {
+        throw new Error("account recovery state did not render");
+      }
+      const rect = modal.getBoundingClientRect();
+      return {
+        state: "error",
+        role: status.getAttribute("role"),
+        ariaLive: status.getAttribute("aria-live"),
+        describedBy: input.getAttribute("aria-describedby"),
+        invalid: input.getAttribute("aria-invalid"),
+        horizontalOverflow: overlay.scrollWidth > overlay.clientWidth,
+        withinViewport: rect.left >= 0 && rect.right <= innerWidth,
+        minimumButtonHeight: button.getBoundingClientRect().height,
+      };
+    });
+    expect(accountRecovery).toMatchObject({
+      state: "error",
+      role: "alert",
+      ariaLive: "polite",
+      describedBy: "email-recovery-status",
+      invalid: "true",
+      horizontalOverflow: false,
+      withinViewport: true,
+    });
+    expect(accountRecovery.minimumButtonHeight).toBeGreaterThanOrEqual(44);
+    await page.locator("[data-vf-visual-qa-account-recovery]").screenshot({
+      path: path.join(
+        artifactDir,
+        testInfo.project.name + "-" + theme + "-account-recovery.png",
+      ),
+    });
+    await page
+      .locator("[data-vf-visual-qa-account-recovery]")
+      .evaluate((overlay) => overlay.remove());
+
+    const multiTabCollision = await page.evaluate(async () => {
+      // @ts-expect-error Vite serves this production TypeScript module to the browser harness.
+      await import("/src/client/graphics/layers/MultiTabModal.ts");
+      const overlay = document.createElement("main");
+      overlay.dataset.vfVisualQaMultiTab = "collision";
+      overlay.style.cssText =
+        "position:fixed;inset:0;z-index:2147483647;background:var(--vf-bg,#07111f);color:var(--vf-text,#f8fafc);font-family:Overpass,sans-serif";
+      const modal = document.createElement("multi-tab-modal") as any;
+      modal.game = { myPlayer: () => ({ isAlive: () => true }) };
+      overlay.append(modal);
+      document.body.append(overlay);
+      modal.show(10_000);
+      await modal.updateComplete;
+      const dialog = modal.querySelector<HTMLElement>('[role="dialog"]');
+      if (!dialog) throw new Error("multi-tab collision did not render");
+      const rect = dialog.getBoundingClientRect();
+      const text = dialog.textContent ?? "";
+      const normalizedText = text.replace(/\s+/g, " ").trim();
+      return {
+        role: dialog.getAttribute("role"),
+        ariaModal: dialog.getAttribute("aria-modal"),
+        horizontalOverflow: overlay.scrollWidth > overlay.clientWidth,
+        withinViewport: rect.left >= 0 && rect.right <= innerWidth,
+        truthfulScope:
+          normalizedText.includes("same-origin browser storage collision") &&
+          normalizedText.includes("does not create a server report"),
+        text,
+      };
+    });
+    expect(multiTabCollision).toMatchObject({
+      role: "dialog",
+      ariaModal: "true",
+      horizontalOverflow: false,
+      withinViewport: true,
+      truthfulScope: true,
+    });
+    await page.locator("[data-vf-visual-qa-multi-tab]").screenshot({
+      path: path.join(
+        artifactDir,
+        testInfo.project.name + "-" + theme + "-multi-tab-collision.png",
+      ),
+    });
+    await page.evaluate(() => {
+      const modal = document.querySelector<any>(
+        "[data-vf-visual-qa-multi-tab] multi-tab-modal",
+      );
+      modal?.dispose();
+      document.querySelector("[data-vf-visual-qa-multi-tab]")?.remove();
+    });
+
+    const progressionDoctrine = await page.evaluate(async () => {
+      // @ts-expect-error Vite serves this production TypeScript module to the browser harness.
+      await import("/src/client/components/ProgressionDebrief.ts");
+      const overlay = document.createElement("main");
+      overlay.dataset.vfVisualQaProgressionDoctrine = "verified";
+      overlay.style.cssText =
+        "position:fixed;inset:0;z-index:2147483647;background:var(--vf-bg,#07111f);color:var(--vf-text,#f8fafc);font-family:Overpass,sans-serif";
+      const debrief = document.createElement("progression-debrief") as any;
+      debrief.visible = true;
+      debrief.loading = false;
+      debrief.certification = "verified";
+      debrief.masteryText = "Replay the decisive convoy pattern";
+      debrief.masteryEvidence =
+        "Certified match dividend · postgres · sha256:7f4a21c0";
+      debrief.eloText = "+18 rating · 1266";
+      debrief.milestoneText = "Convoy Vanguard 4/5";
+      debrief.achievementText = "+1 achievements";
+      debrief.doctrineId = "convoy-architect";
+      debrief.doctrineName = "Convoy Architect";
+      debrief.doctrineRole = "Route planner";
+      debrief.doctrineBrief = "Build the safest decisive lane.";
+      overlay.append(debrief);
+      document.body.append(overlay);
+      debrief.requestUpdate();
+      await debrief.updateComplete;
+      const aside = debrief.querySelector<HTMLElement>(
+        '[aria-label="Progression Debrief"]',
+      );
+      if (!aside) throw new Error("progression doctrine did not render");
+      const rect = aside.getBoundingClientRect();
+      const text = aside.textContent ?? "";
+      return {
+        horizontalOverflow: overlay.scrollWidth > overlay.clientWidth,
+        withinViewport: rect.left >= 0 && rect.right <= innerWidth,
+        doctrineBound:
+          text.includes("Active Doctrine") &&
+          text.includes("Convoy Architect") &&
+          text.includes("never combat power"),
+      };
+    });
+    expect(progressionDoctrine).toMatchObject({
+      horizontalOverflow: false,
+      withinViewport: true,
+      doctrineBound: true,
+    });
+    await page.locator("[data-vf-visual-qa-progression-doctrine]").screenshot({
+      path: path.join(
+        artifactDir,
+        testInfo.project.name + "-" + theme + "-progression-doctrine.png",
+      ),
+    });
+    await page.evaluate(() => {
+      const debrief = document.querySelector<any>(
+        "[data-vf-visual-qa-progression-doctrine] progression-debrief",
+      );
+      debrief?.dispose();
+      document
+        .querySelector("[data-vf-visual-qa-progression-doctrine]")
+        ?.remove();
+    });
+
+    results[results.length - 1].accountRecovery = accountRecovery;
+    results[results.length - 1].multiTabCollision = multiTabCollision;
+    results[results.length - 1].progressionDoctrine = progressionDoctrine;
     const prematchProof: Array<Record<string, unknown>> = [];
     for (const state of ["loading", "degraded", "ready"] as const) {
       const metrics = await page.evaluate(async (state) => {
@@ -835,6 +1006,9 @@ test("three themes retain readable page, panel, and settings surfaces", async ({
       "agency-doctrine",
       "settings",
       "postmatch",
+      "account-recovery",
+      "multi-tab-collision",
+      "progression-doctrine",
       "prematch-loading",
       "prematch-degraded",
       "prematch-ready",

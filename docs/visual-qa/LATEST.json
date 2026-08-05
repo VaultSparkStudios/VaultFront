@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "capturedAt": "2026-08-05T03:25:02.475Z",
-  "generatedAt": "2026-08-05T03:25:02.475Z",
+  "capturedAt": "2026-08-05T21:59:23.116Z",
+  "generatedAt": "2026-08-05T21:59:23.116Z",
   "scope": "local-only",
   "claimBoundary": "This is local browser evidence, not live staging parity or founder approval.",
   "themes": ["dark", "light", "competitive"],
   "captures": [
     {
       "file": "artifacts/chromium-vaultfront-play.png",
-      "sha256": "ef27507d1bfbdab9a6c99159ff65162791b508eab953f22519363f84bb718d82",
+      "sha256": "e3cd6bc84f80730c73910caccc8169e22bcc36c0e0f921e961507abfe033d5ec",
       "page": "play",
       "state": "play",
       "theme": "dark",
@@ -26,7 +26,7 @@
     },
     {
       "file": "artifacts/chromium-vaultfront-settings.png",
-      "sha256": "9f34a08fe75facac0113dab91aa2bc9cf46a1d03237ec1a045875808d8d2980f",
+      "sha256": "1883b3e9878dcca21f3afaf403750ac9955ea54c833ca59bb1efc5d13d221cea",
       "page": "settings",
       "state": "settings",
       "theme": "dark",
@@ -35,9 +35,36 @@
     },
     {
       "file": "artifacts/chromium-vaultfront-postmatch.png",
-      "sha256": "e6cf078620b4dfdc3e21824c06ad51b37367a37d14e26e0fd3e6c33a0e58a9cd",
+      "sha256": "a774b915100ebec18e9858192e6b7281bb2ba9f5403b58cff9773a9d30375b82",
       "page": "postmatch",
       "state": "postmatch",
+      "theme": "dark",
+      "projectTheme": "vaultfront",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-vaultfront-account-recovery.png",
+      "sha256": "b1344c0554b953853e89564ad3e4994785087b7f73c9d9232087e7fd7cb3773a",
+      "page": "account-recovery",
+      "state": "account-recovery",
+      "theme": "dark",
+      "projectTheme": "vaultfront",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-vaultfront-multi-tab-collision.png",
+      "sha256": "2dfdfa1804a48d24b1a1922bbc373b923efd3955c0d269c6a7aaa2e332a68c37",
+      "page": "multi-tab-collision",
+      "state": "multi-tab-collision",
+      "theme": "dark",
+      "projectTheme": "vaultfront",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-vaultfront-progression-doctrine.png",
+      "sha256": "3556e2df9eff38b8f0316c1a28bb2e2445d79164da4e756098da027eb8baaae0",
+      "page": "progression-doctrine",
+      "state": "progression-doctrine",
       "theme": "dark",
       "projectTheme": "vaultfront",
       "viewport": { "width": 1280, "height": 720 }
@@ -116,7 +143,7 @@
     },
     {
       "file": "artifacts/chromium-vaultfront-narrator-certified.png",
-      "sha256": "8bf9fab4442b5aa3d486499266d07c406620a750ff6d85bb72a7e0bd1ce567d9",
+      "sha256": "2f8b5ba8efe28b277cdf11b55942284db036dde44dd739bae649c0b29125beb4",
       "page": "narrator-certified",
       "state": "narrator-certified",
       "theme": "dark",
@@ -152,7 +179,7 @@
     },
     {
       "file": "artifacts/chromium-light-play.png",
-      "sha256": "0a4809ac310bb719e5686cea4432a7cab11739ab927168154214327f94329543",
+      "sha256": "686bfbce3cb6aa2357d3cd9ec9d9ca4b5df26b72440b0b017e4c80cfd57485e5",
       "page": "play",
       "state": "play",
       "theme": "light",
@@ -170,7 +197,7 @@
     },
     {
       "file": "artifacts/chromium-light-settings.png",
-      "sha256": "28db426091a93c9cd9fcb113c4cb3dcc7a9bcf7726f6fcd585f1e2fd525769a6",
+      "sha256": "a1f482249cd9029cc1030c5f5883279a16604a73da7385721d85a020ed27c73c",
       "page": "settings",
       "state": "settings",
       "theme": "light",
@@ -179,9 +206,36 @@
     },
     {
       "file": "artifacts/chromium-light-postmatch.png",
-      "sha256": "0551cd7207ff3faf3b317cab5d6b8003ca18319e8f57ab25ebeb4e9c616f174f",
+      "sha256": "65fa81d58a50ef60a829fb8768617cf2e73e141f8d64f02445d2ac092f77943c",
       "page": "postmatch",
       "state": "postmatch",
+      "theme": "light",
+      "projectTheme": "light",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-light-account-recovery.png",
+      "sha256": "d66819b101185c31f82b22da91e9106a0fde960ac861bc18f53d80b5430e7599",
+      "page": "account-recovery",
+      "state": "account-recovery",
+      "theme": "light",
+      "projectTheme": "light",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-light-multi-tab-collision.png",
+      "sha256": "269fab198b0bf5c6bac45ef8a338a8c1166ae1f04a9f34116dab7b27f70a3e78",
+      "page": "multi-tab-collision",
+      "state": "multi-tab-collision",
+      "theme": "light",
+      "projectTheme": "light",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-light-progression-doctrine.png",
+      "sha256": "214dec538174ac80760d434d2fefd423a5709333948edc0175378af9d89f618d",
+      "page": "progression-doctrine",
+      "state": "progression-doctrine",
       "theme": "light",
       "projectTheme": "light",
       "viewport": { "width": 1280, "height": 720 }
@@ -260,7 +314,7 @@
     },
     {
       "file": "artifacts/chromium-light-narrator-certified.png",
-      "sha256": "cd57dad54d9a16c65739c2a8262b59f8fa77132604a644e306d1ec8ae854c82e",
+      "sha256": "97367f93804d201d30cd7e2a318df861ba87b2d38f308b0a019d91800c14319d",
       "page": "narrator-certified",
       "state": "narrator-certified",
       "theme": "light",
@@ -296,7 +350,7 @@
     },
     {
       "file": "artifacts/chromium-competitive-play.png",
-      "sha256": "80f51d4e6306f2e7da03ae591242d589ac86beff65c005b951af7f8a3f0ea06c",
+      "sha256": "3ed02ef90b5faf71f011af98068a55d5a7ca7fda5ac38b645d2e7f30f49a4603",
       "page": "play",
       "state": "play",
       "theme": "competitive",
@@ -314,7 +368,7 @@
     },
     {
       "file": "artifacts/chromium-competitive-settings.png",
-      "sha256": "2c176ebfc75dc8102bff066b77363e3ecaf826d40ce1f0386a3a6bc3ae442caf",
+      "sha256": "2217d9b074f4c9756c1db926d3ad2e9a89e0ceaa6b7affaeb5d674efac0f3e44",
       "page": "settings",
       "state": "settings",
       "theme": "competitive",
@@ -323,9 +377,36 @@
     },
     {
       "file": "artifacts/chromium-competitive-postmatch.png",
-      "sha256": "3fa9839f722633eda023e6802db29ce8b4c517d6b566b77e9c00ff07787f5ec2",
+      "sha256": "d74d0e48d7235587b658f847720d5e30eaff3c3c92e91b5ece272ce9161597d0",
       "page": "postmatch",
       "state": "postmatch",
+      "theme": "competitive",
+      "projectTheme": "competitive",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-competitive-account-recovery.png",
+      "sha256": "c14481929b58257ee9cb3aade3644132d224af05dad214f13277136d2632183a",
+      "page": "account-recovery",
+      "state": "account-recovery",
+      "theme": "competitive",
+      "projectTheme": "competitive",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-competitive-multi-tab-collision.png",
+      "sha256": "5e76154368d57c085795f0c6b538e2a537b449e2d99593d81298805aba41ebcd",
+      "page": "multi-tab-collision",
+      "state": "multi-tab-collision",
+      "theme": "competitive",
+      "projectTheme": "competitive",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-competitive-progression-doctrine.png",
+      "sha256": "157feaebc9b234a40f148a382a3511c11325585c0beb2317b451d806ff99c179",
+      "page": "progression-doctrine",
+      "state": "progression-doctrine",
       "theme": "competitive",
       "projectTheme": "competitive",
       "viewport": { "width": 1280, "height": 720 }
@@ -404,7 +485,7 @@
     },
     {
       "file": "artifacts/chromium-competitive-narrator-certified.png",
-      "sha256": "1e3e42bf6eaf62eb15d39eee56cdd51e7c47919fbd687fb0ca0159b7c8bc87f3",
+      "sha256": "98872d6f199607ea704f37d32830d019e51023f5d208a7179a8e6754c9ae9e35",
       "page": "narrator-certified",
       "state": "narrator-certified",
       "theme": "competitive",
@@ -440,7 +521,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-vaultfront-play.png",
-      "sha256": "af649ec5d50e7d2390a97d0c719fcd11733ee03963379749635cdf79a0961125",
+      "sha256": "f7141a550d6931c37275cc70aa7a32f32514d702b00d27a830ff2a9fb3d0a386",
       "page": "play",
       "state": "play",
       "theme": "dark",
@@ -458,7 +539,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-vaultfront-settings.png",
-      "sha256": "4c85b14a1e0ebbe37b2666ad7c585f12d31b390bee7424cc24f7a18e8849809a",
+      "sha256": "f2b552d4605a5284bd3ed363dc704632c0a33e59af39ebede12d503452032b18",
       "page": "settings",
       "state": "settings",
       "theme": "dark",
@@ -467,9 +548,36 @@
     },
     {
       "file": "artifacts/mobile-chrome-vaultfront-postmatch.png",
-      "sha256": "bdb2e413de473847c0afbded3bfc4d1a11e088e20e7450fe54c4a1ec45b1f641",
+      "sha256": "5337c0342b174f2478b26a5a401b8a18626bb97b8b744bf830617bf665e7b25b",
       "page": "postmatch",
       "state": "postmatch",
+      "theme": "dark",
+      "projectTheme": "vaultfront",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-vaultfront-account-recovery.png",
+      "sha256": "43085c55d45fccdd0f9a11c10116146e578c264aaf20f2c1701bb44a4ff864d5",
+      "page": "account-recovery",
+      "state": "account-recovery",
+      "theme": "dark",
+      "projectTheme": "vaultfront",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-vaultfront-multi-tab-collision.png",
+      "sha256": "a00947d97b13ae442f1bcc87c3353768a086809a6dab3e0225a6113ce3e9d44b",
+      "page": "multi-tab-collision",
+      "state": "multi-tab-collision",
+      "theme": "dark",
+      "projectTheme": "vaultfront",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-vaultfront-progression-doctrine.png",
+      "sha256": "7b52e0db65efe26b1b7cbd5adb9ca9d5a8b6246d8a93bcc890315987f793a978",
+      "page": "progression-doctrine",
+      "state": "progression-doctrine",
       "theme": "dark",
       "projectTheme": "vaultfront",
       "viewport": { "width": 393, "height": 727 }
@@ -584,7 +692,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-light-play.png",
-      "sha256": "09ee3d244bcce7e87941e386c171a552ada8ae790f34e9a9b577f118fe3caedd",
+      "sha256": "6044df7ebbd9b2da5fa5bbb715b7cd1bda09dc175faf6534d48a6660c3d9c6a8",
       "page": "play",
       "state": "play",
       "theme": "light",
@@ -611,9 +719,36 @@
     },
     {
       "file": "artifacts/mobile-chrome-light-postmatch.png",
-      "sha256": "98983c64f38a3a97d627326554ce9992154b9b58d70e531a0090abab29e3170a",
+      "sha256": "d7c59b045b9e862a49b2335084781919fb2c77c2e0011e8b186608718fb2e4cf",
       "page": "postmatch",
       "state": "postmatch",
+      "theme": "light",
+      "projectTheme": "light",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-light-account-recovery.png",
+      "sha256": "1f87f74696f541f1e6e2c124c0515bf2bef83f4d4c4a75a5cea65664df786d36",
+      "page": "account-recovery",
+      "state": "account-recovery",
+      "theme": "light",
+      "projectTheme": "light",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-light-multi-tab-collision.png",
+      "sha256": "540be5c24ef7b0094f860d3c2e1d632d18ce1bbeedbceb8117344e5bb4c73fff",
+      "page": "multi-tab-collision",
+      "state": "multi-tab-collision",
+      "theme": "light",
+      "projectTheme": "light",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-light-progression-doctrine.png",
+      "sha256": "5a729379fd952a572575263603f9fb169ef4091e613fdc6c2b6e0e2a6e58e7cf",
+      "page": "progression-doctrine",
+      "state": "progression-doctrine",
       "theme": "light",
       "projectTheme": "light",
       "viewport": { "width": 393, "height": 727 }
@@ -728,7 +863,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-competitive-play.png",
-      "sha256": "6313a1cbd1562f2a5ddf12e3a517580b943886f97e54ea201ab40561f6aea004",
+      "sha256": "a6ce37b5d4da47d44e7031b91f62febcd115c947d520038a857fd686cc19e4b1",
       "page": "play",
       "state": "play",
       "theme": "competitive",
@@ -746,7 +881,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-competitive-settings.png",
-      "sha256": "cb8cdfa8d5e29620e15eb51e9c932eac940e53204425da1f9065fa9e5a651ab3",
+      "sha256": "b6060768161fd090f6c0c5758c2728e7e467937080d15f78f9c71e6d9bc573a0",
       "page": "settings",
       "state": "settings",
       "theme": "competitive",
@@ -755,9 +890,36 @@
     },
     {
       "file": "artifacts/mobile-chrome-competitive-postmatch.png",
-      "sha256": "7c1f2d7fe6cf0cf7b13925ce0df0bf8365b1d556347c13b6689f7ec1ac9ecb08",
+      "sha256": "771069acb8a14cdbd9a80b13c8d2ce5e68a5b40e612d41d24601bf61ed53240b",
       "page": "postmatch",
       "state": "postmatch",
+      "theme": "competitive",
+      "projectTheme": "competitive",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-competitive-account-recovery.png",
+      "sha256": "2de59fbddfa62f9c62a6ebaeec1b55d269eeb4e2d34fe312d353d5cf64e1afab",
+      "page": "account-recovery",
+      "state": "account-recovery",
+      "theme": "competitive",
+      "projectTheme": "competitive",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-competitive-multi-tab-collision.png",
+      "sha256": "ebfefc3bffc279c0237bcfae41239d9de87b219168d8a701175dc732a5d20a9c",
+      "page": "multi-tab-collision",
+      "state": "multi-tab-collision",
+      "theme": "competitive",
+      "projectTheme": "competitive",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-competitive-progression-doctrine.png",
+      "sha256": "5e8ef38e3855b26351166b87f1eaf4db29a18c3153a7fee618b6b15fdf1956c5",
+      "page": "progression-doctrine",
+      "state": "progression-doctrine",
       "theme": "competitive",
       "projectTheme": "competitive",
       "viewport": { "width": 393, "height": 727 }
@@ -892,14 +1054,14 @@
   },
   "comparisonBase": {
     "source": "git:HEAD:docs/visual-qa/LATEST.json",
-    "gitRevision": "e2c0ea5ae9146ee8d1a5423645af811fe7c0009c",
-    "capturedAt": "2026-08-04T23:59:25.022Z",
-    "sourceDigest": "sha256:a0d3763f911f31724d5183ff02a4ff2c52999fbc5652542eea7b89f65e88ca3e"
+    "gitRevision": "59ab9db320eb37cb430b3fb36022dc438192833d",
+    "capturedAt": "2026-08-05T03:25:02.475Z",
+    "sourceDigest": "sha256:dcf74ee429a078ea88b7becd41591aeb9331e06a6eebe3d61ec200e19775a303"
   },
   "source": {
-    "gitRevision": "59ab9db320eb37cb430b3fb36022dc438192833d",
+    "gitRevision": "46b2ae1e81ca01e1b0d420c9d2f26074a2108f0d",
     "dirty": true,
-    "digest": "sha256:dcf74ee429a078ea88b7becd41591aeb9331e06a6eebe3d61ec200e19775a303",
+    "digest": "sha256:b6f542a7ce41c529836c5d315fd89aa28ec86c8fc350a5e8c82bbc2fc55f0238",
     "files": [
       {
         "path": "config/vaultfront-balance.v1.json",
@@ -908,13 +1070,18 @@
       },
       {
         "path": "e2e/theme-visual-proof.spec.ts",
-        "bytes": 32871,
-        "digest": "sha256:d570990a7bc95deda28f8716a96d0f54ab491755b0e3f73d569ef6a0c69272b4"
+        "bytes": 40483,
+        "digest": "sha256:97c399a43d075171dcbd39aeb2258cc3cde34f6a41b35ba1def06d36a173e4ea"
+      },
+      {
+        "path": "src/client/AccountModal.ts",
+        "bytes": 15892,
+        "digest": "sha256:e2b9e523093c21960ef49b8f8cde654cac9758e190f2f63aef6812d31651b178"
       },
       {
         "path": "src/client/Api.ts",
-        "bytes": 53317,
-        "digest": "sha256:128fd3fdaf31e6b9a61ce6c04261e47cbfab5afef239780953fa09aaae0fe639"
+        "bytes": 52961,
+        "digest": "sha256:08a3f4a528426a784f1864f70abf1a4576e6c8cd6e83a9a8bd5de6b22b1a4f9a"
       },
       {
         "path": "src/client/BrandTheme.ts",
@@ -923,8 +1090,8 @@
       },
       {
         "path": "src/client/CertifiedMatchFeedback.ts",
-        "bytes": 6488,
-        "digest": "sha256:71e841ebb478038a00057dafc57f364dc3c77dae88d1e72f59ceb9d2dcd9ada5"
+        "bytes": 8713,
+        "digest": "sha256:b948575be5f2f73fa42472349e0bcfac8e270b07082d7c76f5d08c13781541f9"
       },
       {
         "path": "src/client/ConnectionRecoveryPresenter.ts",
@@ -940,6 +1107,11 @@
         "path": "src/client/GameStartingModal.ts",
         "bytes": 9117,
         "digest": "sha256:d0553ac47fbbdc1cc3e4935ad64ed89f6f37e048d81f09b8cabe68be643132d4"
+      },
+      {
+        "path": "src/client/MultiTabDetector.ts",
+        "bytes": 4077,
+        "digest": "sha256:5a0a74bda4ab2c9e65b902c5b56b7f5d5d34742290866c58f0d1dc4c8c4339ec"
       },
       {
         "path": "src/client/PostMatchContinuation.ts",
@@ -1053,8 +1225,8 @@
       },
       {
         "path": "src/client/components/ProgressionDebrief.ts",
-        "bytes": 9682,
-        "digest": "sha256:1f4964dd24fc6c892636067fb492647119266469b991a2c7bfb84017b3d0603b"
+        "bytes": 13423,
+        "digest": "sha256:f84cf9cc5aa58ae724803f7115e8bd4fe4b19f2b35d03c572cb356fd9a8fca32"
       },
       {
         "path": "src/client/components/RankedModal.ts",
@@ -1193,8 +1365,13 @@
       },
       {
         "path": "src/client/graphics/layers/CertifiedNarratorLayer.ts",
-        "bytes": 1865,
-        "digest": "sha256:2cf9617534cb41c989500f765abc9f703d34332f743fc0c34785ddb585f43c60"
+        "bytes": 1989,
+        "digest": "sha256:034113b4775445da8dca02d56711e0611d18c6b8905114c87ec9aab3b177485b"
+      },
+      {
+        "path": "src/client/graphics/layers/CoachHintEngine.ts",
+        "bytes": 12066,
+        "digest": "sha256:709c039449e4c89b4cd5d8202e257ce6f30697ea0c753daf7b7507ee7e4c3110"
       },
       {
         "path": "src/client/graphics/layers/ControlPanel.ts",
@@ -1203,8 +1380,13 @@
       },
       {
         "path": "src/client/graphics/layers/GameRightSidebar.ts",
-        "bytes": 52747,
-        "digest": "sha256:0bf777fcfeec435b2dc7df8896ef0d2519e103db20b9e8d3012e530e066b6f43"
+        "bytes": 53268,
+        "digest": "sha256:3f8ccfa526d3d342ca74345936ba9003be834e32f39666a4a073dbc2b88f0e02"
+      },
+      {
+        "path": "src/client/graphics/layers/MultiTabModal.ts",
+        "bytes": 4529,
+        "digest": "sha256:f608e0a2a30e034641b7bec15a2d1b8d6224df56e24347ba5ab28ee388dc5714"
       },
       {
         "path": "src/client/graphics/layers/VaultFrontLayer.ts",
@@ -1289,7 +1471,7 @@
       {
         "path": "static/index.html",
         "bytes": 17352,
-        "digest": "sha256:371450ae7b17c3a533babcc74ef28c2fba6b9f4d6f2905a937dfcb0ac9b4ca3d"
+        "digest": "sha256:5e74d8d7f998d794a9c4264dc1fa95d5f88626476bd7c43626714f1dd42ab17d"
       }
     ]
   },
@@ -1297,13 +1479,13 @@
     "summaries": [
       {
         "path": "docs/visual-qa/summaries/theme-proof-chromium.json",
-        "bytes": 39371,
-        "digest": "sha256:69ea7dfbd099844c1987b270b74f89497145c995a9de40de447817bdf2c49ddf"
+        "bytes": 44395,
+        "digest": "sha256:eda81e0ee376ba9f61a24cf2e7b1541157f2aae552123220a4a87c36183d37ee"
       },
       {
         "path": "docs/visual-qa/summaries/theme-proof-mobile-chrome.json",
-        "bytes": 39367,
-        "digest": "sha256:3320a176c2fc6f185f3120b02c7d88893bc2408c85b3fc3d43243d083d8a6638"
+        "bytes": 44391,
+        "digest": "sha256:81ea80f7df6d5dc92b95c27bd86d0bd6ad4670069f0adae20d6d9d413e6dc810"
       }
     ],
     "artifacts": [
@@ -1312,8 +1494,8 @@
         "theme": "vaultfront",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-play.png",
-        "bytes": 703149,
-        "digest": "sha256:ef27507d1bfbdab9a6c99159ff65162791b508eab953f22519363f84bb718d82"
+        "bytes": 702936,
+        "digest": "sha256:e3cd6bc84f80730c73910caccc8169e22bcc36c0e0f921e961507abfe033d5ec"
       },
       {
         "project": "chromium",
@@ -1328,16 +1510,40 @@
         "theme": "vaultfront",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-settings.png",
-        "bytes": 363822,
-        "digest": "sha256:9f34a08fe75facac0113dab91aa2bc9cf46a1d03237ec1a045875808d8d2980f"
+        "bytes": 363786,
+        "digest": "sha256:1883b3e9878dcca21f3afaf403750ac9955ea54c833ca59bb1efc5d13d221cea"
       },
       {
         "project": "chromium",
         "theme": "vaultfront",
         "surface": "postmatch",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-postmatch.png",
-        "bytes": 61404,
-        "digest": "sha256:e6cf078620b4dfdc3e21824c06ad51b37367a37d14e26e0fd3e6c33a0e58a9cd"
+        "bytes": 69459,
+        "digest": "sha256:a774b915100ebec18e9858192e6b7281bb2ba9f5403b58cff9773a9d30375b82"
+      },
+      {
+        "project": "chromium",
+        "theme": "vaultfront",
+        "surface": "account-recovery",
+        "path": "docs/visual-qa/artifacts/chromium-vaultfront-account-recovery.png",
+        "bytes": 33952,
+        "digest": "sha256:b1344c0554b953853e89564ad3e4994785087b7f73c9d9232087e7fd7cb3773a"
+      },
+      {
+        "project": "chromium",
+        "theme": "vaultfront",
+        "surface": "multi-tab-collision",
+        "path": "docs/visual-qa/artifacts/chromium-vaultfront-multi-tab-collision.png",
+        "bytes": 24065,
+        "digest": "sha256:2dfdfa1804a48d24b1a1922bbc373b923efd3955c0d269c6a7aaa2e332a68c37"
+      },
+      {
+        "project": "chromium",
+        "theme": "vaultfront",
+        "surface": "progression-doctrine",
+        "path": "docs/visual-qa/artifacts/chromium-vaultfront-progression-doctrine.png",
+        "bytes": 24327,
+        "digest": "sha256:3556e2df9eff38b8f0316c1a28bb2e2445d79164da4e756098da027eb8baaae0"
       },
       {
         "project": "chromium",
@@ -1408,8 +1614,8 @@
         "theme": "vaultfront",
         "surface": "narrator-certified",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-narrator-certified.png",
-        "bytes": 73408,
-        "digest": "sha256:8bf9fab4442b5aa3d486499266d07c406620a750ff6d85bb72a7e0bd1ce567d9"
+        "bytes": 73701,
+        "digest": "sha256:2f8b5ba8efe28b277cdf11b55942284db036dde44dd739bae649c0b29125beb4"
       },
       {
         "project": "chromium",
@@ -1440,8 +1646,8 @@
         "theme": "light",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/chromium-light-play.png",
-        "bytes": 669569,
-        "digest": "sha256:0a4809ac310bb719e5686cea4432a7cab11739ab927168154214327f94329543"
+        "bytes": 669483,
+        "digest": "sha256:686bfbce3cb6aa2357d3cd9ec9d9ca4b5df26b72440b0b017e4c80cfd57485e5"
       },
       {
         "project": "chromium",
@@ -1456,16 +1662,40 @@
         "theme": "light",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/chromium-light-settings.png",
-        "bytes": 301428,
-        "digest": "sha256:28db426091a93c9cd9fcb113c4cb3dcc7a9bcf7726f6fcd585f1e2fd525769a6"
+        "bytes": 301250,
+        "digest": "sha256:a1f482249cd9029cc1030c5f5883279a16604a73da7385721d85a020ed27c73c"
       },
       {
         "project": "chromium",
         "theme": "light",
         "surface": "postmatch",
         "path": "docs/visual-qa/artifacts/chromium-light-postmatch.png",
-        "bytes": 69954,
-        "digest": "sha256:0551cd7207ff3faf3b317cab5d6b8003ca18319e8f57ab25ebeb4e9c616f174f"
+        "bytes": 77979,
+        "digest": "sha256:65fa81d58a50ef60a829fb8768617cf2e73e141f8d64f02445d2ac092f77943c"
+      },
+      {
+        "project": "chromium",
+        "theme": "light",
+        "surface": "account-recovery",
+        "path": "docs/visual-qa/artifacts/chromium-light-account-recovery.png",
+        "bytes": 32304,
+        "digest": "sha256:d66819b101185c31f82b22da91e9106a0fde960ac861bc18f53d80b5430e7599"
+      },
+      {
+        "project": "chromium",
+        "theme": "light",
+        "surface": "multi-tab-collision",
+        "path": "docs/visual-qa/artifacts/chromium-light-multi-tab-collision.png",
+        "bytes": 27354,
+        "digest": "sha256:269fab198b0bf5c6bac45ef8a338a8c1166ae1f04a9f34116dab7b27f70a3e78"
+      },
+      {
+        "project": "chromium",
+        "theme": "light",
+        "surface": "progression-doctrine",
+        "path": "docs/visual-qa/artifacts/chromium-light-progression-doctrine.png",
+        "bytes": 27102,
+        "digest": "sha256:214dec538174ac80760d434d2fefd423a5709333948edc0175378af9d89f618d"
       },
       {
         "project": "chromium",
@@ -1536,8 +1766,8 @@
         "theme": "light",
         "surface": "narrator-certified",
         "path": "docs/visual-qa/artifacts/chromium-light-narrator-certified.png",
-        "bytes": 70539,
-        "digest": "sha256:cd57dad54d9a16c65739c2a8262b59f8fa77132604a644e306d1ec8ae854c82e"
+        "bytes": 70668,
+        "digest": "sha256:97367f93804d201d30cd7e2a318df861ba87b2d38f308b0a019d91800c14319d"
       },
       {
         "project": "chromium",
@@ -1568,8 +1798,8 @@
         "theme": "competitive",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/chromium-competitive-play.png",
-        "bytes": 714421,
-        "digest": "sha256:80f51d4e6306f2e7da03ae591242d589ac86beff65c005b951af7f8a3f0ea06c"
+        "bytes": 714918,
+        "digest": "sha256:3ed02ef90b5faf71f011af98068a55d5a7ca7fda5ac38b645d2e7f30f49a4603"
       },
       {
         "project": "chromium",
@@ -1584,16 +1814,40 @@
         "theme": "competitive",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/chromium-competitive-settings.png",
-        "bytes": 340902,
-        "digest": "sha256:2c176ebfc75dc8102bff066b77363e3ecaf826d40ce1f0386a3a6bc3ae442caf"
+        "bytes": 340852,
+        "digest": "sha256:2217d9b074f4c9756c1db926d3ad2e9a89e0ceaa6b7affaeb5d674efac0f3e44"
       },
       {
         "project": "chromium",
         "theme": "competitive",
         "surface": "postmatch",
         "path": "docs/visual-qa/artifacts/chromium-competitive-postmatch.png",
-        "bytes": 61652,
-        "digest": "sha256:3fa9839f722633eda023e6802db29ce8b4c517d6b566b77e9c00ff07787f5ec2"
+        "bytes": 69682,
+        "digest": "sha256:d74d0e48d7235587b658f847720d5e30eaff3c3c92e91b5ece272ce9161597d0"
+      },
+      {
+        "project": "chromium",
+        "theme": "competitive",
+        "surface": "account-recovery",
+        "path": "docs/visual-qa/artifacts/chromium-competitive-account-recovery.png",
+        "bytes": 34175,
+        "digest": "sha256:c14481929b58257ee9cb3aade3644132d224af05dad214f13277136d2632183a"
+      },
+      {
+        "project": "chromium",
+        "theme": "competitive",
+        "surface": "multi-tab-collision",
+        "path": "docs/visual-qa/artifacts/chromium-competitive-multi-tab-collision.png",
+        "bytes": 24098,
+        "digest": "sha256:5e76154368d57c085795f0c6b538e2a537b449e2d99593d81298805aba41ebcd"
+      },
+      {
+        "project": "chromium",
+        "theme": "competitive",
+        "surface": "progression-doctrine",
+        "path": "docs/visual-qa/artifacts/chromium-competitive-progression-doctrine.png",
+        "bytes": 24444,
+        "digest": "sha256:157feaebc9b234a40f148a382a3511c11325585c0beb2317b451d806ff99c179"
       },
       {
         "project": "chromium",
@@ -1664,8 +1918,8 @@
         "theme": "competitive",
         "surface": "narrator-certified",
         "path": "docs/visual-qa/artifacts/chromium-competitive-narrator-certified.png",
-        "bytes": 74810,
-        "digest": "sha256:1e3e42bf6eaf62eb15d39eee56cdd51e7c47919fbd687fb0ca0159b7c8bc87f3"
+        "bytes": 74616,
+        "digest": "sha256:98872d6f199607ea704f37d32830d019e51023f5d208a7179a8e6754c9ae9e35"
       },
       {
         "project": "chromium",
@@ -1696,8 +1950,8 @@
         "theme": "vaultfront",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-play.png",
-        "bytes": 1186907,
-        "digest": "sha256:af649ec5d50e7d2390a97d0c719fcd11733ee03963379749635cdf79a0961125"
+        "bytes": 1185600,
+        "digest": "sha256:f7141a550d6931c37275cc70aa7a32f32514d702b00d27a830ff2a9fb3d0a386"
       },
       {
         "project": "mobile-chrome",
@@ -1712,16 +1966,40 @@
         "theme": "vaultfront",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-settings.png",
-        "bytes": 309859,
-        "digest": "sha256:4c85b14a1e0ebbe37b2666ad7c585f12d31b390bee7424cc24f7a18e8849809a"
+        "bytes": 309607,
+        "digest": "sha256:f2b552d4605a5284bd3ed363dc704632c0a33e59af39ebede12d503452032b18"
       },
       {
         "project": "mobile-chrome",
         "theme": "vaultfront",
         "surface": "postmatch",
         "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-postmatch.png",
-        "bytes": 140000,
-        "digest": "sha256:bdb2e413de473847c0afbded3bfc4d1a11e088e20e7450fe54c4a1ec45b1f641"
+        "bytes": 179388,
+        "digest": "sha256:5337c0342b174f2478b26a5a401b8a18626bb97b8b744bf830617bf665e7b25b"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "vaultfront",
+        "surface": "account-recovery",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-account-recovery.png",
+        "bytes": 112057,
+        "digest": "sha256:43085c55d45fccdd0f9a11c10116146e578c264aaf20f2c1701bb44a4ff864d5"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "vaultfront",
+        "surface": "multi-tab-collision",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-multi-tab-collision.png",
+        "bytes": 99715,
+        "digest": "sha256:a00947d97b13ae442f1bcc87c3353768a086809a6dab3e0225a6113ce3e9d44b"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "vaultfront",
+        "surface": "progression-doctrine",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-progression-doctrine.png",
+        "bytes": 107143,
+        "digest": "sha256:7b52e0db65efe26b1b7cbd5adb9ca9d5a8b6246d8a93bcc890315987f793a978"
       },
       {
         "project": "mobile-chrome",
@@ -1824,8 +2102,8 @@
         "theme": "light",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/mobile-chrome-light-play.png",
-        "bytes": 1118024,
-        "digest": "sha256:09ee3d244bcce7e87941e386c171a552ada8ae790f34e9a9b577f118fe3caedd"
+        "bytes": 1116829,
+        "digest": "sha256:6044df7ebbd9b2da5fa5bbb715b7cd1bda09dc175faf6534d48a6660c3d9c6a8"
       },
       {
         "project": "mobile-chrome",
@@ -1848,8 +2126,32 @@
         "theme": "light",
         "surface": "postmatch",
         "path": "docs/visual-qa/artifacts/mobile-chrome-light-postmatch.png",
-        "bytes": 159279,
-        "digest": "sha256:98983c64f38a3a97d627326554ce9992154b9b58d70e531a0090abab29e3170a"
+        "bytes": 182508,
+        "digest": "sha256:d7c59b045b9e862a49b2335084781919fb2c77c2e0011e8b186608718fb2e4cf"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "light",
+        "surface": "account-recovery",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-light-account-recovery.png",
+        "bytes": 104082,
+        "digest": "sha256:1f87f74696f541f1e6e2c124c0515bf2bef83f4d4c4a75a5cea65664df786d36"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "light",
+        "surface": "multi-tab-collision",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-light-multi-tab-collision.png",
+        "bytes": 108871,
+        "digest": "sha256:540be5c24ef7b0094f860d3c2e1d632d18ce1bbeedbceb8117344e5bb4c73fff"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "light",
+        "surface": "progression-doctrine",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-light-progression-doctrine.png",
+        "bytes": 113609,
+        "digest": "sha256:5a729379fd952a572575263603f9fb169ef4091e613fdc6c2b6e0e2a6e58e7cf"
       },
       {
         "project": "mobile-chrome",
@@ -1952,8 +2254,8 @@
         "theme": "competitive",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-play.png",
-        "bytes": 1188734,
-        "digest": "sha256:6313a1cbd1562f2a5ddf12e3a517580b943886f97e54ea201ab40561f6aea004"
+        "bytes": 1164732,
+        "digest": "sha256:a6ce37b5d4da47d44e7031b91f62febcd115c947d520038a857fd686cc19e4b1"
       },
       {
         "project": "mobile-chrome",
@@ -1968,16 +2270,40 @@
         "theme": "competitive",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-settings.png",
-        "bytes": 254824,
-        "digest": "sha256:cb8cdfa8d5e29620e15eb51e9c932eac940e53204425da1f9065fa9e5a651ab3"
+        "bytes": 254663,
+        "digest": "sha256:b6060768161fd090f6c0c5758c2728e7e467937080d15f78f9c71e6d9bc573a0"
       },
       {
         "project": "mobile-chrome",
         "theme": "competitive",
         "surface": "postmatch",
         "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-postmatch.png",
-        "bytes": 141147,
-        "digest": "sha256:7c1f2d7fe6cf0cf7b13925ce0df0bf8365b1d556347c13b6689f7ec1ac9ecb08"
+        "bytes": 180218,
+        "digest": "sha256:771069acb8a14cdbd9a80b13c8d2ce5e68a5b40e612d41d24601bf61ed53240b"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "competitive",
+        "surface": "account-recovery",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-account-recovery.png",
+        "bytes": 111896,
+        "digest": "sha256:2de59fbddfa62f9c62a6ebaeec1b55d269eeb4e2d34fe312d353d5cf64e1afab"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "competitive",
+        "surface": "multi-tab-collision",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-multi-tab-collision.png",
+        "bytes": 99864,
+        "digest": "sha256:ebfefc3bffc279c0237bcfae41239d9de87b219168d8a701175dc732a5d20a9c"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "competitive",
+        "surface": "progression-doctrine",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-progression-doctrine.png",
+        "bytes": 107525,
+        "digest": "sha256:5e8ef38e3855b26351166b87f1eaf4db29a18c3153a7fee618b6b15fdf1956c5"
       },
       {
         "project": "mobile-chrome",
@@ -2081,9 +2407,9 @@
     {
       "project": "chromium",
       "localOnly": true,
-      "capturedAt": "2026-08-05T03:24:39.349Z",
+      "capturedAt": "2026-08-05T21:59:07.341Z",
       "source": {
-        "digest": "sha256:dcf74ee429a078ea88b7becd41591aeb9331e06a6eebe3d61ec200e19775a303",
+        "digest": "sha256:b6f542a7ce41c529836c5d315fd89aa28ec86c8fc350a5e8c82bbc2fc55f0238",
         "files": [
           {
             "path": "config/vaultfront-balance.v1.json",
@@ -2092,13 +2418,18 @@
           },
           {
             "path": "e2e/theme-visual-proof.spec.ts",
-            "bytes": 32871,
-            "digest": "sha256:d570990a7bc95deda28f8716a96d0f54ab491755b0e3f73d569ef6a0c69272b4"
+            "bytes": 40483,
+            "digest": "sha256:97c399a43d075171dcbd39aeb2258cc3cde34f6a41b35ba1def06d36a173e4ea"
+          },
+          {
+            "path": "src/client/AccountModal.ts",
+            "bytes": 15892,
+            "digest": "sha256:e2b9e523093c21960ef49b8f8cde654cac9758e190f2f63aef6812d31651b178"
           },
           {
             "path": "src/client/Api.ts",
-            "bytes": 53317,
-            "digest": "sha256:128fd3fdaf31e6b9a61ce6c04261e47cbfab5afef239780953fa09aaae0fe639"
+            "bytes": 52961,
+            "digest": "sha256:08a3f4a528426a784f1864f70abf1a4576e6c8cd6e83a9a8bd5de6b22b1a4f9a"
           },
           {
             "path": "src/client/BrandTheme.ts",
@@ -2107,8 +2438,8 @@
           },
           {
             "path": "src/client/CertifiedMatchFeedback.ts",
-            "bytes": 6488,
-            "digest": "sha256:71e841ebb478038a00057dafc57f364dc3c77dae88d1e72f59ceb9d2dcd9ada5"
+            "bytes": 8713,
+            "digest": "sha256:b948575be5f2f73fa42472349e0bcfac8e270b07082d7c76f5d08c13781541f9"
           },
           {
             "path": "src/client/ConnectionRecoveryPresenter.ts",
@@ -2124,6 +2455,11 @@
             "path": "src/client/GameStartingModal.ts",
             "bytes": 9117,
             "digest": "sha256:d0553ac47fbbdc1cc3e4935ad64ed89f6f37e048d81f09b8cabe68be643132d4"
+          },
+          {
+            "path": "src/client/MultiTabDetector.ts",
+            "bytes": 4077,
+            "digest": "sha256:5a0a74bda4ab2c9e65b902c5b56b7f5d5d34742290866c58f0d1dc4c8c4339ec"
           },
           {
             "path": "src/client/PostMatchContinuation.ts",
@@ -2237,8 +2573,8 @@
           },
           {
             "path": "src/client/components/ProgressionDebrief.ts",
-            "bytes": 9682,
-            "digest": "sha256:1f4964dd24fc6c892636067fb492647119266469b991a2c7bfb84017b3d0603b"
+            "bytes": 13423,
+            "digest": "sha256:f84cf9cc5aa58ae724803f7115e8bd4fe4b19f2b35d03c572cb356fd9a8fca32"
           },
           {
             "path": "src/client/components/RankedModal.ts",
@@ -2377,8 +2713,13 @@
           },
           {
             "path": "src/client/graphics/layers/CertifiedNarratorLayer.ts",
-            "bytes": 1865,
-            "digest": "sha256:2cf9617534cb41c989500f765abc9f703d34332f743fc0c34785ddb585f43c60"
+            "bytes": 1989,
+            "digest": "sha256:034113b4775445da8dca02d56711e0611d18c6b8905114c87ec9aab3b177485b"
+          },
+          {
+            "path": "src/client/graphics/layers/CoachHintEngine.ts",
+            "bytes": 12066,
+            "digest": "sha256:709c039449e4c89b4cd5d8202e257ce6f30697ea0c753daf7b7507ee7e4c3110"
           },
           {
             "path": "src/client/graphics/layers/ControlPanel.ts",
@@ -2387,8 +2728,13 @@
           },
           {
             "path": "src/client/graphics/layers/GameRightSidebar.ts",
-            "bytes": 52747,
-            "digest": "sha256:0bf777fcfeec435b2dc7df8896ef0d2519e103db20b9e8d3012e530e066b6f43"
+            "bytes": 53268,
+            "digest": "sha256:3f8ccfa526d3d342ca74345936ba9003be834e32f39666a4a073dbc2b88f0e02"
+          },
+          {
+            "path": "src/client/graphics/layers/MultiTabModal.ts",
+            "bytes": 4529,
+            "digest": "sha256:f608e0a2a30e034641b7bec15a2d1b8d6224df56e24347ba5ab28ee388dc5714"
           },
           {
             "path": "src/client/graphics/layers/VaultFrontLayer.ts",
@@ -2473,7 +2819,7 @@
           {
             "path": "static/index.html",
             "bytes": 17352,
-            "digest": "sha256:371450ae7b17c3a533babcc74ef28c2fba6b9f4d6f2905a937dfcb0ac9b4ca3d"
+            "digest": "sha256:5e74d8d7f998d794a9c4264dc1fa95d5f88626476bd7c43626714f1dd42ab17d"
           }
         ]
       },
@@ -2510,6 +2856,9 @@
             "agency-doctrine",
             "settings",
             "postmatch",
+            "account-recovery",
+            "multi-tab-collision",
+            "progression-doctrine",
             "prematch-loading",
             "prematch-degraded",
             "prematch-ready",
@@ -2528,6 +2877,29 @@
             "surfaceWithinViewport": true,
             "hasAgencyReceipt": true,
             "hasDoctrinePolicy": true
+          },
+          "accountRecovery": {
+            "state": "error",
+            "role": "alert",
+            "ariaLive": "polite",
+            "describedBy": "email-recovery-status",
+            "invalid": "true",
+            "horizontalOverflow": false,
+            "withinViewport": true,
+            "minimumButtonHeight": 46
+          },
+          "multiTabCollision": {
+            "role": "dialog",
+            "ariaModal": "true",
+            "horizontalOverflow": false,
+            "withinViewport": true,
+            "truthfulScope": true,
+            "text": "\n        \n          \n            \n              Another VaultFront tab is active\n            \n            Local tab check\n          \n\n          \n            multi_tab.detected\n          \n          \n            This pause comes only from a same-origin browser storage collision.\n            It does not inspect your IP address or device, and it does not\n            create a server report or suspension record.\n          \n\n          \n            Command input resumes automatically\n            10s\n          \n          \n            \n          \n          \n            Close the other VaultFront tab to avoid another local collision.\n          \n        \n      "
+          },
+          "progressionDoctrine": {
+            "horizontalOverflow": false,
+            "withinViewport": true,
+            "doctrineBound": true
           },
           "prematch": [
             {
@@ -2690,6 +3062,9 @@
             "agency-doctrine",
             "settings",
             "postmatch",
+            "account-recovery",
+            "multi-tab-collision",
+            "progression-doctrine",
             "prematch-loading",
             "prematch-degraded",
             "prematch-ready",
@@ -2708,6 +3083,29 @@
             "surfaceWithinViewport": true,
             "hasAgencyReceipt": true,
             "hasDoctrinePolicy": true
+          },
+          "accountRecovery": {
+            "state": "error",
+            "role": "alert",
+            "ariaLive": "polite",
+            "describedBy": "email-recovery-status",
+            "invalid": "true",
+            "horizontalOverflow": false,
+            "withinViewport": true,
+            "minimumButtonHeight": 46
+          },
+          "multiTabCollision": {
+            "role": "dialog",
+            "ariaModal": "true",
+            "horizontalOverflow": false,
+            "withinViewport": true,
+            "truthfulScope": true,
+            "text": "\n        \n          \n            \n              Another VaultFront tab is active\n            \n            Local tab check\n          \n\n          \n            multi_tab.detected\n          \n          \n            This pause comes only from a same-origin browser storage collision.\n            It does not inspect your IP address or device, and it does not\n            create a server report or suspension record.\n          \n\n          \n            Command input resumes automatically\n            10s\n          \n          \n            \n          \n          \n            Close the other VaultFront tab to avoid another local collision.\n          \n        \n      "
+          },
+          "progressionDoctrine": {
+            "horizontalOverflow": false,
+            "withinViewport": true,
+            "doctrineBound": true
           },
           "prematch": [
             {
@@ -2870,6 +3268,9 @@
             "agency-doctrine",
             "settings",
             "postmatch",
+            "account-recovery",
+            "multi-tab-collision",
+            "progression-doctrine",
             "prematch-loading",
             "prematch-degraded",
             "prematch-ready",
@@ -2888,6 +3289,29 @@
             "surfaceWithinViewport": true,
             "hasAgencyReceipt": true,
             "hasDoctrinePolicy": true
+          },
+          "accountRecovery": {
+            "state": "error",
+            "role": "alert",
+            "ariaLive": "polite",
+            "describedBy": "email-recovery-status",
+            "invalid": "true",
+            "horizontalOverflow": false,
+            "withinViewport": true,
+            "minimumButtonHeight": 46
+          },
+          "multiTabCollision": {
+            "role": "dialog",
+            "ariaModal": "true",
+            "horizontalOverflow": false,
+            "withinViewport": true,
+            "truthfulScope": true,
+            "text": "\n        \n          \n            \n              Another VaultFront tab is active\n            \n            Local tab check\n          \n\n          \n            multi_tab.detected\n          \n          \n            This pause comes only from a same-origin browser storage collision.\n            It does not inspect your IP address or device, and it does not\n            create a server report or suspension record.\n          \n\n          \n            Command input resumes automatically\n            10s\n          \n          \n            \n          \n          \n            Close the other VaultFront tab to avoid another local collision.\n          \n        \n      "
+          },
+          "progressionDoctrine": {
+            "horizontalOverflow": false,
+            "withinViewport": true,
+            "doctrineBound": true
           },
           "prematch": [
             {
@@ -3023,9 +3447,9 @@
     {
       "project": "mobile-chrome",
       "localOnly": true,
-      "capturedAt": "2026-08-05T03:24:50.245Z",
+      "capturedAt": "2026-08-05T21:59:20.501Z",
       "source": {
-        "digest": "sha256:dcf74ee429a078ea88b7becd41591aeb9331e06a6eebe3d61ec200e19775a303",
+        "digest": "sha256:b6f542a7ce41c529836c5d315fd89aa28ec86c8fc350a5e8c82bbc2fc55f0238",
         "files": [
           {
             "path": "config/vaultfront-balance.v1.json",
@@ -3034,13 +3458,18 @@
           },
           {
             "path": "e2e/theme-visual-proof.spec.ts",
-            "bytes": 32871,
-            "digest": "sha256:d570990a7bc95deda28f8716a96d0f54ab491755b0e3f73d569ef6a0c69272b4"
+            "bytes": 40483,
+            "digest": "sha256:97c399a43d075171dcbd39aeb2258cc3cde34f6a41b35ba1def06d36a173e4ea"
+          },
+          {
+            "path": "src/client/AccountModal.ts",
+            "bytes": 15892,
+            "digest": "sha256:e2b9e523093c21960ef49b8f8cde654cac9758e190f2f63aef6812d31651b178"
           },
           {
             "path": "src/client/Api.ts",
-            "bytes": 53317,
-            "digest": "sha256:128fd3fdaf31e6b9a61ce6c04261e47cbfab5afef239780953fa09aaae0fe639"
+            "bytes": 52961,
+            "digest": "sha256:08a3f4a528426a784f1864f70abf1a4576e6c8cd6e83a9a8bd5de6b22b1a4f9a"
           },
           {
             "path": "src/client/BrandTheme.ts",
@@ -3049,8 +3478,8 @@
           },
           {
             "path": "src/client/CertifiedMatchFeedback.ts",
-            "bytes": 6488,
-            "digest": "sha256:71e841ebb478038a00057dafc57f364dc3c77dae88d1e72f59ceb9d2dcd9ada5"
+            "bytes": 8713,
+            "digest": "sha256:b948575be5f2f73fa42472349e0bcfac8e270b07082d7c76f5d08c13781541f9"
           },
           {
             "path": "src/client/ConnectionRecoveryPresenter.ts",
@@ -3066,6 +3495,11 @@
             "path": "src/client/GameStartingModal.ts",
             "bytes": 9117,
             "digest": "sha256:d0553ac47fbbdc1cc3e4935ad64ed89f6f37e048d81f09b8cabe68be643132d4"
+          },
+          {
+            "path": "src/client/MultiTabDetector.ts",
+            "bytes": 4077,
+            "digest": "sha256:5a0a74bda4ab2c9e65b902c5b56b7f5d5d34742290866c58f0d1dc4c8c4339ec"
           },
           {
             "path": "src/client/PostMatchContinuation.ts",
@@ -3179,8 +3613,8 @@
           },
           {
             "path": "src/client/components/ProgressionDebrief.ts",
-            "bytes": 9682,
-            "digest": "sha256:1f4964dd24fc6c892636067fb492647119266469b991a2c7bfb84017b3d0603b"
+            "bytes": 13423,
+            "digest": "sha256:f84cf9cc5aa58ae724803f7115e8bd4fe4b19f2b35d03c572cb356fd9a8fca32"
           },
           {
             "path": "src/client/components/RankedModal.ts",
@@ -3319,8 +3753,13 @@
           },
           {
             "path": "src/client/graphics/layers/CertifiedNarratorLayer.ts",
-            "bytes": 1865,
-            "digest": "sha256:2cf9617534cb41c989500f765abc9f703d34332f743fc0c34785ddb585f43c60"
+            "bytes": 1989,
+            "digest": "sha256:034113b4775445da8dca02d56711e0611d18c6b8905114c87ec9aab3b177485b"
+          },
+          {
+            "path": "src/client/graphics/layers/CoachHintEngine.ts",
+            "bytes": 12066,
+            "digest": "sha256:709c039449e4c89b4cd5d8202e257ce6f30697ea0c753daf7b7507ee7e4c3110"
           },
           {
             "path": "src/client/graphics/layers/ControlPanel.ts",
@@ -3329,8 +3768,13 @@
           },
           {
             "path": "src/client/graphics/layers/GameRightSidebar.ts",
-            "bytes": 52747,
-            "digest": "sha256:0bf777fcfeec435b2dc7df8896ef0d2519e103db20b9e8d3012e530e066b6f43"
+            "bytes": 53268,
+            "digest": "sha256:3f8ccfa526d3d342ca74345936ba9003be834e32f39666a4a073dbc2b88f0e02"
+          },
+          {
+            "path": "src/client/graphics/layers/MultiTabModal.ts",
+            "bytes": 4529,
+            "digest": "sha256:f608e0a2a30e034641b7bec15a2d1b8d6224df56e24347ba5ab28ee388dc5714"
           },
           {
             "path": "src/client/graphics/layers/VaultFrontLayer.ts",
@@ -3415,7 +3859,7 @@
           {
             "path": "static/index.html",
             "bytes": 17352,
-            "digest": "sha256:371450ae7b17c3a533babcc74ef28c2fba6b9f4d6f2905a937dfcb0ac9b4ca3d"
+            "digest": "sha256:5e74d8d7f998d794a9c4264dc1fa95d5f88626476bd7c43626714f1dd42ab17d"
           }
         ]
       },
@@ -3452,6 +3896,9 @@
             "agency-doctrine",
             "settings",
             "postmatch",
+            "account-recovery",
+            "multi-tab-collision",
+            "progression-doctrine",
             "prematch-loading",
             "prematch-degraded",
             "prematch-ready",
@@ -3470,6 +3917,29 @@
             "surfaceWithinViewport": true,
             "hasAgencyReceipt": true,
             "hasDoctrinePolicy": true
+          },
+          "accountRecovery": {
+            "state": "error",
+            "role": "alert",
+            "ariaLive": "polite",
+            "describedBy": "email-recovery-status",
+            "invalid": "true",
+            "horizontalOverflow": false,
+            "withinViewport": true,
+            "minimumButtonHeight": 46
+          },
+          "multiTabCollision": {
+            "role": "dialog",
+            "ariaModal": "true",
+            "horizontalOverflow": false,
+            "withinViewport": true,
+            "truthfulScope": true,
+            "text": "\n        \n          \n            \n              Another VaultFront tab is active\n            \n            Local tab check\n          \n\n          \n            multi_tab.detected\n          \n          \n            This pause comes only from a same-origin browser storage collision.\n            It does not inspect your IP address or device, and it does not\n            create a server report or suspension record.\n          \n\n          \n            Command input resumes automatically\n            10s\n          \n          \n            \n          \n          \n            Close the other VaultFront tab to avoid another local collision.\n          \n        \n      "
+          },
+          "progressionDoctrine": {
+            "horizontalOverflow": false,
+            "withinViewport": true,
+            "doctrineBound": true
           },
           "prematch": [
             {
@@ -3632,6 +4102,9 @@
             "agency-doctrine",
             "settings",
             "postmatch",
+            "account-recovery",
+            "multi-tab-collision",
+            "progression-doctrine",
             "prematch-loading",
             "prematch-degraded",
             "prematch-ready",
@@ -3650,6 +4123,29 @@
             "surfaceWithinViewport": true,
             "hasAgencyReceipt": true,
             "hasDoctrinePolicy": true
+          },
+          "accountRecovery": {
+            "state": "error",
+            "role": "alert",
+            "ariaLive": "polite",
+            "describedBy": "email-recovery-status",
+            "invalid": "true",
+            "horizontalOverflow": false,
+            "withinViewport": true,
+            "minimumButtonHeight": 46
+          },
+          "multiTabCollision": {
+            "role": "dialog",
+            "ariaModal": "true",
+            "horizontalOverflow": false,
+            "withinViewport": true,
+            "truthfulScope": true,
+            "text": "\n        \n          \n            \n              Another VaultFront tab is active\n            \n            Local tab check\n          \n\n          \n            multi_tab.detected\n          \n          \n            This pause comes only from a same-origin browser storage collision.\n            It does not inspect your IP address or device, and it does not\n            create a server report or suspension record.\n          \n\n          \n            Command input resumes automatically\n            10s\n          \n          \n            \n          \n          \n            Close the other VaultFront tab to avoid another local collision.\n          \n        \n      "
+          },
+          "progressionDoctrine": {
+            "horizontalOverflow": false,
+            "withinViewport": true,
+            "doctrineBound": true
           },
           "prematch": [
             {
@@ -3812,6 +4308,9 @@
             "agency-doctrine",
             "settings",
             "postmatch",
+            "account-recovery",
+            "multi-tab-collision",
+            "progression-doctrine",
             "prematch-loading",
             "prematch-degraded",
             "prematch-ready",
@@ -3830,6 +4329,29 @@
             "surfaceWithinViewport": true,
             "hasAgencyReceipt": true,
             "hasDoctrinePolicy": true
+          },
+          "accountRecovery": {
+            "state": "error",
+            "role": "alert",
+            "ariaLive": "polite",
+            "describedBy": "email-recovery-status",
+            "invalid": "true",
+            "horizontalOverflow": false,
+            "withinViewport": true,
+            "minimumButtonHeight": 46
+          },
+          "multiTabCollision": {
+            "role": "dialog",
+            "ariaModal": "true",
+            "horizontalOverflow": false,
+            "withinViewport": true,
+            "truthfulScope": true,
+            "text": "\n        \n          \n            \n              Another VaultFront tab is active\n            \n            Local tab check\n          \n\n          \n            multi_tab.detected\n          \n          \n            This pause comes only from a same-origin browser storage collision.\n            It does not inspect your IP address or device, and it does not\n            create a server report or suspension record.\n          \n\n          \n            Command input resumes automatically\n            10s\n          \n          \n            \n          \n          \n            Close the other VaultFront tab to avoid another local collision.\n          \n        \n      "
+          },
+          "progressionDoctrine": {
+            "horizontalOverflow": false,
+            "withinViewport": true,
+            "doctrineBound": true
           },
           "prematch": [
             {

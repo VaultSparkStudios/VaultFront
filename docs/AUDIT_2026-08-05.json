@@ -1,0 +1,994 @@
+{
+  "schemaVersion": "1.0",
+  "session": 96,
+  "generatedBy": "codex",
+  "generatedAt": "2026-08-05T19:02:48.258Z",
+  "project": {
+    "slug": "vaultfront",
+    "name": "VaultFront",
+    "type": "game",
+    "registryType": "game",
+    "audience": "public-unlaunched",
+    "stage": "FORGE",
+    "stagingType": "local",
+    "registryMedium": "game"
+  },
+  "summary": "Session 96 fresh audit merged seven live-code-verified findings into the exhausted Session 95 ledger: match leave retains match-owned workers/render/input resources; multi-tab enforcement fabricates surveillance claims and leaks bound listeners; certified feedback lacks causal signal; an unauthenticated browser-authored remote micro-hint consumes provider capacity despite a deterministic local coach; progression debrief is not rematch-generation-safe; active Doctrine identity disappears at the progression seam; and account recovery uses blocking alerts without pending state. No balance, launch, revenue, or human-retention claim is inferred.",
+  "axes": {
+    "featureDepth": 1.5,
+    "innovation": 1.5,
+    "ux": 2,
+    "feedbackLoop": 2,
+    "gamification": 3,
+    "aiIntegration": 1.5,
+    "security": 3,
+    "speedOrganization": 3,
+    "tokenApiReduction": 2
+  },
+  "candidateGeneration": {
+    "featureDepth": 4,
+    "innovation": 5,
+    "ux": 6,
+    "feedbackLoop": 5,
+    "gamification": 4,
+    "aiIntegration": 4,
+    "security": 6,
+    "speedOrganization": 6,
+    "tokenApiReduction": 4,
+    "novelCandidates": 9,
+    "culledBelowThresholdOrFalsePremise": 31
+  },
+  "specialtyReviews": {
+    "infrastructure": {
+      "result": "The dominant technical seam is match-scope ownership: workers, RAF, timers, EventBus callbacks, and DOM listeners do not currently share a deterministic teardown boundary."
+    },
+    "gameLoop": {
+      "scores100": {
+        "loopTightness": 88,
+        "progression": 86,
+        "sessionEngagement": 85,
+        "retention": 73,
+        "soulFidelity": null
+      },
+      "result": "The certified core loop is deep, but repeat-match lifecycle and progression continuity have live code defects. Human fun and return intent remain unmeasured; no balance retune is admitted."
+    },
+    "release": {
+      "verdict": "no-go",
+      "passing": [
+        "current-revision tests, security, lint, format, and separate E2E jobs observed green",
+        "cost-neutral declaration and portfolio cost gate",
+        "sitemap 10/10, footer manifest 7/7, legal, branding, and dual-audience source contracts",
+        "local deploy, route, balance, composition, theme-proof, and public-surface contracts"
+      ],
+      "red": [
+        "no approved public staging origin or exact-digest live parity observation",
+        "no verified project-domain Zoho send/receive reply-as-alias delivery",
+        "no native Obelisk relying-party proof",
+        "no live CSP/HSTS/Core Web Vitals or theme observation",
+        "no three-human Alpha, real revenue, observed rollback, exact-revision provider CI for the new revision, or founder approval"
+      ],
+      "toolingDisagreement": "The portfolio release checker reports Private by default because context/STUDIO_MANIFEST.json intentionally says privateByDefault=false for this already-public, sanitized AGPL-derived repository. AGENTS.md explicitly declares the repository public. The mismatch is recorded as a checker-premise defect and is not repaired by falsifying the local manifest or editing Studio Ops."
+    }
+  },
+  "rejectedPremises": [
+    {
+      "candidate": "Treat the registry app classification as more authoritative than the local game manifest and status",
+      "result": "externally-blocked",
+      "evidence": "Local PROJECT_STATUS, STUDIO_MANIFEST, agents metadata, and gameplay source agree on game. The registry delta was rejected as field-not-allowed; CANON-018 requires an owner-supported Ark path rather than a sibling edit."
+    },
+    {
+      "candidate": "Set privateByDefault=true merely to green the portfolio release checker",
+      "result": "skipped",
+      "evidence": "AGENTS.md explicitly defines this as a public repository and the upstream AGPL source obligation is public. Changing the manifest would make local truth worse."
+    },
+    {
+      "candidate": "Treat local E2E, READY credentials, or checked-in screenshots as staging or launch evidence",
+      "result": "skipped",
+      "evidence": "No approved external origin or fresh live observation exists; local evidence remains local-only."
+    },
+    {
+      "candidate": "Implement native Obelisk relying-party identity before origin and callback registration",
+      "result": "externally-blocked",
+      "evidence": "The architecture remains external/not-assessed and prior incompatible generated helpers are deliberately quarantined until a registered relying-party contract exists."
+    },
+    {
+      "candidate": "Retune convoy, Pressure, progression, or reward values",
+      "result": "deferred",
+      "evidence": "No qualifying distinct-human cohort exists. Correctness and authority can be improved, but player preference cannot be fabricated."
+    },
+    {
+      "candidate": "Raise a cost alarm for this flat-rate session or remove optional AI solely to reduce notional usage",
+      "result": "skipped",
+      "evidence": "The founder explicitly defined session cost as notional flat-rate Max Plan. Runtime remote AI remains default-off under the existing attributed-cap decision; this audit addresses authority and abuse surfaces, not notional session cost."
+    },
+    {
+      "candidate": "Wholesale rewrite ControlPanel, Worker, VaultFrontExecution, WinModal, or Api",
+      "result": "skipped",
+      "evidence": "The files remain large, but broad rewrites cross stable authority boundaries. This audit admits bounded extractions and measurable composition contraction only."
+    },
+    {
+      "candidate": "Blindly upgrade current dependencies",
+      "result": "skipped",
+      "evidence": "The complete dependency audit is zero and no live defect requires a package change. Package-trust and migration evidence would be required before any upgrade."
+    },
+    {
+      "candidate": "Raise the Brotli baseline until current-main CI turns green",
+      "result": "skipped",
+      "evidence": "The executable transfer gate is correctly exposing 1,588 bytes of new initial-entry weight. The root fix is to remove the lobby-global tutorial import and recover measured headroom, not redefine the same bytes as acceptable."
+    },
+    {
+      "candidate": "Mark First Extraction complete whenever the player's team reaches later Pressure stages",
+      "result": "skipped",
+      "evidence": "VaultFrontStatusUpdate already carries server-derived per-player contributors, and activity updates identify the exact actor. Team success is useful context but cannot truthfully stand in for the learner's own capture, convoy, or decisive-delivery action."
+    },
+    {
+      "candidate": "Claim retention quality from the breadth of progression systems",
+      "result": "deferred",
+      "evidence": "No checked-in qualifying human cohort exists. Code can close choice and feedback seams, but only real authenticated sessions may establish return intent or fun."
+    },
+    {
+      "candidate": "Raise global coverage without a concrete authority seam",
+      "result": "skipped",
+      "evidence": "Coverage passed 218/218 files and 1165/1165 tests at 35.49% lines. Broad UI/composition gaps remain visible, but the admitted work targets the exact unbounded identity fetch rather than buying an arbitrary percentage."
+    },
+    {
+      "candidate": "Treat the 1974 full-tree secret findings as credentials",
+      "result": "skipped",
+      "evidence": "Every finding is low-confidence entropy in existing asset payloads; medium/high count is zero. The fix preserves semantic credential blocking while removing verified asset noise."
+    },
+    {
+      "candidate": "Implement native Obelisk identity from the orphaned broker",
+      "result": "externally-blocked",
+      "evidence": "The broker is Studio Ops operator code, not a relying-party integration. Registered origin, callback, and verification capabilities remain absent; deletion cannot be converted into a launch claim."
+    },
+    {
+      "candidate": "Silence Vite warnings without verifying copied and imported asset reachability",
+      "result": "skipped",
+      "evidence": "Resources include direct URLs, language data, maps, sprites, audio, and module imports. Ownership changes must pass dev/build artifact and rendered-pixel gates."
+    },
+    {
+      "candidate": "Retune combat, economy, Doctrine cost, or daily-mastery rewards from code inspection",
+      "result": "deferred",
+      "evidence": "No qualifying human cohort establishes fun, difficulty, or return intent. This audit repairs lifecycle and feedback quality without inventing preference evidence."
+    },
+    {
+      "candidate": "Treat localStorage multi-tab detection as server anti-cheat evidence",
+      "result": "skipped",
+      "evidence": "The detector sees only a same-origin browser lock and has no certified server receipt. The honest fix removes fake IP, fingerprint, recording, report, and suspension claims."
+    },
+    {
+      "candidate": "Keep remote micro-hints because artificial-intelligence breadth is intrinsically valuable",
+      "result": "skipped",
+      "evidence": "The deterministic local coach is already rendered first. The remote path accepts browser-authored state without actor/certificate admission and consumes provider capacity; breadth does not outweigh an inferior trust boundary."
+    },
+    {
+      "candidate": "Implement native Obelisk identity from generic credential readiness",
+      "result": "externally-blocked",
+      "evidence": "Relying-party origin, name, and callback capability remain missing; no project-local helper can manufacture provider registration or launch evidence."
+    },
+    {
+      "candidate": "Claim retention lift from Doctrine continuity or causal feedback",
+      "result": "deferred",
+      "evidence": "The code can close a measurable progression and learning seam, but only authenticated human observations may establish a retention outcome."
+    }
+  ],
+  "items": [
+    {
+      "id": 148,
+      "slug": "retire-public-obelisk-broker-copy",
+      "tier": "🔥",
+      "axis": "security / coherence / public boundary",
+      "effortHours": 1,
+      "impact": 8,
+      "innovation": 6,
+      "priority": 91,
+      "status": "shipped",
+      "complete": true,
+      "title": "Remove the orphaned Studio Ops secret broker from the public repo",
+      "why": "scripts/lib/obelisk-broker.mjs is tracked, unused, and copied from Studio Ops. It references private portfolio policy, receipt paths, grant issuer keys, and operator trust semantics that do not belong in this public deployable repository; the canonical filename sanitizer does not currently recognize this code-level boundary leak.",
+      "recipe": "Delete the orphaned broker without touching the project secrets gateway; add a public-boundary regression that forbids Studio Ops policy/receipt paths and the broker filename in tracked deployable code; run the canonical public sanitizer and secret scan; keep native Obelisk relying-party work externally blocked until registered origin/callback evidence exists. Core-loop step: player/operator input → trusted public surface → safe participation reward → identity progression.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 0.25,
+          "recipe": "Delete the unused broker copy."
+        },
+        "L2": {
+          "effortHours": 0.5,
+          "recipe": "Add source-negation tests for private control-plane paths."
+        },
+        "L3": {
+          "effortHours": 1,
+          "recipe": "Executable public-boundary guard, sanitizer proof, and explicit native-identity non-substitution."
+        }
+      },
+      "coreLoopStep": "player/operator input → trusted public surface → safe participation reward → identity progression",
+      "executionLog": [
+        "Session 95: orphaned internal Obelisk broker removed; deployable-code public-boundary guard passes 1/1."
+      ]
+    },
+    {
+      "id": 145,
+      "slug": "project-local-skill-bridge",
+      "tier": "🔥",
+      "axis": "speed / organization / token reduction",
+      "effortHours": 2,
+      "impact": 8,
+      "innovation": 7,
+      "priority": 84,
+      "status": "shipped",
+      "complete": true,
+      "title": "Make required Studio skills executable from the project root",
+      "why": "Both studio-start and audit required project-local skill-profile and sample-codebase commands, but each failed with MODULE_NOT_FOUND in the fresh Session 95 preflight even though the canonical implementations exist in Studio Ops. The missing bridge forces manual fallbacks and silently drops medium-specific success bars.",
+      "recipe": "Extend the existing allowlisted control-plane wrapper with project-scoped sample-codebase and non-project-flag skill-profile adapters; preserve cwd provenance; add adversarial tests for missing control plane, injected root, passthrough arguments, and denied unknown tools; then prove both exact skill commands succeed from VaultFront. Core-loop step: operator input → verified plan → shipped safeguard → compounding product quality.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 0.5,
+          "recipe": "Add minimal wrappers for the two missing commands."
+        },
+        "L2": {
+          "effortHours": 1,
+          "recipe": "Inject exact project root and preserve profile cwd semantics."
+        },
+        "L3": {
+          "effortHours": 2,
+          "recipe": "Allowlist, provenance, negative-path tests, and executable start/audit smoke proof."
+        }
+      },
+      "coreLoopStep": "operator input → verified plan → shipped safeguard → compounding product quality",
+      "executionLog": [
+        "Session 95: allowlisted project-root bridges added; exact skill-profile and sample-codebase commands pass; control-plane tests 2/2."
+      ]
+    },
+    {
+      "id": 147,
+      "slug": "asset-aware-secret-signal",
+      "tier": "🔥",
+      "axis": "security / speed / observability",
+      "effortHours": 3,
+      "impact": 8,
+      "innovation": 8,
+      "priority": 83,
+      "status": "shipped",
+      "complete": true,
+      "title": "Preserve secret blocking while eliminating asset entropy noise",
+      "why": "The canonical full-tree scan emits 1,974 findings, all low-confidence matches inside existing base64 SVG, flag, cosmetic, and copied static assets, with zero medium/high findings. A signal this noisy is unusable for sanitization review and can hide the one real credential that matters.",
+      "recipe": "Classify entropy-only patterns separately from semantic credential patterns; suppress low-confidence random-token matches only inside verified asset payload contexts and generated resource mirrors; keep every medium/high pattern blocking everywhere; deduplicate copied static/resource evidence; expose confidence counts; and add fixtures proving real keys in source or SVG text still fail. Core-loop step: security input → trusted build/release fantasy → clean evidence reward → safe progression.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Skip low-confidence entropy matches inside base64 image payloads only."
+        },
+        "L2": {
+          "effortHours": 2,
+          "recipe": "Deduplicate generated resource mirrors and report confidence counts."
+        },
+        "L3": {
+          "effortHours": 3,
+          "recipe": "Context classifier, adversarial real-key fixtures, exact zero-noise full-tree receipt, and staged-scan parity."
+        }
+      },
+      "coreLoopStep": "security input → trusted build/release fantasy → clean evidence reward → safe progression",
+      "executionLog": [
+        "Session 95: asset-aware classifier preserves semantic credential blocking; adversarial tests 4/4; full-tree scan reduced 1,974 low-noise findings to 0 with high/medium still 0."
+      ]
+    },
+    {
+      "id": 149,
+      "slug": "bounded-identity-introspection",
+      "tier": "🔥",
+      "axis": "security / reliability / coverage",
+      "effortHours": 3,
+      "impact": 9,
+      "innovation": 7,
+      "priority": 81,
+      "status": "shipped",
+      "complete": true,
+      "title": "Bound remote identity introspection during game admission",
+      "why": "getUserMe directly awaits the issuer users/@me fetch with no deadline, abort signal, or focused test coverage. A slow or wedged identity provider can hold WebSocket admission indefinitely even though every subsequent authorization branch waits on this result.",
+      "recipe": "Add an explicit short admission deadline with AbortController ownership and exact timer cleanup; inject fetch for deterministic tests; normalize client-visible failure while retaining safe operator diagnostics; prove success, non-200, invalid schema, network error, and never-resolving provider behavior; keep existing EdDSA issuer/audience verification unchanged. Core-loop step: player login input → bounded match admission → playable fantasy reward → account progression.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Apply an AbortController deadline to users/@me."
+        },
+        "L2": {
+          "effortHours": 2,
+          "recipe": "Inject fetch and cover all response/error branches."
+        },
+        "L3": {
+          "effortHours": 3,
+          "recipe": "Leak-safe normalized receipt, timer-cleanup proof, admission-latency contract, and Worker integration assertion."
+        }
+      },
+      "coreLoopStep": "player login input → bounded match admission → playable fantasy reward → account progression",
+      "executionLog": [
+        "Session 95: users/@me admission deadline, abort ownership, normalized errors, and timer cleanup implemented; focused identity tests 4/4."
+      ]
+    },
+    {
+      "id": 146,
+      "slug": "idempotent-doctor-closeout-format",
+      "tier": "⚡",
+      "axis": "speed / organization / observability",
+      "effortHours": 2,
+      "impact": 8,
+      "innovation": 6,
+      "priority": 72,
+      "status": "shipped",
+      "complete": true,
+      "title": "Make doctor sidecar closeout byte-idempotent",
+      "why": "project-doctor writes audits/doctor-latest.json with JSON.stringify formatting, while closeout-autopilot formats only STARTUP_BRIEF and PROJECT_STATUS before staging. The pre-commit hook then rewrites the sidecar, so every closeout starts with avoidable byte churn and the closeout runner violates the Session 92 decision that it formats every generated truth surface itself.",
+      "recipe": "Include the doctor sidecar in the closeout generated-format step, verify its canonical content digest remains stable across whitespace changes, and add a regression that runs the formatter path twice and observes no second diff. Preserve the content-canonical evidence hash contract rather than hashing file bytes. Core-loop step: operator verification input → trustworthy evidence → confident shipment → reliable progression.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 0.5,
+          "recipe": "Format audits/doctor-latest.json in closeout-autopilot."
+        },
+        "L2": {
+          "effortHours": 1,
+          "recipe": "Assert content digest survives formatting and the summary reloads."
+        },
+        "L3": {
+          "effortHours": 2,
+          "recipe": "Two-pass byte-idempotency regression plus generated-surface ownership contract."
+        }
+      },
+      "coreLoopStep": "operator verification input → trustworthy evidence → confident shipment → reliable progression",
+      "executionLog": [
+        "Session 95: closeout owns doctor-sidecar formatting; two-pass byte-idempotency and canonical digest regression pass (DoctorEvidence 4/4)."
+      ]
+    },
+    {
+      "id": 150,
+      "slug": "single-owner-static-assets",
+      "tier": "⚡",
+      "axis": "speed / organization / developer experience",
+      "effortHours": 4,
+      "impact": 7,
+      "innovation": 6,
+      "priority": 49,
+      "status": "shipped",
+      "complete": true,
+      "title": "Give static assets one Vite ownership path",
+      "why": "The production and browser-proof builds emit thousands of warnings because resources is simultaneously Vite publicDir and an import source. The config comment claims public assets may be imported, but Vite explicitly rejects that ownership model; real warnings are buried under repeated path guidance.",
+      "recipe": "Disable publicDir ownership and copy resources through the already-installed vite-static-copy pipeline while leaving imported assets under normal module ownership; prove dev URLs, SPA pages, service worker, maps, language files, sprites, and media remain byte-reachable; add a warning-budget smoke that fails if the public-directory warning class returns; re-run bundle and rendered-pixel gates. Core-loop step: page-load input → immediate battlefield fantasy → responsive feedback reward → session progression.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Move resources copy ownership into vite-static-copy."
+        },
+        "L2": {
+          "effortHours": 2,
+          "recipe": "Verify dev/build URL parity for direct and imported assets."
+        },
+        "L3": {
+          "effortHours": 4,
+          "recipe": "Zero-warning contract, artifact reachability matrix, bundle budgets, and desktop/mobile visual recapture."
+        }
+      },
+      "coreLoopStep": "page-load input → immediate battlefield fantasy → responsive feedback reward → session progression",
+      "executionLog": [
+        "Session 95: resources now use explicit copy ownership and virtual stable URLs; ownership tests 2/2; build 2,201 modules, 47 copy items, 0 retired warnings; pages 10/10 and bundle budgets pass."
+      ]
+    },
+    {
+      "id": 135,
+      "slug": "server-certified-narration-spine",
+      "tier": "🔥",
+      "axis": "security / feedback loop / AI / observability",
+      "effortHours": 5,
+      "impact": 10,
+      "innovation": 9,
+      "priority": 96,
+      "status": "shipped",
+      "title": "Make live narration inherit server-certified match authority",
+      "why": "NarratorReporter lets any browser POST an arbitrary activity and label for any gameId into NarratorBus. The server validates shape and IP rate only; it does not verify actor membership, live game ownership, or that the event occurred. GameServer imports NarratorBus only to close it, so AI commentary can be driven by browser-authored fiction.",
+      "recipe": "Project a privacy-minimal narration event only after GameServer accepts authoritative intents and certified lifecycle outcomes; remove the public narrator event mutation and client reporter; preserve bounded SSE subscription; define a typed event catalog with no actor identifiers; lower the public-ingest ceiling; and prove fake game IDs, rejected intents, duplicate events, and browser posts cannot trigger commentary.",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Reject browser-authored narration events."
+        },
+        "L2": {
+          "effortHours": 3,
+          "recipe": "Emit narration from accepted GameServer events and remove the client reporter."
+        },
+        "L3": {
+          "effortHours": 5,
+          "recipe": "Certified typed projection, privacy-minimal deduplication, route-policy contraction, integrity counters, and adversarial tests."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Removed the browser-writable narrator event route and NarratorReporter client mutation.",
+        "Added a typed privacy-minimal projection after GameServer intent admission; rejected intents and caller prose cannot enter narration.",
+        "Added a deterministic certified baseline with optional remote enrichment, a visible aria-live consumer, and adversarial authority tests.",
+        "Contract result: 29 declared/registered mutations, public ingest 4/4."
+      ],
+      "complete": true
+    },
+    {
+      "id": 136,
+      "slug": "runtime-feature-reachability-closure",
+      "tier": "🔥",
+      "axis": "security / speed / organization / token reduction",
+      "effortHours": 6,
+      "impact": 10,
+      "innovation": 8,
+      "priority": 82,
+      "status": "shipped",
+      "title": "Give every runtime feature authority a reachable consumer or retire it",
+      "why": "Worker exposes multiple feature surfaces with no client, agent, or operator consumer: match-mission, match-commentary, bot-lore, match-coach, clan-war, and parallel Intel market routes. The Intel routes accept caller identities, keep unbounded game maps, return random fallback risk, advertise a 2,000-gold cost, and never mutate the certified economy. Unused Api helpers also preserve phantom battle-narrative and bot-persona authority.",
+      "recipe": "Create an executable runtime-feature reachability catalog that binds each admitted route to a source consumer and audience. Remove unreachable routes, imports, stores, client helpers, policies, and tests; keep core in-match Intel commands as the sole economy authority; forbid random quote data and uncharged cost claims; ratchet Worker and public-ingest ceilings downward; and mutation-test reintroduction.",
+      "ladder": {
+        "L1": {
+          "effortHours": 2,
+          "recipe": "Remove the unconsumed Intel HTTP market and random quote fallback."
+        },
+        "L2": {
+          "effortHours": 4,
+          "recipe": "Retire all verified unreachable feature clusters and reconcile policies/imports."
+        },
+        "L3": {
+          "effortHours": 6,
+          "recipe": "Source-backed reachability catalog, measurable composition contraction, exact route-policy ceilings, and negative reintroduction tests."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Retired fourteen verified unreachable routes across battle narrative, commentary, missions, bot lore/persona, match coach, Intel HTTP market, clan war, and browser narrator ingestion.",
+        "Removed the unreachable ClanWarStore and client helpers while preserving and explicitly cataloging the live micro-coach and progression router.",
+        "Added a source-backed catalog for eight admitted route→transport→consumer chains, fourteen retired-route tombstones, mutation tests, doctor coverage, and a sha256 evidence digest.",
+        "Worker contracted from 2,849 audited lines to 2,420 with a 2,440-line ratchet."
+      ],
+      "complete": true
+    },
+    {
+      "id": 137,
+      "slug": "session-bound-prematch-intelligence",
+      "tier": "🔥",
+      "axis": "UX / AI / reliability / accessibility",
+      "effortHours": 4,
+      "impact": 9,
+      "innovation": 8,
+      "priority": 72,
+      "status": "shipped",
+      "title": "Make pre-match intelligence bounded, abortable, and stale-session-proof",
+      "why": "GameStartingModal launches three provider-backed requests with Promise.all and owns neither an AbortController nor a session generation. hide() leaves requests and two timeouts alive; an earlier match can overwrite a later modal, and the fixed 300px surface can overflow when all three cards arrive on mobile. There is no focused lifecycle test.",
+      "recipe": "Introduce a generation-scoped pre-match session with AbortController, bounded per-task deadlines, all-settled status, timer cleanup, stale-result rejection, and exact hide/disconnect teardown. Render an accessible responsive shell with deterministic loading/degraded states, validate provider payloads before projection, and capture desktop/mobile evidence across all themes.",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Reject stale async results and clear timers on hide."
+        },
+        "L2": {
+          "effortHours": 2,
+          "recipe": "Add abort signals, per-task deadlines, and lifecycle tests."
+        },
+        "L3": {
+          "effortHours": 4,
+          "recipe": "Session receipt, accessible responsive state machine, three-theme desktop/mobile rendered proof, and exact cleanup invariants."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Added generation ownership, AbortController propagation, a six-second deadline, all-settled projection, stale-result rejection, and exact timer teardown.",
+        "Added accessible loading/degraded/ready states and a 92vw/32rem, 85dvh responsive dialog.",
+        "Focused lifecycle tests prove hide abort and cross-match stale suppression; the three-state desktop/mobile/theme matrix is included in the 90-artifact visual receipt."
+      ],
+      "complete": true
+    },
+    {
+      "id": 138,
+      "slug": "single-public-route-graph",
+      "tier": "⚡",
+      "axis": "UX / organization / release / accessibility",
+      "effortHours": 3,
+      "impact": 8,
+      "innovation": 7,
+      "priority": 55,
+      "status": "shipped",
+      "title": "Generate static and in-app public navigation from one route graph",
+      "why": "public/footer-manifest.json generates and validates ten static pages, but the Lit application footer repeats routes, copyright, brand, and attribution by hand. It omits the required Play destination and adds Wiki/Source links outside the checked graph, so the green footer gate does not cover the actual app footer.",
+      "recipe": "Make one typed public route manifest drive static shell generation and the Lit footer projection, explicitly classify app-only external links, and extend the scoped checker to validate the application consumer. Preserve ordering, labels, legal pages, branding, upstream attribution, and current visual output; add digest/reachability tests and close the local half of the aged SIL item without claiming staging screenshots.",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Import footer links from the existing manifest into the app."
+        },
+        "L2": {
+          "effortHours": 2,
+          "recipe": "Type the manifest and include app-only external links."
+        },
+        "L3": {
+          "effortHours": 3,
+          "recipe": "One projection authority, app/static parity checker, digest evidence, and drift mutation tests."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Created src/shared/PublicRouteGraph.json as the canonical typed route graph and kept public/footer-manifest.json as an exact checked mirror.",
+        "The static shell generator and Lit footer now project the same seven routes, ownership, copyright, attribution, and two classified app-external links.",
+        "Footer checker now validates app consumption, mirror parity, hard-coded-route absence, and a sha256 graph digest."
+      ],
+      "complete": true
+    },
+    {
+      "id": 139,
+      "slug": "player-visible-transport-recovery",
+      "tier": "🔥",
+      "axis": "UX / reliability / feedback loop / accessibility",
+      "effortHours": 4,
+      "impact": 9,
+      "innovation": 8,
+      "priority": 72,
+      "status": "shipped",
+      "title": "Turn transport recovery evidence into calm player-visible state",
+      "why": "Transport now emits exact connection state, retry attempt, outbox depth, and overflow events, but only tests consume them. Players see no waiting/recovering/synchronized feedback, queued actions are invisible, and protocol refusal still uses blocking alert(), bypassing the app's accessible modal and theme system.",
+      "recipe": "Add a dedicated recovery presenter subscribed to transport state/overflow events: a non-blocking aria-live banner for waiting/recovering/synchronized states, queued-action count and reject-newest overflow guidance, and an accessible fatal-refusal modal. Keep transient states generation-safe, never claim synchronized before rejoin succeeds, test event-to-view semantics, and capture all themes at desktop/mobile widths.",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Replace alert() with the existing modal path."
+        },
+        "L2": {
+          "effortHours": 2,
+          "recipe": "Render waiting/recovery/overflow state from transport events."
+        },
+        "L3": {
+          "effortHours": 4,
+          "recipe": "Accessible generation-safe presenter, honest synchronization lifecycle, theme/mobile proof, and adversarial event tests."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Added an accessible player-visible presenter for connecting, waiting, synchronizing, restored, fatal refusal, and reject-newest overflow states.",
+        "Removed blocking alert(), sanitized fatal reason text, and bound retry/outbox language to exact transport events.",
+        "Reordered transport truth so open is published only after authoritative rejoin and FIFO flush; focused tests prove one zero-depth open event.",
+        "All five states pass desktop/mobile/theme rendered proof."
+      ],
+      "complete": true
+    },
+    {
+      "id": 140,
+      "slug": "match-bound-first-contact",
+      "tier": "🔥",
+      "axis": "UX / gamification / performance / feedback loop",
+      "effortHours": 5,
+      "impact": 10,
+      "innovation": 8,
+      "priority": 94,
+      "status": "shipped",
+      "title": "Make first contact begin inside the match fantasy and recover transfer headroom",
+      "why": "Main.ts statically imports and mounts VaultFrontTutorial during lobby bootstrap. Its 800ms timer opens instructions for an in-match tracker that does not exist yet, and dismissing it permanently consumes the versioned seen state. The lobby hero simultaneously exposes internal visual-pass/changelog language. The same eager surface contributes to a current-main CI failure: initial Brotli entry is 594,207 bytes against a 592,619-byte ceiling.",
+      "recipe": "Replace timer-driven lobby mounting with one match-ready signal emitted only after authoritative VaultFront status reaches the mounted ControlPanel. Lazy-load the tutorial behind that signal, preserve exactly-once shown/skip/complete telemetry, cancel listeners and timers on teardown, and rewrite the lobby hero around the Capture → Convoy → Pressure → Breach fantasy. Prove no lobby display/seen mutation, one match display, teardown safety, and a directly green unchanged bundle ceiling; capture the touched lobby and in-match states across every theme at desktop/mobile widths.",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Remove the lobby auto-open timer and internal-process hero copy."
+        },
+        "L2": {
+          "effortHours": 3,
+          "recipe": "Gate a lazy tutorial on a match-ready event and add lifecycle tests."
+        },
+        "L3": {
+          "effortHours": 5,
+          "recipe": "Authoritative match-bound state machine, exactly-once telemetry, lazy chunk/transfer proof, adversarial lifecycle tests, and full rendered-pixel matrix."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Removed timer-driven lobby presentation; first contact now lazy-loads only after ControlPanel receives the first authoritative VaultFront status.",
+        "Rewrote the lobby hero around Capture → Convoy → Pressure → Breach and preserved exactly-once shown/advance/skip/complete telemetry.",
+        "Split tutorial, lobby, and leaderboard secondary UI from the initial entry; unchanged Brotli gate is green at 588,569 bytes against 592,619 bytes.",
+        "Focused tutorial, authority, HUD, TypeScript, and bundle contracts pass."
+      ],
+      "complete": true
+    },
+    {
+      "id": 141,
+      "slug": "personal-first-extraction-authority",
+      "tier": "🔥",
+      "axis": "game loop / observability / UX / correctness",
+      "effortHours": 5,
+      "impact": 10,
+      "innovation": 9,
+      "priority": 90,
+      "status": "shipped",
+      "title": "Give First Extraction a server-derived personal agency ledger",
+      "why": "Vault Pressure is player-or-team scoped and already projects contributors by actor, but ControlPanel passes the shared pressure state into advanceFirstExtractionProgress. That projector promotes pressureStarted into vaultCaptured and convoyAction and promotes team victory into decisiveDelivery, so a teammate can complete the learner's personal capture, convoy, and winning-delivery steps.",
+      "recipe": "Separate team context from personal evidence. Recover personal capture from actor activity or controlled-site state, convoy engagement from actor activity or the contributor ledger, personal Pressure from contributors, and decisive delivery only from the exact vault_breach_victory actor. Let team threshold/window state advance only the explicitly team-labeled step after personal participation. Preserve reconnect recovery from status, forbid retroactive teammate credit, expose a compact personal/team evidence receipt for the tracker, and add solo/team/reconnect/adversarial tests plus rendered states.",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Stop later team Pressure from implying personal capture and convoy action."
+        },
+        "L2": {
+          "effortHours": 3,
+          "recipe": "Consume contributors and exact actor activity for personal step ownership."
+        },
+        "L3": {
+          "effortHours": 5,
+          "recipe": "Reconnect-safe personal/team ledger, explicit copy, receipt semantics, adversarial team tests, and rendered proof."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Removed every team-state implication into personal capture, convoy, Pressure contribution, and completion evidence.",
+        "Personal capture recovers from exact actor activity or controlled-site status; convoy and Pressure recover from exact actor activity and the server-derived contributor ledger.",
+        "Team threshold/window advances only the explicitly team-labelled Breach step after personal contribution; decisive delivery requires the exact vault_breach_victory actor.",
+        "Completion now requires all five personally truthful steps, with adversarial shared-Pressure tests."
+      ],
+      "complete": true
+    },
+    {
+      "id": 142,
+      "slug": "mastery-doctrine-vault",
+      "tier": "🔥",
+      "axis": "feature depth / retention / gamification / security",
+      "effortHours": 7,
+      "impact": 9,
+      "innovation": 9,
+      "priority": 82,
+      "status": "shipped",
+      "title": "Turn certified Mastery into a player-chosen non-power Doctrine Vault",
+      "why": "Certified Daily Mastery awards durable currency and the live sidebar displays only '<balance> M total'. There is no catalog, entitlement threshold, selection, spend path, or downstream consumer, so the retention hook accumulates obligation without aspiration. The wallet already has transactional PostgreSQL and process-local parity, making a bounded non-power choice layer feasible without retuning gameplay.",
+      "recipe": "Add a versioned Doctrine catalog of cosmetic/coaching identities with no combat-stat effects. Implement an authenticated, rate-limited, replay-safe select-or-unlock transaction that atomically deducts Mastery once, persists entitlements and the active Doctrine in PostgreSQL with process-local parity, and returns an explicit receipt. Surface next unlock, owned choices, active Doctrine, durability, and insufficient-funds truth in the sidebar; use the selected Doctrine only to frame existing coaching/next-match goals. Add route-policy coverage, migration, concurrent/idempotent store tests, client schema validation, and desktop/mobile/theme rendered proof.",
+      "ladder": {
+        "L1": {
+          "effortHours": 2,
+          "recipe": "Expose a static non-power unlock catalog and next threshold."
+        },
+        "L2": {
+          "effortHours": 4,
+          "recipe": "Add authenticated replay-safe unlock/select with durable entitlement state."
+        },
+        "L3": {
+          "effortHours": 7,
+          "recipe": "Transactional PostgreSQL/process-local parity, route-policy admission, active coaching identity, concurrency tests, receipts, and rendered choice states."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Added a server-owned three-Doctrine catalog explicitly limited to coaching and identity, never combat power.",
+        "Added authenticated, rate-limited, schema-validated, replay-safe select-or-unlock with atomic wallet deduction and PostgreSQL/process-local parity.",
+        "Added durable unlock, active-profile, and request-receipt tables plus owned/active/affordability UI and honest insufficient-funds receipts.",
+        "Focused store, router, policy, UI, TypeScript, and 30/30 mutation-route coverage contracts pass."
+      ],
+      "complete": true
+    },
+    {
+      "id": 143,
+      "slug": "actionable-genius-brief-truth",
+      "tier": "⚡",
+      "axis": "observability / organization / token reduction",
+      "effortHours": 2,
+      "impact": 8,
+      "innovation": 7,
+      "priority": 66,
+      "status": "shipped",
+      "title": "Make the startup hit list distinguish actionable work from shipped history",
+      "why": "generate-genius-list maps shipped audit items to done, but renderBrief prints the first entries regardless of status. The S94 startup brief therefore announces Unblocked 0 while presenting five checked completed items under GENIUS HIT LIST, and /start surfaces a completed item as the top action.",
+      "recipe": "Render only actionable entries in the hit list. When none exist, emit a source-derived exhaustion tile with shipped/pending/blocked totals, latest audit identity, and the next expansion command; keep full completed history in GENIUS_LIST.md/cache. Add tests for mixed, exhausted, blocked-only, and malformed sidecars, then re-render and validate the canonical brief.",
+      "ladder": {
+        "L1": {
+          "effortHours": 0.5,
+          "recipe": "Filter done items from the brief."
+        },
+        "L2": {
+          "effortHours": 1,
+          "recipe": "Add explicit exhausted and blocked-only states with counts."
+        },
+        "L3": {
+          "effortHours": 2,
+          "recipe": "Source-derived taxonomy ledger, adversarial sidecar tests, cache/Markdown parity, and canonical brief validation."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Extracted one fail-closed genius-brief taxonomy authority and removed completed history from the actionable hit list.",
+        "Added source-derived exhausted and blocked-only tiles with contiguous actionable ranks and an innovation-pack continuation command.",
+        "Mixed, exhausted, blocked-only, malformed, and generator contract tests pass."
+      ],
+      "complete": true
+    },
+    {
+      "id": 144,
+      "slug": "doctor-evidence-sidecar",
+      "tier": "⚡",
+      "axis": "observability / speed / token reduction / organization",
+      "effortHours": 3,
+      "impact": 8,
+      "innovation": 8,
+      "priority": 62,
+      "status": "shipped",
+      "title": "Separate compact project health from full doctor evidence",
+      "why": "PROJECT_STATUS.json embeds all thirteen doctor checks including duplicated child-process commands, stdout payloads, timestamps, and parsed data. Every startup/status consumer pays for the full transcript even though normal rendering uses only aggregate counts; warning ownership is the only path that needs check detail.",
+      "recipe": "Write the complete doctor report to one atomic hash-bound audits/doctor-latest.json sidecar and keep only aggregate counts, observation time, source, evidence path, and SHA-256 digest in PROJECT_STATUS. Teach startup warning classification to load and verify the sidecar only when warnings/failures exist, fail closed on missing or mismatched detail, and retain backwards-compatible reads for legacy embedded checks. Add tamper/missing/legacy/green-path tests and measure the status-token reduction.",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Move doctor checks into a dedicated sidecar."
+        },
+        "L2": {
+          "effortHours": 2,
+          "recipe": "Bind the compact summary to the sidecar digest and lazy-load non-green detail."
+        },
+        "L3": {
+          "effortHours": 3,
+          "recipe": "Atomic write, fail-closed verification, legacy migration, tamper tests, and measured token/byte delta."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Moved full doctor checks into an atomic audits/doctor-latest.json evidence sidecar bound to compact project status by SHA-256.",
+        "Startup now lazy-loads detail only for non-green health, fails closed on missing/tampered evidence, and retains legacy embedded-check compatibility.",
+        "Atomic reload, tamper, unsafe-path, missing, legacy, project-doctor, and startup contracts pass."
+      ],
+      "complete": true
+    },
+    {
+      "id": 151,
+      "slug": "deterministic-match-session-teardown",
+      "tier": "🔥",
+      "axis": "speed / organization / reliability / game loop",
+      "effortHours": 6,
+      "impact": 10,
+      "innovation": 8,
+      "priority": 171,
+      "status": "shipped",
+      "complete": true,
+      "title": "Make leaving a match end every match-owned execution surface",
+      "why": "joinLobby drops currentGameRunner without calling stop. ClientGameRunner.stop omits renderer, input, touch, and EventBus teardown; GameRenderer owns an unbounded requestAnimationFrame loop and anonymous resize/context handlers; InputHandler owns a 1ms interval plus anonymous global listeners. A rematch can therefore retain workers, renders, keys, timers, and callbacks from prior play.",
+      "recipe": "Give EventBus a reversible listener checkpoint, make ClientGameRunner.stop idempotently restore its match scope, call stop before discarding the runner, replace the 1ms input loop with one animation-frame cadence, and add explicit destroy/dispose paths for renderer/input/touch/layers with lifecycle tests proving a leave/rematch returns worker, timer, animation, and listener counts to baseline. Core-loop step: player input → territorial command fantasy → match result → clean rematch progression.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 0.5,
+          "recipe": "Call currentGameRunner.stop before nulling it."
+        },
+        "L2": {
+          "effortHours": 2,
+          "recipe": "Cancel the renderer loop and input timers/listeners."
+        },
+        "L3": {
+          "effortHours": 4,
+          "recipe": "Ship scoped EventBus rollback, layer disposal, idempotence, and leave/rematch lifecycle tests."
+        }
+      },
+      "executionLog": [
+        "Session 96: match construction and runtime teardown now share a generation boundary; pre-start and active runners release worker, transport, renderer canvas/RAF/layers, input, touch, timers, and EventBus listeners exactly once; lifecycle tests pass."
+      ]
+    },
+    {
+      "id": 155,
+      "slug": "causal-certified-match-feedback",
+      "tier": "🔥",
+      "axis": "feedback loop / UX / feature depth / analytics",
+      "effortHours": 5,
+      "impact": 9,
+      "innovation": 8,
+      "priority": 158,
+      "status": "shipped",
+      "complete": true,
+      "title": "Turn two ratings into privacy-minimal causal playtest evidence",
+      "why": "The certified feedback surface records only match and map scores. MatchFeedbackStore already retains an optional comment field, but the UI never sends it and summaries never expose it, so a low score cannot distinguish pacing, clarity, agency, comeback, map-flow, or technical friction.",
+      "recipe": "Add one optional bounded cause tag chosen from a project-owned taxonomy, validate it server-side, store it through the existing feedback row without free-form player text, aggregate it as a certified cohort, include it in the accepted receipt, and render accessible 44px choices after both ratings. Tests must prove certificate binding, duplicate behavior, retention, aggregation, and stale-game isolation. Core-loop step: match input → decisive convoy fantasy → certified reflection reward → evidence-led progression tuning.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 0.5,
+          "recipe": "Expose one bounded reason choice in the feedback UI."
+        },
+        "L2": {
+          "effortHours": 2,
+          "recipe": "Validate and retain the reason with the certified match row."
+        },
+        "L3": {
+          "effortHours": 4,
+          "recipe": "Add certified reason cohorts, receipts, accessibility, stale-session tests, and rendered proof."
+        }
+      },
+      "executionLog": [
+        "Session 96: certified feedback accepts one bounded enumerated causal signal, persists it in the existing retained row, exposes privacy-safe signal cohorts and receipt provenance, and renders accessible 44px choices; focused and full tests pass."
+      ]
+    },
+    {
+      "id": 152,
+      "slug": "truthful-multitab-collision",
+      "tier": "🔥",
+      "axis": "security / UX / observability / soul fidelity",
+      "effortHours": 3,
+      "impact": 9,
+      "innovation": 7,
+      "priority": 150,
+      "status": "shipped",
+      "complete": true,
+      "title": "Replace fabricated surveillance theater with a truthful local tab-collision receipt",
+      "why": "MultiTabModal generates a fake IP and fake fingerprint, labels the state RECORDING and Reported TRUE, and threatens suspension although MultiTabDetector only observes a same-origin localStorage lock. stopMonitoring removes different bound function objects, so its listeners survive teardown; repeated show calls can also stack countdown intervals.",
+      "recipe": "Delete fabricated identity/reporting claims, present the exact local same-browser collision scope and non-server evidence boundary, retain a calm bounded action pause, use stable handler references, clear penalty timers, make start/stop idempotent, and add accessible lifecycle tests plus desktop/mobile/theme screenshots. Core-loop step: player input → fair-command fantasy → trustworthy interruption receipt → safe return to match progression.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 0.5,
+          "recipe": "Remove fake IP, fingerprint, and report claims."
+        },
+        "L2": {
+          "effortHours": 2,
+          "recipe": "Make detector and countdown lifecycle idempotent."
+        },
+        "L3": {
+          "effortHours": 4,
+          "recipe": "Ship truth-labeled receipt semantics, accessibility, teardown contracts, and rendered proof."
+        }
+      },
+      "executionLog": [
+        "Session 96: fabricated IP/fingerprint/record/report/suspension claims removed; same-origin storage scope is explicit; detector/listener/countdown lifecycle is idempotent; desktop/mobile all-theme proof passes."
+      ]
+    },
+    {
+      "id": 154,
+      "slug": "retire-browser-authored-remote-microhint",
+      "tier": "🔥",
+      "axis": "AI / security / capital / token-API reduction",
+      "effortHours": 4,
+      "impact": 9,
+      "innovation": 7,
+      "priority": 142,
+      "status": "shipped",
+      "complete": true,
+      "title": "Retire the unauthenticated browser-authored remote micro-coach path",
+      "why": "CoachHintEngine already renders an immediate deterministic local tactical hint, but an opt-in calls GET /api/vaultfront/micro-hint with browser-authored gold/sites. The provider route has no actor admission, no certified match evidence, no server cache, and is absent from the remote-reservation ordering contract, while every accepted call consumes metered provider capacity.",
+      "recipe": "Remove the remote route, client fetch helper, opt-in storage switch, and unreachable provider prompt while retaining deterministic local coaching and its telemetry; add runtime tombstones and cost-firewall tests forbidding the route/provider literal from returning. Do not relabel canonical certified recap/debrief AI. Core-loop step: tactical input → coach-supported convoy fantasy → immediate local clarity reward → skill progression without variable-cost abuse.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 0.5,
+          "recipe": "Disable the remote enhancement toggle."
+        },
+        "L2": {
+          "effortHours": 2,
+          "recipe": "Remove the route and client helper while preserving local hints."
+        },
+        "L3": {
+          "effortHours": 4,
+          "recipe": "Add reachability tombstones, reservation-contract coverage, telemetry assertions, and bundle verification."
+        }
+      },
+      "executionLog": [
+        "Session 96: unauthenticated remote micro-hint route, client helper, toggle, and provider prompt removed; local deterministic coaching retained; route tombstone, telemetry, reachability, tests, and production build pass."
+      ]
+    },
+    {
+      "id": 157,
+      "slug": "generation-safe-progression-debrief",
+      "tier": "🔥",
+      "axis": "retention / reliability / UX / gamification",
+      "effortHours": 4,
+      "impact": 9,
+      "innovation": 7,
+      "priority": 139,
+      "status": "shipped",
+      "complete": true,
+      "title": "Make progression debrief repeatable and generation-safe across rematches",
+      "why": "ProgressionDebrief is a singleton Layer whose requested flag never resets when createRenderer binds a new game. Its polling checks cancelled only before fetch, clears a wait timer without resolving the pending promise, and can apply a prior games receipt after a new match begins. The first post-match debrief can therefore suppress or overwrite later rematch progression.",
+      "recipe": "Bind the component through an explicit game-generation reset, abort/resolve every wait and fetch boundary, reject receipts after generation change, reset claim/loading/certification state, and add consecutive-match plus stale-response tests. Core-loop step: match result → certified reward debrief → chosen rematch goal → next-match progression.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 0.5,
+          "recipe": "Reset requested when a new game binds."
+        },
+        "L2": {
+          "effortHours": 2,
+          "recipe": "Guard delayed receipts with a game generation."
+        },
+        "L3": {
+          "effortHours": 4,
+          "recipe": "Add abortable polling, full state reset, consecutive-rematch tests, and lifecycle integration."
+        }
+      },
+      "executionLog": [
+        "Session 96: progression singleton resets per game generation, resolves cancelled waits, rejects stale receipts, and repeats across rematches; consecutive-bind and lifecycle coverage pass."
+      ]
+    },
+    {
+      "id": 156,
+      "slug": "doctrine-guided-rematch-continuity",
+      "tier": "⚡",
+      "axis": "gamification / retention / feature depth / soul fidelity",
+      "effortHours": 4,
+      "impact": 8,
+      "innovation": 8,
+      "priority": 132,
+      "status": "shipped",
+      "complete": true,
+      "title": "Carry the active non-power Doctrine through debrief and the next rematch goal",
+      "why": "The Doctrine Vault persists a server-owned active coaching identity, but only GameRightSidebar renders it. ProgressionDebrief chooses a generic Convoy Mastery goal without loading the active Doctrine, and the rematch event carries only generic text/evidence, so the paid non-power choice disappears at the exact progression-to-next-input seam.",
+      "recipe": "Load the certified daily-mastery snapshot alongside the progression dividend, derive a bounded Doctrine coaching frame from the server-owned catalog, show it in the debrief without changing combat stats, and bind its id/brief into the rematch goal receipt with stale-session guards. Core-loop step: certified reward → chosen commander identity → doctrine-framed rematch input → long-term mastery progression.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 0.5,
+          "recipe": "Display the active Doctrine in the debrief."
+        },
+        "L2": {
+          "effortHours": 2,
+          "recipe": "Include its server-owned id and brief in the rematch event."
+        },
+        "L3": {
+          "effortHours": 4,
+          "recipe": "Bind it to generation-safe evidence, tests, accessibility, and theme/mobile proof."
+        }
+      },
+      "executionLog": [
+        "Session 96: active server-owned non-power Doctrine is loaded into the progression debrief and bound into rematch intent with coaching-only policy; generation guards, tests, and rendered proof pass."
+      ]
+    },
+    {
+      "id": 153,
+      "slug": "accessible-account-recovery-state",
+      "tier": "⚡",
+      "axis": "UX / accessibility / security / conversion",
+      "effortHours": 3,
+      "impact": 8,
+      "innovation": 4,
+      "priority": 91,
+      "status": "shipped",
+      "complete": true,
+      "title": "Replace blocking account-recovery alerts with bounded accessible state",
+      "why": "AccountModal magic-link recovery uses three window.alert calls, has no pending guard, and leaves the button active during the request. Keyboard and screen-reader users lose modal context, rapid activation can duplicate requests, and success/error truth is detached from the themed account surface.",
+      "recipe": "Add semantic inline validation, pending, success, and retry states with aria-live/role alert, disable duplicate submission, preserve the entered address, reset request state on a new modal session, and cover success/failure/rapid-click/keyboard behavior plus all-theme desktop/mobile rendering. Core-loop step: identity input → trusted account gateway → recovery confirmation reward → return-to-play progression.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 0.5,
+          "recipe": "Replace alert with inline status."
+        },
+        "L2": {
+          "effortHours": 2,
+          "recipe": "Add pending and duplicate-submit protection."
+        },
+        "L3": {
+          "effortHours": 4,
+          "recipe": "Ship accessible state-machine tests, modal-session reset, and rendered theme/mobile proof."
+        }
+      },
+      "executionLog": [
+        "Session 96: blocking recovery alerts replaced by inline validation/pending/success/error state with duplicate-submit guard and ARIA relationships; focused tests and desktop/mobile all-theme proof pass."
+      ]
+    }
+  ],
+  "secondOrderInnovations": [
+    {
+      "slug": "certified-local-narration-baseline",
+      "status": "shipped",
+      "premise": "The authority fix revealed that default-off remote AI also made the newly certified visible feature disappear.",
+      "result": "Every certified high-signal event now broadcasts a deterministic privacy-minimal line immediately; remote AI only enriches it."
+    },
+    {
+      "slug": "dynasty-writer-reachability",
+      "status": "shipped",
+      "premise": "The new reachability contract found a visible dynasty reader and certified writer with no call edge between them.",
+      "result": "WinModal now invokes the authenticated certificate-bound writer before reading the clan chronicle, with the source consumer recorded in the reachability graph."
+    },
+    {
+      "slug": "post-flush-open-truth",
+      "status": "shipped",
+      "premise": "The recovery presenter exposed that Transport emitted open before protected commands actually drained.",
+      "result": "Transport now publishes a single open event only after synchronization and successful FIFO delivery, so restored copy cannot outrun source truth."
+    },
+    {
+      "slug": "pixel-proof-z-order-self-check",
+      "status": "shipped",
+      "premise": "Initial browser assertions passed while synthetic proof backdrops visually occluded the recovery and narrator surfaces.",
+      "result": "The proof harness now asserts foreground z-order numerically and the recaptured images visibly contain every claimed state."
+    }
+  ]
+}

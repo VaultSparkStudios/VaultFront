@@ -24,6 +24,10 @@ import { translateText } from "./Utils";
 export class AccountModal extends BaseModal {
   @state() private email: string = "";
   @state() private isLoadingUser: boolean = false;
+  @state() private recoveryState: "idle" | "pending" | "success" | "error" =
+    "idle";
+  @state() private recoveryMessage = "";
+  private recoveryGeneration = 0;
 
   private userMeResponse: UserMeResponse | null = null;
   private statsTree: PlayerStatsTree | null = null;
@@ -313,15 +317,38 @@ export class AccountModal extends BaseModal {
                   placeholder="${translateText(
                     "account_modal.email_placeholder",
                   )}"
+                  aria-describedby="email-recovery-status"
+                  aria-invalid=${this.recoveryState === "error" ? "true" : "false"}
+                  ?disabled=${this.recoveryState === "pending"}
                   required
                 />
               </div>
               <button
                 @click="${this.handleSubmit}"
-                class="w-full px-6 py-3 text-sm font-bold text-white uppercase tracking-wider bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 rounded-xl transition-all shadow-lg hover:shadow-blue-900/40 border border-white/5"
+                class="min-h-11 w-full px-6 py-3 text-sm font-bold text-white uppercase tracking-wider bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 rounded-xl transition-all shadow-lg hover:shadow-blue-900/40 border border-white/5 disabled:cursor-wait disabled:opacity-60"
+                ?disabled=${this.recoveryState === "pending"}
+                aria-busy=${this.recoveryState === "pending" ? "true" : "false"}
               >
-                ${translateText("account_modal.get_magic_link")}
+                ${
+                  this.recoveryState === "pending"
+                    ? "Sending recovery link…"
+                    : translateText("account_modal.get_magic_link")
+                }
               </button>
+              <p
+                id="email-recovery-status"
+                class="m-0 min-h-5 text-sm ${
+                  this.recoveryState === "error"
+                    ? "text-red-300"
+                    : this.recoveryState === "success"
+                      ? "text-emerald-300"
+                      : "text-white/50"
+                }"
+                role=${this.recoveryState === "error" ? "alert" : "status"}
+                aria-live="polite"
+              >
+                ${this.recoveryMessage}
+              </p>
             </div>
           </div>
 
@@ -341,23 +368,37 @@ export class AccountModal extends BaseModal {
   private handleEmailInput(e: Event) {
     const target = e.target as HTMLInputElement;
     this.email = target.value;
+    if (this.recoveryState !== "pending") {
+      this.recoveryState = "idle";
+      this.recoveryMessage = "";
+    }
   }
 
   private async handleSubmit() {
-    if (!this.email) {
-      alert(translateText("account_modal.enter_email_address"));
+    if (this.recoveryState === "pending") return;
+    const email = this.email.trim();
+    if (!email) {
+      this.recoveryState = "error";
+      this.recoveryMessage = translateText("account_modal.enter_email_address");
       return;
     }
 
-    const success = await sendMagicLink(this.email);
+    this.recoveryState = "pending";
+    this.recoveryMessage = "Sending a recovery link…";
+    const generation = this.recoveryGeneration;
+    const success = await sendMagicLink(email);
+    if (generation !== this.recoveryGeneration) return;
     if (success) {
-      alert(
-        translateText("account_modal.recovery_email_sent", {
-          email: this.email,
-        }),
+      this.recoveryState = "success";
+      this.recoveryMessage = translateText(
+        "account_modal.recovery_email_sent",
+        { email },
       );
     } else {
-      alert(translateText("account_modal.failed_to_send_recovery_email"));
+      this.recoveryState = "error";
+      this.recoveryMessage = translateText(
+        "account_modal.failed_to_send_recovery_email",
+      );
     }
   }
 
@@ -366,7 +407,10 @@ export class AccountModal extends BaseModal {
   }
 
   protected onOpen(): void {
+    this.recoveryGeneration += 1;
     this.isLoadingUser = true;
+    this.recoveryState = "idle";
+    this.recoveryMessage = "";
 
     void getUserMe()
       .then((userMe) => {

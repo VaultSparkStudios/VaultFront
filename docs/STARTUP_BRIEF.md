@@ -1,13 +1,13 @@
 <!-- generated-by: scripts/render-startup-brief.mjs v3.1 -->
-<!-- generated-at: 2026-08-05T05:05:29.449Z -->
-<!-- generated-for-session: 96; source-closeout-session: 95 -->
+<!-- generated-at: 2026-08-05T22:35:10.851Z -->
+<!-- generated-for-session: 97; source-closeout-session: 96 -->
 <!-- fast-boot-valid-until: next session if within 24h -->
 <!-- brief-coherent: true -->
-<!-- brief-sources: {"schema":2,"session":95,"sources":{"context/PROJECT_STATUS.json":"5ce03753fdcf498877f8ce8b283be9b199b9b70e68719d9a4f4b5fe77121360e","context/TASK_BOARD.md":"69602655c04f92fe0501942bb5db174276a85331db25897e80b83fbb4eaae55f","context/LATEST_HANDOFF.md":"50750537c1c56017fc37148cc93cbee68a1bfe333865e187241308a7e87bbeaf","context/SELF_IMPROVEMENT_LOOP.md":"7bd4aa906ac1fbdd256fa7c818a4c425954e587eca2b402c84066c1f3cf31e22","context/TRUTH_AUDIT.md":"e9ab97497b6776e581d42bd6c5310a731526f8b0c1b852f551ebd3161e030fad","context/CURRENT_STATE.md":"ef4a4af1ac4c390798456e89271783a3e6849ee13a2abc69ce5368467dd61b65","docs/GENIUS_LIST.md":"78a58572cf67ad0824286ad63c9576c72e660e1804b0470bb0fd3d713138ce9c","docs/SESSION_PLAN.md":"b3bf49e5e8d173eac49219b9021300838b88c80b0b19912520288e66e0870943","docs/CREATIVE_DIRECTION_RECORD.md":"1cbe0ce7f1275398794f5ac5ce3fa8f3bca848523cccc02fa2be9f3ad327edfe"}} -->
+<!-- brief-sources: {"schema":2,"session":96,"sources":{"context/PROJECT_STATUS.json":"a7e12ca91b0524aa3bc77b49b8696fcd6d648e23aa3063d9d6f27de9d1adfb49","context/TASK_BOARD.md":"bb10929c705781d7e9b5a5a4775f9bf1aee9c836a1541d451d765548a6905729","context/LATEST_HANDOFF.md":"e074e546cdec017e5761942a391c4c48029d355f7262b8e351206f1e649a4258","context/SELF_IMPROVEMENT_LOOP.md":"0e3e84e7b6e3f0f3c41d5401e155a57dfe2342d5827577c42c40c375c6bcf985","context/TRUTH_AUDIT.md":"9e8251bc61bf262acb8d6212b18adbfcf4c33b4ba0b927adf441ca73f8a1a111","context/CURRENT_STATE.md":"0fd0fbed4e6ce8f727dbb4150b572d86542263f8c052c73c56125e480a36b444","docs/GENIUS_LIST.md":"1c56e41032e53da7c40239ed62ad7c2b259ca7dff7214d13a81145cccac1ec70","docs/SESSION_PLAN.md":"b3bf49e5e8d173eac49219b9021300838b88c80b0b19912520288e66e0870943","docs/CREATIVE_DIRECTION_RECORD.md":"3afe7f8f23fa15e161d349cfe952844f3ea69369a91c786e4eb7da20a619f26b"}} -->
 
 # Startup Brief — VaultFront
 
-> **Fast-boot brief** — rendered for Session 96 from Session 95 closeout evidence · 2026-08-05.
+> **Fast-boot brief** — rendered for Session 97 from Session 96 closeout evidence · 2026-08-05.
 > Valid for next session if started within 24h. For sessions >24h later, load context files fresh (start.md §3).
 
 ---
@@ -16,14 +16,14 @@
 ╔════════════════════════════════════════════════════════════════╗
 ║  🎮 VAULTFRONT                                                   ║
 ║  game · alpha/public-unlaunched · FORGE                          ║
-║  Session 96 · 2026-08-05 · FOUNDER MODE                          ║
+║  Session 97 · 2026-08-05 · FOUNDER MODE                          ║
 ║  Owner: VaultSpark Studios                                       ║
 ╚════════════════════════════════════════════════════════════════╝
 
-╔══ LAST SESSION (S95) - WHAT SHIPPED ═══════════════════════════╗
-║  Session 95 closeout recovery reconciled provider receipts and   ║
-║  public write-back, repaired a stale remote ref, and made…       ║
-║  Tests  1189/1189 passing (2026-08-05T04:59:47.003Z) · 1 deferr  ║
+╔══ LAST SESSION (S96) - WHAT SHIPPED ═══════════════════════════╗
+║  Session 96 recovered Session 95 with checkpoint 46b2ae1e, then  ║
+║  shipped all seven fresh audit findings and exhausted 23/23…     ║
+║  Tests  1198/1198 passing (2026-08-05T22:25:04.736Z) · 1 deferr  ║
 ║  Deploy NO-GO · no staging/production observation                ║
 ╚════════════════════════════════════════════════════════════════╝
 
@@ -43,7 +43,7 @@
 ║    997/1000   ███████████████████████░   100%                    ║
 ║    SIL v3.0  ·  Avg3: 997  ·  Velocity 7→                        ║
 ║    Last active: 0d  ·  Last closeout: 0d  ·  (active = newest o  ║
-║    Trend  ▇██▇▆  →  (last 5 sessions)                            ║
+║    Trend  ██▇▆▆  →  (last 5 sessions)                            ║
 ║                                                                  ║
 ║    Category         Score  Bar        Spark   Δ                  ║
 ║    ─────────────── ────── ────────── ──────── ─                  ║
@@ -60,20 +60,20 @@
 ║                                                                  ║
 ╚════════════════════════════════════════════════════════════════╝
 
-╔══ WHERE WE LEFT OFF  ·  Session 95 ════════════════════════════╗
+╔══ WHERE WE LEFT OFF  ·  Session 96 ════════════════════════════╗
 ║  Shipped:  see LATEST_HANDOFF.md                                 ║
-║  Tests:    1189/1189 passing  ·  Deploy: N/A                     ║
+║  Tests:    1198/1198 passing  ·  Deploy: N/A                     ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ CONTEXT METER ═══════════════════════════════════════════════╗
-║  ✓  ░░░░░░░░░░░░░░░░░░░░░░░░    2% used                          ║
-║     3,013 / 200,000 tok  ·  unknown/default  ·  heuristic        ║
-║     ~1,507 tok/turn  ·  cache 50%  ·  120 turns to compact       ║
+║  ✓  ███░░░░░░░░░░░░░░░░░░░░░   11% used                          ║
+║     114,376 / 1,000,000 tok  ·  codex/codex-1m  ·  measured+heu  ║
+║     ~57,188 tok/turn  ·  cache 50%  ·  14 turns to compact       ║
 ║     Verdict: CONTINUE                                            ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ SIGNALS ═════════════════════════════════════════════════════╗
-║  ⚠  Tests         1189/1189 passing (2026-08-05T04:59:47.003Z)   ║
+║  ⚠  Tests         1198/1198 passing (2026-08-05T22:25:04.736Z)   ║
 ║  ✓  Velocity      7 →  ·  Debt: ↓                                ║
 ║  ⚠  Runway        unknown                                        ║
 ║  ⛔  Context age   ?d                                             ║
@@ -105,7 +105,7 @@
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ MOMENTUM METER ══════════════════════════════════════════════╗
-║  Velocity:   ▇██▇▆  7→  (last 5 sessions)                        ║
+║  Velocity:   ██▇▆▆  7→  (last 5 sessions)                        ║
 ║  Intent:     100% achieved last 5                                ║
 ║  Streak:     — (last intent not achieved)                        ║
 ╚════════════════════════════════════════════════════════════════╝
@@ -116,14 +116,14 @@
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ GENIUS HIT LIST ═════════════════════════════════════════════╗
-║  ✓ Primary audit exhausted · 16/16 shipped                       ║
+║  ✓ Primary audit exhausted · 23/23 shipped                       ║
 ║  Next: node scripts/ops.mjs innovation-pack                      ║
-║  Audit: docs/AUDIT_2026-08-04.json                               ║
+║  Audit: docs/AUDIT_2026-08-05.json                               ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ```
 
 ---
 
-_Generated by `scripts/render-startup-brief.mjs v3.1` · Session 95 closeout · 2026-08-05_
+_Generated by `scripts/render-startup-brief.mjs v3.1` · Session 96 closeout · 2026-08-05_
 _Run `node scripts/ops.mjs doctor` for live health check · `node scripts/ops.mjs genius-list` to refresh hit list_

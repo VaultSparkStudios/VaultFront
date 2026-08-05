@@ -331,3 +331,12 @@ Session 89 closeout tooling incident: invoking the Studio Ops closeout-board ren
 
 - Exact code-and-board revision `ae6809a54cc777e4a141a5bf999ea02dea0f15d6` completed successfully in CI `30977090883`, E2E `30977090884`, and Release `30977090890`; two same-revision dependency-review jobs also passed.
 - Canonical provider truth is recorded in `PROJECT_STATUS.json`, `CURRENT_STATE.md`, `LATEST_HANDOFF.md`, and `TRUTH_AUDIT.md`. This metadata-only receipt successor uses `[skip ci]` and does not relabel the public-launch boundary: VaultFront remains NO-GO on missing external launch observations and founder approval.
+
+## 2026-08-05 — Session 96 /arc
+
+- Recovery boundary: verified and pushed the separate recover S95 closeout checkpoint before starting fresh work.
+- Goal: run /start → /audit → /implement → /closeout continuously and saturate all premise-verified local work.
+- Shipped: deterministic pre-start and active match teardown; EventBus checkpoints/disposers; RAF/input/touch/layer/canvas cleanup; truthful local multi-tab collision scope; bounded causal certified feedback and privacy-safe cohorts; local-only tactical coaching with the unauthenticated micro-hint route retired; generation-safe repeatable progression debriefs; active Doctrine rematch continuity; accessible non-blocking account recovery.
+- Visual proof: desktop/mobile across VaultFront, Light, and Competitive themes passed 2/2 with 114 source- and artifact-hash-bound captures; CANON-053 passes. The local image-view tool was unavailable due the recurring Windows sandbox credential-decryption failure, so no unsupported direct-view claim is made.
+- Verification: npm test 229 files / 1,198 tests; TypeScript; ESLint; Prettier; runtime/deploy/composition contracts; 28,125 balance scenarios; production build; audit 23/23; innovations 62/62.
+- Release boundary: remains NO-GO on approved staging/parity, Zoho reply identity, native Obelisk, live web/theme, three authenticated humans, revenue, rollback, exact-revision provider CI, and founder approval.

@@ -8,7 +8,6 @@ import {
   VaultFrontStatusUpdate,
 } from "../../../core/game/GameUpdates";
 import { GameView } from "../../../core/game/GameView";
-import { fetchMicroHint } from "../../Api";
 import type { Layer } from "./Layer";
 import { uiStateManager } from "./UIStateManager";
 
@@ -80,8 +79,6 @@ export class CoachHintEngine extends LitElement implements Layer {
   private hintDismissTimer: ReturnType<typeof setTimeout> | null = null;
   /** Last tick each trigger fired — avoids per-trigger cooldown collisions */
   private lastHintTickByTrigger = new Map<HintTrigger, number>();
-  /** True while an async fetch is in flight — prevents concurrent calls */
-  private fetching = false;
   /** 5-min LRU hint cache keyed on {trigger}_{gold_bucket}_{sites} */
   private hintCache = new Map<string, { hint: string; expiresAt: number }>();
   private readonly HINT_CACHE_TTL_MS = 5 * 60 * 1000;
@@ -126,9 +123,7 @@ export class CoachHintEngine extends LitElement implements Layer {
 
     // Evaluate event triggers (ordered by priority)
     const trigger = this.detectTrigger(updates);
-    if (trigger && !this.fetching) {
-      void this.fetchAndShow(trigger);
-    }
+    if (trigger) this.showTacticalHint(trigger);
   }
 
   private detectTrigger(
@@ -253,10 +248,6 @@ export class CoachHintEngine extends LitElement implements Layer {
     }
   }
 
-  private remoteEnhancementEnabled(): boolean {
-    return localStorage.getItem("coachRemoteEnhancementEnabled") === "true";
-  }
-
   private showHint(hint: string): void {
     this.hint = hint;
     this.visible = true;
@@ -267,7 +258,7 @@ export class CoachHintEngine extends LitElement implements Layer {
     }, 12_000);
   }
 
-  private async fetchAndShow(trigger: HintTrigger): Promise<void> {
+  private showTacticalHint(trigger: HintTrigger): void {
     this.lastHintTickByTrigger.set(trigger, this.tickCount);
     const state = uiStateManager.get();
     const gold = Number(state.playerGold ?? 0);
@@ -287,35 +278,19 @@ export class CoachHintEngine extends LitElement implements Layer {
     });
     this.showHint(localHint);
     this.incrementTelemetry("localHints");
-
-    // Remote prose is an explicit, cost-aware enhancement. The deterministic
-    // policy above is always rendered first and remains authoritative if the
-    // request is slow, unavailable, or returns an oversized response.
-    if (!this.remoteEnhancementEnabled()) {
-      this.incrementTelemetry("remoteCallsAvoided");
-      return;
-    }
-
-    this.fetching = true;
-    const remoteHint = await Promise.race<string | null>([
-      fetchMicroHint({ gold, sites, trigger }),
-      new Promise<null>((resolve) => setTimeout(() => resolve(null), 1_500)),
-    ]).catch(() => null);
-    this.fetching = false;
-    const boundedHint = remoteHint?.trim();
-    if (!boundedHint || boundedHint.length > 180) return;
-
-    this.hintCache.set(cacheKey, {
-      hint: boundedHint,
-      expiresAt: Date.now() + this.HINT_CACHE_TTL_MS,
-    });
-    this.showHint(boundedHint);
-    this.incrementTelemetry("remoteEnhancements");
+    this.incrementTelemetry("providerCallsAvoided");
   }
   private dismiss(): void {
     this.visible = false;
     this.hint = null;
     if (this.hintDismissTimer) clearTimeout(this.hintDismissTimer);
+    this.hintDismissTimer = null;
+  }
+
+  public dispose(): void {
+    this.dismiss();
+    this.hintCache.clear();
+    this.lastHintTickByTrigger.clear();
   }
 
   private disableHints(): void {

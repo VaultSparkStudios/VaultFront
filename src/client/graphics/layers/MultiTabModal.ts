@@ -10,19 +10,13 @@ import { Layer } from "./Layer";
 @customElement("multi-tab-modal")
 export class MultiTabModal extends LitElement implements Layer {
   public game: GameView;
+  private detector: MultiTabDetector | null = null;
 
-  private detector: MultiTabDetector;
+  @property({ type: Number }) duration = 5_000;
+  @state() private countdown = 5;
+  @state() private isVisible = false;
+  private intervalId: number | null = null;
 
-  @property({ type: Number }) duration: number = 5000;
-  @state() private countdown: number = 5;
-  @state() private isVisible: boolean = false;
-  @state() private fakeIp: string = "";
-  @state() private deviceFingerprint: string = "";
-  @state() private reported: boolean = true;
-
-  private intervalId?: number;
-
-  // Disable shadow DOM to allow Tailwind classes to work
   createRenderRoot() {
     return this;
   }
@@ -37,153 +31,113 @@ export class MultiTabModal extends LitElement implements Layer {
     }
     if (!this.detector) {
       this.detector = new MultiTabDetector();
-      this.detector.startMonitoring((duration: number) => {
-        this.show(duration);
-      });
+      this.detector.startMonitoring((duration) => this.show(duration));
     }
   }
 
   init() {
-    this.fakeIp = this.generateFakeIp();
-    this.deviceFingerprint = this.generateDeviceFingerprint();
-    this.reported = true;
+    this.hide(false);
   }
 
-  // Generate fake IP in format xxx.xxx.xxx.xxx
-  private generateFakeIp(): string {
-    return Array.from({ length: 4 }, () =>
-      Math.floor(Math.random() * 255),
-    ).join(".");
-  }
-
-  // Generate fake device fingerprint (32 character hex)
-  private generateDeviceFingerprint(): string {
-    return Array.from({ length: 32 }, () =>
-      Math.floor(Math.random() * 16).toString(16),
-    ).join("");
-  }
-
-  // Show the modal with penalty information
   public show(duration: number): void {
-    if (!this.game.myPlayer()?.isAlive()) {
-      return;
-    }
+    if (!this.game.myPlayer()?.isAlive()) return;
+    this.hide(false);
     this.duration = duration;
-    this.countdown = Math.ceil(duration / 1000);
+    this.countdown = Math.ceil(duration / 1_000);
     this.isVisible = true;
-
-    // Start countdown timer
     this.intervalId = window.setInterval(() => {
-      this.countdown--;
-
-      if (this.countdown <= 0) {
-        this.hide();
-      }
-    }, 1000);
-
+      this.countdown -= 1;
+      if (this.countdown <= 0) this.hide();
+    }, 1_000);
     this.requestUpdate();
   }
 
-  // Hide the modal
-  public hide(): void {
+  public hide(announce = true): void {
     this.isVisible = false;
-
-    if (this.intervalId) {
+    if (this.intervalId !== null) {
       window.clearInterval(this.intervalId);
-      this.intervalId = undefined;
+      this.intervalId = null;
     }
-
-    // Dispatch event when modal is closed
-    this.dispatchEvent(
-      new CustomEvent("penalty-complete", {
-        bubbles: true,
-        composed: true,
-      }),
-    );
-
+    if (announce) {
+      this.dispatchEvent(
+        new CustomEvent("penalty-complete", {
+          bubbles: true,
+          composed: true,
+        }),
+      );
+    }
     this.requestUpdate();
+  }
+
+  public dispose(): void {
+    this.hide(false);
+    this.detector?.stopMonitoring();
+    this.detector = null;
   }
 
   disconnectedCallback() {
+    this.dispose();
     super.disconnectedCallback();
-    if (this.intervalId) {
-      window.clearInterval(this.intervalId);
-    }
   }
 
   render() {
-    if (!this.isVisible) {
-      return html``;
-    }
-
+    if (!this.isVisible) return html``;
+    const progress = Math.max(
+      0,
+      Math.min(100, (this.countdown / (this.duration / 1_000)) * 100),
+    );
     return html`
       <div
-        class="fixed inset-0 z-50 overflow-auto bg-red-500/20 flex items-center justify-center"
+        class="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-slate-950/75 p-4"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="multi-tab-title"
+        aria-describedby="multi-tab-scope"
       >
         <div
-          class="relative p-6 bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-md w-full m-4 transition-all transform"
+          class="relative w-full max-w-md rounded-xl border border-amber-300/45 bg-slate-950 p-6 text-slate-100 shadow-2xl"
         >
-          <div class="flex items-center justify-between mb-4">
-            <h2 class="text-2xl font-bold text-red-600 dark:text-red-400">
-              ${translateText("multi_tab.warning")}
-            </h2>
-            <div
-              class="px-2 py-1 bg-red-600 text-white text-xs font-bold rounded-full animate-pulse"
+          <div class="mb-4 flex items-start justify-between gap-3">
+            <h2
+              id="multi-tab-title"
+              class="m-0 text-xl font-bold text-amber-200"
             >
-              RECORDING
-            </div>
+              Another VaultFront tab is active
+            </h2>
+            <span
+              class="rounded-full border border-cyan-300/35 bg-cyan-300/10 px-2 py-1 text-[10px] font-bold uppercase tracking-wide text-cyan-100"
+              >Local tab check</span
+            >
           </div>
 
-          <p class="mb-4 text-gray-800 dark:text-gray-200">
+          <p class="mb-3 text-sm text-slate-200">
             ${translateText("multi_tab.detected")}
           </p>
-
-          <div
-            class="mb-4 p-3 bg-gray-100 dark:bg-gray-900 rounded-md text-sm font-mono"
+          <p
+            id="multi-tab-scope"
+            class="mb-4 text-xs leading-relaxed text-slate-400"
           >
-            <div class="flex justify-between mb-1">
-              <span class="text-gray-500 dark:text-gray-400">IP:</span>
-              <span class="text-red-600 dark:text-red-400">${this.fakeIp}</span>
-            </div>
-            <div class="flex justify-between mb-1">
-              <span class="text-gray-500 dark:text-gray-400"
-                >Device Fingerprint:</span
-              >
-              <span class="text-red-600 dark:text-red-400"
-                >${this.deviceFingerprint}</span
-              >
-            </div>
-            <div class="flex justify-between">
-              <span class="text-gray-500 dark:text-gray-400">Reported:</span>
-              <span class="text-red-600 dark:text-red-400"
-                >${this.reported ? "TRUE" : "FALSE"}</span
-              >
-            </div>
-          </div>
-
-          <p class="mb-4 text-gray-800 dark:text-gray-200">
-            ${translateText("multi_tab.please_wait")}
-            <span class="font-bold text-xl">${this.countdown}</span>
-            ${translateText("multi_tab.seconds")}
+            This pause comes only from a same-origin browser storage collision.
+            It does not inspect your IP address or device, and it does not
+            create a server report or suspension record.
           </p>
 
           <div
-            class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 mb-4"
+            class="mb-2 flex items-center justify-between text-xs text-slate-300"
           >
+            <span>Command input resumes automatically</span>
+            <span class="font-semibold text-amber-200" aria-live="polite"
+              >${this.countdown}s</span
+            >
+          </div>
+          <div class="h-2.5 w-full overflow-hidden rounded-full bg-slate-700">
             <div
-              class="bg-red-600 dark:bg-red-500 h-2.5 rounded-full transition-all duration-1000 ease-linear w-(--width)"
-              style="--width: ${
-                (this.countdown / (this.duration / 1000)) * 100
-              }%"
+              class="h-full rounded-full bg-amber-400 transition-[width] duration-1000 motion-reduce:transition-none"
+              style="width:${progress}%"
             ></div>
           </div>
-
-          <p class="text-sm text-gray-600 dark:text-gray-400">
-            ${translateText("multi_tab.explanation")}
-          </p>
-
-          <p class="mt-3 text-xs text-red-500 font-semibold">
-            Repeated violations may result in permanent account suspension.
+          <p class="mb-0 mt-4 text-xs text-slate-400">
+            Close the other VaultFront tab to avoid another local collision.
           </p>
         </div>
       </div>

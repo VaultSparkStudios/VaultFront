@@ -391,7 +391,24 @@
         "contradiction_density": 4
       },
       "delta": 0,
-      "cause": "Session 95 closeout recovery complete locally: provider truth reconciled, stale Git ref repaired, and canonical npm test"
+      "cause": "Session 95 closeout recovery fully verified: exact-revision provider gates green, stale Git ref repaired, and canonical "
+    },
+    {
+      "date": "2026-08-05",
+      "session": 96,
+      "total": 24,
+      "maxTotal": 25,
+      "overallStatus": "local green; external launch NO-GO.",
+      "lastReviewed": "2026-07-16",
+      "dimensions": {
+        "schema_alignment": 5,
+        "prompt_template_alignment": 5,
+        "derived_view_freshness": 5,
+        "handoff_continuity": 5,
+        "contradiction_density": 4
+      },
+      "delta": 0,
+      "cause": "Session 96 saturated arc complete locally: deterministic match teardown, truthful multi-tab recovery, accessible account"
     }
   ]
 }

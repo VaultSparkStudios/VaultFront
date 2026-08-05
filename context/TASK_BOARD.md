@@ -52,6 +52,13 @@ daily-challenge-system (DailyChallengeStore + HUD card), vault-intelligence-mark
 
 ## Follow-ups
 
+## Completed (2026-08-05 — Session 96 deterministic lifecycle and causal-reflection arc)
+
+- [done] Audit 151–157: generation-owned match teardown; truthful same-origin tab collision; accessible account recovery; local-only deterministic coaching; certified causal feedback cohorts; repeatable progression debrief; and Doctrine-guided rematch continuity.
+- [done] Exhaustion proof: audit 23/23 and cumulative innovation ledger 62/62 shipped; zero pending unblocked local work.
+- [done] Verification: canonical npm test 229 files / 1,198 tests; TypeScript; ESLint; Prettier; all runtime/deploy/composition contracts; 28,125 balance scenarios; production build; Playwright 2/2; 114 hash-bound captures; CANON-053.
+- [release-evidence] External launch remains NO-GO pending approved staging/parity, project-domain Zoho reply identity, native Obelisk, live themes/web evidence, three authenticated humans, real revenue, rollback observation, exact-revision provider CI, and founder approval.
+
 ## Completed (2026-08-05 — Session 95 closeout recovery finalization)
 
 - [done] Repair the obsolete `refs/remotes/vaultfront/HEAD` symbolic ref and prove Git object connectivity.

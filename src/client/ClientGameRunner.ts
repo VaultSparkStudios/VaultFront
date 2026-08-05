@@ -84,6 +84,8 @@ export function joinLobby(
   const transport = new Transport(lobbyConfig, eventBus);
 
   let currentGameRunner: ClientGameRunner | null = null;
+  let closed = false;
+  let creationGeneration = 0;
 
   const onconnect = () => {
     // Always send join - server will detect reconnection via persistentID
@@ -93,6 +95,7 @@ export function joinLobby(
   let terrainLoad: Promise<TerrainMapData> | null = null;
 
   const onmessage = (message: ServerMessage) => {
+    if (closed) return;
     if (message.type === "lobby_info") {
       // Server tells us our assigned clientID
       clientID = message.myClientID;
@@ -121,6 +124,10 @@ export function joinLobby(
       onJoin();
       // For multiplayer games, GameStartInfo is not known until game starts.
       lobbyConfig.gameStartInfo = message.gameStartInfo;
+      const generation = ++creationGeneration;
+      const previousRunner = currentGameRunner;
+      currentGameRunner = null;
+      previousRunner?.stop();
       createClientGame(
         lobbyConfig,
         clientID,
@@ -131,6 +138,10 @@ export function joinLobby(
         terrainMapFileLoader,
       )
         .then((r) => {
+          if (closed || generation !== creationGeneration) {
+            r.stop();
+            return;
+          }
           currentGameRunner = r;
           r.start();
         })
@@ -188,9 +199,13 @@ export function joinLobby(
 
     console.log("leaving game");
 
+    closed = true;
+    creationGeneration += 1;
+    const runner = currentGameRunner;
     currentGameRunner = null;
     connectionRecovery.dispose();
-    transport.leaveGame();
+    if (runner) runner.stop();
+    else transport.leaveGame();
 
     return true;
   };
@@ -261,12 +276,15 @@ async function createClientGame(
 export class ClientGameRunner {
   private myPlayer: PlayerView | null = null;
   private isActive = false;
+  private stopped = false;
 
   private turnsSeen = 0;
   private lastMousePosition: { x: number; y: number } | null = null;
 
   private lastMessageTime: number = 0;
   private connectionCheckInterval: NodeJS.Timeout | null = null;
+  private connectionCheckStartTimeout: NodeJS.Timeout | null = null;
+  private eventDisposers: Array<() => void> = [];
   private goToPlayerTimeout: NodeJS.Timeout | null = null;
 
   private lastTickReceiveTime: number = 0;
@@ -332,28 +350,33 @@ export class ClientGameRunner {
   }
 
   public start() {
+    if (this.isActive || this.stopped) return;
     SoundManager.playBackgroundMusic();
     console.log("starting client game");
 
     this.isActive = true;
     this.lastMessageTime = Date.now();
-    setTimeout(() => {
+    this.connectionCheckStartTimeout = setTimeout(() => {
+      this.connectionCheckStartTimeout = null;
+      if (!this.isActive) return;
       this.connectionCheckInterval = setInterval(
         () => this.onConnectionCheck(),
         1000,
       );
     }, 20000);
 
-    this.eventBus.on(MouseUpEvent, this.inputEvent.bind(this));
-    this.eventBus.on(MouseMoveEvent, this.onMouseMove.bind(this));
-    this.eventBus.on(AutoUpgradeEvent, this.autoUpgradeEvent.bind(this));
-    this.eventBus.on(
-      DoBoatAttackEvent,
-      this.doBoatAttackUnderCursor.bind(this),
-    );
-    this.eventBus.on(
-      DoGroundAttackEvent,
-      this.doGroundAttackUnderCursor.bind(this),
+    this.eventDisposers.push(
+      this.eventBus.on(MouseUpEvent, this.inputEvent.bind(this)),
+      this.eventBus.on(MouseMoveEvent, this.onMouseMove.bind(this)),
+      this.eventBus.on(AutoUpgradeEvent, this.autoUpgradeEvent.bind(this)),
+      this.eventBus.on(
+        DoBoatAttackEvent,
+        this.doBoatAttackUnderCursor.bind(this),
+      ),
+      this.eventBus.on(
+        DoGroundAttackEvent,
+        this.doGroundAttackUnderCursor.bind(this),
+      ),
     );
 
     this.renderer.initialize();
@@ -510,12 +533,20 @@ export class ClientGameRunner {
   }
 
   public stop() {
-    SoundManager.stopBackgroundMusic();
-    if (!this.isActive) return;
-
+    if (this.stopped) return;
+    this.stopped = true;
     this.isActive = false;
+    SoundManager.stopBackgroundMusic();
     this.worker.cleanup();
     this.transport.leaveGame();
+    this.renderer.destroy();
+    this.input.destroy();
+    this._touchHandler?.destroy();
+    for (const dispose of this.eventDisposers.splice(0)) dispose();
+    if (this.connectionCheckStartTimeout) {
+      clearTimeout(this.connectionCheckStartTimeout);
+      this.connectionCheckStartTimeout = null;
+    }
     if (this.connectionCheckInterval) {
       clearInterval(this.connectionCheckInterval);
       this.connectionCheckInterval = null;

@@ -9,13 +9,24 @@ const PRUNE_INTERVAL_MS = 60 * 60 * 1_000;
 
 export type MatchFeedbackDurability = "postgres" | "process-local";
 
+export const MATCH_FEEDBACK_SIGNALS = [
+  "decisive-convoy",
+  "comeback-tension",
+  "clear-objectives",
+  "pacing-drag",
+  "map-flow",
+  "control-friction",
+  "technical-friction",
+] as const;
+export type MatchFeedbackSignal = (typeof MATCH_FEEDBACK_SIGNALS)[number];
+
 export interface MatchFeedbackInput {
   persistentId: string;
   gameId: string;
   mapName: string;
   matchRating: number;
   mapRating: number;
-  comment?: string;
+  signal?: MatchFeedbackSignal;
   won: boolean;
   behindAtMinute8: boolean;
   playStyle: PlayStyleLabel;
@@ -30,10 +41,11 @@ export interface MatchFeedbackReceipt {
   durability: MatchFeedbackDurability;
   evidence: "certified-match-result";
   retentionDays: 30;
+  signal: MatchFeedbackSignal | null;
 }
 
 export interface CertifiedFeedbackCohort {
-  dimension: "outcome" | "match-path" | "play-style";
+  dimension: "outcome" | "match-path" | "play-style" | "feedback-signal";
   value: string;
   averageMapRating: number;
   averageMatchRating: number;
@@ -64,23 +76,27 @@ function roundedAverage(sum: number, count: number): number {
   return count > 0 ? Math.round((sum / count) * 10) / 10 : 0;
 }
 
-function cohortValues(feedback: StoredFeedback) {
-  return [
-    ["outcome", feedback.won ? "win" : "loss"],
+function cohortValues(
+  feedback: StoredFeedback,
+): Array<readonly [CertifiedFeedbackCohort["dimension"], string]> {
+  const values: Array<readonly [CertifiedFeedbackCohort["dimension"], string]> =
     [
-      "match-path",
-      feedback.behindAtMinute8
-        ? feedback.won
-          ? "comeback-win"
-          : "failed-comeback"
-        : feedback.won
-          ? "front-foot-win"
-          : "front-foot-loss",
-    ],
-    ["play-style", feedback.playStyle],
-  ] as const;
+      ["outcome", feedback.won ? "win" : "loss"],
+      [
+        "match-path",
+        feedback.behindAtMinute8
+          ? feedback.won
+            ? "comeback-win"
+            : "failed-comeback"
+          : feedback.won
+            ? "front-foot-win"
+            : "front-foot-loss",
+      ],
+      ["play-style", feedback.playStyle],
+    ];
+  if (feedback.signal) values.push(["feedback-signal", feedback.signal]);
+  return values;
 }
-
 /**
  * One actor may rate one certified match once. PostgreSQL is authoritative
  * when configured; the bounded process-local path exists only for database-free
@@ -132,7 +148,7 @@ export class MatchFeedbackStore {
           input.mapName,
           input.matchRating,
           input.mapRating,
-          input.comment ?? null,
+          input.signal ?? null,
           input.won,
           input.behindAtMinute8,
           input.playStyle,
@@ -164,6 +180,7 @@ export class MatchFeedbackStore {
       durability,
       evidence: "certified-match-result",
       retentionDays: MATCH_FEEDBACK_RETENTION_DAYS,
+      signal: input.signal ?? null,
     };
   }
 
@@ -214,7 +231,15 @@ export class MatchFeedbackStore {
                   WHEN feedback_won THEN 'front-foot-win'
                   ELSE 'front-foot-loss'
                 END),
-               ('play-style'::text, feedback_play_style)
+               ('play-style'::text, feedback_play_style),
+               ('feedback-signal'::text, CASE
+                  WHEN comment IN (
+                    'decisive-convoy', 'comeback-tension', 'clear-objectives',
+                    'pacing-drag', 'map-flow', 'control-friction',
+                    'technical-friction'
+                  ) THEN comment
+                  ELSE NULL
+                END)
            ) AS certified_cohort(dimension, cohort_value)
           WHERE created_at >= $1 AND cohort_value IS NOT NULL
           GROUP BY dimension, cohort_value

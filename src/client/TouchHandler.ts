@@ -103,6 +103,8 @@ export class TouchHandler {
   }
 
   destroy() {
+    this.clearLongPress();
+    this.twoFingerSwipeStartX = null;
     this.canvas.removeEventListener(
       "touchstart",
       this.onTouchStart as EventListener,

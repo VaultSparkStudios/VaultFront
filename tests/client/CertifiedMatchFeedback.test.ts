@@ -21,6 +21,7 @@ function receipt(duplicate = false) {
       durability: "postgres" as const,
       evidence: "certified-match-result" as const,
       retentionDays: 30 as const,
+      signal: "decisive-convoy" as const,
     },
   };
 }
@@ -59,6 +60,7 @@ describe("CertifiedMatchFeedback", () => {
 
     button(element, "Match rating 4 out of 5").click();
     button(element, "Map rating 2 out of 5").click();
+    button(element, "Feedback cause: Decisive convoy").click();
     await element.updateComplete;
     expect(
       button(element, "Match rating 4 out of 5").getAttribute("aria-pressed"),
@@ -74,6 +76,7 @@ describe("CertifiedMatchFeedback", () => {
         gameId: "game-1",
         matchRating: 4,
         mapRating: 2,
+        signal: "decisive-convoy",
       }),
     );
     await element.updateComplete;
@@ -81,6 +84,7 @@ describe("CertifiedMatchFeedback", () => {
     expect(element.textContent).toContain("World");
     expect(element.textContent).toContain("durable database receipt");
     expect(element.textContent).toContain("30-day retention");
+    expect(element.textContent).toContain("cause: decisive-convoy");
   });
 
   it("acknowledges duplicate certified submissions without claiming a new write", async () => {

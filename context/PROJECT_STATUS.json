@@ -4,9 +4,9 @@
   "name": "VaultFront",
   "status": "active",
   "health": "green",
-  "currentSession": 95,
+  "currentSession": 96,
   "lastAgent": "codex",
-  "currentFocus": "Session 95 closeout recovery fully verified: exact-revision provider gates green, stale Git ref repaired, and canonical npm test deterministic and fail-fast.",
+  "currentFocus": "Session 96 saturated arc complete locally: deterministic match teardown, truthful multi-tab recovery, accessible account recovery, local deterministic coaching, causal certified feedback, doctrine-guided rematches, and generation-safe progression debriefs.",
   "nextMilestone": "Establish approved staging and native identity/email contracts, then collect the remaining live launch observations in gate order.",
   "blockers": [],
   "lastUpdated": "2026-08-05",
@@ -25,7 +25,7 @@
       "status": "green",
       "label": "Unit and server regression",
       "command": "npm test",
-      "purpose": "Canonical npm test passes 224 files / 1,189 tests through four disjoint fail-fast shards; subprocess-heavy script tests are serialized without weakening assertions or timeouts."
+      "purpose": "Canonical npm test passes 229 files / 1,198 tests through four disjoint fail-fast shards; lifecycle, account recovery, multi-tab, progression, feedback, and local coaching regressions are covered."
     },
     {
       "type": "tests",
@@ -39,7 +39,7 @@
       "status": "green",
       "label": "E2E smoke",
       "command": "npm run e2e",
-      "purpose": "Session 95 rendered-pixel proof passed 2/2; 96 hash-bound captures cover three themes, desktop/mobile, and sixteen states with an exact Settings text assertion."
+      "purpose": "Session 96 rendered-pixel proof passed 2/2; 114 hash-bound captures cover three themes, desktop/mobile, and nineteen states including account recovery, truthful collision, and Doctrine debrief."
     },
     {
       "type": "local",
@@ -59,8 +59,8 @@
   "silMax": 1000,
   "silScoreLegacy500": null,
   "silScore": 997,
-  "testsPassing": 1189,
-  "testsTotal": 1189,
+  "testsPassing": 1198,
+  "testsTotal": 1198,
   "silCategoriesV3": {
     "devHealth": 100,
     "creativeAlignment": 100,
@@ -87,8 +87,8 @@
   "silAvg3": 997,
   "silVelocity": 7,
   "silDebt": "down",
-  "silLastSession": "95",
-  "auditStatus": "audit-16-of-16-shipped; session-95-new-primary-6-of-6-shipped; cumulative-innovations-62-of-62-shipped; zero-pending-unblocked; external-release-evidence-no-go",
+  "silLastSession": "96",
+  "auditStatus": "audit-23-of-23-shipped; session-96-new-primary-7-of-7-shipped; cumulative-innovations-62-of-62-shipped; zero-pending-unblocked; external-release-evidence-no-go",
   "releaseGates": [
     "staging deployment and exact-digest parity verification",
     "authenticated evidence from at least three distinct human alpha sessions",
@@ -110,17 +110,17 @@
     "failing": 0,
     "blockingFailing": 0,
     "date": "2026-08-05",
-    "observedAt": "2026-08-05T05:05:27.659Z",
+    "observedAt": "2026-08-05T22:35:09.170Z",
     "source": "scripts/project-doctor.mjs",
     "evidencePath": "audits/doctor-latest.json",
-    "evidenceDigest": "sha256:c28e66c5f7c2af66e9a3c01e360ee6af562351c7358bbbdff7d23442778d7d64",
+    "evidenceDigest": "sha256:cd407bf0d713cf73a3df248b3492e377c91d91a6c4572526f8410691cc713053",
     "evidenceSchemaVersion": 1,
     "checkCount": 13
   },
   "complianceScore": 49,
   "complianceTotal": 49,
   "sanitizationLastCleared": "2026-07-26",
-  "lastSession": 95,
+  "lastSession": 96,
   "bootAmortization": {
     "ratio": 0.09,
     "verdict": "wasted",
@@ -141,31 +141,25 @@
     }
   ],
   "sessionShellHygiene": {
-    "session": 95,
+    "session": 96,
     "running": 0,
-    "enumeratedAt": "2026-08-05T03:37:05.397Z",
-    "scope": "Final Win32 enumeration found zero processes whose command line references the VaultFront workspace; VaultFront test ports 5173, 9000, and 39081 had zero listeners."
+    "enumeratedAt": "2026-08-05T22:25:04.736Z",
+    "scope": "Closeout process inventory found no persistent VaultFront development/test services; exact final remote state is verified after push."
   },
-  "testsLastRun": "2026-08-05T04:59:47.003Z",
-  "testsLastRunMode": "canonical-four-shard-vitest+prior-coverage-ratchet+contracts+production-build+playwright-theme-proof+visual-qa+doctor",
+  "testsLastRun": "2026-08-05T22:25:04.736Z",
+  "testsLastRunMode": "canonical-four-shard-vitest+typescript+eslint+prettier+contracts+production-build+playwright-theme-proof+visual-qa+doctor",
   "testsDeferred": [
     "Final production release remains an expected NO-GO until the remaining external launch observations exist."
   ],
   "testsBudgetExhausted": false,
-  "lastSessionSummary": "Session 95 closeout recovery reconciled provider receipts and public write-back, repaired a stale remote ref, made canonical npm test reliable at 224 files / 1,189 tests, and verified exact-head CI/E2E/Release green; SIL remains 997 and launch remains NO-GO on external evidence.",
+  "lastSessionSummary": "Session 96 recovered Session 95 with checkpoint 46b2ae1e, then shipped all seven fresh audit findings and exhausted 23/23 audit items plus 62/62 innovations; 1,198 tests and 114 visual artifacts pass locally while external launch evidence remains NO-GO.",
   "providerCiStatus": {
-    "status": "green-verified-code-revision",
-    "revision": "ae6809a54cc777e4a141a5bf999ea02dea0f15d6",
-    "ciRunId": 30977090883,
-    "e2eRunId": 30977090884,
-    "releasePlannerRunId": 30977090890,
-    "ciUrl": "https://github.com/VaultSparkStudios/vaultfront/actions/runs/30977090883",
-    "e2eUrl": "https://github.com/VaultSparkStudios/vaultfront/actions/runs/30977090884",
-    "releasePlannerUrl": "https://github.com/VaultSparkStudios/vaultfront/actions/runs/30977090890",
-    "observedAt": "2026-08-05T05:12:00.910Z",
-    "source": "GitHub Actions terminal conclusions",
+    "status": "pending-current-revision",
+    "revision": null,
+    "observedAt": "2026-08-05T22:25:04.736Z",
+    "source": "local closeout before push",
     "currentRevisionVerified": false,
-    "note": "CI, E2E, and Release all passed on exact code-and-board revision ae6809a5. This provider receipt is recorded by a metadata-only [skip ci] successor, so the receipt names the verified predecessor rather than claiming that the documentation successor ran code gates."
+    "note": "Exact-revision provider CI cannot be claimed until the Session 96 closeout commit is pushed and GitHub Actions reaches a terminal conclusion."
   },
   "dependencyAudit": {
     "production": 0,

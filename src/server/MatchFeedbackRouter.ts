@@ -1,9 +1,11 @@
 import type { Express, RequestHandler } from "express";
 import { z } from "zod";
 import type { PlayStyleLabel } from "../core/PlayStyleClassifier";
-import type {
-  MatchFeedbackReceipt,
-  MatchFeedbackSummary,
+import {
+  MATCH_FEEDBACK_SIGNALS,
+  type MatchFeedbackReceipt,
+  type MatchFeedbackSignal,
+  type MatchFeedbackSummary,
 } from "./MatchFeedbackStore";
 import type {
   RouteAuthorizationContext,
@@ -19,7 +21,7 @@ const MatchFeedbackInputSchema = z
     mapName: z.string().max(128).optional(),
     matchRating: z.number().int().min(1).max(5),
     mapRating: z.number().int().min(1).max(5),
-    comment: z.string().trim().min(1).max(200).optional(),
+    signal: z.enum(MATCH_FEEDBACK_SIGNALS).optional(),
   })
   .strict();
 
@@ -59,7 +61,7 @@ export interface MatchFeedbackRouterDependencies {
     mapName: string;
     matchRating: number;
     mapRating: number;
-    comment?: string;
+    signal?: MatchFeedbackSignal;
     won: boolean;
     behindAtMinute8: boolean;
     playStyle: PlayStyleLabel;
@@ -121,7 +123,7 @@ export function registerMatchFeedbackRoutes(
         mapName: evidence.mapName,
         matchRating: parsed.data.matchRating,
         mapRating: parsed.data.mapRating,
-        ...(parsed.data.comment ? { comment: parsed.data.comment } : {}),
+        ...(parsed.data.signal ? { signal: parsed.data.signal } : {}),
         won: evidence.won,
         behindAtMinute8: evidence.behindAtMinute8,
         playStyle: evidence.playStyle,

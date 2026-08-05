@@ -926,48 +926,6 @@ export async function startWorker() {
     },
   );
 
-  // ── In-Game Micro-Coach Hint ─────────────────────────────────────────────
-  const microHintRateLimit = rateLimit({ windowMs: 180_000, max: 1 });
-  const MICRO_HINT_SYSTEM_PROMPT =
-    "You are a VaultFront real-time strategy coach. Give the player ONE concise in-game hint (max 90 characters). Focus on the most impactful immediate action they are not taking. Be specific, tactical, present-tense. No greeting, no punctuation at end.";
-
-  app.get(
-    "/api/vaultfront/micro-hint",
-    microHintRateLimit,
-    async (req, res) => {
-      const gold = Number(req.query["gold"] ?? 0);
-      const sites = Number(req.query["sites"] ?? 0);
-      try {
-        if (!reserveRemoteAiCall("coach").allowed) {
-          return res.status(503).json({ error: "Coach unavailable" });
-        }
-        const msg = await anthropic.messages.create({
-          model: "claude-haiku-4-5-20251001",
-          max_tokens: 50,
-          system: [
-            {
-              type: "text",
-              text: MICRO_HINT_SYSTEM_PROMPT,
-              cache_control: { type: "ephemeral" },
-            },
-          ],
-          messages: [
-            {
-              role: "user",
-              content: `Player gold: ${gold}, vault sites controlled: ${sites}. No vault commands issued yet this match.`,
-            },
-          ],
-        });
-        const hint =
-          (msg.content[0] as { type: string; text: string }).text?.trim() ?? "";
-        return res.json({ ok: true, hint });
-      } catch (err) {
-        logger.error("micro-hint failed", err);
-        return res.status(500).json({ error: "Hint generation failed" });
-      }
-    },
-  );
-
   // ── Pre-Match Oracle (ELO prediction) ────────────────────────────────────
   const oracleRateLimit = rateLimit({ windowMs: 30_000, max: 5 });
 

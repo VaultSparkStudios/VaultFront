@@ -8,6 +8,7 @@ export class CertifiedNarratorLayer implements Layer {
   private element: HTMLElement | null = null;
   private stop: (() => void) | null = null;
   private hideTimer: ReturnType<typeof setTimeout> | null = null;
+  private readonly pageHideHandler = () => this.dispose();
 
   constructor(private readonly gameId: string) {}
 
@@ -24,7 +25,7 @@ export class CertifiedNarratorLayer implements Layer {
     document.body.append(this.element);
 
     this.stop = subscribeNarrator(this.gameId, (text) => this.present(text));
-    window.addEventListener("pagehide", () => this.dispose(), { once: true });
+    window.addEventListener("pagehide", this.pageHideHandler, { once: true });
   }
 
   private present(text: string): void {
@@ -37,7 +38,8 @@ export class CertifiedNarratorLayer implements Layer {
     }, VISIBLE_MS);
   }
 
-  private dispose(): void {
+  public dispose(): void {
+    window.removeEventListener("pagehide", this.pageHideHandler);
     this.stop?.();
     this.stop = null;
     if (this.hideTimer) clearTimeout(this.hideTimer);

@@ -2,6 +2,7 @@ import { render } from "lit";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 import {
   fetchAchievements,
+  fetchDailyChallenge,
   fetchMatchProgressionDividend,
   fetchSeasonProgress,
   fetchVaultFrontContracts,
@@ -12,6 +13,7 @@ vi.mock("../../../src/client/Api", () => ({
   fetchVaultFrontContracts: vi.fn(),
   fetchSeasonProgress: vi.fn(),
   fetchAchievements: vi.fn(),
+  fetchDailyChallenge: vi.fn(),
   fetchMatchProgressionDividend: vi.fn(),
   claimSeasonMilestone: vi.fn(),
 }));
@@ -24,6 +26,7 @@ describe("ProgressionDebrief", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     localStorage.clear();
+    vi.mocked(fetchDailyChallenge).mockResolvedValue(null);
     vi.mocked(fetchVaultFrontContracts).mockResolvedValue({
       seasonId: "week-29",
       interceptionTiming: 2,
@@ -165,5 +168,97 @@ describe("ProgressionDebrief", () => {
     expect(container.textContent).toContain("2 team Pressure deliveries");
     expect(container.textContent).toContain("Rematch with this mastery goal");
     expect(fetchVaultFrontContracts).not.toHaveBeenCalled();
+  });
+
+  test("binds doctrine identity to the current match and forwards it into rematch intent", async () => {
+    vi.mocked(fetchDailyChallenge).mockResolvedValue({
+      challengeId: "vault-5",
+      description: "Capture five vaults",
+      progress: 3,
+      target: 5,
+      rewardMastery: 50,
+      completed: false,
+      masteryBalance: 120,
+      durability: "postgres",
+      doctrines: {
+        activeId: "convoy-architect",
+        ownedIds: ["convoy-architect"],
+        catalog: [
+          {
+            id: "convoy-architect",
+            name: "Convoy Architect",
+            role: "Route planner",
+            brief: "Build the safest decisive lane.",
+            costMastery: 100,
+          },
+        ],
+      },
+    } as any);
+    vi.mocked(fetchMatchProgressionDividend).mockResolvedValue({
+      status: "verified",
+      gameId: "game-doctrine",
+      recordedAt: "2026-08-05T12:00:00.000Z",
+      durability: "postgres",
+      receiptDigest: "sha256:" + "b".repeat(64),
+      dividend: {
+        persistentId: "00000000-0000-4000-8000-000000000001",
+        before: {
+          eloRating: 1200,
+          matchesPlayed: 1,
+          wins: 0,
+          losses: 1,
+          vaultCaptures: 0,
+          convoyDeliveries: 0,
+          executionChains: 0,
+        },
+        after: {
+          eloRating: 1210,
+          matchesPlayed: 2,
+          wins: 1,
+          losses: 1,
+          vaultCaptures: 1,
+          convoyDeliveries: 1,
+          executionChains: 0,
+        },
+        delta: {
+          eloRating: 10,
+          matchesPlayed: 1,
+          wins: 1,
+          losses: 0,
+          vaultCaptures: 1,
+          convoyDeliveries: 1,
+          executionChains: 0,
+        },
+        achievementsUnlocked: [],
+        dailyMastery: null,
+        seasonPass: null,
+        match: {
+          vaultPressureContributions: 0,
+          vaultCaptures: 1,
+          convoyDeliveries: 1,
+          executionChains: 0,
+          won: true,
+        },
+      },
+    } as any);
+
+    const debrief = new ProgressionDebrief() as any;
+    debrief.bindGame({ gameID: () => "game-doctrine" });
+    debrief.visible = true;
+    await debrief.pollProgressionDividend("game-doctrine");
+
+    const received = vi.fn();
+    debrief.addEventListener("vaultfront-mastery-rematch", received);
+    debrief.requestMasteryRematch();
+
+    expect(debrief.doctrineName).toBe("Convoy Architect");
+    expect(received.mock.calls[0][0].detail.doctrine).toMatchObject({
+      id: "convoy-architect",
+      effectPolicy: "coaching-and-identity-only",
+    });
+
+    debrief.bindGame({ gameID: () => "game-next" });
+    expect(debrief.requested).toBe(false);
+    expect(debrief.doctrineId).toBe(null);
   });
 });

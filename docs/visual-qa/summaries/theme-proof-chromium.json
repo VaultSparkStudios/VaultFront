@@ -1,9 +1,9 @@
 {
   "project": "chromium",
   "localOnly": true,
-  "capturedAt": "2026-08-05T03:24:39.349Z",
+  "capturedAt": "2026-08-05T21:59:07.341Z",
   "source": {
-    "digest": "sha256:dcf74ee429a078ea88b7becd41591aeb9331e06a6eebe3d61ec200e19775a303",
+    "digest": "sha256:b6f542a7ce41c529836c5d315fd89aa28ec86c8fc350a5e8c82bbc2fc55f0238",
     "files": [
       {
         "path": "config/vaultfront-balance.v1.json",
@@ -12,13 +12,18 @@
       },
       {
         "path": "e2e/theme-visual-proof.spec.ts",
-        "bytes": 32871,
-        "digest": "sha256:d570990a7bc95deda28f8716a96d0f54ab491755b0e3f73d569ef6a0c69272b4"
+        "bytes": 40483,
+        "digest": "sha256:97c399a43d075171dcbd39aeb2258cc3cde34f6a41b35ba1def06d36a173e4ea"
+      },
+      {
+        "path": "src/client/AccountModal.ts",
+        "bytes": 15892,
+        "digest": "sha256:e2b9e523093c21960ef49b8f8cde654cac9758e190f2f63aef6812d31651b178"
       },
       {
         "path": "src/client/Api.ts",
-        "bytes": 53317,
-        "digest": "sha256:128fd3fdaf31e6b9a61ce6c04261e47cbfab5afef239780953fa09aaae0fe639"
+        "bytes": 52961,
+        "digest": "sha256:08a3f4a528426a784f1864f70abf1a4576e6c8cd6e83a9a8bd5de6b22b1a4f9a"
       },
       {
         "path": "src/client/BrandTheme.ts",
@@ -27,8 +32,8 @@
       },
       {
         "path": "src/client/CertifiedMatchFeedback.ts",
-        "bytes": 6488,
-        "digest": "sha256:71e841ebb478038a00057dafc57f364dc3c77dae88d1e72f59ceb9d2dcd9ada5"
+        "bytes": 8713,
+        "digest": "sha256:b948575be5f2f73fa42472349e0bcfac8e270b07082d7c76f5d08c13781541f9"
       },
       {
         "path": "src/client/ConnectionRecoveryPresenter.ts",
@@ -44,6 +49,11 @@
         "path": "src/client/GameStartingModal.ts",
         "bytes": 9117,
         "digest": "sha256:d0553ac47fbbdc1cc3e4935ad64ed89f6f37e048d81f09b8cabe68be643132d4"
+      },
+      {
+        "path": "src/client/MultiTabDetector.ts",
+        "bytes": 4077,
+        "digest": "sha256:5a0a74bda4ab2c9e65b902c5b56b7f5d5d34742290866c58f0d1dc4c8c4339ec"
       },
       {
         "path": "src/client/PostMatchContinuation.ts",
@@ -157,8 +167,8 @@
       },
       {
         "path": "src/client/components/ProgressionDebrief.ts",
-        "bytes": 9682,
-        "digest": "sha256:1f4964dd24fc6c892636067fb492647119266469b991a2c7bfb84017b3d0603b"
+        "bytes": 13423,
+        "digest": "sha256:f84cf9cc5aa58ae724803f7115e8bd4fe4b19f2b35d03c572cb356fd9a8fca32"
       },
       {
         "path": "src/client/components/RankedModal.ts",
@@ -297,8 +307,13 @@
       },
       {
         "path": "src/client/graphics/layers/CertifiedNarratorLayer.ts",
-        "bytes": 1865,
-        "digest": "sha256:2cf9617534cb41c989500f765abc9f703d34332f743fc0c34785ddb585f43c60"
+        "bytes": 1989,
+        "digest": "sha256:034113b4775445da8dca02d56711e0611d18c6b8905114c87ec9aab3b177485b"
+      },
+      {
+        "path": "src/client/graphics/layers/CoachHintEngine.ts",
+        "bytes": 12066,
+        "digest": "sha256:709c039449e4c89b4cd5d8202e257ce6f30697ea0c753daf7b7507ee7e4c3110"
       },
       {
         "path": "src/client/graphics/layers/ControlPanel.ts",
@@ -307,8 +322,13 @@
       },
       {
         "path": "src/client/graphics/layers/GameRightSidebar.ts",
-        "bytes": 52747,
-        "digest": "sha256:0bf777fcfeec435b2dc7df8896ef0d2519e103db20b9e8d3012e530e066b6f43"
+        "bytes": 53268,
+        "digest": "sha256:3f8ccfa526d3d342ca74345936ba9003be834e32f39666a4a073dbc2b88f0e02"
+      },
+      {
+        "path": "src/client/graphics/layers/MultiTabModal.ts",
+        "bytes": 4529,
+        "digest": "sha256:f608e0a2a30e034641b7bec15a2d1b8d6224df56e24347ba5ab28ee388dc5714"
       },
       {
         "path": "src/client/graphics/layers/VaultFrontLayer.ts",
@@ -393,7 +413,7 @@
       {
         "path": "static/index.html",
         "bytes": 17352,
-        "digest": "sha256:371450ae7b17c3a533babcc74ef28c2fba6b9f4d6f2905a937dfcb0ac9b4ca3d"
+        "digest": "sha256:5e74d8d7f998d794a9c4264dc1fa95d5f88626476bd7c43626714f1dd42ab17d"
       }
     ]
   },
@@ -430,6 +450,9 @@
         "agency-doctrine",
         "settings",
         "postmatch",
+        "account-recovery",
+        "multi-tab-collision",
+        "progression-doctrine",
         "prematch-loading",
         "prematch-degraded",
         "prematch-ready",
@@ -448,6 +471,29 @@
         "surfaceWithinViewport": true,
         "hasAgencyReceipt": true,
         "hasDoctrinePolicy": true
+      },
+      "accountRecovery": {
+        "state": "error",
+        "role": "alert",
+        "ariaLive": "polite",
+        "describedBy": "email-recovery-status",
+        "invalid": "true",
+        "horizontalOverflow": false,
+        "withinViewport": true,
+        "minimumButtonHeight": 46
+      },
+      "multiTabCollision": {
+        "role": "dialog",
+        "ariaModal": "true",
+        "horizontalOverflow": false,
+        "withinViewport": true,
+        "truthfulScope": true,
+        "text": "\n        \n          \n            \n              Another VaultFront tab is active\n            \n            Local tab check\n          \n\n          \n            multi_tab.detected\n          \n          \n            This pause comes only from a same-origin browser storage collision.\n            It does not inspect your IP address or device, and it does not\n            create a server report or suspension record.\n          \n\n          \n            Command input resumes automatically\n            10s\n          \n          \n            \n          \n          \n            Close the other VaultFront tab to avoid another local collision.\n          \n        \n      "
+      },
+      "progressionDoctrine": {
+        "horizontalOverflow": false,
+        "withinViewport": true,
+        "doctrineBound": true
       },
       "prematch": [
         {
@@ -619,6 +665,9 @@
         "agency-doctrine",
         "settings",
         "postmatch",
+        "account-recovery",
+        "multi-tab-collision",
+        "progression-doctrine",
         "prematch-loading",
         "prematch-degraded",
         "prematch-ready",
@@ -637,6 +686,29 @@
         "surfaceWithinViewport": true,
         "hasAgencyReceipt": true,
         "hasDoctrinePolicy": true
+      },
+      "accountRecovery": {
+        "state": "error",
+        "role": "alert",
+        "ariaLive": "polite",
+        "describedBy": "email-recovery-status",
+        "invalid": "true",
+        "horizontalOverflow": false,
+        "withinViewport": true,
+        "minimumButtonHeight": 46
+      },
+      "multiTabCollision": {
+        "role": "dialog",
+        "ariaModal": "true",
+        "horizontalOverflow": false,
+        "withinViewport": true,
+        "truthfulScope": true,
+        "text": "\n        \n          \n            \n              Another VaultFront tab is active\n            \n            Local tab check\n          \n\n          \n            multi_tab.detected\n          \n          \n            This pause comes only from a same-origin browser storage collision.\n            It does not inspect your IP address or device, and it does not\n            create a server report or suspension record.\n          \n\n          \n            Command input resumes automatically\n            10s\n          \n          \n            \n          \n          \n            Close the other VaultFront tab to avoid another local collision.\n          \n        \n      "
+      },
+      "progressionDoctrine": {
+        "horizontalOverflow": false,
+        "withinViewport": true,
+        "doctrineBound": true
       },
       "prematch": [
         {
@@ -808,6 +880,9 @@
         "agency-doctrine",
         "settings",
         "postmatch",
+        "account-recovery",
+        "multi-tab-collision",
+        "progression-doctrine",
         "prematch-loading",
         "prematch-degraded",
         "prematch-ready",
@@ -826,6 +901,29 @@
         "surfaceWithinViewport": true,
         "hasAgencyReceipt": true,
         "hasDoctrinePolicy": true
+      },
+      "accountRecovery": {
+        "state": "error",
+        "role": "alert",
+        "ariaLive": "polite",
+        "describedBy": "email-recovery-status",
+        "invalid": "true",
+        "horizontalOverflow": false,
+        "withinViewport": true,
+        "minimumButtonHeight": 46
+      },
+      "multiTabCollision": {
+        "role": "dialog",
+        "ariaModal": "true",
+        "horizontalOverflow": false,
+        "withinViewport": true,
+        "truthfulScope": true,
+        "text": "\n        \n          \n            \n              Another VaultFront tab is active\n            \n            Local tab check\n          \n\n          \n            multi_tab.detected\n          \n          \n            This pause comes only from a same-origin browser storage collision.\n            It does not inspect your IP address or device, and it does not\n            create a server report or suspension record.\n          \n\n          \n            Command input resumes automatically\n            10s\n          \n          \n            \n          \n          \n            Close the other VaultFront tab to avoid another local collision.\n          \n        \n      "
+      },
+      "progressionDoctrine": {
+        "horizontalOverflow": false,
+        "withinViewport": true,
+        "doctrineBound": true
       },
       "prematch": [
         {

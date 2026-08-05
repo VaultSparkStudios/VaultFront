@@ -7,9 +7,49 @@ Detailed internal scoring, audit trends, and brainstorming are maintained privat
 Total: 997/1000 | Velocity: 7 | Debt: ↓ | Velocity trend: →
 Avgs — 3: 997.0 | 5: 997.0 | 10: 996.4 | 25: 990.3 | all: 990.3 | Last 5: 997 → 997 → 997 → 997 → 997 | Intent rate: 100%
 Categories: Dev 100 | Align 100 | Momentum 100 | Engage 99 | Process 100 | Coherence 99 | Security 100 | Ecosystem 99 | Capital 100 | Automation 100
-Last session: 2026-08-05 Session 95 trustworthy tooling, bounded admission, and asset truth
+Last session: 2026-08-05 Session 96 deterministic lifecycle and causal reflection
 
 <!-- rolling-status-end -->
+
+## 2026-08-05 — Session 96 | Total: 997/1000 | Velocity: 7
+
+Completed seven premise-verified audit outcomes and the continuous recovery-first arc without expanding the external release claim.
+
+| Category              |        Score | Evidence                                                                                                                                                         |
+| --------------------- | -----------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Dev Health            |          100 | 229 files / 1,198 tests, type, lint, format, contracts, balance, production build, browser proof, exhaustion, and doctor gates pass directly.                    |
+| Creative Alignment    |          100 | Deterministic rematches, truthful interruption state, causal reflection, and Doctrine continuity deepen the extraction-command loop without adding combat power. |
+| Momentum              |          100 | Seven fresh findings shipped and the complete audit 23/23 plus innovation ledger 62/62 are exhausted.                                                            |
+| Engagement            |           99 | Rematch continuity, actionable feedback, and accessible recovery improve the return loop; no human fun or retention result is invented.                          |
+| Process Quality       |          100 | Recovery boundary, live-premise checks, focused behavior, full shards, exact contracts, rendered pixels, and fail-closed claim boundaries are reproducible.      |
+| Cross-Repo Coherence  |           99 | Studio-owned external corridors remain external, Ark-only, and no sibling implementation tree was edited.                                                        |
+| Security Posture      |          100 | Browser-authored provider authority and fake surveillance claims are retired; certified actor/certificate feedback and lifecycle isolation fail closed.          |
+| Ecosystem Integration |           99 | Human UI, agent-readable receipts, route tombstones, progression identity, and local evidence agree; live providers remain unobserved.                           |
+| Capital Efficiency    |          100 | One variable-cost provider path was removed; no dependency or paid service was added and deterministic local coaching remains free-tier safe.                    |
+| Automation Coverage   |          100 | Pre-start/active teardown, listener/frame ownership, stale generations, causal cohorts, route retirement, accessibility, and 114 visual captures execute.        |
+| **Total**             | **997/1000** | Exact sum; Engagement, Coherence, and Ecosystem remain capped by absent human/live/external observations.                                                        |
+
+**Rolling data:** Avg3 997.0 · Avg5 997.0 · Avg10 996.4 · Avg25 990.3 · all 990.3 · velocity 7 · debt ↓ · sparkline █████.
+
+**Game rubric:** Loop Tightness 100 · Retention Hook 99 · Soul Fidelity 100 · Velocity 100.
+
+**Top win:** Leaving and rematching now form a real ownership boundary: old input, frames, timers, listeners, progression requests, and coaching identity cannot leak into the next certified match.
+
+**Top gap:** No approved external staging/callback corridor or distinct-human Alpha corpus exists.
+
+### Brainstorm
+
+1. Use authenticated human sessions to learn whether the seven causal feedback choices explain low ratings before changing the taxonomy.
+2. Measure repeat-match lifecycle duration and recovery only after a privacy-safe durable aggregation contract exists.
+3. Validate Doctrine-framed rematch comprehension with humans before tuning copy, progression costs, or balance.
+
+### Commitments
+
+- [SIL:1] Every match generation owns and releases every execution surface exactly once.
+- [SIL:2] Feedback causes remain bounded, certificate-bound, retention-limited, and free of public raw text.
+- [SIL:3] Doctrine remains non-power and stale-session-safe; local pixels never become human or launch evidence.
+
+**Honest refusal:** The session did not fabricate staging, delivery, identity, human, retention, revenue, rollback, provider-CI, or founder evidence; did not edit a sibling tree; and did not weaken a test, composition, route, or visual gate.
 
 ## 2026-08-05 — Session 95 | Total: 997/1000 | Velocity: 7
 

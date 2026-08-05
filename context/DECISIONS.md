@@ -1,3 +1,19 @@
+## 2026-08-05 — A match generation owns every client execution surface
+
+**Decision:** Lobby construction, active play, and leave use one monotonically invalidated generation. A runner can be stopped before or after start, and stop owns worker, transport, renderer canvas/frame/layers, input, touch, timers, and match-scoped EventBus callbacks exactly once.
+
+**Why:** A rematch is trustworthy only if prior execution cannot continue observing input, rendering frames, or delivering stale receipts after leave.
+
+**Consequence:** Late construction is discarded safely, repeated start/stop is idempotent, singleton progression state resets per game, and lifecycle behavior has focused regression coverage.
+
+## 2026-08-05 — Reflection causes are bounded certified evidence; tactical micro-coaching is local
+
+**Decision:** Post-match reflection may attach one optional enumerated cause to the existing 30-day certified feedback row and aggregate it only as a privacy-safe cohort. Browser-authored gold/site state no longer reaches a remote micro-hint provider; deterministic local coaching is the complete tactical path.
+
+**Why:** A bounded cause makes ratings actionable without retaining free text. The removed provider path had weaker authority and higher variable cost than the immediate local policy.
+
+**Consequence:** Feedback receipts expose the admitted cause, invalid literals fail validation, stale games cannot inherit receipts, and the retired remote route carries an executable tombstone.
+
 # Decisions
 
 Public-safe decisions only. Detailed internal decision history is maintained privately.

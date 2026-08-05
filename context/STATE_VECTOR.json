@@ -1,9 +1,9 @@
 {
   "vectorVersion": "1.0",
   "generatedAt": "2026-08-05",
-  "generatedAtMs": 1785906048742,
-  "session": 95,
-  "vectorHash": "b267f5ec993780b8",
+  "generatedAtMs": 1785968705990,
+  "session": 96,
+  "vectorHash": "caab69acbb84ed61",
   "silTotal": 997,
   "silAvg3": 997,
   "velocity": 7,
@@ -33,8 +33,8 @@
   "slug": "vaultfront",
   "type": "game",
   "lifecycle": "alpha",
-  "nextMilestone": "Push and verify the closeout revision, then establish approved staging and native identity/email contracts before collecting remaining live launch observations.",
-  "currentFocus": "Session 95 closeout recovery complete locally: provider truth reconciled, stale Git ref repaired, and canonical npm test made deterministic and fail-fast.",
+  "nextMilestone": "Establish approved staging and native identity/email contracts, then collect the remaining live launch observations in gate order.",
+  "currentFocus": "Session 96 saturated arc complete locally: deterministic match teardown, truthful multi-tab recovery, accessible account recovery, local deterministic coaching, causal certified feedback, doctrine-guided rematches, and generation-safe progression debriefs.",
   "lastShipped": "see LATEST_HANDOFF.md",
   "blockers": []
 }

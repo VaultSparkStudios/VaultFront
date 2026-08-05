@@ -60,25 +60,6 @@
       ]
     },
     {
-      "id": "micro-coach-hint",
-      "method": "GET",
-      "route": "/api/vaultfront/micro-hint",
-      "server": {
-        "file": "src/server/Worker.ts",
-        "marker": "\"/api/vaultfront/micro-hint\""
-      },
-      "transport": {
-        "file": "src/client/Api.ts",
-        "marker": "export async function fetchMicroHint"
-      },
-      "consumers": [
-        {
-          "file": "src/client/graphics/layers/CoachHintEngine.ts",
-          "marker": "fetchMicroHint({ gold, sites, trigger })"
-        }
-      ]
-    },
-    {
       "id": "certified-dynasty-story",
       "method": "POST",
       "route": "/api/vaultfront/dynasty-story",
@@ -169,6 +150,7 @@
     "/api/vaultfront/clan-war/decline",
     "/api/vaultfront/clan-war/upcoming",
     "/api/vaultfront/clan-war/:clanId",
-    "/api/vaultfront/narrator/:gameId/event"
+    "/api/vaultfront/narrator/:gameId/event",
+    "/api/vaultfront/micro-hint"
   ]
 }

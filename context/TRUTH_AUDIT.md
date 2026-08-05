@@ -2,6 +2,19 @@
 
 # Truth Audit
 
+## 2026-08-05 — Session 96 lifecycle, reflection, and rematch truth
+
+- Work truth: audit 23/23 and innovations 62/62 are shipped; the executable exhaustion checker reports zero pending unblocked local work.
+- Lifecycle truth: leaving invalidates in-flight construction and stops pre-start or active runners exactly once. Worker, transport, canvas/RAF, layers, input, touch, timers, window listeners, and match-scoped EventBus callbacks have explicit owners.
+- Collision truth: multi-tab detection observes only a same-origin browser storage lock. The UI makes no IP, fingerprint, recording, report, or suspension claim and produces no server anti-cheat evidence.
+- Feedback truth: match/map ratings remain certificate- and actor-bound; one optional enumerated cause is retained for 30 days and exposed only in privacy-safe aggregate cohorts. No free text or human-outcome claim is introduced.
+- AI/cost truth: the unauthenticated browser-authored micro-hint route is retired. Deterministic local tactical coaching remains immediate; certified recap/debrief/narration authority is unchanged.
+- Progression truth: debrief polling and Doctrine identity are game-generation-bound. Stale receipts cannot overwrite a rematch, and Doctrine remains coaching/identity-only with no combat-power effect.
+- Recovery truth: account magic-link validation, pending, success, and failure remain inside the themed accessible surface; duplicate activation is guarded and no blocking alert is used.
+- Visual truth: Playwright passes 2/2 and the final 114-artifact three-theme desktop/mobile receipt passes CANON-053 at source digest sha256:b6f542a7ce41c529836c5d315fd89aa28ec86c8fc350a5e8c82bbc2fc55f0238. The local bitmap-view helper failed on the Windows sandbox credential API, so direct manual image-view inspection is not claimed.
+- Verification truth: npm test passes 229 files / 1,198 tests; TypeScript, ESLint, Prettier, contracts, 28,125 balance scenarios, production build, and work exhaustion pass directly.
+- Release truth: public launch remains NO-GO. Local success cannot substitute for staging/parity, Zoho reply identity, native Obelisk, live web/theme, three-human Alpha, revenue, rollback, exact-revision provider CI, or founder approval.
+
 ## 2026-08-05 — Session 95 tooling, admission, asset, and rendered-text truth
 
 - Work truth: audit items 145–150 are shipped; the cumulative audit is exhausted at 16/16 and innovations at 62/62 with zero pending unblocked local work.

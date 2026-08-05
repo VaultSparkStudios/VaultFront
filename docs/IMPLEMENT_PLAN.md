@@ -1,25 +1,20 @@
-# Implementation Plan — Session 95
+# Implementation Plan — Session 96
 
-> Source: `docs/AUDIT_2026-08-04.json` · six pending premise-verified items · default rung L3 because the full arc is explicitly authorized.
+Source: `docs/AUDIT_2026-08-05.json` (seven pending items)
 
-## Wave A — Public and authentication trust
+## Efficiency order
 
-1. **#148 retire-public-obelisk-broker-copy** — remove the unused Studio Ops broker copy; add an executable public-boundary guard; prove canonical sanitization and secrets checks stay green.
-2. **#149 bounded-identity-introspection** — deadline and abort remote `users/@me` admission; inject fetch; cover success, response, schema, network, and timeout behavior.
-3. **#147 asset-aware-secret-signal** — suppress only low-confidence entropy inside verified asset payloads; deduplicate generated mirrors; preserve all semantic credential blocking.
+1. `deterministic-match-session-teardown` — establish the shared lifecycle/disposal contract and tests.
+2. `truthful-multitab-collision` — consume that disposal contract while replacing false surveillance claims.
+3. `generation-safe-progression-debrief` — reset and generation-bind the singleton post-match surface.
+4. `doctrine-guided-rematch-continuity` — extend the now-safe progression seam with certified Doctrine identity.
+5. `retire-browser-authored-remote-microhint` — remove the inferior remote route/client contract and guard its absence.
+6. `causal-certified-match-feedback` — extend the existing certified feedback writer, cohort summary, and UI.
+7. `accessible-account-recovery-state` — finish the touched modal state and rendered-accessibility pass.
 
-## Wave B — Protocol and closeout idempotency
+## Mandatory gates
 
-4. **#145 project-local-skill-bridge** — add allowlisted project-root wrappers for `skill-profile` and `sample-codebase`, plus provenance and denial tests.
-5. **#146 idempotent-doctor-closeout-format** — make closeout own formatting for the doctor sidecar and prove content-digest and two-pass byte stability.
-
-## Wave C — Build feedback ownership
-
-6. **#150 single-owner-static-assets** — move resources from Vite `publicDir` to the existing static-copy pipeline, preserve dev/build URL reachability, and gate the retired warning class.
-
-## Mandatory verification
-
-- Focused tests after each item; no item marked shipped without behavior proof.
-- Full 218-file Vitest suite with coverage; TypeScript; ESLint; Prettier ratchet; contracts; production build; Pages; bundle budgets; dependency/security scans.
-- Browser proof recaptured after the Vite ownership change across all three themes, desktop and mobile; final CANON-053 receipt must bind final bytes.
-- Release remains NO-GO unless external evidence is actually observed.
+- Each core-loop item ships with a focused playtest/test hook or an explicit loop-tightness measurement note.
+- No provider, launch, retention, balance, or human-preference claim is inferred from local code.
+- Every UI change receives real browser proof across VaultFront, light, and competitive themes at desktop and mobile before closeout.
+- Audit rows move to `shipped` only after focused behavior verification.

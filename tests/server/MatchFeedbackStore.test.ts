@@ -12,7 +12,7 @@ const feedback = {
   mapName: "plains",
   matchRating: 5,
   mapRating: 4,
-  comment: "great finish",
+  signal: "decisive-convoy" as const,
   won: true,
   behindAtMinute8: true,
   playStyle: "Convoy Lord" as const,
@@ -53,6 +53,11 @@ describe("MatchFeedbackStore", () => {
         },
       ],
       cohorts: [
+        {
+          dimension: "feedback-signal",
+          value: "decisive-convoy",
+          ratingCount: 1,
+        },
         { dimension: "match-path", value: "comeback-win", ratingCount: 1 },
         { dimension: "outcome", value: "win", ratingCount: 1 },
         {
@@ -62,7 +67,7 @@ describe("MatchFeedbackStore", () => {
         },
       ],
     });
-    expect(JSON.stringify(summary)).not.toMatch(/player-1|game-1|great finish/);
+    expect(JSON.stringify(summary)).not.toMatch(/player-1|game-1/);
   });
 
   test("prunes actor-bound feedback at the declared 30-day boundary", async () => {
@@ -99,6 +104,13 @@ describe("MatchFeedbackStore", () => {
       .mockResolvedValueOnce({
         rows: [
           {
+            dimension: "feedback-signal",
+            cohort_value: "decisive-convoy",
+            rating_count: "1",
+            average_map_rating: "4.0",
+            average_match_rating: "5.0",
+          },
+          {
             dimension: "play-style",
             cohort_value: "Convoy Lord",
             rating_count: "2",
@@ -123,7 +135,7 @@ describe("MatchFeedbackStore", () => {
       "plains",
       5,
       4,
-      "great finish",
+      "decisive-convoy",
       true,
       true,
       "Convoy Lord",
@@ -145,6 +157,13 @@ describe("MatchFeedbackStore", () => {
         },
       ],
       cohorts: [
+        {
+          dimension: "feedback-signal",
+          value: "decisive-convoy",
+          averageMapRating: 4,
+          averageMatchRating: 5,
+          ratingCount: 1,
+        },
         {
           dimension: "play-style",
           value: "Convoy Lord",

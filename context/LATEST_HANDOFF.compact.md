@@ -1,55 +1,56 @@
 <!-- generated-by: scripts/compact-handoff.mjs v3.1 -->
-<!-- source-hash: 50750537c1c5 -->
-<!-- generated-at: 2026-08-05T05:00:47.798Z -->
+<!-- source-hash: e074e546cdec -->
+<!-- generated-at: 2026-08-05T22:04:30.373Z -->
 
 # LATEST_HANDOFF (compact)
 
-# Handoff Summary — Session 95 (2026-08-05)
+# Handoff Summary — Session 96
 
-## Status
+## Session
 
-- Branch: main; fresh post-recovery arc complete.
-- Audit exhausted 16/16; innovations 62/62. Zero pending unblocked local work.
+- Session 96 complete (2026-08-05); branch main.
+- Ran continuous /start → /audit → /implement → /closeout arc; audit exhausted 23/23, innovations 62/62.
 
-## Shipped This Session
+## Shipped
 
-- Project-root Studio skill bridges; idempotent doctor closeout formatting.
-- Asset-aware zero-noise secret scanning; removed internal Obelisk broker copy.
-- Bounded abortable users/@me admission; single-owner stable static-resource delivery.
-- Fixed corrupted English Settings punctuation (visual truth).
+- Generation-owned match construction/teardown.
+- Truthful local tab-collision state.
+- Certified causal feedback; removed browser-authored remote micro-hint.
+- Repeatable progression debriefs; Doctrine-bound rematch intent.
+- Accessible account recovery.
 
-## Verification (all green)
+## Verification
 
-- npm test: 224/224 Vitest files, 1,189/1,189 tests; coverage 35.59% lines.
-- TypeScript, ESLint, formatting, zero-warning production build.
-- 30/30 mutation policies; 91 deploy checks; 28,125 balance scenarios.
-- Pages 10/10; bundle budgets; Playwright 2/2; 96 hash-bound captures; Canon 053.
-- Zero secret/sanitizer findings; doctor 13/13.
-- CI 30973983185, E2E 30973983198, Release 30973983205 passed on committed baseline.
+- npm test: 229/229 files, 1,198/1,198 tests pass.
+- Green locally: TypeScript, ESLint, formatting, contracts, balance, production build, work exhaustion, security, doctor.
+- Playwright 2/2 covers 19 states across VaultFront/Light/Competitive on desktop/mobile.
+- 114-artifact receipt passes CANON-053 at digest sha256:b6f542a7...f0238.
 
-## Provider Closure Note
+## Current Intent
 
-- First exact-revision CI exposed inherited Doctrine coverage below immutable floors.
-- Five focused route/store tests restored the ratchet without lowering thresholds.
-- Closeout replaced locally hanging monolithic test command with executable four-shard contract.
+- Local work exhausted at audit 23/23, innovations 62/62.
+- Preserve external release claims as NO-GO until directly observed; never synthesize from local proof or READY credentials.
+
+## Now (top 3)
+
+- Begin from locally exhausted state; premise-check next fresh audit or collect approved external evidence in gate order.
+- Establish approved staging origin/callback contract.
+- Collect external observations in gate order (parity, identity, delivery, live web, human Alpha, revenue, rollback, approval).
+
+## Blockers (top 3)
+
+- Release NO-GO: no approved staging/parity contract.
+- No exact-revision provider CI observed for current revision; no live web health.
+- No three-human Alpha, revenue, rollback, or founder approval.
+
+## Human-Blocked
+
+- Local bitmap viewer unavailable: Windows sandbox credential helper cannot decrypt state (Session 96). Executable pixel/contrast/semantic/hash checks passed; limitation explicit.
+- Studio registry type reconciliation externally owned since Session 89 acknowledgement 01JUJOJL1K040B6517CAF2EFA9 (~7 sessions); needs owner-supported correction path via Ark.
+- Ark closeout-tooling incident 01JUNMP9IR9DF... (Session 89): owner regeneration + non-mutating help path pending.
 
 ## Release Posture
 
-- Public-unlaunched / NO-GO. Preserve as NO-GO until observed.
-- Not inferred: approved staging/parity, Zoho reply identity, native Obelisk, live web, three-human Alpha, real revenue, observed rollback, founder approval.
+- public-unlaunched / NO-GO. All external corridor evidence absent and must not be inferred.
 
-## Now Bucket (top priorities)
-
-1. Establish approved staging origin/callback identity contract.
-2. Collect external observations in gate order.
-3. No local audit or innovation work remains.
-
-## Blockers (external / human)
-
-1. Approved staging/parity contract — unobserved (persistent across Sessions 82–95).
-2. Three-human Alpha, revenue, rollback, founder approval — all await external observation.
-3. Studio registry type reconciliation — externally owned since Session 89 (ack 01JUJOJL1K040B6517CAF2EFA9, ~6 sessions old); request owner-supported path via Ark.
-
-## Next Session Pointer
-
-Begin external release-evidence corridor: secure approved staging/identity contract, then collect gate-ordered observations; do not synthesize from local proof or READY credentials.
+Next session: start from exhausted baseline — premise-check a fresh audit or begin collecting approved external release evidence in strict gate order.

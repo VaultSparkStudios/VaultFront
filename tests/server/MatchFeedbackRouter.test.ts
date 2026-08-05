@@ -1,6 +1,15 @@
 import { describe, expect, test, vi } from "vitest";
 import { registerMatchFeedbackRoutes } from "../../src/server/MatchFeedbackRouter";
 
+vi.mock("../../src/core/configuration/ConfigLoader", () => ({
+  getServerConfigFromServer: () => ({
+    otelEnabled: () => false,
+    otelAuthHeader: () => "",
+    otelEndpoint: () => "",
+    env: () => 0,
+  }),
+}));
+
 function harness(overrides: Record<string, unknown> = {}) {
   const routes = new Map<string, (req: any, res: any) => unknown>();
   const app = {
@@ -59,6 +68,7 @@ function harness(overrides: Record<string, unknown> = {}) {
       durability: "process-local" as const,
       evidence: "certified-match-result" as const,
       retentionDays: 30 as const,
+      signal: input.signal ?? null,
     })),
     summary: vi.fn(async () => ({
       generatedAt: 1,
@@ -88,7 +98,7 @@ describe("MatchFeedbackRouter", () => {
           mapName: "spoofed-map",
           matchRating: 5,
           mapRating: 4,
-          comment: "  decisive finish  ",
+          signal: "decisive-convoy",
         },
       },
       res,
@@ -100,7 +110,7 @@ describe("MatchFeedbackRouter", () => {
       mapName: "certified-map",
       matchRating: 5,
       mapRating: 4,
-      comment: "decisive finish",
+      signal: "decisive-convoy",
       won: true,
       behindAtMinute8: true,
       playStyle: "Convoy Lord",
@@ -154,6 +164,7 @@ describe("MatchFeedbackRouter", () => {
       durability: "postgres" as const,
       evidence: "certified-match-result" as const,
       retentionDays: 30 as const,
+      signal: null,
     };
     const { routes, response, dependencies } = harness({
       record: vi.fn(async () => duplicateReceipt),

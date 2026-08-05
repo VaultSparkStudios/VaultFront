@@ -1,14 +1,32 @@
 import { html, LitElement, type PropertyValues } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { postMatchRating, type MatchRatingSubmission } from "./Api";
+import {
+  postMatchRating,
+  type MatchFeedbackSignal,
+  type MatchRatingSubmission,
+} from "./Api";
 
 type RatingDimension = "match" | "map";
+
+const FEEDBACK_SIGNALS: ReadonlyArray<{
+  value: MatchFeedbackSignal;
+  label: string;
+}> = [
+  { value: "decisive-convoy", label: "Decisive convoy" },
+  { value: "comeback-tension", label: "Comeback tension" },
+  { value: "clear-objectives", label: "Clear objectives" },
+  { value: "pacing-drag", label: "Pacing dragged" },
+  { value: "map-flow", label: "Map flow" },
+  { value: "control-friction", label: "Control friction" },
+  { value: "technical-friction", label: "Technical friction" },
+];
 
 @customElement("certified-match-feedback")
 export class CertifiedMatchFeedback extends LitElement {
   @property({ type: String }) gameId = "";
   @state() private matchRating = 0;
   @state() private mapRating = 0;
+  @state() private signal: MatchFeedbackSignal | null = null;
   @state() private pending = false;
   @state() private outcome: MatchRatingSubmission | null = null;
 
@@ -20,6 +38,7 @@ export class CertifiedMatchFeedback extends LitElement {
     if (changed.has("gameId") && changed.get("gameId") !== undefined) {
       this.matchRating = 0;
       this.mapRating = 0;
+      this.signal = null;
       this.outcome = null;
       this.pending = false;
     }
@@ -49,10 +68,17 @@ export class CertifiedMatchFeedback extends LitElement {
       gameId: submittedGameId,
       matchRating: this.matchRating,
       mapRating: this.mapRating,
+      signal: this.signal ?? undefined,
     });
     if (this.gameId !== submittedGameId) return;
     this.outcome = outcome;
     this.pending = false;
+  }
+
+  private setSignal(signal: MatchFeedbackSignal) {
+    if (this.pending || this.isComplete()) return;
+    this.signal = this.signal === signal ? null : signal;
+    this.outcome = null;
   }
 
   private ratingButtons(dimension: RatingDimension, value: number) {
@@ -126,6 +152,38 @@ export class CertifiedMatchFeedback extends LitElement {
           ${this.ratingButtons("match", this.matchRating)}
           ${this.ratingButtons("map", this.mapRating)}
         </div>
+        <fieldset
+          class="mt-3 border-0 p-0"
+          ?disabled=${this.pending || complete}
+        >
+          <legend class="mb-2 text-xs font-medium text-slate-300">
+            What most shaped that rating?
+            <span class="text-slate-500">Optional</span>
+          </legend>
+          <div
+            class="flex flex-wrap gap-2"
+            role="group"
+            aria-label="Match feedback cause"
+          >
+            ${FEEDBACK_SIGNALS.map(
+              ({ value, label }) => html`
+                <button
+                  type="button"
+                  class="min-h-11 rounded-md border px-3 py-2 text-xs transition-colors motion-reduce:transition-none ${
+                    this.signal === value
+                      ? "border-cyan-300 bg-cyan-400/20 text-cyan-100"
+                      : "border-slate-500/60 bg-slate-900/35 text-slate-300 hover:border-cyan-300/70 hover:text-cyan-100"
+                  }"
+                  aria-label="Feedback cause: ${label}"
+                  aria-pressed=${this.signal === value ? "true" : "false"}
+                  @click=${() => this.setSignal(value)}
+                >
+                  ${label}
+                </button>
+              `,
+            )}
+          </div>
+        </fieldset>
         ${
           complete
             ? html`<p
@@ -146,7 +204,9 @@ export class CertifiedMatchFeedback extends LitElement {
                       : "process-local receipt"
                   }
                   · ${receipt?.retentionDays}-day retention ·
-                  ${receipt?.evidence}
+                  ${receipt?.evidence}${
+                    receipt?.signal ? html` · cause: ${receipt.signal}` : null
+                  }
                 </p>`
             : html`
                 <button

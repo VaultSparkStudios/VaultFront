@@ -5,10 +5,12 @@ import { GameView } from "../../core/game/GameView";
 import {
   claimSeasonMilestone,
   fetchAchievements,
+  fetchDailyChallenge,
   fetchMatchProgressionDividend,
   fetchSeasonProgress,
   fetchVaultFrontContracts,
   type CertifiedProgressionDividend,
+  type DailyChallenge,
 } from "../Api";
 import { getPersistentID } from "../Auth";
 import {
@@ -33,13 +35,41 @@ export class ProgressionDebrief extends LitElement implements Layer {
     "pending";
   @state() private claimableMilestoneId: string | null = null;
   @state() private claimStatus = "";
+  @state() private doctrineName = "";
+  @state() private doctrineRole = "";
+  @state() private doctrineBrief = "";
+  @state() private doctrineId: DailyChallenge["doctrines"]["activeId"] = null;
 
   private requested = false;
   private refreshTimer: ReturnType<typeof setTimeout> | null = null;
+  private resolveWait: (() => void) | null = null;
   private cancelled = false;
+  private generation = 0;
 
   createRenderRoot() {
     return this;
+  }
+
+  bindGame(game: GameView): void {
+    this.cancelPendingWork();
+    this.generation += 1;
+    this.game = game;
+    this.cancelled = false;
+    this.requested = false;
+    this.visible = false;
+    this.loading = false;
+    this.eloText = "";
+    this.milestoneText = "";
+    this.achievementText = "";
+    this.masteryText = "";
+    this.masteryEvidence = "";
+    this.certification = "pending";
+    this.claimableMilestoneId = null;
+    this.claimStatus = "";
+    this.doctrineId = null;
+    this.doctrineName = "";
+    this.doctrineRole = "";
+    this.doctrineBrief = "";
   }
 
   tick(): void {
@@ -50,31 +80,48 @@ export class ProgressionDebrief extends LitElement implements Layer {
     this.visible = true;
     this.loading = true;
     const gameId = this.game.gameID();
-    void this.pollProgressionDividend(gameId);
+    const generation = this.generation;
+    void this.pollProgressionDividend(gameId, generation);
   }
-
   private wait(delayMs: number): Promise<void> {
     return new Promise((resolve) => {
-      this.refreshTimer = setTimeout(resolve, delayMs);
+      const finish = () => {
+        this.refreshTimer = null;
+        this.resolveWait = null;
+        resolve();
+      };
+      this.resolveWait = finish;
+      this.refreshTimer = setTimeout(finish, delayMs);
     });
   }
 
-  async pollProgressionDividend(gameId: string): Promise<void> {
+  private cancelPendingWork(): void {
+    if (this.refreshTimer) clearTimeout(this.refreshTimer);
+    this.refreshTimer = null;
+    this.resolveWait?.();
+    this.resolveWait = null;
+  }
+  async pollProgressionDividend(
+    gameId: string,
+    generation = this.generation,
+  ): Promise<void> {
     const delays = [0, 100, 200, 400, 800, 800];
     for (const delay of delays) {
-      if (this.cancelled) return;
+      if (this.cancelled || generation !== this.generation) return;
       if (delay > 0) await this.wait(delay);
+      if (this.cancelled || generation !== this.generation) return;
       const receipt = await fetchMatchProgressionDividend(gameId);
+      if (this.cancelled || generation !== this.generation) return;
       if (receipt) {
         this.applyDividend(receipt);
+        await this.refreshDoctrine(generation);
         return;
       }
     }
-    if (this.cancelled) return;
+    if (this.cancelled || generation !== this.generation) return;
     this.certification = "degraded";
-    await this.refreshProgression();
+    await this.refreshProgression(generation);
   }
-
   private applyDividend(receipt: CertifiedProgressionDividend): void {
     const { dividend } = receipt;
     const eloDelta = dividend.delta.eloRating;
@@ -106,13 +153,31 @@ export class ProgressionDebrief extends LitElement implements Layer {
     this.loading = false;
   }
 
-  async refreshProgression(): Promise<void> {
+  private applyDoctrine(challenge: DailyChallenge | null): void {
+    const active = challenge?.doctrines.catalog.find(
+      (doctrine) => doctrine.id === challenge.doctrines.activeId,
+    );
+    this.doctrineId = active?.id ?? null;
+    this.doctrineName = active?.name ?? "";
+    this.doctrineRole = active?.role ?? "";
+    this.doctrineBrief = active?.brief ?? "";
+  }
+
+  private async refreshDoctrine(generation: number): Promise<void> {
+    const challenge = await fetchDailyChallenge();
+    if (this.cancelled || generation !== this.generation) return;
+    this.applyDoctrine(challenge);
+  }
+
+  async refreshProgression(generation = this.generation): Promise<void> {
     const persistentId = getPersistentID();
-    const [contracts, season, achievements] = await Promise.all([
+    const [contracts, season, achievements, challenge] = await Promise.all([
       fetchVaultFrontContracts(),
       fetchSeasonProgress(persistentId),
       fetchAchievements(persistentId),
+      fetchDailyChallenge(),
     ]);
+    if (this.cancelled || generation !== this.generation) return;
 
     if (contracts) {
       this.eloText =
@@ -151,9 +216,9 @@ export class ProgressionDebrief extends LitElement implements Layer {
     persistConvoyMastery(mastery);
     this.masteryText = mastery.text;
     this.masteryEvidence = mastery.evidence;
+    this.applyDoctrine(challenge);
     this.loading = false;
   }
-
   private async claimReadyMilestone(): Promise<void> {
     if (!this.claimableMilestoneId) return;
     const claimed = await claimSeasonMilestone(
@@ -167,7 +232,19 @@ export class ProgressionDebrief extends LitElement implements Layer {
   private requestMasteryRematch(): void {
     this.dispatchEvent(
       new CustomEvent("vaultfront-mastery-rematch", {
-        detail: { goal: this.masteryText, evidence: this.masteryEvidence },
+        detail: {
+          goal: this.masteryText,
+          evidence: this.masteryEvidence,
+          doctrine: this.doctrineId
+            ? {
+                id: this.doctrineId,
+                name: this.doctrineName,
+                role: this.doctrineRole,
+                brief: this.doctrineBrief,
+                effectPolicy: "coaching-and-identity-only" as const,
+              }
+            : null,
+        },
         bubbles: true,
         composed: true,
       }),
@@ -178,10 +255,17 @@ export class ProgressionDebrief extends LitElement implements Layer {
     this.visible = false;
   }
 
-  disconnectedCallback(): void {
-    super.disconnectedCallback();
+  dispose(): void {
     this.cancelled = true;
-    if (this.refreshTimer) clearTimeout(this.refreshTimer);
+    this.generation += 1;
+    this.cancelPendingWork();
+    this.visible = false;
+    this.loading = false;
+  }
+
+  disconnectedCallback(): void {
+    this.dispose();
+    super.disconnectedCallback();
   }
 
   render() {
@@ -231,6 +315,26 @@ export class ProgressionDebrief extends LitElement implements Layer {
                     ${this.masteryEvidence}
                   </div>
                 </div>
+                ${
+                  this.doctrineId
+                    ? html`<div
+                        class="mt-2 rounded border border-emerald-300/30 bg-emerald-950/25 p-2"
+                        data-doctrine-id=${this.doctrineId}
+                      >
+                        <div
+                          class="text-[10px] font-bold uppercase tracking-wide text-emerald-200"
+                        >
+                          Active Doctrine · ${this.doctrineName}
+                        </div>
+                        <div class="mt-0.5 text-xs text-emerald-100">
+                          ${this.doctrineRole} · ${this.doctrineBrief}
+                        </div>
+                        <div class="mt-0.5 text-[10px] text-slate-400">
+                          Coaching identity only · never combat power
+                        </div>
+                      </div>`
+                    : null
+                }
                 <div
                   class="mt-2 grid gap-1 text-xs text-slate-300 sm:grid-cols-3"
                 >

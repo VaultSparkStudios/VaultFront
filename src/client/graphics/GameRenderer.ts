@@ -1,4 +1,4 @@
-import { EventBus } from "../../core/EventBus";
+import { EventBus, type EventBusCheckpoint } from "../../core/EventBus";
 import { GameView } from "../../core/game/GameView";
 import { UserSettings } from "../../core/game/UserSettings";
 import { ContractHudWidget } from "../components/ContractHudWidget";
@@ -201,7 +201,7 @@ export function createRenderer(
     "progression-debrief",
   ) as ProgressionDebrief;
   if (progressionDebrief instanceof ProgressionDebrief) {
-    progressionDebrief.game = game;
+    progressionDebrief.bindGame(game);
   }
 
   const playStyleChip = document.querySelector(
@@ -409,6 +409,21 @@ export class GameRenderer {
   private layerTickState = new Map<Layer, { lastTickAtMs: number }>();
   private renderFramesSinceLastTick: number = 0;
   private renderLayerDurationsSinceLastTick: Record<string, number> = {};
+  private running = false;
+  private animationFrameId: number | null = null;
+  private eventBusCheckpoint: EventBusCheckpoint | null = null;
+  private readonly resizeHandler = () => this.resizeCanvas();
+  private readonly contextLostHandler = () => {
+    if (this.animationFrameId !== null) {
+      cancelAnimationFrame(this.animationFrameId);
+      this.animationFrameId = null;
+    }
+  };
+  private readonly contextRestoredHandler = () => {
+    if (!this.running || this.animationFrameId !== null) return;
+    this.redraw();
+    this.animationFrameId = requestAnimationFrame(() => this.renderGame());
+  };
 
   constructor(
     private game: GameView,
@@ -426,31 +441,29 @@ export class GameRenderer {
   }
 
   initialize() {
+    if (this.running) return;
+    this.running = true;
+    this.eventBusCheckpoint = this.eventBus.checkpoint();
     this.eventBus.on(RedrawGraphicsEvent, () => this.redraw());
-    this.layers.forEach((l) => l.init?.());
+    this.layers.forEach((layer) => layer.init?.());
     this.spectatorCamera.start();
 
-    // only append the canvas if it's not already in the document to avoid reparenting side-effects
+    // Only append the canvas if it is not already in the document, avoiding
+    // reparenting side-effects between lobby and match state.
     if (!document.body.contains(this.canvas)) {
       document.body.appendChild(this.canvas);
     }
 
-    window.addEventListener("resize", () => this.resizeCanvas());
+    window.addEventListener("resize", this.resizeHandler);
+    this.canvas.addEventListener("contextlost", this.contextLostHandler);
+    this.canvas.addEventListener(
+      "contextrestored",
+      this.contextRestoredHandler,
+    );
     this.resizeCanvas();
-
-    //show whole map on startup
     this.transformHandler.centerAll(0.9);
-
-    let rafId = requestAnimationFrame(() => this.renderGame());
-    this.canvas.addEventListener("contextlost", () => {
-      cancelAnimationFrame(rafId);
-    });
-    this.canvas.addEventListener("contextrestored", () => {
-      this.redraw();
-      rafId = requestAnimationFrame(() => this.renderGame());
-    });
+    this.animationFrameId = requestAnimationFrame(() => this.renderGame());
   }
-
   resizeCanvas() {
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
@@ -467,6 +480,7 @@ export class GameRenderer {
   }
 
   renderGame() {
+    if (!this.running) return;
     const shouldProfileFrame = FrameProfiler.isEnabled();
     if (shouldProfileFrame) {
       FrameProfiler.clear();
@@ -518,7 +532,7 @@ export class GameRenderer {
     handleTransformState(false, isTransformActive); // Ensure context is clean after rendering
     this.transformHandler.resetChanged();
 
-    requestAnimationFrame(() => this.renderGame());
+    this.animationFrameId = requestAnimationFrame(() => this.renderGame());
     const duration = performance.now() - start;
 
     if (shouldProfileFrame) {
@@ -538,6 +552,28 @@ export class GameRenderer {
     }
   }
 
+  destroy(): void {
+    if (!this.running && this.eventBusCheckpoint === null) return;
+    this.running = false;
+    if (this.animationFrameId !== null) {
+      cancelAnimationFrame(this.animationFrameId);
+      this.animationFrameId = null;
+    }
+    window.removeEventListener("resize", this.resizeHandler);
+    this.canvas.removeEventListener("contextlost", this.contextLostHandler);
+    this.canvas.removeEventListener(
+      "contextrestored",
+      this.contextRestoredHandler,
+    );
+    this.spectatorCamera.stop();
+    this.canvas.remove();
+    this.layers.forEach((layer) => layer.dispose?.());
+    this.layerTickState.clear();
+    if (this.eventBusCheckpoint) {
+      this.eventBus.restore(this.eventBusCheckpoint);
+      this.eventBusCheckpoint = null;
+    }
+  }
   tick() {
     this.spectatorCamera.tick();
     const nowMs = performance.now();

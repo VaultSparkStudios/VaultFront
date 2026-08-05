@@ -160,6 +160,8 @@ export class GameRightSidebar extends LitElement implements Layer {
   private dragBaseX = 0;
   private dragBaseY = 0;
   private lastVaultRiskBySite = new Map<number, string>();
+  private readonly dailyMasteryTimers = new Set<number>();
+  private lifecycleGeneration = 0;
 
   private viewportWidth(): number {
     return typeof window !== "undefined" ? window.innerWidth : 1920;
@@ -170,6 +172,7 @@ export class GameRightSidebar extends LitElement implements Layer {
   }
 
   init() {
+    this.lifecycleGeneration += 1;
     this._isSinglePlayer =
       this.game?.config()?.gameConfig()?.gameType === GameType.Singleplayer ||
       this.game.config().isReplay();
@@ -208,13 +211,16 @@ export class GameRightSidebar extends LitElement implements Layer {
     this.requestUpdate();
   }
   private refreshDailyMastery(delayMs = 0): void {
-    window.setTimeout(() => {
+    const generation = this.lifecycleGeneration;
+    const timer = window.setTimeout(() => {
+      this.dailyMasteryTimers.delete(timer);
       void fetchDailyChallenge().then((challenge) => {
-        if (!challenge) return;
+        if (!challenge || generation !== this.lifecycleGeneration) return;
         this.dailyChallenge = challenge;
         this.requestUpdate();
       });
     }, delayMs);
+    this.dailyMasteryTimers.add(timer);
   }
 
   getTickIntervalMs() {
@@ -392,14 +398,21 @@ export class GameRightSidebar extends LitElement implements Layer {
     this.recentVaultFeed = feed;
   }
 
-  disconnectedCallback(): void {
-    super.disconnectedCallback();
+  public dispose(): void {
+    this.lifecycleGeneration += 1;
+    for (const timer of this.dailyMasteryTimers) window.clearTimeout(timer);
+    this.dailyMasteryTimers.clear();
     window.removeEventListener(
       HUD_LAYOUT_EVENT,
       this.onHudLayoutUpdated as EventListener,
     );
     window.removeEventListener("pointermove", this.onDockDragMove);
     window.removeEventListener("pointerup", this.onDockDragEnd);
+  }
+
+  disconnectedCallback(): void {
+    this.dispose();
+    super.disconnectedCallback();
   }
 
   private persistTimelineEvents(

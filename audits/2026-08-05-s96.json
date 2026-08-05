@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "1.3",
+  "project": "vaultfront",
+  "date": "2026-08-05",
+  "session": 96,
+  "agent": "codex",
+  "kind": "recovery-first-continuous-saturated-arc",
+  "mission": "Recover and checkpoint Session 95 closeout, then run one continuous /start → /audit → /implement → /closeout mission to verified local exhaustion",
+  "sil": {
+    "score": 997,
+    "max": 1000,
+    "velocity": 7,
+    "categories": {
+      "devHealth": 100,
+      "creativeAlignment": 100,
+      "momentum": 100,
+      "engagement": 99,
+      "processQuality": 100,
+      "crossRepoCoherence": 99,
+      "securityPosture": 100,
+      "ecosystemIntegration": 99,
+      "capitalEfficiency": 100,
+      "automationCoverage": 100
+    },
+    "gameRubric": {
+      "loopTightness": 100,
+      "retentionHook": 99,
+      "soulFidelity": 100,
+      "velocity": 100
+    }
+  },
+  "work": {
+    "audit": {
+      "total": 23,
+      "shipped": 23,
+      "pendingUnblocked": 0
+    },
+    "innovations": {
+      "cumulativeTotal": 62,
+      "cumulativeShipped": 62,
+      "pendingUnblocked": 0
+    },
+    "recoveredBoundaryCommit": "46b2ae1e"
+  },
+  "verification": {
+    "vitest": "229/229 files; 1198/1198 tests through canonical npm test",
+    "typescript": "pass",
+    "eslint": "pass",
+    "prettier": "pass",
+    "contracts": "pass",
+    "balance": "28125 scenarios; 0 counterexamples",
+    "productionBuild": "pass",
+    "playwright": "2/2",
+    "visualQa": "114 artifacts; CANON-053 pass",
+    "visualSourceDigest": "sha256:b6f542a7ce41c529836c5d315fd89aa28ec86c8fc350a5e8c82bbc2fc55f0238",
+    "doctor": "13/13 pass at 08/05/2026 22:25:49",
+    "doctorBlockingFailing": 0
+  },
+  "releaseGate": {
+    "status": "no-go",
+    "workExhausted": true,
+    "fabricatedEvidence": false,
+    "boundary": "Local proof does not establish approved staging/parity, project-domain Zoho reply identity, native Obelisk, live web/theme, three authenticated humans, real revenue, observed rollback, exact-revision provider CI, or founder approval."
+  }
+}

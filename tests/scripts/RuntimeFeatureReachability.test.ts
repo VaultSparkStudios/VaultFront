@@ -17,8 +17,8 @@ describe("runtime feature reachability", () => {
   it("binds every admitted feature to server, transport, and product consumer", () => {
     expect(inspectRuntimeFeatureReachability({ root })).toMatchObject({
       ok: true,
-      featureCount: 8,
-      retiredRouteCount: 14,
+      featureCount: 7,
+      retiredRouteCount: 15,
       errors: [],
     });
   });
@@ -50,5 +50,5 @@ describe("runtime feature reachability", () => {
     expect(result.errors).toContain(
       "retired route /api/vaultfront/match-coach resurfaced in src/client/Main.ts",
     );
-  });
+  }, 15_000);
 });

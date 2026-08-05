@@ -1,19 +1,10 @@
-import { beforeEach, describe, expect, test, vi } from "vitest";
-import { fetchMicroHint } from "../../../../src/client/Api";
+import { beforeEach, describe, expect, test } from "vitest";
 import {
   CoachHintEngine,
   localTacticalHint,
   type HintTrigger,
 } from "../../../../src/client/graphics/layers/CoachHintEngine";
 import { GameUpdateType } from "../../../../src/core/game/GameUpdates";
-
-vi.mock("../../../../src/client/Api", async () => {
-  const actual = await vi.importActual<object>("../../../../src/client/Api");
-  return {
-    ...actual,
-    fetchMicroHint: vi.fn().mockResolvedValue("Capture the nearest vault."),
-  };
-});
 
 const triggers: HintTrigger[] = [
   "idle",
@@ -55,48 +46,40 @@ function makeEngine(): any {
 describe("CoachHintEngine", () => {
   beforeEach(() => {
     localStorage.clear();
-    vi.mocked(fetchMicroHint).mockClear();
   });
 
-  test("defines an actionable local policy for every tactical trigger", () => {
+  test("defines an actionable deterministic policy for every tactical trigger", () => {
     for (const trigger of triggers) {
       const hint = localTacticalHint(trigger, { gold: 90_000, sites: 1 });
       expect(hint.length).toBeGreaterThan(30);
     }
   });
 
-  test("renders a local hint immediately without a paid call by default", async () => {
+  test("renders a local hint and records the provider call it avoided", () => {
     const engine = makeEngine();
     engine.tickCount = 1199;
 
     engine.tick();
-    await Promise.resolve();
 
-    expect(fetchMicroHint).not.toHaveBeenCalled();
     expect(engine.visible).toBe(true);
     expect(engine.hint).toContain("Contest the nearest opening");
     expect(localStorage.getItem("vaultfront.kpi.coach.localHints")).toBe("1");
     expect(
-      localStorage.getItem("vaultfront.kpi.coach.remoteCallsAvoided"),
+      localStorage.getItem("vaultfront.kpi.coach.providerCallsAvoided"),
     ).toBe("1");
   });
 
-  test("optional remote enhancement is bounded and keeps cache semantics", async () => {
+  test("ignores the retired browser remote-provider toggle", () => {
     localStorage.setItem("coachRemoteEnhancementEnabled", "true");
     const engine = makeEngine();
+    engine.tickCount = 1199;
 
-    await engine.fetchAndShow("idle");
-    await engine.fetchAndShow("idle");
+    engine.tick();
 
-    expect(fetchMicroHint).toHaveBeenCalledTimes(1);
-    expect(fetchMicroHint).toHaveBeenCalledWith({
-      gold: expect.any(Number),
-      sites: 2,
-      trigger: "idle",
-    });
-    expect(engine.hint).toBe("Capture the nearest vault.");
+    expect(engine.hint).toContain("Contest the nearest opening");
+    expect(localStorage.getItem("vaultfront.kpi.coach.localHints")).toBe("1");
     expect(
       localStorage.getItem("vaultfront.kpi.coach.remoteEnhancements"),
-    ).toBe("1");
+    ).toBe(null);
   });
 });
