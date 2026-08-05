@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "observedAt": "2026-08-05T03:42:12.703Z",
+  "observedAt": "2026-08-05T03:45:23.026Z",
   "source": "scripts/project-doctor.mjs",
   "blockingFailing": 0,
   "warnings": [],
@@ -9,15 +9,15 @@
       "id": "release-metadata-truth",
       "status": "pass",
       "source": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\p4cka\\Documents\\Development\\VaultFront\\scripts\\check-project-truth.mjs --root C:\\Users\\p4cka\\Documents\\Development\\VaultFront --json",
-      "observedAt": "2026-08-05T03:41:57.827Z",
+      "observedAt": "2026-08-05T03:45:02.945Z",
       "exitCode": 0,
-      "detail": "{\n  \"ok\": true,\n  \"audience\": \"public-unlaunched\",\n  \"manifestAudience\": \"public-unlaunched\",\n  \"contradictions\": [],\n  \"observedAt\": \"2026-08-05T03:41:58.684Z\",\n  \"source\": \"scripts/check-project-truth.mjs\",\n  \"warnings\": []\n}",
+      "detail": "{\n  \"ok\": true,\n  \"audience\": \"public-unlaunched\",\n  \"manifestAudience\": \"public-unlaunched\",\n  \"contradictions\": [],\n  \"observedAt\": \"2026-08-05T03:45:04.021Z\",\n  \"source\": \"scripts/check-project-truth.mjs\",\n  \"warnings\": []\n}",
       "data": {
         "ok": true,
         "audience": "public-unlaunched",
         "manifestAudience": "public-unlaunched",
         "contradictions": [],
-        "observedAt": "2026-08-05T03:41:58.684Z",
+        "observedAt": "2026-08-05T03:45:04.021Z",
         "source": "scripts/check-project-truth.mjs",
         "warnings": []
       }
@@ -26,7 +26,7 @@
       "id": "task-id-integrity",
       "status": "pass",
       "source": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\p4cka\\Documents\\Development\\VaultFront\\scripts\\validate-task-ids.mjs",
-      "observedAt": "2026-08-05T03:41:58.696Z",
+      "observedAt": "2026-08-05T03:45:04.181Z",
       "exitCode": 0,
       "detail": "✓ TASK_BOARD integrity — 182 parsed row(s) · 0 numeric ID(s) · no duplicates · explicitly exhausted.",
       "data": null
@@ -35,7 +35,7 @@
       "id": "windows-spawn-hygiene",
       "status": "pass",
       "source": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\p4cka\\Documents\\Development\\VaultFront\\scripts\\check-windows-hide.mjs",
-      "observedAt": "2026-08-05T03:41:59.426Z",
+      "observedAt": "2026-08-05T03:45:05.744Z",
       "exitCode": 0,
       "detail": "✓ windows-hide: all spawns route through lib/safe-spawn.mjs and set windowsHide:true (no window-storm / no SuspExec heuristic)",
       "data": null
@@ -44,7 +44,7 @@
       "id": "project-status-write-path",
       "status": "pass",
       "source": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\p4cka\\Documents\\Development\\VaultFront\\scripts\\check-project-status-writers.mjs --root C:\\Users\\p4cka\\Documents\\Development\\VaultFront",
-      "observedAt": "2026-08-05T03:42:00.503Z",
+      "observedAt": "2026-08-05T03:45:07.331Z",
       "exitCode": 0,
       "detail": "PASS project-status writer: all mutations use the canonical atomic writer",
       "data": null
@@ -53,7 +53,7 @@
       "id": "client-reachability",
       "status": "pass",
       "source": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\p4cka\\Documents\\Development\\VaultFront\\scripts\\check-client-reachability.mjs",
-      "observedAt": "2026-08-05T03:42:01.633Z",
+      "observedAt": "2026-08-05T03:45:08.420Z",
       "exitCode": 0,
       "detail": "{\n  \"ok\": true,\n  \"entrypoints\": [\n    \"src/client/Main.ts\"\n  ],\n  \"reachableModules\": 189,\n  \"clientModules\": 189,\n  \"unreachable\": [],\n  \"missingImports\": []\n}",
       "data": {
@@ -69,7 +69,7 @@
       "id": "runtime-feature-reachability",
       "status": "pass",
       "source": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\p4cka\\Documents\\Development\\VaultFront\\scripts\\check-runtime-feature-reachability.mjs",
-      "observedAt": "2026-08-05T03:42:02.678Z",
+      "observedAt": "2026-08-05T03:45:09.555Z",
       "exitCode": 0,
       "detail": "{\n  \"ok\": true,\n  \"featureCount\": 8,\n  \"retiredRouteCount\": 14,\n  \"evidenceFiles\": [\n    \"src/client/Api.ts\",\n    \"src/client/GameStartingModal.ts\",\n    \"src/client/graphics/layers/CertifiedNarratorLayer.ts\",\n    \"src/client/graphics/layers/CoachHintEngine.ts\",\n    \"src/client/graphics/layers/WinModal.ts\",\n    \"src/server/Worker.ts\"\n  ],\n  \"evidenceDigest\": \"sha256:43c29e4e13a65584711153024f63087802a1f32ed8731c5e3e5fbbaea611326f\",\n  \"errors\": []\n}",
       "data": {
@@ -92,7 +92,7 @@
       "id": "mutation-route-policy-coverage",
       "status": "pass",
       "source": "C:\\Program Files\\nodejs\\node.exe scripts/check-route-policy-coverage.mjs",
-      "observedAt": "2026-08-05T03:42:03.587Z",
+      "observedAt": "2026-08-05T03:45:10.658Z",
       "exitCode": 0,
       "detail": "{\n  \"ok\": true,\n  \"registeredMutations\": 30,\n  \"declaredPolicies\": 30,\n  \"publicIngestCount\": 4,\n  \"publicIngestMax\": 4,\n  \"errors\": []\n}",
       "data": {
@@ -108,7 +108,7 @@
       "id": "release-workflow-contract",
       "status": "pass",
       "source": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\p4cka\\Documents\\Development\\VaultFront\\scripts\\check-deploy-contract.mjs",
-      "observedAt": "2026-08-05T03:42:05.309Z",
+      "observedAt": "2026-08-05T03:45:11.745Z",
       "exitCode": 0,
       "detail": "PASS immutable deploy/workflow/runbook contract (91 checks)",
       "data": null
@@ -117,12 +117,12 @@
       "id": "public-footer-manifest",
       "status": "pass",
       "source": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\p4cka\\Documents\\Development\\VaultFront\\scripts\\check-footer-manifest.mjs",
-      "observedAt": "2026-08-05T03:42:08.824Z",
+      "observedAt": "2026-08-05T03:45:15.144Z",
       "exitCode": 0,
-      "detail": "{\n  \"ok\": true,\n  \"checkedAt\": \"2026-08-05T03:42:09.449Z\",\n  \"manifest\": \"src/shared/PublicRouteGraph.json\",\n  \"publicMirror\": \"public/footer-manifest.json\",\n  \"appConsumer\": \"src/client/components/Footer.ts\",\n  \"appExternalLinkCount\": 2,\n  \"routeGraphDigest\": \"sha256:4e0ecf91082a00bed3bfad2699332d7414f5f2ba897c1d338793f4378c5200c5\",\n  \"pageCount\": 10,\n  \"headerLinkCount\": 4,\n  \"footerLinkCount\": 7,\n  \"errors\": []\n}",
+      "detail": "{\n  \"ok\": true,\n  \"checkedAt\": \"2026-08-05T03:45:16.058Z\",\n  \"manifest\": \"src/shared/PublicRouteGraph.json\",\n  \"publicMirror\": \"public/footer-manifest.json\",\n  \"appConsumer\": \"src/client/components/Footer.ts\",\n  \"appExternalLinkCount\": 2,\n  \"routeGraphDigest\": \"sha256:4e0ecf91082a00bed3bfad2699332d7414f5f2ba897c1d338793f4378c5200c5\",\n  \"pageCount\": 10,\n  \"headerLinkCount\": 4,\n  \"footerLinkCount\": 7,\n  \"errors\": []\n}",
       "data": {
         "ok": true,
-        "checkedAt": "2026-08-05T03:42:09.449Z",
+        "checkedAt": "2026-08-05T03:45:16.058Z",
         "manifest": "src/shared/PublicRouteGraph.json",
         "publicMirror": "public/footer-manifest.json",
         "appConsumer": "src/client/components/Footer.ts",
@@ -138,9 +138,9 @@
       "id": "local-theme-proof",
       "status": "pass",
       "source": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\p4cka\\Documents\\Development\\VaultFront\\scripts\\check-theme-proof-receipt.mjs --root C:\\Users\\p4cka\\Documents\\Development\\VaultFront",
-      "observedAt": "2026-08-05T03:42:09.460Z",
+      "observedAt": "2026-08-05T03:45:16.218Z",
       "exitCode": 0,
-      "detail": "{\n  \"ok\": true,\n  \"source\": \"docs/THEME_LOCAL_PROOF.json\",\n  \"latest\": \"docs/visual-qa/LATEST.json\",\n  \"scope\": \"local-only\",\n  \"matrixCells\": 6,\n  \"artifactCount\": 96,\n  \"sourceDigest\": \"sha256:dcf74ee429a078ea88b7becd41591aeb9331e06a6eebe3d61ec200e19775a303\",\n  \"ageDays\": 0.012,\n  \"errors\": []\n}",
+      "detail": "{\n  \"ok\": true,\n  \"source\": \"docs/THEME_LOCAL_PROOF.json\",\n  \"latest\": \"docs/visual-qa/LATEST.json\",\n  \"scope\": \"local-only\",\n  \"matrixCells\": 6,\n  \"artifactCount\": 96,\n  \"sourceDigest\": \"sha256:dcf74ee429a078ea88b7becd41591aeb9331e06a6eebe3d61ec200e19775a303\",\n  \"ageDays\": 0.014,\n  \"errors\": []\n}",
       "data": {
         "ok": true,
         "source": "docs/THEME_LOCAL_PROOF.json",
@@ -149,7 +149,7 @@
         "matrixCells": 6,
         "artifactCount": 96,
         "sourceDigest": "sha256:dcf74ee429a078ea88b7becd41591aeb9331e06a6eebe3d61ec200e19775a303",
-        "ageDays": 0.012,
+        "ageDays": 0.014,
         "errors": []
       }
     },
@@ -157,12 +157,12 @@
       "id": "capability-reachability",
       "status": "pass",
       "source": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\p4cka\\Documents\\Development\\VaultFront\\scripts\\check-capability-reachability.mjs --root C:\\Users\\p4cka\\Documents\\Development\\VaultFront",
-      "observedAt": "2026-08-05T03:42:10.537Z",
+      "observedAt": "2026-08-05T03:45:17.625Z",
       "exitCode": 0,
-      "detail": "{\n  \"ok\": true,\n  \"checkedAt\": \"2026-08-05T03:42:11.108Z\",\n  \"releasePosture\": \"implemented-local-unlaunched\",\n  \"publicRuntime\": \"unavailable\",\n  \"manifest\": \"public/capability-reachability.json\",\n  \"sourceDigest\": \"sha256:094c6725bc85374043d40b25ff0fbc9c5f0a5fd97ba80792a1b66986671a756e\",\n  \"capabilities\": [\n    {\n      \"id\": \"command-center\",\n      \"audience\": \"human-player\",\n      \"status\": \"reachable-in-source\",\n      \"errors\": []\n    },\n    {\n      \"id\": \"certified-match-outcomes\",\n      \"audience\": \"human-player\",\n      \"status\": \"reachable-in-source\",\n      \"errors\": []\n    },\n    {\n      \"id\": \"canonical-ai-receipts\",\n      \"audience\": \"human-and-agent\",\n      \"status\": \"reachable-in-source\",\n      \"errors\": []\n    },\n    {\n      \"id\": \"policy-bound-mutations\",\n      \"audience\": \"operator\",\n      \"status\": \"reachable-in-source\",\n      \"errors\": []\n    },\n    {\n      \"id\": \"runtime-integrity\",\n      \"audience\": \"operator-and-agent\",\n      \"status\": \"reachable-in-source\",\n      \"errors\": []\n    },\n    {\n      \"id\": \"release-evidence-lineage\",\n      \"audience\": \"operator-and-agent\",\n      \"status\": \"reachable-in-source\",\n      \"errors\": []\n    }\n  ],\n  \"errors\": []\n}",
+      "detail": "{\n  \"ok\": true,\n  \"checkedAt\": \"2026-08-05T03:45:19.062Z\",\n  \"releasePosture\": \"implemented-local-unlaunched\",\n  \"publicRuntime\": \"unavailable\",\n  \"manifest\": \"public/capability-reachability.json\",\n  \"sourceDigest\": \"sha256:094c6725bc85374043d40b25ff0fbc9c5f0a5fd97ba80792a1b66986671a756e\",\n  \"capabilities\": [\n    {\n      \"id\": \"command-center\",\n      \"audience\": \"human-player\",\n      \"status\": \"reachable-in-source\",\n      \"errors\": []\n    },\n    {\n      \"id\": \"certified-match-outcomes\",\n      \"audience\": \"human-player\",\n      \"status\": \"reachable-in-source\",\n      \"errors\": []\n    },\n    {\n      \"id\": \"canonical-ai-receipts\",\n      \"audience\": \"human-and-agent\",\n      \"status\": \"reachable-in-source\",\n      \"errors\": []\n    },\n    {\n      \"id\": \"policy-bound-mutations\",\n      \"audience\": \"operator\",\n      \"status\": \"reachable-in-source\",\n      \"errors\": []\n    },\n    {\n      \"id\": \"runtime-integrity\",\n      \"audience\": \"operator-and-agent\",\n      \"status\": \"reachable-in-source\",\n      \"errors\": []\n    },\n    {\n      \"id\": \"release-evidence-lineage\",\n      \"audience\": \"operator-and-agent\",\n      \"status\": \"reachable-in-source\",\n      \"errors\": []\n    }\n  ],\n  \"errors\": []\n}",
       "data": {
         "ok": true,
-        "checkedAt": "2026-08-05T03:42:11.108Z",
+        "checkedAt": "2026-08-05T03:45:19.062Z",
         "releasePosture": "implemented-local-unlaunched",
         "publicRuntime": "unavailable",
         "manifest": "public/capability-reachability.json",
@@ -212,12 +212,12 @@
       "id": "certified-feedback-reachability",
       "status": "pass",
       "source": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\p4cka\\Documents\\Development\\VaultFront\\scripts\\check-certified-feedback-reachability.mjs --root C:\\Users\\p4cka\\Documents\\Development\\VaultFront",
-      "observedAt": "2026-08-05T03:42:11.122Z",
+      "observedAt": "2026-08-05T03:45:19.228Z",
       "exitCode": 0,
-      "detail": "{\n  \"ok\": true,\n  \"checkedAt\": \"2026-08-05T03:42:11.945Z\",\n  \"capability\": \"certified-match-feedback\",\n  \"layers\": [\n    \"src/server/MatchFeedbackRouter.ts\",\n    \"config/mutation-route-policies.json\",\n    \"src/client/Api.ts\",\n    \"src/client/CertifiedMatchFeedback.ts\",\n    \"src/client/graphics/layers/WinModal.ts\",\n    \"tests/client/CertifiedMatchFeedback.test.ts\"\n  ],\n  \"sourceDigest\": \"sha256:f4f268576ada775896bff0861fd28ed26ff2e9e60c0498d904fe00d94acb4a55\",\n  \"errors\": []\n}",
+      "detail": "{\n  \"ok\": true,\n  \"checkedAt\": \"2026-08-05T03:45:20.623Z\",\n  \"capability\": \"certified-match-feedback\",\n  \"layers\": [\n    \"src/server/MatchFeedbackRouter.ts\",\n    \"config/mutation-route-policies.json\",\n    \"src/client/Api.ts\",\n    \"src/client/CertifiedMatchFeedback.ts\",\n    \"src/client/graphics/layers/WinModal.ts\",\n    \"tests/client/CertifiedMatchFeedback.test.ts\"\n  ],\n  \"sourceDigest\": \"sha256:f4f268576ada775896bff0861fd28ed26ff2e9e60c0498d904fe00d94acb4a55\",\n  \"errors\": []\n}",
       "data": {
         "ok": true,
-        "checkedAt": "2026-08-05T03:42:11.945Z",
+        "checkedAt": "2026-08-05T03:45:20.623Z",
         "capability": "certified-match-feedback",
         "layers": [
           "src/server/MatchFeedbackRouter.ts",
@@ -235,9 +235,9 @@
       "id": "work-exhaustion",
       "status": "pass",
       "source": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\p4cka\\Documents\\Development\\VaultFront\\scripts\\check-work-exhaustion.mjs --root C:\\Users\\p4cka\\Documents\\Development\\VaultFront --json",
-      "observedAt": "2026-08-05T03:42:11.956Z",
+      "observedAt": "2026-08-05T03:45:20.779Z",
       "exitCode": 0,
-      "detail": "{\n  \"ok\": true,\n  \"pendingUnblocked\": [],\n  \"audit\": {\n    \"source\": \"docs/AUDIT_2026-08-04.json\",\n    \"total\": 16,\n    \"pending\": 0\n  },\n  \"innovations\": {\n    \"source\": \"docs/INNOVATION_PACK.json\",\n    \"total\": 62,\n    \"pending\": 0\n  },\n  \"observedAt\": \"2026-08-05T03:42:12.692Z\",\n  \"source\": \"scripts/check-work-exhaustion.mjs\"\n}",
+      "detail": "{\n  \"ok\": true,\n  \"pendingUnblocked\": [],\n  \"audit\": {\n    \"source\": \"docs/AUDIT_2026-08-04.json\",\n    \"total\": 16,\n    \"pending\": 0\n  },\n  \"innovations\": {\n    \"source\": \"docs/INNOVATION_PACK.json\",\n    \"total\": 62,\n    \"pending\": 0\n  },\n  \"observedAt\": \"2026-08-05T03:45:22.885Z\",\n  \"source\": \"scripts/check-work-exhaustion.mjs\"\n}",
       "data": {
         "ok": true,
         "pendingUnblocked": [],
@@ -251,7 +251,7 @@
           "total": 62,
           "pending": 0
         },
-        "observedAt": "2026-08-05T03:42:12.692Z",
+        "observedAt": "2026-08-05T03:45:22.885Z",
         "source": "scripts/check-work-exhaustion.mjs"
       }
     }
