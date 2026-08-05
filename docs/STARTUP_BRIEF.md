@@ -1,9 +1,9 @@
 <!-- generated-by: scripts/render-startup-brief.mjs v3.1 -->
-<!-- generated-at: 2026-08-05T01:44:29.289Z -->
+<!-- generated-at: 2026-08-05T01:51:50.887Z -->
 <!-- generated-for-session: 95; source-closeout-session: 94 -->
 <!-- fast-boot-valid-until: next session if within 24h -->
 <!-- brief-coherent: true -->
-<!-- brief-sources: {"schema":2,"session":94,"sources":{"context/PROJECT_STATUS.json":"18bedf30d711a417063e53905b3d23f54f83d3215e3956ab7115be25c044b75b","context/TASK_BOARD.md":"3f332a12c01a5acb8c002e0e91b588fc71f4911341c8e783d002678fa9cbab15","context/LATEST_HANDOFF.md":"9198c4ed3c9acfa0ec0467a19468fd64997c72fc4441eb1d605b96327ace3671","context/SELF_IMPROVEMENT_LOOP.md":"abb9baa08569805e287179bedde11c8317a839bc1a6ed5c5e77fabaaf5b0a88f","context/TRUTH_AUDIT.md":"9af4a2b1cefb331c92b70596d2cc38bf1139ede709569fbe3f0503486a9a0c76","context/CURRENT_STATE.md":"4867edecdd49462bfea76d0d997d94bd7149b795d4072f3e0db198584cf18359","docs/GENIUS_LIST.md":"78a58572cf67ad0824286ad63c9576c72e660e1804b0470bb0fd3d713138ce9c","docs/SESSION_PLAN.md":"b3bf49e5e8d173eac49219b9021300838b88c80b0b19912520288e66e0870943","docs/CREATIVE_DIRECTION_RECORD.md":"1cbe0ce7f1275398794f5ac5ce3fa8f3bca848523cccc02fa2be9f3ad327edfe"}} -->
+<!-- brief-sources: {"schema":2,"session":94,"sources":{"context/PROJECT_STATUS.json":"8d8ff51034ca59cd7949c1976a4f1e8fc0d6fa5c2268fa635c8ce50633d71532","context/TASK_BOARD.md":"3f332a12c01a5acb8c002e0e91b588fc71f4911341c8e783d002678fa9cbab15","context/LATEST_HANDOFF.md":"9198c4ed3c9acfa0ec0467a19468fd64997c72fc4441eb1d605b96327ace3671","context/SELF_IMPROVEMENT_LOOP.md":"abb9baa08569805e287179bedde11c8317a839bc1a6ed5c5e77fabaaf5b0a88f","context/TRUTH_AUDIT.md":"9af4a2b1cefb331c92b70596d2cc38bf1139ede709569fbe3f0503486a9a0c76","context/CURRENT_STATE.md":"4867edecdd49462bfea76d0d997d94bd7149b795d4072f3e0db198584cf18359","docs/GENIUS_LIST.md":"78a58572cf67ad0824286ad63c9576c72e660e1804b0470bb0fd3d713138ce9c","docs/SESSION_PLAN.md":"b3bf49e5e8d173eac49219b9021300838b88c80b0b19912520288e66e0870943","docs/CREATIVE_DIRECTION_RECORD.md":"1cbe0ce7f1275398794f5ac5ce3fa8f3bca848523cccc02fa2be9f3ad327edfe"}} -->
 
 # Startup Brief — VaultFront
 
@@ -42,7 +42,7 @@
 ║                                                                  ║
 ║    997/1000   ███████████████████████░   100%                    ║
 ║    SIL v3.0  ·  Avg3: 997  ·  Velocity 9→                        ║
-║    Last active: 1d  ·  Last closeout: 1d  ·  (active = newest o  ║
+║    Last active: 0d  ·  Last closeout: 1d  ·  (active = newest o  ║
 ║    Trend  █▇██▇  →  (last 5 sessions)                            ║
 ║                                                                  ║
 ║    Category         Score  Bar        Spark   Δ                  ║
@@ -66,9 +66,9 @@
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ CONTEXT METER ═══════════════════════════════════════════════╗
-║  ✓  ███░░░░░░░░░░░░░░░░░░░░░   11% used                          ║
-║     110,978 / 1,000,000 tok  ·  codex/codex-1m  ·  measured+heu  ║
-║     ~55,489 tok/turn  ·  cache 50%  ·  14 turns to compact       ║
+║  ✓  █░░░░░░░░░░░░░░░░░░░░░░░    3% used                          ║
+║     32,867 / 1,000,000 tok  ·  codex/codex-1m  ·  measured+heur  ║
+║     ~16,434 tok/turn  ·  cache 50%  ·  53 turns to compact       ║
 ║     Verdict: CONTINUE                                            ║
 ╚════════════════════════════════════════════════════════════════╝
 

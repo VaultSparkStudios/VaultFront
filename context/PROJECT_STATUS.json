@@ -110,10 +110,10 @@
     "failing": 0,
     "blockingFailing": 0,
     "date": "2026-08-05",
-    "observedAt": "2026-08-05T01:44:26.868Z",
+    "observedAt": "2026-08-05T01:51:49.839Z",
     "source": "scripts/project-doctor.mjs",
     "evidencePath": "audits/doctor-latest.json",
-    "evidenceDigest": "sha256:3180b85510c62f9324d32ff1d39ec2086f1b970b4ed4cd416ca045c4d4bee859",
+    "evidenceDigest": "sha256:34206bb8245ccc086099c5506f207185c5a06060886d1837b19954d61ddfea2f",
     "evidenceSchemaVersion": 1,
     "checkCount": 13
   },
