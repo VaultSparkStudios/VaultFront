@@ -1,52 +1,52 @@
 <!-- generated-by: scripts/compact-handoff.mjs v3.1 -->
-<!-- source-hash: 9198c4ed3c9a -->
-<!-- generated-at: 2026-08-04T22:15:53.589Z -->
+<!-- source-hash: c2ab72795f42 -->
+<!-- generated-at: 2026-08-05T03:32:59.393Z -->
 
 # LATEST_HANDOFF (compact)
 
-SESSION 94 HANDOFF SUMMARY
+## Session 95 Handoff Summary
 
-Session
+Status: complete (2026-08-05). Branch main.
 
-- Session 94 recovered from stale mid-implement lock and completed (2026-08-04); branch main.
+Shipped
 
-Shipped This Session
-
-- Match-bound lazy first contact; personal/team-separated First Extraction evidence.
-- Certified non-power Doctrine Vault: replay-safe transactional selection, verifiable receipts.
-- Actionable-only startup genius truth; compact hash-bound doctor evidence.
-- Recovery: interrupted session's single focused red root-fixed.
+- Project-root Studio skill bridges; idempotent doctor closeout formatting.
+- Asset-aware zero-noise secret scanning; removed internal Obelisk broker copy.
+- Bounded abortable users/@me admission; single-owner stable static-resource delivery.
+- Fixed corrupted English Settings punctuation via direct visual review.
 
 Current Intent
 
-- Run continuous agent-neutral /start → /audit → /implement → /closeout arc using infrastructure rubric plus VaultFront game/product and public-release lenses; verify premises against live code; exhaust Unified Genius List; generate second-order innovations; preserve source-derived observability; write-back, sanitize, commit direct to main, Ark broadcast, zero-shell closeout without fabricating external release evidence.
+- Fresh post-recovery /start→/audit→/implement→/closeout arc from live exhausted baseline; preserve all external release claims as NO-GO until observed. Local audit exhausted 16/16, innovations 62/62. No local work remains.
 
-State
+Now (top 3)
 
-- Local work exhausted: audit 10/10, innovations 62/62, blockingFailing 0.
-- Verification green: 218 Vitest files / 1,165 tests; 30/30 mutation policies; public ingest 4/4; browser proof 2/2; CANON-053; exhaustion; doctor.
-- Visual: 96 captures across sixteen states (VaultFront, Light, Competitive; desktop+mobile); six new agency/doctrine artifacts inspected clean.
+- Establish approved staging origin/callback contract.
+- Collect external release observations in gate order.
+- Do not synthesize external proof from local evidence or READY credentials.
 
-Now Bucket (Top 3)
+Blockers (top 3)
 
-1. Begin fresh post-recovery arc from live exhausted state.
-2. Establish approved staging origin/callback contract.
-3. Execute dry-run receipt path, then collect external observations in gate order.
+- Release public-unlaunched / NO-GO; all external gates unobserved.
+- No approved staging/parity or Zoho reply identity established.
+- No native Obelisk, live web, or exact-revision provider CI for current revision.
 
-Blockers (Top 3)
+Human-Blocked Items
 
-1. Release NO-GO: no approved staging/parity origin exists.
-2. No Zoho reply identity, native Obelisk, or live web observations.
-3. No three-human Alpha, real revenue, observed rollback, or exact-revision provider CI.
+- Founder approval for release: outstanding (open since Session 82+).
+- Three-human Alpha, real revenue, observed rollback: all unobserved.
+- Studio registry type reconciliation: externally owned; ack 01JUJOJL1K040B6517CAF2EFA9 rejected `type`; Ark question 01JUNMMD... awaiting owner-supported path (open since Session 89).
+- Studio Ops board renderer non-mutating help path: Ark incident 01JUNMP9... awaiting owner regeneration (open since Session 89).
 
-Human-Blocked Items (with age)
+Verification (Session 95)
 
-- Founder approval for release corridor: unresolved since Session ~82 (~12 sessions).
-- Studio registry type reconciliation (ack 01JUJOJL1K040B6517CAF2EFA9): externally owned since Session 87–89 (~5–7 sessions); await owner-supported correction via Ark, do not edit sibling registry.
-- Studio Ops board renderer incident (Ark 01JUNMP9IR9DF9678CD51FFF1B): owner regeneration + non-mutating help path requested since Session 89 (~5 sessions).
+- 223/223 Vitest files, 1,180/1,180 tests; 35.54% lines.
+- TypeScript, ESLint, formatting clean; 30/30 mutation policies.
+- 91 deploy checks; 28,125 balance scenarios; zero-warning build.
+- Pages 10/10; bundle budgets; Playwright 2/2; doctor 13/13.
+- 96 hash-bound captures + Canon 053 green; zero secret/sanitizer findings.
+- Visual proof passes three themes on desktop/mobile.
 
-Truth Boundary
+Next Session
 
-- External release evidence must be observed in gate order, never synthesized from local proof or READY credentials.
-
-Next Session: Start fresh arc from exhausted state; pursue approved staging contract before any release-gate observation.
+- Begin external release corridor: secure approved staging/identity contract, then gather live gate observations in order; do not fabricate.

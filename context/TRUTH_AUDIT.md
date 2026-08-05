@@ -2,6 +2,17 @@
 
 # Truth Audit
 
+## 2026-08-05 — Session 95 tooling, admission, asset, and rendered-text truth
+
+- Work truth: audit items 145–150 are shipped; the cumulative audit is exhausted at 16/16 and innovations at 62/62 with zero pending unblocked local work.
+- Tooling truth: the exact project-root skill-profile and sample-codebase commands execute through a deny-by-default allowlisted control-plane bridge with correct project and cwd semantics.
+- Security truth: the full tree has zero secret findings after context-limited low-entropy suppression; synthetic GitHub and Stripe credentials remain high-confidence findings even inside asset paths. The unused internal Obelisk broker copy is absent and deployable-code boundary tests forbid its private policy and receipt paths.
+- Admission truth: users/@me introspection has an owned five-second deadline, abort signal, normalized errors, and timer cleanup; issuer and audience verification are unchanged.
+- Asset truth: resources have one explicit static-copy owner, stable root imports resolve virtually, production transforms 2,201 modules and copies 47 targets with zero retired warnings, and source and built English catalogs match.
+- Visual truth: image-capable review found corrupted Settings punctuation; the transport-safe fix is guarded at the asset and exact rendered DOM layers. Playwright passes 2/2 and the final 96-artifact receipt passes Canon 053.
+- Verification truth: 223/223 files, 1,180/1,180 tests, 35.54% line coverage, contracts, balance, Pages, bundle, sanitization, secret scan, and doctor 13/13 pass.
+- Release truth: public launch remains NO-GO on external evidence; local proof does not substitute for staging/parity, email/identity, live web, human Alpha, revenue, rollback, exact-revision provider CI, or founder approval.
+
 ## 2026-08-04 — Session 94 recovery, personal-agency, Doctrine, and compact-health truth
 
 - Recovery truth: provenance classified the stale lock and 48-file tree as cut off mid-implement; JSON parsed, no NDJSON or merge corruption existed, and origin/main matched HEAD before recovery edits. One focused red disproved the prior done claim until its canonical event authority was repaired.

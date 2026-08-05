@@ -4,12 +4,22 @@ Detailed internal scoring, audit trends, and brainstorming are maintained privat
 
 <!-- rolling-status-start -->
 
-Total: 997/1000 | Velocity: 9 | Debt: ↓ | Velocity trend: →
+Total: 997/1000 | Velocity: 7 | Debt: ↓ | Velocity trend: →
 Avgs — 3: 997.0 | 5: 997.0 | 10: 996.4 | 25: 990.3 | all: 990.3 | Last 5: 997 → 997 → 997 → 997 → 997 | Intent rate: 100%
 Categories: Dev 100 | Align 100 | Momentum 100 | Engage 99 | Process 100 | Coherence 99 | Security 100 | Ecosystem 99 | Capital 100 | Automation 100
-Last session: 2026-08-04 Session 94 recovery, personal agency, Doctrine aspiration, and compact truth
+Last session: 2026-08-05 Session 95 trustworthy tooling, bounded admission, and asset truth
 
 <!-- rolling-status-end -->
+
+## 2026-08-05 — Session 95 | Total: 997/1000 | Velocity: 7
+
+Completed six premise-verified audit outcomes and one rendered-pixel-discovered localization fix without expanding the external release claim. Project-root tooling now works, identity admission is deadline-bound, secret review is signal-rich, public code is cleaner, generated doctor evidence is stable, and static resources have one explicit owner.
+
+- Dev, process, security, and automation remained green across 223 files and 1,180 tests.
+- Engagement retained 99 because no three-human live Alpha evidence exists.
+- Cross-repo coherence and ecosystem integration retained 99 because native Obelisk and staging registration remain externally unobserved.
+- Debt decreased: 1,974 scanner-noise findings, duplicate asset warnings, and a private broker copy were retired.
+- Game rubric: Loop Tightness 99 | Retention Hook 99 | Soul Fidelity 100 | Velocity 100. The session protected admission and first-contact delivery without changing balance or inflating progression claims.
 
 ## 2026-08-04 — Session 94 | Total: 997/1000 | Velocity: 9
 

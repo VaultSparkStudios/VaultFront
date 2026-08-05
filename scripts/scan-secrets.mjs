@@ -174,7 +174,38 @@ function isAllowlistedPath(relPath) {
   return ALLOWLIST_PATHS.some((rx) => rx.test(relPath));
 }
 
-function scanContent(relPath, content) {
+const GENERATED_STATIC_PATH_RE = /^static\//u;
+const BASE64_FLAG_PATH_RE = /^resources\/flags\/.*\.svg$/iu;
+const COSMETIC_KEY_PATH_RE = /^resources\/cosmetics\/cosmetics\.json$/iu;
+
+/** Suppress entropy-only token shapes only when the surrounding bytes prove asset provenance. */
+export function isAssetEntropyNoise(relPath, line, pattern) {
+  if (pattern?.confidence !== "low" || !pattern?.needsEntropy) return false;
+  const normalized = relPath.replaceAll("\\", "/");
+  if (GENERATED_STATIC_PATH_RE.test(normalized)) return true;
+  if (
+    BASE64_FLAG_PATH_RE.test(normalized) &&
+    /data:image\/[a-z0-9.+-]+;base64,/iu.test(line)
+  ) {
+    return true;
+  }
+  return (
+    COSMETIC_KEY_PATH_RE.test(normalized) &&
+    /^\s*"[A-Za-z0-9+/_=-]{32,}"\s*:/u.test(line)
+  );
+}
+
+export function summarizeFindings(findings) {
+  return findings.reduce(
+    (summary, finding) => {
+      summary[finding.confidence] = (summary[finding.confidence] ?? 0) + 1;
+      return summary;
+    },
+    { high: 0, medium: 0, low: 0 },
+  );
+}
+
+export function scanContent(relPath, content) {
   if (!content) return [];
   const findings = [];
   const lines = content.split(/\r?\n/);
@@ -202,6 +233,8 @@ function scanContent(relPath, content) {
       if (!match) continue;
 
       const matched = match[0];
+
+      if (isAssetEntropyNoise(relPath, line, pat)) continue;
 
       // Entropy gate for low-confidence patterns
       if (pat.needsEntropy) {
@@ -350,7 +383,15 @@ function run() {
 
     if (MODE_JSON) {
       process.stdout.write(
-        JSON.stringify({ findings, count: findings.length }, null, 2),
+        JSON.stringify(
+          {
+            findings,
+            count: findings.length,
+            byConfidence: summarizeFindings(findings),
+          },
+          null,
+          2,
+        ),
       );
       process.exit(findings.length ? 1 : 0);
     }
@@ -395,4 +436,7 @@ function run() {
   }
 }
 
-run();
+const isMain =
+  process.argv[1] &&
+  path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+if (isMain) run();

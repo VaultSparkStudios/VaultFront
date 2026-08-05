@@ -2,6 +2,14 @@
 
 Append chronological entries.
 
+### 2026-08-05 — Session 95 trustworthy-tooling and asset-truth arc
+
+- Goal: Complete a fresh full arc after interrupted-session recovery, exhaust newly verified work, and close to main without weakening external release truth.
+- What changed: Shipped six audit findings across Studio command reachability, closeout evidence idempotency, secret-scan signal, public boundary hygiene, identity admission deadlines, and Vite static ownership; rendered review also found and fixed English catalog corruption.
+- Files or systems touched: Project control-plane wrappers, doctor closeout and tests, secret scanner and tests, JWT admission and tests, Vite/static delivery and tests, localization asset, rendered-pixel harness and receipt, and public-safe Studio ledgers.
+- Risks created or removed: Removed indefinite identity admission, internal broker leakage, 1,974 false-positive secret findings, duplicate Vite ownership warnings, stale doctor formatting churn, and user-visible mojibake. External launch evidence remains explicitly unclaimed.
+- Recommended next move: Establish approved staging and native identity/email contracts, then collect exact-revision and human/live observations in gate order.
+
 ### 2026-07-19 — Session 75 saturated certificate-to-release arc
 
 - Goal: Run `/start → /audit → /implement → /closeout` continuously, exhaust every verified audit item, generate and implement second-order innovation, and close directly to main with honest external gates.

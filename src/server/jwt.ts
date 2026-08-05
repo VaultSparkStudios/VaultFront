@@ -62,24 +62,45 @@ export async function verifyClientToken(
   }
 }
 
+export const USER_ME_TIMEOUT_MS = 5_000;
+
+export interface UserMeRequestOptions {
+  fetchImpl?: typeof fetch;
+  timeoutMs?: number;
+}
+
 export async function getUserMe(
   token: string,
   config: ServerConfig,
+  options: UserMeRequestOptions = {},
 ): Promise<
   | { type: "success"; response: UserMeResponse }
   | { type: "error"; message: string }
 > {
+  const fetchImpl = options.fetchImpl ?? fetch;
+  const timeoutMs =
+    typeof options.timeoutMs === "number" &&
+    Number.isFinite(options.timeoutMs) &&
+    options.timeoutMs > 0
+      ? options.timeoutMs
+      : USER_ME_TIMEOUT_MS;
+  const controller = new AbortController();
+  const timeout = setTimeout(
+    () => controller.abort("identity-provider-timeout"),
+    timeoutMs,
+  );
+
   try {
-    // Get the user object
-    const response = await fetch(config.jwtIssuer() + "/users/@me", {
+    const response = await fetchImpl(`${config.jwtIssuer()}/users/@me`, {
       headers: {
         authorization: `Bearer ${token}`,
       },
+      signal: controller.signal,
     });
     if (response.status !== 200) {
       return {
         type: "error",
-        message: `Failed to fetch user me: ${response.statusText}`,
+        message: `Identity provider rejected request (${response.status})`,
       };
     }
     const body = await response.json();
@@ -87,14 +108,18 @@ export async function getUserMe(
     if (!result.success) {
       return {
         type: "error",
-        message: `Invalid response: ${z.prettifyError(result.error)}`,
+        message: "Identity provider returned an invalid response",
       };
     }
     return { type: "success", response: result.data };
-  } catch (e) {
+  } catch {
     return {
       type: "error",
-      message: `Failed to fetch user me: ${e}`,
+      message: controller.signal.aborted
+        ? "Identity provider request timed out"
+        : "Identity provider request failed",
     };
+  } finally {
+    clearTimeout(timeout);
   }
 }

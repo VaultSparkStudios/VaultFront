@@ -2,6 +2,22 @@
 
 Public-safe decisions only. Detailed internal decision history is maintained privately.
 
+## 2026-08-05 — Stable public asset URLs have one physical owner
+
+**Decision:** Vite disables publicDir for the inherited resource tree. One explicit static-copy target owns stable runtime URLs, while a pre-resolution virtual module maps root ?url imports to those public URLs and a logger guard fails if the retired public-directory warning returns.
+
+**Why:** The previous dual ownership produced thousands of warnings and obscured real build diagnostics. Rewriting over one hundred callers or bundling stable runtime paths would add churn without improving the player contract.
+
+**Consequence:** Production and visual builds emit zero retired warnings; direct language, sprite, media, map, and page assets remain reachable; imported stable URLs and runtime template URLs agree.
+
+## 2026-08-05 — Remote identity admission is deadline-bound
+
+**Decision:** users/@me introspection owns a five-second AbortController deadline, clears its timer on every path, and normalizes provider failures without changing EdDSA issuer/audience verification.
+
+**Why:** A wedged identity provider must not hold WebSocket game admission indefinitely.
+
+**Consequence:** Success, non-200, invalid schema, network failure, timeout, abort ownership, and timer cleanup have deterministic focused coverage.
+
 ## 2026-08-04 — Personal tutorial credit is actor evidence; team state is context
 
 **Decision:** First Extraction awards personal capture, convoy engagement, Pressure contribution, and decisive delivery only from actor-specific status/activity evidence. Team Pressure and Breach state may advance only the explicitly team-labeled context after the player has contributed.

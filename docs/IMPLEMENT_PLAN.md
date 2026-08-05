@@ -1,23 +1,25 @@
-# Implementation Plan — Session 94
+# Implementation Plan — Session 95
 
-> Source: `docs/AUDIT_2026-08-04.json` · rung: L3 throughout · execution order is dependency- and verification-efficient, not raw score order.
+> Source: `docs/AUDIT_2026-08-04.json` · six pending premise-verified items · default rung L3 because the full arc is explicitly authorized.
 
-## Wave 3A — Truth surfaces and token economy
+## Wave A — Public and authentication trust
 
-- [x] **143 · actionable-genius-brief-truth** — render only actionable work in the startup hit list and prove exhausted/blocked/malformed taxonomy.
-- [x] **144 · doctor-evidence-sidecar** — atomically split full doctor evidence from compact project status, bind it by SHA-256, and lazy-load non-green detail.
+1. **#148 retire-public-obelisk-broker-copy** — remove the unused Studio Ops broker copy; add an executable public-boundary guard; prove canonical sanitization and secrets checks stay green.
+2. **#149 bounded-identity-introspection** — deadline and abort remote `users/@me` admission; inject fetch; cover success, response, schema, network, and timeout behavior.
+3. **#147 asset-aware-secret-signal** — suppress only low-confidence entropy inside verified asset payloads; deduplicate generated mirrors; preserve all semantic credential blocking.
 
-## Wave 3B — Personal first-contact authority
+## Wave B — Protocol and closeout idempotency
 
-- [x] **141 · personal-first-extraction-authority** — separate team context from server-derived personal onboarding evidence with reconnect-safe receipts.
-- [x] **140 · match-bound-first-contact** — lazy-load first contact only after authoritative in-match status, replace process copy with fantasy, and recover the unchanged transfer budget.
+4. **#145 project-local-skill-bridge** — add allowlisted project-root wrappers for `skill-profile` and `sample-codebase`, plus provenance and denial tests.
+5. **#146 idempotent-doctor-closeout-format** — make closeout own formatting for the doctor sidecar and prove content-digest and two-pass byte stability.
 
-## Wave 3C — Doctrine Vault retention choice
+## Wave C — Build feedback ownership
 
-- [x] **142 · mastery-doctrine-vault** — add a non-power Doctrine catalog, transactional unlock/select parity, route-policy admission, active coaching identity, and player-visible receipts.
+6. **#150 single-owner-static-assets** — move resources from Vite `publicDir` to the existing static-copy pipeline, preserve dev/build URL reachability, and gate the retired warning class.
 
-## Wave 3D — Rendered proof, expansion, and exhaustion
+## Mandatory verification
 
-- [ ] Run focused tests after every item and direct TypeScript, lint, contracts, bundle, build, and full-suite gates after the batch.
-- [ ] Capture and inspect desktop/mobile proof for every touched theme/state; refresh the hash-bound `docs/visual-qa/LATEST.json` receipt.
-- [ ] Regenerate the innovation pack, implement every new evidence-derived candidate at L3, then prove audit and innovation exhaustion.
+- Focused tests after each item; no item marked shipped without behavior proof.
+- Full 218-file Vitest suite with coverage; TypeScript; ESLint; Prettier ratchet; contracts; production build; Pages; bundle budgets; dependency/security scans.
+- Browser proof recaptured after the Vite ownership change across all three themes, desktop and mobile; final CANON-053 receipt must bind final bytes.
+- Release remains NO-GO unless external evidence is actually observed.

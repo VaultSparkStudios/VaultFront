@@ -4,10 +4,10 @@
   "name": "VaultFront",
   "status": "active",
   "health": "green",
-  "currentSession": 94,
+  "currentSession": 95,
   "lastAgent": "codex",
-  "currentFocus": "Session 94 recovery complete: authoritative first-contact boundaries, personal First Extraction provenance, non-power replay-safe Mastery Doctrine, actionable genius truth, and compact doctor evidence shipped.",
-  "nextMilestone": "Establish the approved staging origin/callback contract, deploy the exact immutable revision, then collect parity, identity/email/theme/human/revenue/rollback evidence in gate order.",
+  "currentFocus": "Session 95 complete: project-root Studio tools, idempotent doctor evidence, signal-rich secret scanning, bounded identity admission, public boundary cleanup, single-owner static assets, and transport-safe English UI truth shipped.",
+  "nextMilestone": "Establish the approved staging and native identity/email contract, deploy the exact immutable revision, then collect parity, live theme/web, three-human Alpha, revenue, rollback, provider CI, and founder evidence in gate order.",
   "blockers": [],
   "lastUpdated": "2026-08-05",
   "lifecycle": "alpha",
@@ -25,21 +25,21 @@
       "status": "green",
       "label": "Unit and server regression",
       "command": "npm test",
-      "purpose": "Session 94 directly passed 218 files / 1,165 tests through four bounded Vitest shards."
+      "purpose": "Session 95 directly passed 223 files / 1,180 tests with four bounded Vitest workers; coverage reports 35.54% lines."
     },
     {
       "type": "tests",
       "status": "green",
       "label": "Production build",
       "command": "npm run build-prod",
-      "purpose": "Production compilation and release admission are verified separately; external release evidence remains NO-GO until staging and exact-revision observations exist."
+      "purpose": "Production compilation, 28,125 balance scenarios, 47 static-copy targets, and zero retired public-directory warnings pass; external release evidence remains NO-GO."
     },
     {
       "type": "tests",
       "status": "green",
       "label": "E2E smoke",
       "command": "npm run e2e",
-      "purpose": "Session 94 rendered-pixel proof passed 2/2 specs; 96 hash-bound captures cover three themes, desktop/mobile, and sixteen touched states."
+      "purpose": "Session 95 rendered-pixel proof passed 2/2; 96 hash-bound captures cover three themes, desktop/mobile, and sixteen states with an exact Settings text assertion."
     },
     {
       "type": "local",
@@ -54,13 +54,13 @@
   "readinessEndpoint": "/api/vaultfront/readiness",
   "playtestPulseEndpoint": "/api/vaultfront/playtest-pulse/summary",
   "truthAuditStatus": "green",
-  "truthAuditLastRun": "2026-08-04",
+  "truthAuditLastRun": "2026-08-05",
   "silRubricVersion": "3.0",
   "silMax": 1000,
   "silScoreLegacy500": null,
   "silScore": 997,
-  "testsPassing": 1165,
-  "testsTotal": 1165,
+  "testsPassing": 1180,
+  "testsTotal": 1180,
   "silCategoriesV3": {
     "devHealth": 100,
     "creativeAlignment": 100,
@@ -85,10 +85,10 @@
   "sessionMode": "founder",
   "sessionModeAutoShiftedAt": "2026-07-28T04:43:27.874Z",
   "silAvg3": 997,
-  "silVelocity": 9,
+  "silVelocity": 7,
   "silDebt": "down",
-  "silLastSession": "94",
-  "auditStatus": "audit-10-of-10-shipped; session-94-new-primary-5-of-5-shipped; session-second-order-3-of-3-shipped; cumulative-innovations-62-of-62-shipped; zero-pending-unblocked; external-release-evidence-no-go",
+  "silLastSession": "95",
+  "auditStatus": "audit-16-of-16-shipped; session-95-new-primary-6-of-6-shipped; cumulative-innovations-62-of-62-shipped; zero-pending-unblocked; external-release-evidence-no-go",
   "releaseGates": [
     "staging deployment and exact-digest parity verification",
     "authenticated evidence from at least three distinct human alpha sessions",
@@ -110,17 +110,17 @@
     "failing": 0,
     "blockingFailing": 0,
     "date": "2026-08-05",
-    "observedAt": "2026-08-05T01:51:49.839Z",
+    "observedAt": "2026-08-05T03:42:12.703Z",
     "source": "scripts/project-doctor.mjs",
     "evidencePath": "audits/doctor-latest.json",
-    "evidenceDigest": "sha256:34206bb8245ccc086099c5506f207185c5a06060886d1837b19954d61ddfea2f",
+    "evidenceDigest": "sha256:b3a4eeafcd8e5dcaefba107bd29cd878a8a244ac7450407402e8205f70e7ccfd",
     "evidenceSchemaVersion": 1,
     "checkCount": 13
   },
   "complianceScore": 49,
   "complianceTotal": 49,
   "sanitizationLastCleared": "2026-07-26",
-  "lastSession": 94,
+  "lastSession": 95,
   "bootAmortization": {
     "ratio": 0.09,
     "verdict": "wasted",
@@ -141,18 +141,18 @@
     }
   ],
   "sessionShellHygiene": {
-    "session": 94,
+    "session": 95,
     "running": 0,
-    "enumeratedAt": "2026-08-05T01:45:59.457Z",
-    "scope": "Final Win32 enumeration found zero processes whose command line references the VaultFront workspace; VaultFront test ports 5173, 9000, and 39081 had zero listeners. Port 4173 belonged to an unrelated PromoGrind Vite process and was left untouched."
+    "enumeratedAt": "2026-08-05T03:37:05.397Z",
+    "scope": "Final Win32 enumeration found zero processes whose command line references the VaultFront workspace; VaultFront test ports 5173, 9000, and 39081 had zero listeners."
   },
-  "testsLastRun": "2026-08-04T22:14:39.349Z",
-  "testsLastRunMode": "four-bounded-vitest-shards+route-contracts+playwright-theme-proof+visual-qa+doctor",
+  "testsLastRun": "2026-08-05T03:32:37.057Z",
+  "testsLastRunMode": "full-vitest+coverage+contracts+production-build+playwright-theme-proof+visual-qa+doctor",
   "testsDeferred": [
     "Final production release-evidence phase remains an expected NO-GO until external and exact-revision provider evidence exists."
   ],
   "testsBudgetExhausted": false,
-  "lastSessionSummary": "Session 94 recovery complete: five primary audit outcomes and three second-order innovations shipped across personal agency, Mastery Doctrine, startup truth, compact doctor evidence, and 96-artifact rendered-pixel proof; 1,165 local tests and doctor are green; launch remains NO-GO on external evidence.",
+  "lastSessionSummary": "Session 95 complete: six primary audit outcomes shipped across Studio tooling, doctor evidence, secret signal, public boundary, identity admission, and static ownership; rendered review also fixed English Settings corruption; 1,180 tests, 96 visual captures, and doctor 13/13 are green; launch remains NO-GO on external evidence.",
   "providerCiStatus": {
     "status": "stale-prior-revision",
     "revision": "edb9fece59c9cc5a84912f520228f46cec3dcbe1",
@@ -165,14 +165,14 @@
     "observedAt": "2026-08-04T04:42:48.000Z",
     "source": "GitHub Actions terminal conclusions",
     "currentRevisionVerified": false,
-    "note": "Recorded GitHub Actions runs verify Session 92 revision only; Session 93 exact-revision provider CI is not claimed before push."
+    "note": "Recorded GitHub Actions runs verify Session 92 only; Session 95 exact-revision provider CI is not claimed before final push."
   },
   "dependencyAudit": {
     "production": 0,
     "development": 0,
     "total": 0,
     "auditedDependencies": 816,
-    "observedAt": "2026-08-04T02:16:03.863Z",
-    "source": "npm audit after clean npm ci"
+    "observedAt": "2026-08-05T03:38:11.166Z",
+    "source": "npm audit production and complete graph; Studio supply-chain incident scan found zero matching repositories"
   }
 }

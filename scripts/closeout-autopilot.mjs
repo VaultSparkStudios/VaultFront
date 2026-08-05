@@ -72,6 +72,7 @@ requireSuccess(
     "--write",
     "docs/STARTUP_BRIEF.md",
     "context/PROJECT_STATUS.json",
+    "audits/doctor-latest.json",
   ]),
 );
 requireSuccess(

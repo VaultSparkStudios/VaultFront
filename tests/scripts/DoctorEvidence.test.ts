@@ -6,6 +6,7 @@ import {
   loadDoctorEvidence,
   writeDoctorEvidence,
 } from "../../scripts/lib/doctor-evidence.mjs";
+import { spawnSync } from "../../scripts/lib/safe-spawn.mjs";
 
 const roots: string[] = [];
 
@@ -73,6 +74,41 @@ describe("hash-bound doctor evidence", () => {
     ).toMatchObject({ ok: false, error: "doctor-evidence-missing" });
   });
 
+  it("is byte-idempotent after the closeout-owned formatter runs", () => {
+    const root = fixtureRoot();
+    const metadata = writeDoctorEvidence(root, report());
+    const target = path.join(root, metadata.path);
+    const prettier = path.join(
+      process.cwd(),
+      "node_modules",
+      "prettier",
+      "bin",
+      "prettier.cjs",
+    );
+    const format = () =>
+      spawnSync(process.execPath, [prettier, "--write", target], {
+        cwd: process.cwd(),
+        encoding: "utf8",
+      });
+
+    expect(format().status).toBe(0);
+    const first = fs.readFileSync(target, "utf8");
+    expect(
+      loadDoctorEvidence(root, {
+        evidencePath: metadata.path,
+        evidenceDigest: metadata.digest,
+        checkCount: metadata.checkCount,
+      }),
+    ).toMatchObject({ ok: true });
+    expect(format().status).toBe(0);
+    expect(fs.readFileSync(target, "utf8")).toBe(first);
+    expect(
+      fs.readFileSync(
+        path.join(process.cwd(), "scripts", "closeout-autopilot.mjs"),
+        "utf8",
+      ),
+    ).toContain('"audits/doctor-latest.json"');
+  }, 15_000);
   it("retains backwards-compatible reads for legacy embedded checks", () => {
     expect(
       loadDoctorEvidence(fixtureRoot(), { checks: report().checks }),

@@ -1,18 +1,19 @@
 {
   "schemaVersion": "1.0",
-  "session": 94,
+  "session": 95,
   "generatedBy": "codex",
-  "generatedAt": "2026-08-04T12:30:00.000Z",
+  "generatedAt": "2026-08-05T02:17:32.6848521Z",
   "project": {
     "slug": "vaultfront",
     "name": "VaultFront",
     "type": "game",
-    "registryType": "app",
+    "registryType": "game",
     "audience": "public-unlaunched",
     "stage": "FORGE",
-    "stagingType": "local"
+    "stagingType": "local",
+    "registryMedium": "game"
   },
-  "summary": "Session 94 merged premise-verified infrastructure audit with game-loop and public-release lenses. Session 93's five shipped items remain preserved. Five new findings survived live-code review: current-main CI is red on 1,588 bytes of Brotli entry overage; the globally mounted first-run tutorial opens over the lobby and consumes its seen state before the match surface exists; team Pressure can falsely complete personal First Extraction steps despite contributor evidence already being available; certified Daily Mastery accumulates into a number with no choice or non-power aspiration; and the startup brief presents completed audit work as a current hit list while PROJECT_STATUS embeds a large duplicate doctor transcript. External launch observations remain NO-GO and are not implementation claims.",
+  "summary": "Session 95 fresh post-recovery audit merged six premise-verified findings into the exhausted Session 94 ledger. Required skill commands are missing from the project root; closeout does not format its new doctor sidecar before staging; full-tree secret review is drowned by 1,974 low-confidence asset matches; an unused Studio Ops Obelisk broker is publicly tracked; identity introspection has no deadline; and Vite assigns resources to both public and module ownership, producing a warning flood. Coverage is 218/218 files and 1,165/1,165 tests with 35.49% lines; broad coverage work was rejected in favor of the exact unbounded identity seam. External launch observations remain NO-GO.",
   "axes": {
     "featureDepth": 1.5,
     "innovation": 1.5,
@@ -25,21 +26,21 @@
     "tokenApiReduction": 2
   },
   "candidateGeneration": {
-    "featureDepth": 4,
+    "featureDepth": 3,
     "innovation": 5,
-    "ux": 5,
-    "feedbackLoop": 4,
-    "gamification": 4,
-    "aiIntegration": 5,
+    "ux": 3,
+    "feedbackLoop": 3,
+    "gamification": 2,
+    "aiIntegration": 3,
     "security": 6,
     "speedOrganization": 6,
     "tokenApiReduction": 4,
-    "novelCandidates": 12,
-    "culledBelowThresholdOrFalsePremise": 27
+    "novelCandidates": 10,
+    "culledBelowThresholdOrFalsePremise": 29
   },
   "specialtyReviews": {
     "infrastructure": {
-      "result": "Worker route reachability, browser-authored authority, remote-AI admission surfaces, lifecycle ownership, duplicated navigation producers, god-object boundaries, workflow freshness, dependency posture, and local release evidence were inspected against live sources."
+      "result": "Fresh audit verified six bounded seams: missing protocol bridges, non-idempotent generated-sidecar formatting, asset secret-scan noise, a public orphaned control-plane broker, unbounded identity introspection, and dual-owned static assets."
     },
     "gameLoop": {
       "scores100": {
@@ -49,7 +50,7 @@
         "retention": 65,
         "soulFidelity": null
       },
-      "result": "The certified Capture-to-Breach loop and progression spine are strong. Live code nevertheless mounts first-contact instruction before the match, credits shared team Pressure as personal onboarding progress, and exposes Mastery as accumulation without an aspirational consumer. Retention remains unproven until real authenticated human sessions exist. Soul fidelity remains intentionally unscored because the public SOUL file contains no evaluable pillars."
+      "result": "Core certified loop and new personal-agency/Doctrine surfaces remain strong. No balance or retention premise was admitted without human evidence; this pass protects admission reliability and developer feedback instead."
     },
     "release": {
       "verdict": "no-go",
@@ -60,12 +61,13 @@
         "local deploy, route, balance, composition, theme-proof, and public-surface contracts"
       ],
       "red": [
-        "current-main CI build is red because the initial Brotli entry is 1,588 bytes over its executable ceiling",
         "no approved public staging origin or exact-digest live parity observation",
         "no verified project-domain Zoho send/receive reply-as-alias delivery",
         "no native Obelisk relying-party proof",
         "no live CSP/HSTS/Core Web Vitals or theme observation",
-        "no three-human Alpha, real revenue, observed rollback, or founder approval"
+        "no three-human Alpha, real revenue, observed rollback, or founder approval",
+        "no verified project-domain Zoho reply identity or native Obelisk relying-party proof",
+        "no three-human Alpha, real revenue, observed rollback, exact-revision provider CI for the new revision, or founder approval"
       ],
       "toolingDisagreement": "The portfolio release checker reports Private by default because context/STUDIO_MANIFEST.json intentionally says privateByDefault=false for this already-public, sanitized AGPL-derived repository. AGENTS.md explicitly declares the repository public. The mismatch is recorded as a checker-premise defect and is not repaired by falsifying the local manifest or editing Studio Ops."
     }
@@ -125,9 +127,233 @@
       "candidate": "Claim retention quality from the breadth of progression systems",
       "result": "deferred",
       "evidence": "No checked-in qualifying human cohort exists. Code can close choice and feedback seams, but only real authenticated sessions may establish return intent or fun."
+    },
+    {
+      "candidate": "Raise global coverage without a concrete authority seam",
+      "result": "skipped",
+      "evidence": "Coverage passed 218/218 files and 1165/1165 tests at 35.49% lines. Broad UI/composition gaps remain visible, but the admitted work targets the exact unbounded identity fetch rather than buying an arbitrary percentage."
+    },
+    {
+      "candidate": "Treat the 1974 full-tree secret findings as credentials",
+      "result": "skipped",
+      "evidence": "Every finding is low-confidence entropy in existing asset payloads; medium/high count is zero. The fix preserves semantic credential blocking while removing verified asset noise."
+    },
+    {
+      "candidate": "Implement native Obelisk identity from the orphaned broker",
+      "result": "externally-blocked",
+      "evidence": "The broker is Studio Ops operator code, not a relying-party integration. Registered origin, callback, and verification capabilities remain absent; deletion cannot be converted into a launch claim."
+    },
+    {
+      "candidate": "Silence Vite warnings without verifying copied and imported asset reachability",
+      "result": "skipped",
+      "evidence": "Resources include direct URLs, language data, maps, sprites, audio, and module imports. Ownership changes must pass dev/build artifact and rendered-pixel gates."
     }
   ],
   "items": [
+    {
+      "id": 148,
+      "slug": "retire-public-obelisk-broker-copy",
+      "tier": "🔥",
+      "axis": "security / coherence / public boundary",
+      "effortHours": 1,
+      "impact": 8,
+      "innovation": 6,
+      "priority": 91,
+      "status": "shipped",
+      "complete": true,
+      "title": "Remove the orphaned Studio Ops secret broker from the public repo",
+      "why": "scripts/lib/obelisk-broker.mjs is tracked, unused, and copied from Studio Ops. It references private portfolio policy, receipt paths, grant issuer keys, and operator trust semantics that do not belong in this public deployable repository; the canonical filename sanitizer does not currently recognize this code-level boundary leak.",
+      "recipe": "Delete the orphaned broker without touching the project secrets gateway; add a public-boundary regression that forbids Studio Ops policy/receipt paths and the broker filename in tracked deployable code; run the canonical public sanitizer and secret scan; keep native Obelisk relying-party work externally blocked until registered origin/callback evidence exists. Core-loop step: player/operator input → trusted public surface → safe participation reward → identity progression.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 0.25,
+          "recipe": "Delete the unused broker copy."
+        },
+        "L2": {
+          "effortHours": 0.5,
+          "recipe": "Add source-negation tests for private control-plane paths."
+        },
+        "L3": {
+          "effortHours": 1,
+          "recipe": "Executable public-boundary guard, sanitizer proof, and explicit native-identity non-substitution."
+        }
+      },
+      "coreLoopStep": "player/operator input → trusted public surface → safe participation reward → identity progression",
+      "executionLog": [
+        "Session 95: orphaned internal Obelisk broker removed; deployable-code public-boundary guard passes 1/1."
+      ]
+    },
+    {
+      "id": 145,
+      "slug": "project-local-skill-bridge",
+      "tier": "🔥",
+      "axis": "speed / organization / token reduction",
+      "effortHours": 2,
+      "impact": 8,
+      "innovation": 7,
+      "priority": 84,
+      "status": "shipped",
+      "complete": true,
+      "title": "Make required Studio skills executable from the project root",
+      "why": "Both studio-start and audit required project-local skill-profile and sample-codebase commands, but each failed with MODULE_NOT_FOUND in the fresh Session 95 preflight even though the canonical implementations exist in Studio Ops. The missing bridge forces manual fallbacks and silently drops medium-specific success bars.",
+      "recipe": "Extend the existing allowlisted control-plane wrapper with project-scoped sample-codebase and non-project-flag skill-profile adapters; preserve cwd provenance; add adversarial tests for missing control plane, injected root, passthrough arguments, and denied unknown tools; then prove both exact skill commands succeed from VaultFront. Core-loop step: operator input → verified plan → shipped safeguard → compounding product quality.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 0.5,
+          "recipe": "Add minimal wrappers for the two missing commands."
+        },
+        "L2": {
+          "effortHours": 1,
+          "recipe": "Inject exact project root and preserve profile cwd semantics."
+        },
+        "L3": {
+          "effortHours": 2,
+          "recipe": "Allowlist, provenance, negative-path tests, and executable start/audit smoke proof."
+        }
+      },
+      "coreLoopStep": "operator input → verified plan → shipped safeguard → compounding product quality",
+      "executionLog": [
+        "Session 95: allowlisted project-root bridges added; exact skill-profile and sample-codebase commands pass; control-plane tests 2/2."
+      ]
+    },
+    {
+      "id": 147,
+      "slug": "asset-aware-secret-signal",
+      "tier": "🔥",
+      "axis": "security / speed / observability",
+      "effortHours": 3,
+      "impact": 8,
+      "innovation": 8,
+      "priority": 83,
+      "status": "shipped",
+      "complete": true,
+      "title": "Preserve secret blocking while eliminating asset entropy noise",
+      "why": "The canonical full-tree scan emits 1,974 findings, all low-confidence matches inside existing base64 SVG, flag, cosmetic, and copied static assets, with zero medium/high findings. A signal this noisy is unusable for sanitization review and can hide the one real credential that matters.",
+      "recipe": "Classify entropy-only patterns separately from semantic credential patterns; suppress low-confidence random-token matches only inside verified asset payload contexts and generated resource mirrors; keep every medium/high pattern blocking everywhere; deduplicate copied static/resource evidence; expose confidence counts; and add fixtures proving real keys in source or SVG text still fail. Core-loop step: security input → trusted build/release fantasy → clean evidence reward → safe progression.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Skip low-confidence entropy matches inside base64 image payloads only."
+        },
+        "L2": {
+          "effortHours": 2,
+          "recipe": "Deduplicate generated resource mirrors and report confidence counts."
+        },
+        "L3": {
+          "effortHours": 3,
+          "recipe": "Context classifier, adversarial real-key fixtures, exact zero-noise full-tree receipt, and staged-scan parity."
+        }
+      },
+      "coreLoopStep": "security input → trusted build/release fantasy → clean evidence reward → safe progression",
+      "executionLog": [
+        "Session 95: asset-aware classifier preserves semantic credential blocking; adversarial tests 4/4; full-tree scan reduced 1,974 low-noise findings to 0 with high/medium still 0."
+      ]
+    },
+    {
+      "id": 149,
+      "slug": "bounded-identity-introspection",
+      "tier": "🔥",
+      "axis": "security / reliability / coverage",
+      "effortHours": 3,
+      "impact": 9,
+      "innovation": 7,
+      "priority": 81,
+      "status": "shipped",
+      "complete": true,
+      "title": "Bound remote identity introspection during game admission",
+      "why": "getUserMe directly awaits the issuer users/@me fetch with no deadline, abort signal, or focused test coverage. A slow or wedged identity provider can hold WebSocket admission indefinitely even though every subsequent authorization branch waits on this result.",
+      "recipe": "Add an explicit short admission deadline with AbortController ownership and exact timer cleanup; inject fetch for deterministic tests; normalize client-visible failure while retaining safe operator diagnostics; prove success, non-200, invalid schema, network error, and never-resolving provider behavior; keep existing EdDSA issuer/audience verification unchanged. Core-loop step: player login input → bounded match admission → playable fantasy reward → account progression.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Apply an AbortController deadline to users/@me."
+        },
+        "L2": {
+          "effortHours": 2,
+          "recipe": "Inject fetch and cover all response/error branches."
+        },
+        "L3": {
+          "effortHours": 3,
+          "recipe": "Leak-safe normalized receipt, timer-cleanup proof, admission-latency contract, and Worker integration assertion."
+        }
+      },
+      "coreLoopStep": "player login input → bounded match admission → playable fantasy reward → account progression",
+      "executionLog": [
+        "Session 95: users/@me admission deadline, abort ownership, normalized errors, and timer cleanup implemented; focused identity tests 4/4."
+      ]
+    },
+    {
+      "id": 146,
+      "slug": "idempotent-doctor-closeout-format",
+      "tier": "⚡",
+      "axis": "speed / organization / observability",
+      "effortHours": 2,
+      "impact": 8,
+      "innovation": 6,
+      "priority": 72,
+      "status": "shipped",
+      "complete": true,
+      "title": "Make doctor sidecar closeout byte-idempotent",
+      "why": "project-doctor writes audits/doctor-latest.json with JSON.stringify formatting, while closeout-autopilot formats only STARTUP_BRIEF and PROJECT_STATUS before staging. The pre-commit hook then rewrites the sidecar, so every closeout starts with avoidable byte churn and the closeout runner violates the Session 92 decision that it formats every generated truth surface itself.",
+      "recipe": "Include the doctor sidecar in the closeout generated-format step, verify its canonical content digest remains stable across whitespace changes, and add a regression that runs the formatter path twice and observes no second diff. Preserve the content-canonical evidence hash contract rather than hashing file bytes. Core-loop step: operator verification input → trustworthy evidence → confident shipment → reliable progression.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 0.5,
+          "recipe": "Format audits/doctor-latest.json in closeout-autopilot."
+        },
+        "L2": {
+          "effortHours": 1,
+          "recipe": "Assert content digest survives formatting and the summary reloads."
+        },
+        "L3": {
+          "effortHours": 2,
+          "recipe": "Two-pass byte-idempotency regression plus generated-surface ownership contract."
+        }
+      },
+      "coreLoopStep": "operator verification input → trustworthy evidence → confident shipment → reliable progression",
+      "executionLog": [
+        "Session 95: closeout owns doctor-sidecar formatting; two-pass byte-idempotency and canonical digest regression pass (DoctorEvidence 4/4)."
+      ]
+    },
+    {
+      "id": 150,
+      "slug": "single-owner-static-assets",
+      "tier": "⚡",
+      "axis": "speed / organization / developer experience",
+      "effortHours": 4,
+      "impact": 7,
+      "innovation": 6,
+      "priority": 49,
+      "status": "shipped",
+      "complete": true,
+      "title": "Give static assets one Vite ownership path",
+      "why": "The production and browser-proof builds emit thousands of warnings because resources is simultaneously Vite publicDir and an import source. The config comment claims public assets may be imported, but Vite explicitly rejects that ownership model; real warnings are buried under repeated path guidance.",
+      "recipe": "Disable publicDir ownership and copy resources through the already-installed vite-static-copy pipeline while leaving imported assets under normal module ownership; prove dev URLs, SPA pages, service worker, maps, language files, sprites, and media remain byte-reachable; add a warning-budget smoke that fails if the public-directory warning class returns; re-run bundle and rendered-pixel gates. Core-loop step: page-load input → immediate battlefield fantasy → responsive feedback reward → session progression.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Move resources copy ownership into vite-static-copy."
+        },
+        "L2": {
+          "effortHours": 2,
+          "recipe": "Verify dev/build URL parity for direct and imported assets."
+        },
+        "L3": {
+          "effortHours": 4,
+          "recipe": "Zero-warning contract, artifact reachability matrix, bundle budgets, and desktop/mobile visual recapture."
+        }
+      },
+      "coreLoopStep": "page-load input → immediate battlefield fantasy → responsive feedback reward → session progression",
+      "executionLog": [
+        "Session 95: resources now use explicit copy ownership and virtual stable URLs; ownership tests 2/2; build 2,201 modules, 47 copy items, 0 retired warnings; pages 10/10 and bundle budgets pass."
+      ]
+    },
     {
       "id": 135,
       "slug": "server-certified-narration-spine",

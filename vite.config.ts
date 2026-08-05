@@ -1,7 +1,7 @@
 import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 import { fileURLToPath } from "url";
-import { defineConfig, loadEnv, type Plugin } from "vite";
+import { createLogger, defineConfig, loadEnv, type Plugin } from "vite";
 import { viteStaticCopy } from "vite-plugin-static-copy";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { configDefaults } from "vitest/config";
@@ -20,6 +20,40 @@ function devHtmlTemplatePlugin(): Plugin {
     },
   };
 }
+export function retiredPublicAssetWarningGuard() {
+  const logger = createLogger();
+  const warn = logger.warn.bind(logger);
+  logger.warn = (message, options) => {
+    if (/assets? in (?:the )?public directory/iu.test(message)) {
+      throw new Error(
+        "retired-public-asset-ownership-warning: resources must have one Vite owner",
+      );
+    }
+    warn(message, options);
+  };
+  return logger;
+}
+export function staticResourceUrlPlugin(): Plugin {
+  const virtualPrefix = "\0vaultfront-static-url:";
+  const resourceUrl =
+    /^\/(?:changelog\.md|fonts\/|images\/|sounds\/|sprites\/)[^?]*\?url$/u;
+
+  return {
+    name: "vaultfront-static-resource-url",
+    enforce: "pre",
+    resolveId(source) {
+      return resourceUrl.test(source) ? virtualPrefix + source : null;
+    },
+    load(id) {
+      if (!id.startsWith(virtualPrefix)) {
+        return null;
+      }
+      const publicUrl = id.slice(virtualPrefix.length).replace(/\?url$/u, "");
+      return "export default " + JSON.stringify(publicUrl) + ";";
+    },
+  };
+}
+
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
   const isProduction = mode === "production";
@@ -58,6 +92,7 @@ export default defineConfig(({ mode }) => {
     // Keep actionable warn/error telemetry while stripping conversational debug
     // logs from the shipped client. This reduces transfer and avoids exposing a
     // noisy browser console without weakening operational failure signals.
+    customLogger: retiredPublicAssetWarningGuard(),
     esbuild: isProduction
       ? { pure: ["console.debug", "console.info", "console.log"] }
       : undefined,
@@ -88,7 +123,7 @@ export default defineConfig(({ mode }) => {
     },
     root: "./",
     base: basePath,
-    publicDir: "resources", // Access static assets via import or explicit copy
+    publicDir: false, // Resources are copied once below; imported assets remain module-owned.
 
     resolve: {
       alias: [
@@ -115,10 +150,15 @@ export default defineConfig(({ mode }) => {
     },
 
     plugins: [
+      staticResourceUrlPlugin(),
       tsconfigPaths(),
       ...(isProduction ? [] : [devHtmlTemplatePlugin()]),
       viteStaticCopy({
         targets: [
+          {
+            src: "resources/*",
+            dest: ".",
+          },
           {
             src: "proprietary/*",
             dest: ".",

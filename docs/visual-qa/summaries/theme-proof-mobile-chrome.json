@@ -1,9 +1,9 @@
 {
   "project": "mobile-chrome",
   "localOnly": true,
-  "capturedAt": "2026-08-04T23:59:12.213Z",
+  "capturedAt": "2026-08-05T03:24:50.245Z",
   "source": {
-    "digest": "sha256:a0d3763f911f31724d5183ff02a4ff2c52999fbc5652542eea7b89f65e88ca3e",
+    "digest": "sha256:dcf74ee429a078ea88b7becd41591aeb9331e06a6eebe3d61ec200e19775a303",
     "files": [
       {
         "path": "config/vaultfront-balance.v1.json",
@@ -12,8 +12,8 @@
       },
       {
         "path": "e2e/theme-visual-proof.spec.ts",
-        "bytes": 32762,
-        "digest": "sha256:620e405508fe8ea6c2004684e36ff05a90d35e1f130f6191f4e6b7289d0a6b29"
+        "bytes": 32871,
+        "digest": "sha256:d570990a7bc95deda28f8716a96d0f54ab491755b0e3f73d569ef6a0c69272b4"
       },
       {
         "path": "src/client/Api.ts",
@@ -393,7 +393,7 @@
       {
         "path": "static/index.html",
         "bytes": 17352,
-        "digest": "sha256:f25f09fe0cc21331f71397e0891d499977cc847930ef8586759a93c48151b373"
+        "digest": "sha256:371450ae7b17c3a533babcc74ef28c2fba6b9f4d6f2905a937dfcb0ac9b4ca3d"
       }
     ]
   },

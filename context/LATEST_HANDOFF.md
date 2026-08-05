@@ -1,3 +1,16 @@
+## Current Session Intent: Session 95
+
+Complete a fresh post-recovery `/start → /audit → /implement → /closeout` arc from the live exhausted baseline, prioritize newly verified code-level opportunities, preserve all external release claims as NO-GO until observed, and finish with exact local evidence plus a pushed closeout.
+
+## Where We Left Off — Session 95 complete (2026-08-05)
+
+- Branch: main; the fresh post-recovery arc shipped audit items 145–150 and exhausted the cumulative audit at 16/16 plus innovations 62/62.
+- Shipped: project-root Studio skill bridges; idempotent doctor closeout formatting; asset-aware zero-noise secret scanning; removal of the internal Obelisk broker copy; bounded abortable users/@me admission; and single-owner stable static-resource delivery.
+- Visual truth: direct review found and fixed corrupted English Settings punctuation. The final exact browser assertion passes across three themes on desktop/mobile; 96 hash-bound captures and Canon 053 are green.
+- Verification: 223/223 Vitest files and 1,180/1,180 tests; 35.54% lines; TypeScript; ESLint; formatting; 30/30 mutation policies; 91 deploy checks; 28,125 balance scenarios; zero-warning production build; Pages 10/10; bundle budgets; Playwright 2/2; zero secret/sanitizer findings; doctor 13/13.
+- Release: public-unlaunched / NO-GO. No approved staging/parity, Zoho reply identity, native Obelisk, live web, three-human Alpha, real revenue, observed rollback, exact-revision provider CI, or founder approval was inferred.
+- Next: establish the approved staging/identity contract and collect external observations in gate order; no local audit or innovation work remains.
+
 ## Where We Left Off — Session 94 recovered and complete (2026-08-04)
 
 - Branch: main; the interrupted Session 94 was recovered from a stale mid-implement lock, its only focused red was root-fixed, and all local work is now exhausted at audit 10/10 plus innovations 62/62.

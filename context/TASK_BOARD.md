@@ -52,6 +52,14 @@ daily-challenge-system (DailyChallengeStore + HUD card), vault-intelligence-mark
 
 ## Follow-ups
 
+## Completed (2026-08-05 — Session 95 trustworthy-tooling and asset-truth arc)
+
+- [done] Audit 145–150: project-local Studio skill bridge; byte-idempotent doctor closeout formatting; asset-aware secret signal; public-boundary broker retirement; bounded identity introspection; and single-owner static assets.
+- [done] Visual root fix: normalized the English catalog for the real localization transport and added both asset-level and exact rendered-text regressions.
+- [done] Exhaustion proof: audit 16/16 and cumulative innovation ledger 62/62 shipped; zero pending unblocked local work.
+- [done] Verification: 223 files / 1,180 tests, 35.54% line coverage, Playwright 2/2, 96 captures, Canon 053, doctor 13/13, zero secret findings, and public sanitization 0/0.
+- [release-evidence] External launch remains NO-GO pending approved staging/exact-digest parity, project-domain Zoho reply identity, native Obelisk, live theme/web evidence, three authenticated humans, real revenue, rollback observation, exact-revision provider CI, and founder approval.
+
 ## Completed (2026-08-04 — Session 94 recovery, personal-agency, and Doctrine arc)
 
 - [done] Audit 140–144: match-bound first contact; personal First Extraction authority; replay-safe non-power Doctrine Vault; actionable-only genius brief truth; and compact hash-bound doctor evidence.

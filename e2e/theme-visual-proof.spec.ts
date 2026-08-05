@@ -262,6 +262,9 @@ test("three themes retain readable page, panel, and settings surfaces", async ({
       await page.locator('desktop-nav-bar [data-page="page-settings"]').click();
     }
     await expect(page.locator("#page-settings")).toBeVisible();
+    await expect(page.locator("#page-settings")).toContainText(
+      "Toggle the site's appearance",
+    );
     await page.screenshot({
       path: path.join(
         artifactDir,

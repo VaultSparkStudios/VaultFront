@@ -1,3 +1,11 @@
+## Session 95 — Trustworthy tooling, bounded admission, and single-owner asset truth (2026-08-05)
+
+Completed the fresh post-recovery arc with six premise-verified audit outcomes. VaultFront now has executable project-root bridges for required Studio skills, a closeout-owned byte-idempotent doctor sidecar, a zero-noise asset-aware secret scanner that still blocks semantic credentials, no orphaned private Obelisk broker copy, a five-second abortable identity-introspection boundary, and one explicit Vite copy owner for stable static resource URLs.
+
+Rendered-pixel review found corrupted punctuation in the shipped English Settings catalog. The catalog is now ASCII-safe for the current localization transport, a regression rejects non-ASCII or mojibake reintroduction, and browser proof asserts the exact rendered Settings sentence. The final matrix contains 96 source- and artifact-hash-bound captures across VaultFront, Light, and Competitive themes on desktop and mobile.
+
+The audit is exhausted at 16/16 and cumulative innovations remain exhausted at 62/62. Direct verification passes 223/223 Vitest files and 1,180/1,180 tests, 35.54% line coverage, 30/30 mutation policies with public ingest 4/4, 91 deploy contracts, 28,125 balance scenarios with zero counterexamples, production build with zero retired public-directory warnings, Pages 10/10, bundle budgets, Playwright 2/2, Canon 053, public sanitization, zero secret findings, and doctor 13/13. Release remains public-unlaunched / NO-GO pending approved staging/parity, project-domain Zoho reply identity, native Obelisk, live observations, three authenticated humans, real revenue, rollback observation, exact-revision provider CI, and founder approval.
+
 ## Session 94 — Personal agency, Doctrine aspiration, and compact truth recovery (2026-08-04)
 
 Recovered the cut-off Session 94 from a stale mid-implement lock, proved the 48-file working tree was coherent, and completed the five new live-code findings added after Session 93. First contact now begins only after authoritative match status and keeps tutorial, lobby implementation, and leaderboard code outside the initial entry. First Extraction separates personal capture, convoy, contribution, and decisive-delivery evidence from team Pressure/Breach context, then shows the player a compact provenance receipt instead of borrowing teammate credit.

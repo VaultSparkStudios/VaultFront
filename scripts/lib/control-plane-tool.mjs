@@ -9,12 +9,29 @@ const PROJECT_ROOT = path.resolve(
   "..",
 );
 
-const PROJECT_SCOPED_TOOLS = new Set([
-  "append-genome-snapshot.mjs",
-  "closeout-summary.mjs",
-  "compute-entropy.mjs",
-  "render-state-vector.mjs",
+export const CONTROL_PLANE_TOOL_POLICIES = new Map([
+  ["append-genome-snapshot.mjs", { projectFlag: "--project" }],
+  ["closeout-summary.mjs", { projectFlag: "--project" }],
+  ["compute-entropy.mjs", { projectFlag: "--project" }],
+  ["render-state-vector.mjs", { projectFlag: "--project" }],
+  ["sample-codebase.mjs", { projectFlag: "--root" }],
+  ["lib/skill-profile.mjs", { projectFlag: null }],
 ]);
+
+export function prepareControlPlaneArgs(toolName, args = [], options = {}) {
+  const policy = CONTROL_PLANE_TOOL_POLICIES.get(toolName);
+  if (!policy)
+    throw new Error(`control-plane-tool-not-allowlisted:${toolName}`);
+  const forwarded = [...args];
+  const projectFlag =
+    options.projectScoped === false
+      ? null
+      : (options.projectFlag ?? policy.projectFlag);
+  if (projectFlag && !forwarded.includes(projectFlag)) {
+    forwarded.unshift(projectFlag, PROJECT_ROOT);
+  }
+  return forwarded;
+}
 
 export function resolveControlPlane() {
   const candidates = [
@@ -30,9 +47,7 @@ export function resolveControlPlane() {
 }
 
 export function runControlPlaneTool(toolName, args = [], options = {}) {
-  if (!PROJECT_SCOPED_TOOLS.has(toolName)) {
-    throw new Error(`control-plane-tool-not-allowlisted:${toolName}`);
-  }
+  const forwarded = prepareControlPlaneArgs(toolName, args, options);
   const controlPlane = resolveControlPlane();
   if (!controlPlane) {
     console.error(`Missing Studio Ops control plane for ${toolName}`);
@@ -42,10 +57,6 @@ export function runControlPlaneTool(toolName, args = [], options = {}) {
   if (!fs.existsSync(target)) {
     console.error(`Missing control-plane tool: ${target}`);
     return 2;
-  }
-  const forwarded = [...args];
-  if (options.projectScoped !== false && !forwarded.includes("--project")) {
-    forwarded.unshift("--project", PROJECT_ROOT);
   }
   const result = spawnSync(process.execPath, [target, ...forwarded], {
     cwd: PROJECT_ROOT,
