@@ -326,3 +326,8 @@ Session 89 closeout tooling incident: invoking the Studio Ops closeout-board ren
 - Verification-discovered fix: The former monolithic `npm test` hung twice on Windows and one loaded script shard exposed a timing-sensitive audit-renderer timeout. A deterministic fail-fast four-shard runner now owns the canonical command; it serializes subprocess-heavy script tests while preserving every assertion and timeout. `npm test` passes 224/224 files and 1,189/1,189 tests.
 - Provider truth: The committed Session 95 baseline passed exact CI `30973983185`, E2E `30973983198`, and Release `30973983205`; no coverage floor or security control was bypassed.
 - SIL and release boundary: SIL remains 997/1000. Game rubric remains Loop Tightness 99, Retention Hook 99, Soul Fidelity 100, Velocity 100. Launch remains NO-GO on unobserved staging, identity/email, live-web, human Alpha, revenue, rollback, and founder evidence.
+
+### 2026-08-05 — Session 95 recovery provider receipt
+
+- Exact code-and-board revision `ae6809a54cc777e4a141a5bf999ea02dea0f15d6` completed successfully in CI `30977090883`, E2E `30977090884`, and Release `30977090890`; two same-revision dependency-review jobs also passed.
+- Canonical provider truth is recorded in `PROJECT_STATUS.json`, `CURRENT_STATE.md`, `LATEST_HANDOFF.md`, and `TRUTH_AUDIT.md`. This metadata-only receipt successor uses `[skip ci]` and does not relabel the public-launch boundary: VaultFront remains NO-GO on missing external launch observations and founder approval.
