@@ -642,6 +642,13 @@ export async function startWorker() {
     verifyToken: (token) => verifyClientToken(token, config),
     getChallenge: (persistentId) =>
       certifiedDailyMasteryStore.getChallenge(persistentId),
+    selectDoctrine: (persistentId, doctrineId, requestId) =>
+      certifiedDailyMasteryStore.selectDoctrine(
+        persistentId,
+        doctrineId,
+        requestId,
+      ),
+    rateLimit: rateLimit({ windowMs: 60_000, max: 12 }),
     reportError: (error) =>
       log.error("Daily mastery unavailable", { err: String(error) }),
   });

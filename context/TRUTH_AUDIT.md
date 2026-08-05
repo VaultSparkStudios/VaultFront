@@ -2,6 +2,17 @@
 
 # Truth Audit
 
+## 2026-08-04 — Session 94 recovery, personal-agency, Doctrine, and compact-health truth
+
+- Recovery truth: provenance classified the stale lock and 48-file tree as cut off mid-implement; JSON parsed, no NDJSON or merge corruption existed, and origin/main matched HEAD before recovery edits. One focused red disproved the prior done claim until its canonical event authority was repaired.
+- Work truth: the latest audit is exhausted at 10/10; innovations are monotonic and exhausted at 62/62; zero pending unblocked local work remains.
+- Agency truth: First Extraction personal steps require exact actor activity/status evidence. Team Pressure/Breach is separately labeled context and cannot retroactively award personal capture, convoy, contribution, or decisive delivery.
+- Doctrine truth: three versioned Doctrines are coaching/identity-only. Authenticated selection is rate-limited, replay-safe, transactional under PostgreSQL, parity-preserving in process-local mode, insufficient-funds fail-closed, and receipt-digested.
+- Startup/doctor truth: genius hit lists render actionable work only and represent exhausted/blocked/unknown taxonomy explicitly. PROJECT_STATUS carries compact doctor aggregates bound to audits/doctor-latest.json; non-green detail is lazily loaded and digest-verified.
+- Visual truth: 96 source- and artifact-hash-bound captures cover sixteen states across three themes × desktop/mobile. Six new agency/doctrine captures were directly inspected after Playwright 2/2; CANON-053 passes with no blocking contrast, overflow, clipping, or stacking defect.
+- Verification truth: four direct Vitest shards pass 218/218 files and 1,165/1,165 tests; mutation coverage is 30/30 with public ingest 4/4; work exhaustion and doctor blockingFailing 0 pass.
+- Release truth: public launch remains NO-GO. Local recovery and visual proof do not establish approved staging/parity, Zoho reply identity, native Obelisk, live web/theme, three-human Alpha, revenue, rollback, exact-revision provider CI, or founder approval.
+
 ## 2026-08-04 — Session 93 reachability, narration, recovery, and rendered-pixel truth
 
 - Work truth: `docs/AUDIT_2026-08-04.json` is exhausted at 5/5; all four Session 93 second-order innovations are shipped; the cumulative innovation ledger remains monotonic at 59/59; zero pending unblocked local work remains.

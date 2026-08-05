@@ -68,7 +68,7 @@ export class MobileNavBar extends LitElement {
       ></div>
 
       <div
-        class="flex-1 w-full flex flex-col justify-start overflow-y-auto lg:pt-[clamp(1rem,3vh,4rem)] lg:pb-[clamp(0.5rem,2vh,2rem)] lg:px-[clamp(1rem,1.5vw,2rem)] p-5 gap-[clamp(1rem,3vh,3rem)]"
+        class="min-h-0 flex-1 w-full flex flex-col justify-start overflow-y-auto overscroll-contain lg:pt-[clamp(1rem,3vh,4rem)] lg:pb-[clamp(0.5rem,2vh,2rem)] lg:px-[clamp(1rem,1.5vw,2rem)] p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] gap-[clamp(1rem,3vh,3rem)]"
       >
         <!-- Logo + Menu -->
         <div

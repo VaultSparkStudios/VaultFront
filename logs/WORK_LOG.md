@@ -2,6 +2,18 @@
 
 Append-only. Each session appends one entry. Never edit prior entries.
 
+## 2026-08-04 — Session 94 interrupted-arc recovery closeout
+
+- Goal: Run Phase 0 before assuming the cut-off session completed, recover and verify the unfinished work, then continue automatically into the full arc without fabricating external release evidence.
+- Recovery: Classified a ~12-hour stale lock plus 48-file fresh-audit tree as mid-implement; JSON and merge integrity were clean; local main matched origin/main 0/0. Focused verification found one real canonical match-ready event drift, which was root-fixed before any done claim.
+- What changed: Shipped match-bound lazy first contact, personal/team-separated First Extraction evidence, a replay-safe transactional non-power Doctrine Vault, actionable-only genius brief rendering, and an atomic hash-bound doctor evidence sidecar.
+- Second order: Added visible personal/team agency receipts, tamper-verifiable Doctrine receipts, and a source-owned secondary-entry ratchet, advancing the cumulative innovation ledger to 62/62.
+- Visual truth: Browser proof passed 2/2 and generated 96 exact-source artifacts. All six new desktop/mobile × three-theme agency/doctrine captures were directly inspected; no blocking contrast, clipping, overflow, or stacking defect remains.
+- Verification: 218/218 Vitest files and 1,165/1,165 tests across four direct shards; 30/30 mutation policies and public ingest 4/4; Playwright 2/2; CANON-053; work exhaustion; and doctor blockingFailing 0.
+- Claim boundary: release remains NO-GO on absent approved staging/parity, Zoho reply identity, native Obelisk, live web/theme, three-human Alpha, revenue, rollback, exact-revision provider CI, and founder approval. The recovery did not convert local evidence into external observations.
+
+---
+
 ## 2026-08-04 — Session 93 certified-runtime and recovery-truth closeout
 
 - Goal: Run one continuous saturated `/start → /audit → /implement → /closeout` mission; exhaust every verified primary item and generated second-order innovation without manufacturing external evidence.

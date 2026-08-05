@@ -72,19 +72,18 @@ export class PlayPage extends LitElement {
 
             <div class="lg:col-span-12 px-2 lg:px-0 mb-2">
               <div class="vf-glass-surface vf-hero-card">
-                <div class="vf-kicker">Live Operations</div>
+                <div class="vf-kicker">The Vault War Is Live</div>
                 <div class="vf-headline">
-                  Command faster. Read lanes earlier. Convert fights into map
-                  control.
+                  Capture the vaults. Command the convoys. Break the front.
                 </div>
                 <div class="vf-subhead mt-1">
-                  No rule changes in this visual pass, only clearer information
-                  and stronger first impression.
+                  Claim extraction sites, escort your haul or intercept theirs,
+                  then turn three deliveries into a 90-second Breach Window.
                 </div>
                 <div class="vf-chip-row mt-2">
-                  <span class="vf-chip">Faster Lobby Readability</span>
-                  <span class="vf-chip">Cleaner Tactical HUD</span>
-                  <span class="vf-chip">Enhanced Terrain Depth</span>
+                  <span class="vf-chip">Capture Vaults</span>
+                  <span class="vf-chip">Escort or Intercept</span>
+                  <span class="vf-chip">Deliver the Breach</span>
                 </div>
               </div>
             </div>

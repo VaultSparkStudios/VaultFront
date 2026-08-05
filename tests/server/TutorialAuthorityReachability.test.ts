@@ -20,9 +20,11 @@ describe("player tutorial authority reachability", () => {
     );
 
     expect(tutorial).toContain('from "./FirstExtractionQuest"');
-    expect(bootstrap).toContain(
-      'document.createElement("vault-front-tutorial")',
-    );
+    expect(bootstrap).toContain('import("./VaultFrontTutorial")');
+    expect(bootstrap).toContain("VAULTFRONT_MATCH_READY_EVENT");
+    expect(bootstrap).not.toContain('import "./VaultFrontTutorial"');
+    expect(tutorial).toContain("showForMatch()");
+    expect(tutorial).not.toContain("setTimeout");
     expect(FIRST_EXTRACTION_ORIENTATION).toHaveLength(2);
     expect(tutorial).toContain(
       "Two-step orientation projected from the canonical First Extraction quest",

@@ -4,12 +4,50 @@ Detailed internal scoring, audit trends, and brainstorming are maintained privat
 
 <!-- rolling-status-start -->
 
-Total: 997/1000 | Velocity: 14 | Debt: ↓ | Velocity trend: →
-Avgs — 3: 997.0 | 5: 997.0 | 10: 996.0 | 25: 989.9 | all: 989.7 | Last 5: 997 → 997 → 997 → 997 → 997 | Intent rate: 100%
+Total: 997/1000 | Velocity: 9 | Debt: ↓ | Velocity trend: →
+Avgs — 3: 997.0 | 5: 997.0 | 10: 996.4 | 25: 990.3 | all: 990.3 | Last 5: 997 → 997 → 997 → 997 → 997 | Intent rate: 100%
 Categories: Dev 100 | Align 100 | Momentum 100 | Engage 99 | Process 100 | Coherence 99 | Security 100 | Ecosystem 99 | Capital 100 | Automation 100
-Last session: 2026-08-04 Session 93 certified narration, reachable runtime, and recovery-state truth
+Last session: 2026-08-04 Session 94 recovery, personal agency, Doctrine aspiration, and compact truth
 
 <!-- rolling-status-end -->
+
+## 2026-08-04 — Session 94 | Total: 997/1000 | Velocity: 9
+
+Recovered the interrupted arc before extending it, then completed five new audit outcomes, three second-order innovations, and one verification-discovered root fix. The player now owns personal First Extraction credit, can invest certified Mastery in non-power coaching identities, and receives compact source-derived startup/health truth.
+
+| Category              |        Score | Evidence                                                                                                                                                                       |
+| --------------------- | -----------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Dev Health            |          100 | 218 files / 1,165 tests, mutation 30/30, browser 2/2, 96 captures, CANON-053, exhaustion, and doctor pass directly.                                                            |
+| Creative Alignment    |          100 | Personal agency and non-power Doctrine identity deepen the Capture → Pressure → Breach fantasy without adding pay-to-win mechanics.                                            |
+| Momentum              |          100 | Five new audit outcomes, three innovations, and the recovery red shipped without partial handback.                                                                             |
+| Engagement            |           99 | Agency receipts and aspirational choices are player-visible; no human fun, comprehension, retention, or revenue outcome is fabricated.                                         |
+| Process Quality       |          100 | Phase 0 provenance, structured integrity, exact git parity, direct shards, pixel inspection, and fail-closed recovery make completion reproducible.                            |
+| Cross-Repo Coherence  |           99 | Studio-owned external corridors remain external; no sibling tree was edited and local truth stays NO-GO.                                                                       |
+| Security Posture      |          100 | Actor-bound credit, authenticated/rate-limited doctrine writes, replay-safe transactions, constant-time receipt verification, and compact hash-bound doctor evidence hold.     |
+| Ecosystem Integration |           99 | Human UI, agent-readable audit/brief truth, route policy, PostgreSQL parity, and visual evidence agree locally; live providers remain due.                                     |
+| Capital Efficiency    |          100 | No dependency, paid API, hosted cron, or combat-balance retuning was introduced; secondary UI moved out of first paint.                                                        |
+| Automation Coverage   |          100 | Entry-boundary reachability, personal/team adversarial cases, doctrine replay/funding/tamper tests, genius taxonomy, doctor sidecar tamper checks, and 96-pixel proof execute. |
+| **Total**             | **997/1000** | Exact sum; Engagement, Coherence, and Ecosystem remain honestly capped by absent human/live/external observations.                                                             |
+
+**Rolling data:** Avg3 997.0 · Avg5 997.0 · Avg10 996.4 · Avg25 990.3 · all 990.3 · velocity 9 · debt ↓ · sparkline █████.
+
+**Top win:** The interrupted implementation became a smaller, more truthful product contract: personal credit is earned, aspiration is non-power, and every compact status claim can open its exact evidence.
+
+**Top gap:** No approved external staging/callback corridor or distinct-human Alpha corpus exists, so local recovery cannot earn launch, comprehension, retention, or revenue claims.
+
+### Brainstorm
+
+1. Use real distinct-human Alpha sessions to test whether the personal/team receipt makes First Extraction easier to understand before changing copy or pacing.
+2. Project the active Doctrine into existing next-match coaching only after authenticated profile reachability is proven end to end.
+3. Promote compact doctor evidence into agent-facing status consumers while keeping the full transcript lazy and hash-verified.
+
+### Commitments
+
+- [SIL:1] Personal tutorial credit remains actor-evidenced; shared team state never backfills an unperformed personal action.
+- [SIL:2] Mastery Doctrines remain coaching/identity-only, replay-safe, and receipt-bound; they never alter combat power.
+- [SIL:3] Recovery completion requires provenance, direct behavior, full-suite partitions, doctor, and rendered pixels to agree.
+
+**Honest refusal:** The recovery did not fabricate staging, delivery, identity, human, comprehension, retention, revenue, rollback, provider-CI, or founder evidence; did not edit a sibling tree; and did not weaken a test, route, visual, or composition gate.
 
 ## 2026-08-04 — Session 93 | Total: 997/1000 | Velocity: 14
 

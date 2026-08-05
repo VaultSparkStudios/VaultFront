@@ -29,6 +29,7 @@ import {
 import { joinLobby } from "./ClientGameRunner";
 import { getPlayerCosmeticsRefs } from "./Cosmetics";
 import { crazyGamesSDK } from "./CrazyGamesSDK";
+import { VAULTFRONT_MATCH_READY_EVENT } from "./FirstExtractionQuest";
 import "./FlagInput";
 import { FlagInput } from "./FlagInput";
 import "./FlagInputModal";
@@ -45,7 +46,6 @@ import { JoinLobbyModal } from "./JoinLobbyModal";
 import "./LangSelector";
 import { LangSelector } from "./LangSelector";
 import { initLayout } from "./Layout";
-import "./LeaderboardModal";
 import "./Matchmaking";
 import { MatchmakingModal } from "./Matchmaking";
 import { initNavigation } from "./Navigation";
@@ -67,12 +67,10 @@ import {
   isInIframe,
   translateText,
 } from "./Utils";
-import "./VaultFrontTutorial";
 import "./components/DesktopNavBar";
 import "./components/Footer";
 import "./components/MainLayout";
 import "./components/MobileNavBar";
-import "./components/PlayPage";
 import "./components/RankedModal";
 import "./components/baseComponents/Button";
 import "./components/baseComponents/Modal";
@@ -967,15 +965,31 @@ if ("serviceWorker" in navigator && process.env.GAME_ENV === "prod") {
 }
 
 // Initialize the client when the DOM is loaded
-const bootstrap = () => {
+const bootstrap = async () => {
+  // Own the lobby-definition → menu-binding sequence as one boundary so the
+  // fallback handler cannot race a player's first click.
+  await import("./components/PlayPage");
+  // Secondary leaderboard UI preloads in parallel and upgrades its dormant
+  // custom element before a player can reasonably open it.
+  void import("./LeaderboardModal");
   loadSavedVaultFrontTheme();
-  initLayout();
+  await initLayout();
+  window.addEventListener(
+    VAULTFRONT_MATCH_READY_EVENT,
+    () => {
+      void import("./VaultFrontTutorial").then(({ VaultFrontTutorial }) => {
+        const tutorial =
+          (document.querySelector("vault-front-tutorial") as
+            (HTMLElement & { showForMatch(): boolean }) | null) ??
+          new VaultFrontTutorial();
+        if (!tutorial.isConnected) document.body.appendChild(tutorial);
+        tutorial.showForMatch();
+      });
+    },
+    { once: true },
+  );
   new Client().initialize();
   initNavigation();
-
-  // Mount first-run tutorial overlay (auto-opens once per browser via localStorage)
-  const tutorial = document.createElement("vault-front-tutorial");
-  document.body.appendChild(tutorial);
 
   // Hide elements immediately
   hideCrazyGamesElements();
@@ -988,7 +1002,7 @@ const bootstrap = () => {
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", bootstrap);
 } else {
-  bootstrap();
+  void bootstrap();
 }
 
 async function getTurnstileToken(): Promise<{

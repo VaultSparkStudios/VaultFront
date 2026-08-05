@@ -22,8 +22,10 @@ import {
   FIRST_EXTRACTION_STEPS,
   FIRST_EXTRACTION_TITLE,
   type FirstExtractionProgress,
+  VAULTFRONT_MATCH_READY_EVENT,
   advanceFirstExtractionProgress,
   breachVictoryCallout,
+  buildFirstExtractionEvidenceReceipt,
   firstExtractionComplete,
   isFirstExtractionConvoyActivity,
 } from "../../FirstExtractionQuest";
@@ -268,6 +270,7 @@ export class ControlPanel extends LitElement implements Layer {
   private _lastTroopIncreaseRate = 0;
   private _lastProcessedTick = -1;
   private onboardingCompletionRecorded = false;
+  private firstContactAnnounced = false;
   private hudCollisionCheckNextTick = 0;
   private draggingPanel = false;
   private dragStartX = 0;
@@ -604,6 +607,10 @@ export class ControlPanel extends LitElement implements Layer {
     ] as VaultFrontStatusUpdate[];
     if (statusUpdates.length > 0) {
       this.latestVaultStatus = statusUpdates[statusUpdates.length - 1];
+      if (!this.firstContactAnnounced) {
+        this.firstContactAnnounced = true;
+        window.dispatchEvent(new Event(VAULTFRONT_MATCH_READY_EVENT));
+      }
       const beacon = this.myBeacon();
       if (beacon) {
         this.jamBreakerCooldownUntilTick = beacon.jamBreakerCooldownUntilTick;
@@ -620,6 +627,7 @@ export class ControlPanel extends LitElement implements Layer {
 
     let vaultCaptured = this.onboardingProgress.vaultCaptured;
     let convoyAction = this.onboardingProgress.convoyAction;
+    let decisiveDelivery = this.onboardingProgress.decisiveDelivery;
     let pulseTriggered = this.onboardingProgress.pulseTriggered;
 
     for (const update of activityUpdates) {
@@ -636,6 +644,12 @@ export class ControlPanel extends LitElement implements Layer {
         convoyAction = true;
       }
       if (
+        update.activity === "vault_breach_victory" &&
+        update.sourcePlayerID === myID
+      ) {
+        decisiveDelivery = true;
+      }
+      if (
         update.activity === "beacon_pulse" &&
         update.sourcePlayerID === myID
       ) {
@@ -648,16 +662,21 @@ export class ControlPanel extends LitElement implements Layer {
     }
 
     const pressure = this.latestVaultStatus?.pressure?.[myID];
+    const ownsVault =
+      this.latestVaultStatus?.sites.some(
+        (site) => site.controllerID === myID || site.passiveOwnerID === myID,
+      ) ?? false;
     const primaryProgress = advanceFirstExtractionProgress(
       this.onboardingProgress,
       {
-        vaultCaptured,
+        vaultCaptured: vaultCaptured || ownsVault,
         convoyAction,
-        pressure: pressure?.pressure,
-        pressureThreshold: pressure?.threshold,
+        personalPressureContributions: pressure?.contributors?.[myID] ?? 0,
+        teamPressure: pressure?.pressure,
+        teamPressureThreshold: pressure?.threshold,
         breachWindowUntilTick: pressure?.breachWindowUntilTick,
         currentTick: tick,
-        victorySecured: pressure?.victorySecured,
+        decisiveDelivery,
       },
     );
     this.updateOnboardingProgress({
@@ -2793,22 +2812,38 @@ export class ControlPanel extends LitElement implements Layer {
       label: step.label,
     }));
     const activeIndex = steps.findIndex((step) => !step.done);
+    const myID = this.game?.myPlayer?.()?.smallID();
+    const pressure =
+      myID === undefined ? undefined : this.latestVaultStatus?.pressure?.[myID];
+    const evidence = buildFirstExtractionEvidenceReceipt({
+      vaultCaptured: this.onboardingProgress.vaultCaptured,
+      convoyAction: this.onboardingProgress.convoyAction,
+      personalPressureContributions:
+        myID === undefined ? 0 : (pressure?.contributors?.[myID] ?? 0),
+      teamPressure: pressure?.pressure,
+      teamPressureThreshold: pressure?.threshold,
+      breachWindowUntilTick: pressure?.breachWindowUntilTick,
+      currentTick: this.game?.ticks?.() ?? 0,
+      decisiveDelivery: this.onboardingProgress.decisiveDelivery,
+    });
 
     return html`
       <div
-        class="mt-1.5 border border-emerald-400/50 rounded-md bg-emerald-950/35 p-1.5 text-[10px] lg:text-[11px]"
+        class="vf-first-extraction mt-1.5 border border-emerald-400/50 rounded-md bg-emerald-950/35 p-1.5 text-[10px] lg:text-[11px]"
       >
         <div class="flex items-center justify-between">
-          <div class="font-semibold text-emerald-200">
+          <div class="vf-first-extraction-title font-semibold text-emerald-200">
             ${FIRST_EXTRACTION_TITLE}
           </div>
           ${
             lockRequired
-              ? html`<div class="text-[10px] text-emerald-200/90">
+              ? html`<div
+                  class="vf-first-extraction-action text-[10px] text-emerald-200/90"
+                >
                   Locked until first vault + convoy interaction
                 </div>`
               : html`<button
-                  class="text-emerald-300/80 hover:text-emerald-200 text-[10px]"
+                  class="vf-first-extraction-action text-emerald-300/80 hover:text-emerald-200 text-[10px]"
                   @click=${() => this.dismissOnboarding()}
                 >
                   Hide
@@ -2819,6 +2854,13 @@ export class ControlPanel extends LitElement implements Layer {
           ${steps.map(
             (step, index) => html`
               <div
+                data-state=${
+                  step.done
+                    ? "done"
+                    : index === activeIndex
+                      ? "active"
+                      : "pending"
+                }
                 class="${
                   step.done
                     ? "text-emerald-300"
@@ -2833,7 +2875,15 @@ export class ControlPanel extends LitElement implements Layer {
             `,
           )}
         </div>
-        <div class="mt-1.5 border-t border-emerald-300/20 pt-1 text-slate-300">
+        <div
+          class="vf-first-extraction-evidence mt-1.5 rounded border border-cyan-300/20 bg-cyan-950/20 px-1.5 py-1 text-[9px] text-cyan-100"
+          aria-label="First Extraction certified evidence"
+        >
+          ${evidence.summary}
+        </div>
+        <div
+          class="vf-first-extraction-mastery mt-1.5 border-t border-emerald-300/20 pt-1 text-slate-300"
+        >
           Optional mastery: ${this.onboardingProgress.focusSet ? "[x]" : "[ ]"}
           Resource Focus ·
           ${this.onboardingProgress.pulseTriggered ? "[x]" : "[ ]"} Defense

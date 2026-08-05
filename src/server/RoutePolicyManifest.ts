@@ -72,6 +72,15 @@ export const routePolicyManifest = [
     evidence: "assignment-ledger",
   },
   {
+    id: "mastery-doctrine-select",
+    method: "POST",
+    path: "/api/vaultfront/mastery-doctrine",
+    auth: "verified-actor",
+    mutation: true,
+    rateLimit: "mastery-doctrine-write",
+    evidence: "none",
+  },
+  {
     id: "match-oracle",
     method: "GET",
     path: "/api/vaultfront/match-oracle",

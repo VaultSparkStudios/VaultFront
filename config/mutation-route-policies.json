@@ -24,6 +24,14 @@
     },
     {
       "method": "POST",
+      "path": "/api/vaultfront/mastery-doctrine",
+      "auth": "verified-actor",
+      "rateLimit": "dependencies.rateLimit",
+      "evidence": "authenticated-event",
+      "binding": "dependencies.verifyToken"
+    },
+    {
+      "method": "POST",
       "path": "/api/vaultfront/contracts/update",
       "auth": "retired",
       "rateLimit": "global-standard",

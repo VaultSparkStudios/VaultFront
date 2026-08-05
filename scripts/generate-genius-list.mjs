@@ -17,6 +17,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { findLatestAuditSidecar } from "./lib/audit-sidecar.mjs";
+import { renderGeniusBrief } from "./lib/genius-brief.mjs";
 import { GENIUS_CACHE_SCHEMA_VERSION } from "./lib/genius-cache.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -27,7 +28,6 @@ const WRITE = args.includes("--write");
 const topIdx = args.indexOf("--top");
 const TOP = topIdx >= 0 ? Number.parseInt(args[topIdx + 1] ?? "8", 10) : 12;
 
-const W = 62;
 function readText(rel) {
   try {
     return fs.readFileSync(path.join(root, rel), "utf8");
@@ -44,17 +44,6 @@ function readJson(rel, fallback = {}) {
 }
 function hasFile(rel) {
   return fs.existsSync(path.join(root, rel));
-}
-function row(content) {
-  const value = String(content ?? "");
-  return `║  ${value.length > W ? value.slice(0, W) : value.padEnd(W, " ")}  ║`;
-}
-function top(title) {
-  const label = `══ ${title} `;
-  return `╔${label}${"═".repeat(Math.max(1, W + 2 - label.length))}╗`;
-}
-function bot() {
-  return `╚${"═".repeat(W + 2)}╝`;
 }
 function slugify(text) {
   return text
@@ -340,22 +329,6 @@ function renderMarkdown(list) {
   return lines.join("\n");
 }
 
-function renderBrief(list) {
-  const lines = [top("GENIUS HIT LIST")];
-  for (const entry of list.slice(0, TOP)) {
-    const statusMark =
-      entry.status === "done" ? "✓" : entry.status === "unblocked" ? "→" : "⏸";
-    lines.push(
-      row(`${statusMark} #${entry.rank} ${entry.tier} ${entry.title}`),
-    );
-    lines.push(
-      row(`   ${entry.effort} · ${entry.axis} · ${entry.recommendedModel}`),
-    );
-  }
-  lines.push(bot());
-  return lines.join("\n");
-}
-
 if (WRITE) {
   fs.mkdirSync(path.join(root, ".cache"), { recursive: true });
   fs.writeFileSync(
@@ -373,7 +346,7 @@ if (WRITE) {
 if (JSON_OUT) {
   console.log(JSON.stringify(payload, null, 2));
 } else if (BRIEF) {
-  console.log(renderBrief(items));
+  console.log(renderGeniusBrief(items, { top: TOP, auditSource }));
 } else {
   console.log(renderMarkdown(items));
 }

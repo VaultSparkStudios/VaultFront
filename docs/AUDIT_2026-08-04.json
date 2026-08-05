@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
-  "session": 93,
+  "session": 94,
   "generatedBy": "codex",
-  "generatedAt": "2026-08-04T05:15:00.000Z",
+  "generatedAt": "2026-08-04T12:30:00.000Z",
   "project": {
     "slug": "vaultfront",
     "name": "VaultFront",
@@ -12,7 +12,7 @@
     "stage": "FORGE",
     "stagingType": "local"
   },
-  "summary": "Session 93 premise-verified infrastructure audit with public-release and game-loop lenses. Five findings survived live-code review: browser-authored narration can trigger server AI without certified game authority; multiple Worker feature authorities are unreachable and one parallel Intel market returns invented uncharged risk; pre-match intelligence has no stale-session or timeout ownership; the generated public shell and application footer use separate route authorities; and the new transport recovery state is test-visible but player-invisible while fatal refusal still calls alert(). External launch observations remain NO-GO and are not implementation claims.",
+  "summary": "Session 94 merged premise-verified infrastructure audit with game-loop and public-release lenses. Session 93's five shipped items remain preserved. Five new findings survived live-code review: current-main CI is red on 1,588 bytes of Brotli entry overage; the globally mounted first-run tutorial opens over the lobby and consumes its seen state before the match surface exists; team Pressure can falsely complete personal First Extraction steps despite contributor evidence already being available; certified Daily Mastery accumulates into a number with no choice or non-power aspiration; and the startup brief presents completed audit work as a current hit list while PROJECT_STATUS embeds a large duplicate doctor transcript. External launch observations remain NO-GO and are not implementation claims.",
   "axes": {
     "featureDepth": 1.5,
     "innovation": 1.5,
@@ -34,8 +34,8 @@
     "security": 6,
     "speedOrganization": 6,
     "tokenApiReduction": 4,
-    "novelCandidates": 8,
-    "culledBelowThresholdOrFalsePremise": 19
+    "novelCandidates": 12,
+    "culledBelowThresholdOrFalsePremise": 27
   },
   "specialtyReviews": {
     "infrastructure": {
@@ -43,23 +43,24 @@
     },
     "gameLoop": {
       "scores100": {
-        "loopTightness": 88,
-        "progression": 82,
+        "loopTightness": 83,
+        "progression": 81,
         "sessionEngagement": 84,
-        "retention": 80,
+        "retention": 65,
         "soulFidelity": null
       },
-      "result": "The certified Capture-to-Breach loop and progression spine are strong. The highest-value remaining player seams are truthful live narration, lifecycle-safe pre-match intelligence, and legible recovery during multiplayer disruption. Soul fidelity remains intentionally unscored because the public SOUL file contains no evaluable pillars."
+      "result": "The certified Capture-to-Breach loop and progression spine are strong. Live code nevertheless mounts first-contact instruction before the match, credits shared team Pressure as personal onboarding progress, and exposes Mastery as accumulation without an aspirational consumer. Retention remains unproven until real authenticated human sessions exist. Soul fidelity remains intentionally unscored because the public SOUL file contains no evaluable pillars."
     },
     "release": {
       "verdict": "no-go",
       "passing": [
-        "latest current-revision GitHub workflow runs observed green",
+        "current-revision tests, security, lint, format, and separate E2E jobs observed green",
         "cost-neutral declaration and portfolio cost gate",
         "sitemap 10/10, footer manifest 7/7, legal, branding, and dual-audience source contracts",
         "local deploy, route, balance, composition, theme-proof, and public-surface contracts"
       ],
       "red": [
+        "current-main CI build is red because the initial Brotli entry is 1,588 bytes over its executable ceiling",
         "no approved public staging origin or exact-digest live parity observation",
         "no verified project-domain Zoho send/receive reply-as-alias delivery",
         "no native Obelisk relying-party proof",
@@ -109,6 +110,21 @@
       "candidate": "Blindly upgrade current dependencies",
       "result": "skipped",
       "evidence": "The complete dependency audit is zero and no live defect requires a package change. Package-trust and migration evidence would be required before any upgrade."
+    },
+    {
+      "candidate": "Raise the Brotli baseline until current-main CI turns green",
+      "result": "skipped",
+      "evidence": "The executable transfer gate is correctly exposing 1,588 bytes of new initial-entry weight. The root fix is to remove the lobby-global tutorial import and recover measured headroom, not redefine the same bytes as acceptable."
+    },
+    {
+      "candidate": "Mark First Extraction complete whenever the player's team reaches later Pressure stages",
+      "result": "skipped",
+      "evidence": "VaultFrontStatusUpdate already carries server-derived per-player contributors, and activity updates identify the exact actor. Team success is useful context but cannot truthfully stand in for the learner's own capture, convoy, or decisive-delivery action."
+    },
+    {
+      "candidate": "Claim retention quality from the breadth of progression systems",
+      "result": "deferred",
+      "evidence": "No checked-in qualifying human cohort exists. Code can close choice and feedback seams, but only real authenticated sessions may establish return intent or fun."
     }
   ],
   "items": [
@@ -287,6 +303,184 @@
         "Removed blocking alert(), sanitized fatal reason text, and bound retry/outbox language to exact transport events.",
         "Reordered transport truth so open is published only after authoritative rejoin and FIFO flush; focused tests prove one zero-depth open event.",
         "All five states pass desktop/mobile/theme rendered proof."
+      ],
+      "complete": true
+    },
+    {
+      "id": 140,
+      "slug": "match-bound-first-contact",
+      "tier": "🔥",
+      "axis": "UX / gamification / performance / feedback loop",
+      "effortHours": 5,
+      "impact": 10,
+      "innovation": 8,
+      "priority": 94,
+      "status": "shipped",
+      "title": "Make first contact begin inside the match fantasy and recover transfer headroom",
+      "why": "Main.ts statically imports and mounts VaultFrontTutorial during lobby bootstrap. Its 800ms timer opens instructions for an in-match tracker that does not exist yet, and dismissing it permanently consumes the versioned seen state. The lobby hero simultaneously exposes internal visual-pass/changelog language. The same eager surface contributes to a current-main CI failure: initial Brotli entry is 594,207 bytes against a 592,619-byte ceiling.",
+      "recipe": "Replace timer-driven lobby mounting with one match-ready signal emitted only after authoritative VaultFront status reaches the mounted ControlPanel. Lazy-load the tutorial behind that signal, preserve exactly-once shown/skip/complete telemetry, cancel listeners and timers on teardown, and rewrite the lobby hero around the Capture → Convoy → Pressure → Breach fantasy. Prove no lobby display/seen mutation, one match display, teardown safety, and a directly green unchanged bundle ceiling; capture the touched lobby and in-match states across every theme at desktop/mobile widths.",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Remove the lobby auto-open timer and internal-process hero copy."
+        },
+        "L2": {
+          "effortHours": 3,
+          "recipe": "Gate a lazy tutorial on a match-ready event and add lifecycle tests."
+        },
+        "L3": {
+          "effortHours": 5,
+          "recipe": "Authoritative match-bound state machine, exactly-once telemetry, lazy chunk/transfer proof, adversarial lifecycle tests, and full rendered-pixel matrix."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Removed timer-driven lobby presentation; first contact now lazy-loads only after ControlPanel receives the first authoritative VaultFront status.",
+        "Rewrote the lobby hero around Capture → Convoy → Pressure → Breach and preserved exactly-once shown/advance/skip/complete telemetry.",
+        "Split tutorial, lobby, and leaderboard secondary UI from the initial entry; unchanged Brotli gate is green at 588,569 bytes against 592,619 bytes.",
+        "Focused tutorial, authority, HUD, TypeScript, and bundle contracts pass."
+      ],
+      "complete": true
+    },
+    {
+      "id": 141,
+      "slug": "personal-first-extraction-authority",
+      "tier": "🔥",
+      "axis": "game loop / observability / UX / correctness",
+      "effortHours": 5,
+      "impact": 10,
+      "innovation": 9,
+      "priority": 90,
+      "status": "shipped",
+      "title": "Give First Extraction a server-derived personal agency ledger",
+      "why": "Vault Pressure is player-or-team scoped and already projects contributors by actor, but ControlPanel passes the shared pressure state into advanceFirstExtractionProgress. That projector promotes pressureStarted into vaultCaptured and convoyAction and promotes team victory into decisiveDelivery, so a teammate can complete the learner's personal capture, convoy, and winning-delivery steps.",
+      "recipe": "Separate team context from personal evidence. Recover personal capture from actor activity or controlled-site state, convoy engagement from actor activity or the contributor ledger, personal Pressure from contributors, and decisive delivery only from the exact vault_breach_victory actor. Let team threshold/window state advance only the explicitly team-labeled step after personal participation. Preserve reconnect recovery from status, forbid retroactive teammate credit, expose a compact personal/team evidence receipt for the tracker, and add solo/team/reconnect/adversarial tests plus rendered states.",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Stop later team Pressure from implying personal capture and convoy action."
+        },
+        "L2": {
+          "effortHours": 3,
+          "recipe": "Consume contributors and exact actor activity for personal step ownership."
+        },
+        "L3": {
+          "effortHours": 5,
+          "recipe": "Reconnect-safe personal/team ledger, explicit copy, receipt semantics, adversarial team tests, and rendered proof."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Removed every team-state implication into personal capture, convoy, Pressure contribution, and completion evidence.",
+        "Personal capture recovers from exact actor activity or controlled-site status; convoy and Pressure recover from exact actor activity and the server-derived contributor ledger.",
+        "Team threshold/window advances only the explicitly team-labelled Breach step after personal contribution; decisive delivery requires the exact vault_breach_victory actor.",
+        "Completion now requires all five personally truthful steps, with adversarial shared-Pressure tests."
+      ],
+      "complete": true
+    },
+    {
+      "id": 142,
+      "slug": "mastery-doctrine-vault",
+      "tier": "🔥",
+      "axis": "feature depth / retention / gamification / security",
+      "effortHours": 7,
+      "impact": 9,
+      "innovation": 9,
+      "priority": 82,
+      "status": "shipped",
+      "title": "Turn certified Mastery into a player-chosen non-power Doctrine Vault",
+      "why": "Certified Daily Mastery awards durable currency and the live sidebar displays only '<balance> M total'. There is no catalog, entitlement threshold, selection, spend path, or downstream consumer, so the retention hook accumulates obligation without aspiration. The wallet already has transactional PostgreSQL and process-local parity, making a bounded non-power choice layer feasible without retuning gameplay.",
+      "recipe": "Add a versioned Doctrine catalog of cosmetic/coaching identities with no combat-stat effects. Implement an authenticated, rate-limited, replay-safe select-or-unlock transaction that atomically deducts Mastery once, persists entitlements and the active Doctrine in PostgreSQL with process-local parity, and returns an explicit receipt. Surface next unlock, owned choices, active Doctrine, durability, and insufficient-funds truth in the sidebar; use the selected Doctrine only to frame existing coaching/next-match goals. Add route-policy coverage, migration, concurrent/idempotent store tests, client schema validation, and desktop/mobile/theme rendered proof.",
+      "ladder": {
+        "L1": {
+          "effortHours": 2,
+          "recipe": "Expose a static non-power unlock catalog and next threshold."
+        },
+        "L2": {
+          "effortHours": 4,
+          "recipe": "Add authenticated replay-safe unlock/select with durable entitlement state."
+        },
+        "L3": {
+          "effortHours": 7,
+          "recipe": "Transactional PostgreSQL/process-local parity, route-policy admission, active coaching identity, concurrency tests, receipts, and rendered choice states."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Added a server-owned three-Doctrine catalog explicitly limited to coaching and identity, never combat power.",
+        "Added authenticated, rate-limited, schema-validated, replay-safe select-or-unlock with atomic wallet deduction and PostgreSQL/process-local parity.",
+        "Added durable unlock, active-profile, and request-receipt tables plus owned/active/affordability UI and honest insufficient-funds receipts.",
+        "Focused store, router, policy, UI, TypeScript, and 30/30 mutation-route coverage contracts pass."
+      ],
+      "complete": true
+    },
+    {
+      "id": 143,
+      "slug": "actionable-genius-brief-truth",
+      "tier": "⚡",
+      "axis": "observability / organization / token reduction",
+      "effortHours": 2,
+      "impact": 8,
+      "innovation": 7,
+      "priority": 66,
+      "status": "shipped",
+      "title": "Make the startup hit list distinguish actionable work from shipped history",
+      "why": "generate-genius-list maps shipped audit items to done, but renderBrief prints the first entries regardless of status. The S94 startup brief therefore announces Unblocked 0 while presenting five checked completed items under GENIUS HIT LIST, and /start surfaces a completed item as the top action.",
+      "recipe": "Render only actionable entries in the hit list. When none exist, emit a source-derived exhaustion tile with shipped/pending/blocked totals, latest audit identity, and the next expansion command; keep full completed history in GENIUS_LIST.md/cache. Add tests for mixed, exhausted, blocked-only, and malformed sidecars, then re-render and validate the canonical brief.",
+      "ladder": {
+        "L1": {
+          "effortHours": 0.5,
+          "recipe": "Filter done items from the brief."
+        },
+        "L2": {
+          "effortHours": 1,
+          "recipe": "Add explicit exhausted and blocked-only states with counts."
+        },
+        "L3": {
+          "effortHours": 2,
+          "recipe": "Source-derived taxonomy ledger, adversarial sidecar tests, cache/Markdown parity, and canonical brief validation."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Extracted one fail-closed genius-brief taxonomy authority and removed completed history from the actionable hit list.",
+        "Added source-derived exhausted and blocked-only tiles with contiguous actionable ranks and an innovation-pack continuation command.",
+        "Mixed, exhausted, blocked-only, malformed, and generator contract tests pass."
+      ],
+      "complete": true
+    },
+    {
+      "id": 144,
+      "slug": "doctor-evidence-sidecar",
+      "tier": "⚡",
+      "axis": "observability / speed / token reduction / organization",
+      "effortHours": 3,
+      "impact": 8,
+      "innovation": 8,
+      "priority": 62,
+      "status": "shipped",
+      "title": "Separate compact project health from full doctor evidence",
+      "why": "PROJECT_STATUS.json embeds all thirteen doctor checks including duplicated child-process commands, stdout payloads, timestamps, and parsed data. Every startup/status consumer pays for the full transcript even though normal rendering uses only aggregate counts; warning ownership is the only path that needs check detail.",
+      "recipe": "Write the complete doctor report to one atomic hash-bound audits/doctor-latest.json sidecar and keep only aggregate counts, observation time, source, evidence path, and SHA-256 digest in PROJECT_STATUS. Teach startup warning classification to load and verify the sidecar only when warnings/failures exist, fail closed on missing or mismatched detail, and retain backwards-compatible reads for legacy embedded checks. Add tamper/missing/legacy/green-path tests and measure the status-token reduction.",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Move doctor checks into a dedicated sidecar."
+        },
+        "L2": {
+          "effortHours": 2,
+          "recipe": "Bind the compact summary to the sidecar digest and lazy-load non-green detail."
+        },
+        "L3": {
+          "effortHours": 3,
+          "recipe": "Atomic write, fail-closed verification, legacy migration, tamper tests, and measured token/byte delta."
+        }
+      },
+      "recommendedModel": "sonnet",
+      "executionLog": [
+        "Moved full doctor checks into an atomic audits/doctor-latest.json evidence sidecar bound to compact project status by SHA-256.",
+        "Startup now lazy-loads detail only for non-green health, fails closed on missing/tampered evidence, and retains legacy embedded-check compatibility.",
+        "Atomic reload, tamper, unsafe-path, missing, legacy, project-doctor, and startup contracts pass."
       ],
       "complete": true
     }

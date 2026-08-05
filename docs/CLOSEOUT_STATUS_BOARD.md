@@ -1,19 +1,19 @@
 <!-- generated-by: scripts/render-closeout-board.mjs v1.0 -->
-<!-- generated-at: 2026-08-04 (Session 93 closeout) -->
+<!-- generated-at: 2026-08-05 (Session 94 closeout) -->
 
 # Closeout Status Board — VaultFront
 
 ```
-╔══ SESSION CLOSEOUT · VaultFront · S93 ═════════════════════════╗
-║  Date: 2026-08-04 · SIL: 997/1000 · V:14  ·  Debt: down          ║
+╔══ SESSION CLOSEOUT · VaultFront · S94 ═════════════════════════╗
+║  Date: 2026-08-05 · SIL: 997/1000 · V:9  ·  Debt: down           ║
 ║  Mode: FOUNDER  ·  Agent: codex                                  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ WHAT SHIPPED ════════════════════════════════════════════════╗
-║  ✓ Branch: `main`; audit 5/5, four Session 93 second-order inno  ║
-║  ✓ Shipped: certified post-admission narration with a determini  ║
-║  ✓ Visual truth: 90 hash-bound captures cover fifteen touched s  ║
-║  ✓ Verification: 214 Vitest files / 1,147 tests; TypeScript; wa  ║
-║  ✓ Release: public-unlaunched / NO-GO. The release-evidence pha  ║
+║  ✓ Branch: main; the interrupted Session 94 was recovered from   ║
+║  ✓ Shipped: match-bound lazy first contact; personal/team-separ  ║
+║  ✓ Visual truth: 96 captures cover sixteen states across VaultF  ║
+║  ✓ Verification: 218 Vitest files / 1,165 tests; 30/30 mutation  ║
+║  ✓ Release: public-unlaunched / NO-GO. No approved staging/pari  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ SCORES · SIL 997/1000 ═══════════════════════════════════════╗
 ║    Dev Health         100  ██████████                            ║
@@ -40,7 +40,7 @@
 ║  ✓ agent memory (context/BRAIN.md or agent home)                 ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ GIT STATUS ══════════════════════════════════════════════════╗
-║  Changes: 3 files  ·  M:3 A:0 D:0 ?:0                            ║
+║  Changes: 108 files  ·  M:94 A:0 D:0 ?:14                        ║
 ║  Ahead: 0  ·  Behind: 0                                          ║
 ║  Branch: main                                                    ║
 ╚════════════════════════════════════════════════════════════════╝
@@ -51,15 +51,15 @@
 ╔══ POST-SESSION SIGNALS ════════════════════════════════════════╗
 ║  Doctor:        13/13                                            ║
 ║  Compliance:    49/49                                            ║
-║  Tests:         1147/1147                                        ║
-║  IGNIS:         3d ago                                           ║
+║  Tests:         1165/1165                                        ║
+║  IGNIS:         4d ago                                           ║
 ║  Truth:         green                                            ║
 ║  Shell hygiene: 0 running                                        ║
-║  Sanitization:  9d ago                                           ║
+║  Sanitization:  10d ago                                          ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ NEXT SESSION ════════════════════════════════════════════════╗
-║  #1: Make protocol propagation prove it did not erase stronger   ║
-║      The canonical start sync replaced 49 tracked helpers with   ║
+║  #1: Unified Genius List exhausted                               ║
+║      No pending unblocked audit item remains.                    ║
 ╚════════════════════════════════════════════════════════════════╝
 ```
 

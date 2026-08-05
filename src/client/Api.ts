@@ -544,18 +544,36 @@ export type VaultFrontPlaytestPulseSummary = z.infer<
   typeof VaultFrontPlaytestPulseSummarySchema
 >;
 
-export interface DailyChallenge {
-  challengeId: string;
-  description: string;
-  progress: number;
-  target: number;
-  rewardMastery: number;
-  completed: boolean;
-  masteryBalance: number;
-  dateUtc: string;
-  evidence: "certified-match-result";
-  durability: "postgres" | "process-local";
-}
+const MasteryDoctrineDefinitionSchema = z.object({
+  id: z.enum(["route-reader", "breach-architect", "vault-warden"]),
+  name: z.string().min(1).max(64),
+  costMastery: z.number().int().nonnegative(),
+  role: z.string().min(1).max(80),
+  brief: z.string().min(1).max(240),
+});
+
+const DailyChallengeSchema = z.object({
+  challengeId: z.string().min(1),
+  description: z.string().min(1),
+  progress: z.number().int().nonnegative(),
+  target: z.number().int().positive(),
+  rewardMastery: z.number().int().nonnegative(),
+  completed: z.boolean(),
+  masteryBalance: z.number().int().nonnegative(),
+  dateUtc: z.string().regex(/^\d{4}-\d{2}-\d{2}$/u),
+  evidence: z.literal("certified-match-result"),
+  durability: z.enum(["postgres", "process-local"]),
+  doctrines: z.object({
+    catalog: z.array(MasteryDoctrineDefinitionSchema),
+    ownedIds: z.array(MasteryDoctrineDefinitionSchema.shape.id),
+    activeId: MasteryDoctrineDefinitionSchema.shape.id.nullable(),
+    effectPolicy: z.literal("coaching-and-identity-only"),
+  }),
+});
+
+export type DailyChallenge = z.infer<typeof DailyChallengeSchema>;
+export type MasteryDoctrineId =
+  DailyChallenge["doctrines"]["catalog"][number]["id"];
 
 export async function fetchDailyChallenge(): Promise<DailyChallenge | null> {
   try {
@@ -564,9 +582,59 @@ export async function fetchDailyChallenge(): Promise<DailyChallenge | null> {
       headers: authHeader ? { Authorization: authHeader } : {},
     });
     if (!res.ok) return null;
-    return (await res.json()) as DailyChallenge;
+    const parsed = DailyChallengeSchema.safeParse(await res.json());
+    return parsed.success ? parsed.data : null;
   } catch {
     return null;
+  }
+}
+
+const MasteryDoctrineSelectionResponseSchema = z.object({
+  receipt: z.object({
+    requestId: z.string(),
+    doctrineId: MasteryDoctrineDefinitionSchema.shape.id,
+    unlockedNow: z.boolean(),
+    spentMastery: z.number().int().nonnegative(),
+    masteryBalance: z.number().int().nonnegative(),
+    durability: z.enum(["postgres", "process-local"]),
+    evidence: z.literal("authenticated-mastery-choice"),
+    receiptDigest: z.string().regex(/^[a-f0-9]{64}$/u),
+  }),
+  snapshot: DailyChallengeSchema,
+});
+
+export type MasteryDoctrineSelectionResult =
+  | { ok: true; value: z.infer<typeof MasteryDoctrineSelectionResponseSchema> }
+  | { ok: false; error: string };
+
+export async function selectMasteryDoctrine(
+  doctrineId: MasteryDoctrineId,
+): Promise<MasteryDoctrineSelectionResult> {
+  try {
+    const authHeader = await getAuthHeader();
+    if (!authHeader) return { ok: false, error: "Sign in to spend Mastery" };
+    const res = await fetch(`${getApiBase()}/api/vaultfront/mastery-doctrine`, {
+      method: "POST",
+      headers: {
+        Authorization: authHeader,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ doctrineId, requestId: crypto.randomUUID() }),
+    });
+    const body: unknown = await res.json();
+    if (!res.ok) {
+      const message = z.object({ error: z.string() }).safeParse(body);
+      return {
+        ok: false,
+        error: message.success ? message.data.error : "Doctrine change failed",
+      };
+    }
+    const parsed = MasteryDoctrineSelectionResponseSchema.safeParse(body);
+    return parsed.success
+      ? { ok: true, value: parsed.data }
+      : { ok: false, error: "Invalid doctrine receipt" };
+  } catch {
+    return { ok: false, error: "Mastery Doctrine unavailable" };
   }
 }
 

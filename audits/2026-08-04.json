@@ -2,14 +2,14 @@
   "schemaVersion": "1.3",
   "project": "vaultfront",
   "date": "2026-08-04",
-  "session": 93,
+  "session": 94,
   "agent": "codex",
-  "kind": "certified-runtime-reachability-recovery-rendered-truth-closeout",
-  "mission": "Full /start → /audit → /implement → /closeout arc with second-order innovation",
+  "kind": "recovery-personal-agency-doctrine-compact-health-closeout",
+  "mission": "Interrupted-session recovery checkpoint: Phase 0, finish Session 94 audit/implementation, verify, and close out without inventing external evidence",
   "sil": {
     "score": 997,
     "max": 1000,
-    "velocity": 14,
+    "velocity": 9,
     "categories": {
       "devHealth": 100,
       "creativeAlignment": 100,
@@ -24,23 +24,27 @@
     }
   },
   "work": {
-    "audit": { "total": 5, "shipped": 5, "pendingUnblocked": 0 },
+    "audit": {
+      "total": 10,
+      "shipped": 10,
+      "pendingUnblocked": 0
+    },
     "innovations": {
-      "cumulativeTotal": 59,
-      "cumulativeShipped": 59,
-      "newlyGenerated": 4,
-      "newlyImplemented": 4,
+      "cumulativeTotal": 62,
+      "cumulativeShipped": 62,
+      "newlyGenerated": 3,
+      "newlyImplemented": 3,
       "pendingUnblocked": 0
     }
   },
   "verification": {
-    "vitest": "214/214 files; 1147/1147 tests",
-    "playwright": "2/2 rendered-pixel proof specs; 90 exact-source artifacts",
+    "vitest": "218/218 files; 1165/1165 tests",
+    "playwright": "2/2 rendered-pixel proof specs; 96 exact-source artifacts",
     "balanceScenarios": 28125,
-    "mutationPolicies": "29/29; public ingest 4/4",
-    "runtimeReachability": "8 admitted; 14 retired tombstones",
-    "visualSourceDigest": "sha256:31ea1f698b4cbf866bb58d39c7f4d7254bdb89b07e89f853f8925e8bad4ed3f8",
-    "visualReceiptDigest": "sha256:76b8bdd10882855ba6a1c783acb20449d941b74c23da8b347e6d305de8d08d86",
+    "mutationPolicies": "30/30; public ingest 4/4",
+    "runtimeReachability": "Authoritative match-bound first contact; personal extraction provenance; replay-safe non-power Doctrine selections",
+    "visualSourceDigest": "sha256:a0d3763f911f31724d5183ff02a4ff2c52999fbc5652542eea7b89f65e88ca3e",
+    "visualReceiptDigest": "sha256:5d720a922672e7d32c06c11b67c7b110e513f31ae490c5b2ccdf3c7ba2ab4775",
     "doctorBlockingFailing": 0
   },
   "releaseGate": {

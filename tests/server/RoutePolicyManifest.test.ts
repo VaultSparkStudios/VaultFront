@@ -45,4 +45,23 @@ describe("typed route policy manifest", () => {
       ).toMatchObject({ allowed: true });
     }
   });
+
+  it("treats Mastery Doctrine selection as a verified actor mutation", () => {
+    expect(
+      routePolicyManifest.find(
+        (route) => route.id === "mastery-doctrine-select",
+      ),
+    ).toMatchObject({
+      method: "POST",
+      path: "/api/vaultfront/mastery-doctrine",
+      auth: "verified-actor",
+      mutation: true,
+    });
+    expect(
+      evaluateRouteAuthorization("mastery-doctrine-select", {}),
+    ).toMatchObject({
+      allowed: false,
+      status: 401,
+    });
+  });
 });

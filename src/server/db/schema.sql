@@ -340,6 +340,31 @@ CREATE TABLE IF NOT EXISTS daily_mastery_wallet (
   updated_at      TIMESTAMPTZ  NOT NULL DEFAULT NOW()
 );
 
+CREATE TABLE IF NOT EXISTS daily_mastery_doctrine_unlocks (
+  persistent_id VARCHAR(64)  NOT NULL,
+  doctrine_id   VARCHAR(32)  NOT NULL,
+  cost_mastery  INT          NOT NULL CHECK (cost_mastery >= 0),
+  unlocked_at   TIMESTAMPTZ  NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (persistent_id, doctrine_id)
+);
+
+CREATE TABLE IF NOT EXISTS daily_mastery_doctrine_profiles (
+  persistent_id      VARCHAR(64) PRIMARY KEY,
+  active_doctrine_id VARCHAR(32) NOT NULL,
+  updated_at         TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- A reservation row is written before wallet mutation. Its eventual receipt
+-- makes network retries exactly-once and detects request-ID reuse.
+CREATE TABLE IF NOT EXISTS daily_mastery_doctrine_requests (
+  persistent_id VARCHAR(64)  NOT NULL,
+  request_id    VARCHAR(128) NOT NULL,
+  doctrine_id   VARCHAR(32)  NOT NULL,
+  receipt       JSONB,
+  created_at    TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (persistent_id, request_id)
+);
+
 -- ── Authenticated Alpha Evidence ─────────────────────────────────────────────
 -- Pseudonymous actor keys are server-derived. The 24-hour Alpha gate reads the
 -- durable event ledger; event IDs make retries idempotent across worker restarts.

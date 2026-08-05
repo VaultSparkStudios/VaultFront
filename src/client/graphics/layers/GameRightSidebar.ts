@@ -13,6 +13,8 @@ import {
   DailyChallenge,
   fetchDailyChallenge,
   fetchVaultFrontPlaytestPulseSummary,
+  type MasteryDoctrineId,
+  selectMasteryDoctrine,
   VaultFrontPlaytestPulseSummary,
 } from "../../Api";
 import { crazyGamesSDK } from "../../CrazyGamesSDK";
@@ -136,6 +138,12 @@ export class GameRightSidebar extends LitElement implements Layer {
 
   @state()
   private dailyChallenge: DailyChallenge | null = null;
+
+  @state()
+  private masterySelectionPending: MasteryDoctrineId | null = null;
+
+  @state()
+  private masterySelectionNotice = "";
 
   @state()
   private playtestPulse: VaultFrontPlaytestPulseSummary | null = null;
@@ -1099,7 +1107,7 @@ export class GameRightSidebar extends LitElement implements Layer {
         : 0;
     return html`
       <div
-        class="fixed bottom-24 right-4 z-[900] w-48 rounded-md border border-amber-400/40 bg-slate-950/80 px-2.5 py-2 text-[10px] text-amber-50 shadow-lg"
+        class="fixed bottom-24 right-4 z-[900] w-64 rounded-md border border-amber-400/40 bg-slate-950/90 px-2.5 py-2 text-[10px] text-amber-50 shadow-lg"
         style="zoom: ${this.hudScale};"
       >
         <div
@@ -1139,8 +1147,80 @@ export class GameRightSidebar extends LitElement implements Layer {
         >
           ${ch.completed ? "✓ Complete" : `${ch.progress}/${ch.target}`}
         </div>
+        <div class="mt-2 border-t border-amber-300/20 pt-1.5">
+          <div
+            class="flex items-center justify-between text-[9px] font-bold uppercase tracking-wider text-amber-200"
+          >
+            <span>Doctrine Vault</span>
+            <span>${ch.masteryBalance} M</span>
+          </div>
+          <div class="mb-1 text-[8px] text-slate-400">
+            Coaching identity only · never combat power
+          </div>
+          <div class="grid gap-1">
+            ${ch.doctrines.catalog.map((doctrine) => {
+              const owned = ch.doctrines.ownedIds.includes(doctrine.id);
+              const active = ch.doctrines.activeId === doctrine.id;
+              const affordable = ch.masteryBalance >= doctrine.costMastery;
+              const pending = this.masterySelectionPending === doctrine.id;
+              return html`
+                <button
+                  class="rounded border px-1.5 py-1 text-left transition-colors ${
+                    active
+                      ? "border-emerald-300/60 bg-emerald-500/15 text-emerald-100"
+                      : "border-slate-600/70 bg-slate-900/70 text-slate-200 hover:border-amber-300/50"
+                  }"
+                  ?disabled=${pending || (!owned && !affordable)}
+                  title=${doctrine.brief}
+                  @click=${() => this.chooseMasteryDoctrine(doctrine.id)}
+                >
+                  <span class="flex justify-between gap-2 font-semibold">
+                    <span>${doctrine.name}</span>
+                    <span
+                      >${
+                        active
+                          ? "Active"
+                          : owned
+                            ? "Select"
+                            : `${doctrine.costMastery} M`
+                      }</span
+                    >
+                  </span>
+                  <span class="block text-[8px] text-slate-400"
+                    >${doctrine.role}</span
+                  >
+                </button>
+              `;
+            })}
+          </div>
+          ${
+            this.masterySelectionNotice
+              ? html`<div class="mt-1 text-[8px] text-amber-100" role="status">
+                  ${this.masterySelectionNotice}
+                </div>`
+              : null
+          }
+        </div>
       </div>
     `;
+  }
+
+  private async chooseMasteryDoctrine(
+    doctrineId: MasteryDoctrineId,
+  ): Promise<void> {
+    if (this.masterySelectionPending) return;
+    this.masterySelectionPending = doctrineId;
+    this.masterySelectionNotice = "";
+    const result = await selectMasteryDoctrine(doctrineId);
+    this.masterySelectionPending = null;
+    if (!result.ok) {
+      this.masterySelectionNotice = result.error;
+      return;
+    }
+    this.dailyChallenge = result.value.snapshot;
+    this.masterySelectionNotice = result.value.receipt.unlockedNow
+      ? `${result.value.receipt.spentMastery} M invested · receipt ${result.value.receipt.receiptDigest.slice(0, 8)}`
+      : `Doctrine active · no spend · receipt ${result.value.receipt.receiptDigest.slice(0, 8)}`;
   }
 
   private renderObjectiveRail() {

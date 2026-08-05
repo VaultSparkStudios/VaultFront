@@ -1,23 +1,23 @@
-# Implementation Plan — Session 93
+# Implementation Plan — Session 94
 
 > Source: `docs/AUDIT_2026-08-04.json` · rung: L3 throughout · execution order is dependency- and verification-efficient, not raw score order.
 
-## Wave 3A — Runtime authority closure
+## Wave 3A — Truth surfaces and token economy
 
-- [ ] **136 · runtime-feature-reachability-closure** — retire unreachable Worker/API/policy authorities, add the source-backed catalog, and ratchet composition/public-ingest ceilings.
-- [ ] **135 · server-certified-narration-spine** — move narration intake from browsers to accepted GameServer facts and preserve bounded spectator delivery.
+- [x] **143 · actionable-genius-brief-truth** — render only actionable work in the startup hit list and prove exhausted/blocked/malformed taxonomy.
+- [x] **144 · doctor-evidence-sidecar** — atomically split full doctor evidence from compact project status, bind it by SHA-256, and lazy-load non-green detail.
 
-## Wave 3B — One public truth graph
+## Wave 3B — Personal first-contact authority
 
-- [ ] **138 · single-public-route-graph** — project the public manifest into static and Lit surfaces and extend executable parity checks.
+- [x] **141 · personal-first-extraction-authority** — separate team context from server-derived personal onboarding evidence with reconnect-safe receipts.
+- [x] **140 · match-bound-first-contact** — lazy-load first contact only after authoritative in-match status, replace process copy with fantasy, and recover the unchanged transfer budget.
 
-## Wave 3C — Player lifecycle truth
+## Wave 3C — Doctrine Vault retention choice
 
-- [ ] **137 · session-bound-prematch-intelligence** — own request generations, abort/deadline cleanup, responsive accessible states, and stale-result proof.
-- [ ] **139 · player-visible-transport-recovery** — render honest waiting/recovery/overflow/fatal states from the transport event spine.
+- [x] **142 · mastery-doctrine-vault** — add a non-power Doctrine catalog, transactional unlock/select parity, route-policy admission, active coaching identity, and player-visible receipts.
 
-## Wave 3D — Combined verification and expansion
+## Wave 3D — Rendered proof, expansion, and exhaustion
 
-- [ ] Focused tests after every item; TypeScript, lint, contracts, build, and full suite after the batch.
-- [ ] Rendered-pixel desktop/mobile proof for every touched theme/state with a refreshed hash-bound `docs/visual-qa/LATEST.json` receipt.
-- [ ] Regenerate the innovation pack, implement every new candidate at L3, then prove audit + innovation exhaustion.
+- [ ] Run focused tests after every item and direct TypeScript, lint, contracts, bundle, build, and full-suite gates after the batch.
+- [ ] Capture and inspect desktop/mobile proof for every touched theme/state; refresh the hash-bound `docs/visual-qa/LATEST.json` receipt.
+- [ ] Regenerate the innovation pack, implement every new evidence-derived candidate at L3, then prove audit and innovation exhaustion.

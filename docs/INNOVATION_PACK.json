@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-08-04T02:36:03.644Z",
+  "generatedAt": "2026-08-04T18:24:01.283Z",
   "source": "scripts/innovation-pack.mjs",
   "primarySource": "latest audit-backed Unified Genius List",
   "items": [
@@ -534,6 +534,33 @@
       "description": "Format every generated closeout truth surface after doctor write-back so the canonical commit path cannot create a Prettier-ratchet regression while recording a green doctor result.",
       "complete": true,
       "evidence": "doctor-to-formatter ordering, canonical status inclusion, and command-surface regression coverage"
+    },
+    {
+      "rank": 60,
+      "status": "shipped",
+      "id": "personal-agency-evidence-receipt",
+      "title": "Show why First Extraction awarded each personal and team step",
+      "description": "Project certified actor contribution and team Breach context into a compact player-readable receipt so cooperative progress is transparent without borrowing teammate credit.",
+      "complete": true,
+      "evidence": "server-status/activity provenance, separate personal/team projection, visible contribution summary, and no-borrowed-credit tests"
+    },
+    {
+      "rank": 61,
+      "status": "shipped",
+      "id": "mastery-doctrine-receipt-verifier",
+      "title": "Make every Doctrine spend independently tamper-verifiable",
+      "description": "Bind actor, request, entitlement, spend, remaining balance, durability, and evidence class into one canonical SHA-256 receipt that detects post-transaction alteration.",
+      "complete": true,
+      "evidence": "canonical doctrine payload digest, constant-time verification, client schema/short proof, and spend-tamper regression"
+    },
+    {
+      "rank": 62,
+      "status": "shipped",
+      "id": "secondary-ui-entry-ratchet",
+      "title": "Keep secondary UI from silently returning to first paint",
+      "description": "Turn the bundle recovery into a source-owned entry boundary so tutorial, lobby implementation, and leaderboard remain lazy while the existing byte ceiling independently measures the result.",
+      "complete": true,
+      "evidence": "three explicit lazy boundaries, authoritative match-ready ordering, unchanged executable byte ceiling, and regression tests"
     }
   ]
 }

@@ -5,6 +5,7 @@
  * development uses a process-local fallback and exposes that scope in every
  * snapshot and completion receipt.
  */
+import { createHash, timingSafeEqual } from "node:crypto";
 import type { Pool } from "pg";
 import { getDatabasePosture, pool } from "./db/pool";
 import { logger } from "./Logger";
@@ -38,6 +39,81 @@ export interface DailyMasterySnapshot {
   dateUtc: string;
   evidence: "certified-match-result";
   durability: "postgres" | "process-local";
+  doctrines: MasteryDoctrineVault;
+}
+
+export type MasteryDoctrineId =
+  "route-reader" | "breach-architect" | "vault-warden";
+
+export interface MasteryDoctrineDefinition {
+  id: MasteryDoctrineId;
+  name: string;
+  costMastery: number;
+  role: string;
+  brief: string;
+}
+
+export interface MasteryDoctrineVault {
+  catalog: readonly MasteryDoctrineDefinition[];
+  ownedIds: MasteryDoctrineId[];
+  activeId: MasteryDoctrineId | null;
+  effectPolicy: "coaching-and-identity-only";
+}
+
+export interface MasteryDoctrineSelectionReceipt {
+  persistentId: string;
+  requestId: string;
+  doctrineId: MasteryDoctrineId;
+  unlockedNow: boolean;
+  spentMastery: number;
+  masteryBalance: number;
+  durability: "postgres" | "process-local";
+  evidence: "authenticated-mastery-choice";
+  receiptDigest: string;
+}
+
+type MasteryDoctrineReceiptPayload = Omit<
+  MasteryDoctrineSelectionReceipt,
+  "receiptDigest"
+>;
+
+export function masteryDoctrineReceiptDigest(
+  receipt: MasteryDoctrineReceiptPayload,
+): string {
+  return createHash("sha256")
+    .update(
+      JSON.stringify([
+        receipt.persistentId,
+        receipt.requestId,
+        receipt.doctrineId,
+        receipt.unlockedNow,
+        receipt.spentMastery,
+        receipt.masteryBalance,
+        receipt.durability,
+        receipt.evidence,
+      ]),
+    )
+    .digest("hex");
+}
+
+export function verifyMasteryDoctrineReceipt(
+  receipt: MasteryDoctrineSelectionReceipt,
+): boolean {
+  if (!/^[a-f0-9]{64}$/u.test(receipt.receiptDigest)) return false;
+  const expected = Buffer.from(masteryDoctrineReceiptDigest(receipt), "hex");
+  const actual = Buffer.from(receipt.receiptDigest, "hex");
+  return expected.length === actual.length && timingSafeEqual(expected, actual);
+}
+
+export class MasteryDoctrineSelectionError extends Error {
+  constructor(
+    readonly code:
+      "invalid-doctrine" | "insufficient-mastery" | "request-conflict",
+    message: string,
+  ) {
+    super(message);
+    this.name = "MasteryDoctrineSelectionError";
+  }
 }
 
 export interface DailyMasteryCompletionReceipt {
@@ -107,6 +183,32 @@ const CHALLENGES: readonly DailyMasteryDefinition[] = [
   },
 ] as const;
 
+export const MASTERY_DOCTRINES: readonly MasteryDoctrineDefinition[] = [
+  {
+    id: "route-reader",
+    name: "Route Reader",
+    costMastery: 50,
+    role: "Convoy tactician",
+    brief: "Frame the next match around escort timing and interception lanes.",
+  },
+  {
+    id: "breach-architect",
+    name: "Breach Architect",
+    costMastery: 100,
+    role: "Pressure shot-caller",
+    brief:
+      "Frame coaching around contribution tempo and the decisive delivery.",
+  },
+  {
+    id: "vault-warden",
+    name: "Vault Warden",
+    costMastery: 150,
+    role: "Extraction controller",
+    brief:
+      "Frame coaching around vault defense, recapture, and safe conversion.",
+  },
+] as const;
+
 interface MemoryProgress {
   progress: number;
   completed: boolean;
@@ -141,6 +243,12 @@ export class CertifiedDailyMasteryStore {
   private readonly progress = new Map<string, MemoryProgress>();
   private readonly processed = new Set<string>();
   private readonly balances = new Map<string, number>();
+  private readonly doctrineUnlocks = new Map<string, Set<MasteryDoctrineId>>();
+  private readonly activeDoctrines = new Map<string, MasteryDoctrineId>();
+  private readonly doctrineRequests = new Map<
+    string,
+    { doctrineId: MasteryDoctrineId; receipt: MasteryDoctrineSelectionReceipt }
+  >();
   private readonly now: () => Date;
   private readonly poolProvider: () => Pool | null;
   private readonly databaseConfigured: () => boolean;
@@ -185,6 +293,16 @@ export class CertifiedDailyMasteryStore {
         [persistentId, dateUtc],
       );
       const row = result.rows[0] ?? {};
+      const [unlocks, profile] = await Promise.all([
+        database.query(
+          "SELECT doctrine_id FROM daily_mastery_doctrine_unlocks WHERE persistent_id = $1 ORDER BY unlocked_at, doctrine_id",
+          [persistentId],
+        ),
+        database.query(
+          "SELECT active_doctrine_id FROM daily_mastery_doctrine_profiles WHERE persistent_id = $1",
+          [persistentId],
+        ),
+      ]);
       return this.snapshot(
         challenge,
         dateUtc,
@@ -192,6 +310,9 @@ export class CertifiedDailyMasteryStore {
         Boolean(row.completed_at),
         Number(row.mastery_balance ?? 0),
         "postgres",
+        unlocks.rows.map((entry) => entry.doctrine_id as MasteryDoctrineId),
+        (profile.rows[0]?.active_doctrine_id as
+          MasteryDoctrineId | undefined) ?? null,
       );
     }
     if (this.databaseConfigured()) {
@@ -205,7 +326,187 @@ export class CertifiedDailyMasteryStore {
       state?.completed ?? false,
       this.balances.get(persistentId) ?? 0,
       "process-local",
+      [...(this.doctrineUnlocks.get(persistentId) ?? [])],
+      this.activeDoctrines.get(persistentId) ?? null,
     );
+  }
+
+  async selectDoctrine(
+    persistentId: string,
+    doctrineId: string,
+    requestId: string,
+  ): Promise<MasteryDoctrineSelectionReceipt> {
+    const doctrine = MASTERY_DOCTRINES.find((item) => item.id === doctrineId);
+    if (!doctrine) {
+      throw new MasteryDoctrineSelectionError(
+        "invalid-doctrine",
+        "Unknown Mastery Doctrine",
+      );
+    }
+    const database = this.poolProvider();
+    if (database) {
+      return this.selectDoctrinePostgres(
+        database,
+        persistentId,
+        doctrine,
+        requestId,
+      );
+    }
+    if (this.databaseConfigured()) {
+      throw new Error("daily mastery persistence unavailable");
+    }
+    return this.selectDoctrineMemory(persistentId, doctrine, requestId);
+  }
+
+  private selectDoctrineMemory(
+    persistentId: string,
+    doctrine: MasteryDoctrineDefinition,
+    requestId: string,
+  ): MasteryDoctrineSelectionReceipt {
+    const requestKey = `${persistentId}:${requestId}`;
+    const replay = this.doctrineRequests.get(requestKey);
+    if (replay) {
+      if (replay.doctrineId !== doctrine.id) {
+        throw new MasteryDoctrineSelectionError(
+          "request-conflict",
+          "Request ID was already used for another doctrine",
+        );
+      }
+      return replay.receipt;
+    }
+    const owned = this.doctrineUnlocks.get(persistentId) ?? new Set();
+    const unlockedNow = !owned.has(doctrine.id);
+    const spentMastery = unlockedNow ? doctrine.costMastery : 0;
+    const balance = this.balances.get(persistentId) ?? 0;
+    if (balance < spentMastery) {
+      throw new MasteryDoctrineSelectionError(
+        "insufficient-mastery",
+        `Requires ${doctrine.costMastery} Mastery`,
+      );
+    }
+    if (unlockedNow) owned.add(doctrine.id);
+    this.doctrineUnlocks.set(persistentId, owned);
+    this.activeDoctrines.set(persistentId, doctrine.id);
+    this.balances.set(persistentId, balance - spentMastery);
+    const receipt = this.doctrineReceipt(
+      persistentId,
+      requestId,
+      doctrine.id,
+      unlockedNow,
+      spentMastery,
+      balance - spentMastery,
+      "process-local",
+    );
+    this.doctrineRequests.set(requestKey, {
+      doctrineId: doctrine.id,
+      receipt,
+    });
+    return receipt;
+  }
+
+  private async selectDoctrinePostgres(
+    database: Pool,
+    persistentId: string,
+    doctrine: MasteryDoctrineDefinition,
+    requestId: string,
+  ): Promise<MasteryDoctrineSelectionReceipt> {
+    const client = await database.connect();
+    try {
+      await client.query("BEGIN");
+      const reservation = await client.query(
+        `INSERT INTO daily_mastery_doctrine_requests
+           (persistent_id, request_id, doctrine_id)
+         VALUES ($1, $2, $3)
+         ON CONFLICT DO NOTHING RETURNING request_id`,
+        [persistentId, requestId, doctrine.id],
+      );
+      if (reservation.rowCount === 0) {
+        const prior = await client.query(
+          `SELECT doctrine_id, receipt
+             FROM daily_mastery_doctrine_requests
+            WHERE persistent_id = $1 AND request_id = $2`,
+          [persistentId, requestId],
+        );
+        if (prior.rows[0]?.doctrine_id !== doctrine.id) {
+          throw new MasteryDoctrineSelectionError(
+            "request-conflict",
+            "Request ID was already used for another doctrine",
+          );
+        }
+        const receipt = prior.rows[0]?.receipt as
+          MasteryDoctrineSelectionReceipt | undefined;
+        if (!receipt) throw new Error("Mastery Doctrine receipt unavailable");
+        await client.query("COMMIT");
+        return receipt;
+      }
+      await client.query(
+        `INSERT INTO daily_mastery_wallet (persistent_id, mastery_balance)
+         VALUES ($1, 0) ON CONFLICT DO NOTHING`,
+        [persistentId],
+      );
+      const wallet = await client.query(
+        "SELECT mastery_balance FROM daily_mastery_wallet WHERE persistent_id = $1 FOR UPDATE",
+        [persistentId],
+      );
+      const balance = Number(wallet.rows[0]?.mastery_balance ?? 0);
+      const existing = await client.query(
+        `SELECT doctrine_id FROM daily_mastery_doctrine_unlocks
+          WHERE persistent_id = $1 AND doctrine_id = $2`,
+        [persistentId, doctrine.id],
+      );
+      const unlockedNow = existing.rowCount === 0;
+      const spentMastery = unlockedNow ? doctrine.costMastery : 0;
+      if (balance < spentMastery) {
+        throw new MasteryDoctrineSelectionError(
+          "insufficient-mastery",
+          `Requires ${doctrine.costMastery} Mastery`,
+        );
+      }
+      if (unlockedNow) {
+        await client.query(
+          `UPDATE daily_mastery_wallet
+              SET mastery_balance = mastery_balance - $2, updated_at = NOW()
+            WHERE persistent_id = $1`,
+          [persistentId, spentMastery],
+        );
+        await client.query(
+          `INSERT INTO daily_mastery_doctrine_unlocks
+             (persistent_id, doctrine_id, cost_mastery)
+           VALUES ($1, $2, $3)`,
+          [persistentId, doctrine.id, spentMastery],
+        );
+      }
+      await client.query(
+        `INSERT INTO daily_mastery_doctrine_profiles
+           (persistent_id, active_doctrine_id, updated_at)
+         VALUES ($1, $2, NOW())
+         ON CONFLICT (persistent_id) DO UPDATE SET
+           active_doctrine_id = EXCLUDED.active_doctrine_id,
+           updated_at = NOW()`,
+        [persistentId, doctrine.id],
+      );
+      const receipt = this.doctrineReceipt(
+        persistentId,
+        requestId,
+        doctrine.id,
+        unlockedNow,
+        spentMastery,
+        balance - spentMastery,
+        "postgres",
+      );
+      await client.query(
+        `UPDATE daily_mastery_doctrine_requests SET receipt = $3::jsonb
+          WHERE persistent_id = $1 AND request_id = $2`,
+        [persistentId, requestId, JSON.stringify(receipt)],
+      );
+      await client.query("COMMIT");
+      return receipt;
+    } catch (error) {
+      await client.query("ROLLBACK").catch(() => undefined);
+      throw error;
+    } finally {
+      client.release();
+    }
   }
 
   async recordCertifiedMatch(
@@ -376,6 +677,8 @@ export class CertifiedDailyMasteryStore {
     completed: boolean,
     masteryBalance: number,
     durability: DailyMasterySnapshot["durability"],
+    ownedIds: MasteryDoctrineId[],
+    activeId: MasteryDoctrineId | null,
   ): DailyMasterySnapshot {
     return {
       challengeId: challenge.id,
@@ -388,7 +691,35 @@ export class CertifiedDailyMasteryStore {
       dateUtc,
       evidence: "certified-match-result",
       durability,
+      doctrines: {
+        catalog: MASTERY_DOCTRINES,
+        ownedIds,
+        activeId,
+        effectPolicy: "coaching-and-identity-only",
+      },
     };
+  }
+
+  private doctrineReceipt(
+    persistentId: string,
+    requestId: string,
+    doctrineId: MasteryDoctrineId,
+    unlockedNow: boolean,
+    spentMastery: number,
+    masteryBalance: number,
+    durability: MasteryDoctrineSelectionReceipt["durability"],
+  ): MasteryDoctrineSelectionReceipt {
+    const receipt: MasteryDoctrineReceiptPayload = {
+      persistentId,
+      requestId,
+      doctrineId,
+      unlockedNow,
+      spentMastery,
+      masteryBalance,
+      durability,
+      evidence: "authenticated-mastery-choice",
+    };
+    return { ...receipt, receiptDigest: masteryDoctrineReceiptDigest(receipt) };
   }
 
   private receipt(

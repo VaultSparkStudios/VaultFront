@@ -7,8 +7,7 @@
  * - Non-blocking: player can dismiss at any time
  * - No forced path — just contextual highlights with skip option
  *
- * Usage: Register in Main.ts and add <vault-front-tutorial> to the layout.
- * It auto-opens on first load if the tutorial has not been seen.
+ * Usage: Main.ts lazy-mounts it after the first authoritative match status.
  */
 
 import { css, html, LitElement } from "lit";
@@ -33,6 +32,7 @@ export class VaultFrontTutorial extends LitElement {
   @state() private open = false;
   @state() private compact = false;
   @state() private step = 0;
+  private presentationStarted = false;
 
   static styles = css`
     :host {
@@ -220,18 +220,25 @@ export class VaultFrontTutorial extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     this.style.pointerEvents = "none";
-    const seen = localStorage.getItem(TUTORIAL_SEEN_KEY);
-    if (seen !== TUTORIAL_VERSION) {
-      // Slight delay so the game UI can render first
-      setTimeout(() => {
-        this.compact = window.matchMedia(MOBILE_QUERY).matches;
-        this.open = true;
-        void recordVaultFrontPlaytestPulse({
-          surface: "tutorial",
-          event: "shown",
-        });
-      }, 800);
+  }
+
+  /** Opens once, and only when called from certified match-ready authority. */
+  public showForMatch(): boolean {
+    if (
+      this.presentationStarted ||
+      localStorage.getItem(TUTORIAL_SEEN_KEY) === TUTORIAL_VERSION
+    ) {
+      return false;
     }
+    this.presentationStarted = true;
+    this.step = 0;
+    this.compact = window.matchMedia(MOBILE_QUERY).matches;
+    this.open = true;
+    void recordVaultFrontPlaytestPulse({
+      surface: "tutorial",
+      event: "shown",
+    });
+    return true;
   }
 
   private dismiss(event: "skip" | "complete" = "skip") {

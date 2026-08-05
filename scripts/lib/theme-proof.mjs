@@ -13,6 +13,7 @@ export const THEME_PROOF_THEMES = Object.freeze([
 ]);
 export const THEME_PROOF_SURFACES = Object.freeze([
   "play",
+  "agency-doctrine",
   "settings",
   "postmatch",
   "prematch-loading",
@@ -49,8 +50,10 @@ function walkFiles(root, relativeDirectory) {
 export function collectThemeProofSourceFiles(root) {
   const fixed = [
     "e2e/theme-visual-proof.spec.ts",
+    "static/index.html",
     "src/client/BrandTheme.ts",
     "src/client/Api.ts",
+    "src/client/FirstExtractionQuest.ts",
     "src/client/GameStartingModal.ts",
     "src/client/ConnectionRecoveryPresenter.ts",
     "src/client/Transport.ts",
@@ -62,6 +65,8 @@ export function collectThemeProofSourceFiles(root) {
     "src/client/UserSettingModal.ts",
     "src/client/graphics/layers/WinModal.ts",
     "src/client/graphics/layers/CertifiedNarratorLayer.ts",
+    "src/client/graphics/layers/ControlPanel.ts",
+    "src/client/graphics/layers/GameRightSidebar.ts",
     "src/client/graphics/layers/VaultFrontLayer.ts",
     "src/core/execution/VaultFrontExecution.ts",
     "src/core/execution/VaultFrontRuntimeBalance.ts",

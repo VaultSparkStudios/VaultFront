@@ -310,6 +310,43 @@ body {
   color: #52677d !important;
 }
 
+/* First Extraction is rendered over both the live tactical HUD and the
+   standalone visual-proof surface. Semantic state selectors keep its
+   evidence readable when utility colors were authored for a dark canvas. */
+:root[data-vaultfront-theme="light"] .vf-first-extraction {
+  background: rgba(240, 253, 250, 0.96) !important;
+  border-color: rgba(4, 120, 87, 0.5) !important;
+  color: #102235;
+}
+
+:root[data-vaultfront-theme="light"] .vf-first-extraction-title,
+:root[data-vaultfront-theme="light"] .vf-first-extraction [data-state="done"] {
+  color: #047857 !important;
+}
+
+:root[data-vaultfront-theme="light"] .vf-first-extraction-action {
+  color: #0f766e !important;
+}
+
+:root[data-vaultfront-theme="light"]
+  .vf-first-extraction
+  [data-state="active"] {
+  color: #102235 !important;
+}
+
+:root[data-vaultfront-theme="light"]
+  .vf-first-extraction
+  [data-state="pending"],
+:root[data-vaultfront-theme="light"] .vf-first-extraction-mastery {
+  color: #475569 !important;
+}
+
+:root[data-vaultfront-theme="light"] .vf-first-extraction-evidence {
+  background: #ecfeff !important;
+  border-color: rgba(14, 116, 144, 0.35) !important;
+  color: #164e63 !important;
+}
+
 .vf-chip-row {
   display: flex;
   flex-wrap: wrap;

@@ -26,6 +26,7 @@ import {
 import { buildBriefSourceManifest } from "./lib/brief-freshness.mjs";
 import { deriveContextUsage } from "./lib/context-verdicts.mjs";
 import { loadPortfolioTaskBoards } from "./lib/cross-repo-tasks.mjs";
+import { loadDoctorEvidence } from "./lib/doctor-evidence.mjs";
 import { isWarning } from "./lib/doctor-predicates.mjs";
 import { loadIgnisInsight } from "./lib/ignis-insight.mjs";
 import { contextWindowForAgent } from "./lib/model-router.mjs";
@@ -907,13 +908,29 @@ try {
 
 // ── Doctor score ─────────────────────────────────────────────────────────────
 const doctorScore = status.doctorScore ?? null;
-const sigDoctor = !doctorScore
-  ? "⚠"
-  : doctorScore.failing === 0
-    ? doctorScore.warning > 0
-      ? "⚠"
-      : "✓"
-    : "⛔";
+let doctorChecks = Array.isArray(doctorScore?.checks)
+  ? doctorScore.checks
+  : null;
+let doctorEvidenceError = null;
+if (
+  doctorScore &&
+  !doctorChecks &&
+  ((doctorScore.failing ?? doctorScore.blockingFailing ?? 0) > 0 ||
+    (doctorScore.warning ?? doctorScore.warnings ?? 0) > 0)
+) {
+  const loaded = loadDoctorEvidence(root, doctorScore);
+  if (loaded.ok) doctorChecks = loaded.checks;
+  else doctorEvidenceError = loaded.error;
+}
+const sigDoctor = doctorEvidenceError
+  ? "⛔"
+  : !doctorScore
+    ? "⚠"
+    : doctorScore.failing === 0
+      ? doctorScore.warning > 0
+        ? "⚠"
+        : "✓"
+      : "⛔";
 // S171 [audit #4] — aggregate-honesty: a bare "9 warning" reads as 9 studio-ops
 // problems. Append the ownership split (self vs sibling-rollout) so the founder
 // sees that ~all of them are portfolio-rollout trackers studio-ops surfaces but
@@ -923,7 +940,7 @@ const sigDoctor = !doctorScore
 // exist so the split fits — ownership is the load-bearing signal, not the date).
 let ownershipSplit = "";
 try {
-  if (doctorScore?.checks && doctorScore.warning > 0) {
+  if (doctorChecks && doctorScore.warning > 0) {
     // Classify exactly the set the doctor TALLIES as warnings (the canonical
     // isWarning predicate — shared with run-doctor.mjs via doctor-predicates.mjs,
     // S172 [audit #4]) so the split always sums to the displayed count. (The
@@ -932,7 +949,7 @@ try {
     // carried.)
     const map = loadProvenanceMap();
     const byOwner = { self: 0, sibling: 0, chronic: 0 };
-    for (const c of doctorScore.checks) {
+    for (const c of doctorChecks) {
       if (!isWarning(c)) continue;
       const o = map[c.id]?.owner || "self";
       byOwner[o] = (byOwner[o] || 0) + 1;
@@ -946,13 +963,15 @@ try {
 } catch {
   /* split is advisory */
 }
-const doctorDetail = !doctorScore
-  ? "not yet tracked — run: node scripts/ops.mjs doctor --update-json"
-  : doctorScore.failing > 0
-    ? `${doctorScore.passing}/${doctorScore.total} (${doctorScore.score}%)  ·  ${doctorScore.failing} failing`
-    : doctorScore.warning > 0
-      ? `${doctorScore.passing}/${doctorScore.total} (${doctorScore.score}%)  ·  ${doctorScore.warning} warn${ownershipSplit}`
-      : `${doctorScore.passing}/${doctorScore.total} (${doctorScore.score}%)  ·  ${doctorScore.date}  ✓`;
+const doctorDetail = doctorEvidenceError
+  ? `doctor evidence invalid · ${doctorEvidenceError}`
+  : !doctorScore
+    ? "not yet tracked — run: node scripts/ops.mjs doctor --update-json"
+    : doctorScore.failing > 0
+      ? `${doctorScore.passing}/${doctorScore.total} (${doctorScore.score}%)  ·  ${doctorScore.failing} failing`
+      : doctorScore.warning > 0
+        ? `${doctorScore.passing}/${doctorScore.total} (${doctorScore.score}%)  ·  ${doctorScore.warning} warn${ownershipSplit}`
+        : `${doctorScore.passing}/${doctorScore.total} (${doctorScore.score}%)  ·  ${doctorScore.date}  ✓`;
 
 // ── Entropy ───────────────────────────────────────────────────────────────────
 const entropy = status.entropyScore ?? null;

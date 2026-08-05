@@ -2,6 +2,7 @@
 
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { writeDoctorEvidence } from "./lib/doctor-evidence.mjs";
 import { spawnSync } from "./lib/safe-spawn.mjs";
 import { updateProjectStatus as mutateProjectStatus } from "./lib/write-project-status.mjs";
 
@@ -186,6 +187,7 @@ export function updateProjectStatus(root, report) {
   const passing = report.checks.filter(
     (check) => check.status === "pass",
   ).length;
+  const evidence = writeDoctorEvidence(root, report);
   const doctorScore = {
     passing,
     total: report.checks.length,
@@ -200,7 +202,10 @@ export function updateProjectStatus(root, report) {
     date: report.observedAt.slice(0, 10),
     observedAt: report.observedAt,
     source: report.source,
-    checks: report.checks,
+    evidencePath: evidence.path,
+    evidenceDigest: evidence.digest,
+    evidenceSchemaVersion: evidence.schemaVersion,
+    checkCount: evidence.checkCount,
   };
   mutateProjectStatus(root, (current) => ({ ...current, doctorScore }), {
     touchLastUpdated: false,

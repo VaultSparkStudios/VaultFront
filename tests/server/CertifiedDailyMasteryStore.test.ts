@@ -1,6 +1,10 @@
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { describe, expect, test, vi } from "vitest";
 import {
   CertifiedDailyMasteryStore,
+  MasteryDoctrineSelectionError,
+  verifyMasteryDoctrineReceipt,
   type CertifiedMasteryOutcome,
 } from "../../src/server/CertifiedDailyMasteryStore";
 vi.mock("../../src/server/Logger", () => {
@@ -110,5 +114,76 @@ describe("CertifiedDailyMasteryStore", () => {
     const receipt = await store.recordCertifiedMatch("game-2", invalid);
     expect(receipt?.progress).toBe(0);
     expect(receipt?.completedNow).toBe(false);
+  });
+
+  test("unlocks and selects non-power doctrines exactly once per request", async () => {
+    const store = new CertifiedDailyMasteryStore({
+      now: () => new Date("2026-07-22T12:00:00.000Z"),
+      pool: () => null,
+      databaseConfigured: () => false,
+    });
+    const earned = await store.recordCertifiedMatch(
+      "game-doctrine",
+      decisiveOutcome,
+    );
+    const before = await store.getChallenge("player-1");
+    expect(before.doctrines).toMatchObject({
+      ownedIds: [],
+      activeId: null,
+      effectPolicy: "coaching-and-identity-only",
+    });
+
+    const first = await store.selectDoctrine(
+      "player-1",
+      "route-reader",
+      "request-0001",
+    );
+    expect(first).toMatchObject({
+      doctrineId: "route-reader",
+      unlockedNow: true,
+      spentMastery: 50,
+      masteryBalance: (earned?.masteryBalance ?? 0) - 50,
+      evidence: "authenticated-mastery-choice",
+    });
+    expect(verifyMasteryDoctrineReceipt(first)).toBe(true);
+    expect(
+      verifyMasteryDoctrineReceipt({ ...first, masteryBalance: 999 }),
+    ).toBe(false);
+    expect(
+      await store.selectDoctrine("player-1", "route-reader", "request-0001"),
+    ).toEqual(first);
+    expect(
+      await store.selectDoctrine("player-1", "route-reader", "request-0002"),
+    ).toMatchObject({ unlockedNow: false, spentMastery: 0 });
+    expect(await store.getChallenge("player-1")).toMatchObject({
+      masteryBalance: first.masteryBalance,
+      doctrines: { ownedIds: ["route-reader"], activeId: "route-reader" },
+    });
+
+    await expect(
+      store.selectDoctrine("player-1", "vault-warden", "request-0001"),
+    ).rejects.toMatchObject({ code: "request-conflict" });
+  });
+
+  test("fails closed when a doctrine cannot be funded", async () => {
+    const store = new CertifiedDailyMasteryStore({
+      pool: () => null,
+      databaseConfigured: () => false,
+    });
+    await expect(
+      store.selectDoctrine("player-empty", "route-reader", "request-0003"),
+    ).rejects.toBeInstanceOf(MasteryDoctrineSelectionError);
+    await expect(
+      store.selectDoctrine("player-empty", "route-reader", "request-0004"),
+    ).rejects.toMatchObject({ code: "insufficient-mastery" });
+    expect((await store.getChallenge("player-empty")).masteryBalance).toBe(0);
+  });
+
+  test("declares durable doctrine wallet, profile, and replay tables", () => {
+    const schema = readFileSync(resolve("src/server/db/schema.sql"), "utf8");
+    expect(schema).toContain("daily_mastery_doctrine_unlocks");
+    expect(schema).toContain("daily_mastery_doctrine_profiles");
+    expect(schema).toContain("daily_mastery_doctrine_requests");
+    expect(schema).toContain("PRIMARY KEY (persistent_id, request_id)");
   });
 });

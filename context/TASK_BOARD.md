@@ -52,6 +52,15 @@ daily-challenge-system (DailyChallengeStore + HUD card), vault-intelligence-mark
 
 ## Follow-ups
 
+## Completed (2026-08-04 — Session 94 recovery, personal-agency, and Doctrine arc)
+
+- [done] Audit 140–144: match-bound first contact; personal First Extraction authority; replay-safe non-power Doctrine Vault; actionable-only genius brief truth; and compact hash-bound doctor evidence.
+- [done] Innovations 60–62: player-readable personal/team agency receipt; independently tamper-verifiable Doctrine spend receipt; and a source-owned secondary-UI entry boundary.
+- [done] Recovery root fix: one canonical match-ready event authority now binds ControlPanel dispatch, Main listener, and reachability tests; the interrupted literal drift was not preserved as done.
+- [done] Rendered-pixel proof expanded to sixteen states across three themes × desktop/mobile, producing 96 exact-source artifacts; six new agency/doctrine captures were directly inspected and pass CANON-053.
+- [done] Exhaustion proof: audit 10/10 and cumulative innovation ledger 62/62 shipped; zero pending unblocked local work.
+- [release-evidence] External launch remains NO-GO pending approved staging/exact-digest parity, verified project-domain Zoho send/receive and reply-as-alias, native Obelisk relying-party auth, live web/theme evidence, three distinct authenticated humans, a real positive revenue event, an observed rollback drill, exact-revision provider CI, and founder approval.
+
 ## Completed (2026-08-04 — Session 93 certified-runtime and recovery-truth arc)
 
 - [done] Audit 135–139: certified server-admitted narration; runtime feature reachability closure; session-bound prematch intelligence; one public route graph; and player-visible recovery lifecycle.

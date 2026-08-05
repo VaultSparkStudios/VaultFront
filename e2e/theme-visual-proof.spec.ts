@@ -54,6 +54,10 @@ test("three themes retain readable page, panel, and settings surfaces", async ({
     }, theme);
     await page.reload({ waitUntil: "domcontentloaded" });
     await page.waitForSelector("play-page", { timeout: 10_000 });
+    await expect(page.locator("html")).toHaveAttribute(
+      "data-vf-layout-ready",
+      "true",
+    );
     await expect(page.locator(".vf-hero-card")).toBeVisible();
     await expect(page.locator("html")).toHaveAttribute(
       "data-vaultfront-theme",
@@ -103,9 +107,143 @@ test("three themes retain readable page, panel, and settings surfaces", async ({
       fullPage: true,
     });
 
+    const agencyDoctrine = await page.evaluate(async () => {
+      await Promise.all([
+        customElements.whenDefined("control-panel"),
+        customElements.whenDefined("game-right-sidebar"),
+      ]);
+      document.querySelector("[data-vf-visual-qa-agency]")?.remove();
+      const overlay = document.createElement("main");
+      overlay.dataset.vfVisualQaAgency = "agency-doctrine";
+      overlay.style.cssText =
+        "box-sizing:border-box;position:fixed;inset:0;z-index:2147483647;overflow:auto;padding:24px;background:var(--vf-bg,#07111f);color:var(--vf-text,#f8fafc);font-family:Overpass,sans-serif;display:grid;place-items:center";
+      const surface = document.createElement("section");
+      surface.style.cssText =
+        "box-sizing:border-box;width:min(760px,100%);display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;align-items:start;padding:18px;border:1px solid rgba(34,211,238,.28);border-radius:16px;background:var(--vf-surface,#0f172a);box-shadow:0 24px 60px rgba(0,0,0,.42)";
+
+      const control = document.createElement("control-panel") as any;
+      control.game = {
+        myPlayer: () => ({ smallID: () => 7 }),
+        ticks: () => 120,
+      };
+      control.latestVaultStatus = {
+        pressure: {
+          7: {
+            pressure: 3,
+            threshold: 3,
+            breachWindowUntilTick: 300,
+            contributors: { 7: 1, 9: 2 },
+          },
+        },
+        beacons: [],
+      };
+      control.onboardingProgress = {
+        focusSet: false,
+        vaultCaptured: true,
+        convoyAction: true,
+        pressureStarted: true,
+        breachOpened: true,
+        decisiveDelivery: false,
+        pulseTriggered: false,
+      };
+      control.tutorialLockActive = false;
+      control.shouldShowOnboarding = () => true;
+      control.render = control.renderOnboarding.bind(control);
+
+      const doctrine = document.createElement("game-right-sidebar") as any;
+      doctrine.hudScale = 1;
+      doctrine.masterySelectionPending = null;
+      doctrine.masterySelectionNotice = "Certified receipt 7f4a21c0";
+      doctrine.dailyChallenge = {
+        challengeId: "victory-1",
+        description: "Win a certified match",
+        progress: 1,
+        target: 1,
+        rewardMastery: 75,
+        completed: true,
+        masteryBalance: 75,
+        dateUtc: "2026-08-04",
+        evidence: "certified-match-result",
+        durability: "postgres",
+        doctrines: {
+          catalog: [
+            {
+              id: "route-reader",
+              name: "Route Reader",
+              costMastery: 50,
+              role: "Convoy tactician",
+              brief: "Escort timing and interception lanes.",
+            },
+            {
+              id: "breach-architect",
+              name: "Breach Architect",
+              costMastery: 100,
+              role: "Pressure shot-caller",
+              brief: "Pressure tempo and decisive delivery.",
+            },
+            {
+              id: "vault-warden",
+              name: "Vault Warden",
+              costMastery: 150,
+              role: "Extraction controller",
+              brief: "Vault defense and safe conversion.",
+            },
+          ],
+          ownedIds: ["route-reader"],
+          activeId: "route-reader",
+          effectPolicy: "coaching-and-identity-only",
+        },
+      };
+      doctrine.render = doctrine.renderDailyChallenge.bind(doctrine);
+      surface.append(control, doctrine);
+      overlay.append(surface);
+      document.body.append(overlay);
+      control.requestUpdate();
+      doctrine.requestUpdate();
+      await Promise.all([control.updateComplete, doctrine.updateComplete]);
+      overlay.querySelectorAll<HTMLElement>(".fixed").forEach((element) => {
+        element.style.position = "relative";
+        element.style.inset = "auto";
+        element.style.width = "100%";
+      });
+      const rect = surface.getBoundingClientRect();
+      return {
+        overflow: overlay.scrollWidth > overlay.clientWidth,
+        surfaceWithinViewport: rect.left >= 0 && rect.right <= innerWidth,
+        hasAgencyReceipt: overlay.textContent?.includes(
+          "You: 1 Pressure delivery · Team: 3/3 · Breach live",
+        ),
+        hasDoctrinePolicy: overlay.textContent?.includes(
+          "Coaching identity only · never combat power",
+        ),
+      };
+    });
+    expect(agencyDoctrine).toEqual({
+      overflow: false,
+      surfaceWithinViewport: true,
+      hasAgencyReceipt: true,
+      hasDoctrinePolicy: true,
+    });
+    await page.locator("[data-vf-visual-qa-agency]").screenshot({
+      path: path.join(
+        artifactDir,
+        `${testInfo.project.name}-${theme}-agency-doctrine.png`,
+      ),
+    });
+    await page
+      .locator("[data-vf-visual-qa-agency]")
+      .evaluate((overlay) => overlay.remove());
+
     if (testInfo.project.name === "mobile-chrome") {
       await page.locator("#hamburger-btn").click();
-      await page.locator('mobile-nav-bar [data-page="page-settings"]').click();
+      const settings = page.locator(
+        'mobile-nav-bar [data-page="page-settings"]',
+      );
+      await settings.evaluate((element) =>
+        element.scrollIntoView({ block: "center" }),
+      );
+      await expect(settings).toBeInViewport();
+      await settings.click();
       expect(
         await page
           .locator("#sidebar-menu")
@@ -228,6 +366,7 @@ test("three themes retain readable page, panel, and settings surfaces", async ({
       renderedColors,
       postMatch: renderedPostMatch,
       surfaces: ["play", "settings", "postmatch"],
+      agencyDoctrine,
     });
     await page
       .locator("[data-vf-visual-qa]")
@@ -690,6 +829,7 @@ test("three themes retain readable page, panel, and settings surfaces", async ({
     results[results.length - 1].executionChain = executionProof;
     results[results.length - 1].surfaces = [
       "play",
+      "agency-doctrine",
       "settings",
       "postmatch",
       "prematch-loading",

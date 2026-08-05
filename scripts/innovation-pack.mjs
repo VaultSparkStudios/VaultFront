@@ -1005,6 +1005,61 @@ const candidates = [
     evidence:
       "doctor-to-formatter ordering, canonical status inclusion, and command-surface regression coverage",
   },
+  {
+    id: "personal-agency-evidence-receipt",
+    title: "Show why First Extraction awarded each personal and team step",
+    description:
+      "Project certified actor contribution and team Breach context into a compact player-readable receipt so cooperative progress is transparent without borrowing teammate credit.",
+    complete:
+      has(
+        "src/client/FirstExtractionQuest.ts",
+        /buildFirstExtractionEvidenceReceipt/,
+      ) &&
+      has(
+        "src/client/graphics/layers/ControlPanel.ts",
+        /First Extraction certified evidence/,
+      ) &&
+      has(
+        "tests/client/FirstExtractionQuest.test.ts",
+        /compact personal\/team evidence receipt/,
+      ),
+    evidence:
+      "server-status/activity provenance, separate personal/team projection, visible contribution summary, and no-borrowed-credit tests",
+  },
+  {
+    id: "mastery-doctrine-receipt-verifier",
+    title: "Make every Doctrine spend independently tamper-verifiable",
+    description:
+      "Bind actor, request, entitlement, spend, remaining balance, durability, and evidence class into one canonical SHA-256 receipt that detects post-transaction alteration.",
+    complete:
+      has(
+        "src/server/CertifiedDailyMasteryStore.ts",
+        /verifyMasteryDoctrineReceipt/,
+      ) &&
+      has("src/client/Api.ts", /receiptDigest/) &&
+      has(
+        "tests/server/CertifiedDailyMasteryStore.test.ts",
+        /masteryBalance: 999/,
+      ),
+    evidence:
+      "canonical doctrine payload digest, constant-time verification, client schema/short proof, and spend-tamper regression",
+  },
+  {
+    id: "secondary-ui-entry-ratchet",
+    title: "Keep secondary UI from silently returning to first paint",
+    description:
+      "Turn the bundle recovery into a source-owned entry boundary so tutorial, lobby implementation, and leaderboard remain lazy while the existing byte ceiling independently measures the result.",
+    complete:
+      has("src/client/Main.ts", /import\("\.\/VaultFrontTutorial"\)/) &&
+      has("src/client/Main.ts", /import\("\.\/components\/PlayPage"\)/) &&
+      has("src/client/Main.ts", /import\("\.\/LeaderboardModal"\)/) &&
+      has(
+        "tests/scripts/InitialEntryBoundary.test.ts",
+        /authoritative status assignment/,
+      ),
+    evidence:
+      "three explicit lazy boundaries, authoritative match-ready ordering, unchanged executable byte ceiling, and regression tests",
+  },
 ];
 
 const payload = {

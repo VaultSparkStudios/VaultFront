@@ -17,9 +17,7 @@ describe("mobile drawer accessibility state", () => {
       <mobile-nav-bar id="sidebar-menu" class="open" role="dialog" aria-modal="true"></mobile-nav-bar>
     `;
 
-    initLayout();
-    await customElements.whenDefined("play-page");
-    await Promise.resolve();
+    await initLayout();
 
     const button = document.getElementById("hamburger-btn")!;
     const sidebar = document.getElementById("sidebar-menu")!;

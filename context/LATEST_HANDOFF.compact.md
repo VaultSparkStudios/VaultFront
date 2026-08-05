@@ -1,54 +1,52 @@
 <!-- generated-by: scripts/compact-handoff.mjs v3.1 -->
-<!-- source-hash: 9ec3217dce40 -->
-<!-- generated-at: 2026-08-04T04:44:57.391Z -->
+<!-- source-hash: 9198c4ed3c9a -->
+<!-- generated-at: 2026-08-04T22:15:53.589Z -->
 
 # LATEST_HANDOFF (compact)
 
-SESSION 92 HANDOFF SUMMARY
+SESSION 94 HANDOFF SUMMARY
 
-Status
+Session
 
-- Branch: main; Session 92 complete (2026-08-03).
-- Audit 10/10, cumulative innovations 59/59 exhausted; zero pending unblocked local work.
+- Session 94 recovered from stale mid-implement lock and completed (2026-08-04); branch main.
 
 Shipped This Session
 
-- Layered Studio capability discovery; semantic release-gate catalog; run-bound staging admission; durable DB readiness; one-build CI fan-out; immutable Actions/images/SSH trust; exact telemetry lifecycle; ordered bounded transport recovery; balance-bound accessible execution-chain HUD; removed phantom server tutorial authority.
-- Recovery: live promotion requires exact successful dry-run receipt; rollback admits replaced and restored staging attestations; production outcome binds canonical health and revision bytes into lineage.
-- Provider-CI fix: single-build artifact upload preserves hidden .well-known paths (bytes equal admitting manifest); regression test and ledger entry added.
-- Release-tool fix: removed Semantic Release + bundled npm TCB (downgrade path worse); deterministic conventional-commit planner plus GitHub CLI now owns variable-gated releases. Clean npm ci installs 710 packages; full audit 0.
+- Match-bound lazy first contact; personal/team-separated First Extraction evidence.
+- Certified non-power Doctrine Vault: replay-safe transactional selection, verifiable receipts.
+- Actionable-only startup genius truth; compact hash-bound doctor evidence.
+- Recovery: interrupted session's single focused red root-fixed.
 
 Current Intent
 
-- Establish approved staging origin/callback contract, execute dry-run receipt path, collect external observations in gate order without substituting local evidence.
+- Run continuous agent-neutral /start → /audit → /implement → /closeout arc using infrastructure rubric plus VaultFront game/product and public-release lenses; verify premises against live code; exhaust Unified Genius List; generate second-order innovations; preserve source-derived observability; write-back, sanitize, commit direct to main, Ark broadcast, zero-shell closeout without fabricating external release evidence.
 
-Now Bucket (top 3)
+State
 
-- Establish explicitly approved staging origin/callback contract.
-- Execute the dry-run receipt promotion path.
-- Collect external gate-order observations (parity, delivery, identity).
+- Local work exhausted: audit 10/10, innovations 62/62, blockingFailing 0.
+- Verification green: 218 Vitest files / 1,165 tests; 30/30 mutation policies; public ingest 4/4; browser proof 2/2; CANON-053; exhaustion; doctor.
+- Visual: 96 captures across sixteen states (VaultFront, Light, Competitive; desktop+mobile); six new agency/doctrine artifacts inspected clean.
 
-Blockers (top 3)
+Now Bucket (Top 3)
 
-- No approved staging/parity environment.
-- No verified project-domain Zoho reply identity or delivery.
-- No native Obelisk, live web, or observed rollback evidence.
+1. Begin fresh post-recovery arc from live exhausted state.
+2. Establish approved staging origin/callback contract.
+3. Execute dry-run receipt path, then collect external observations in gate order.
 
-Human-Blocked / Externally Owned
+Blockers (Top 3)
 
-- Studio registry type reconciliation: externally owned since Session 89 (~3 sessions); field-not-allowed ack 01JUJOJL1K040B6517CAF2EFA9; awaits owner-supported correction path via Ark.
-- Studio Ops board renderer incident (Session 89, ~3 sessions): signed Ark incident 01JUNMP9IR9DF9678CD51FFF1B awaits owner regeneration and non-mutating help path.
-- Founder approval, three-human Alpha, real revenue: unmet.
+1. Release NO-GO: no approved staging/parity origin exists.
+2. No Zoho reply identity, native Obelisk, or live web observations.
+3. No three-human Alpha, real revenue, observed rollback, or exact-revision provider CI.
 
-Release Posture
+Human-Blocked Items (with age)
 
-- Public-unlaunched / NO-GO. No inferred external evidence.
+- Founder approval for release corridor: unresolved since Session ~82 (~12 sessions).
+- Studio registry type reconciliation (ack 01JUJOJL1K040B6517CAF2EFA9): externally owned since Session 87–89 (~5–7 sessions); await owner-supported correction via Ark, do not edit sibling registry.
+- Studio Ops board renderer incident (Ark 01JUNMP9IR9DF9678CD51FFF1B): owner regeneration + non-mutating help path requested since Session 89 (~5 sessions).
 
-Verification (green)
+Truth Boundary
 
-- 210 Vitest files / 1,141 tests; TypeScript; lint; format; contracts; balance; production build; Pages; transfer/media budgets; full audit and supply-chain scan; Playwright 26/26; CANON-053; work exhaustion; doctor.
-- Provider CI 30878311700, E2E 30878311715, release planner 30878311702 passed on edb9fece59c9cc5a84912f520228f46cec3dcbe1.
+- External release evidence must be observed in gate order, never synthesized from local proof or READY credentials.
 
-Next Session
-
-- Begin at staging origin/callback contract establishment; do not substitute local evidence for external gate observations.
+Next Session: Start fresh arc from exhausted state; pursue approved staging contract before any release-gate observation.

@@ -12,7 +12,6 @@ import "../../src/client/VaultFrontTutorial";
 
 describe("VaultFrontTutorial", () => {
   beforeEach(() => {
-    vi.useFakeTimers();
     localStorage.clear();
     document.body.innerHTML = "";
     apiMock.recordVaultFrontPlaytestPulse.mockClear();
@@ -29,7 +28,6 @@ describe("VaultFrontTutorial", () => {
   });
 
   afterEach(() => {
-    vi.useRealTimers();
     vi.unstubAllGlobals();
     localStorage.clear();
     document.body.innerHTML = "";
@@ -38,10 +36,11 @@ describe("VaultFrontTutorial", () => {
   it("renders a mobile strip, advances, and records tutorial pulse events", async () => {
     const el = document.createElement("vault-front-tutorial") as HTMLElement & {
       updateComplete: Promise<unknown>;
+      showForMatch(): boolean;
     };
     document.body.appendChild(el);
-
-    await vi.advanceTimersByTimeAsync(800);
+    expect(el.shadowRoot?.querySelector(".strip")).toBeNull();
+    expect(el.showForMatch()).toBe(true);
     await el.updateComplete;
 
     const strip = el.shadowRoot?.querySelector(".strip");
@@ -95,13 +94,33 @@ describe("VaultFrontTutorial", () => {
     }));
     const el = document.createElement("vault-front-tutorial") as HTMLElement & {
       updateComplete: Promise<unknown>;
+      showForMatch(): boolean;
     };
     document.body.appendChild(el);
-    await vi.advanceTimersByTimeAsync(800);
+    el.showForMatch();
     await el.updateComplete;
     expect(el.shadowRoot?.querySelector(".card")?.textContent).toContain(
       "Find the First Extraction tracker",
     );
     expect(el.shadowRoot?.querySelectorAll(".progress-dot")).toHaveLength(2);
+  });
+
+  it("refuses duplicate match-ready calls and previously seen browsers", async () => {
+    const el = document.createElement("vault-front-tutorial") as HTMLElement & {
+      showForMatch(): boolean;
+    };
+    document.body.appendChild(el);
+    expect(el.showForMatch()).toBe(true);
+    expect(el.showForMatch()).toBe(false);
+    expect(apiMock.recordVaultFrontPlaytestPulse).toHaveBeenCalledTimes(1);
+
+    const seen = document.createElement(
+      "vault-front-tutorial",
+    ) as HTMLElement & {
+      showForMatch(): boolean;
+    };
+    localStorage.setItem("vf-tutorial-seen", "2");
+    document.body.appendChild(seen);
+    expect(seen.showForMatch()).toBe(false);
   });
 });

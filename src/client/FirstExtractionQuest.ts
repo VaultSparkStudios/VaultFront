@@ -37,13 +37,15 @@ export interface FirstExtractionStep {
 export const FIRST_EXTRACTION_STEPS: readonly FirstExtractionStep[] = [
   { key: "vaultCaptured", label: "Capture one vault" },
   { key: "convoyAction", label: FIRST_EXTRACTION_CONVOY_ACTION_LABEL },
-  { key: "pressureStarted", label: "Deliver to start Vault Pressure" },
-  { key: "breachOpened", label: "Reach 3/3 Pressure to open Breach" },
+  { key: "pressureStarted", label: "Contribute a Vault Pressure delivery" },
+  { key: "breachOpened", label: "Help your side open a 3/3 Breach" },
   {
     key: "decisiveDelivery",
-    label: "Deliver during Breach to secure victory",
+    label: "Land the decisive Breach delivery",
   },
 ];
+
+export const VAULTFRONT_MATCH_READY_EVENT = "vaultfront-match-ready";
 
 export interface FirstExtractionProgress {
   vaultCaptured: boolean;
@@ -56,11 +58,53 @@ export interface FirstExtractionProgress {
 export interface FirstExtractionSignals {
   vaultCaptured?: boolean;
   convoyAction?: boolean;
-  pressure?: number;
-  pressureThreshold?: number;
+  personalPressureContributions?: number;
+  teamPressure?: number;
+  teamPressureThreshold?: number;
   breachWindowUntilTick?: number;
   currentTick?: number;
-  victorySecured?: boolean;
+  decisiveDelivery?: boolean;
+}
+
+export interface FirstExtractionEvidenceReceipt {
+  source: "server-status-and-activity";
+  personal: {
+    vaultCaptured: boolean;
+    convoyAction: boolean;
+    pressureDeliveries: number;
+    decisiveDelivery: boolean;
+  };
+  team: {
+    pressure: number;
+    threshold: number;
+    breachActive: boolean;
+  };
+  summary: string;
+}
+
+/** Compact, player-readable provenance for every personal/team quest claim. */
+export function buildFirstExtractionEvidenceReceipt(
+  signals: FirstExtractionSignals,
+): FirstExtractionEvidenceReceipt {
+  const pressureDeliveries = Math.max(
+    0,
+    Math.floor(signals.personalPressureContributions ?? 0),
+  );
+  const pressure = Math.max(0, Math.floor(signals.teamPressure ?? 0));
+  const threshold = Math.max(0, Math.floor(signals.teamPressureThreshold ?? 0));
+  const breachActive =
+    (signals.breachWindowUntilTick ?? 0) > (signals.currentTick ?? 0);
+  return {
+    source: "server-status-and-activity",
+    personal: {
+      vaultCaptured: signals.vaultCaptured === true,
+      convoyAction: signals.convoyAction === true || pressureDeliveries > 0,
+      pressureDeliveries,
+      decisiveDelivery: signals.decisiveDelivery === true,
+    },
+    team: { pressure, threshold, breachActive },
+    summary: `You: ${pressureDeliveries} Pressure ${pressureDeliveries === 1 ? "delivery" : "deliveries"} · Team: ${pressure}/${threshold}${breachActive ? " · Breach live" : ""}`,
+  };
 }
 
 export const EMPTY_FIRST_EXTRACTION_PROGRESS: FirstExtractionProgress = {
@@ -72,33 +116,31 @@ export const EMPTY_FIRST_EXTRACTION_PROGRESS: FirstExtractionProgress = {
 };
 
 /**
- * Projects the player-facing tutorial from the same activity/status authority as
- * the live HUD. Later authoritative stages imply their prerequisites so a
- * reconnect cannot display an impossible, out-of-order quest.
+ * Projects the player-facing tutorial from certified personal activity and the
+ * team's status authority. Team state never implies a personal action: every
+ * personal step needs personal evidence, even after reconnect.
  */
 export function advanceFirstExtractionProgress(
   previous: FirstExtractionProgress,
   signals: FirstExtractionSignals,
 ): FirstExtractionProgress {
+  const evidence = buildFirstExtractionEvidenceReceipt(signals);
   const decisiveDelivery =
-    previous.decisiveDelivery || signals.victorySecured === true;
-  const breachActive =
-    (signals.breachWindowUntilTick ?? 0) > (signals.currentTick ?? 0);
+    previous.decisiveDelivery || evidence.personal.decisiveDelivery;
+  const breachActive = evidence.team.breachActive;
   const thresholdReached =
-    (signals.pressureThreshold ?? 0) > 0 &&
-    (signals.pressure ?? 0) >= (signals.pressureThreshold ?? 0);
+    evidence.team.threshold > 0 &&
+    evidence.team.pressure >= evidence.team.threshold;
+  const contributed = evidence.personal.pressureDeliveries > 0;
   const breachOpened =
     previous.breachOpened ||
-    breachActive ||
-    thresholdReached ||
+    (contributed && (breachActive || thresholdReached)) ||
     decisiveDelivery;
-  const pressureStarted =
-    previous.pressureStarted || (signals.pressure ?? 0) > 0 || breachOpened;
+  const pressureStarted = previous.pressureStarted || contributed;
   const vaultCaptured =
-    previous.vaultCaptured || signals.vaultCaptured === true || pressureStarted;
+    previous.vaultCaptured || evidence.personal.vaultCaptured;
   const convoyAction =
-    vaultCaptured &&
-    (previous.convoyAction || signals.convoyAction === true || pressureStarted);
+    vaultCaptured && (previous.convoyAction || evidence.personal.convoyAction);
 
   return {
     vaultCaptured,
@@ -125,5 +167,5 @@ export const FIRST_EXTRACTION_ORIENTATION = [
 export function firstExtractionComplete(
   progress: FirstExtractionProgress,
 ): boolean {
-  return progress.decisiveDelivery;
+  return FIRST_EXTRACTION_STEPS.every((step) => progress[step.key]);
 }

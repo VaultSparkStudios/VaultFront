@@ -2,6 +2,22 @@
 
 Public-safe decisions only. Detailed internal decision history is maintained privately.
 
+## 2026-08-04 — Personal tutorial credit is actor evidence; team state is context
+
+**Decision:** First Extraction awards personal capture, convoy engagement, Pressure contribution, and decisive delivery only from actor-specific status/activity evidence. Team Pressure and Breach state may advance only the explicitly team-labeled context after the player has contributed.
+
+**Why:** A teammate can legitimately create shared Pressure or victory, but treating that shared state as the learner's personal action makes onboarding progress persuasive and false.
+
+**Consequence:** The tracker exposes a compact personal/team receipt, reconnect recovery remains possible from certified status, and a decisive team outcome never backfills missing personal steps.
+
+## 2026-08-04 — Mastery aspiration is non-power, replay-safe, and receipt-bound
+
+**Decision:** Durable Mastery may unlock and select coaching/identity Doctrines, but it cannot change combat statistics. Every selection binds authenticated actor, request ID, entitlement, spend, remaining balance, durability scope, and evidence class into an idempotent verifiable receipt.
+
+**Why:** A currency with no aspiration is inert, while a power sink risks pay-to-win pressure and divergent balance. A bounded identity/coaching layer creates durable choice without altering the competitive authority.
+
+**Consequence:** PostgreSQL and process-local implementations share semantics; concurrent retries cannot double-spend; clients validate the returned schema; and route policy treats selection as a verified-actor mutation.
+
 ## 2026-08-02 — Causal receipts and portable visual evidence are product contracts
 
 **Decision:** Community elections, team Pressure, and progression rewards must expose actor- and match-bound receipts whose durable authority is the same authority the runtime consumes. Theme evidence must be reproducible from a clean checkout, bind exact sources and artifacts, prove rendered palette divergence, and capture unobscured settled surfaces.

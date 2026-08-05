@@ -636,10 +636,11 @@ describe("ControlPanel vault HUD automation", () => {
     render(panel.renderOnboarding(), container);
 
     expect(container.textContent).toContain(
-      "Deliver during Breach to secure victory",
+      "Land the decisive Breach delivery",
     );
     const copy = container.textContent?.replace(/\s+/g, " ");
     expect(copy).toContain("Optional mastery: [x] Resource Focus");
     expect(copy).toContain("[ ] Defense Factory pulse");
+    expect(copy).toContain("You: 0 Pressure deliveries · Team: 0/0");
   });
 });

@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   advanceFirstExtractionProgress,
   breachVictoryCallout,
+  buildFirstExtractionEvidenceReceipt,
   EMPTY_FIRST_EXTRACTION_PROGRESS,
   FIRST_EXTRACTION_CONVOY_ACTION_LABEL,
   FIRST_EXTRACTION_ORIENTATION,
@@ -52,7 +53,7 @@ describe("First Extraction quest contract", () => {
     expect(isFirstExtractionConvoyActivity("convoy_launched")).toBe(false);
   });
 
-  it("advances in authoritative stage order from pressure status", () => {
+  it("never converts shared team pressure into personal accomplishments", () => {
     const earlyIntercept = advanceFirstExtractionProgress(
       EMPTY_FIRST_EXTRACTION_PROGRESS,
       { convoyAction: true },
@@ -61,19 +62,30 @@ describe("First Extraction quest contract", () => {
 
     const firstPressure = advanceFirstExtractionProgress(
       EMPTY_FIRST_EXTRACTION_PROGRESS,
-      { pressure: 1, pressureThreshold: 3, currentTick: 100 },
+      { teamPressure: 2, teamPressureThreshold: 3, currentTick: 100 },
     );
-    expect(firstPressure).toEqual({
+    expect(firstPressure).toEqual(EMPTY_FIRST_EXTRACTION_PROGRESS);
+
+    const personalContribution = advanceFirstExtractionProgress(
+      EMPTY_FIRST_EXTRACTION_PROGRESS,
+      {
+        vaultCaptured: true,
+        personalPressureContributions: 1,
+        teamPressure: 2,
+        teamPressureThreshold: 3,
+      },
+    );
+    expect(personalContribution).toMatchObject({
       vaultCaptured: true,
       convoyAction: true,
       pressureStarted: true,
       breachOpened: false,
-      decisiveDelivery: false,
     });
 
-    const breach = advanceFirstExtractionProgress(firstPressure, {
-      pressure: 3,
-      pressureThreshold: 3,
+    const breach = advanceFirstExtractionProgress(personalContribution, {
+      personalPressureContributions: 1,
+      teamPressure: 3,
+      teamPressureThreshold: 3,
       breachWindowUntilTick: 200,
       currentTick: 100,
     });
@@ -99,15 +111,46 @@ describe("First Extraction quest contract", () => {
 
     const victory = advanceFirstExtractionProgress(
       EMPTY_FIRST_EXTRACTION_PROGRESS,
-      { victorySecured: true },
+      { decisiveDelivery: true },
     );
     expect(victory).toEqual({
-      vaultCaptured: true,
-      convoyAction: true,
-      pressureStarted: true,
+      vaultCaptured: false,
+      convoyAction: false,
+      pressureStarted: false,
       breachOpened: true,
       decisiveDelivery: true,
     });
-    expect(firstExtractionComplete(victory)).toBe(true);
+    expect(firstExtractionComplete(victory)).toBe(false);
+    expect(
+      firstExtractionComplete({
+        ...victory,
+        vaultCaptured: true,
+        convoyAction: true,
+        pressureStarted: true,
+      }),
+    ).toBe(true);
+  });
+
+  it("issues a compact personal/team evidence receipt without borrowed credit", () => {
+    expect(
+      buildFirstExtractionEvidenceReceipt({
+        vaultCaptured: true,
+        personalPressureContributions: 1,
+        teamPressure: 3,
+        teamPressureThreshold: 3,
+        breachWindowUntilTick: 200,
+        currentTick: 100,
+      }),
+    ).toMatchObject({
+      source: "server-status-and-activity",
+      personal: {
+        vaultCaptured: true,
+        convoyAction: true,
+        pressureDeliveries: 1,
+        decisiveDelivery: false,
+      },
+      team: { pressure: 3, threshold: 3, breachActive: true },
+      summary: "You: 1 Pressure delivery · Team: 3/3 · Breach live",
+    });
   });
 });
