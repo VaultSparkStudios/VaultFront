@@ -13,7 +13,7 @@
 ║  ✓ Shipped: project-root Studio skill bridges; idempotent docto  ║
 ║  ✓ Visual truth: direct review found and fixed corrupted Englis  ║
 ║  ✓ Verification: 223/223 Vitest files and 1,185/1,185 tests; 35  ║
-║  ✓ Release: public-unlaunched / NO-GO. No approved staging/pari  ║
+║  ✓ Provider closure: the first exact-revision CI run exposed in  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ SCORES · SIL 997/1000 ═══════════════════════════════════════╗
 ║    Dev Health         100  ██████████                            ║
