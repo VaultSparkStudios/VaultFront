@@ -6,8 +6,8 @@
   "health": "green",
   "currentSession": 95,
   "lastAgent": "codex",
-  "currentFocus": "Session 95 complete: project-root Studio tools, idempotent doctor evidence, signal-rich secret scanning, bounded identity admission, public boundary cleanup, single-owner static assets, and transport-safe English UI truth shipped.",
-  "nextMilestone": "Establish the approved staging and native identity/email contract, deploy the exact immutable revision, then collect parity, live theme/web, three-human Alpha, revenue, rollback, provider CI, and founder evidence in gate order.",
+  "currentFocus": "Session 95 closeout recovery complete locally: provider truth reconciled, stale Git ref repaired, and canonical npm test made deterministic and fail-fast.",
+  "nextMilestone": "Push and verify the closeout revision, then establish approved staging and native identity/email contracts before collecting remaining live launch observations.",
   "blockers": [],
   "lastUpdated": "2026-08-05",
   "lifecycle": "alpha",
@@ -25,7 +25,7 @@
       "status": "green",
       "label": "Unit and server regression",
       "command": "npm test",
-      "purpose": "Session 95 directly passed 223 files / 1,185 tests with four bounded Vitest workers; coverage reports 35.59% lines and the unchanged critical-module ratchet passes."
+      "purpose": "Canonical npm test passes 224 files / 1,189 tests through four disjoint fail-fast shards; subprocess-heavy script tests are serialized without weakening assertions or timeouts."
     },
     {
       "type": "tests",
@@ -59,8 +59,8 @@
   "silMax": 1000,
   "silScoreLegacy500": null,
   "silScore": 997,
-  "testsPassing": 1185,
-  "testsTotal": 1185,
+  "testsPassing": 1189,
+  "testsTotal": 1189,
   "silCategoriesV3": {
     "devHealth": 100,
     "creativeAlignment": 100,
@@ -110,10 +110,10 @@
     "failing": 0,
     "blockingFailing": 0,
     "date": "2026-08-05",
-    "observedAt": "2026-08-05T04:02:02.945Z",
+    "observedAt": "2026-08-05T05:05:27.659Z",
     "source": "scripts/project-doctor.mjs",
     "evidencePath": "audits/doctor-latest.json",
-    "evidenceDigest": "sha256:4dea325a2c8b5f60f66bcc9f010d34c0d88aff18eb8ad9f9c9cc5cf78cc1b2f6",
+    "evidenceDigest": "sha256:c28e66c5f7c2af66e9a3c01e360ee6af562351c7358bbbdff7d23442778d7d64",
     "evidenceSchemaVersion": 1,
     "checkCount": 13
   },
@@ -146,26 +146,26 @@
     "enumeratedAt": "2026-08-05T03:37:05.397Z",
     "scope": "Final Win32 enumeration found zero processes whose command line references the VaultFront workspace; VaultFront test ports 5173, 9000, and 39081 had zero listeners."
   },
-  "testsLastRun": "2026-08-05T03:58:42.581Z",
-  "testsLastRunMode": "full-vitest+coverage-ratchet+contracts+production-build+playwright-theme-proof+visual-qa+doctor",
+  "testsLastRun": "2026-08-05T04:59:47.003Z",
+  "testsLastRunMode": "canonical-four-shard-vitest+prior-coverage-ratchet+contracts+production-build+playwright-theme-proof+visual-qa+doctor",
   "testsDeferred": [
-    "Final production release-evidence phase remains an expected NO-GO until external and exact-revision provider evidence exists."
+    "Final production release remains an expected NO-GO until the remaining external launch observations exist."
   ],
   "testsBudgetExhausted": false,
-  "lastSessionSummary": "Session 95 complete: six primary audit outcomes shipped across Studio tooling, doctor evidence, secret signal, public boundary, identity admission, and static ownership; rendered review also fixed English Settings corruption; 1,185 tests, 96 visual captures, and doctor 13/13 are green; launch remains NO-GO on external evidence.",
+  "lastSessionSummary": "Session 95 closeout recovery reconciled provider receipts and public write-back, repaired a stale remote ref, and made canonical npm test reliable at 224 files / 1,189 tests; SIL remains 997 and launch remains NO-GO on external evidence.",
   "providerCiStatus": {
-    "status": "failed-fix-pending-rerun",
-    "revision": "c22de464717414f0a5152be12794a436877348ac",
-    "ciRunId": 30973198656,
-    "e2eRunId": 30878311715,
-    "releasePlannerRunId": 30973198652,
-    "ciUrl": "https://github.com/VaultSparkStudios/vaultfront/actions/runs/30878311700",
-    "e2eUrl": "https://github.com/VaultSparkStudios/vaultfront/actions/runs/30878311715",
-    "releasePlannerUrl": "https://github.com/VaultSparkStudios/vaultfront/actions/runs/30878311702",
-    "observedAt": "2026-08-04T04:42:48.000Z",
+    "status": "baseline-green-closeout-push-pending",
+    "revision": "be3df9daeb5c0197a8ae2afad8bf70a0e9fbb01b",
+    "ciRunId": 30973983185,
+    "e2eRunId": 30973983198,
+    "releasePlannerRunId": 30973983205,
+    "ciUrl": "https://github.com/VaultSparkStudios/vaultfront/actions/runs/30973983185",
+    "e2eUrl": "https://github.com/VaultSparkStudios/vaultfront/actions/runs/30973983198",
+    "releasePlannerUrl": "https://github.com/VaultSparkStudios/vaultfront/actions/runs/30973983205",
+    "observedAt": "2026-08-05T04:05:30.000Z",
     "source": "GitHub Actions terminal conclusions",
     "currentRevisionVerified": false,
-    "note": "The first Session 95 exact-revision CI run passed tests/contracts but failed inherited Doctrine coverage floors. Five focused tests restore the unchanged ratchet locally; replacement exact-revision runs are pending the follow-up push."
+    "note": "The committed Session 95 baseline is exact-provider green. The closeout recovery runner and truth-only patch are locally green and await the direct-to-main push plus replacement provider observation."
   },
   "dependencyAudit": {
     "production": 0,

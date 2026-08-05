@@ -1,55 +1,55 @@
 <!-- generated-by: scripts/compact-handoff.mjs v3.1 -->
-<!-- source-hash: 83161f41cef8 -->
-<!-- generated-at: 2026-08-05T03:58:57.371Z -->
+<!-- source-hash: 50750537c1c5 -->
+<!-- generated-at: 2026-08-05T05:00:47.798Z -->
 
 # LATEST_HANDOFF (compact)
 
-# Handoff Summary — Session 95
+# Handoff Summary — Session 95 (2026-08-05)
 
-## Session
+## Status
 
-Session 95 complete (2026-08-05). Branch: main.
+- Branch: main; fresh post-recovery arc complete.
+- Audit exhausted 16/16; innovations 62/62. Zero pending unblocked local work.
 
 ## Shipped This Session
 
-- Project-root Studio skill bridges; idempotent doctor closeout formatting
-- Asset-aware zero-noise secret scanning; removed internal Obelisk broker copy
-- Bounded abortable users/@me admission; single-owner stable static-resource delivery
-- Fixed corrupted English Settings punctuation (visual truth)
-- Provider closure: five focused route/store tests restored inherited Doctrine coverage ratchet without lowering thresholds
+- Project-root Studio skill bridges; idempotent doctor closeout formatting.
+- Asset-aware zero-noise secret scanning; removed internal Obelisk broker copy.
+- Bounded abortable users/@me admission; single-owner stable static-resource delivery.
+- Fixed corrupted English Settings punctuation (visual truth).
 
-## Current Intent
+## Verification (all green)
 
-Fresh post-recovery /start→/audit→/implement→/closeout arc from live exhausted baseline. All local audit and innovation work exhausted (audit 16/16, innovations 62/62). Preserve all external release claims as NO-GO until observed.
+- npm test: 224/224 Vitest files, 1,189/1,189 tests; coverage 35.59% lines.
+- TypeScript, ESLint, formatting, zero-warning production build.
+- 30/30 mutation policies; 91 deploy checks; 28,125 balance scenarios.
+- Pages 10/10; bundle budgets; Playwright 2/2; 96 hash-bound captures; Canon 053.
+- Zero secret/sanitizer findings; doctor 13/13.
+- CI 30973983185, E2E 30973983198, Release 30973983205 passed on committed baseline.
 
-## Verification State (green)
+## Provider Closure Note
 
-- 223/223 Vitest files, 1,185/1,185 tests; 35.59% lines
-- TypeScript, ESLint, formatting, 30/30 mutation policies, 91 deploy checks
-- 28,125 balance scenarios, zero-warning build, Pages 10/10, Playwright 2/2
-- 96 hash-bound captures, Canon 053, doctor 13/13, zero secret/sanitizer findings
+- First exact-revision CI exposed inherited Doctrine coverage below immutable floors.
+- Five focused route/store tests restored the ratchet without lowering thresholds.
+- Closeout replaced locally hanging monolithic test command with executable four-shard contract.
 
-## Now Bucket (top 3)
+## Release Posture
 
-1. Establish approved staging origin/callback contract
-2. Collect external observations in gate order (identity, delivery, live-web)
-3. Obtain founder approval and exact-revision provider CI observation
+- Public-unlaunched / NO-GO. Preserve as NO-GO until observed.
+- Not inferred: approved staging/parity, Zoho reply identity, native Obelisk, live web, three-human Alpha, real revenue, observed rollback, founder approval.
 
-## Blockers (top 3, all external/human-owned)
+## Now Bucket (top priorities)
 
-1. No approved staging/parity contract — release NO-GO
-2. No Zoho reply identity, native Obelisk, live web, or three-human Alpha observed
-3. No real revenue, observed rollback, or founder approval
+1. Establish approved staging origin/callback identity contract.
+2. Collect external observations in gate order.
+3. No local audit or innovation work remains.
 
-## Human-Blocked Items (with age)
+## Blockers (external / human)
 
-- Studio registry type reconciliation: externally owned since Session 89 (~6 sessions). Ark question 01JUNMMD1162DB95DA5B58A7AB pending owner-supported correction path; prior `type`/`field-not-allowed` rejections (ack 01JUJOJL1K040B6517CAF2EFA9). Do not edit sibling registry.
-- Studio Ops board renderer incident: since Session 89 (~6 sessions). Ark incident 01JUNMP9IR9DF9678CD51FFF1B awaiting owner regeneration + non-mutating project-scoped help path.
+1. Approved staging/parity contract — unobserved (persistent across Sessions 82–95).
+2. Three-human Alpha, revenue, rollback, founder approval — all await external observation.
+3. Studio registry type reconciliation — externally owned since Session 89 (ack 01JUJOJL1K040B6517CAF2EFA9, ~6 sessions old); request owner-supported path via Ark.
 
-## Truth Boundary
+## Next Session Pointer
 
-Public-unlaunched / NO-GO. Local evidence never substitutes for observed external gates. READY credentials are not deployment authorization.
-
-## Next Session
-
-Begin fresh arc from live exhausted state; pursue approved staging/identity contract and collect external gate-order observations — no local audit/innovation work remains.
+Begin external release-evidence corridor: secure approved staging/identity contract, then collect gate-ordered observations; do not synthesize from local proof or READY credentials.

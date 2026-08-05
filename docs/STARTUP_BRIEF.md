@@ -1,9 +1,9 @@
 <!-- generated-by: scripts/render-startup-brief.mjs v3.1 -->
-<!-- generated-at: 2026-08-05T04:02:03.751Z -->
+<!-- generated-at: 2026-08-05T05:05:29.449Z -->
 <!-- generated-for-session: 96; source-closeout-session: 95 -->
 <!-- fast-boot-valid-until: next session if within 24h -->
 <!-- brief-coherent: true -->
-<!-- brief-sources: {"schema":2,"session":95,"sources":{"context/PROJECT_STATUS.json":"862a04d920a807235f38e9b6ca3a8ee19371d43a14e905245927fb0a2b42f236","context/TASK_BOARD.md":"3c13c80c9cf4a24e365139adff3296b910d8a2d3a75020be6d3b6663fd30290a","context/LATEST_HANDOFF.md":"83161f41cef80aed0173282d6eab9661c6bf57c1a9ebaf4a8219c9061f8a18c6","context/SELF_IMPROVEMENT_LOOP.md":"c3485757c8df77851aa11de077062d9dd833541c0a08e807dc5d20f61d5a03d7","context/TRUTH_AUDIT.md":"1b6f33d9ae0ede147997e9e41ad21dade748c160db01887bdb54fe559b7f1410","context/CURRENT_STATE.md":"a91ab0509bf42d2b6b519967dbfbbef6411416dabe27ee698a3c221a72184292","docs/GENIUS_LIST.md":"78a58572cf67ad0824286ad63c9576c72e660e1804b0470bb0fd3d713138ce9c","docs/SESSION_PLAN.md":"b3bf49e5e8d173eac49219b9021300838b88c80b0b19912520288e66e0870943","docs/CREATIVE_DIRECTION_RECORD.md":"1cbe0ce7f1275398794f5ac5ce3fa8f3bca848523cccc02fa2be9f3ad327edfe"}} -->
+<!-- brief-sources: {"schema":2,"session":95,"sources":{"context/PROJECT_STATUS.json":"5ce03753fdcf498877f8ce8b283be9b199b9b70e68719d9a4f4b5fe77121360e","context/TASK_BOARD.md":"69602655c04f92fe0501942bb5db174276a85331db25897e80b83fbb4eaae55f","context/LATEST_HANDOFF.md":"50750537c1c56017fc37148cc93cbee68a1bfe333865e187241308a7e87bbeaf","context/SELF_IMPROVEMENT_LOOP.md":"7bd4aa906ac1fbdd256fa7c818a4c425954e587eca2b402c84066c1f3cf31e22","context/TRUTH_AUDIT.md":"e9ab97497b6776e581d42bd6c5310a731526f8b0c1b852f551ebd3161e030fad","context/CURRENT_STATE.md":"ef4a4af1ac4c390798456e89271783a3e6849ee13a2abc69ce5368467dd61b65","docs/GENIUS_LIST.md":"78a58572cf67ad0824286ad63c9576c72e660e1804b0470bb0fd3d713138ce9c","docs/SESSION_PLAN.md":"b3bf49e5e8d173eac49219b9021300838b88c80b0b19912520288e66e0870943","docs/CREATIVE_DIRECTION_RECORD.md":"1cbe0ce7f1275398794f5ac5ce3fa8f3bca848523cccc02fa2be9f3ad327edfe"}} -->
 
 # Startup Brief — VaultFront
 
@@ -21,9 +21,9 @@
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ LAST SESSION (S95) - WHAT SHIPPED ═══════════════════════════╗
-║  Session 95 complete: six primary audit outcomes shipped across  ║
-║  Studio tooling, doctor evidence, secret signal, public…         ║
-║  Tests  1185/1185 passing (2026-08-05T03:58:42.581Z) · 1 deferr  ║
+║  Session 95 closeout recovery reconciled provider receipts and   ║
+║  public write-back, repaired a stale remote ref, and made…       ║
+║  Tests  1189/1189 passing (2026-08-05T04:59:47.003Z) · 1 deferr  ║
 ║  Deploy NO-GO · no staging/production observation                ║
 ╚════════════════════════════════════════════════════════════════╝
 
@@ -62,7 +62,7 @@
 
 ╔══ WHERE WE LEFT OFF  ·  Session 95 ════════════════════════════╗
 ║  Shipped:  see LATEST_HANDOFF.md                                 ║
-║  Tests:    1185/1185 passing  ·  Deploy: N/A                     ║
+║  Tests:    1189/1189 passing  ·  Deploy: N/A                     ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ CONTEXT METER ═══════════════════════════════════════════════╗
@@ -73,7 +73,7 @@
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ SIGNALS ═════════════════════════════════════════════════════╗
-║  ⚠  Tests         1185/1185 passing (2026-08-05T03:58:42.581Z)   ║
+║  ⚠  Tests         1189/1189 passing (2026-08-05T04:59:47.003Z)   ║
 ║  ✓  Velocity      7 →  ·  Debt: ↓                                ║
 ║  ⚠  Runway        unknown                                        ║
 ║  ⛔  Context age   ?d                                             ║

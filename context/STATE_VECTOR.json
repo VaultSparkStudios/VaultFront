@@ -1,9 +1,9 @@
 {
   "vectorVersion": "1.0",
   "generatedAt": "2026-08-05",
-  "generatedAtMs": 1785902338002,
+  "generatedAtMs": 1785906048742,
   "session": 95,
-  "vectorHash": "84b959aaceaca5d0",
+  "vectorHash": "b267f5ec993780b8",
   "silTotal": 997,
   "silAvg3": 997,
   "velocity": 7,
@@ -33,8 +33,8 @@
   "slug": "vaultfront",
   "type": "game",
   "lifecycle": "alpha",
-  "nextMilestone": "Establish the approved staging and native identity/email contract, deploy the exact immutable revision, then collect parity, live theme/web, three-human Alpha, revenue, rollback, provider CI, and founder evidence in gate order.",
-  "currentFocus": "Session 95 complete: project-root Studio tools, idempotent doctor evidence, signal-rich secret scanning, bounded identity admission, public boundary cleanup, single-owner static assets, and transport-safe English UI truth shipped.",
+  "nextMilestone": "Push and verify the closeout revision, then establish approved staging and native identity/email contracts before collecting remaining live launch observations.",
+  "currentFocus": "Session 95 closeout recovery complete locally: provider truth reconciled, stale Git ref repaired, and canonical npm test made deterministic and fail-fast.",
   "lastShipped": "see LATEST_HANDOFF.md",
   "blockers": []
 }

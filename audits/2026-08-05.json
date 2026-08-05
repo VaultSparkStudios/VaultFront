@@ -1,0 +1,70 @@
+{
+  "schemaVersion": "1.3",
+  "project": "vaultfront",
+  "date": "2026-08-05",
+  "session": 95,
+  "agent": "codex",
+  "kind": "interrupted-closeout-provider-and-test-truth-finalization",
+  "mission": "Finish Session 95 canonical write-back, repair confirmed Git metadata debris, make the advertised suite reliable, and close directly to main without destructive Git operations",
+  "sil": {
+    "score": 997,
+    "max": 1000,
+    "velocity": 7,
+    "categories": {
+      "devHealth": 100,
+      "creativeAlignment": 100,
+      "momentum": 100,
+      "engagement": 99,
+      "processQuality": 100,
+      "crossRepoCoherence": 99,
+      "securityPosture": 100,
+      "ecosystemIntegration": 99,
+      "capitalEfficiency": 100,
+      "automationCoverage": 100
+    },
+    "gameRubric": {
+      "loopTightness": 99,
+      "retentionHook": 99,
+      "soulFidelity": 100,
+      "velocity": 100
+    }
+  },
+  "work": {
+    "audit": {
+      "total": 16,
+      "shipped": 16,
+      "pendingUnblocked": 0
+    },
+    "innovations": {
+      "cumulativeTotal": 62,
+      "cumulativeShipped": 62,
+      "pendingUnblocked": 0
+    },
+    "closeoutRecovery": {
+      "staleRemoteRefRepaired": true,
+      "publicWorkLogReconciled": true,
+      "providerTruthReconciled": true,
+      "canonicalTestRunnerRepaired": true
+    }
+  },
+  "verification": {
+    "vitest": "224/224 files; 1189/1189 tests through canonical npm test",
+    "coverage": "Prior exact provider receipt: 35.59% lines; unchanged critical-module ratchet passed",
+    "provider": {
+      "revision": "be3df9daeb5c0197a8ae2afad8bf70a0e9fbb01b",
+      "ciRunId": 30973983185,
+      "e2eRunId": 30973983198,
+      "releaseRunId": 30973983205,
+      "conclusion": "success"
+    },
+    "doctor": "13/13",
+    "doctorBlockingFailing": 0,
+    "gitObjectConnectivity": "pass"
+  },
+  "releaseGate": {
+    "status": "no-go",
+    "workExhausted": true,
+    "fabricatedEvidence": false,
+    "boundary": "Green provider workflows do not substitute for approved staging/parity, project-domain Zoho reply identity, native Obelisk, live-web, distinct-human Alpha, revenue, observed rollback, or founder approval."
+  }
+}

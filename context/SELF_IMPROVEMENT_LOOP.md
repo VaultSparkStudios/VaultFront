@@ -919,3 +919,9 @@ capitalEfficiency +7 (oracle/prophecy cache eliminates >80% redundant Haiku call
 - [SIL:3] Keep replay shares content-addressed and independently verifiable; require an approved staging contract before creating external state.
 
 **Honest refusal:** The session rejected five false or unevidenced audit premises, did not fabricate staging/delivery/identity/human/revenue/rollback/approval evidence, did not edit a sibling tree, did not weaken a failing gate, and did not alarm on flat-rate Max-plan cost.
+
+### 2026-08-05 — Session 95 closeout recovery verification (score held at 997/1000)
+
+The recovery closeout repaired Git metadata, restored the missing public work-log entry, reconciled exact provider receipts, and converted the locally hanging monolithic test command into a deterministic four-shard authority. This is structural process truth, so the scored Session 95 result remains 997/1000 and velocity remains 7 rather than double-counting recovery work.
+
+Game rubric reaffirmed: Loop Tightness 99 | Retention Hook 99 | Soul Fidelity 100 | Velocity 100. No balance, progression, or creative promise changed.

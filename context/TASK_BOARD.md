@@ -52,6 +52,12 @@ daily-challenge-system (DailyChallengeStore + HUD card), vault-intelligence-mark
 
 ## Follow-ups
 
+## Completed (2026-08-05 — Session 95 closeout recovery finalization)
+
+- [done] Repair the obsolete `refs/remotes/vaultfront/HEAD` symbolic ref and prove Git object connectivity.
+- [done] Replace the locally hanging monolithic Vitest command with a deterministic fail-fast four-shard runner; canonical `npm test` passes 224 files / 1,189 tests without weakening assertions or timeouts.
+- [done] Reconcile provider receipts, public work-log continuity, SIL/game-rubric truth, and release boundaries before direct-to-main closeout.
+
 ## Completed (2026-08-05 — Session 95 trustworthy-tooling and asset-truth arc)
 
 - [done] Audit 145–150: project-local Studio skill bridge; byte-idempotent doctor closeout formatting; asset-aware secret signal; public-boundary broker retirement; bounded identity introspection; and single-owner static assets.

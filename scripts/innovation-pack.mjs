@@ -281,10 +281,12 @@ const candidates = [
     description:
       "Convert the coverage process storm into a durable ceiling so local, CI, and closeout verification cannot silently multiply workers until the host becomes the failure mode.",
     complete:
-      has("package.json", /vitest run --maxWorkers=4/) &&
+      has("package.json", /node scripts\/run-vitest-shards\.mjs/) &&
+      has("scripts/run-vitest-shards.mjs", /maxWorkers: 4/) &&
+      has("scripts/run-vitest-shards.mjs", /maxWorkers: 1/) &&
       has("package.json", /--coverage --maxWorkers=4/),
     evidence:
-      "four-worker ceilings on default, server, and production coverage commands plus a clean 143-file run",
+      "deterministic fail-fast shard manifest with explicit worker ceilings plus bounded production coverage",
   },
   {
     id: "coverage-surface-visibility-contract",

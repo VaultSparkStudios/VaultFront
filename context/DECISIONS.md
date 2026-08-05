@@ -511,3 +511,17 @@ Public-safe decisions only. Detailed internal decision history is maintained pri
 **Decision:** `src/shared/PublicRouteGraph.json` is the route-label-key authority for the app footer and static public generator; `public/footer-manifest.json` is an exact checked mirror, not an independently maintained source.
 
 **Why:** Public leaves, application navigation, localization scans, and agent-visible topology cannot stay coherent when they copy paths under separate ownership.
+
+## 2026-08-05 — Session 95 closeout recovery decisions
+
+### Local Vitest evidence uses one deterministic shard authority
+
+**Decision:** `npm test` discovers every current test file, rejects duplicate/omitted assignments, and runs four fail-fast shards. Root, client/core, and server shards retain a four-worker ceiling; subprocess-heavy script tests run with one worker. Assertions and per-test timeouts remain unchanged.
+
+**Why:** The monolithic Windows run hung twice and a loaded script shard pushed an otherwise healthy renderer beyond its fixed timeout, while the exact test and serialized shard passed. A repository-owned partition makes the advertised command terminate predictably without converting host pressure into a false product failure or weakening evidence.
+
+### Provider-green does not equal launch-ready
+
+**Decision:** Record exact CI `30973983185`, E2E `30973983198`, and Release `30973983205` as green for the committed Session 95 baseline while preserving public launch NO-GO until the remaining external observations exist.
+
+**Why:** Provider execution closes code-integrity evidence only. It cannot manufacture staging parity, reply-capable project email, native identity, live-web, distinct-human, revenue, rollback, or founder evidence.

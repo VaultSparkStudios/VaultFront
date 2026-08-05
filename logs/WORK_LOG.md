@@ -318,3 +318,11 @@ Session 89 closeout tooling incident: invoking the Studio Ops closeout-board ren
 - Root fixes from direct gates: taught client reachability to follow Vite resource-query edges; preserved the 3,130-line Worker budget through a verified-allocation wrapper; made `build-prod` Pages-complete before release evidence; and gave the six-screenshot visual-proof spec an explicit bounded timeout without removing assertions or captures.
 - Verification: 187 Vitest files / 1,040 tests with coverage; TypeScript; ESLint; Prettier ratchet; contracts; deterministic 28,125-scenario balance envelope; production build; Pages 10/10 and service-worker 1/1; exact bundle/media budgets; performance; production audit zero; Playwright 26/26; work exhaustion 4/4 + 45/45.
 - Truth boundary: release remains NO-GO on external staging/parity, project-domain delivery, native Obelisk, live-web, distinct-human Alpha, revenue, rollback, and founder approval. Registry correction remains Ark-owned after the type field was rejected as unsupported.
+
+## 2026-08-05 — Session 95 closeout recovery completion
+
+- Goal: Finish the interrupted canonical write-back, verify the prior done claims directly, repair confirmed Git metadata debris, and push without reset-hard or force-push.
+- Recovery: Removed the obsolete `refs/remotes/vaultfront/HEAD` symbolic ref through Git's ref API; full object connectivity passes, the session lock is absent, and main matched origin/main before edits.
+- Verification-discovered fix: The former monolithic `npm test` hung twice on Windows and one loaded script shard exposed a timing-sensitive audit-renderer timeout. A deterministic fail-fast four-shard runner now owns the canonical command; it serializes subprocess-heavy script tests while preserving every assertion and timeout. `npm test` passes 224/224 files and 1,189/1,189 tests.
+- Provider truth: The committed Session 95 baseline passed exact CI `30973983185`, E2E `30973983198`, and Release `30973983205`; no coverage floor or security control was bypassed.
+- SIL and release boundary: SIL remains 997/1000. Game rubric remains Loop Tightness 99, Retention Hook 99, Soul Fidelity 100, Velocity 100. Launch remains NO-GO on unobserved staging, identity/email, live-web, human Alpha, revenue, rollback, and founder evidence.

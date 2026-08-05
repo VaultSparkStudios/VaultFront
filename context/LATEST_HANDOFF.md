@@ -7,9 +7,9 @@ Complete a fresh post-recovery `/start → /audit → /implement → /closeout` 
 - Branch: main; the fresh post-recovery arc shipped audit items 145–150 and exhausted the cumulative audit at 16/16 plus innovations 62/62.
 - Shipped: project-root Studio skill bridges; idempotent doctor closeout formatting; asset-aware zero-noise secret scanning; removal of the internal Obelisk broker copy; bounded abortable users/@me admission; and single-owner stable static-resource delivery.
 - Visual truth: direct review found and fixed corrupted English Settings punctuation. The final exact browser assertion passes across three themes on desktop/mobile; 96 hash-bound captures and Canon 053 are green.
-- Verification: 223/223 Vitest files and 1,185/1,185 tests; 35.59% lines; TypeScript; ESLint; formatting; 30/30 mutation policies; 91 deploy checks; 28,125 balance scenarios; zero-warning production build; Pages 10/10; bundle budgets; Playwright 2/2; zero secret/sanitizer findings; doctor 13/13.
-- Provider closure: the first exact-revision CI run exposed inherited Doctrine coverage below immutable floors; five focused route/store tests restored the existing ratchet without lowering a threshold.
-- Release: public-unlaunched / NO-GO. No approved staging/parity, Zoho reply identity, native Obelisk, live web, three-human Alpha, real revenue, observed rollback, exact-revision provider CI, or founder approval was inferred.
+- Verification: canonical `npm test` passes 224/224 Vitest files and 1,189/1,189 tests; the prior exact coverage receipt remains 35.59% lines; TypeScript; ESLint; formatting; 30/30 mutation policies; 91 deploy checks; 28,125 balance scenarios; zero-warning production build; Pages 10/10; bundle budgets; Playwright 2/2; zero secret/sanitizer findings; doctor 13/13.
+- Provider closure: the first exact-revision CI run exposed inherited Doctrine coverage below immutable floors; five focused route/store tests restored the existing ratchet without lowering a threshold. The committed baseline then passed CI `30973983185`, E2E `30973983198`, and Release `30973983205`; this closeout also replaces the locally hanging monolithic test command with an executable four-shard contract.
+- Release: public-unlaunched / NO-GO. No approved staging/parity, Zoho reply identity, native Obelisk, live web, three-human Alpha, real revenue, observed rollback, or founder approval was inferred.
 - Next: establish the approved staging/identity contract and collect external observations in gate order; no local audit or innovation work remains.
 
 ## Where We Left Off — Session 94 recovered and complete (2026-08-04)
@@ -18,7 +18,7 @@ Complete a fresh post-recovery `/start → /audit → /implement → /closeout` 
 - Shipped: match-bound lazy first contact; personal/team-separated First Extraction evidence; a certified non-power Doctrine Vault with replay-safe transactional selection and verifiable receipts; actionable-only startup genius truth; and compact hash-bound doctor evidence.
 - Visual truth: 96 captures cover sixteen states across VaultFront, Light, and Competitive themes at desktop and mobile. The six new agency/doctrine artifacts were directly inspected; geometry, contrast, copy, active/price states, and stacking are clean.
 - Verification: 218 Vitest files / 1,165 tests; 30/30 mutation policies with public ingest 4/4; browser proof 2/2; CANON-053; exhaustion; and doctor are green with blockingFailing 0.
-- Release: public-unlaunched / NO-GO. No approved staging/parity, Zoho reply identity, native Obelisk, live web, three-human Alpha, real revenue, observed rollback, exact-revision provider CI, or founder approval was inferred.
+- Release: public-unlaunched / NO-GO. No approved staging/parity, Zoho reply identity, native Obelisk, live web, three-human Alpha, real revenue, observed rollback, or founder approval was inferred.
 - Next: begin the fresh post-recovery arc from the live exhausted state; any external release corridor must be observed in gate order, never synthesized from local proof or READY credentials.
 
 ## Where We Left Off — Session 93 complete (2026-08-04)

@@ -10,9 +10,9 @@
 - Admission truth: users/@me introspection has an owned five-second deadline, abort signal, normalized errors, and timer cleanup; issuer and audience verification are unchanged.
 - Asset truth: resources have one explicit static-copy owner, stable root imports resolve virtually, production transforms 2,201 modules and copies 47 targets with zero retired warnings, and source and built English catalogs match.
 - Visual truth: image-capable review found corrupted Settings punctuation; the transport-safe fix is guarded at the asset and exact rendered DOM layers. Playwright passes 2/2 and the final 96-artifact receipt passes Canon 053.
-- Verification truth: 223/223 files, 1,185/1,185 tests, 35.59% line coverage, contracts, balance, Pages, bundle, sanitization, secret scan, and doctor 13/13 pass.
-- Provider truth: the first exact-revision test job passed all tests and contracts but failed the immutable Doctrine coverage floor. Added durable snapshot, duplicate transaction, auth, and error-mapping coverage raises the store to 70.32% lines and retains Router 100%; the unchanged ratchet passes locally.
-- Release truth: public launch remains NO-GO on external evidence; local proof does not substitute for staging/parity, email/identity, live web, human Alpha, revenue, rollback, exact-revision provider CI, or founder approval.
+- Verification truth: canonical `npm test` passes 224/224 files and 1,189/1,189 tests through four disjoint fail-fast shards; the prior exact coverage receipt remains 35.59% lines, and contracts, balance, Pages, bundle, sanitization, secret scan, and doctor 13/13 pass.
+- Provider truth: the first exact-revision test job passed all tests and contracts but failed the immutable Doctrine coverage floor. Added durable snapshot, duplicate transaction, auth, and error-mapping coverage raised the store to 70.32% lines and retained Router 100%; the unchanged ratchet then passed exact CI `30973983185`, alongside E2E `30973983198` and Release `30973983205`.
+- Release truth: public launch remains NO-GO on external evidence; green provider workflows do not substitute for staging/parity, email/identity, live web, human Alpha, revenue, rollback, or founder approval.
 
 ## 2026-08-04 — Session 94 recovery, personal-agency, Doctrine, and compact-health truth
 

@@ -11,7 +11,7 @@
 ║  PROJECT IMPACT     ███████▌░░   78/100                                                       ║
 ║  ECOSYSTEM IMPACT   ███████▌░░   78/100                                                       ║
 ║  SIL DELTA          997 → 997  (→0 · structural win — coherence/honesty, not score)           ║
-║  PROOF OF WORK      55 files · +836/-281 · suite 223/223 · tests +20 · probes +7              ║
+║  PROOF OF WORK      57 files · +836/-281 · suite 224/224 · tests +24 · probes +11             ║
 ║                                                                                               ║
 ╚═════════════════════════════════════════════════════════════════════════════════════════════╝
 
@@ -38,6 +38,13 @@
          deny-by-default control-plane bridge. Project-root and cwd semantics are explicit
          rather than inferred.
          → scripts/lib/control-plane-tool.mjs; scripts/sample-codebase.mjs; scripts/lib/skill-profile.mjs
+
+  [canonical-test-runner-closure]  deterministic-vitest-shard-authorityProj 8  ·  Eco 8
+         ── automation ──────────────────────────────────────────────────────────────────────
+         Recovery verification exposed that monolithic npm test could hang or convert host
+         load into a fixed-timeout red. One validated fail-fast shard manifest now assigns
+         every test exactly once and serializes only subprocess-heavy script tests.
+         → scripts/run-vitest-shards.mjs; tests/scripts/VitestShardRunner.test.ts (4/4); npm test 224/224 files and 1,189/1,189 tests
 
   [#148]  retire-public-obelisk-broker-copy                       Proj 8  ·  Eco 7
          ── security ────────────────────────────────────────────────────────────────────────
@@ -80,8 +87,8 @@
   ───────────────────────────────────────────────────────────────────────────────────────────
 
   🛡  No launch claim
-         Local tests, builds, and visual proof do not substitute for staging, identity/email,
-         human, revenue, rollback, provider CI, or founder observations.
+         Green local and provider tests do not substitute for staging, identity/email, human,
+         revenue, rollback, or founder observations.
 
   🛡  No invented second-order work
          The evidence-derived innovation pack regenerated at 62/62 shipped with zero pending
@@ -92,13 +99,13 @@
   FOLLOW-UPS (next session entry points)
     • Establish and approve the stable staging origin and callback contract.
     • Collect project-domain Zoho reply identity and native Obelisk relying-party evidence.
-    • Collect three authenticated human Alpha sessions, live theme/web, revenue, rollback, exact-revision provider CI, and founder approval.
+    • Collect three authenticated human Alpha sessions, live theme/web, revenue, rollback, and founder approval.
 
   BLOCKERS
     • Launch remains NO-GO because approved staging and external observations are absent.
 
   COMMIT GATE
-    8 items shipped · ready to commit & push? [y/N]
+    9 items shipped · ready to commit & push? [y/N]
 
 ```
 
