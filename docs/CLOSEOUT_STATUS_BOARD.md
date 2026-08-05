@@ -1,18 +1,18 @@
 <!-- generated-by: scripts/render-closeout-board.mjs v1.0 -->
-<!-- generated-at: 2026-08-05 (Session 94 closeout) -->
+<!-- generated-at: 2026-08-05 (Session 95 closeout) -->
 
 # Closeout Status Board — VaultFront
 
 ```
-╔══ SESSION CLOSEOUT · VaultFront · S94 ═════════════════════════╗
-║  Date: 2026-08-05 · SIL: 997/1000 · V:9  ·  Debt: down           ║
+╔══ SESSION CLOSEOUT · VaultFront · S95 ═════════════════════════╗
+║  Date: 2026-08-05 · SIL: 997/1000 · V:7  ·  Debt: down           ║
 ║  Mode: FOUNDER  ·  Agent: codex                                  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ WHAT SHIPPED ════════════════════════════════════════════════╗
-║  ✓ Branch: main; the interrupted Session 94 was recovered from   ║
-║  ✓ Shipped: match-bound lazy first contact; personal/team-separ  ║
-║  ✓ Visual truth: 96 captures cover sixteen states across VaultF  ║
-║  ✓ Verification: 218 Vitest files / 1,165 tests; 30/30 mutation  ║
+║  ✓ Branch: main; the fresh post-recovery arc shipped audit item  ║
+║  ✓ Shipped: project-root Studio skill bridges; idempotent docto  ║
+║  ✓ Visual truth: direct review found and fixed corrupted Englis  ║
+║  ✓ Verification: 223/223 Vitest files and 1,180/1,180 tests; 35  ║
 ║  ✓ Release: public-unlaunched / NO-GO. No approved staging/pari  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ SCORES · SIL 997/1000 ═══════════════════════════════════════╗
@@ -51,7 +51,7 @@
 ╔══ POST-SESSION SIGNALS ════════════════════════════════════════╗
 ║  Doctor:        13/13                                            ║
 ║  Compliance:    49/49                                            ║
-║  Tests:         1165/1165                                        ║
+║  Tests:         1180/1180                                        ║
 ║  IGNIS:         4d ago                                           ║
 ║  Truth:         green                                            ║
 ║  Shell hygiene: 0 running                                        ║
