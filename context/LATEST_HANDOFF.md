@@ -7,7 +7,8 @@ Complete a fresh post-recovery `/start → /audit → /implement → /closeout` 
 - Branch: main; the fresh post-recovery arc shipped audit items 145–150 and exhausted the cumulative audit at 16/16 plus innovations 62/62.
 - Shipped: project-root Studio skill bridges; idempotent doctor closeout formatting; asset-aware zero-noise secret scanning; removal of the internal Obelisk broker copy; bounded abortable users/@me admission; and single-owner stable static-resource delivery.
 - Visual truth: direct review found and fixed corrupted English Settings punctuation. The final exact browser assertion passes across three themes on desktop/mobile; 96 hash-bound captures and Canon 053 are green.
-- Verification: 223/223 Vitest files and 1,180/1,180 tests; 35.54% lines; TypeScript; ESLint; formatting; 30/30 mutation policies; 91 deploy checks; 28,125 balance scenarios; zero-warning production build; Pages 10/10; bundle budgets; Playwright 2/2; zero secret/sanitizer findings; doctor 13/13.
+- Verification: 223/223 Vitest files and 1,185/1,185 tests; 35.59% lines; TypeScript; ESLint; formatting; 30/30 mutation policies; 91 deploy checks; 28,125 balance scenarios; zero-warning production build; Pages 10/10; bundle budgets; Playwright 2/2; zero secret/sanitizer findings; doctor 13/13.
+- Provider closure: the first exact-revision CI run exposed inherited Doctrine coverage below immutable floors; five focused route/store tests restored the existing ratchet without lowering a threshold.
 - Release: public-unlaunched / NO-GO. No approved staging/parity, Zoho reply identity, native Obelisk, live web, three-human Alpha, real revenue, observed rollback, exact-revision provider CI, or founder approval was inferred.
 - Next: establish the approved staging/identity contract and collect external observations in gate order; no local audit or innovation work remains.
 

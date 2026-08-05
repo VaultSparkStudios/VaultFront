@@ -8,10 +8,10 @@
 ║    Trustworthy project tooling, bounded identity admission, and single-owner static truth     ║
 ║    shipped.                                                                                   ║
 ║                                                                                               ║
-║  PROJECT IMPACT     ███████▌░░   79/100                                                       ║
-║  ECOSYSTEM IMPACT   ███████▌░░   77/100                                                       ║
+║  PROJECT IMPACT     ███████▌░░   78/100                                                       ║
+║  ECOSYSTEM IMPACT   ███████▌░░   78/100                                                       ║
 ║  SIL DELTA          997 → 997  (→0 · structural win — coherence/honesty, not score)           ║
-║  PROOF OF WORK      55 files · +836/-281 · suite 223/223 · tests +15 · probes +5              ║
+║  PROOF OF WORK      55 files · +836/-281 · suite 223/223 · tests +20 · probes +7              ║
 ║                                                                                               ║
 ╚═════════════════════════════════════════════════════════════════════════════════════════════╝
 
@@ -53,6 +53,13 @@
          stable.
          → scripts/closeout-autopilot.mjs; tests/scripts/DoctorEvidence.test.ts (4/4)
 
+  [provider-coverage-closure]  doctrine-coverage-ratchet-closure  Proj 7  ·  Eco 8
+         ── automation ──────────────────────────────────────────────────────────────────────
+         Exact-revision CI exposed inherited PostgreSQL and router branches below immutable
+         critical-module floors. Focused behavior tests restored the existing ratchet without
+         weakening a threshold.
+         → tests/server/CertifiedDailyMasteryStore.test.ts; tests/server/DailyMasteryRouter.test.ts; coverage ratchet PASS
+
   [#150]  single-owner-static-assets                              Proj 7  ·  Eco 7
          ── speed ───────────────────────────────────────────────────────────────────────────
          Stable runtime URLs now come from one explicit copy owner and root imports resolve
@@ -91,7 +98,7 @@
     • Launch remains NO-GO because approved staging and external observations are absent.
 
   COMMIT GATE
-    7 items shipped · ready to commit & push? [y/N]
+    8 items shipped · ready to commit & push? [y/N]
 
 ```
 

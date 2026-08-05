@@ -1,9 +1,9 @@
 <!-- generated-by: scripts/render-startup-brief.mjs v3.1 -->
-<!-- generated-at: 2026-08-05T03:45:25.005Z -->
+<!-- generated-at: 2026-08-05T04:02:03.751Z -->
 <!-- generated-for-session: 96; source-closeout-session: 95 -->
 <!-- fast-boot-valid-until: next session if within 24h -->
 <!-- brief-coherent: true -->
-<!-- brief-sources: {"schema":2,"session":95,"sources":{"context/PROJECT_STATUS.json":"c2aac93833023cd03c18f6249255f18b1085bd1fdbd572add9c27cda4f8d8b92","context/TASK_BOARD.md":"12c10ed0cc7ab9fdba92252a33a819d5ec40ce9be7d143de1bff7a448dd90ecd","context/LATEST_HANDOFF.md":"8032ead30cfd03d69f0fe6a896fe8e803d82e25098c0cf0317360d4a7e46224a","context/SELF_IMPROVEMENT_LOOP.md":"0acfc5d6fb65d72f87379436e1f75d3bbcd1cdae6fafd018978371a7131d4c4c","context/TRUTH_AUDIT.md":"60ff329956a1b1889d8c4e5487ecdb7fe4b5b8ef71cc787123669e566ba5015f","context/CURRENT_STATE.md":"16a9644fde068be8cd497ee4fc5b1cc4a2532932170a6e75eff1cd9df05e2f58","docs/GENIUS_LIST.md":"78a58572cf67ad0824286ad63c9576c72e660e1804b0470bb0fd3d713138ce9c","docs/SESSION_PLAN.md":"b3bf49e5e8d173eac49219b9021300838b88c80b0b19912520288e66e0870943","docs/CREATIVE_DIRECTION_RECORD.md":"1cbe0ce7f1275398794f5ac5ce3fa8f3bca848523cccc02fa2be9f3ad327edfe"}} -->
+<!-- brief-sources: {"schema":2,"session":95,"sources":{"context/PROJECT_STATUS.json":"862a04d920a807235f38e9b6ca3a8ee19371d43a14e905245927fb0a2b42f236","context/TASK_BOARD.md":"3c13c80c9cf4a24e365139adff3296b910d8a2d3a75020be6d3b6663fd30290a","context/LATEST_HANDOFF.md":"83161f41cef80aed0173282d6eab9661c6bf57c1a9ebaf4a8219c9061f8a18c6","context/SELF_IMPROVEMENT_LOOP.md":"c3485757c8df77851aa11de077062d9dd833541c0a08e807dc5d20f61d5a03d7","context/TRUTH_AUDIT.md":"1b6f33d9ae0ede147997e9e41ad21dade748c160db01887bdb54fe559b7f1410","context/CURRENT_STATE.md":"a91ab0509bf42d2b6b519967dbfbbef6411416dabe27ee698a3c221a72184292","docs/GENIUS_LIST.md":"78a58572cf67ad0824286ad63c9576c72e660e1804b0470bb0fd3d713138ce9c","docs/SESSION_PLAN.md":"b3bf49e5e8d173eac49219b9021300838b88c80b0b19912520288e66e0870943","docs/CREATIVE_DIRECTION_RECORD.md":"1cbe0ce7f1275398794f5ac5ce3fa8f3bca848523cccc02fa2be9f3ad327edfe"}} -->
 
 # Startup Brief — VaultFront
 
@@ -23,7 +23,7 @@
 ╔══ LAST SESSION (S95) - WHAT SHIPPED ═══════════════════════════╗
 ║  Session 95 complete: six primary audit outcomes shipped across  ║
 ║  Studio tooling, doctor evidence, secret signal, public…         ║
-║  Tests  1180/1180 passing (2026-08-05T03:32:37.057Z) · 1 deferr  ║
+║  Tests  1185/1185 passing (2026-08-05T03:58:42.581Z) · 1 deferr  ║
 ║  Deploy NO-GO · no staging/production observation                ║
 ╚════════════════════════════════════════════════════════════════╝
 
@@ -62,18 +62,18 @@
 
 ╔══ WHERE WE LEFT OFF  ·  Session 95 ════════════════════════════╗
 ║  Shipped:  see LATEST_HANDOFF.md                                 ║
-║  Tests:    1180/1180 passing  ·  Deploy: N/A                     ║
+║  Tests:    1185/1185 passing  ·  Deploy: N/A                     ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ CONTEXT METER ═══════════════════════════════════════════════╗
-║  ✓  █░░░░░░░░░░░░░░░░░░░░░░░    3% used                          ║
-║     31,878 / 1,000,000 tok  ·  codex/codex-1m  ·  measured+heur  ║
-║     ~15,939 tok/turn  ·  cache 50%  ·  55 turns to compact       ║
+║  ✓  ░░░░░░░░░░░░░░░░░░░░░░░░    2% used                          ║
+║     3,013 / 200,000 tok  ·  unknown/default  ·  heuristic        ║
+║     ~1,507 tok/turn  ·  cache 50%  ·  120 turns to compact       ║
 ║     Verdict: CONTINUE                                            ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ SIGNALS ═════════════════════════════════════════════════════╗
-║  ⚠  Tests         1180/1180 passing (2026-08-05T03:32:37.057Z)   ║
+║  ⚠  Tests         1185/1185 passing (2026-08-05T03:58:42.581Z)   ║
 ║  ✓  Velocity      7 →  ·  Debt: ↓                                ║
 ║  ⚠  Runway        unknown                                        ║
 ║  ⛔  Context age   ?d                                             ║

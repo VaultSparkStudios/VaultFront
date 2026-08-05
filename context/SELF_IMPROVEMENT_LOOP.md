@@ -15,7 +15,7 @@ Last session: 2026-08-05 Session 95 trustworthy tooling, bounded admission, and 
 
 Completed six premise-verified audit outcomes and one rendered-pixel-discovered localization fix without expanding the external release claim. Project-root tooling now works, identity admission is deadline-bound, secret review is signal-rich, public code is cleaner, generated doctor evidence is stable, and static resources have one explicit owner.
 
-- Dev, process, security, and automation remained green across 223 files and 1,180 tests.
+- Dev, process, security, and automation remained green across 223 files and 1,185 tests.
 - Engagement retained 99 because no three-human live Alpha evidence exists.
 - Cross-repo coherence and ecosystem integration retained 99 because native Obelisk and staging registration remain externally unobserved.
 - Debt decreased: 1,974 scanner-noise findings, duplicate asset warnings, and a private broker copy were retired.

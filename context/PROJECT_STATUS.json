@@ -25,7 +25,7 @@
       "status": "green",
       "label": "Unit and server regression",
       "command": "npm test",
-      "purpose": "Session 95 directly passed 223 files / 1,180 tests with four bounded Vitest workers; coverage reports 35.54% lines."
+      "purpose": "Session 95 directly passed 223 files / 1,185 tests with four bounded Vitest workers; coverage reports 35.59% lines and the unchanged critical-module ratchet passes."
     },
     {
       "type": "tests",
@@ -59,8 +59,8 @@
   "silMax": 1000,
   "silScoreLegacy500": null,
   "silScore": 997,
-  "testsPassing": 1180,
-  "testsTotal": 1180,
+  "testsPassing": 1185,
+  "testsTotal": 1185,
   "silCategoriesV3": {
     "devHealth": 100,
     "creativeAlignment": 100,
@@ -110,10 +110,10 @@
     "failing": 0,
     "blockingFailing": 0,
     "date": "2026-08-05",
-    "observedAt": "2026-08-05T03:45:23.026Z",
+    "observedAt": "2026-08-05T04:02:02.945Z",
     "source": "scripts/project-doctor.mjs",
     "evidencePath": "audits/doctor-latest.json",
-    "evidenceDigest": "sha256:f2f57a9ea21179d732f94fb96ca338507cab8c4bf6a5e037ca20d7c8f889a83b",
+    "evidenceDigest": "sha256:4dea325a2c8b5f60f66bcc9f010d34c0d88aff18eb8ad9f9c9cc5cf78cc1b2f6",
     "evidenceSchemaVersion": 1,
     "checkCount": 13
   },
@@ -146,26 +146,26 @@
     "enumeratedAt": "2026-08-05T03:37:05.397Z",
     "scope": "Final Win32 enumeration found zero processes whose command line references the VaultFront workspace; VaultFront test ports 5173, 9000, and 39081 had zero listeners."
   },
-  "testsLastRun": "2026-08-05T03:32:37.057Z",
-  "testsLastRunMode": "full-vitest+coverage+contracts+production-build+playwright-theme-proof+visual-qa+doctor",
+  "testsLastRun": "2026-08-05T03:58:42.581Z",
+  "testsLastRunMode": "full-vitest+coverage-ratchet+contracts+production-build+playwright-theme-proof+visual-qa+doctor",
   "testsDeferred": [
     "Final production release-evidence phase remains an expected NO-GO until external and exact-revision provider evidence exists."
   ],
   "testsBudgetExhausted": false,
-  "lastSessionSummary": "Session 95 complete: six primary audit outcomes shipped across Studio tooling, doctor evidence, secret signal, public boundary, identity admission, and static ownership; rendered review also fixed English Settings corruption; 1,180 tests, 96 visual captures, and doctor 13/13 are green; launch remains NO-GO on external evidence.",
+  "lastSessionSummary": "Session 95 complete: six primary audit outcomes shipped across Studio tooling, doctor evidence, secret signal, public boundary, identity admission, and static ownership; rendered review also fixed English Settings corruption; 1,185 tests, 96 visual captures, and doctor 13/13 are green; launch remains NO-GO on external evidence.",
   "providerCiStatus": {
-    "status": "stale-prior-revision",
-    "revision": "edb9fece59c9cc5a84912f520228f46cec3dcbe1",
-    "ciRunId": 30878311700,
+    "status": "failed-fix-pending-rerun",
+    "revision": "c22de464717414f0a5152be12794a436877348ac",
+    "ciRunId": 30973198656,
     "e2eRunId": 30878311715,
-    "releasePlannerRunId": 30878311702,
+    "releasePlannerRunId": 30973198652,
     "ciUrl": "https://github.com/VaultSparkStudios/vaultfront/actions/runs/30878311700",
     "e2eUrl": "https://github.com/VaultSparkStudios/vaultfront/actions/runs/30878311715",
     "releasePlannerUrl": "https://github.com/VaultSparkStudios/vaultfront/actions/runs/30878311702",
     "observedAt": "2026-08-04T04:42:48.000Z",
     "source": "GitHub Actions terminal conclusions",
     "currentRevisionVerified": false,
-    "note": "Recorded GitHub Actions runs verify Session 92 only; Session 95 exact-revision provider CI is not claimed before final push."
+    "note": "The first Session 95 exact-revision CI run passed tests/contracts but failed inherited Doctrine coverage floors. Five focused tests restore the unchanged ratchet locally; replacement exact-revision runs are pending the follow-up push."
   },
   "dependencyAudit": {
     "production": 0,

@@ -12,7 +12,7 @@
 ║  ✓ Branch: main; the fresh post-recovery arc shipped audit item  ║
 ║  ✓ Shipped: project-root Studio skill bridges; idempotent docto  ║
 ║  ✓ Visual truth: direct review found and fixed corrupted Englis  ║
-║  ✓ Verification: 223/223 Vitest files and 1,180/1,180 tests; 35  ║
+║  ✓ Verification: 223/223 Vitest files and 1,185/1,185 tests; 35  ║
 ║  ✓ Release: public-unlaunched / NO-GO. No approved staging/pari  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ SCORES · SIL 997/1000 ═══════════════════════════════════════╗
@@ -51,7 +51,7 @@
 ╔══ POST-SESSION SIGNALS ════════════════════════════════════════╗
 ║  Doctor:        13/13                                            ║
 ║  Compliance:    49/49                                            ║
-║  Tests:         1180/1180                                        ║
+║  Tests:         1185/1185                                        ║
 ║  IGNIS:         4d ago                                           ║
 ║  Truth:         green                                            ║
 ║  Shell hygiene: 0 running                                        ║

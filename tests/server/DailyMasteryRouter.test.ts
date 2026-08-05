@@ -176,4 +176,92 @@ describe("Daily Mastery router", () => {
       body: { code: "insufficient-mastery" },
     });
   });
+
+  test("authenticates doctrine mutations independently", async () => {
+    const missing = harness();
+    await missing.postHandler({ headers: {}, body: {} }, missing.response);
+    expect(missing.response.statusCode).toBe(401);
+    expect(missing.dependencies.selectDoctrine).not.toHaveBeenCalled();
+
+    const invalid = harness({
+      verifyToken: vi.fn().mockResolvedValue({ type: "error" }),
+    });
+    await invalid.postHandler(
+      {
+        headers: { authorization: "Bearer invalid" },
+        body: { doctrineId: "route-reader", requestId: "request-0001" },
+      },
+      invalid.response,
+    );
+    expect(invalid.response.statusCode).toBe(401);
+    expect(invalid.dependencies.selectDoctrine).not.toHaveBeenCalled();
+  });
+
+  test("maps every doctrine rejection class without leaking infrastructure errors", async () => {
+    const cases = [
+      {
+        failure: Object.assign(new Error("Unknown Mastery Doctrine"), {
+          code: "invalid-doctrine",
+        }),
+        status: 400,
+        body: {
+          error: "Unknown Mastery Doctrine",
+          code: "invalid-doctrine",
+        },
+      },
+      {
+        failure: Object.assign(new Error("Request ID conflict"), {
+          code: "request-conflict",
+        }),
+        status: 409,
+        body: { error: "Request ID conflict", code: "request-conflict" },
+      },
+      {
+        failure: { code: "invalid-doctrine" },
+        status: 400,
+        body: { error: "Doctrine rejected", code: "invalid-doctrine" },
+      },
+    ];
+
+    for (const entry of cases) {
+      const route = harness({
+        selectDoctrine: vi.fn().mockRejectedValue(entry.failure),
+      });
+      await route.postHandler(
+        {
+          headers: { authorization: "Bearer signed-token" },
+          body: { doctrineId: "route-reader", requestId: "request-0001" },
+        },
+        route.response,
+      );
+      expect(route.response).toMatchObject({
+        statusCode: entry.status,
+        body: entry.body,
+      });
+      expect(route.dependencies.reportError).not.toHaveBeenCalled();
+    }
+
+    for (const failure of [
+      new Error("database unavailable"),
+      Object.assign(new Error("unknown code"), { code: "unknown" }),
+      "provider unavailable",
+      null,
+    ]) {
+      const route = harness({
+        selectDoctrine: vi.fn().mockRejectedValue(failure),
+      });
+      await route.postHandler(
+        {
+          headers: { authorization: "Bearer signed-token" },
+          body: { doctrineId: "route-reader", requestId: "request-0001" },
+        },
+        route.response,
+      );
+      expect(route.response).toMatchObject({
+        statusCode: 503,
+        body: { error: "Daily mastery unavailable" },
+      });
+      expect(route.dependencies.reportError).toHaveBeenCalledWith(failure);
+    }
+  });
 });

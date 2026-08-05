@@ -179,11 +179,83 @@ describe("CertifiedDailyMasteryStore", () => {
     expect((await store.getChallenge("player-empty")).masteryBalance).toBe(0);
   });
 
+  test("rejects duplicate durable match evidence transactionally", async () => {
+    const query = vi
+      .fn()
+      .mockResolvedValueOnce({})
+      .mockResolvedValueOnce({ rowCount: 0 })
+      .mockResolvedValueOnce({});
+    const release = vi.fn();
+    const store = new CertifiedDailyMasteryStore({
+      now: () => new Date("2026-07-22T12:00:00.000Z"),
+      pool: () => ({ connect: async () => ({ query, release }) }) as any,
+      databaseConfigured: () => true,
+    });
+
+    await expect(
+      store.recordCertifiedMatch("durable-game", decisiveOutcome),
+    ).resolves.toBeNull();
+    expect(query).toHaveBeenNthCalledWith(1, "BEGIN");
+    expect(query).toHaveBeenNthCalledWith(3, "ROLLBACK");
+    expect(release).toHaveBeenCalledOnce();
+  });
+
   test("declares durable doctrine wallet, profile, and replay tables", () => {
     const schema = readFileSync(resolve("src/server/db/schema.sql"), "utf8");
     expect(schema).toContain("daily_mastery_doctrine_unlocks");
     expect(schema).toContain("daily_mastery_doctrine_profiles");
     expect(schema).toContain("daily_mastery_doctrine_requests");
     expect(schema).toContain("PRIMARY KEY (persistent_id, request_id)");
+  });
+
+  test("reads a durable doctrine snapshot from PostgreSQL", async () => {
+    const query = vi
+      .fn()
+      .mockResolvedValueOnce({
+        rows: [
+          { progress: 2, completed_at: "2026-07-22", mastery_balance: 75 },
+        ],
+      })
+      .mockResolvedValueOnce({
+        rows: [{ doctrine_id: "route-reader" }],
+      })
+      .mockResolvedValueOnce({
+        rows: [{ active_doctrine_id: "route-reader" }],
+      });
+    const store = new CertifiedDailyMasteryStore({
+      now: () => new Date("2026-07-22T12:00:00.000Z"),
+      pool: () => ({ query }) as any,
+      databaseConfigured: () => true,
+    });
+
+    await expect(store.getChallenge("player-durable")).resolves.toMatchObject({
+      progress: 2,
+      completed: true,
+      masteryBalance: 75,
+      durability: "postgres",
+      doctrines: {
+        ownedIds: ["route-reader"],
+        activeId: "route-reader",
+      },
+    });
+    expect(query).toHaveBeenCalledTimes(3);
+  });
+
+  test("rejects unknown doctrines and unavailable configured persistence", async () => {
+    const local = new CertifiedDailyMasteryStore({
+      pool: () => null,
+      databaseConfigured: () => false,
+    });
+    await expect(
+      local.selectDoctrine("player-1", "combat-boost", "request-unknown"),
+    ).rejects.toMatchObject({ code: "invalid-doctrine" });
+
+    const configured = new CertifiedDailyMasteryStore({
+      pool: () => null,
+      databaseConfigured: () => true,
+    });
+    await expect(
+      configured.selectDoctrine("player-1", "route-reader", "request-valid"),
+    ).rejects.toThrow("persistence unavailable");
   });
 });
