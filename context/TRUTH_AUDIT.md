@@ -13,7 +13,7 @@
 - Recovery truth: account magic-link validation, pending, success, and failure remain inside the themed accessible surface; duplicate activation is guarded and no blocking alert is used.
 - Visual truth: Playwright passes 2/2 and the final 114-artifact three-theme desktop/mobile receipt passes CANON-053 at source digest sha256:b6f542a7ce41c529836c5d315fd89aa28ec86c8fc350a5e8c82bbc2fc55f0238. The local bitmap-view helper failed on the Windows sandbox credential API, so direct manual image-view inspection is not claimed.
 - Verification truth: npm test passes 229 files / 1,198 tests; TypeScript, ESLint, Prettier, contracts, 28,125 balance scenarios, production build, and work exhaustion pass directly.
-- Release truth: public launch remains NO-GO. Local success cannot substitute for staging/parity, Zoho reply identity, native Obelisk, live web/theme, three-human Alpha, revenue, rollback, exact-revision provider CI, or founder approval.
+- Provider truth: exact code-and-board revision `b45442ca` passed CI `31053545824`, E2E `31053548119`, and Release `31053545757`.`r`n- Release truth: public launch remains NO-GO. Exact-revision provider success cannot substitute for staging/parity, Zoho reply identity, native Obelisk, live web/theme, three-human Alpha, revenue, rollback, or founder approval.
 
 ## 2026-08-05 — Session 95 tooling, admission, asset, and rendered-text truth
 

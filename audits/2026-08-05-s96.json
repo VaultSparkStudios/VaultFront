@@ -53,13 +53,21 @@
     "playwright": "2/2",
     "visualQa": "114 artifacts; CANON-053 pass",
     "visualSourceDigest": "sha256:b6f542a7ce41c529836c5d315fd89aa28ec86c8fc350a5e8c82bbc2fc55f0238",
-    "doctor": "13/13 pass at 08/05/2026 22:25:49",
-    "doctorBlockingFailing": 0
+    "doctor": "13/13 pass at 2026-08-05T22:34:53.613Z",
+    "doctorBlockingFailing": 0,
+    "providerCi": {
+      "revision": "b45442ca320d5bee9633f05d455575ed8f111fc0",
+      "ciRunId": 31053545824,
+      "e2eRunId": 31053548119,
+      "releasePlannerRunId": 31053545757,
+      "status": "success",
+      "observedAt": "2026-08-05T22:42:42Z"
+    }
   },
   "releaseGate": {
     "status": "no-go",
     "workExhausted": true,
     "fabricatedEvidence": false,
-    "boundary": "Local proof does not establish approved staging/parity, project-domain Zoho reply identity, native Obelisk, live web/theme, three authenticated humans, real revenue, observed rollback, exact-revision provider CI, or founder approval."
+    "boundary": "Exact-revision provider proof does not establish approved staging/parity, project-domain Zoho reply identity, native Obelisk, live web/theme, three authenticated humans, real revenue, observed rollback, or founder approval."
   }
 }
