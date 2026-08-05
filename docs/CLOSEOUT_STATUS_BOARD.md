@@ -12,7 +12,7 @@
 ║  ✓ Branch: main; the fresh post-recovery arc shipped audit item  ║
 ║  ✓ Shipped: project-root Studio skill bridges; idempotent docto  ║
 ║  ✓ Visual truth: direct review found and fixed corrupted Englis  ║
-║  ✓ Verification: 223/223 Vitest files and 1,185/1,185 tests; 35  ║
+║  ✓ Verification: canonical `npm test` passes 224/224 Vitest fil  ║
 ║  ✓ Provider closure: the first exact-revision CI run exposed in  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ SCORES · SIL 997/1000 ═══════════════════════════════════════╗
@@ -51,7 +51,7 @@
 ╔══ POST-SESSION SIGNALS ════════════════════════════════════════╗
 ║  Doctor:        13/13                                            ║
 ║  Compliance:    49/49                                            ║
-║  Tests:         1185/1185                                        ║
+║  Tests:         1189/1189                                        ║
 ║  IGNIS:         4d ago                                           ║
 ║  Truth:         green                                            ║
 ║  Shell hygiene: 0 running                                        ║
