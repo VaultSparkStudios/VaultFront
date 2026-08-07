@@ -1,9 +1,9 @@
 {
   "vectorVersion": "1.0",
   "generatedAt": "2026-08-07",
-  "generatedAtMs": 1786062310313,
+  "generatedAtMs": 1786091197897,
   "session": 97,
-  "vectorHash": "8a03994c3401ced3",
+  "vectorHash": "39dd786177cb10c6",
   "silTotal": 997,
   "silAvg3": 997,
   "velocity": 9,
@@ -34,7 +34,7 @@
   "type": "game",
   "lifecycle": "alpha",
   "nextMilestone": "Establish an approved staging origin plus native Obelisk and project-domain Zoho contracts, then collect parity, human, revenue, rollback, and founder evidence in gate order.",
-  "currentFocus": "Session 97 complete: durable certified archive delivery, safe promotion drain, authoritative hydration and state-scope truth, bounded remote AI, cause-bound coaching, Doctrine continuation, and accessible reroute decisions shipped; local gates green, external release remains NO-GO.",
+  "currentFocus": "Session 97 implementation and closeout complete; exact CI exposed three stale execution-chain tests, now repaired against ExecutionChainLedger with 12/12 V8 coverage. Candidate provider rerun pending; external release remains NO-GO.",
   "lastShipped": "see LATEST_HANDOFF.md",
   "blockers": []
 }

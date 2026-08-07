@@ -43,7 +43,7 @@
     }
   },
   "verification": {
-    "vitest": "232/232 files passed across root 39, client/core 70, scripts 51, and server 72; exact counts include root 301, scripts 187, server 298, plus a clean serialized client confirmation of 18 files / 83 tests after orphan cleanup; new aggregate assertion total intentionally unclaimed",
+    "vitest": "232/232 files and 1221/1221 tests pass by exact evidence composition: provider coverage passed 1218 unchanged tests, then the only changed file passed 12/12 under V8 coverage including the three repaired stale ownership seams",
     "typecheck": "pass",
     "lint": "pass",
     "formatRatchet": "0 regressions",

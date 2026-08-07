@@ -6,7 +6,7 @@
   "health": "green",
   "currentSession": 97,
   "lastAgent": "codex",
-  "currentFocus": "Session 97 complete: durable certified archive delivery, safe promotion drain, authoritative hydration and state-scope truth, bounded remote AI, cause-bound coaching, Doctrine continuation, and accessible reroute decisions shipped; local gates green, external release remains NO-GO.",
+  "currentFocus": "Session 97 implementation and closeout complete; exact CI exposed three stale execution-chain tests, now repaired against ExecutionChainLedger with 12/12 V8 coverage. Candidate provider rerun pending; external release remains NO-GO.",
   "nextMilestone": "Establish an approved staging origin plus native Obelisk and project-domain Zoho contracts, then collect parity, human, revenue, rollback, and founder evidence in gate order.",
   "blockers": [],
   "lastUpdated": "2026-08-07",
@@ -59,8 +59,8 @@
   "silMax": 1000,
   "silScoreLegacy500": null,
   "silScore": 997,
-  "testsPassing": null,
-  "testsTotal": null,
+  "testsPassing": 1221,
+  "testsTotal": 1221,
   "silCategoriesV3": {
     "devHealth": 100,
     "creativeAlignment": 100,
@@ -110,10 +110,10 @@
     "failing": 0,
     "blockingFailing": 0,
     "date": "2026-08-07",
-    "observedAt": "2026-08-07T00:55:41.022Z",
+    "observedAt": "2026-08-07T08:27:28.547Z",
     "source": "scripts/project-doctor.mjs",
     "evidencePath": "audits/doctor-latest.json",
-    "evidenceDigest": "sha256:2f8f17ad3715ce0b7191841d0b536c95969a48900643de776d1813ed1e13a919",
+    "evidenceDigest": "sha256:5fafd9735a1afa80acbfa38e66efa77b6365b204ef068d65ab67b065d5098fe2",
     "evidenceSchemaVersion": 1,
     "checkCount": 13
   },
@@ -147,10 +147,12 @@
     "scope": "Owned VaultFront Vitest and E2E orphans were resolved by exact command line; final inventory is rechecked after push."
   },
   "testsLastRun": "2026-08-06",
-  "testsLastRunMode": "232-of-232-files across canonical root/client-core and bounded script/server shards; aggregate assertion count intentionally unclaimed after loaded-host pool timeout; type+lint+format+contracts+build+playwright+visual-qa+doctor green",
-  "testsDeferred": [],
+  "testsLastRunMode": "exact evidence composition: provider V8 coverage passed 1218 unchanged tests on 650d789c; only changed file passes 12/12 under V8 coverage including three repaired tests; overlap 9 => 1221/1221 candidate",
+  "testsDeferred": [
+    "Exact-revision provider rerun pending for the ownership-aligned test repair commit."
+  ],
   "testsBudgetExhausted": false,
-  "lastSessionSummary": "Session 97 shipped all nine fresh audit items, exhausted the cumulative audit at 32/32 plus innovations 62/62, passed all 232 test files through canonical and bounded shards, refreshed 114 hash-bound visual captures, and preserved external launch NO-GO.",
+  "lastSessionSummary": "Session 97 shipped all nine fresh audit items, exhausted audit 32/32 plus innovations 62/62, closed three stale CI-only execution-chain test seams against the extracted ledger, and preserves external launch NO-GO.",
   "providerCiStatus": {
     "status": "green-verified-code-revision",
     "revision": "b45442ca320d5bee9633f05d455575ed8f111fc0",

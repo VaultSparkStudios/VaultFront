@@ -1,9 +1,9 @@
 <!-- generated-by: scripts/render-startup-brief.mjs v3.1 -->
-<!-- generated-at: 2026-08-07T00:56:17.389Z -->
+<!-- generated-at: 2026-08-07T08:28:02.111Z -->
 <!-- generated-for-session: 98; source-closeout-session: 97 -->
 <!-- fast-boot-valid-until: next session if within 24h -->
 <!-- brief-coherent: true -->
-<!-- brief-sources: {"schema":2,"session":97,"sources":{"context/PROJECT_STATUS.json":"0dcadee8d36169011e679f6b48db16123a4a213e74157fbce961b522a99af43b","context/TASK_BOARD.md":"cb43012e0aa825df1409cac1bbd358b3c4ea99d690c1bb4d8c76822e01db186d","context/LATEST_HANDOFF.md":"cfce7866d9df109f8c8b31c7866e6bde49955747ebffe1b68696d975e8be94df","context/SELF_IMPROVEMENT_LOOP.md":"7f9bc5996ef1d70ee945d4671e8f8f3aafd8e73cfa0bca3e260602d231c51746","context/TRUTH_AUDIT.md":"b5ae8eb025ba473e113c4d040532051228025c3281a4d3bea6c6c2a6d8006450","context/CURRENT_STATE.md":"1bdc27037bd7a6cfea7d45a966a88f51c1a67f817f4622558f4aedcc095c740e","docs/GENIUS_LIST.md":"1c56e41032e53da7c40239ed62ad7c2b259ca7dff7214d13a81145cccac1ec70","docs/SESSION_PLAN.md":"b3bf49e5e8d173eac49219b9021300838b88c80b0b19912520288e66e0870943","docs/CREATIVE_DIRECTION_RECORD.md":"4f354ef39de2dc6b9400af1d22e7f971dfb04ddd4a8060145853c1dea5cf28ed"}} -->
+<!-- brief-sources: {"schema":2,"session":97,"sources":{"context/PROJECT_STATUS.json":"cb500bb68bc348a1f23854abd7699a48c834f5391501499bf6f66f3c44eb835b","context/TASK_BOARD.md":"cb43012e0aa825df1409cac1bbd358b3c4ea99d690c1bb4d8c76822e01db186d","context/LATEST_HANDOFF.md":"01c6348dc8309fd9ddab042b554ae66a5e11e39568fa25a655202dbebc0e264a","context/SELF_IMPROVEMENT_LOOP.md":"23e7453c5b4887e8073ee580ae7ad5f6f3ed2e023d2c3ef4deaa8a1c7f692ddf","context/TRUTH_AUDIT.md":"60680b3b850ea3ef6918037a84233b6df947a3cfc5b015f73ef41a8fbacc71a5","context/CURRENT_STATE.md":"7c79bf2b6e23dc4f588b1d278c9f529e9db7895d1dfaa9bf619455f222b07ee8","docs/GENIUS_LIST.md":"1c56e41032e53da7c40239ed62ad7c2b259ca7dff7214d13a81145cccac1ec70","docs/SESSION_PLAN.md":"b3bf49e5e8d173eac49219b9021300838b88c80b0b19912520288e66e0870943","docs/CREATIVE_DIRECTION_RECORD.md":"4f354ef39de2dc6b9400af1d22e7f971dfb04ddd4a8060145853c1dea5cf28ed"}} -->
 
 # Startup Brief — VaultFront
 
@@ -21,9 +21,9 @@
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ LAST SESSION (S97) - WHAT SHIPPED ═══════════════════════════╗
-║  Session 97 shipped all nine fresh audit items, exhausted the    ║
-║  cumulative audit at 32/32 plus innovations 62/62, passed all…   ║
-║  Tests  ?/? passing                                              ║
+║  Session 97 shipped all nine fresh audit items, exhausted audit  ║
+║  32/32 plus innovations 62/62, closed three stale CI-only…       ║
+║  Tests  1221/1221 passing (2026-08-06) · 1 deferred: Exact-revi  ║
 ║  Deploy NO-GO · no staging/production observation                ║
 ╚════════════════════════════════════════════════════════════════╝
 
@@ -62,18 +62,18 @@
 
 ╔══ WHERE WE LEFT OFF  ·  Session 97 ════════════════════════════╗
 ║  Shipped:  see LATEST_HANDOFF.md                                 ║
-║  Tests:    ? passing  ·  Deploy: N/A                             ║
+║  Tests:    1221/1221 passing  ·  Deploy: N/A                     ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ CONTEXT METER ═══════════════════════════════════════════════╗
-║  ✓  ███░░░░░░░░░░░░░░░░░░░░░   12% used                          ║
-║     122,318 / 1,000,000 tok  ·  codex/codex-1m  ·  measured+heu  ║
-║     ~61,159 tok/turn  ·  cache 50%  ·  13 turns to compact       ║
+║  ✓  ░░░░░░░░░░░░░░░░░░░░░░░░    2% used                          ║
+║     3,013 / 200,000 tok  ·  unknown/default  ·  heuristic        ║
+║     ~1,507 tok/turn  ·  cache 50%  ·  120 turns to compact       ║
 ║     Verdict: CONTINUE                                            ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ SIGNALS ═════════════════════════════════════════════════════╗
-║  ⚠  Tests         ?/? passing                                    ║
+║  ⚠  Tests         1221/1221 passing (2026-08-06) · 1 deferred:   ║
 ║  ✓  Velocity      9 ↑  ·  Debt: ↓                                ║
 ║  ⚠  Runway        unknown                                        ║
 ║  ⛔  Context age   ?d                                             ║

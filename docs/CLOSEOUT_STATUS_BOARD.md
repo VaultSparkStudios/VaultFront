@@ -12,7 +12,7 @@
 ║  ✓ Branch: `main`; the local arc is exhausted at cumulative aud  ║
 ║  ✓ Shipped: durable certified archive outbox; safe candidate-fi  ║
 ║  ✓ Visual truth: real-browser inspection across three themes an  ║
-║  ✓ Verification: all 232 test files pass across root 39 / clien  ║
+║  ✓ Verification: all 232 files / 1,221 tests pass by exact evid  ║
 ║  ✓ Release: public-unlaunched / NO-GO. Available infrastructure  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ SCORES · SIL 997/1000 ═══════════════════════════════════════╗
@@ -40,7 +40,7 @@
 ║  ✓ agent memory (context/BRAIN.md or agent home)                 ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ GIT STATUS ══════════════════════════════════════════════════╗
-║  Changes: 0 files  ·  M:0 A:0 D:0 ?:0                            ║
+║  Changes: 12 files  ·  M:12 A:0 D:0 ?:0                          ║
 ║  Ahead: 0  ·  Behind: 0                                          ║
 ║  Branch: main                                                    ║
 ╚════════════════════════════════════════════════════════════════╝
@@ -51,7 +51,7 @@
 ╔══ POST-SESSION SIGNALS ════════════════════════════════════════╗
 ║  Doctor:        13/13                                            ║
 ║  Compliance:    49/49                                            ║
-║  Tests:         —                                                ║
+║  Tests:         1221/1221                                        ║
 ║  IGNIS:         6d ago                                           ║
 ║  Truth:         green                                            ║
 ║  Shell hygiene: 0 running                                        ║

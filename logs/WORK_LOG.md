@@ -348,3 +348,9 @@ Session 89 closeout tooling incident: invoking the Studio Ops closeout-board ren
 - Visual proof: direct browser inspection across VaultFront, Light, and Competitive themes at desktop/mobile exposed pale-on-pale light-theme reroute text. Semantic theme variables and computed ≥4.5:1 contrast gates root-fixed it; Playwright passes 2/2 with 114 source- and artifact-hash-bound captures; CANON-053 passes.
 - Verification: cumulative audit 32/32 and innovations 62/62 are exhausted. All 232 test files pass across root 39, client/core 70, scripts 51, and server 72; known counts are root 301, scripts 187, server 298, and a clean serialized client confirmation of 18 files / 83 tests after exact orphan cleanup. A new aggregate assertion count is intentionally not inferred. TypeScript, ESLint, Prettier ratchet, runtime/deploy/composition contracts, 28,125 balance scenarios, production build, bundle budgets, Bash syntax, and production audit pass.
 - Release truth: a detector-only Traefik variable mismatch was repaired with a 12-test regression, reducing release blockers from 13 to 12. Production remains NO-GO on the genuine staging, identity, mail, live-theme, human, revenue, rollback, exact-revision CI, and founder observations.
+
+### Session 97 exact-revision CI repair
+
+- Exact closeout SHA `650d789c` passed Release, lint, Prettier, security, build, and bundle work, but coverage exposed three stale tests that still reached through class-owned execution-chain helpers after ownership moved to `ExecutionChainLedger`.
+- The tests now exercise the extracted ledger directly and spy on its `project()` boundary; runtime composition remains reduced and no obsolete compatibility method returned.
+- GitHub established 1,218/1,221 passing before the repair. The only changed file passes 12/12 under V8 coverage, including all three repaired tests, so the candidate tree has exact compositional evidence for 1,221/1,221 pending the new provider run.

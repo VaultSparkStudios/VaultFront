@@ -1,50 +1,54 @@
 <!-- generated-by: scripts/compact-handoff.mjs v3.1 -->
-<!-- source-hash: 21ac4d647f61 -->
-<!-- generated-at: 2026-08-06T01:08:17.944Z -->
+<!-- source-hash: 01c6348dc830 -->
+<!-- generated-at: 2026-08-07T08:26:20.425Z -->
 
 # LATEST_HANDOFF (compact)
 
-## Handoff Summary — Session 96
+SESSION 97 HANDOFF SUMMARY
 
-Session: 96 complete (2026-08-05); branch main
+Status
 
-Shipped this session
+- Branch main; local arc exhausted: audit 32/32, innovations 62/62. No pending unblocked code work.
 
-- Generation-owned match construction/teardown; truthful local tab-collision state.
-- Certified causal feedback; removed browser-authored remote micro-hint.
-- Repeatable progression debriefs; Doctrine-bound rematch intent; accessible account recovery.
-- Fresh arc exhausted: audit 23/23, innovations 62/62.
+Shipped (Session 97)
 
-Verification status
+- Durable certified archive outbox; safe candidate-first deployment drain; achievement rehydration; runtime state-scope inventory.
+- Turnstile token redaction; bounded request-owned remote-AI executor; cause-bound coaching; reachable Doctrine continuation; accessible reroute decision matrix.
+- Fixed light-theme contrast defect via real-browser inspection (three themes, desktop/mobile).
 
-- npm test 229/229 files, 1,198/1,198 tests pass; TypeScript, ESLint, formatting, contracts, balance, production build, security, doctor all green locally.
-- Visual: Playwright 2/2 covers 19 states across VaultFront, Light, Competitive themes on desktop/mobile; 114-artifact receipt passes CANON-053 at digest sha256:b6f542a7...f0238.
-- Provider closure: revision b45442ca passed CI 31053545824, E2E 31053548119, Release 31053545757.
+Verification
 
-Release posture
+- All 232 files / 1,221 tests pass by exact evidence.
+- Playwright 2/2; 114 artifacts source/hash-bound; CANON-053 passes at digest sha256:e39906438bd1...9ed5d0.
+- GitHub coverage: 1,218 unchanged tests passed; three stale execution-chain seams exposed and repaired; changed file 12/12 under V8 coverage.
+- TypeScript, ESLint, Prettier, contracts, balance, production build, bundles, Bash syntax, production audit all green.
 
-- public-unlaunched / NO-GO. Provider verification green; no external observations inferred.
+Current Intent
 
-Now bucket (top items)
+- Collect external release evidence in gate order. Do not promote production or claim deployment until every release observation is verified. Never synthesize from local proof or READY credentials.
 
-- Establish approved staging origin/callback contract.
-- Collect exact-digest parity and live web/theme evidence in gate order.
-- Premise-check the next fresh audit from exhausted baseline.
+Now Bucket (top 3)
+
+- Establish approved staging origin/callback contract with parity and health.
+- Execute deployment dry-run receipt path; verify exact-revision provider CI for current revision.
+- Collect live-theme, live-web, and identity evidence.
 
 Blockers (top 3)
 
-- No approved staging/parity evidence.
-- No Zoho reply identity or native Obelisk observation.
-- No three-human Alpha, revenue, or observed rollback.
+- No approved staging/parity/health established.
+- No exact-revision CI/rollback observation for current revision.
+- No live production result confirmed.
 
-Human-blocked items
+Human-Blocked / Externally-Owned
 
-- Founder approval outstanding (multi-session, since ~S82).
-- Studio registry type reconciliation externally owned since S89; ack 01JUJOJL1K040B6517CAF2EFA9 rejected `type`/`field-not-allowed`; Ark question 01JUNMMD1162... awaiting owner-supported path (~7 sessions).
-- Studio Ops board `--help` mutation incident: Ark incident 01JUNMP9IR... awaiting owner regeneration (since S89).
+- Studio registry type reconciliation: externally owned since Session 89 (~8 sessions). Ack 01JUJOJL1K040B6517CAF2EFA9 rejected `type`/`field-not-allowed`; Ark question 01JUNMMD1162DB95DA5B58A7AB awaits owner-supported correction path.
+- Studio Ops board renderer incident (Session 89): non-mutating project-scoped help path and owner regeneration requested via 01JUNMP9IR9DF9678CD51FFF1B.
+- Release NO-GO gates awaiting founder/external observation: Zoho reply identity, native Obelisk, distinct-human Alpha, real revenue, founder approval.
 
-Known limitations
+Release Posture
 
-- Local bitmap viewer unavailable (Windows sandbox credential helper cannot decrypt state); pixel/contrast/semantic/hash checks passed and limitation is explicit.
+- Public-unlaunched / NO-GO.
 
-Next session: begin from locally exhausted state; collect approved external evidence in gate order or premise-check the next fresh audit — do not synthesize external proof from READY credentials.
+Next Session Pointer
+
+- Begin from locally exhausted state; pursue external release evidence in gate order or premise-check a fresh audit.

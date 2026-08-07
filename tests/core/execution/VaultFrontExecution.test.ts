@@ -1,4 +1,5 @@
 import { vi } from "vitest";
+import { ExecutionChainLedger } from "../../../src/core/execution/ExecutionChainLedger";
 import { bigintToSafeNumber } from "../../../src/core/execution/SafeNumber";
 import { VaultFrontExecution } from "../../../src/core/execution/VaultFrontExecution";
 import { projectVaultFrontMutatorBalance } from "../../../src/core/execution/VaultFrontRuntimeBalance";
@@ -47,16 +48,12 @@ function mockPlayer(
 
 describe("VaultFrontExecution", () => {
   test("projects the deterministic execution-chain reset cause", () => {
-    const execution = new VaultFrontExecution() as any;
-    execution.executionChainStep = new Map([[7, 2]]);
-    execution.executionChainExpiresAtTick = new Map([[7, 900]]);
-    execution.executionChainLastResetReason = new Map();
-    execution.executionChainLastResetTick = new Map();
-    execution.executionChainLastResetFromStep = new Map();
+    const ledger = new ExecutionChainLedger();
+    ledger.progress(7, 2, 900);
 
-    execution.resetExecutionChain(7, "convoy_intercepted", 640);
+    ledger.reset(7, "convoy_intercepted", 640);
 
-    expect(execution.buildExecutionChainStates()[7]).toEqual({
+    expect(ledger.project()[7]).toEqual({
       step: 0,
       expiresAtTick: 0,
       lastResetReason: "convoy_intercepted",
@@ -263,7 +260,7 @@ describe("VaultFrontExecution", () => {
     execution.vaultSites = [];
     execution.convoys = [];
     execution.beacons = new Map();
-    vi.spyOn(execution, "buildExecutionChainStates").mockReturnValue({});
+    vi.spyOn(execution.executionChains, "project").mockReturnValue({});
     vi.spyOn(execution, "buildSurgeStates").mockReturnValue({});
     vi.spyOn(execution, "buildSquadObjectiveStates").mockReturnValue([]);
     vi.spyOn(execution, "buildPressureStates").mockReturnValue({});
@@ -293,7 +290,7 @@ describe("VaultFrontExecution", () => {
     execution.beacons = new Map();
     execution.lastStatusProjectionDigest = 123;
     execution.lastStatusProjectionSerialized = "different projection";
-    vi.spyOn(execution, "buildExecutionChainStates").mockReturnValue({});
+    vi.spyOn(execution.executionChains, "project").mockReturnValue({});
     vi.spyOn(execution, "buildSurgeStates").mockReturnValue({});
     vi.spyOn(execution, "buildSquadObjectiveStates").mockReturnValue([]);
     vi.spyOn(execution, "buildPressureStates").mockReturnValue({});
