@@ -12,8 +12,8 @@
 ║  ✓ Branch: `main`; the local arc is exhausted at cumulative aud  ║
 ║  ✓ Shipped: durable certified archive outbox; safe candidate-fi  ║
 ║  ✓ Visual truth: real-browser inspection across three themes an  ║
-║  ✓ Verification: all 232 files / 1,221 tests pass by exact evid  ║
-║  ✓ Release: public-unlaunched / NO-GO. Available infrastructure  ║
+║  ✓ Verification: exact revision `5fbfc6cab141ccf73d56b6d4c1062e  ║
+║  ✓ Deployment: staging dry-run `31162447355` passed the reposit  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ SCORES · SIL 997/1000 ═══════════════════════════════════════╗
 ║    Dev Health         100  ██████████                            ║
@@ -40,7 +40,7 @@
 ║  ✓ agent memory (context/BRAIN.md or agent home)                 ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ GIT STATUS ══════════════════════════════════════════════════╗
-║  Changes: 12 files  ·  M:12 A:0 D:0 ?:0                          ║
+║  Changes: 13 files  ·  M:13 A:0 D:0 ?:0                          ║
 ║  Ahead: 0  ·  Behind: 0                                          ║
 ║  Branch: main                                                    ║
 ╚════════════════════════════════════════════════════════════════╝
@@ -52,10 +52,10 @@
 ║  Doctor:        13/13                                            ║
 ║  Compliance:    49/49                                            ║
 ║  Tests:         1221/1221                                        ║
-║  IGNIS:         6d ago                                           ║
+║  IGNIS:         7d ago                                           ║
 ║  Truth:         green                                            ║
 ║  Shell hygiene: 0 running                                        ║
-║  Sanitization:  12d ago                                          ║
+║  Sanitization:  13d ago                                          ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ NEXT SESSION ════════════════════════════════════════════════╗
 ║  #1: Unified Genius List exhausted                               ║

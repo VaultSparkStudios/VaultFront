@@ -995,7 +995,7 @@
       },
       "coreLoopStep": "live player input → uninterrupted match fantasy → certified result reward → deployment-safe progression",
       "executionLog": [
-        "Session 97: candidate-first health and immutable revision admission now precede bounded incumbent drain; duplicate incumbents fail closed, rollback restores the exact incumbent, and 106 deploy-contract checks pass."
+        "Session 97: candidate-first health and immutable revision admission now precede bounded incumbent drain; duplicate incumbents fail closed, rollback restores the exact incumbent, and 110 deploy-contract checks pass, including Git executable-mode enforcement for all three deployment scripts."
       ]
     },
     {

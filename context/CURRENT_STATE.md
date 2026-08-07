@@ -1,3 +1,9 @@
+## Session 97 — Certified continuation and deployment-mode repair (2026-08-06)
+
+The full Session 97 arc shipped durable certified archive delivery, safe candidate-first deployment drain, achievement rehydration, complete runtime state-scope inventory, Turnstile token redaction, bounded request-owned remote artificial-intelligence execution, cause-bound coaching, Doctrine continuation, and an accessible reroute decision matrix. Exact revision `5fbfc6cab141ccf73d56b6d4c1062ed27151c613` passed GitHub CI, E2E, Release, and brief-format, proving all 232 files / 1,221 tests.
+
+Staging dry-run `31162447355` failed before connection because all three deployment scripts were tracked as non-executable. Their Git modes are repaired to `100755`, the deploy contract now rejects regressions across 110 checks, and the public-safe staging `DOMAIN` variable is configured. The repair still requires exact provider proof and a repeated dry-run; no live staging or production deployment is claimed. Production remains NO-GO on the repository's external evidence gates.
+
 ## Session 96 — Deterministic rematch lifecycle and certified causal reflection (2026-08-05)
 
 Completed the recovery-first continuous /start → /audit → /implement → /closeout mission. Seven fresh live-code findings shipped: match construction and runtime teardown now share one generation boundary; multi-tab enforcement states its exact local-storage scope; certified feedback carries one bounded causal signal; the unauthenticated remote micro-hint path is retired; progression debriefs are repeatable and stale-session-safe; active non-power Doctrine identity reaches the rematch intent; and account recovery uses accessible inline state instead of blocking alerts.

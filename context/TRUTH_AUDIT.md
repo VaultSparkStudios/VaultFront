@@ -12,6 +12,7 @@
 - Visual truth: real-browser inspection found and fixed a Light-theme contrast defect. Playwright passes 2/2 across three themes and desktop/mobile; 114 artifacts are source/hash-bound and CANON-053 passes.
 - Verification truth: all 232 files / 1,221 tests pass by exact evidence composition. GitHub coverage passed 1,218 unchanged tests and exposed three stale test-only ownership seams; the only changed file then passed 12/12 under V8 coverage, including all three repairs. Loaded-host worker-start/outer timeouts remain recorded as host admission failures, not assertion failures. Type, lint, format, contracts, balance, build, bundles, Bash syntax, and production audit pass.
 - Release truth: release evidence has 12 genuine blockers before commit/provider execution. No approved staging/parity, Zoho reply identity, native Obelisk, live theme, distinct-human Alpha, real revenue, observed rollback, exact-revision CI, or founder approval is fabricated; production remains NO-GO.
+- Deployment-execution truth: exact green SHA `5fbfc6ca` passed CI/E2E/Release, then staging dry-run `31162447355` failed before connection because all three deploy scripts were tracked as `100644`. Their Git modes are now `100755` and executable-mode regression is part of the deploy contract. The run also observed missing GitHub `DOMAIN`; public-safe local sources name `vaultsparkstudios.com`, but no live staging observation is claimed.
 
 ## 2026-08-05 — Session 96 lifecycle, reflection, and rematch truth
 

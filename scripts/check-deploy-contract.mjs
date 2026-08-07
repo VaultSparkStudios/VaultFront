@@ -20,6 +20,30 @@ const check = (condition, message) => {
 };
 const requireText = (body, pattern, message) =>
   check(pattern.test(body), message);
+const deploymentScripts = ["build-deploy.sh", "deploy.sh", "update.sh"];
+
+const gitModes = spawnSync(
+  "git",
+  ["ls-files", "--stage", "--", ...deploymentScripts],
+  { cwd: ROOT, encoding: "utf8" },
+);
+check(gitModes.status === 0, "deployment script Git modes are unavailable");
+const modeByPath = new Map(
+  String(gitModes.stdout ?? "")
+    .trim()
+    .split(/\r?\n/u)
+    .filter(Boolean)
+    .map((line) => {
+      const match = line.match(/^(\d+)\s+\S+\s+\d+\t(.+)$/u);
+      return match ? [match[2], match[1]] : [line, "invalid"];
+    }),
+);
+for (const script of deploymentScripts) {
+  check(
+    modeByPath.get(script) === "100755",
+    `${script} is not tracked as executable`,
+  );
+}
 
 const deploy = read("deploy.sh");
 const update = read("update.sh");
@@ -446,7 +470,7 @@ check(
   "runbook still instructs a second ingress authority",
 );
 
-for (const script of ["build-deploy.sh", "deploy.sh", "update.sh"]) {
+for (const script of deploymentScripts) {
   const syntax = spawnSync(BASH, ["-n", script], {
     cwd: ROOT,
     encoding: "utf8",

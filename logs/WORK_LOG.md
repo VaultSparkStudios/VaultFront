@@ -354,3 +354,9 @@ Session 89 closeout tooling incident: invoking the Studio Ops closeout-board ren
 - Exact closeout SHA `650d789c` passed Release, lint, Prettier, security, build, and bundle work, but coverage exposed three stale tests that still reached through class-owned execution-chain helpers after ownership moved to `ExecutionChainLedger`.
 - The tests now exercise the extracted ledger directly and spy on its `project()` boundary; runtime composition remains reduced and no obsolete compatibility method returned.
 - GitHub established 1,218/1,221 passing before the repair. The only changed file passes 12/12 under V8 coverage, including all three repaired tests, so the candidate tree has exact compositional evidence for 1,221/1,221 pending the new provider run.
+
+### Session 97 staging dry-run repair
+
+- Exact green SHA `5fbfc6ca` passed CI, E2E, Release, and brief-format. Staging dry-run `31162447355` then passed repository contracts but failed before connection because `deploy.sh` was tracked as non-executable on the Linux runner.
+- `deploy.sh`, `build-deploy.sh`, and `update.sh` are now tracked as `100755`; the deploy contract reads Git index modes and fails if any deployment script regresses.
+- The dry-run also observed missing public-safe `DOMAIN` configuration. Local runbook and historical deployment sources agree on `vaultsparkstudios.com`; no secret or live deployment evidence is inferred from that value.

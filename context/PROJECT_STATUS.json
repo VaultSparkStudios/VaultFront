@@ -6,7 +6,7 @@
   "health": "green",
   "currentSession": 97,
   "lastAgent": "codex",
-  "currentFocus": "Session 97 implementation and closeout complete; exact CI exposed three stale execution-chain tests, now repaired against ExecutionChainLedger with 12/12 V8 coverage. Candidate provider rerun pending; external release remains NO-GO.",
+  "currentFocus": "Session 97 complete; exact SHA 5fbfc6ca passed CI, E2E, Release, and brief-format. Staging dry-run exposed non-executable deployment scripts; Git modes and the 110-check contract are repaired, with exact provider rerun pending after commit.",
   "nextMilestone": "Establish an approved staging origin plus native Obelisk and project-domain Zoho contracts, then collect parity, human, revenue, rollback, and founder evidence in gate order.",
   "blockers": [],
   "lastUpdated": "2026-08-07",
@@ -110,10 +110,10 @@
     "failing": 0,
     "blockingFailing": 0,
     "date": "2026-08-07",
-    "observedAt": "2026-08-07T08:27:28.547Z",
+    "observedAt": "2026-08-07T19:09:59.373Z",
     "source": "scripts/project-doctor.mjs",
     "evidencePath": "audits/doctor-latest.json",
-    "evidenceDigest": "sha256:5fafd9735a1afa80acbfa38e66efa77b6365b204ef068d65ab67b065d5098fe2",
+    "evidenceDigest": "sha256:260055c9acb977d6801c547f1c63735321b8b68fbfae46b973148801bd892fd7",
     "evidenceSchemaVersion": 1,
     "checkCount": 13
   },
@@ -149,23 +149,23 @@
   "testsLastRun": "2026-08-06",
   "testsLastRunMode": "exact evidence composition: provider V8 coverage passed 1218 unchanged tests on 650d789c; only changed file passes 12/12 under V8 coverage including three repaired tests; overlap 9 => 1221/1221 candidate",
   "testsDeferred": [
-    "Exact-revision provider rerun pending for the ownership-aligned test repair commit."
+    "Exact-revision provider rerun pending for the deployment executable-mode repair commit."
   ],
   "testsBudgetExhausted": false,
   "lastSessionSummary": "Session 97 shipped all nine fresh audit items, exhausted audit 32/32 plus innovations 62/62, closed three stale CI-only execution-chain test seams against the extracted ledger, and preserves external launch NO-GO.",
   "providerCiStatus": {
     "status": "green-verified-code-revision",
-    "revision": "b45442ca320d5bee9633f05d455575ed8f111fc0",
-    "ciRunId": 31053545824,
-    "e2eRunId": 31053548119,
-    "releasePlannerRunId": 31053545757,
-    "ciUrl": "https://github.com/VaultSparkStudios/vaultfront/actions/runs/31053545824",
-    "e2eUrl": "https://github.com/VaultSparkStudios/vaultfront/actions/runs/31053548119",
-    "releasePlannerUrl": "https://github.com/VaultSparkStudios/vaultfront/actions/runs/31053545757",
-    "observedAt": "2026-08-05T22:42:42Z",
+    "revision": "5fbfc6cab141ccf73d56b6d4c1062ed27151c613",
+    "ciRunId": 31162101895,
+    "e2eRunId": 31162101977,
+    "releasePlannerRunId": 31162101929,
+    "ciUrl": "https://github.com/VaultSparkStudios/vaultfront/actions/runs/31162101895",
+    "e2eUrl": "https://github.com/VaultSparkStudios/vaultfront/actions/runs/31162101977",
+    "releasePlannerUrl": "https://github.com/VaultSparkStudios/vaultfront/actions/runs/31162101929",
+    "observedAt": "2026-08-07T19:02:59.640Z",
     "source": "GitHub Actions terminal conclusions",
     "currentRevisionVerified": false,
-    "note": "CI, E2E, and Release passed on exact code-and-board revision b45442ca. This provider receipt is recorded by a metadata-only [skip ci] successor, so the receipt names the verified predecessor rather than claiming that the documentation successor ran code gates."
+    "note": "CI, E2E, Release, and brief-format passed on exact revision 5fbfc6ca. The successor repairs Git executable modes for deploy scripts and requires its own exact provider run before live staging."
   },
   "dependencyAudit": {
     "production": 0,
