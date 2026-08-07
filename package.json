@@ -133,7 +133,7 @@
     "express-rate-limit": "7.5.0",
     "helmet": "8.3.0",
     "howler": "2.2.4",
-    "intl-messageformat": "10.7.16",
+    "intl-messageformat": "11.2.13",
     "ip-anonymize": "0.1.0",
     "jose": "6.2.3",
     "nanoid": "3.3.18",
