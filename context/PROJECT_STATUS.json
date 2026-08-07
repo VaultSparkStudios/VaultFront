@@ -6,7 +6,7 @@
   "health": "green",
   "currentSession": 97,
   "lastAgent": "codex",
-  "currentFocus": "Session 97 complete; exact SHA 5fbfc6ca passed CI, E2E, Release, and brief-format. Staging dry-run exposed non-executable deployment scripts; Git modes and the 110-check contract are repaired, with exact provider rerun pending after commit.",
+  "currentFocus": "Session 97 closeout repair: executable deploy modes are committed at a1f28f82. Exact CI passed build, lint, formatting, bundle, and all 1,221 tests but a newly published DOMPurify advisory failed the production audit; trust-approved 3.4.13 is applied and awaiting successor exact-SHA provider proof.",
   "nextMilestone": "Establish an approved staging origin plus native Obelisk and project-domain Zoho contracts, then collect parity, human, revenue, rollback, and founder evidence in gate order.",
   "blockers": [],
   "lastUpdated": "2026-08-07",
@@ -149,23 +149,23 @@
   "testsLastRun": "2026-08-06",
   "testsLastRunMode": "exact evidence composition: provider V8 coverage passed 1218 unchanged tests on 650d789c; only changed file passes 12/12 under V8 coverage including three repaired tests; overlap 9 => 1221/1221 candidate",
   "testsDeferred": [
-    "Exact-revision provider rerun pending for the deployment executable-mode repair commit."
+    "Exact-revision provider rerun pending for the DOMPurify 3.4.13 security repair commit."
   ],
   "testsBudgetExhausted": false,
   "lastSessionSummary": "Session 97 shipped all nine fresh audit items, exhausted audit 32/32 plus innovations 62/62, closed three stale CI-only execution-chain test seams against the extracted ledger, and preserves external launch NO-GO.",
   "providerCiStatus": {
-    "status": "green-verified-code-revision",
-    "revision": "5fbfc6cab141ccf73d56b6d4c1062ed27151c613",
-    "ciRunId": 31162101895,
-    "e2eRunId": 31162101977,
-    "releasePlannerRunId": 31162101929,
-    "ciUrl": "https://github.com/VaultSparkStudios/vaultfront/actions/runs/31162101895",
-    "e2eUrl": "https://github.com/VaultSparkStudios/vaultfront/actions/runs/31162101977",
-    "releasePlannerUrl": "https://github.com/VaultSparkStudios/vaultfront/actions/runs/31162101929",
-    "observedAt": "2026-08-07T19:02:59.640Z",
+    "status": "red-remediated-awaiting-rerun",
+    "revision": "a1f28f82999ae9b035280cf0dd6150303d952f77",
+    "ciRunId": 31210452978,
+    "e2eRunId": 31210453759,
+    "releasePlannerRunId": 31210453065,
+    "ciUrl": "https://github.com/VaultSparkStudios/vaultfront/actions/runs/31210452978",
+    "e2eUrl": "https://github.com/VaultSparkStudios/vaultfront/actions/runs/31210453759",
+    "releasePlannerUrl": "https://github.com/VaultSparkStudios/vaultfront/actions/runs/31210453065",
+    "observedAt": "2026-08-07T20:27:38.762Z",
     "source": "GitHub Actions terminal conclusions",
     "currentRevisionVerified": false,
-    "note": "CI, E2E, Release, and brief-format passed on exact revision 5fbfc6ca. The successor repairs Git executable modes for deploy scripts and requires its own exact provider run before live staging."
+    "note": "E2E, Release, and brief-format passed. CI passed build, lint, formatting, bundle, and 1,221 tests but failed the newly published GHSA-55q2-fjhq-7xh7 audit; trust-approved DOMPurify 3.4.13 remediates it and requires a successor exact provider run."
   },
   "dependencyAudit": {
     "production": 0,

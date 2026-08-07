@@ -1,9 +1,9 @@
 <!-- generated-by: scripts/render-startup-brief.mjs v3.1 -->
-<!-- generated-at: 2026-08-07T19:10:00.376Z -->
+<!-- generated-at: 2026-08-07T20:36:07.953Z -->
 <!-- generated-for-session: 98; source-closeout-session: 97 -->
 <!-- fast-boot-valid-until: next session if within 24h -->
 <!-- brief-coherent: true -->
-<!-- brief-sources: {"schema":2,"session":97,"sources":{"context/PROJECT_STATUS.json":"7f00b9015ef7e7d2ee9637ac33b8920b3e3363ff4e806baa8ebd8959346b7e54","context/TASK_BOARD.md":"cb43012e0aa825df1409cac1bbd358b3c4ea99d690c1bb4d8c76822e01db186d","context/LATEST_HANDOFF.md":"6904d5f8c7a6ed9f3bb25c8bf589c1ef815bb924f944da216c4bd7043b50c7f4","context/SELF_IMPROVEMENT_LOOP.md":"101ac46c4ad794e677a75c8d7fbc0598f5d7b5f5d402a26f0a9b571494c4584c","context/TRUTH_AUDIT.md":"b58614b8ead4f841ae1ca95b185f6431e966a95c7e799ae013146c4241d0c090","context/CURRENT_STATE.md":"94666c4aca9aa63d3b0e37861b50b2029297f41c0ab14c51b7ae9a88b6773d36","docs/GENIUS_LIST.md":"1c56e41032e53da7c40239ed62ad7c2b259ca7dff7214d13a81145cccac1ec70","docs/SESSION_PLAN.md":"b3bf49e5e8d173eac49219b9021300838b88c80b0b19912520288e66e0870943","docs/CREATIVE_DIRECTION_RECORD.md":"4f354ef39de2dc6b9400af1d22e7f971dfb04ddd4a8060145853c1dea5cf28ed"}} -->
+<!-- brief-sources: {"schema":2,"session":97,"sources":{"context/PROJECT_STATUS.json":"879b1dea565d152d819e86dbe6561803e7597bf3b8fab4afcb204aaee804d1fa","context/TASK_BOARD.md":"cb43012e0aa825df1409cac1bbd358b3c4ea99d690c1bb4d8c76822e01db186d","context/LATEST_HANDOFF.md":"847aa17b4c68b4bc0308c14c539845e62e06b8a491197844dc1d459b9d1602d2","context/SELF_IMPROVEMENT_LOOP.md":"101ac46c4ad794e677a75c8d7fbc0598f5d7b5f5d402a26f0a9b571494c4584c","context/TRUTH_AUDIT.md":"4e58ad0e1679c404172b5681fdc5a26039c6692a11883c918e95b47948662244","context/CURRENT_STATE.md":"0263838fa35970370e52c7d8ccf46168e786ff426b07370000d11d164ec8fdfc","docs/GENIUS_LIST.md":"1c56e41032e53da7c40239ed62ad7c2b259ca7dff7214d13a81145cccac1ec70","docs/SESSION_PLAN.md":"b3bf49e5e8d173eac49219b9021300838b88c80b0b19912520288e66e0870943","docs/CREATIVE_DIRECTION_RECORD.md":"4f354ef39de2dc6b9400af1d22e7f971dfb04ddd4a8060145853c1dea5cf28ed"}} -->
 
 # Startup Brief — VaultFront
 

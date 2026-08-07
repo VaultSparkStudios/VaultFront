@@ -1,47 +1,51 @@
 <!-- generated-by: scripts/compact-handoff.mjs v3.1 -->
-<!-- source-hash: 6904d5f8c7a6 -->
-<!-- generated-at: 2026-08-07T19:08:46.053Z -->
+<!-- source-hash: 847aa17b4c68 -->
+<!-- generated-at: 2026-08-07T20:35:25.968Z -->
 
 # LATEST_HANDOFF (compact)
 
-SESSION 97 HANDOFF SUMMARY
+SESSION HANDOFF SUMMARY
+
+Session
+
+- Session 97 complete (2026-08-06); branch main.
 
 Status
 
-- Branch: main. Local arc exhausted: audit 32/32, innovations 62/62. No pending unblocked code work.
+- Local arc exhausted: cumulative audit 32/32, innovations 62/62. No pending unblocked code work.
 
-Shipped (Session 97)
+Shipped this session
 
-- Durable certified archive outbox; safe candidate-first deployment drain; achievement rehydration; runtime state-scope inventory; Turnstile token redaction; bounded request-owned remote-AI executor; cause-bound coaching; reachable Doctrine continuation; accessible reroute decision matrix.
-- Fixed light-theme contrast defect via real-browser inspection (3 themes, desktop/mobile).
+- Durable certified archive outbox; safe candidate-first deployment drain; achievement rehydration; runtime state-scope inventory; Turnstile token redaction; bounded request-owned remote-AI executor; cause-bound coaching; Doctrine continuation; accessible reroute decision matrix.
+- Light-theme contrast defect found via real-browser inspection and fixed. 114 artifacts source/hash-bound; CANON-053 passes at digest sha256:c734c70c...852a84.
+- DOMPurify security repair: GHSA-55q2-fjhq-7xh7 made 3.4.12 audit-red; Cure53 3.4.13 approved and applied; local audit and build pass.
+- Deploy scripts (deploy.sh, build-deploy.sh, update.sh) corrected from 100644 to 100755; deploy contract enforces modes across 110 checks; staging has public-safe DOMAIN=vaultsparkstudios.com.
 
-Current Intent
+Verification
 
-- Commit and obtain exact provider proof for the executable-mode repair (deploy scripts newly set to 100755), rerun staging dry-run, then collect external release evidence in gate order. Do not promote production or claim deployment until every release observation is verified.
+- Revision a1f28f82... passed E2E, Release, brief-format, build, lint, format, bundle; 232 files / 1,221 tests. CI failed only on the new DOMPurify advisory (now resolved locally).
 
-Now (top 3)
+Now bucket (top 3)
 
-- Commit executable-mode repair and obtain its own exact provider CI proof (must not inherit Session 97's proof at 5fbfc6c).
-- Rerun staging dry-run (prior 31162447355 failed pre-connection on file-mode issue, now corrected; deploy contract enforces modes across 110 checks).
-- Collect external release evidence in gate order.
+1. Commit and push the DOMPurify 3.4.13 security repair; obtain exact provider CI proof for this revision.
+2. Rerun the staging dry-run (prior run 31162447355 failed pre-connection on file modes, now fixed).
+3. Collect external release evidence in gate order.
 
 Blockers (top 3)
 
-- No live staging observation claimed yet; dry-run rerun required.
-- Executable-mode repair lacks its own provider proof.
-- Release NO-GO: infrastructure alone does not establish gates below.
+1. Release NO-GO: no approved staging/parity or live-theme evidence observed.
+2. No Zoho reply identity, native Obelisk, or distinct-human Alpha evidence.
+3. No revenue, observed rollback, or founder approval.
 
-Human-Blocked / External
+Human-blocked
 
-- Studio registry type reconciliation: externally owned since Session 89 (ack 01JUJOJL1K040B6517CAF2EFA9, question 01JUNMMD...); ~8 sessions old. Needs owner-supported correction path via Ark.
-- Ops board renderer incident (Session 89, 01JUNMP9...): owner regeneration + non-mutating help path requested; ~8 sessions old.
+- Studio registry type reconciliation externally owned since ack 01JUJOJL1K (Session 89, ~8 sessions old); awaiting owner-supported correction path via Ark.
+- Ark incident 01JUNMP9IR (Session 89): owner regeneration of Studio Ops board renderer requested.
 
-Release Posture
+Constraint
 
-- Public-unlaunched / NO-GO. Missing: approved staging/parity+health, Zoho reply identity, native Obelisk, live-theme evidence, distinct-human Alpha, revenue, observed rollback, founder approval.
+- Do not promote production or claim deployment until every release observation is verified.
 
-Verification Reference
+Next session
 
-- Last exact proof: revision 5fbfc6cab141ccf73d56b6d4c1062ed27151c613 passed CI/E2E/Release/brief-format; 232 files / 1,221 tests. All local gates green. CANON-053 at sha256:e39906...9ed0d.
-
-Next session: commit executable-mode repair, get its exact provider proof, rerun staging dry-run.
+- Commit and push DOMPurify repair, secure exact provider proof, rerun staging dry-run, then gather external gate evidence in order.

@@ -1,9 +1,9 @@
 {
   "vectorVersion": "1.0",
   "generatedAt": "2026-08-07",
-  "generatedAtMs": 1786129771162,
+  "generatedAtMs": 1786134911907,
   "session": 97,
-  "vectorHash": "6f6cdafb303e0d3d",
+  "vectorHash": "e17c94513245ed03",
   "silTotal": 997,
   "silAvg3": 997,
   "velocity": 9,
@@ -34,7 +34,7 @@
   "type": "game",
   "lifecycle": "alpha",
   "nextMilestone": "Establish an approved staging origin plus native Obelisk and project-domain Zoho contracts, then collect parity, human, revenue, rollback, and founder evidence in gate order.",
-  "currentFocus": "Session 97 complete; exact SHA 5fbfc6ca passed CI, E2E, Release, and brief-format. Staging dry-run exposed non-executable deployment scripts; Git modes and the 110-check contract are repaired, with exact provider rerun pending after commit.",
+  "currentFocus": "Session 97 closeout repair: executable deploy modes are committed at a1f28f82. Exact CI passed build, lint, formatting, bundle, and all 1,221 tests but a newly published DOMPurify advisory failed the production audit; trust-approved 3.4.13 is applied and awaiting successor exact-SHA provider proof.",
   "lastShipped": "see LATEST_HANDOFF.md",
   "blockers": []
 }

@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "capturedAt": "2026-08-06T23:01:35.314Z",
-  "generatedAt": "2026-08-06T23:01:35.314Z",
+  "capturedAt": "2026-08-07T20:31:49.606Z",
+  "generatedAt": "2026-08-07T20:31:49.606Z",
   "scope": "local-only",
   "claimBoundary": "This is local browser evidence, not live staging parity or founder approval.",
   "themes": ["dark", "light", "competitive"],
   "captures": [
     {
       "file": "artifacts/chromium-vaultfront-play.png",
-      "sha256": "463b71478e3f2578a947ca25d27f1b1f9480dd8e1c83b74dded938eb4ffcdca8",
+      "sha256": "3336f08cf77ba556cdd58bec3091f70c85c6b1970fb57655225e95dcc46cac10",
       "page": "play",
       "state": "play",
       "theme": "dark",
@@ -26,7 +26,7 @@
     },
     {
       "file": "artifacts/chromium-vaultfront-settings.png",
-      "sha256": "664a6766b420f26d3a495e969617d2ce8817808e0996f4edfa8805e418e9b094",
+      "sha256": "7f56732d2f36ed245046b517eea94ed5b82886eed30b520ac4dc0d35fdb2355d",
       "page": "settings",
       "state": "settings",
       "theme": "dark",
@@ -35,7 +35,7 @@
     },
     {
       "file": "artifacts/chromium-vaultfront-postmatch.png",
-      "sha256": "fbbcefb023dc7ae31d76166ef4d54773c4dcf2cd6b063075e99d93f5e837b729",
+      "sha256": "a774b915100ebec18e9858192e6b7281bb2ba9f5403b58cff9773a9d30375b82",
       "page": "postmatch",
       "state": "postmatch",
       "theme": "dark",
@@ -44,7 +44,7 @@
     },
     {
       "file": "artifacts/chromium-vaultfront-account-recovery.png",
-      "sha256": "b1344c0554b953853e89564ad3e4994785087b7f73c9d9232087e7fd7cb3773a",
+      "sha256": "0ffc5bab8b3f31a223dbf5a42e900f79064e06a5bc226d56e87df287d233934c",
       "page": "account-recovery",
       "state": "account-recovery",
       "theme": "dark",
@@ -143,7 +143,7 @@
     },
     {
       "file": "artifacts/chromium-vaultfront-narrator-certified.png",
-      "sha256": "8bf9fab4442b5aa3d486499266d07c406620a750ff6d85bb72a7e0bd1ce567d9",
+      "sha256": "c3b5c0f8ce45cce5266ce428e0768c5d39d8b32e19ebcff792d983f45973d381",
       "page": "narrator-certified",
       "state": "narrator-certified",
       "theme": "dark",
@@ -179,7 +179,7 @@
     },
     {
       "file": "artifacts/chromium-light-play.png",
-      "sha256": "693cb9bbad2d9e48bec7a90f4f97e9b2fbe31386a72d92eae25e272331be766e",
+      "sha256": "f1c18c89b1ba7b527c8e4b0c2117cce75696f92e4b0e81c1fd22004183c0df5d",
       "page": "play",
       "state": "play",
       "theme": "light",
@@ -197,7 +197,7 @@
     },
     {
       "file": "artifacts/chromium-light-settings.png",
-      "sha256": "fc654f958ed2a4a1476dc3cffa50d30308e55714c164525a2367dc024aded4bc",
+      "sha256": "a269e57fb280e3e9697642ab13877f42b92a4a5f7f74264c537a5eb9c58cf28f",
       "page": "settings",
       "state": "settings",
       "theme": "light",
@@ -215,7 +215,7 @@
     },
     {
       "file": "artifacts/chromium-light-account-recovery.png",
-      "sha256": "883e5b88306337542e6bd55c33165a5976f6f6ebb83799025809f79f24b0edad",
+      "sha256": "d66819b101185c31f82b22da91e9106a0fde960ac861bc18f53d80b5430e7599",
       "page": "account-recovery",
       "state": "account-recovery",
       "theme": "light",
@@ -314,7 +314,7 @@
     },
     {
       "file": "artifacts/chromium-light-narrator-certified.png",
-      "sha256": "b6dfccd718de8d4aca7bcea39eeb7be890e5317dc4283bd918de0a1a28b92586",
+      "sha256": "97367f93804d201d30cd7e2a318df861ba87b2d38f308b0a019d91800c14319d",
       "page": "narrator-certified",
       "state": "narrator-certified",
       "theme": "light",
@@ -350,7 +350,7 @@
     },
     {
       "file": "artifacts/chromium-competitive-play.png",
-      "sha256": "e15c949c91a2f069aae84d395d43d5b006cdc6a7f943914a83e25dba956d73a7",
+      "sha256": "b95f0fa7427c2a940cbcf5c3a2d4141494c59e7b9805d8bcf4ae6209175dfdbe",
       "page": "play",
       "state": "play",
       "theme": "competitive",
@@ -368,7 +368,7 @@
     },
     {
       "file": "artifacts/chromium-competitive-settings.png",
-      "sha256": "2b606d7960ef2dbd8fb4897e2ed8f0ddafa2d21af1f776b050e21e006014bc15",
+      "sha256": "896ed7be2765cddafd35ebb2408a31ca2b859b506ae26f2b8ca4f0b5ad563882",
       "page": "settings",
       "state": "settings",
       "theme": "competitive",
@@ -386,7 +386,7 @@
     },
     {
       "file": "artifacts/chromium-competitive-account-recovery.png",
-      "sha256": "63f7f8cbc78b25ec882b53e7f43ff35d376e3efe38a8bb3df1f08bb848dab98e",
+      "sha256": "c14481929b58257ee9cb3aade3644132d224af05dad214f13277136d2632183a",
       "page": "account-recovery",
       "state": "account-recovery",
       "theme": "competitive",
@@ -485,7 +485,7 @@
     },
     {
       "file": "artifacts/chromium-competitive-narrator-certified.png",
-      "sha256": "298ed8bee4ae0d729e67bf7bbe8a848046c62374cd2622bacf250ec58a14b4fd",
+      "sha256": "bec86512a9a4b26aa7182bd762c829c2eb28ec80c4d8585a3fc302c8728fc8d3",
       "page": "narrator-certified",
       "state": "narrator-certified",
       "theme": "competitive",
@@ -521,7 +521,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-vaultfront-play.png",
-      "sha256": "8d14eaf1da02622b4b009c79ee7bd1440f6b95398bb1155a8c4700de390c0aea",
+      "sha256": "73129cc1f372536923bf5a613d8577fbba5b6628d2013c7c9e864fb2ce81cac7",
       "page": "play",
       "state": "play",
       "theme": "dark",
@@ -539,7 +539,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-vaultfront-settings.png",
-      "sha256": "5d5b597112c3beb71e3d9daa65ae2af317142409abf04fd1a373e2e60a8e4d76",
+      "sha256": "f2b552d4605a5284bd3ed363dc704632c0a33e59af39ebede12d503452032b18",
       "page": "settings",
       "state": "settings",
       "theme": "dark",
@@ -548,7 +548,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-vaultfront-postmatch.png",
-      "sha256": "5337c0342b174f2478b26a5a401b8a18626bb97b8b744bf830617bf665e7b25b",
+      "sha256": "fb0baacba43dacc929612ae0c673b71accc510fa577174ab1a5dbfc3912dc600",
       "page": "postmatch",
       "state": "postmatch",
       "theme": "dark",
@@ -692,7 +692,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-light-play.png",
-      "sha256": "97cb98224725b23ad0a64d7026a3aa2cb8edd99471501be75180e752620808e3",
+      "sha256": "0640d7ab6ebd7f9a38b312b8676e2ce363c5ce7a866daee0ed867e7e68f068ae",
       "page": "play",
       "state": "play",
       "theme": "light",
@@ -728,7 +728,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-light-account-recovery.png",
-      "sha256": "1f87f74696f541f1e6e2c124c0515bf2bef83f4d4c4a75a5cea65664df786d36",
+      "sha256": "bcf6395d0c64bd685f590796ae90bd389cb0fbd323cfac36f2994d6e91c95dd8",
       "page": "account-recovery",
       "state": "account-recovery",
       "theme": "light",
@@ -863,7 +863,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-competitive-play.png",
-      "sha256": "83b8965d33c58794a29eddc35f38fdb78543a08a86fb6fc218f96f7c00590316",
+      "sha256": "2b19c45774b722b5a2bbd4c1ad50a668dc83b3fddc62e4ad0c07deb5b9e8910b",
       "page": "play",
       "state": "play",
       "theme": "competitive",
@@ -881,7 +881,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-competitive-settings.png",
-      "sha256": "d84abe8f951281b6365912497816f361b4ae03f6d1c72e0990c8c33ba8ec109d",
+      "sha256": "b6060768161fd090f6c0c5758c2728e7e467937080d15f78f9c71e6d9bc573a0",
       "page": "settings",
       "state": "settings",
       "theme": "competitive",
@@ -899,7 +899,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-competitive-account-recovery.png",
-      "sha256": "141d1720d841a7ddba3b67463a5289278c6c8c34bc7dd0cb38792a407dbe8d14",
+      "sha256": "2de59fbddfa62f9c62a6ebaeec1b55d269eeb4e2d34fe312d353d5cf64e1afab",
       "page": "account-recovery",
       "state": "account-recovery",
       "theme": "competitive",
@@ -1054,14 +1054,14 @@
   },
   "comparisonBase": {
     "source": "git:HEAD:docs/visual-qa/LATEST.json",
-    "gitRevision": "46b2ae1e81ca01e1b0d420c9d2f26074a2108f0d",
-    "capturedAt": "2026-08-05T21:59:23.116Z",
-    "sourceDigest": "sha256:b6f542a7ce41c529836c5d315fd89aa28ec86c8fc350a5e8c82bbc2fc55f0238"
+    "gitRevision": "17cfdbfbba9b7b34b42d8ffbe6d53b14a2bc3908",
+    "capturedAt": "2026-08-06T23:01:35.314Z",
+    "sourceDigest": "sha256:e39906438bd10aded637e955e7d18ee937a65265597c75fdeebb01d9a99ed5d0"
   },
   "source": {
-    "gitRevision": "17cfdbfbba9b7b34b42d8ffbe6d53b14a2bc3908",
+    "gitRevision": "a1f28f82999ae9b035280cf0dd6150303d952f77",
     "dirty": true,
-    "digest": "sha256:e39906438bd10aded637e955e7d18ee937a65265597c75fdeebb01d9a99ed5d0",
+    "digest": "sha256:c734c70c5e5bd830084502344ac87dea9180ee2a4c3af6931547ebe188852a84",
     "files": [
       {
         "path": "config/vaultfront-balance.v1.json",
@@ -1471,7 +1471,7 @@
       {
         "path": "static/index.html",
         "bytes": 17352,
-        "digest": "sha256:272d5c864cc4e9d51b0441174f6c52e76b4cf2972ee05a03216c0c96d4d3c3ec"
+        "digest": "sha256:e701e52a5178765d5ff4cc3987790c4e988ba43441f338ad08e668a4a4346cbc"
       }
     ]
   },
@@ -1480,12 +1480,12 @@
       {
         "path": "docs/visual-qa/summaries/theme-proof-chromium.json",
         "bytes": 45499,
-        "digest": "sha256:5bb205c8f8b6ccb02882d09b2db0a18aa32a40464812171d622c72097b8a8763"
+        "digest": "sha256:8bb61eed6e51e8b52c1e37a36fe844be5eab4b92f61b3f58316fd4cda8490b5e"
       },
       {
         "path": "docs/visual-qa/summaries/theme-proof-mobile-chrome.json",
         "bytes": 45495,
-        "digest": "sha256:5b13ddec29bd853b33002983ff480f91e80f804a714ad771e7a8b3be06be6f35"
+        "digest": "sha256:712714fa780a5ba91ba41bc3abc9fd971dd4f6bfa1ebe3e61cb6c09ed943c5fb"
       }
     ],
     "artifacts": [
@@ -1494,8 +1494,8 @@
         "theme": "vaultfront",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-play.png",
-        "bytes": 703194,
-        "digest": "sha256:463b71478e3f2578a947ca25d27f1b1f9480dd8e1c83b74dded938eb4ffcdca8"
+        "bytes": 714739,
+        "digest": "sha256:3336f08cf77ba556cdd58bec3091f70c85c6b1970fb57655225e95dcc46cac10"
       },
       {
         "project": "chromium",
@@ -1510,24 +1510,24 @@
         "theme": "vaultfront",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-settings.png",
-        "bytes": 363967,
-        "digest": "sha256:664a6766b420f26d3a495e969617d2ce8817808e0996f4edfa8805e418e9b094"
+        "bytes": 363699,
+        "digest": "sha256:7f56732d2f36ed245046b517eea94ed5b82886eed30b520ac4dc0d35fdb2355d"
       },
       {
         "project": "chromium",
         "theme": "vaultfront",
         "surface": "postmatch",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-postmatch.png",
-        "bytes": 69441,
-        "digest": "sha256:fbbcefb023dc7ae31d76166ef4d54773c4dcf2cd6b063075e99d93f5e837b729"
+        "bytes": 69459,
+        "digest": "sha256:a774b915100ebec18e9858192e6b7281bb2ba9f5403b58cff9773a9d30375b82"
       },
       {
         "project": "chromium",
         "theme": "vaultfront",
         "surface": "account-recovery",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-account-recovery.png",
-        "bytes": 33952,
-        "digest": "sha256:b1344c0554b953853e89564ad3e4994785087b7f73c9d9232087e7fd7cb3773a"
+        "bytes": 33957,
+        "digest": "sha256:0ffc5bab8b3f31a223dbf5a42e900f79064e06a5bc226d56e87df287d233934c"
       },
       {
         "project": "chromium",
@@ -1614,8 +1614,8 @@
         "theme": "vaultfront",
         "surface": "narrator-certified",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-narrator-certified.png",
-        "bytes": 73408,
-        "digest": "sha256:8bf9fab4442b5aa3d486499266d07c406620a750ff6d85bb72a7e0bd1ce567d9"
+        "bytes": 73657,
+        "digest": "sha256:c3b5c0f8ce45cce5266ce428e0768c5d39d8b32e19ebcff792d983f45973d381"
       },
       {
         "project": "chromium",
@@ -1646,8 +1646,8 @@
         "theme": "light",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/chromium-light-play.png",
-        "bytes": 669513,
-        "digest": "sha256:693cb9bbad2d9e48bec7a90f4f97e9b2fbe31386a72d92eae25e272331be766e"
+        "bytes": 668708,
+        "digest": "sha256:f1c18c89b1ba7b527c8e4b0c2117cce75696f92e4b0e81c1fd22004183c0df5d"
       },
       {
         "project": "chromium",
@@ -1662,8 +1662,8 @@
         "theme": "light",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/chromium-light-settings.png",
-        "bytes": 301482,
-        "digest": "sha256:fc654f958ed2a4a1476dc3cffa50d30308e55714c164525a2367dc024aded4bc"
+        "bytes": 301333,
+        "digest": "sha256:a269e57fb280e3e9697642ab13877f42b92a4a5f7f74264c537a5eb9c58cf28f"
       },
       {
         "project": "chromium",
@@ -1678,8 +1678,8 @@
         "theme": "light",
         "surface": "account-recovery",
         "path": "docs/visual-qa/artifacts/chromium-light-account-recovery.png",
-        "bytes": 32309,
-        "digest": "sha256:883e5b88306337542e6bd55c33165a5976f6f6ebb83799025809f79f24b0edad"
+        "bytes": 32304,
+        "digest": "sha256:d66819b101185c31f82b22da91e9106a0fde960ac861bc18f53d80b5430e7599"
       },
       {
         "project": "chromium",
@@ -1766,8 +1766,8 @@
         "theme": "light",
         "surface": "narrator-certified",
         "path": "docs/visual-qa/artifacts/chromium-light-narrator-certified.png",
-        "bytes": 70602,
-        "digest": "sha256:b6dfccd718de8d4aca7bcea39eeb7be890e5317dc4283bd918de0a1a28b92586"
+        "bytes": 70668,
+        "digest": "sha256:97367f93804d201d30cd7e2a318df861ba87b2d38f308b0a019d91800c14319d"
       },
       {
         "project": "chromium",
@@ -1798,8 +1798,8 @@
         "theme": "competitive",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/chromium-competitive-play.png",
-        "bytes": 714487,
-        "digest": "sha256:e15c949c91a2f069aae84d395d43d5b006cdc6a7f943914a83e25dba956d73a7"
+        "bytes": 713988,
+        "digest": "sha256:b95f0fa7427c2a940cbcf5c3a2d4141494c59e7b9805d8bcf4ae6209175dfdbe"
       },
       {
         "project": "chromium",
@@ -1814,8 +1814,8 @@
         "theme": "competitive",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/chromium-competitive-settings.png",
-        "bytes": 340640,
-        "digest": "sha256:2b606d7960ef2dbd8fb4897e2ed8f0ddafa2d21af1f776b050e21e006014bc15"
+        "bytes": 340971,
+        "digest": "sha256:896ed7be2765cddafd35ebb2408a31ca2b859b506ae26f2b8ca4f0b5ad563882"
       },
       {
         "project": "chromium",
@@ -1830,8 +1830,8 @@
         "theme": "competitive",
         "surface": "account-recovery",
         "path": "docs/visual-qa/artifacts/chromium-competitive-account-recovery.png",
-        "bytes": 34174,
-        "digest": "sha256:63f7f8cbc78b25ec882b53e7f43ff35d376e3efe38a8bb3df1f08bb848dab98e"
+        "bytes": 34175,
+        "digest": "sha256:c14481929b58257ee9cb3aade3644132d224af05dad214f13277136d2632183a"
       },
       {
         "project": "chromium",
@@ -1918,8 +1918,8 @@
         "theme": "competitive",
         "surface": "narrator-certified",
         "path": "docs/visual-qa/artifacts/chromium-competitive-narrator-certified.png",
-        "bytes": 74761,
-        "digest": "sha256:298ed8bee4ae0d729e67bf7bbe8a848046c62374cd2622bacf250ec58a14b4fd"
+        "bytes": 74550,
+        "digest": "sha256:bec86512a9a4b26aa7182bd762c829c2eb28ec80c4d8585a3fc302c8728fc8d3"
       },
       {
         "project": "chromium",
@@ -1950,8 +1950,8 @@
         "theme": "vaultfront",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-play.png",
-        "bytes": 1186320,
-        "digest": "sha256:8d14eaf1da02622b4b009c79ee7bd1440f6b95398bb1155a8c4700de390c0aea"
+        "bytes": 1184978,
+        "digest": "sha256:73129cc1f372536923bf5a613d8577fbba5b6628d2013c7c9e864fb2ce81cac7"
       },
       {
         "project": "mobile-chrome",
@@ -1966,16 +1966,16 @@
         "theme": "vaultfront",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-settings.png",
-        "bytes": 309414,
-        "digest": "sha256:5d5b597112c3beb71e3d9daa65ae2af317142409abf04fd1a373e2e60a8e4d76"
+        "bytes": 309607,
+        "digest": "sha256:f2b552d4605a5284bd3ed363dc704632c0a33e59af39ebede12d503452032b18"
       },
       {
         "project": "mobile-chrome",
         "theme": "vaultfront",
         "surface": "postmatch",
         "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-postmatch.png",
-        "bytes": 179388,
-        "digest": "sha256:5337c0342b174f2478b26a5a401b8a18626bb97b8b744bf830617bf665e7b25b"
+        "bytes": 179445,
+        "digest": "sha256:fb0baacba43dacc929612ae0c673b71accc510fa577174ab1a5dbfc3912dc600"
       },
       {
         "project": "mobile-chrome",
@@ -2102,8 +2102,8 @@
         "theme": "light",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/mobile-chrome-light-play.png",
-        "bytes": 1116851,
-        "digest": "sha256:97cb98224725b23ad0a64d7026a3aa2cb8edd99471501be75180e752620808e3"
+        "bytes": 1116652,
+        "digest": "sha256:0640d7ab6ebd7f9a38b312b8676e2ce363c5ce7a866daee0ed867e7e68f068ae"
       },
       {
         "project": "mobile-chrome",
@@ -2134,8 +2134,8 @@
         "theme": "light",
         "surface": "account-recovery",
         "path": "docs/visual-qa/artifacts/mobile-chrome-light-account-recovery.png",
-        "bytes": 104082,
-        "digest": "sha256:1f87f74696f541f1e6e2c124c0515bf2bef83f4d4c4a75a5cea65664df786d36"
+        "bytes": 104027,
+        "digest": "sha256:bcf6395d0c64bd685f590796ae90bd389cb0fbd323cfac36f2994d6e91c95dd8"
       },
       {
         "project": "mobile-chrome",
@@ -2254,8 +2254,8 @@
         "theme": "competitive",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-play.png",
-        "bytes": 1188352,
-        "digest": "sha256:83b8965d33c58794a29eddc35f38fdb78543a08a86fb6fc218f96f7c00590316"
+        "bytes": 1187329,
+        "digest": "sha256:2b19c45774b722b5a2bbd4c1ad50a668dc83b3fddc62e4ad0c07deb5b9e8910b"
       },
       {
         "project": "mobile-chrome",
@@ -2270,8 +2270,8 @@
         "theme": "competitive",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-settings.png",
-        "bytes": 254021,
-        "digest": "sha256:d84abe8f951281b6365912497816f361b4ae03f6d1c72e0990c8c33ba8ec109d"
+        "bytes": 254663,
+        "digest": "sha256:b6060768161fd090f6c0c5758c2728e7e467937080d15f78f9c71e6d9bc573a0"
       },
       {
         "project": "mobile-chrome",
@@ -2286,8 +2286,8 @@
         "theme": "competitive",
         "surface": "account-recovery",
         "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-account-recovery.png",
-        "bytes": 112107,
-        "digest": "sha256:141d1720d841a7ddba3b67463a5289278c6c8c34bc7dd0cb38792a407dbe8d14"
+        "bytes": 111896,
+        "digest": "sha256:2de59fbddfa62f9c62a6ebaeec1b55d269eeb4e2d34fe312d353d5cf64e1afab"
       },
       {
         "project": "mobile-chrome",
@@ -2407,9 +2407,9 @@
     {
       "project": "chromium",
       "localOnly": true,
-      "capturedAt": "2026-08-06T23:00:46.843Z",
+      "capturedAt": "2026-08-07T20:31:18.833Z",
       "source": {
-        "digest": "sha256:e39906438bd10aded637e955e7d18ee937a65265597c75fdeebb01d9a99ed5d0",
+        "digest": "sha256:c734c70c5e5bd830084502344ac87dea9180ee2a4c3af6931547ebe188852a84",
         "files": [
           {
             "path": "config/vaultfront-balance.v1.json",
@@ -2819,7 +2819,7 @@
           {
             "path": "static/index.html",
             "bytes": 17352,
-            "digest": "sha256:272d5c864cc4e9d51b0441174f6c52e76b4cf2972ee05a03216c0c96d4d3c3ec"
+            "digest": "sha256:e701e52a5178765d5ff4cc3987790c4e988ba43441f338ad08e668a4a4346cbc"
           }
         ]
       },
@@ -3474,9 +3474,9 @@
     {
       "project": "mobile-chrome",
       "localOnly": true,
-      "capturedAt": "2026-08-06T23:00:51.375Z",
+      "capturedAt": "2026-08-07T20:31:21.219Z",
       "source": {
-        "digest": "sha256:e39906438bd10aded637e955e7d18ee937a65265597c75fdeebb01d9a99ed5d0",
+        "digest": "sha256:c734c70c5e5bd830084502344ac87dea9180ee2a4c3af6931547ebe188852a84",
         "files": [
           {
             "path": "config/vaultfront-balance.v1.json",
@@ -3886,7 +3886,7 @@
           {
             "path": "static/index.html",
             "bytes": 17352,
-            "digest": "sha256:272d5c864cc4e9d51b0441174f6c52e76b4cf2972ee05a03216c0c96d4d3c3ec"
+            "digest": "sha256:e701e52a5178765d5ff4cc3987790c4e988ba43441f338ad08e668a4a4346cbc"
           }
         ]
       },

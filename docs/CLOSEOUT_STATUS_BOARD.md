@@ -12,7 +12,7 @@
 ║  ✓ Branch: `main`; the local arc is exhausted at cumulative aud  ║
 ║  ✓ Shipped: durable certified archive outbox; safe candidate-fi  ║
 ║  ✓ Visual truth: real-browser inspection across three themes an  ║
-║  ✓ Verification: exact revision `5fbfc6cab141ccf73d56b6d4c1062e  ║
+║  ✓ Verification: exact revision `a1f28f82999ae9b035280cf0dd6150  ║
 ║  ✓ Deployment: staging dry-run `31162447355` passed the reposit  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ SCORES · SIL 997/1000 ═══════════════════════════════════════╗
@@ -40,7 +40,7 @@
 ║  ✓ agent memory (context/BRAIN.md or agent home)                 ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ GIT STATUS ══════════════════════════════════════════════════╗
-║  Changes: 13 files  ·  M:13 A:0 D:0 ?:0                          ║
+║  Changes: 34 files  ·  M:34 A:0 D:0 ?:0                          ║
 ║  Ahead: 0  ·  Behind: 0                                          ║
 ║  Branch: main                                                    ║
 ╚════════════════════════════════════════════════════════════════╝
