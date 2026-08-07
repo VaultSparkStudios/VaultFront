@@ -1,9 +1,9 @@
 {
   "vectorVersion": "1.0",
   "generatedAt": "2026-08-07",
-  "generatedAtMs": 1786134911907,
+  "generatedAtMs": 1786142264476,
   "session": 97,
-  "vectorHash": "e17c94513245ed03",
+  "vectorHash": "d1ca2c5ec4877f28",
   "silTotal": 997,
   "silAvg3": 997,
   "velocity": 9,
@@ -34,7 +34,10 @@
   "type": "game",
   "lifecycle": "alpha",
   "nextMilestone": "Establish an approved staging origin plus native Obelisk and project-domain Zoho contracts, then collect parity, human, revenue, rollback, and founder evidence in gate order.",
-  "currentFocus": "Session 97 closeout repair: executable deploy modes are committed at a1f28f82. Exact CI passed build, lint, formatting, bundle, and all 1,221 tests but a newly published DOMPurify advisory failed the production audit; trust-approved 3.4.13 is applied and awaiting successor exact-SHA provider proof.",
+  "currentFocus": "Session 97 closed locally: exact SHA 67f4811a passed CI, E2E, Release, brief-format, Dependabot, and staging dry-run 31217165276. Live staging was stopped before mutation because CANON-038 allocation, durable database credential, DNS, deploy user, and approved Caddy/Traefik transport are absent; signed Ark question 01JVF5O44A385AF9033E414452 is pending.",
   "lastShipped": "see LATEST_HANDOFF.md",
-  "blockers": []
+  "blockers": [
+    "Live staging infrastructure is not provisioned: VaultFront has no CANON-038 port allocation, STUDIO_PG_ADMIN_URL is missing, staging DNS/deploy user are absent, and the host runs Caddy while the checked-in updater requires Traefik. Evidence: dry-run 31217165276; Ark 01JVF5O44A385AF9033E414452.",
+    "Production remains NO-GO until approved staging/parity/health, Zoho reply identity, native Obelisk identity, live theme, three-human Alpha, real revenue, rollback, and founder approval evidence exist."
+  ]
 }

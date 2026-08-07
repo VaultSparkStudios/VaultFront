@@ -1,51 +1,48 @@
 <!-- generated-by: scripts/compact-handoff.mjs v3.1 -->
-<!-- source-hash: 847aa17b4c68 -->
-<!-- generated-at: 2026-08-07T20:35:25.968Z -->
+<!-- source-hash: 5b3eee27275d -->
+<!-- generated-at: 2026-08-07T22:37:59.071Z -->
 
 # LATEST_HANDOFF (compact)
 
 SESSION HANDOFF SUMMARY
 
-Session
+Session: 97 complete (2026-08-06)
 
-- Session 97 complete (2026-08-06); branch main.
+What Shipped (Session 97)
 
-Status
+- Durable certified archive outbox; safe candidate-first deployment drain; achievement rehydration; runtime state-scope inventory.
+- Turnstile token redaction; bounded request-owned remote-AI executor; cause-bound coaching; reachable Doctrine continuation; accessible reroute decision matrix.
+- Fixed light-theme contrast defect found via real-browser inspection across three themes, desktop/mobile.
 
-- Local arc exhausted: cumulative audit 32/32, innovations 62/62. No pending unblocked code work.
+Verification State
 
-Shipped this session
+- Local arc exhausted: audit 32/32, innovations 62/62; no pending unblocked code work.
+- Revision 67f4811a passed CI 31216814158, E2E 31216814121, Release 31216814112; 232 files / 1,221 tests green.
+- Playwright 2/2; 114 artifacts source/hash-bound; CANON-053 passes at digest sha256:c734c70c...852a84.
+- DOMPurify pinned to signed 3.4.13. Staging dry-run 31217165276 passed.
 
-- Durable certified archive outbox; safe candidate-first deployment drain; achievement rehydration; runtime state-scope inventory; Turnstile token redaction; bounded request-owned remote-AI executor; cause-bound coaching; Doctrine continuation; accessible reroute decision matrix.
-- Light-theme contrast defect found via real-browser inspection and fixed. 114 artifacts source/hash-bound; CANON-053 passes at digest sha256:c734c70c...852a84.
-- DOMPurify security repair: GHSA-55q2-fjhq-7xh7 made 3.4.12 audit-red; Cure53 3.4.13 approved and applied; local audit and build pass.
-- Deploy scripts (deploy.sh, build-deploy.sh, update.sh) corrected from 100644 to 100755; deploy contract enforces modes across 110 checks; staging has public-safe DOMAIN=vaultsparkstudios.com.
+Current Intent
 
-Verification
+- Resume live staging only after Ark allocation/topology reply and durable DB credential exist, then collect release-gate evidence in order. No production promotion or deployment claim until every release observation verified.
 
-- Revision a1f28f82... passed E2E, Release, brief-format, build, lint, format, bundle; 232 files / 1,221 tests. CI failed only on the new DOMPurify advisory (now resolved locally).
+Now Bucket (top 3)
 
-Now bucket (top 3)
-
-1. Commit and push the DOMPurify 3.4.13 security repair; obtain exact provider CI proof for this revision.
-2. Rerun the staging dry-run (prior run 31162447355 failed pre-connection on file modes, now fixed).
-3. Collect external release evidence in gate order.
+1. Obtain Ark reply for VaultFront CANON-038 port allocation and Caddy-to-Traefik transport reconciliation (question 01JVF5O44A385AF9033E414452).
+2. Establish durable database credential (STUDIO_PG_ADMIN_URL) plus staging DNS and deploy user.
+3. After above, run live staging preflight/mutation and collect parity, health, identity, delivery, human, revenue, rollback, founder evidence in gate order.
 
 Blockers (top 3)
 
-1. Release NO-GO: no approved staging/parity or live-theme evidence observed.
-2. No Zoho reply identity, native Obelisk, or distinct-human Alpha evidence.
-3. No revenue, observed rollback, or founder approval.
+1. VaultFront lacks CANON-038 port allocation, STUDIO_PG_ADMIN_URL, staging DNS, and deploy user.
+2. Host topology conflict: shared host runs Caddy; checked-in updater requires Traefik; no approved transport.
+3. Release NO-GO: no approved staging/parity, Zoho identity, native Obelisk, live-theme, distinct-human Alpha, revenue, observed rollback, or founder approval.
 
-Human-blocked
+Human-Blocked Items (with age)
 
-- Studio registry type reconciliation externally owned since ack 01JUJOJL1K (Session 89, ~8 sessions old); awaiting owner-supported correction path via Ark.
-- Ark incident 01JUNMP9IR (Session 89): owner regeneration of Studio Ops board renderer requested.
+- Ark question 01JVF5O44A385AF9033E414452 (owner topology/allocation reconciliation): open since Session 97 (~current).
+- Studio registry type correction: externally owned since Session 89 acknowledgement 01JUJOJL1K (~8 sessions).
+- Studio Ops board renderer help-path/regeneration incident 01JUNMP9IR: open since Session 89 (~8 sessions).
 
-Constraint
+Next Session Pointer
 
-- Do not promote production or claim deployment until every release observation is verified.
-
-Next session
-
-- Commit and push DOMPurify repair, secure exact provider proof, rerun staging dry-run, then gather external gate evidence in order.
+- Check for Ark reply and DB credential; if present begin gated live-staging evidence collection, else premise-check next audit—do not synthesize external release proof.

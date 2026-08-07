@@ -365,5 +365,11 @@ Session 89 closeout tooling incident: invoking the Studio Ops closeout-board ren
 
 - Exact executable-mode SHA `a1f28f82` passed E2E, Release, brief-format, build, lint, format, bundle, and all 1,221 tests. CI failed only when the production audit observed newly published `GHSA-55q2-fjhq-7xh7` against DOMPurify 3.4.12.
 - Package trust reviewed the exact 3.4.13 patch against official npm metadata, maintainer/repository/license continuity, the reviewed GitHub advisory, and Cure53's PGP-verified upstream tag. The active cross-site-scripting fix justified resolving the four-day cooldown to APPROVE.
-- DOMPurify is pinned to 3.4.13. Local `npm audit --omit=dev`, the Studio supply-chain incident scan, dependency-tree verification, and the production build pass; successor exact-SHA provider proof remains required before staging retry.
+- DOMPurify is pinned to 3.4.13. Exact SHA `67f4811a` passes provider CI, E2E, Release, brief-format, Dependabot, production audit, the Studio supply-chain incident scan, dependency-tree verification, production build, and all 1,221 tests.
 - The production bundle change invalidated the source-bound visual receipt. A fresh desktop/mobile three-theme Playwright matrix passed 2/2, representative light and competitive pixels were re-inspected, and the canonical 114-artifact receipt plus CANON-053 pass at source digest `sha256:c734c70c5e5bd830084502344ac87dea9180ee2a4c3af6931547ebe188852a84`.
+
+### Session 97 staging admission result
+
+- Exact-SHA staging dry-run `31217165276` passes after the executable-mode and `DOMAIN` repairs.
+- Read-only live preflight exhausted credential/admin alternatives before mutation: no VaultFront CANON-038 port allocation, `STUDIO_PG_ADMIN_URL`, staging DNS, deploy user, or approved Caddy-to-Traefik transport exists; Caddy owns 80/443 and Traefik is absent.
+- Live staging was not dispatched because the workflow would build/push and mutate the host before failing durability/ingress admission. Signed Ark question `01JVF5O44A385AF9033E414452` requests the owner-controlled allocation/topology path. Production remains NO-GO on external evidence.

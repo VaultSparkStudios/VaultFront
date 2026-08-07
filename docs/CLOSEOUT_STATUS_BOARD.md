@@ -12,8 +12,8 @@
 ║  ✓ Branch: `main`; the local arc is exhausted at cumulative aud  ║
 ║  ✓ Shipped: durable certified archive outbox; safe candidate-fi  ║
 ║  ✓ Visual truth: real-browser inspection across three themes an  ║
-║  ✓ Verification: exact revision `a1f28f82999ae9b035280cf0dd6150  ║
-║  ✓ Deployment: staging dry-run `31162447355` passed the reposit  ║
+║  ✓ Verification: exact revision `67f4811a893f6fc9f4f34ea3fea9dc  ║
+║  ✓ Deployment: exact-SHA staging dry-run `31217165276` passed a  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ SCORES · SIL 997/1000 ═══════════════════════════════════════╗
 ║    Dev Health         100  ██████████                            ║
@@ -29,18 +29,18 @@
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ WRITE-BACK STATUS ═══════════════════════════════════════════╗
 ║  ✓ context/CURRENT_STATE.md                                      ║
-║  ✓ context/TASK_BOARD.md                                         ║
+║  · context/TASK_BOARD.md                                         ║
 ║  ✓ context/LATEST_HANDOFF.md                                     ║
 ║  ✓ logs/WORK_LOG.md                                              ║
 ║  ✓ context/DECISIONS.md                                          ║
 ║  ✓ context/SELF_IMPROVEMENT_LOOP.md                              ║
-║  ✓ docs/CREATIVE_DIRECTION_RECORD.md                             ║
+║  · docs/CREATIVE_DIRECTION_RECORD.md                             ║
 ║  ✓ context/TRUTH_AUDIT.md                                        ║
 ║  ✓ context/PROJECT_STATUS.json                                   ║
-║  ✓ agent memory (context/BRAIN.md or agent home)                 ║
+║  · agent memory (context/BRAIN.md or agent home)                 ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ GIT STATUS ══════════════════════════════════════════════════╗
-║  Changes: 34 files  ·  M:34 A:0 D:0 ?:0                          ║
+║  Changes: 7 files  ·  M:7 A:0 D:0 ?:0                            ║
 ║  Ahead: 0  ·  Behind: 0                                          ║
 ║  Branch: main                                                    ║
 ╚════════════════════════════════════════════════════════════════╝

@@ -4,9 +4,11 @@ The full Session 97 arc shipped durable certified archive delivery, safe candida
 
 Staging dry-run `31162447355` failed before connection because all three deployment scripts were tracked as non-executable. Their Git modes are repaired to `100755`, the deploy contract now rejects regressions across 110 checks, and the public-safe staging `DOMAIN` variable is configured. The repair still requires exact provider proof and a repeated dry-run; no live staging or production deployment is claimed. Production remains NO-GO on the repository's external evidence gates.
 
-Exact executable-mode revision `a1f28f82999ae9b035280cf0dd6150303d952f77` passed E2E, Release, brief-format, build, lint, format, bundle, and all 1,221 tests. Its CI security job exposed newly published `GHSA-55q2-fjhq-7xh7` against DOMPurify 3.4.12. Package-trust review verified the official advisory, registry integrity, maintainer continuity, license, and PGP-signed upstream 3.4.13 tag; the exact patched version is applied. Local production audit, supply-chain incident scan, and build pass, pending successor exact provider proof.
+Exact security revision `67f4811a893f6fc9f4f34ea3fea9dc04c25ffa74` passed CI, E2E, Release, brief-format, Dependabot, production audit, build, lint, format, bundle, exact release evidence, and all 1,221 tests. Package-trust review verified the official advisory, registry integrity, maintainer continuity, license, and PGP-signed upstream DOMPurify 3.4.13 tag.
 
 Because the production bundle hash changed, the full desktop/mobile three-theme matrix was recaptured instead of rebinding stale images. Playwright passes 2/2, representative rendered pixels were re-inspected without a blocking defect, and the 114-artifact receipt plus CANON-053 pass at source digest `sha256:c734c70c5e5bd830084502344ac87dea9180ee2a4c3af6931547ebe188852a84`.
+
+Exact-SHA staging dry-run `31217165276` passes. Live staging was then stopped before mutation because the repository has no CANON-038 port allocation or durable database credential, public DNS has no staging record, the deploy user is absent, and the shared host's active Caddy edge conflicts with the checked-in Traefik-only updater. Ark question `01JVF5O44A385AF9033E414452` requests the owner-controlled allocation and topology reconciliation. Production remains NO-GO on the remaining external evidence gates.
 
 ## Session 96 — Deterministic rematch lifecycle and certified causal reflection (2026-08-05)
 
