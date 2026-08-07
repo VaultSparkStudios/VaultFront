@@ -6,7 +6,7 @@
   "health": "green",
   "currentSession": 97,
   "lastAgent": "codex",
-  "currentFocus": "Session 97 closed locally: exact SHA 67f4811a passed CI, E2E, Release, brief-format, Dependabot, and staging dry-run 31217165276. Live staging was stopped before mutation because CANON-038 allocation, durable database credential, DNS, deploy user, and approved Caddy/Traefik transport are absent; signed Ark question 01JVF5O44A385AF9033E414452 is pending.",
+  "currentFocus": "Session 97 closeout security repair: exact evidence head be5a0598 passed build, lint, formatting, bundle, and all 1,221 tests but a newly updated Nano ID advisory failed production audit. Trust-approved nanoid 3.3.18 is applied with focused 10/10, audit, supply-chain, build, Playwright, and visual receipt green; successor exact-SHA provider proof is pending. Live staging infrastructure blockers and Ark 01JVF5O44A385AF9033E414452 remain unchanged.",
   "nextMilestone": "Establish an approved staging origin plus native Obelisk and project-domain Zoho contracts, then collect parity, human, revenue, rollback, and founder evidence in gate order.",
   "blockers": [
     "Live staging infrastructure is not provisioned: VaultFront has no CANON-038 port allocation, STUDIO_PG_ADMIN_URL is missing, staging DNS/deploy user are absent, and the host runs Caddy while the checked-in updater requires Traefik. Evidence: dry-run 31217165276; Ark 01JVF5O44A385AF9033E414452.",
@@ -113,10 +113,10 @@
     "failing": 0,
     "blockingFailing": 0,
     "date": "2026-08-07",
-    "observedAt": "2026-08-07T22:38:46.189Z",
+    "observedAt": "2026-08-07T23:18:34.397Z",
     "source": "scripts/project-doctor.mjs",
     "evidencePath": "audits/doctor-latest.json",
-    "evidenceDigest": "sha256:71293c00a6a5e91af82cec640dd5edb28aed2d9fdc786f70c94bff96034dea47",
+    "evidenceDigest": "sha256:e6bb88afff409af018574901bae76c1453d6202daaa517bdbcb85d85faa856c2",
     "evidenceSchemaVersion": 1,
     "checkCount": 13
   },
@@ -151,30 +151,32 @@
   },
   "testsLastRun": "2026-08-07",
   "testsLastRunMode": "GitHub exact-revision CI 31216814158: all 232 files / 1,221 tests, coverage ratchet, security audit, build, lint, formatting, bundle, and exact release evidence passed on 67f4811a.",
-  "testsDeferred": [],
+  "testsDeferred": [
+    "Exact-revision provider rerun pending for the Nano ID 3.3.18 security repair commit."
+  ],
   "testsBudgetExhausted": false,
   "lastSessionSummary": "Session 97 shipped all nine fresh audit items, exhausted audit 32/32 plus innovations 62/62, closed three stale CI-only execution-chain test seams against the extracted ledger, and preserves external launch NO-GO.",
   "providerCiStatus": {
-    "status": "green-verified-code-revision",
-    "revision": "67f4811a893f6fc9f4f34ea3fea9dc04c25ffa74",
-    "ciRunId": 31216814158,
-    "e2eRunId": 31216814121,
-    "releasePlannerRunId": 31216814112,
-    "ciUrl": "https://github.com/VaultSparkStudios/vaultfront/actions/runs/31216814158",
-    "e2eUrl": "https://github.com/VaultSparkStudios/vaultfront/actions/runs/31216814121",
-    "releasePlannerUrl": "https://github.com/VaultSparkStudios/vaultfront/actions/runs/31216814112",
-    "observedAt": "2026-08-07T22:36:30.145Z",
+    "status": "red-remediated-awaiting-rerun",
+    "revision": "be5a05986e385fccc86132565f0eed5d9e541a13",
+    "ciRunId": 31224718781,
+    "e2eRunId": 31224718767,
+    "releasePlannerRunId": 31224718772,
+    "ciUrl": "https://github.com/VaultSparkStudios/vaultfront/actions/runs/31224718781",
+    "e2eUrl": "https://github.com/VaultSparkStudios/vaultfront/actions/runs/31224718767",
+    "releasePlannerUrl": "https://github.com/VaultSparkStudios/vaultfront/actions/runs/31224718772",
+    "observedAt": "2026-08-07T23:16:25.903Z",
     "source": "GitHub Actions terminal conclusions",
-    "currentRevisionVerified": true,
-    "note": "CI, E2E, Release, brief-format, and Dependabot passed on exact revision 67f4811a. Staging dry-run 31217165276 also passed on that revision; no live deployment is claimed."
+    "currentRevisionVerified": false,
+    "note": "Release and brief-format passed; build, lint, format, bundle, and 1,221 tests passed. CI failed only after GHSA-2v37-7h3g-55p8 began flagging nanoid 3.3.16; trust-approved 3.3.18 remediates the complete async native path and requires a successor exact provider run."
   },
   "dependencyAudit": {
     "production": 0,
     "development": 0,
     "total": 0,
-    "auditedDependencies": 816,
-    "observedAt": "2026-08-05T03:38:11.166Z",
-    "source": "npm audit production and complete graph; Studio supply-chain incident scan found zero matching repositories"
+    "auditedDependencies": 711,
+    "observedAt": "2026-08-07T23:16:25.903Z",
+    "source": "npm audit complete graph after trust-approved DOMPurify 3.4.13 and Nano ID 3.3.18; Studio supply-chain incident scan found zero matching repositories"
   },
   "testsEnvBlocked": []
 }

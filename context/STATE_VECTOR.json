@@ -1,9 +1,9 @@
 {
   "vectorVersion": "1.0",
   "generatedAt": "2026-08-07",
-  "generatedAtMs": 1786142264476,
+  "generatedAtMs": 1786144658619,
   "session": 97,
-  "vectorHash": "d1ca2c5ec4877f28",
+  "vectorHash": "d2d9d83078ebaffd",
   "silTotal": 997,
   "silAvg3": 997,
   "velocity": 9,
@@ -34,7 +34,7 @@
   "type": "game",
   "lifecycle": "alpha",
   "nextMilestone": "Establish an approved staging origin plus native Obelisk and project-domain Zoho contracts, then collect parity, human, revenue, rollback, and founder evidence in gate order.",
-  "currentFocus": "Session 97 closed locally: exact SHA 67f4811a passed CI, E2E, Release, brief-format, Dependabot, and staging dry-run 31217165276. Live staging was stopped before mutation because CANON-038 allocation, durable database credential, DNS, deploy user, and approved Caddy/Traefik transport are absent; signed Ark question 01JVF5O44A385AF9033E414452 is pending.",
+  "currentFocus": "Session 97 closeout security repair: exact evidence head be5a0598 passed build, lint, formatting, bundle, and all 1,221 tests but a newly updated Nano ID advisory failed production audit. Trust-approved nanoid 3.3.18 is applied with focused 10/10, audit, supply-chain, build, Playwright, and visual receipt green; successor exact-SHA provider proof is pending. Live staging infrastructure blockers and Ark 01JVF5O44A385AF9033E414452 remain unchanged.",
   "lastShipped": "see LATEST_HANDOFF.md",
   "blockers": [
     "Live staging infrastructure is not provisioned: VaultFront has no CANON-038 port allocation, STUDIO_PG_ADMIN_URL is missing, staging DNS/deploy user are absent, and the host runs Caddy while the checked-in updater requires Traefik. Evidence: dry-run 31217165276; Ark 01JVF5O44A385AF9033E414452.",

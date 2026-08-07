@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "capturedAt": "2026-08-07T20:31:49.606Z",
-  "generatedAt": "2026-08-07T20:31:49.606Z",
+  "capturedAt": "2026-08-07T22:50:23.217Z",
+  "generatedAt": "2026-08-07T22:50:23.217Z",
   "scope": "local-only",
   "claimBoundary": "This is local browser evidence, not live staging parity or founder approval.",
   "themes": ["dark", "light", "competitive"],
   "captures": [
     {
       "file": "artifacts/chromium-vaultfront-play.png",
-      "sha256": "3336f08cf77ba556cdd58bec3091f70c85c6b1970fb57655225e95dcc46cac10",
+      "sha256": "6ed2c8eb970a480c14476038448955b54ac22492f8fb976fa9757a28d03cda96",
       "page": "play",
       "state": "play",
       "theme": "dark",
@@ -26,7 +26,7 @@
     },
     {
       "file": "artifacts/chromium-vaultfront-settings.png",
-      "sha256": "7f56732d2f36ed245046b517eea94ed5b82886eed30b520ac4dc0d35fdb2355d",
+      "sha256": "f72ca8513116a1de80734d14dade2c0eab1e4dd9480179471093c95f1829b339",
       "page": "settings",
       "state": "settings",
       "theme": "dark",
@@ -44,7 +44,7 @@
     },
     {
       "file": "artifacts/chromium-vaultfront-account-recovery.png",
-      "sha256": "0ffc5bab8b3f31a223dbf5a42e900f79064e06a5bc226d56e87df287d233934c",
+      "sha256": "b1344c0554b953853e89564ad3e4994785087b7f73c9d9232087e7fd7cb3773a",
       "page": "account-recovery",
       "state": "account-recovery",
       "theme": "dark",
@@ -143,7 +143,7 @@
     },
     {
       "file": "artifacts/chromium-vaultfront-narrator-certified.png",
-      "sha256": "c3b5c0f8ce45cce5266ce428e0768c5d39d8b32e19ebcff792d983f45973d381",
+      "sha256": "8bf9fab4442b5aa3d486499266d07c406620a750ff6d85bb72a7e0bd1ce567d9",
       "page": "narrator-certified",
       "state": "narrator-certified",
       "theme": "dark",
@@ -179,7 +179,7 @@
     },
     {
       "file": "artifacts/chromium-light-play.png",
-      "sha256": "f1c18c89b1ba7b527c8e4b0c2117cce75696f92e4b0e81c1fd22004183c0df5d",
+      "sha256": "f97acc20948e783a262c8561e5161f70161e07d41a400553037db6b0efdd62d6",
       "page": "play",
       "state": "play",
       "theme": "light",
@@ -197,7 +197,7 @@
     },
     {
       "file": "artifacts/chromium-light-settings.png",
-      "sha256": "a269e57fb280e3e9697642ab13877f42b92a4a5f7f74264c537a5eb9c58cf28f",
+      "sha256": "53e5558f301c6f8bdb2e18314032471e86953fc701632540127f0004a9299aef",
       "page": "settings",
       "state": "settings",
       "theme": "light",
@@ -215,7 +215,7 @@
     },
     {
       "file": "artifacts/chromium-light-account-recovery.png",
-      "sha256": "d66819b101185c31f82b22da91e9106a0fde960ac861bc18f53d80b5430e7599",
+      "sha256": "b62ae0e861c3604b89cf6f717988e07cba71ffe31a01cd5815d7ea9c2bce58d9",
       "page": "account-recovery",
       "state": "account-recovery",
       "theme": "light",
@@ -314,7 +314,7 @@
     },
     {
       "file": "artifacts/chromium-light-narrator-certified.png",
-      "sha256": "97367f93804d201d30cd7e2a318df861ba87b2d38f308b0a019d91800c14319d",
+      "sha256": "92e4621b617d28b87b259c4844400340d5e80f96fc48cce20ad9cdc371da4d80",
       "page": "narrator-certified",
       "state": "narrator-certified",
       "theme": "light",
@@ -350,7 +350,7 @@
     },
     {
       "file": "artifacts/chromium-competitive-play.png",
-      "sha256": "b95f0fa7427c2a940cbcf5c3a2d4141494c59e7b9805d8bcf4ae6209175dfdbe",
+      "sha256": "316c3d58c3798cd4c15eaf22f16bf951a3161e1ec0d47d041b2b7993f1e1186e",
       "page": "play",
       "state": "play",
       "theme": "competitive",
@@ -368,7 +368,7 @@
     },
     {
       "file": "artifacts/chromium-competitive-settings.png",
-      "sha256": "896ed7be2765cddafd35ebb2408a31ca2b859b506ae26f2b8ca4f0b5ad563882",
+      "sha256": "6364d75b94e057f86e1fc88f9b92f754bc6865e8f255d876621e146fbe3f8ca7",
       "page": "settings",
       "state": "settings",
       "theme": "competitive",
@@ -386,7 +386,7 @@
     },
     {
       "file": "artifacts/chromium-competitive-account-recovery.png",
-      "sha256": "c14481929b58257ee9cb3aade3644132d224af05dad214f13277136d2632183a",
+      "sha256": "b2c7c5535831b94d1809a846e89484bb88c81e3024cb2e8cca1dc9fa27e96c89",
       "page": "account-recovery",
       "state": "account-recovery",
       "theme": "competitive",
@@ -485,7 +485,7 @@
     },
     {
       "file": "artifacts/chromium-competitive-narrator-certified.png",
-      "sha256": "bec86512a9a4b26aa7182bd762c829c2eb28ec80c4d8585a3fc302c8728fc8d3",
+      "sha256": "1e3e42bf6eaf62eb15d39eee56cdd51e7c47919fbd687fb0ca0159b7c8bc87f3",
       "page": "narrator-certified",
       "state": "narrator-certified",
       "theme": "competitive",
@@ -521,7 +521,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-vaultfront-play.png",
-      "sha256": "73129cc1f372536923bf5a613d8577fbba5b6628d2013c7c9e864fb2ce81cac7",
+      "sha256": "7492077411a34cfc8911d6c750b9f1eb206667f4cf9592f27ace4c93ae427558",
       "page": "play",
       "state": "play",
       "theme": "dark",
@@ -548,7 +548,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-vaultfront-postmatch.png",
-      "sha256": "fb0baacba43dacc929612ae0c673b71accc510fa577174ab1a5dbfc3912dc600",
+      "sha256": "5337c0342b174f2478b26a5a401b8a18626bb97b8b744bf830617bf665e7b25b",
       "page": "postmatch",
       "state": "postmatch",
       "theme": "dark",
@@ -692,7 +692,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-light-play.png",
-      "sha256": "0640d7ab6ebd7f9a38b312b8676e2ce363c5ce7a866daee0ed867e7e68f068ae",
+      "sha256": "39d6139f2f8050ccff5b662b09ab85fe16cd5f638c8ada74c9e97d887b3aaeb0",
       "page": "play",
       "state": "play",
       "theme": "light",
@@ -710,7 +710,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-light-settings.png",
-      "sha256": "907403dd59dec021f6f1b229877571cd8f5cd0361dbad0019f25ec26109c2102",
+      "sha256": "a665df22077a971f9df5942c1945452ad9af26340ea0a0e3d4d6c2f576a9531f",
       "page": "settings",
       "state": "settings",
       "theme": "light",
@@ -728,7 +728,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-light-account-recovery.png",
-      "sha256": "bcf6395d0c64bd685f590796ae90bd389cb0fbd323cfac36f2994d6e91c95dd8",
+      "sha256": "1f87f74696f541f1e6e2c124c0515bf2bef83f4d4c4a75a5cea65664df786d36",
       "page": "account-recovery",
       "state": "account-recovery",
       "theme": "light",
@@ -863,7 +863,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-competitive-play.png",
-      "sha256": "2b19c45774b722b5a2bbd4c1ad50a668dc83b3fddc62e4ad0c07deb5b9e8910b",
+      "sha256": "13d099e47d2f6bf65f709636738d70e76555fc3b11b0c1ff4b60e22438fed43c",
       "page": "play",
       "state": "play",
       "theme": "competitive",
@@ -1054,14 +1054,14 @@
   },
   "comparisonBase": {
     "source": "git:HEAD:docs/visual-qa/LATEST.json",
-    "gitRevision": "17cfdbfbba9b7b34b42d8ffbe6d53b14a2bc3908",
-    "capturedAt": "2026-08-06T23:01:35.314Z",
-    "sourceDigest": "sha256:e39906438bd10aded637e955e7d18ee937a65265597c75fdeebb01d9a99ed5d0"
+    "gitRevision": "a1f28f82999ae9b035280cf0dd6150303d952f77",
+    "capturedAt": "2026-08-07T20:31:49.606Z",
+    "sourceDigest": "sha256:c734c70c5e5bd830084502344ac87dea9180ee2a4c3af6931547ebe188852a84"
   },
   "source": {
-    "gitRevision": "a1f28f82999ae9b035280cf0dd6150303d952f77",
+    "gitRevision": "be5a05986e385fccc86132565f0eed5d9e541a13",
     "dirty": true,
-    "digest": "sha256:c734c70c5e5bd830084502344ac87dea9180ee2a4c3af6931547ebe188852a84",
+    "digest": "sha256:caabe5a9a3a7087bb57bddfb0733914db679377e00d2f1cbef1c9434b9622944",
     "files": [
       {
         "path": "config/vaultfront-balance.v1.json",
@@ -1471,7 +1471,7 @@
       {
         "path": "static/index.html",
         "bytes": 17352,
-        "digest": "sha256:e701e52a5178765d5ff4cc3987790c4e988ba43441f338ad08e668a4a4346cbc"
+        "digest": "sha256:2e56a52ebe1c4f00df3f3c01b5a05aa4c2933af342e5541b3daa274bf5b4560b"
       }
     ]
   },
@@ -1480,12 +1480,12 @@
       {
         "path": "docs/visual-qa/summaries/theme-proof-chromium.json",
         "bytes": 45499,
-        "digest": "sha256:8bb61eed6e51e8b52c1e37a36fe844be5eab4b92f61b3f58316fd4cda8490b5e"
+        "digest": "sha256:da62cdc7f8d489112d368dcdb2299fac43be6e16039715ccdf7c06fc956f8bc5"
       },
       {
         "path": "docs/visual-qa/summaries/theme-proof-mobile-chrome.json",
         "bytes": 45495,
-        "digest": "sha256:712714fa780a5ba91ba41bc3abc9fd971dd4f6bfa1ebe3e61cb6c09ed943c5fb"
+        "digest": "sha256:00e5038c85227d186ba0d9232877e6ec43e7649a7fbb6beeaf7cdafc0d26c1e5"
       }
     ],
     "artifacts": [
@@ -1494,8 +1494,8 @@
         "theme": "vaultfront",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-play.png",
-        "bytes": 714739,
-        "digest": "sha256:3336f08cf77ba556cdd58bec3091f70c85c6b1970fb57655225e95dcc46cac10"
+        "bytes": 703359,
+        "digest": "sha256:6ed2c8eb970a480c14476038448955b54ac22492f8fb976fa9757a28d03cda96"
       },
       {
         "project": "chromium",
@@ -1510,8 +1510,8 @@
         "theme": "vaultfront",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-settings.png",
-        "bytes": 363699,
-        "digest": "sha256:7f56732d2f36ed245046b517eea94ed5b82886eed30b520ac4dc0d35fdb2355d"
+        "bytes": 363883,
+        "digest": "sha256:f72ca8513116a1de80734d14dade2c0eab1e4dd9480179471093c95f1829b339"
       },
       {
         "project": "chromium",
@@ -1526,8 +1526,8 @@
         "theme": "vaultfront",
         "surface": "account-recovery",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-account-recovery.png",
-        "bytes": 33957,
-        "digest": "sha256:0ffc5bab8b3f31a223dbf5a42e900f79064e06a5bc226d56e87df287d233934c"
+        "bytes": 33952,
+        "digest": "sha256:b1344c0554b953853e89564ad3e4994785087b7f73c9d9232087e7fd7cb3773a"
       },
       {
         "project": "chromium",
@@ -1614,8 +1614,8 @@
         "theme": "vaultfront",
         "surface": "narrator-certified",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-narrator-certified.png",
-        "bytes": 73657,
-        "digest": "sha256:c3b5c0f8ce45cce5266ce428e0768c5d39d8b32e19ebcff792d983f45973d381"
+        "bytes": 73408,
+        "digest": "sha256:8bf9fab4442b5aa3d486499266d07c406620a750ff6d85bb72a7e0bd1ce567d9"
       },
       {
         "project": "chromium",
@@ -1646,8 +1646,8 @@
         "theme": "light",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/chromium-light-play.png",
-        "bytes": 668708,
-        "digest": "sha256:f1c18c89b1ba7b527c8e4b0c2117cce75696f92e4b0e81c1fd22004183c0df5d"
+        "bytes": 669412,
+        "digest": "sha256:f97acc20948e783a262c8561e5161f70161e07d41a400553037db6b0efdd62d6"
       },
       {
         "project": "chromium",
@@ -1662,8 +1662,8 @@
         "theme": "light",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/chromium-light-settings.png",
-        "bytes": 301333,
-        "digest": "sha256:a269e57fb280e3e9697642ab13877f42b92a4a5f7f74264c537a5eb9c58cf28f"
+        "bytes": 301341,
+        "digest": "sha256:53e5558f301c6f8bdb2e18314032471e86953fc701632540127f0004a9299aef"
       },
       {
         "project": "chromium",
@@ -1678,8 +1678,8 @@
         "theme": "light",
         "surface": "account-recovery",
         "path": "docs/visual-qa/artifacts/chromium-light-account-recovery.png",
-        "bytes": 32304,
-        "digest": "sha256:d66819b101185c31f82b22da91e9106a0fde960ac861bc18f53d80b5430e7599"
+        "bytes": 32309,
+        "digest": "sha256:b62ae0e861c3604b89cf6f717988e07cba71ffe31a01cd5815d7ea9c2bce58d9"
       },
       {
         "project": "chromium",
@@ -1766,8 +1766,8 @@
         "theme": "light",
         "surface": "narrator-certified",
         "path": "docs/visual-qa/artifacts/chromium-light-narrator-certified.png",
-        "bytes": 70668,
-        "digest": "sha256:97367f93804d201d30cd7e2a318df861ba87b2d38f308b0a019d91800c14319d"
+        "bytes": 70367,
+        "digest": "sha256:92e4621b617d28b87b259c4844400340d5e80f96fc48cce20ad9cdc371da4d80"
       },
       {
         "project": "chromium",
@@ -1798,8 +1798,8 @@
         "theme": "competitive",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/chromium-competitive-play.png",
-        "bytes": 713988,
-        "digest": "sha256:b95f0fa7427c2a940cbcf5c3a2d4141494c59e7b9805d8bcf4ae6209175dfdbe"
+        "bytes": 714408,
+        "digest": "sha256:316c3d58c3798cd4c15eaf22f16bf951a3161e1ec0d47d041b2b7993f1e1186e"
       },
       {
         "project": "chromium",
@@ -1814,8 +1814,8 @@
         "theme": "competitive",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/chromium-competitive-settings.png",
-        "bytes": 340971,
-        "digest": "sha256:896ed7be2765cddafd35ebb2408a31ca2b859b506ae26f2b8ca4f0b5ad563882"
+        "bytes": 340838,
+        "digest": "sha256:6364d75b94e057f86e1fc88f9b92f754bc6865e8f255d876621e146fbe3f8ca7"
       },
       {
         "project": "chromium",
@@ -1830,8 +1830,8 @@
         "theme": "competitive",
         "surface": "account-recovery",
         "path": "docs/visual-qa/artifacts/chromium-competitive-account-recovery.png",
-        "bytes": 34175,
-        "digest": "sha256:c14481929b58257ee9cb3aade3644132d224af05dad214f13277136d2632183a"
+        "bytes": 34178,
+        "digest": "sha256:b2c7c5535831b94d1809a846e89484bb88c81e3024cb2e8cca1dc9fa27e96c89"
       },
       {
         "project": "chromium",
@@ -1918,8 +1918,8 @@
         "theme": "competitive",
         "surface": "narrator-certified",
         "path": "docs/visual-qa/artifacts/chromium-competitive-narrator-certified.png",
-        "bytes": 74550,
-        "digest": "sha256:bec86512a9a4b26aa7182bd762c829c2eb28ec80c4d8585a3fc302c8728fc8d3"
+        "bytes": 74810,
+        "digest": "sha256:1e3e42bf6eaf62eb15d39eee56cdd51e7c47919fbd687fb0ca0159b7c8bc87f3"
       },
       {
         "project": "chromium",
@@ -1950,8 +1950,8 @@
         "theme": "vaultfront",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-play.png",
-        "bytes": 1184978,
-        "digest": "sha256:73129cc1f372536923bf5a613d8577fbba5b6628d2013c7c9e864fb2ce81cac7"
+        "bytes": 1187125,
+        "digest": "sha256:7492077411a34cfc8911d6c750b9f1eb206667f4cf9592f27ace4c93ae427558"
       },
       {
         "project": "mobile-chrome",
@@ -1974,8 +1974,8 @@
         "theme": "vaultfront",
         "surface": "postmatch",
         "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-postmatch.png",
-        "bytes": 179445,
-        "digest": "sha256:fb0baacba43dacc929612ae0c673b71accc510fa577174ab1a5dbfc3912dc600"
+        "bytes": 179388,
+        "digest": "sha256:5337c0342b174f2478b26a5a401b8a18626bb97b8b744bf830617bf665e7b25b"
       },
       {
         "project": "mobile-chrome",
@@ -2102,8 +2102,8 @@
         "theme": "light",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/mobile-chrome-light-play.png",
-        "bytes": 1116652,
-        "digest": "sha256:0640d7ab6ebd7f9a38b312b8676e2ce363c5ce7a866daee0ed867e7e68f068ae"
+        "bytes": 1116971,
+        "digest": "sha256:39d6139f2f8050ccff5b662b09ab85fe16cd5f638c8ada74c9e97d887b3aaeb0"
       },
       {
         "project": "mobile-chrome",
@@ -2118,8 +2118,8 @@
         "theme": "light",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/mobile-chrome-light-settings.png",
-        "bytes": 231367,
-        "digest": "sha256:907403dd59dec021f6f1b229877571cd8f5cd0361dbad0019f25ec26109c2102"
+        "bytes": 232094,
+        "digest": "sha256:a665df22077a971f9df5942c1945452ad9af26340ea0a0e3d4d6c2f576a9531f"
       },
       {
         "project": "mobile-chrome",
@@ -2134,8 +2134,8 @@
         "theme": "light",
         "surface": "account-recovery",
         "path": "docs/visual-qa/artifacts/mobile-chrome-light-account-recovery.png",
-        "bytes": 104027,
-        "digest": "sha256:bcf6395d0c64bd685f590796ae90bd389cb0fbd323cfac36f2994d6e91c95dd8"
+        "bytes": 104082,
+        "digest": "sha256:1f87f74696f541f1e6e2c124c0515bf2bef83f4d4c4a75a5cea65664df786d36"
       },
       {
         "project": "mobile-chrome",
@@ -2254,8 +2254,8 @@
         "theme": "competitive",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-play.png",
-        "bytes": 1187329,
-        "digest": "sha256:2b19c45774b722b5a2bbd4c1ad50a668dc83b3fddc62e4ad0c07deb5b9e8910b"
+        "bytes": 1187850,
+        "digest": "sha256:13d099e47d2f6bf65f709636738d70e76555fc3b11b0c1ff4b60e22438fed43c"
       },
       {
         "project": "mobile-chrome",
@@ -2407,9 +2407,9 @@
     {
       "project": "chromium",
       "localOnly": true,
-      "capturedAt": "2026-08-07T20:31:18.833Z",
+      "capturedAt": "2026-08-07T22:49:36.824Z",
       "source": {
-        "digest": "sha256:c734c70c5e5bd830084502344ac87dea9180ee2a4c3af6931547ebe188852a84",
+        "digest": "sha256:caabe5a9a3a7087bb57bddfb0733914db679377e00d2f1cbef1c9434b9622944",
         "files": [
           {
             "path": "config/vaultfront-balance.v1.json",
@@ -2819,7 +2819,7 @@
           {
             "path": "static/index.html",
             "bytes": 17352,
-            "digest": "sha256:e701e52a5178765d5ff4cc3987790c4e988ba43441f338ad08e668a4a4346cbc"
+            "digest": "sha256:2e56a52ebe1c4f00df3f3c01b5a05aa4c2933af342e5541b3daa274bf5b4560b"
           }
         ]
       },
@@ -3474,9 +3474,9 @@
     {
       "project": "mobile-chrome",
       "localOnly": true,
-      "capturedAt": "2026-08-07T20:31:21.219Z",
+      "capturedAt": "2026-08-07T22:50:01.284Z",
       "source": {
-        "digest": "sha256:c734c70c5e5bd830084502344ac87dea9180ee2a4c3af6931547ebe188852a84",
+        "digest": "sha256:caabe5a9a3a7087bb57bddfb0733914db679377e00d2f1cbef1c9434b9622944",
         "files": [
           {
             "path": "config/vaultfront-balance.v1.json",
@@ -3886,7 +3886,7 @@
           {
             "path": "static/index.html",
             "bytes": 17352,
-            "digest": "sha256:e701e52a5178765d5ff4cc3987790c4e988ba43441f338ad08e668a4a4346cbc"
+            "digest": "sha256:2e56a52ebe1c4f00df3f3c01b5a05aa4c2933af342e5541b3daa274bf5b4560b"
           }
         ]
       },

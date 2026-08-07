@@ -373,3 +373,9 @@ Session 89 closeout tooling incident: invoking the Studio Ops closeout-board ren
 - Exact-SHA staging dry-run `31217165276` passes after the executable-mode and `DOMAIN` repairs.
 - Read-only live preflight exhausted credential/admin alternatives before mutation: no VaultFront CANON-038 port allocation, `STUDIO_PG_ADMIN_URL`, staging DNS, deploy user, or approved Caddy-to-Traefik transport exists; Caddy owns 80/443 and Traefik is absent.
 - Live staging was not dispatched because the workflow would build/push and mutate the host before failing durability/ingress admission. Signed Ark question `01JVF5O44A385AF9033E414452` requests the owner-controlled allocation/topology path. Production remains NO-GO on external evidence.
+
+### Session 97 second live-advisory repair
+
+- Final evidence head `be5a0598` passed Release, brief-format, build, lint, format, bundle, and all 1,221 tests; CI failed only after the registry updated high-severity `GHSA-2v37-7h3g-55p8` against Nano ID 3.3.16.
+- Package trust verified the official advisory, registry integrity, established maintainer/repository/license, signed 3.3.17 and 3.3.18 tags, and the focused upstream delta. Nano ID 3.3.18 completes the async React Native zero-size guard missing from 3.3.17 and is approved despite same-day release because it closes the active denial-of-service path.
+- Nano ID is pinned to 3.3.18. Focused game/rematch/tournament ID paths pass 10/10; production audit, supply-chain incident scan, dependency tree, production build, Playwright 2/2, representative pixels, and the canonical 114-artifact receipt pass at source digest `sha256:caabe5a9a3a7087bb57bddfb0733914db679377e00d2f1cbef1c9434b9622944`.
