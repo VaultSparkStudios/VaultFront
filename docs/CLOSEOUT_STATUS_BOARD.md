@@ -1,19 +1,19 @@
 <!-- generated-by: scripts/render-closeout-board.mjs v1.0 -->
-<!-- generated-at: 2026-08-05 (Session 96 closeout) -->
+<!-- generated-at: 2026-08-07 (Session 97 closeout) -->
 
 # Closeout Status Board — VaultFront
 
 ```
-╔══ SESSION CLOSEOUT · VaultFront · S96 ═════════════════════════╗
-║  Date: 2026-08-05 · SIL: 997/1000 · V:7  ·  Debt: down           ║
+╔══ SESSION CLOSEOUT · VaultFront · S97 ═════════════════════════╗
+║  Date: 2026-08-07 · SIL: 997/1000 · V:9  ·  Debt: down           ║
 ║  Mode: FOUNDER  ·  Agent: codex                                  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ WHAT SHIPPED ════════════════════════════════════════════════╗
-║  ✓ Branch: main; the recovery boundary is separate and the fres  ║
-║  ✓ Shipped: generation-owned match construction/teardown; truth  ║
-║  ✓ Visual truth: Playwright 2/2 covers 19 states across VaultFr  ║
-║  ✓ Verification: npm test passes 229/229 files and 1,198/1,198   ║
-║  ✓ Release: public-unlaunched / NO-GO. No staging/parity,        ║
+║  ✓ Branch: `main`; the local arc is exhausted at cumulative aud  ║
+║  ✓ Shipped: durable certified archive outbox; safe candidate-fi  ║
+║  ✓ Visual truth: real-browser inspection across three themes an  ║
+║  ✓ Verification: all 232 test files pass across root 39 / clien  ║
+║  ✓ Release: public-unlaunched / NO-GO. Available infrastructure  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ SCORES · SIL 997/1000 ═══════════════════════════════════════╗
 ║    Dev Health         100  ██████████                            ║
@@ -51,11 +51,11 @@
 ╔══ POST-SESSION SIGNALS ════════════════════════════════════════╗
 ║  Doctor:        13/13                                            ║
 ║  Compliance:    49/49                                            ║
-║  Tests:         1198/1198                                        ║
-║  IGNIS:         5d ago                                           ║
+║  Tests:         —                                                ║
+║  IGNIS:         6d ago                                           ║
 ║  Truth:         green                                            ║
 ║  Shell hygiene: 0 running                                        ║
-║  Sanitization:  11d ago                                          ║
+║  Sanitization:  12d ago                                          ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ NEXT SESSION ════════════════════════════════════════════════╗
 ║  #1: Unified Genius List exhausted                               ║
