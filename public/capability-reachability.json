@@ -38,7 +38,7 @@
           "includes": [
             "resultCertificate = buildMatchResultCertificate",
             "this.recordProgressionOutcome()",
-            "this.archiveGame()"
+            "await this.archiveGame(kind)"
           ]
         }
       ]

@@ -131,6 +131,36 @@ CREATE TABLE IF NOT EXISTS player_achievements (
 CREATE INDEX IF NOT EXISTS idx_player_achievements_pid
   ON player_achievements (persistent_id);
 
+-- ── Certified/incomplete archive delivery outbox ─────────────────────────────
+-- The external archive API is an at-least-once transport. This durable outbox
+-- separates result certification from delivery acknowledgement and permits
+-- bounded restart-safe retry without treating certificate presence as success.
+CREATE TABLE IF NOT EXISTS game_archive_outbox (
+  delivery_id     VARCHAR(200) PRIMARY KEY,
+  game_id          VARCHAR(64)  NOT NULL,
+  delivery_kind    VARCHAR(16)  NOT NULL
+                   CHECK (delivery_kind IN ('certified', 'incomplete')),
+  certificate_id   VARCHAR(128),
+  payload          JSONB        NOT NULL,
+  state            VARCHAR(16)  NOT NULL DEFAULT 'queued'
+                   CHECK (state IN ('queued', 'delivering', 'delivered', 'dead-letter')),
+  attempts         INT          NOT NULL DEFAULT 0 CHECK (attempts >= 0),
+  next_attempt_at  TIMESTAMPTZ  NOT NULL DEFAULT NOW(),
+  lease_until      TIMESTAMPTZ,
+  last_error       VARCHAR(200),
+  created_at       TIMESTAMPTZ  NOT NULL DEFAULT NOW(),
+  updated_at       TIMESTAMPTZ  NOT NULL DEFAULT NOW(),
+  delivered_at     TIMESTAMPTZ,
+  CHECK (
+    (delivery_kind = 'certified' AND certificate_id IS NOT NULL)
+    OR (delivery_kind = 'incomplete' AND certificate_id IS NULL)
+  )
+);
+
+CREATE INDEX IF NOT EXISTS idx_game_archive_outbox_due
+  ON game_archive_outbox (state, next_attempt_at)
+  WHERE state IN ('queued', 'delivering');
+
 -- ── Season Votes ───────────────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS season_votes (
   week_number   INT          NOT NULL,

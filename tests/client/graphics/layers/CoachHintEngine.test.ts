@@ -82,4 +82,46 @@ describe("CoachHintEngine", () => {
       localStorage.getItem("vaultfront.kpi.coach.remoteEnhancements"),
     ).toBe(null);
   });
+
+  test("explains a simulation-owned chain reset cause", () => {
+    const engine = makeEngine();
+    engine.tickCount = 1_000;
+    engine.game.updatesSinceLastTick = () => ({
+      [GameUpdateType.VaultFrontStatus]: [
+        {
+          sites: [],
+          convoys: [],
+          executionChains: {
+            7: {
+              step: 0,
+              expiresAtTick: 0,
+              lastResetReason: "convoy_intercepted",
+              lastResetTick: 900,
+              lastResetFromStep: 2,
+            },
+          },
+        },
+      ],
+      [GameUpdateType.VaultFrontActivity]: [{ activity: "comeback_surge" }],
+    });
+
+    engine.tick();
+
+    expect(engine.hint).toContain("convoy was intercepted");
+  });
+
+  test("does not fabricate a chain reset from comeback activity", () => {
+    const engine = makeEngine();
+    engine.tickCount = 100;
+    engine.game.updatesSinceLastTick = () => ({
+      [GameUpdateType.VaultFrontStatus]: [
+        { sites: [], convoys: [], executionChains: {} },
+      ],
+      [GameUpdateType.VaultFrontActivity]: [{ activity: "comeback_surge" }],
+    });
+
+    engine.tick();
+
+    expect(engine.hint).toBeNull();
+  });
 });

@@ -60,6 +60,7 @@ ARG GIT_COMMIT=unknown
 LABEL org.opencontainers.image.revision="$GIT_COMMIT"
 RUN echo "$GIT_COMMIT" > static/commit.txt
 ENV GIT_COMMIT="$GIT_COMMIT"
+ENV DEPLOY_DRAIN_TIMEOUT_SECONDS=900
 
 # The container owns Nginx + Node only. It never creates provider tunnels,
 # receives Cloudflare control-plane credentials, or mutates DNS at runtime.

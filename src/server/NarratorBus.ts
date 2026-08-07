@@ -14,7 +14,11 @@ import type { Response } from "express";
 import { BoundedSseTransport, type SseAdmission } from "./BoundedSseTransport";
 import type { CertifiedNarrationEvent } from "./CertifiedNarrationProjection";
 import { logger as Logger } from "./Logger";
-import { canAttemptRemoteAi, reserveRemoteAiCall } from "./RemoteAiPolicy";
+import {
+  canAttemptRemoteAi,
+  executeReservedRemoteAiCall,
+  reserveRemoteAiCall,
+} from "./RemoteAiPolicy";
 
 let anthropic: Anthropic | null = null;
 
@@ -237,18 +241,25 @@ export class NarratorBus {
         persona,
         state.context?.blendMode,
       );
-      const msg = await getAnthropicClient().messages.create({
-        model: "claude-haiku-4-5-20251001",
-        max_tokens: 60,
-        system: [
-          {
-            type: "text",
-            text: systemPrompt,
-            cache_control: { type: "ephemeral" },
-          },
-        ],
-        messages: [{ role: "user", content: userContent }],
-      });
+      const msg = await executeReservedRemoteAiCall(
+        (signal) =>
+          getAnthropicClient().messages.create(
+            {
+              model: "claude-haiku-4-5-20251001",
+              max_tokens: 60,
+              system: [
+                {
+                  type: "text",
+                  text: systemPrompt,
+                  cache_control: { type: "ephemeral" },
+                },
+              ],
+              messages: [{ role: "user", content: userContent }],
+            },
+            { signal },
+          ),
+        8_000,
+      );
       const commentary =
         (msg.content[0] as { type: string; text: string }).text?.trim() ?? "";
       if (commentary) {

@@ -50,7 +50,10 @@ export default defineConfig({
           command: "npm run start:e2e-client",
           url: baseURL,
           reuseExistingServer: false,
-          timeout: 60_000,
+          // Competing Studio sessions can put substantial pressure on Windows
+          // process startup. Keep the product assertions strict while giving
+          // the heavyweight Vite game bundle a bounded readiness window.
+          timeout: 180_000,
         },
       ],
 });

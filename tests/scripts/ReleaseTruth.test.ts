@@ -72,7 +72,7 @@ describe("release truth boundary", () => {
     const supervisor = read("supervisord.conf");
     const updater = read("update.sh");
 
-    expect(updater).toContain("traefik.http.routers.${CONTAINER_NAME}.rule");
+    expect(updater).toContain("traefik.http.routers.${name}.rule");
     expect(dockerfile).toContain(
       'ENTRYPOINT ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]',
     );
@@ -81,6 +81,42 @@ describe("release truth boundary", () => {
       /cloudflared|CF_API_TOKEN|CF_ACCOUNT_ID|startup.sh/u,
     );
     expect(supervisor).not.toMatch(/cloudflared|CLOUDFLARE_TUNNEL_TOKEN/u);
+  });
+
+  it("admits a healthy blue/green candidate before bounded incumbent drain", () => {
+    const updater = read("update.sh");
+    const supervisor = read("supervisord.conf");
+
+    expect(updater).not.toMatch(/docker\s+rm\s+-f/u);
+    expect(updater).toContain("DEPLOY_DRAIN_TIMEOUT_SECONDS");
+    expect(updater).toContain(
+      "traefik.http.services.${name}.loadbalancer.healthcheck.path=/_health",
+    );
+    expect(updater).toContain(
+      "traefik.http.routers.${name}.priority=${priority}",
+    );
+    expect(updater.indexOf('run_container "$GHCR_IMAGE"')).toBeLessThan(
+      updater.indexOf('docker stop --time "$DEPLOY_DRAIN_TIMEOUT_SECONDS"'),
+    );
+    expect(updater.indexOf('docker exec "$CONTAINER_NAME" curl')).toBeLessThan(
+      updater.indexOf('docker stop --time "$DEPLOY_DRAIN_TIMEOUT_SECONDS"'),
+    );
+    expect(updater.indexOf('[[ "$DOCKER_HEALTHY" != "1" ]]')).toBeLessThan(
+      updater.indexOf('docker stop --time "$DEPLOY_DRAIN_TIMEOUT_SECONDS"'),
+    );
+    expect(updater.indexOf('[[ "$CANDIDATE_ADMITTED" != "1" ]]')).toBeLessThan(
+      updater.indexOf('docker stop --time "$DEPLOY_DRAIN_TIMEOUT_SECONDS"'),
+    );
+    expect(updater).toContain(
+      'REVISION_URL="${DEPLOY_HEALTH_URL%/_health}/commit.txt"',
+    );
+    expect(updater).toContain('docker start "$OLD_CONTAINER"');
+    expect(supervisor).toContain("stopsignal=TERM");
+    expect(supervisor).toContain(
+      "stopwaitsecs=%(ENV_DEPLOY_DRAIN_TIMEOUT_SECONDS)s",
+    );
+    expect(supervisor).toContain("stopasgroup=true");
+    expect(supervisor).toContain("killasgroup=true");
   });
 
   it("verifies promotion by the image Git revision instead of its tag", () => {

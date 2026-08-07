@@ -52,6 +52,14 @@ daily-challenge-system (DailyChallengeStore + HUD card), vault-intelligence-mark
 
 ## Follow-ups
 
+## Completed (2026-08-06 — Session 97 durable certification and bounded-intelligence arc)
+
+- [done] Audit 158–166: durable certified archive outbox; match-safe blue/green promotion; authoritative achievement hydration; complete state-scope inventory; Turnstile token redaction; one bounded remote-AI executor; cause-bound local coaching; reachable Doctrine match continuity; and an accessible reroute decision matrix.
+- [done] Exhaustion proof: cumulative audit 32/32 and innovation ledger 62/62 shipped; zero pending unblocked local work.
+- [done] Verification: all 51 script files / 187 tests and all 72 server files / 298 tests pass in deterministic bounded shards; TypeScript, ESLint, Prettier, runtime/deploy/composition contracts, 28,125 balance scenarios, production build, bundle budgets, Bash syntax, and production audit are green.
+- [done] Rendered-pixel proof: direct browser inspection caught and fixed light-theme reroute contrast; Playwright 2/2 covers three themes × desktop/mobile with 114 hash-bound captures; CANON-053 passes.
+- [release-evidence] Production remains NO-GO pending approved staging/parity and health observations, project-domain Zoho reply identity, native Obelisk, live theme evidence, three authenticated humans, real revenue, observed rollback, exact-revision provider CI, and founder approval.
+
 ## Completed (2026-08-05 — Session 96 deterministic lifecycle and causal-reflection arc)
 
 - [done] Audit 151–157: generation-owned match teardown; truthful same-origin tab collision; accessible account recovery; local-only deterministic coaching; certified causal feedback cohorts; repeatable progression debrief; and Doctrine-guided rematch continuity.

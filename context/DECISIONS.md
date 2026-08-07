@@ -541,3 +541,29 @@ Public-safe decisions only. Detailed internal decision history is maintained pri
 **Decision:** Record exact CI `30973983185`, E2E `30973983198`, and Release `30973983205` as green for the committed Session 95 baseline while preserving public launch NO-GO until the remaining external observations exist.
 
 **Why:** Provider execution closes code-integrity evidence only. It cannot manufacture staging parity, reply-capable project email, native identity, live-web, distinct-human, revenue, rollback, or founder evidence.
+
+## 2026-08-06 — Session 97 durable certification and bounded-execution decisions
+
+### Certified history fails closed through one durable outbox
+
+**Decision:** A certified archive result is complete only after its authoritative durable write succeeds. Failed writes enter one bounded retryable outbox and return explicit incomplete/durability receipts; callers never relabel process-local acceptance as persistence.
+
+**Why:** Certified history is an evidence promise. Silent best-effort delivery would let restart loss inherit a success-shaped response.
+
+### Remote artificial intelligence uses one request-owned execution authority
+
+**Decision:** Every provider edge shares one request-bound deadline, abort signal, cache key, cost reservation, normalized outcome, and cleanup authority. No provider route may create an unbounded call or a detached retry lifecycle.
+
+**Why:** Central ownership makes cancellation, spend, degradation, and observability consistent without changing the deterministic local baseline.
+
+### Rendered decision states use semantic contrast contracts
+
+**Decision:** Reroute selected, unselected, and panel states derive from theme-semantic variables and execute computed contrast assertions at a minimum 4.5:1 ratio across every supported theme and viewport.
+
+**Why:** Direct browser review found that structurally valid tokens still produced pale text on a pale surface in Light theme. Pixel truth must constrain the theme system.
+
+### Infrastructure readiness is not release approval
+
+**Decision:** Correct local deployment topology and READY infrastructure capabilities may authorize bounded staging attempts, but they do not satisfy staging parity, native Obelisk, Zoho reply identity, human Alpha, revenue, rollback, live-theme, exact-revision CI, or founder-approval gates.
+
+**Why:** Deployment mechanics and release evidence are separate facts. Production promotion remains fail-closed until every observation is attached and verified.

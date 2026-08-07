@@ -46,6 +46,25 @@ function mockPlayer(
 }
 
 describe("VaultFrontExecution", () => {
+  test("projects the deterministic execution-chain reset cause", () => {
+    const execution = new VaultFrontExecution() as any;
+    execution.executionChainStep = new Map([[7, 2]]);
+    execution.executionChainExpiresAtTick = new Map([[7, 900]]);
+    execution.executionChainLastResetReason = new Map();
+    execution.executionChainLastResetTick = new Map();
+    execution.executionChainLastResetFromStep = new Map();
+
+    execution.resetExecutionChain(7, "convoy_intercepted", 640);
+
+    expect(execution.buildExecutionChainStates()[7]).toEqual({
+      step: 0,
+      expiresAtTick: 0,
+      lastResetReason: "convoy_intercepted",
+      lastResetTick: 640,
+      lastResetFromStep: 2,
+    });
+  });
+
   test("reroute_safest breaks equal-risk ties by shortest distance", () => {
     const execution = new VaultFrontExecution() as any;
     execution.game = {

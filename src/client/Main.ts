@@ -1032,7 +1032,7 @@ async function getTurnstileToken(): Promise<{
     window.turnstile.execute(widgetId, {
       callback: (token: string) => {
         window.turnstile.remove(widgetId);
-        console.log(`Turnstile token received: ${token}`);
+        console.info("Turnstile challenge completed");
         resolve({ token, createdAt: Date.now() });
       },
       "error-callback": (errorCode: string) => {

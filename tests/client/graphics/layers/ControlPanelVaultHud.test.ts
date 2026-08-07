@@ -643,4 +643,76 @@ describe("ControlPanel vault HUD automation", () => {
     expect(copy).toContain("[ ] Defense Factory pulse");
     expect(copy).toContain("You: 0 Pressure deliveries · Team: 0/0");
   });
+
+  test("reroute decision matrix exposes radio semantics, live tradeoffs, and arrow navigation", () => {
+    const panel = new ControlPanel() as any;
+    panel.selectedPreviewCommand = "reroute_safest";
+    vi.spyOn(panel, "isMobilePriorityMode").mockReturnValue(false);
+    const preview = (
+      command: "reroute_safest" | "reroute_city",
+      risk: number,
+    ) => ({
+      command,
+      destinationTile: 10,
+      etaSeconds: command === "reroute_safest" ? 18 : 12,
+      routeRisk: risk,
+      routeDistance: 16,
+      rewardMultiplier: 1,
+      rewardScale: 1,
+      strengthMultiplier: 1,
+      phaseMultiplier: 1,
+      riskMultiplier: 1,
+      goldReward: command === "reroute_safest" ? 180_000 : 220_000,
+      troopsReward: 1_400,
+      rewardMath: "test",
+      deltaGold: command === "reroute_safest" ? 0 : 40_000,
+      deltaTroops: 0,
+      deltaEtaSeconds: command === "reroute_safest" ? 0 : -6,
+      deltaRisk: command === "reroute_safest" ? 0 : 0.25,
+    });
+    const previews = [
+      preview("reroute_safest", 0.2),
+      preview("reroute_city", 0.45),
+    ];
+    const container = document.createElement("div");
+
+    render(
+      panel.renderReroutePreviewPanel({ reroutePreviews: previews }),
+      container,
+    );
+
+    const group = container.querySelector('[role="radiogroup"]');
+    const options = [...container.querySelectorAll('[role="radio"]')];
+    expect(group).not.toBeNull();
+    expect(options).toHaveLength(2);
+    expect(options[0].getAttribute("aria-checked")).toBe("true");
+    expect(options[0].className).toContain("min-h-11");
+    expect(container.querySelector('[role="status"]')?.textContent).toContain(
+      "Safest lane. ETA 18s",
+    );
+
+    group?.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }),
+    );
+    expect(panel.selectedPreviewCommand).toBe("reroute_city");
+  });
+
+  test("reviews the bound doctrine as coaching identity without stat power", () => {
+    const panel = new ControlPanel() as any;
+    panel.nextMatchGoal = "Complete one clean extraction.";
+    panel.activeDoctrine = {
+      id: "vault-warden",
+      name: "Vault Warden",
+      role: "Defender",
+      brief: "Secure the recapture before converting pressure.",
+      effectPolicy: "coaching-and-identity-only",
+    };
+    const container = document.createElement("div");
+
+    render(panel.renderNextGoalTracker(), container);
+
+    expect(container.textContent).toContain("Doctrine · Vault Warden");
+    expect(container.textContent).toContain("Coaching identity only");
+    expect(container.textContent).toContain("no stat modifiers");
+  });
 });

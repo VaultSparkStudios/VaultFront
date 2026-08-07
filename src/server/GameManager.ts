@@ -254,17 +254,35 @@ export class GameManager {
       }
 
       if (phase === GamePhase.Finished) {
-        try {
-          game.end();
-        } catch (error) {
+        void game.end().catch((error) => {
           this.log.error(`error ending game ${id}: ${error}`);
-        }
+        });
       } else {
         active.set(id, game);
       }
     }
     this.games = active;
     this.lastTickCompletedAt = Date.now();
+  }
+
+  /**
+   * Bounded deployment fallback: normal draining waits for matches to finish.
+   * At the explicit drain deadline, finalize every remaining replay/archive as
+   * an incomplete session before the process is allowed to exit.
+   */
+  public async endAllForShutdown(): Promise<void> {
+    const remaining = [...this.games.values()];
+    this.games = new Map();
+    const outcomes = await Promise.allSettled(
+      remaining.map((game) => game.end()),
+    );
+    for (const outcome of outcomes) {
+      if (outcome.status === "rejected") {
+        this.log.error(
+          `error finalizing game during shutdown: ${outcome.reason}`,
+        );
+      }
+    }
   }
 }
 

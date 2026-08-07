@@ -256,6 +256,17 @@ describe("ProgressionDebrief", () => {
       id: "convoy-architect",
       effectPolicy: "coaching-and-identity-only",
     });
+    expect(
+      JSON.parse(
+        localStorage.getItem("vaultfront.convoyMasteryGoal.v1") ?? "{}",
+      ),
+    ).toMatchObject({
+      sourceGameId: "game-doctrine",
+      doctrine: {
+        id: "convoy-architect",
+        effectPolicy: "coaching-and-identity-only",
+      },
+    });
 
     debrief.bindGame({ gameID: () => "game-next" });
     expect(debrief.requested).toBe(false);

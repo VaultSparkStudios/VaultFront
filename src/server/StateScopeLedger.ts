@@ -1,14 +1,17 @@
 import { createHash } from "node:crypto";
 import type { DatabasePosture } from "./db/pool";
 
-export type StateDurability =
-  "volatile" | "database-when-ready" | "filesystem-signed";
+export type StateDurability = "volatile" | "database-when-ready";
+export type StateCapability = "postgres-optional" | "process-only";
 
 export interface StateScopeLedgerEntry {
   store: string;
   owner: string;
-  capability: "postgres-optional" | "process-only" | "signed-filesystem";
-  declaredScope: "process" | "worker-filesystem" | "postgres";
+  kind: "store" | "runtime-state";
+  sourceFile: string;
+  runtimeExport: string | null;
+  capability: StateCapability;
+  declaredScope: "process" | "postgres";
   durability: StateDurability;
   replication: "none" | "postgres-managed";
   retention: string;
@@ -17,83 +20,195 @@ export interface StateScopeLedgerEntry {
   releaseCritical: boolean;
 }
 
-const STATE_SCOPE_LEDGER: readonly StateScopeLedgerEntry[] = [
-  {
-    store: "player-stats",
-    owner: "PlayerStatsStore",
+interface RegistryIdentity {
+  store: string;
+  owner: string;
+  sourceFile: string;
+  runtimeExport: string;
+  releaseCritical: boolean;
+  retention?: string;
+  recovery?: string;
+  probeOwner?: string;
+}
+
+function postgresStore(identity: RegistryIdentity): StateScopeLedgerEntry {
+  return {
+    ...identity,
+    kind: "store",
     capability: "postgres-optional",
     declaredScope: "postgres",
     durability: "database-when-ready",
     replication: "postgres-managed",
-    retention: "database policy; process lifetime when database disabled",
-    recovery: "database restore; none for process-local fallback",
-    probeOwner: "database-readiness",
+    retention:
+      identity.retention ??
+      "database policy; process lifetime when database disabled",
+    recovery:
+      identity.recovery ?? "database restore; none for process-local fallback",
+    probeOwner: identity.probeOwner ?? "database-readiness",
+  };
+}
+
+function processStore(identity: RegistryIdentity): StateScopeLedgerEntry {
+  return {
+    ...identity,
+    kind: "store",
+    capability: "process-only",
+    declaredScope: "process",
+    durability: "volatile",
+    replication: "none",
+    retention: identity.retention ?? "process lifetime",
+    recovery: identity.recovery ?? "none",
+    probeOwner: identity.probeOwner ?? "runtime-integrity-passport",
+  };
+}
+
+/**
+ * Canonical runtime state-owner authority. Readiness, the ledger digest, and
+ * the source-inventory completeness test all derive from this registry.
+ */
+export const STATE_SCOPE_REGISTRY: readonly StateScopeLedgerEntry[] = [
+  postgresStore({
+    store: "achievements",
+    owner: "AchievementStore",
+    sourceFile: "src/server/AchievementStore.ts",
+    runtimeExport: "achievementStore",
     releaseCritical: true,
-  },
-  {
+  }),
+  postgresStore({
+    store: "certified-daily-mastery",
+    owner: "CertifiedDailyMasteryStore",
+    sourceFile: "src/server/CertifiedDailyMasteryStore.ts",
+    runtimeExport: "certifiedDailyMasteryStore",
+    releaseCritical: true,
+  }),
+  postgresStore({
+    store: "certified-loop-evidence",
+    owner: "CertifiedLoopEvidenceStore",
+    sourceFile: "src/server/CertifiedLoopEvidenceStore.ts",
+    runtimeExport: "certifiedLoopEvidenceStore",
+    releaseCritical: true,
+  }),
+  postgresStore({
     store: "certified-outcomes",
     owner: "CertifiedOutcomeStore",
-    capability: "postgres-optional",
-    declaredScope: "postgres",
-    durability: "database-when-ready",
-    replication: "postgres-managed",
-    retention: "database policy; process lifetime when database disabled",
-    recovery: "database restore; none for process-local fallback",
-    probeOwner: "database-readiness",
+    sourceFile: "src/server/CertifiedOutcomeStore.ts",
+    runtimeExport: "certifiedOutcomeStore",
     releaseCritical: true,
-  },
-  {
+  }),
+  postgresStore({
+    store: "certified-season-contracts",
+    owner: "CertifiedSeasonContractStore",
+    sourceFile: "src/server/CertifiedSeasonContractStore.ts",
+    runtimeExport: "certifiedSeasonContractStore",
+    releaseCritical: true,
+  }),
+  postgresStore({
+    store: "clans",
+    owner: "ClanStore",
+    sourceFile: "src/server/ClanStore.ts",
+    runtimeExport: "clanStore",
+    releaseCritical: true,
+  }),
+  postgresStore({
     store: "match-feedback",
     owner: "MatchFeedbackStore",
-    capability: "postgres-optional",
-    declaredScope: "postgres",
-    durability: "database-when-ready",
-    replication: "postgres-managed",
+    sourceFile: "src/server/MatchFeedbackStore.ts",
+    runtimeExport: "matchFeedbackStore",
+    releaseCritical: false,
     retention: "30 days in PostgreSQL and process-local fallback",
     recovery:
       "database restore within retention horizon; none for process-local fallback",
-    probeOwner: "database-readiness",
+  }),
+  postgresStore({
+    store: "player-stats",
+    owner: "PlayerStatsStore",
+    sourceFile: "src/server/PlayerStatsStore.ts",
+    runtimeExport: "playerStatsStore",
+    releaseCritical: true,
+  }),
+  postgresStore({
+    store: "playtest-pulse",
+    owner: "PlaytestEvidenceStore",
+    sourceFile: "src/server/PlaytestEvidenceStore.ts",
+    runtimeExport: "playtestEvidenceStore",
+    releaseCritical: true,
+    retention:
+      "30-day PostgreSQL policy; process lifetime when database disabled",
+    recovery: "database restore; none for process-local development fallback",
+    probeOwner: "playtest-pulse-readiness",
+  }),
+  postgresStore({
+    store: "prediction-league",
+    owner: "PredictionLeagueStore",
+    sourceFile: "src/server/PredictionLeagueStore.ts",
+    runtimeExport: "predictionLeagueStore",
+    releaseCritical: true,
+  }),
+  postgresStore({
+    store: "progression-receipts",
+    owner: "ProgressionReceiptStore",
+    sourceFile: "src/server/ProgressionReceiptStore.ts",
+    runtimeExport: "progressionReceiptStore",
+    releaseCritical: true,
+  }),
+  processStore({
+    store: "rematches",
+    owner: "RematchStore",
+    sourceFile: "src/server/RematchStore.ts",
+    runtimeExport: "rematchStore",
     releaseCritical: false,
-  },
-  {
-    store: "achievements",
-    owner: "AchievementStore",
-    capability: "postgres-optional",
-    declaredScope: "postgres",
-    durability: "database-when-ready",
-    replication: "postgres-managed",
-    retention: "database policy; process lifetime when database disabled",
-    recovery: "database restore; none for process-local fallback",
-    probeOwner: "database-readiness",
+    retention: "bounded process cache",
+    recovery: "client creates a new rematch",
+  }),
+  processStore({
+    store: "replay-highlights",
+    owner: "ReplayHighlightStore",
+    sourceFile: "src/server/ReplayHighlightStore.ts",
+    runtimeExport: "replayHighlightStore",
+    releaseCritical: false,
+    retention: "bounded process cache",
+    recovery: "recompute from a retained replay",
+  }),
+  processStore({
+    store: "replays",
+    owner: "ReplayStore",
+    sourceFile: "src/server/ReplayStore.ts",
+    runtimeExport: "replayStore",
     releaseCritical: true,
-  },
-  {
-    store: "clans",
-    owner: "ClanStore",
-    capability: "postgres-optional",
-    declaredScope: "postgres",
-    durability: "database-when-ready",
-    replication: "postgres-managed",
-    retention: "database policy; process lifetime when database disabled",
-    recovery: "database restore; none for process-local fallback",
-    probeOwner: "database-readiness",
+    retention: "newest 500 manifests in the owning process",
+    recovery: "none; HMAC signing provides integrity, not persistence",
+    probeOwner: "replay-integrity-posture",
+  }),
+  postgresStore({
+    store: "season-pass",
+    owner: "CertifiedSeasonPassStore",
+    sourceFile: "src/server/SeasonMilestoneStore.ts",
+    runtimeExport: "certifiedSeasonPassStore",
     releaseCritical: true,
-  },
-  {
+  }),
+  postgresStore({
     store: "tournaments",
     owner: "TournamentStore",
-    capability: "postgres-optional",
-    declaredScope: "postgres",
-    durability: "database-when-ready",
-    replication: "postgres-managed",
-    retention: "database policy; process lifetime when database disabled",
-    recovery: "database restore; none for process-local fallback",
-    probeOwner: "database-readiness",
+    sourceFile: "src/server/TournamentStore.ts",
+    runtimeExport: "tournamentStore",
     releaseCritical: true,
-  },
+  }),
+  postgresStore({
+    store: "game-archive-outbox",
+    owner: "ArchiveDeliveryManager",
+    sourceFile: "src/server/Archive.ts",
+    runtimeExport: "archiveDeliveryManager",
+    releaseCritical: true,
+    recovery:
+      "PostgreSQL retry replay; process-local retries are not restart-safe",
+    retention: "database outbox policy; bounded process fallback",
+  }),
   {
     store: "season-votes",
     owner: "VaultSeasonScheduler",
+    kind: "runtime-state",
+    sourceFile: "src/server/VaultSeasonScheduler.ts",
+    runtimeExport: "vaultSeasonScheduler",
     capability: "postgres-optional",
     declaredScope: "postgres",
     durability: "database-when-ready",
@@ -104,33 +219,11 @@ const STATE_SCOPE_LEDGER: readonly StateScopeLedgerEntry[] = [
     releaseCritical: false,
   },
   {
-    store: "replays-and-highlights",
-    owner: "ReplayStore",
-    capability: "signed-filesystem",
-    declaredScope: "worker-filesystem",
-    durability: "filesystem-signed",
-    replication: "none",
-    retention: "worker filesystem policy",
-    recovery: "signed file reload on the same worker volume",
-    probeOwner: "replay-integrity-posture",
-    releaseCritical: true,
-  },
-  {
-    store: "playtest-pulse",
-    owner: "PlaytestEvidenceStore",
-    capability: "postgres-optional",
-    declaredScope: "postgres",
-    durability: "database-when-ready",
-    replication: "postgres-managed",
-    retention:
-      "30-day PostgreSQL policy; process lifetime when database disabled",
-    recovery: "database restore; none for process-local development fallback",
-    probeOwner: "playtest-pulse-readiness",
-    releaseCritical: true,
-  },
-  {
     store: "experiment-integrity-counters",
     owner: "ExperimentIntegrityGate",
+    kind: "runtime-state",
+    sourceFile: "src/server/ExperimentIntegrity.ts",
+    runtimeExport: null,
     capability: "process-only",
     declaredScope: "process",
     durability: "volatile",
@@ -143,6 +236,9 @@ const STATE_SCOPE_LEDGER: readonly StateScopeLedgerEntry[] = [
   {
     store: "narrator-and-stream-subscribers",
     owner: "BoundedSseTransport",
+    kind: "runtime-state",
+    sourceFile: "src/server/BoundedSseTransport.ts",
+    runtimeExport: null,
     capability: "process-only",
     declaredScope: "process",
     durability: "volatile",
@@ -154,24 +250,44 @@ const STATE_SCOPE_LEDGER: readonly StateScopeLedgerEntry[] = [
   },
 ] as const;
 
+export const STATE_STORE_SOURCE_INVENTORY = STATE_SCOPE_REGISTRY.filter(
+  (entry) => entry.kind === "store",
+).map(({ owner, sourceFile, runtimeExport }) => ({
+  owner,
+  sourceFile,
+  runtimeExport: runtimeExport!,
+}));
+
 export interface StateScopeLedgerIntegrity {
   ok: boolean;
   errors: string[];
 }
 
-/**
- * Executable consistency check for the handwritten ownership catalog. Runtime
- * readiness includes this result so an impossible owner/scope combination
- * blocks instead of becoming persuasive but false observability.
- */
 export function inspectStateScopeLedgerIntegrity(
-  entries: readonly StateScopeLedgerEntry[] = STATE_SCOPE_LEDGER,
+  entries: readonly StateScopeLedgerEntry[] = STATE_SCOPE_REGISTRY,
 ): StateScopeLedgerIntegrity {
   const errors: string[] = [];
   const stores = new Set<string>();
+  const owners = new Set<string>();
+  const exports = new Set<string>();
   for (const entry of entries) {
     if (stores.has(entry.store)) errors.push(`duplicate store: ${entry.store}`);
     stores.add(entry.store);
+    if (entry.kind === "store") {
+      if (owners.has(entry.owner))
+        errors.push(`duplicate owner: ${entry.owner}`);
+      owners.add(entry.owner);
+      if (!entry.runtimeExport) {
+        errors.push(`${entry.store}: store owner has no runtime export`);
+      } else if (exports.has(entry.runtimeExport)) {
+        errors.push(`duplicate runtime export: ${entry.runtimeExport}`);
+      } else {
+        exports.add(entry.runtimeExport);
+      }
+      if (!entry.sourceFile.endsWith(".ts")) {
+        errors.push(`${entry.store}: store owner has no TypeScript source`);
+      }
+    }
     if (
       entry.capability === "postgres-optional" &&
       (entry.declaredScope !== "postgres" ||
@@ -188,19 +304,12 @@ export function inspectStateScopeLedgerIntegrity(
     ) {
       errors.push(`${entry.store}: process capability contradicts scope`);
     }
-    if (
-      entry.capability === "signed-filesystem" &&
-      (entry.declaredScope !== "worker-filesystem" ||
-        entry.durability !== "filesystem-signed")
-    ) {
-      errors.push(`${entry.store}: filesystem capability contradicts scope`);
-    }
   }
   return { ok: errors.length === 0, errors };
 }
 
 export function stateScopeCatalogDigest(
-  entries: readonly StateScopeLedgerEntry[] = STATE_SCOPE_LEDGER,
+  entries: readonly StateScopeLedgerEntry[] = STATE_SCOPE_REGISTRY,
 ): string {
   return `sha256:${createHash("sha256")
     .update(JSON.stringify(entries))
@@ -210,7 +319,7 @@ export function stateScopeCatalogDigest(
 export function buildStateScopeLedger(database: DatabasePosture) {
   const integrity = inspectStateScopeLedgerIntegrity();
   const catalogDigest = stateScopeCatalogDigest();
-  const entries = STATE_SCOPE_LEDGER.map((entry) => ({
+  const entries = STATE_SCOPE_REGISTRY.map((entry) => ({
     ...entry,
     effectiveScope:
       entry.capability === "postgres-optional"
@@ -223,13 +332,14 @@ export function buildStateScopeLedger(database: DatabasePosture) {
     (entry) => entry.releaseCritical && entry.effectiveScope === "process",
   );
   return {
-    schemaVersion: "1.0" as const,
+    schemaVersion: "2.0" as const,
     observedAt: database.observedAt,
     database,
     catalogDigest,
     integrity,
     summary: {
       stores: entries.length,
+      registeredStoreOwners: STATE_STORE_SOURCE_INVENTORY.length,
       volatileStores: entries.filter(
         (entry) => entry.effectiveScope === "process",
       ).length,

@@ -1,6 +1,8 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import {
+  bindDoctrineToGame,
   clearConvoyMastery,
+  frameDoctrineCoaching,
   persistConvoyMastery,
   readConvoyMastery,
   selectConvoyMastery,
@@ -57,5 +59,29 @@ describe("Convoy Mastery prescription", () => {
     expect(readConvoyMastery()).toBeNull();
     localStorage.setItem("vaultfront.convoyMasteryGoal.v1", '{"text":7}');
     expect(readConvoyMastery()).toBeNull();
+  });
+
+  it("binds a coaching-only doctrine to exactly the next generated match", () => {
+    const goal = {
+      ...selectConvoyMastery({ now: 11 }),
+      sourceGameId: "finished-match",
+      doctrine: {
+        id: "route-reader",
+        name: "Route Reader",
+        role: "Scout",
+        brief: "Read risk before committing.",
+        effectPolicy: "coaching-and-identity-only" as const,
+      },
+    };
+    persistConvoyMastery(goal);
+
+    expect(bindDoctrineToGame(goal, "finished-match")).toBeNull();
+    expect(bindDoctrineToGame(goal, "next-match")?.id).toBe("route-reader");
+    const bound = readConvoyMastery();
+    expect(bound?.targetGameId).toBe("next-match");
+    expect(bindDoctrineToGame(bound, "later-match")).toBeNull();
+    expect(frameDoctrineCoaching(goal.doctrine, "Reroute safely.")).toContain(
+      "Route Reader · Scout",
+    );
   });
 });

@@ -3,14 +3,15 @@
  * and unlock detection for VaultFront.
  *
  * Architecture:
- * - In-memory Map per persistentId is the authoritative session store.
- * - When pool (Postgres) is available, unlocks are persisted to player_achievements.
- * - Call hydrateFromDb(persistentId) at game start to restore prior unlocks.
- * - checkAndUnlock() is the single entry point for event-driven unlock detection.
+ * - PostgreSQL is authoritative when configured; development uses an explicitly
+ *   reported process-local fallback.
+ * - Authenticated reads and progression singleflight through ensureHydrated().
+ * - checkAndUnlock() is the single entry point for event-driven unlock detection
+ *   and persists base and meta-chain unlocks through the same bounded queue.
  * - reset() is provided for test isolation only.
  */
 
-import { pool } from "./db/pool";
+import { getDatabasePosture, pool } from "./db/pool";
 import { logger } from "./Logger";
 
 // ---------------------------------------------------------------------------
@@ -49,6 +50,34 @@ export type AchievementEvent =
   | { type: "vault_count"; simultaneous: number }
   | { type: "escort_streak"; consecutive: number }
   | { type: "match_played"; totalMatches: number };
+
+export type AchievementHydrationStatus =
+  "unhydrated" | "process-local" | "ready" | "degraded";
+
+export interface AchievementHydrationState {
+  status: AchievementHydrationStatus;
+  source: "postgres" | "process-local";
+  hydratedAt: string | null;
+  expiresAt: string | null;
+  pendingWrites: boolean;
+  errorCode: "database-unavailable" | "query-failed" | "query-timeout" | null;
+}
+
+interface AchievementDatabase {
+  query(
+    text: string,
+    values?: unknown[],
+  ): Promise<{ rows: any[]; rowCount?: number | null }>;
+}
+
+export interface AchievementStoreOptions {
+  database?: () => AchievementDatabase | null;
+  databasePosture?: () => { configured: boolean; state: string };
+  now?: () => number;
+  hydrationTtlMs?: number;
+  queryTimeoutMs?: number;
+  maxCachedActors?: number;
+}
 
 // ---------------------------------------------------------------------------
 // Meta-chain definitions — prestige achievements composed of multiple base achievements
@@ -209,60 +238,6 @@ function makePlayerState(): PlayerState {
   };
 }
 
-// Top-level stores
-const playerStates = new Map<string, PlayerState>();
-
-function getOrCreate(persistentId: string): PlayerState {
-  let state = playerStates.get(persistentId);
-  if (!state) {
-    state = makePlayerState();
-    playerStates.set(persistentId, state);
-  }
-  return state;
-}
-
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-
-function tryUnlock(
-  persistentId: string,
-  state: PlayerState,
-  achievementId: string,
-  newlyUnlocked: AchievementDefinition[],
-): void {
-  if (state.unlocked.has(achievementId)) return;
-
-  const def = DEFINITION_MAP.get(achievementId);
-  if (!def) return;
-
-  state.unlocked.set(achievementId, Date.now());
-  newlyUnlocked.push(def);
-
-  logger.info("Achievement unlocked", {
-    persistentId,
-    achievementId,
-    achievementName: def.name,
-  });
-
-  // Persist to Postgres (fire-and-forget; in-memory state remains authoritative)
-  if (pool) {
-    pool
-      .query(
-        `INSERT INTO player_achievements (persistent_id, achievement_id)
-         VALUES ($1, $2) ON CONFLICT DO NOTHING`,
-        [persistentId, achievementId],
-      )
-      .catch((err) =>
-        logger.error("Failed to persist achievement unlock", {
-          persistentId,
-          achievementId,
-          err: String(err),
-        }),
-      );
-  }
-}
-
 // ---------------------------------------------------------------------------
 // Progress calculation (pure, no side effects)
 // ---------------------------------------------------------------------------
@@ -327,30 +302,341 @@ function calcProgress(
 // Public API
 // ---------------------------------------------------------------------------
 
-export const achievementStore = {
+interface CachedHydration {
+  state: AchievementHydrationState;
+  expiresAtMs: number;
+  lastAccessAtMs: number;
+}
+
+const DEFAULT_HYDRATION_TTL_MS = 5 * 60_000;
+const DEFAULT_QUERY_TIMEOUT_MS = 2_000;
+const DEFAULT_MAX_CACHED_ACTORS = 1_000;
+
+export class AchievementStore {
+  private readonly playerStates = new Map<string, PlayerState>();
+  private readonly hydration = new Map<string, CachedHydration>();
+  private readonly hydrationFlights = new Map<
+    string,
+    Promise<AchievementHydrationState>
+  >();
+  private readonly writeQueues = new Map<string, Promise<void>>();
+  private readonly database: () => AchievementDatabase | null;
+  private readonly databasePosture: () => {
+    configured: boolean;
+    state: string;
+  };
+  private readonly now: () => number;
+  private readonly hydrationTtlMs: number;
+  private readonly queryTimeoutMs: number;
+  private readonly maxCachedActors: number;
+
+  constructor(options: AchievementStoreOptions = {}) {
+    this.database =
+      options.database ?? (() => pool as unknown as AchievementDatabase | null);
+    this.databasePosture = options.databasePosture ?? getDatabasePosture;
+    this.now = options.now ?? Date.now;
+    this.hydrationTtlMs = Math.max(
+      1,
+      options.hydrationTtlMs ?? DEFAULT_HYDRATION_TTL_MS,
+    );
+    this.queryTimeoutMs = Math.max(
+      1,
+      options.queryTimeoutMs ?? DEFAULT_QUERY_TIMEOUT_MS,
+    );
+    this.maxCachedActors = Math.max(
+      1,
+      options.maxCachedActors ?? DEFAULT_MAX_CACHED_ACTORS,
+    );
+  }
+
+  private getOrCreate(persistentId: string): PlayerState {
+    let state = this.playerStates.get(persistentId);
+    if (!state) {
+      state = makePlayerState();
+      this.playerStates.set(persistentId, state);
+    }
+    return state;
+  }
+
+  getHydrationState(persistentId: string): AchievementHydrationState {
+    const cached = this.hydration.get(persistentId);
+    if (cached) {
+      cached.lastAccessAtMs = this.now();
+      return {
+        ...cached.state,
+        pendingWrites: this.writeQueues.has(persistentId),
+      };
+    }
+    return {
+      status: "unhydrated",
+      source: "process-local",
+      hydratedAt: null,
+      expiresAt: null,
+      pendingWrites: this.writeQueues.has(persistentId),
+      errorCode: null,
+    };
+  }
+
+  private cacheHydration(
+    persistentId: string,
+    status: AchievementHydrationStatus,
+    errorCode: AchievementHydrationState["errorCode"],
+  ): AchievementHydrationState {
+    const now = this.now();
+    const expiresAtMs = now + this.hydrationTtlMs;
+    const state: AchievementHydrationState = {
+      status,
+      source: status === "ready" ? "postgres" : "process-local",
+      hydratedAt: new Date(now).toISOString(),
+      expiresAt: new Date(expiresAtMs).toISOString(),
+      pendingWrites: this.writeQueues.has(persistentId),
+      errorCode,
+    };
+    this.hydration.set(persistentId, {
+      state,
+      expiresAtMs,
+      lastAccessAtMs: now,
+    });
+    this.evictExpiredOrOverflow(persistentId);
+    return { ...state };
+  }
+
+  private evictExpiredOrOverflow(protectedActor: string): void {
+    const now = this.now();
+    for (const [actor, cached] of this.hydration) {
+      if (
+        actor !== protectedActor &&
+        cached.expiresAtMs <= now &&
+        !this.hydrationFlights.has(actor) &&
+        !this.writeQueues.has(actor)
+      ) {
+        this.hydration.delete(actor);
+        this.playerStates.delete(actor);
+      }
+    }
+    if (this.playerStates.size <= this.maxCachedActors) return;
+    const candidates = [...this.hydration.entries()]
+      .filter(
+        ([actor]) =>
+          actor !== protectedActor &&
+          !this.hydrationFlights.has(actor) &&
+          !this.writeQueues.has(actor),
+      )
+      .sort(
+        ([, left], [, right]) => left.lastAccessAtMs - right.lastAccessAtMs,
+      );
+    while (
+      this.playerStates.size > this.maxCachedActors &&
+      candidates.length > 0
+    ) {
+      const [actor] = candidates.shift()!;
+      this.hydration.delete(actor);
+      this.playerStates.delete(actor);
+    }
+  }
+
+  private async boundedQuery<T>(operation: Promise<T>): Promise<T> {
+    let timeout: ReturnType<typeof setTimeout> | undefined;
+    const deadline = new Promise<never>((_, reject) => {
+      timeout = setTimeout(() => {
+        const error = new Error("achievement query timed out");
+        error.name = "AchievementQueryTimeout";
+        reject(error);
+      }, this.queryTimeoutMs);
+      timeout.unref?.();
+    });
+    try {
+      return await Promise.race([operation, deadline]);
+    } finally {
+      if (timeout) clearTimeout(timeout);
+    }
+  }
+
+  async ensureHydrated(
+    persistentId: string,
+  ): Promise<AchievementHydrationState> {
+    const cached = this.hydration.get(persistentId);
+    if (cached && cached.expiresAtMs > this.now()) {
+      return this.getHydrationState(persistentId);
+    }
+    const existing = this.hydrationFlights.get(persistentId);
+    if (existing) return existing;
+
+    const flight = (async () => {
+      const database = this.database();
+      if (!database) {
+        const posture = this.databasePosture();
+        return this.cacheHydration(
+          persistentId,
+          posture.configured && posture.state !== "ready"
+            ? "degraded"
+            : "process-local",
+          posture.configured && posture.state !== "ready"
+            ? "database-unavailable"
+            : null,
+        );
+      }
+      try {
+        const result = await this.boundedQuery(
+          database.query(
+            `SELECT achievement_id, unlocked_at FROM player_achievements
+             WHERE persistent_id = $1`,
+            [persistentId],
+          ),
+        );
+        const state = this.getOrCreate(persistentId);
+        for (const row of result.rows as Array<{
+          achievement_id: string;
+          unlocked_at: Date | string;
+        }>) {
+          const timestamp = new Date(row.unlocked_at).getTime();
+          if (Number.isFinite(timestamp)) {
+            state.unlocked.set(row.achievement_id, timestamp);
+          }
+        }
+        return this.cacheHydration(persistentId, "ready", null);
+      } catch (error) {
+        const timedOut =
+          error instanceof Error && error.name === "AchievementQueryTimeout";
+        logger.error("Failed to hydrate achievements from DB", {
+          persistentId,
+          errorCode: timedOut ? "query-timeout" : "query-failed",
+        });
+        this.getOrCreate(persistentId);
+        return this.cacheHydration(
+          persistentId,
+          "degraded",
+          timedOut ? "query-timeout" : "query-failed",
+        );
+      }
+    })();
+    this.hydrationFlights.set(persistentId, flight);
+    try {
+      return await flight;
+    } finally {
+      if (this.hydrationFlights.get(persistentId) === flight) {
+        this.hydrationFlights.delete(persistentId);
+      }
+    }
+  }
+
+  private enqueueWrite<T>(
+    persistentId: string,
+    operation: () => Promise<T>,
+  ): Promise<T> {
+    const previous = this.writeQueues.get(persistentId) ?? Promise.resolve();
+    const current = previous.then(operation, operation);
+    const tail = current.then(
+      () => undefined,
+      () => undefined,
+    );
+    this.writeQueues.set(persistentId, tail);
+    void tail.finally(() => {
+      if (this.writeQueues.get(persistentId) === tail) {
+        this.writeQueues.delete(persistentId);
+      }
+    });
+    return current;
+  }
+
+  private markDegraded(
+    persistentId: string,
+    errorCode: "query-failed" | "query-timeout",
+  ): void {
+    this.cacheHydration(persistentId, "degraded", errorCode);
+  }
+
+  private async unlockDefinition(
+    persistentId: string,
+    state: PlayerState,
+    definition: AchievementDefinition,
+    newlyUnlocked: AchievementDefinition[],
+  ): Promise<void> {
+    if (state.unlocked.has(definition.id)) return;
+    const database = this.database();
+    let newlyPersisted = true;
+    if (database) {
+      try {
+        const result = await this.enqueueWrite(persistentId, () =>
+          this.boundedQuery(
+            database.query(
+              `INSERT INTO player_achievements (persistent_id, achievement_id)
+               VALUES ($1, $2) ON CONFLICT DO NOTHING
+               RETURNING achievement_id`,
+              [persistentId, definition.id],
+            ),
+          ),
+        );
+        newlyPersisted = (result.rowCount ?? result.rows.length) > 0;
+      } catch (error) {
+        const timedOut =
+          error instanceof Error && error.name === "AchievementQueryTimeout";
+        this.markDegraded(
+          persistentId,
+          timedOut ? "query-timeout" : "query-failed",
+        );
+        logger.error("Failed to persist achievement unlock", {
+          persistentId,
+          achievementId: definition.id,
+          errorCode: timedOut ? "query-timeout" : "query-failed",
+        });
+      }
+    }
+
+    state.unlocked.set(definition.id, this.now());
+    if (!newlyPersisted) return;
+    newlyUnlocked.push(definition);
+    logger.info("Achievement unlocked", {
+      persistentId,
+      achievementId: definition.id,
+      achievementName: definition.name,
+    });
+  }
+
+  private async tryUnlock(
+    persistentId: string,
+    state: PlayerState,
+    achievementId: string,
+    newlyUnlocked: AchievementDefinition[],
+  ): Promise<void> {
+    const definition = DEFINITION_MAP.get(achievementId);
+    if (!definition) return;
+    await this.unlockDefinition(persistentId, state, definition, newlyUnlocked);
+  }
   /**
    * Evaluate an event for the given player and return any newly unlocked
    * AchievementDefinition objects. Callers should forward these to
    * DiscordNotifier and/or the client toast queue.
    */
-  checkAndUnlock(
+  async checkAndUnlock(
     persistentId: string,
     event: AchievementEvent,
-  ): AchievementDefinition[] {
-    const state = getOrCreate(persistentId);
+  ): Promise<AchievementDefinition[]> {
+    await this.ensureHydrated(persistentId);
+    const state = this.getOrCreate(persistentId);
     const newlyUnlocked: AchievementDefinition[] = [];
 
     switch (event.type) {
       case "vault_captured": {
         if (event.count >= 1) {
-          tryUnlock(persistentId, state, "first_vault", newlyUnlocked);
+          await this.tryUnlock(
+            persistentId,
+            state,
+            "first_vault",
+            newlyUnlocked,
+          );
         }
         break;
       }
 
       case "vault_count": {
         if (event.simultaneous >= 5) {
-          tryUnlock(persistentId, state, "five_vaults", newlyUnlocked);
+          await this.tryUnlock(
+            persistentId,
+            state,
+            "five_vaults",
+            newlyUnlocked,
+          );
         }
         break;
       }
@@ -359,51 +645,81 @@ export const achievementStore = {
         // Use the authoritative total from the event (server-tracked)
         state.convoyCount = event.totalCount;
         if (state.convoyCount >= 10) {
-          tryUnlock(persistentId, state, "ten_convoys", newlyUnlocked);
+          await this.tryUnlock(
+            persistentId,
+            state,
+            "ten_convoys",
+            newlyUnlocked,
+          );
         }
         if (state.convoyCount >= 100) {
-          tryUnlock(persistentId, state, "hundred_convoys", newlyUnlocked);
+          await this.tryUnlock(
+            persistentId,
+            state,
+            "hundred_convoys",
+            newlyUnlocked,
+          );
         }
         break;
       }
 
       case "execution_chain": {
         if (event.matchCount >= 1) {
-          tryUnlock(persistentId, state, "first_chain", newlyUnlocked);
+          await this.tryUnlock(
+            persistentId,
+            state,
+            "first_chain",
+            newlyUnlocked,
+          );
         }
         if (event.matchCount >= 3) {
-          tryUnlock(persistentId, state, "triple_chain", newlyUnlocked);
+          await this.tryUnlock(
+            persistentId,
+            state,
+            "triple_chain",
+            newlyUnlocked,
+          );
         }
         break;
       }
 
       case "surge_activated": {
         state.surgeActivatedThisSession = true;
-        tryUnlock(persistentId, state, "first_surge", newlyUnlocked);
+        await this.tryUnlock(persistentId, state, "first_surge", newlyUnlocked);
         break;
       }
 
       case "jam_broken": {
-        tryUnlock(persistentId, state, "jam_broken", newlyUnlocked);
+        await this.tryUnlock(persistentId, state, "jam_broken", newlyUnlocked);
         break;
       }
 
       case "escort_streak": {
         if (event.consecutive >= 5) {
-          tryUnlock(persistentId, state, "escort_streak", newlyUnlocked);
+          await this.tryUnlock(
+            persistentId,
+            state,
+            "escort_streak",
+            newlyUnlocked,
+          );
         }
         break;
       }
 
       case "squad_objective_completed": {
-        tryUnlock(persistentId, state, "squad_objective", newlyUnlocked);
+        await this.tryUnlock(
+          persistentId,
+          state,
+          "squad_objective",
+          newlyUnlocked,
+        );
         break;
       }
 
       case "match_played": {
         state.matchCount = event.totalMatches;
         if (state.matchCount >= 50) {
-          tryUnlock(persistentId, state, "veteran", newlyUnlocked);
+          await this.tryUnlock(persistentId, state, "veteran", newlyUnlocked);
         }
         break;
       }
@@ -411,17 +727,37 @@ export const achievementStore = {
       case "match_ended": {
         if (event.won) {
           if (state.surgeActivatedThisSession) {
-            tryUnlock(persistentId, state, "surge_win", newlyUnlocked);
+            await this.tryUnlock(
+              persistentId,
+              state,
+              "surge_win",
+              newlyUnlocked,
+            );
           }
           if (event.onMutator) {
-            tryUnlock(persistentId, state, "mutator_win", newlyUnlocked);
+            await this.tryUnlock(
+              persistentId,
+              state,
+              "mutator_win",
+              newlyUnlocked,
+            );
           }
           if (event.durationSeconds < 600) {
-            tryUnlock(persistentId, state, "speed_run", newlyUnlocked);
+            await this.tryUnlock(
+              persistentId,
+              state,
+              "speed_run",
+              newlyUnlocked,
+            );
           }
         }
         if (event.eloRating >= 1900) {
-          tryUnlock(persistentId, state, "grandmaster", newlyUnlocked);
+          await this.tryUnlock(
+            persistentId,
+            state,
+            "grandmaster",
+            newlyUnlocked,
+          );
         }
         // Reset per-match surge flag after the match ends
         state.surgeActivatedThisSession = false;
@@ -435,35 +771,35 @@ export const achievementStore = {
       for (const chain of META_CHAINS) {
         if (allUnlocked.has(chain.id)) continue; // already unlocked
         if (chain.requires.every((req) => allUnlocked.has(req))) {
-          state.unlocked.set(chain.id, Date.now());
-          newlyUnlocked.push({
-            id: chain.id,
-            name: chain.name,
-            description: chain.description + " [META]",
-          });
-          logger.info("Meta-chain unlocked", {
+          await this.unlockDefinition(
             persistentId,
-            chainId: chain.id,
-          });
+            state,
+            {
+              id: chain.id,
+              name: chain.name,
+              description: chain.description + " [META]",
+            },
+            newlyUnlocked,
+          );
         }
       }
     }
 
     return newlyUnlocked;
-  },
+  }
 
   /** Returns full progress snapshot for all achievements for a player. */
   getProgress(persistentId: string): AchievementProgress[] {
-    const state = getOrCreate(persistentId);
+    const state = this.getOrCreate(persistentId);
     return calcProgress(persistentId, state);
-  },
+  }
 
   /** Returns the set of unlocked achievement ids for a player. */
   getUnlocked(persistentId: string): string[] {
-    const state = playerStates.get(persistentId);
+    const state = this.playerStates.get(persistentId);
     if (!state) return [];
     return Array.from(state.unlocked.keys());
-  },
+  }
 
   /** Returns meta-chain progress for a player. */
   getMetaChainProgress(persistentId: string): Array<{
@@ -476,7 +812,7 @@ export const achievementStore = {
     unlocked: boolean;
     unlockedAt: number | null;
   }> {
-    const state = playerStates.get(persistentId);
+    const state = this.playerStates.get(persistentId);
     const unlocked = state?.unlocked ?? new Map<string, number>();
     return META_CHAINS.map((chain) => {
       const completedRequires = chain.requires.filter((r) => unlocked.has(r));
@@ -492,12 +828,15 @@ export const achievementStore = {
         unlockedAt: isUnlocked ? (unlocked.get(chain.id) ?? null) : null,
       };
     });
-  },
+  }
 
   /** Clears all state. Intended for test isolation only. */
   reset(): void {
-    playerStates.clear();
-  },
+    this.playerStates.clear();
+    this.hydration.clear();
+    this.hydrationFlights.clear();
+    this.writeQueues.clear();
+  }
 
   /**
    * Load persisted unlocks from Postgres into the in-memory state.
@@ -505,26 +844,8 @@ export const achievementStore = {
    * No-ops when pool is null.
    */
   async hydrateFromDb(persistentId: string): Promise<void> {
-    if (!pool) return;
-    try {
-      const res = await pool.query<{
-        achievement_id: string;
-        unlocked_at: Date;
-      }>(
-        `SELECT achievement_id, unlocked_at FROM player_achievements
-         WHERE persistent_id = $1`,
-        [persistentId],
-      );
-      if (res.rows.length === 0) return;
-      const state = getOrCreate(persistentId);
-      for (const row of res.rows) {
-        state.unlocked.set(row.achievement_id, row.unlocked_at.getTime());
-      }
-    } catch (err) {
-      logger.error("Failed to hydrate achievements from DB", {
-        persistentId,
-        err: String(err),
-      });
-    }
-  },
-};
+    await this.ensureHydrated(persistentId);
+  }
+}
+
+export const achievementStore = new AchievementStore();

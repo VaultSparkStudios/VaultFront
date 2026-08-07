@@ -15,7 +15,16 @@ vi.mock("../../src/server/MatchProgression", () => ({
 }));
 
 vi.mock("../../src/server/Archive", () => ({
-  archive: vi.fn(),
+  archive: vi.fn().mockResolvedValue({
+    deliveryId: "certified:game1234:certificate",
+    gameId: "game1234",
+    kind: "certified",
+    certificateId: "certificate",
+    state: "delivered",
+    durability: "postgres",
+    attempts: 1,
+    lastError: null,
+  }),
   finalizeGameRecord: (record: unknown) => record,
 }));
 
@@ -165,7 +174,7 @@ describe("GameServer progression wiring", () => {
       }),
     );
 
-    (game as any).archiveGame();
+    await (game as any).archiveGame();
     expect(archive).toHaveBeenCalledTimes(1);
     expect(archive).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -175,6 +184,7 @@ describe("GameServer progression wiring", () => {
           }),
         }),
       }),
+      "certified",
     );
   });
 

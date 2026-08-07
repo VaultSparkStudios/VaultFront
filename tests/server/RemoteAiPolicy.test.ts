@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, test } from "vitest";
 import {
   canAttemptRemoteAi,
+  executeReservedRemoteAiCall,
   remoteAiPosture,
   remoteAiUsageByFeature,
   reserveRemoteAiCall,
@@ -61,5 +62,40 @@ describe("RemoteAiPolicy", () => {
       reserveRemoteAiCall("other", readyEnv, 1_000 + 60 * 60 * 1000).allowed,
     ).toBe(true);
     expect(remoteAiUsageByFeature()).toEqual({ other: 1 });
+  });
+
+  test("records completed, failed, timed-out, and cancelled executions", async () => {
+    await expect(
+      executeReservedRemoteAiCall(async () => "ok", 100),
+    ).resolves.toBe("ok");
+    await expect(
+      executeReservedRemoteAiCall(async () => {
+        throw new Error("provider-failed");
+      }, 100),
+    ).rejects.toThrow("provider-failed");
+    await expect(
+      executeReservedRemoteAiCall(() => new Promise<never>(() => undefined), 1),
+    ).rejects.toThrow("ai-deadline-exceeded");
+
+    const controller = new AbortController();
+    controller.abort(new Error("client-disconnected"));
+    await expect(
+      executeReservedRemoteAiCall(
+        async (signal) => {
+          const error = new Error(String(signal.reason));
+          error.name = "AbortError";
+          throw error;
+        },
+        100,
+        controller.signal,
+      ),
+    ).rejects.toMatchObject({ name: "AbortError" });
+
+    expect(remoteAiPosture(readyEnv, 1_001)).toMatchObject({
+      completedCalls: 1,
+      failedCalls: 1,
+      timedOutCalls: 1,
+      cancelledCalls: 1,
+    });
   });
 });

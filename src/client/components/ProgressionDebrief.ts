@@ -230,20 +230,31 @@ export class ProgressionDebrief extends LitElement implements Layer {
   }
 
   private requestMasteryRematch(): void {
+    const saved = readConvoyMastery();
+    const doctrine = this.doctrineId
+      ? {
+          id: this.doctrineId,
+          name: this.doctrineName,
+          role: this.doctrineRole,
+          brief: this.doctrineBrief,
+          effectPolicy: "coaching-and-identity-only" as const,
+        }
+      : null;
+    persistConvoyMastery({
+      text: this.masteryText,
+      goalKey: saved?.goalKey ?? "",
+      source: "recap",
+      evidence: this.masteryEvidence,
+      selectedAt: Date.now(),
+      sourceGameId: this.game?.gameID(),
+      doctrine,
+    });
     this.dispatchEvent(
       new CustomEvent("vaultfront-mastery-rematch", {
         detail: {
           goal: this.masteryText,
           evidence: this.masteryEvidence,
-          doctrine: this.doctrineId
-            ? {
-                id: this.doctrineId,
-                name: this.doctrineName,
-                role: this.doctrineRole,
-                brief: this.doctrineBrief,
-                effectPolicy: "coaching-and-identity-only" as const,
-              }
-            : null,
+          doctrine,
         },
         bubbles: true,
         composed: true,

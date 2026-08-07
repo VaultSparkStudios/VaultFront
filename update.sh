@@ -19,9 +19,15 @@ source "$ENV_FILE"
 }
 
 APP_NAME="${APP_NAME:-vaultfront}"
-CONTAINER_NAME="${APP_NAME}-${ENV}-${SUBDOMAIN}"
+DEPLOYMENT_KEY="${APP_NAME}-${ENV}-${SUBDOMAIN}"
 IMAGE_REPO="${GHCR_IMAGE%@sha256:*}"
 RETENTION="${DEPLOY_IMAGE_RETENTION:-5}"
+DEPLOY_DRAIN_TIMEOUT_SECONDS="${DEPLOY_DRAIN_TIMEOUT_SECONDS:-900}"
+[[ "$DEPLOY_DRAIN_TIMEOUT_SECONDS" =~ ^[0-9]+$ ]] \
+    && ((DEPLOY_DRAIN_TIMEOUT_SECONDS >= 45 && DEPLOY_DRAIN_TIMEOUT_SECONDS <= 10800)) || {
+    echo "DEPLOY_DRAIN_TIMEOUT_SECONDS must be between 45 and 10800" >&2
+    exit 2
+}
 RESTART=no
 if [[ "${DEPLOY_ALWAYS_RESTART:-}" == "true" || "$SUBDOMAIN" == "main" || "$ENV" == "prod" ]]; then
     RESTART=always
@@ -37,39 +43,158 @@ docker run --rm \
     --entrypoint node \
     "$GHCR_IMAGE" \
     --import tsx src/server/db/apply-schema.ts
-OLD_IMAGE="$(docker inspect --format '{{.Config.Image}}' "$CONTAINER_NAME" 2> /dev/null || true)"
-if docker container inspect "$CONTAINER_NAME" > /dev/null 2>&1; then
-    docker rm -f "$CONTAINER_NAME"
+
+# Resolve the incumbent without trusting a mutable tag. Older deployments used
+# DEPLOYMENT_KEY as the container name and did not carry generation labels, so
+# keep one bounded compatibility lookup for the first blue/green handoff.
+mapfile -t INCUMBENTS < <(
+    docker ps \
+        --filter "label=com.vaultfront.deployment=${DEPLOYMENT_KEY}" \
+        --format '{{.Names}}'
+)
+if ((${#INCUMBENTS[@]} > 1)); then
+    echo "Refusing promotion: multiple active incumbents found for ${DEPLOYMENT_KEY}" >&2
+    exit 1
 fi
+OLD_CONTAINER="${INCUMBENTS[0]:-}"
+if [[ -z "$OLD_CONTAINER" ]] && docker container inspect "$DEPLOYMENT_KEY" > /dev/null 2>&1; then
+    OLD_CONTAINER="$DEPLOYMENT_KEY"
+fi
+OLD_IMAGE=""
+OLD_GENERATION=0
+if [[ -n "$OLD_CONTAINER" ]]; then
+    OLD_IMAGE="$(docker inspect --format '{{.Config.Image}}' "$OLD_CONTAINER")"
+    OLD_GENERATION="$(
+        docker inspect \
+            --format '{{ index .Config.Labels "com.vaultfront.generation" }}' \
+            "$OLD_CONTAINER" 2> /dev/null || true
+    )"
+    [[ "$OLD_GENERATION" =~ ^[0-9]+$ ]] || OLD_GENERATION=0
+fi
+NEW_GENERATION=$((OLD_GENERATION + 1))
+ROUTER_PRIORITY=$((1000 + NEW_GENERATION))
+DIGEST_SHORT="${IMAGE_DIGEST#sha256:}"
+DIGEST_SHORT="${DIGEST_SHORT:0:12}"
+CONTAINER_NAME="${DEPLOYMENT_KEY}-g${NEW_GENERATION}-${DIGEST_SHORT}"
+
 run_container() {
     local image="$1"
+    local name="$2"
+    local generation="$3"
+    local priority="$4"
     docker run -d \
         --restart="$RESTART" \
         --env-file "$ENV_FILE" \
-        --name "$CONTAINER_NAME" \
+        --name "$name" \
         --network web \
+        --label "com.vaultfront.deployment=${DEPLOYMENT_KEY}" \
+        --label "com.vaultfront.generation=${generation}" \
+        --label "com.vaultfront.image-digest=${IMAGE_DIGEST}" \
         --label "traefik.enable=true" \
-        --label "traefik.http.routers.${CONTAINER_NAME}.rule=Host(\`${SUBDOMAIN}.${DOMAIN}\`)" \
-        --label "traefik.http.routers.${CONTAINER_NAME}.entrypoints=websecure" \
-        --label "traefik.http.routers.${CONTAINER_NAME}.tls=true" \
-        --label "traefik.http.services.${CONTAINER_NAME}.loadbalancer.server.port=80" \
+        --label "traefik.http.routers.${name}.rule=Host(\`${SUBDOMAIN}.${DOMAIN}\`)" \
+        --label "traefik.http.routers.${name}.entrypoints=websecure" \
+        --label "traefik.http.routers.${name}.tls=true" \
+        --label "traefik.http.routers.${name}.priority=${priority}" \
+        --label "traefik.http.services.${name}.loadbalancer.server.port=80" \
+        --label "traefik.http.services.${name}.loadbalancer.healthcheck.path=/_health" \
+        --label "traefik.http.services.${name}.loadbalancer.healthcheck.interval=5s" \
+        --label "traefik.http.services.${name}.loadbalancer.healthcheck.timeout=3s" \
         "$image"
 }
 
-run_container "$GHCR_IMAGE"
-HEALTHY=0
+# Start and prove the candidate before signalling the incumbent. The higher
+# router priority sends new admissions to this generation after its Traefik
+# health check turns green; already-upgraded WebSockets remain on the incumbent.
+run_container "$GHCR_IMAGE" "$CONTAINER_NAME" "$NEW_GENERATION" "$ROUTER_PRIORITY"
+CANDIDATE_HEALTHY=0
 for _ in {1..30}; do
-    if curl -fsS --max-time 5 "$DEPLOY_HEALTH_URL" > /dev/null; then
-        HEALTHY=1
+    if docker exec "$CONTAINER_NAME" curl -fsS --max-time 5 http://127.0.0.1/_health > /dev/null; then
+        CANDIDATE_HEALTHY=1
         break
     fi
     sleep 2
 done
-if [[ "$HEALTHY" != "1" ]]; then
-    echo "Health verification failed; rolling back the container" >&2
-    docker rm -f "$CONTAINER_NAME" > /dev/null 2>&1 || true
-    if [[ -n "$OLD_IMAGE" ]]; then run_container "$OLD_IMAGE"; fi
+if [[ "$CANDIDATE_HEALTHY" != "1" ]]; then
+    echo "Candidate health verification failed; incumbent remains active" >&2
+    docker stop --time 45 "$CONTAINER_NAME" > /dev/null 2>&1 || true
+    docker rm "$CONTAINER_NAME" > /dev/null 2>&1 || true
     exit 1
+fi
+
+# Docker's health state is the admission signal consumed by Traefik's Docker
+# provider. Wait for it explicitly, then prove the higher-priority candidate
+# through real ingress by immutable Git revision while the incumbent can still
+# serve and be restored without a restart.
+DOCKER_HEALTHY=0
+for _ in {1..90}; do
+    if [[ "$(docker inspect --format '{{.State.Health.Status}}' "$CONTAINER_NAME")" == "healthy" ]]; then
+        DOCKER_HEALTHY=1
+        break
+    fi
+    sleep 2
+done
+if [[ "$DOCKER_HEALTHY" != "1" ]]; then
+    echo "Candidate never reached Docker healthy state; incumbent remains active" >&2
+    docker stop --time 45 "$CONTAINER_NAME" > /dev/null 2>&1 || true
+    docker rm "$CONTAINER_NAME" > /dev/null 2>&1 || true
+    exit 1
+fi
+
+EXPECTED_REVISION="$(
+    docker inspect \
+        --format '{{ index .Config.Labels "org.opencontainers.image.revision" }}' \
+        "$CONTAINER_NAME"
+)"
+REVISION_URL="${DEPLOY_HEALTH_URL%/_health}/commit.txt"
+if [[ -z "$EXPECTED_REVISION" || "$EXPECTED_REVISION" == "unknown" ]]; then
+    echo "Candidate has no immutable Git revision; incumbent remains active" >&2
+    docker stop --time 45 "$CONTAINER_NAME" > /dev/null 2>&1 || true
+    docker rm "$CONTAINER_NAME" > /dev/null 2>&1 || true
+    exit 1
+fi
+CANDIDATE_ADMITTED=0
+for _ in {1..30}; do
+    if [[ "$(curl -fsS --max-time 5 "$REVISION_URL" 2> /dev/null || true)" == "$EXPECTED_REVISION" ]]; then
+        CANDIDATE_ADMITTED=1
+        break
+    fi
+    sleep 2
+done
+if [[ "$CANDIDATE_ADMITTED" != "1" ]]; then
+    echo "Candidate revision was not admitted through ingress; incumbent remains active" >&2
+    docker stop --time 45 "$CONTAINER_NAME" > /dev/null 2>&1 || true
+    docker rm "$CONTAINER_NAME" > /dev/null 2>&1 || true
+    exit 1
+fi
+
+if [[ -n "$OLD_CONTAINER" && "$OLD_CONTAINER" != "$CONTAINER_NAME" ]]; then
+    echo "Draining incumbent ${OLD_CONTAINER} for up to ${DEPLOY_DRAIN_TIMEOUT_SECONDS}s."
+    docker stop --time "$DEPLOY_DRAIN_TIMEOUT_SECONDS" "$OLD_CONTAINER"
+fi
+
+# Reverify health and immutable revision after the incumbent has drained. On
+# failure, restore the exact old container and retire only the candidate.
+LIVE_HEALTHY=0
+for _ in {1..30}; do
+    if curl -fsS --max-time 5 "$DEPLOY_HEALTH_URL" > /dev/null \
+        && [[ "$(curl -fsS --max-time 5 "$REVISION_URL" 2> /dev/null || true)" == "$EXPECTED_REVISION" ]]; then
+        LIVE_HEALTHY=1
+        break
+    fi
+    sleep 2
+done
+if [[ "$LIVE_HEALTHY" != "1" ]]; then
+    echo "Ingress health verification failed; restoring incumbent" >&2
+    if [[ -n "$OLD_CONTAINER" && -n "$OLD_IMAGE" ]]; then
+        docker start "$OLD_CONTAINER" > /dev/null
+    fi
+    docker stop --time 45 "$CONTAINER_NAME" > /dev/null 2>&1 || true
+    docker rm "$CONTAINER_NAME" > /dev/null 2>&1 || true
+    exit 1
+fi
+
+if [[ -n "$OLD_CONTAINER" && "$OLD_CONTAINER" != "$CONTAINER_NAME" ]]; then
+    docker rm "$OLD_CONTAINER" > /dev/null
 fi
 
 # Keep the newest N unique images for this repository; never prune the host globally.
@@ -83,4 +208,4 @@ for image_id in "${STALE_IMAGES[@]}"; do
 done
 docker container prune --filter "until=168h" -f > /dev/null
 
-echo "Remote update healthy for ${CONTAINER_NAME} at immutable digest ${GHCR_IMAGE##*@}."
+echo "Remote update healthy for ${CONTAINER_NAME} at immutable digest ${GHCR_IMAGE##*@}; generation ${NEW_GENERATION} admitted after bounded incumbent drain."

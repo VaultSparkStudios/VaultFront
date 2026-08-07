@@ -4,12 +4,12 @@
   "name": "VaultFront",
   "status": "active",
   "health": "green",
-  "currentSession": 96,
+  "currentSession": 97,
   "lastAgent": "codex",
-  "currentFocus": "Session 96 saturated arc and provider verification complete: lifecycle, recovery, local coaching, causal feedback, Doctrine rematches, and generation-safe debriefs shipped; exact code-and-board revision b45442ca passed CI, E2E, and Release.",
-  "nextMilestone": "Establish approved staging and native identity/email contracts, then collect the remaining live launch observations in gate order.",
+  "currentFocus": "Session 97 complete: durable certified archive delivery, safe promotion drain, authoritative hydration and state-scope truth, bounded remote AI, cause-bound coaching, Doctrine continuation, and accessible reroute decisions shipped; local gates green, external release remains NO-GO.",
+  "nextMilestone": "Establish an approved staging origin plus native Obelisk and project-domain Zoho contracts, then collect parity, human, revenue, rollback, and founder evidence in gate order.",
   "blockers": [],
-  "lastUpdated": "2026-08-05",
+  "lastUpdated": "2026-08-07",
   "lifecycle": "alpha",
   "audience": "public-unlaunched",
   "type": "game",
@@ -25,21 +25,21 @@
       "status": "green",
       "label": "Unit and server regression",
       "command": "npm test",
-      "purpose": "Canonical npm test passes 229 files / 1,198 tests through four disjoint fail-fast shards; lifecycle, account recovery, multi-tab, progression, feedback, and local coaching regressions are covered."
+      "purpose": "All 232 current test files passed through canonical and bounded shards: root 39 files / 301 tests, client/core 70 files (with a clean serialized 18-file / 83-test confirmation after host pool exhaustion), scripts 51 files / 187 tests, and server 72 files / 298 tests. A new aggregate assertion count is intentionally not inferred."
     },
     {
       "type": "tests",
       "status": "green",
       "label": "Production build",
       "command": "npm run build-prod",
-      "purpose": "Production compilation, 28,125 balance scenarios, 47 static-copy targets, and zero retired public-directory warnings pass; external release evidence remains NO-GO."
+      "purpose": "TypeScript, 28,125 balance scenarios, Vite production build, release evidence generation, bundle budgets, and production dependency audit pass; external release remains NO-GO."
     },
     {
       "type": "tests",
       "status": "green",
       "label": "E2E smoke",
       "command": "npm run e2e",
-      "purpose": "Session 96 rendered-pixel proof passed 2/2; 114 hash-bound captures cover three themes, desktop/mobile, and nineteen states including account recovery, truthful collision, and Doctrine debrief."
+      "purpose": "Session 97 rendered-pixel proof passed 2/2; 114 refreshed hash-bound captures cover VaultFront, Light, and Competitive themes on desktop/mobile, including Doctrine and reroute decisions."
     },
     {
       "type": "local",
@@ -54,13 +54,13 @@
   "readinessEndpoint": "/api/vaultfront/readiness",
   "playtestPulseEndpoint": "/api/vaultfront/playtest-pulse/summary",
   "truthAuditStatus": "green",
-  "truthAuditLastRun": "2026-08-05",
+  "truthAuditLastRun": "2026-08-06",
   "silRubricVersion": "3.0",
   "silMax": 1000,
   "silScoreLegacy500": null,
   "silScore": 997,
-  "testsPassing": 1198,
-  "testsTotal": 1198,
+  "testsPassing": null,
+  "testsTotal": null,
   "silCategoriesV3": {
     "devHealth": 100,
     "creativeAlignment": 100,
@@ -85,10 +85,10 @@
   "sessionMode": "founder",
   "sessionModeAutoShiftedAt": "2026-07-28T04:43:27.874Z",
   "silAvg3": 997,
-  "silVelocity": 7,
+  "silVelocity": 9,
   "silDebt": "down",
-  "silLastSession": "96",
-  "auditStatus": "audit-23-of-23-shipped; session-96-new-primary-7-of-7-shipped; cumulative-innovations-62-of-62-shipped; zero-pending-unblocked; external-release-evidence-no-go",
+  "silLastSession": "97",
+  "auditStatus": "audit-32-of-32-shipped; session-97-new-primary-9-of-9-shipped; cumulative-innovations-62-of-62-shipped; zero-pending-unblocked; external-release-evidence-no-go",
   "releaseGates": [
     "staging deployment and exact-digest parity verification",
     "authenticated evidence from at least three distinct human alpha sessions",
@@ -109,18 +109,18 @@
     "warnings": 0,
     "failing": 0,
     "blockingFailing": 0,
-    "date": "2026-08-05",
-    "observedAt": "2026-08-05T22:35:09.170Z",
+    "date": "2026-08-07",
+    "observedAt": "2026-08-07T00:55:41.022Z",
     "source": "scripts/project-doctor.mjs",
     "evidencePath": "audits/doctor-latest.json",
-    "evidenceDigest": "sha256:cd407bf0d713cf73a3df248b3492e377c91d91a6c4572526f8410691cc713053",
+    "evidenceDigest": "sha256:2f8f17ad3715ce0b7191841d0b536c95969a48900643de776d1813ed1e13a919",
     "evidenceSchemaVersion": 1,
     "checkCount": 13
   },
   "complianceScore": 49,
   "complianceTotal": 49,
   "sanitizationLastCleared": "2026-07-26",
-  "lastSession": 96,
+  "lastSession": 97,
   "bootAmortization": {
     "ratio": 0.09,
     "verdict": "wasted",
@@ -141,18 +141,16 @@
     }
   ],
   "sessionShellHygiene": {
-    "session": 96,
+    "session": 97,
     "running": 0,
-    "enumeratedAt": "2026-08-05T22:25:04.736Z",
-    "scope": "Closeout process inventory found no persistent VaultFront development/test services; exact final remote state is verified after push."
+    "enumeratedAt": "2026-08-07T00:24:22.354Z",
+    "scope": "Owned VaultFront Vitest and E2E orphans were resolved by exact command line; final inventory is rechecked after push."
   },
-  "testsLastRun": "2026-08-05T22:25:04.736Z",
-  "testsLastRunMode": "canonical-four-shard-vitest+typescript+eslint+prettier+contracts+production-build+playwright-theme-proof+visual-qa+doctor",
-  "testsDeferred": [
-    "Final production release remains an expected NO-GO until the remaining external launch observations exist."
-  ],
+  "testsLastRun": "2026-08-06",
+  "testsLastRunMode": "232-of-232-files across canonical root/client-core and bounded script/server shards; aggregate assertion count intentionally unclaimed after loaded-host pool timeout; type+lint+format+contracts+build+playwright+visual-qa+doctor green",
+  "testsDeferred": [],
   "testsBudgetExhausted": false,
-  "lastSessionSummary": "Session 96 recovered Session 95 with checkpoint 46b2ae1e, shipped all seven fresh audit findings, exhausted 23/23 audit items plus 62/62 innovations, and verified exact code-and-board revision b45442ca through CI, E2E, and Release; external launch evidence remains NO-GO.",
+  "lastSessionSummary": "Session 97 shipped all nine fresh audit items, exhausted the cumulative audit at 32/32 plus innovations 62/62, passed all 232 test files through canonical and bounded shards, refreshed 114 hash-bound visual captures, and preserved external launch NO-GO.",
   "providerCiStatus": {
     "status": "green-verified-code-revision",
     "revision": "b45442ca320d5bee9633f05d455575ed8f111fc0",
@@ -174,5 +172,6 @@
     "auditedDependencies": 816,
     "observedAt": "2026-08-05T03:38:11.166Z",
     "source": "npm audit production and complete graph; Studio supply-chain incident scan found zero matching repositories"
-  }
+  },
+  "testsEnvBlocked": []
 }

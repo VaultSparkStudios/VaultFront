@@ -4,12 +4,44 @@ Detailed internal scoring, audit trends, and brainstorming are maintained privat
 
 <!-- rolling-status-start -->
 
-Total: 997/1000 | Velocity: 7 | Debt: ↓ | Velocity trend: →
-Avgs — 3: 997.0 | 5: 997.0 | 10: 996.4 | 25: 990.3 | all: 990.3 | Last 5: 997 → 997 → 997 → 997 → 997 | Intent rate: 100%
+Total: 997/1000 | Velocity: 9 | Debt: ↓ | Velocity trend: ↑
+Avgs — 3: 997.0 | 5: 997.0 | 10: 997.0 | 25: 991.9 | all: 991.9 | Last 5: 997 → 997 → 997 → 997 → 997 | Intent rate: 100%
 Categories: Dev 100 | Align 100 | Momentum 100 | Engage 99 | Process 100 | Coherence 99 | Security 100 | Ecosystem 99 | Capital 100 | Automation 100
-Last session: 2026-08-05 Session 96 deterministic lifecycle and causal reflection
+Last session: 2026-08-06 Session 97 durable certification and bounded intelligence
 
 <!-- rolling-status-end -->
+
+## 2026-08-06 — Session 97 | Total: 997/1000 | Velocity: 9
+
+Completed nine premise-verified audit outcomes, closed a false topology finding at its detector, and preserved every external release boundary.
+
+| Category              |        Score | Evidence                                                                                                                                                        |
+| --------------------- | -----------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Dev Health            |          100 | 51 script files / 187 tests and 72 server files / 298 tests pass in bounded shards; type, lint, format, contracts, build, bundle, syntax, and audit gates pass. |
+| Creative Alignment    |          100 | Cause-bound coaching, Doctrine continuity, and reroute comparison strengthen the certified extraction-command loop without adding combat power.                 |
+| Momentum              |          100 | Nine fresh findings shipped; cumulative audit 32/32 and innovation ledger 62/62 are exhausted.                                                                  |
+| Engagement            |           99 | The next-match decision is clearer and more continuous; no human fun, comprehension, or retention outcome is invented.                                          |
+| Process Quality       |          100 | Direct visual review found a real contrast defect; deterministic shards and a regression-correct release detector preserve exact evidence.                      |
+| Cross-Repo Coherence  |           99 | Studio-owned identity, mail, and staging corridors remain external; no sibling implementation tree was edited.                                                  |
+| Security Posture      |          100 | Turnstile tokens are excluded from logs; provider work is bounded, abortable, actor-scoped, cost-aware, and fail-closed.                                        |
+| Ecosystem Integration |           99 | Human surfaces, agent evidence, persistence scope, deployment topology, and local release truth agree; live providers remain unobserved.                        |
+| Capital Efficiency    |          100 | Provider execution is deduplicated and bounded; no package, paid service, or uncontrolled retry surface was added.                                              |
+| Automation Coverage   |          100 | Archive retry, hydration, scope inventory, promotion drain, AI outcomes, Doctrine continuity, contrast, and topology detection all execute in tests.            |
+| **Total**             | **997/1000** | Exact sum; Engagement, Coherence, and Ecosystem remain capped by absent human/live/external observations.                                                       |
+
+**Rolling data:** Avg3 997.0 · Avg5 997.0 · Avg10 997.0 · Avg25 991.9 · all 991.9 · velocity 9 · debt ↓ · sparkline █████.
+
+**Game rubric:** Loop Tightness 100 · Retention Hook 99 · Soul Fidelity 100 · Velocity 100.
+
+**Top win:** Certified history, coaching, Doctrine identity, and reroute intent now survive the complete persistence-to-next-generation chain with bounded failure truth.
+
+**Top gap:** No approved external staging/callback corridor, native Obelisk relying-party contract, project-domain Zoho reply identity, or distinct-human Alpha evidence exists.
+
+### Brainstorm
+
+1. Observe whether humans understand the reroute matrix before changing Doctrine copy or priorities.
+2. Measure archive retry age and degraded-coaching outcomes only after a privacy-safe aggregate contract exists.
+3. Exercise exact-digest rollback on an approved staging origin before any production promotion.
 
 ## 2026-08-05 — Session 96 | Total: 997/1000 | Velocity: 7
 

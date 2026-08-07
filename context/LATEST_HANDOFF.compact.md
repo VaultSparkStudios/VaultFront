@@ -1,48 +1,50 @@
 <!-- generated-by: scripts/compact-handoff.mjs v3.1 -->
 <!-- source-hash: 21ac4d647f61 -->
-<!-- generated-at: 2026-08-05T23:12:44.606Z -->
+<!-- generated-at: 2026-08-06T01:08:17.944Z -->
 
 # LATEST_HANDOFF (compact)
 
-## Session 96 Handoff Summary
+## Handoff Summary — Session 96
 
-Session: 96 (complete, 2026-08-05)
-Branch: main; recovery boundary separate; fresh arc exhausted at audit 23/23, innovations 62/62.
+Session: 96 complete (2026-08-05); branch main
 
-Current Intent
-
-- Ran one continuous agent-neutral Studio OS mission (/start → /audit → /implement → /closeout), saturating all live-code-verified audits, Unified Genius List, and innovations without weakening release-evidence boundaries.
-
-Shipped This Session
+Shipped this session
 
 - Generation-owned match construction/teardown; truthful local tab-collision state.
 - Certified causal feedback; removed browser-authored remote micro-hint.
 - Repeatable progression debriefs; Doctrine-bound rematch intent; accessible account recovery.
+- Fresh arc exhausted: audit 23/23, innovations 62/62.
 
-Verification State
+Verification status
 
-- npm test 229/229 files, 1,198/1,198 tests pass.
-- TypeScript, ESLint, formatting, contracts, balance, production build, exhaustion, security, doctor gates green locally.
-- Visual: Playwright 2/2 covers 19 states across VaultFront, Light, Competitive themes (desktop/mobile); 114-artifact receipt passes CANON-053 at digest sha256:b6f542a7...f0238.
-- Provider closure: revision b45442ca passed CI 31053545824, E2E 31053548119, Release 31053545757. Metadata-only receipt successor does not claim own skipped run.
+- npm test 229/229 files, 1,198/1,198 tests pass; TypeScript, ESLint, formatting, contracts, balance, production build, security, doctor all green locally.
+- Visual: Playwright 2/2 covers 19 states across VaultFront, Light, Competitive themes on desktop/mobile; 114-artifact receipt passes CANON-053 at digest sha256:b6f542a7...f0238.
+- Provider closure: revision b45442ca passed CI 31053545824, E2E 31053548119, Release 31053545757.
 
-Now-Bucket (Top 3)
+Release posture
 
-1. Begin from locally exhausted state; collect approved external evidence in gate order.
-2. Establish approved staging origin/callback contract before external observation.
-3. Premise-check the next fresh audit if no external corridor is available.
+- public-unlaunched / NO-GO. Provider verification green; no external observations inferred.
 
-Blockers (Top 3)
+Now bucket (top items)
 
-1. Release posture public-unlaunched / NO-GO; provider verification green but no external evidence observed.
-2. Local bitmap viewer unavailable: Windows sandbox credential helper could not decrypt state (limitation explicit; pixel/contrast/semantic/hash checks passed).
-3. No staging/parity, Zoho reply identity, native Obelisk, live web, three-human Alpha, revenue, rollback, or founder approval.
+- Establish approved staging origin/callback contract.
+- Collect exact-digest parity and live web/theme evidence in gate order.
+- Premise-check the next fresh audit from exhausted baseline.
 
-Human-Blocked Items
+Blockers (top 3)
 
-- Studio registry type reconciliation: externally owned since acknowledgement 01JUJOJL1K040B6517CAF2EFA9 rejected `type`; Ark question 01JUNMMD... open (~7 sessions, since S89). Request owner-supported correction path.
-- Studio Ops board renderer incident: signed Ark incident 01JUNMP9... requests owner regeneration and non-mutating help path (~7 sessions, since S89).
+- No approved staging/parity evidence.
+- No Zoho reply identity or native Obelisk observation.
+- No three-human Alpha, revenue, or observed rollback.
 
-Next Session
+Human-blocked items
 
-- Start from exhausted local baseline; either secure approved staging/identity contract and collect external evidence in gate order, or premise-check the next fresh audit.
+- Founder approval outstanding (multi-session, since ~S82).
+- Studio registry type reconciliation externally owned since S89; ack 01JUJOJL1K040B6517CAF2EFA9 rejected `type`/`field-not-allowed`; Ark question 01JUNMMD1162... awaiting owner-supported path (~7 sessions).
+- Studio Ops board `--help` mutation incident: Ark incident 01JUNMP9IR... awaiting owner regeneration (since S89).
+
+Known limitations
+
+- Local bitmap viewer unavailable (Windows sandbox credential helper cannot decrypt state); pixel/contrast/semantic/hash checks passed and limitation is explicit.
+
+Next session: begin from locally exhausted state; collect approved external evidence in gate order or premise-check the next fresh audit — do not synthesize external proof from READY credentials.

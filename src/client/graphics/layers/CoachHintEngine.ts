@@ -6,8 +6,15 @@ import {
   LastStandActivatedUpdate,
   VaultFrontActivityUpdate,
   VaultFrontStatusUpdate,
+  type VaultFrontExecutionChainResetReason,
 } from "../../../core/game/GameUpdates";
 import { GameView } from "../../../core/game/GameView";
+import {
+  bindDoctrineToGame,
+  frameDoctrineCoaching,
+  readConvoyMastery,
+  type DoctrineRematchIntent,
+} from "../../ConvoyMastery";
 import type { Layer } from "./Layer";
 import { uiStateManager } from "./UIStateManager";
 
@@ -38,6 +45,8 @@ export type HintTrigger =
 export interface TacticalHintContext {
   gold: number;
   sites: number;
+  chainResetReason?: VaultFrontExecutionChainResetReason;
+  chainResetFromStep?: 0 | 1 | 2;
 }
 
 export function localTacticalHint(
@@ -56,7 +65,19 @@ export function localTacticalHint(
     case "last_stand_nearby":
       return "Last Stand is active. Deny the nearest controlled vault before committing to the convoy lane.";
     case "chain_broken":
-      return "The execution chain reset. Recapture one open vault, then protect its delivery instead of splitting pressure.";
+      if (context.chainResetReason === "convoy_intercepted") {
+        return "Your convoy was intercepted and the execution chain reset. Reopen with a vault capture, then shield the next delivery before attempting Jam Breaker.";
+      }
+      if (context.chainResetReason === "delivery_out_of_order") {
+        return "A delivery arrived without an active capture step, so the execution chain could not advance. Capture an open vault before the next delivery.";
+      }
+      if (context.chainResetReason === "pulse_deny_out_of_order") {
+        return "Jam Breaker denied a pulse before the capture-and-delivery setup was complete. Capture, deliver, then deny a pulse in that order.";
+      }
+      if (context.chainResetReason === "capture_restarted") {
+        return "A new capture restarted the execution chain. Protect this capture's convoy and avoid splitting the sequence across lanes.";
+      }
+      return `The execution chain expired after step ${context.chainResetFromStep ?? 0}. Recapture one open vault, then protect its delivery before the timer closes.`;
     case "convoy_danger":
       return "High interception risk: Shield Nearest now, then Reroute Safest only if the lane remains hostile.";
     case "economy_stall":
@@ -76,6 +97,11 @@ export class CoachHintEngine extends LitElement implements Layer {
   private tickCount = 0;
   private hasIssuedVaultCommand = false;
   private latestStatus: VaultFrontStatusUpdate | null = null;
+  private lastSeenChainResetTick = 0;
+  private pendingChainResetReason: VaultFrontExecutionChainResetReason | null =
+    null;
+  private pendingChainResetFromStep: 0 | 1 | 2 = 0;
+  private activeDoctrine: DoctrineRematchIntent | null = null;
   private hintDismissTimer: ReturnType<typeof setTimeout> | null = null;
   /** Last tick each trigger fired — avoids per-trigger cooldown collisions */
   private lastHintTickByTrigger = new Map<HintTrigger, number>();
@@ -85,6 +111,13 @@ export class CoachHintEngine extends LitElement implements Layer {
 
   createRenderRoot() {
     return this;
+  }
+
+  init(): void {
+    this.activeDoctrine = bindDoctrineToGame(
+      readConvoyMastery(),
+      this.game.gameID(),
+    );
   }
 
   tick(): void {
@@ -167,12 +200,22 @@ export class CoachHintEngine extends LitElement implements Layer {
       return "last_stand_nearby";
     }
 
-    // chain_broken: comeback_surge ending can indicate chain pressure reset
-    if (
-      activities?.some((a) => a.activity === "comeback_surge") &&
-      this.canTrigger("chain_broken")
-    ) {
-      return "chain_broken";
+    // chain_broken: consume only deterministic simulation-owned reset evidence.
+    const chainState =
+      mySmallId === undefined
+        ? undefined
+        : this.latestStatus?.executionChains?.[mySmallId];
+    if (chainState && chainState.lastResetTick > this.lastSeenChainResetTick) {
+      this.lastSeenChainResetTick = chainState.lastResetTick;
+      if (
+        chainState.lastResetReason &&
+        chainState.lastResetReason !== "completed" &&
+        this.canTrigger("chain_broken")
+      ) {
+        this.pendingChainResetReason = chainState.lastResetReason;
+        this.pendingChainResetFromStep = chainState.lastResetFromStep;
+        return "chain_broken";
+      }
     }
 
     // convoy_danger: any of my convoys has intercept probability > 70%
@@ -234,8 +277,9 @@ export class CoachHintEngine extends LitElement implements Layer {
     trigger: HintTrigger,
     gold: number,
     sites: number,
+    variant = "",
   ): string {
-    return `${trigger}_${Math.floor(gold / 50_000)}_${sites}`;
+    return `${trigger}_${Math.floor(gold / 50_000)}_${sites}_${variant}`;
   }
 
   private incrementTelemetry(key: string): void {
@@ -264,14 +308,39 @@ export class CoachHintEngine extends LitElement implements Layer {
     const gold = Number(state.playerGold ?? 0);
     const sites = this.localVaultSiteCount();
 
-    const cacheKey = this.hintCacheKey(trigger, gold, sites);
+    const cacheKey = this.hintCacheKey(
+      trigger,
+      gold,
+      sites,
+      trigger === "chain_broken" ? (this.pendingChainResetReason ?? "") : "",
+    );
     const cached = this.hintCache.get(cacheKey);
     if (cached && cached.expiresAt > Date.now()) {
+      if (trigger === "chain_broken") {
+        this.pendingChainResetReason = null;
+        this.pendingChainResetFromStep = 0;
+      }
       this.showHint(cached.hint);
       return;
     }
 
-    const localHint = localTacticalHint(trigger, { gold, sites });
+    const localHint = frameDoctrineCoaching(
+      this.activeDoctrine,
+      localTacticalHint(trigger, {
+        gold,
+        sites,
+        ...(trigger === "chain_broken" && this.pendingChainResetReason
+          ? {
+              chainResetReason: this.pendingChainResetReason,
+              chainResetFromStep: this.pendingChainResetFromStep,
+            }
+          : {}),
+      }),
+    );
+    if (trigger === "chain_broken") {
+      this.pendingChainResetReason = null;
+      this.pendingChainResetFromStep = 0;
+    }
     this.hintCache.set(cacheKey, {
       hint: localHint,
       expiresAt: Date.now() + this.HINT_CACHE_TTL_MS,
@@ -291,6 +360,10 @@ export class CoachHintEngine extends LitElement implements Layer {
     this.dismiss();
     this.hintCache.clear();
     this.lastHintTickByTrigger.clear();
+    this.lastSeenChainResetTick = 0;
+    this.pendingChainResetReason = null;
+    this.pendingChainResetFromStep = 0;
+    this.activeDoctrine = null;
   }
 
   private disableHints(): void {
@@ -367,7 +440,12 @@ export class CoachHintEngine extends LitElement implements Layer {
       </style>
       <div class="coach-hint">
         <div class="coach-hint-header">
-          <span class="coach-hint-label">💡 Coach</span>
+          <span class="coach-hint-label"
+            >💡
+            Coach${
+              this.activeDoctrine ? ` · ${this.activeDoctrine.name}` : ""
+            }</span
+          >
           <div class="coach-hint-controls">
             <button
               class="coach-hint-btn"

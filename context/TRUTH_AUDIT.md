@@ -2,6 +2,17 @@
 
 # Truth Audit
 
+## 2026-08-06 — Session 97 persistence, intelligence, decision, and release truth
+
+- Work truth: audit items 158–166 are shipped; cumulative audit 32/32 and innovations 62/62 are exhausted with zero pending unblocked local work.
+- Persistence truth: certified archive completion requires durable admission; incomplete writes are explicitly receipted and queued for bounded retry. Achievement hydration and state-scope evidence consume the same authoritative store contracts.
+- Deployment truth: a candidate is health- and revision-admitted before bounded incumbent drain. Traefik is the sole runtime ingress authority; the former topology blocker was a detector variable mismatch and its regression now exercises the real function-local label form.
+- Security/AI truth: Turnstile capability logs retain no tokens. Remote provider work has one owned timeout, abort, cost, cache, outcome, and cleanup boundary; deterministic local coaching remains the immediate free baseline.
+- Loop truth: coaching claims only certified causes; active non-power Doctrine identity reaches the next live generation; the reroute matrix is semantic, keyboard/touch accessible, and does not alter combat statistics.
+- Visual truth: real-browser inspection found and fixed a Light-theme contrast defect. Playwright passes 2/2 across three themes and desktop/mobile; 114 artifacts are source/hash-bound and CANON-053 passes.
+- Verification truth: all 232 test files pass across root 39, client/core 70, scripts 51, and server 72. Known exact counts are root 301, scripts 187, server 298, and a clean serialized client confirmation of 18 files / 83 tests after exact orphan cleanup. Loaded-host worker-start/outer timeouts are not mislabeled as assertion failures, and a new aggregate assertion count is not inferred. Type, lint, format, contracts, balance, build, bundles, Bash syntax, and production audit pass.
+- Release truth: release evidence has 12 genuine blockers before commit/provider execution. No approved staging/parity, Zoho reply identity, native Obelisk, live theme, distinct-human Alpha, real revenue, observed rollback, exact-revision CI, or founder approval is fabricated; production remains NO-GO.
+
 ## 2026-08-05 — Session 96 lifecycle, reflection, and rematch truth
 
 - Work truth: audit 23/23 and innovations 62/62 are shipped; the executable exhaustion checker reports zero pending unblocked local work.

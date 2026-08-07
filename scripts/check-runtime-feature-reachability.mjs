@@ -63,11 +63,13 @@ export function inspectRuntimeFeatureReachability({
     }
   }
 
-  const allSources = sourceFiles(path.join(root, "src"));
+  const allSources = sourceFiles(path.join(root, "src")).map((file) => {
+    const relative = normalize(path.relative(root, file));
+    return { relative, source: readSource(relative) };
+  });
   for (const retired of resolvedCatalog.retiredRoutes ?? []) {
-    for (const file of allSources) {
-      const relative = normalize(path.relative(root, file));
-      if (readSource(relative).includes(retired)) {
+    for (const { relative, source } of allSources) {
+      if (source.includes(retired)) {
         errors.push(`retired route ${retired} resurfaced in ${relative}`);
       }
     }

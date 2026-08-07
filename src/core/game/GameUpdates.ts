@@ -407,11 +407,25 @@ export interface VaultFrontBeaconState {
   factoryCount: number;
 }
 
+export type VaultFrontExecutionChainResetReason =
+  | "expired"
+  | "capture_restarted"
+  | "delivery_out_of_order"
+  | "pulse_deny_out_of_order"
+  | "convoy_intercepted"
+  | "completed";
+
 export interface VaultFrontExecutionChainState {
   /** Which step the chain is on for this player: 0 = no chain, 1 = captured, 2 = delivered */
   step: 0 | 1 | 2;
   /** Tick at which the current step expires (0 when no chain active) */
   expiresAtTick: Tick;
+  /** Deterministic cause of the most recent reset, never inferred by the client. */
+  lastResetReason: VaultFrontExecutionChainResetReason | null;
+  /** Simulation tick at which the reset occurred (0 when none has occurred). */
+  lastResetTick: Tick;
+  /** Chain step that existed immediately before the reset. */
+  lastResetFromStep: 0 | 1 | 2;
 }
 
 export interface VaultFrontSurgeState {

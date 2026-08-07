@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
-  "session": 96,
+  "session": 97,
   "generatedBy": "codex",
-  "generatedAt": "2026-08-05T19:02:48.258Z",
+  "generatedAt": "2026-08-05T21:20:00.000-04:00",
   "project": {
     "slug": "vaultfront",
     "name": "VaultFront",
@@ -13,7 +13,7 @@
     "stagingType": "local",
     "registryMedium": "game"
   },
-  "summary": "Session 96 fresh audit merged seven live-code-verified findings into the exhausted Session 95 ledger: match leave retains match-owned workers/render/input resources; multi-tab enforcement fabricates surveillance claims and leaks bound listeners; certified feedback lacks causal signal; an unauthenticated browser-authored remote micro-hint consumes provider capacity despite a deterministic local coach; progression debrief is not rematch-generation-safe; active Doctrine identity disappears at the progression seam; and account recovery uses blocking alerts without pending state. No balance, launch, revenue, or human-retention claim is inferred.",
+  "summary": "Session 97 merged nine new premise-verified findings into the exhausted Session 96 ledger: deployment hard-kills live matches despite a graceful worker path; certified archives can be silently lost; achievements do not rehydrate authoritatively after restart; the state-scope release ledger omits live stores; a Turnstile capability token is logged; three remote-AI routes bypass the bounded executor; Doctrine rematch intent has no runtime consumer; one local-coach cause is fabricated; and advanced reroute controls miss accessible decision semantics. No balance, launch, revenue, human-retention, or external-readiness claim is inferred.",
   "axes": {
     "featureDepth": 1.5,
     "innovation": 1.5,
@@ -26,17 +26,17 @@
     "tokenApiReduction": 2
   },
   "candidateGeneration": {
-    "featureDepth": 4,
-    "innovation": 5,
-    "ux": 6,
-    "feedbackLoop": 5,
-    "gamification": 4,
-    "aiIntegration": 4,
-    "security": 6,
-    "speedOrganization": 6,
-    "tokenApiReduction": 4,
-    "novelCandidates": 9,
-    "culledBelowThresholdOrFalsePremise": 31
+    "featureDepth": 9,
+    "innovation": 11,
+    "ux": 11,
+    "feedbackLoop": 9,
+    "gamification": 9,
+    "aiIntegration": 8,
+    "security": 12,
+    "speedOrganization": 13,
+    "tokenApiReduction": 8,
+    "novelCandidates": 17,
+    "culledBelowThresholdOrFalsePremise": 46
   },
   "specialtyReviews": {
     "infrastructure": {
@@ -44,13 +44,13 @@
     },
     "gameLoop": {
       "scores100": {
-        "loopTightness": 88,
-        "progression": 86,
+        "loopTightness": 84,
+        "progression": 80,
         "sessionEngagement": 85,
         "retention": 73,
         "soulFidelity": null
       },
-      "result": "The certified core loop is deep, but repeat-match lifecycle and progression continuity have live code defects. Human fun and return intent remain unmeasured; no balance retune is admitted."
+      "result": "The certified loop remains deep, but Doctrine continuity is test-only, one coach cause disagrees with deterministic execution, and advanced reroute controls lack semantic decision structure. Human fun and return intent remain unmeasured; no balance retune is admitted."
     },
     "release": {
       "verdict": "no-go",
@@ -962,6 +962,312 @@
       },
       "executionLog": [
         "Session 96: blocking recovery alerts replaced by inline validation/pending/success/error state with duplicate-submit guard and ARIA relationships; focused tests and desktop/mobile all-theme proof pass."
+      ]
+    },
+    {
+      "id": 158,
+      "slug": "match-safe-blue-green-promotion",
+      "tier": "🔥",
+      "axis": "reliability / release architecture / game loop",
+      "effortHours": 8,
+      "impact": 10,
+      "innovation": 9,
+      "priority": 170,
+      "status": "shipped",
+      "complete": true,
+      "title": "Make deployment preserve live match generations",
+      "why": "update.sh force-removes the live container before starting its replacement, bypassing the worker graceful-shutdown path and terminating active WebSockets and matches. A graceful worker implementation is not a graceful deployment when transport uses a hard kill.",
+      "recipe": "Start and health the replacement digest before changing admission, drain the old generation through a bounded readiness state, preserve sticky live WebSockets until active games reach zero, then retire the old container and retain a digest-bound promotion/drain receipt. Core-loop step: live player input → uninterrupted match fantasy → certified result reward → deployment-safe progression.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Replace hard removal with bounded graceful stop and prove signal receipt."
+        },
+        "L2": {
+          "effortHours": 4,
+          "recipe": "Add drain/readiness state, reject new games, wait for active games, and fail promotion rather than killing them."
+        },
+        "L3": {
+          "effortHours": 8,
+          "recipe": "Ship blue/green generation routing, sticky drain, exact-digest receipt, and non-destructive rollback."
+        }
+      },
+      "coreLoopStep": "live player input → uninterrupted match fantasy → certified result reward → deployment-safe progression",
+      "executionLog": [
+        "Session 97: candidate-first health and immutable revision admission now precede bounded incumbent drain; duplicate incumbents fail closed, rollback restores the exact incumbent, and 106 deploy-contract checks pass."
+      ]
+    },
+    {
+      "id": 159,
+      "slug": "durable-certified-archive-outbox",
+      "tier": "🔥",
+      "axis": "feedback loop / persistence / reliability",
+      "effortHours": 8,
+      "impact": 10,
+      "innovation": 8,
+      "priority": 165,
+      "status": "shipped",
+      "complete": true,
+      "title": "Make certified archive delivery durable and observable",
+      "why": "Certification fire-and-forgets archive delivery; Archive has no deadline, retry, idempotent receipt, or propagated failure, while end() treats certificate presence as archive success. Certified records can disappear silently and incomplete termination snapshots share the same path.",
+      "recipe": "Separate certified and incomplete archive types, return typed delivery results, enforce deadlines, queue idempotent retry keyed by certificate/game, expose readiness counters, and admit certified downstream consumers only after a delivery receipt. Core-loop step: match result → certified archive fantasy → durable history reward → replay/rematch progression.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Return typed success/failure, add a deadline, and stop equating certificate presence with delivery."
+        },
+        "L2": {
+          "effortHours": 4,
+          "recipe": "Add idempotent bounded retry, explicit certified/incomplete types, and readiness visibility."
+        },
+        "L3": {
+          "effortHours": 8,
+          "recipe": "Ship a durable PostgreSQL outbox with restart replay, acknowledgements, dead-letter visibility, and receipt-gated consumers."
+        }
+      },
+      "coreLoopStep": "match result → certified archive fantasy → durable history reward → replay/rematch progression",
+      "executionLog": [
+        "Session 97: certified/incomplete archive delivery now uses typed receipts, bounded deadlines, leased PostgreSQL outbox retry, idempotency, dead-letter state, restart pumping, and fail-closed configured-database truth; focused tests pass."
+      ]
+    },
+    {
+      "id": 160,
+      "slug": "authoritative-achievement-rehydration",
+      "tier": "🔥",
+      "axis": "progression / persistence / reliability",
+      "effortHours": 6,
+      "impact": 9,
+      "innovation": 7,
+      "priority": 145,
+      "status": "shipped",
+      "complete": true,
+      "title": "Rehydrate achievements before authenticated progression reads",
+      "why": "AchievementStore creates process-local state, its hydrateFromDb method has no production caller, meta-chain unlocks bypass the persistent path, and authenticated reads return the empty in-memory view after restart despite a database-backed status claim.",
+      "recipe": "Hydrate each actor once before reads/progression, persist meta unlocks through the canonical path, singleflight concurrent loads, bound cache lifetime, expose degraded state, and test restart, concurrency, persistence failure, meta-chain, and multi-worker parity. Core-loop step: certified action → achievement recognition fantasy → durable unlock reward → long-term progression.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Hydrate before authenticated read and persist meta unlocks."
+        },
+        "L2": {
+          "effortHours": 3,
+          "recipe": "Add singleflight hydration, bounded eviction, degraded state, and queued writes."
+        },
+        "L3": {
+          "effortHours": 6,
+          "recipe": "Make PostgreSQL/read-through authority own counters and unlocks atomically with progression receipts."
+        }
+      },
+      "coreLoopStep": "certified action → achievement recognition fantasy → durable unlock reward → long-term progression",
+      "executionLog": [
+        "Session 97: achievements singleflight-hydrate before authenticated reads/progression, bound cache lifetime and failure state, persist base/meta unlocks canonically, and pass restart, concurrency, dedupe, degradation, and router tests."
+      ]
+    },
+    {
+      "id": 161,
+      "slug": "complete-state-scope-inventory",
+      "tier": "🔥",
+      "axis": "observability / release truth / organization",
+      "effortHours": 5,
+      "impact": 9,
+      "innovation": 8,
+      "priority": 140,
+      "status": "shipped",
+      "complete": true,
+      "title": "Make persistence scope inventory complete by construction",
+      "why": "StateScopeLedger validates only a fixed ten-entry array and omits live durable/process-fallback stores, so its green release verdict can be internally consistent yet incomplete.",
+      "recipe": "Register every runtime store capability once in a machine-readable authority used by constructors, readiness, and tests; fail closed when an exported or mounted store is missing; classify release criticality and preserve explicit fallback truth. Core-loop step: player action → durable-system fantasy → trustworthy state reward → restart-safe progression.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Enumerate all current missing stores and their release criticality."
+        },
+        "L2": {
+          "effortHours": 3,
+          "recipe": "Require every registered Store owner to appear exactly once through a source-inventory test."
+        },
+        "L3": {
+          "effortHours": 5,
+          "recipe": "Derive constructors, readiness, schema capabilities, and release posture from one canonical registry."
+        }
+      },
+      "coreLoopStep": "player action → durable-system fantasy → trustworthy state reward → restart-safe progression",
+      "executionLog": [
+        "Session 97: a source-backed 20-owner registry now derives state-scope integrity/readiness and recursively rejects omitted Store exports; ReplayStore truth is corrected to process-local HMAC integrity."
+      ]
+    },
+    {
+      "id": 162,
+      "slug": "redact-turnstile-capability-tokens",
+      "tier": "⚡",
+      "axis": "security / privacy / observability",
+      "effortHours": 1.5,
+      "impact": 8,
+      "innovation": 5,
+      "priority": 120,
+      "status": "shipped",
+      "complete": true,
+      "title": "Keep Turnstile admission capabilities out of browser logs",
+      "why": "The browser logs the complete Cloudflare Turnstile response token before verification, exposing a live admission capability to consoles, screenshots, extensions, and log collectors.",
+      "recipe": "Delete token-bearing output, retain only non-sensitive lifecycle metadata, and add a source-negation regression for interpolated authentication and challenge tokens. Core-loop step: join input → trusted admission fantasy → verified play reward → safe match progression.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 0.25,
+          "recipe": "Delete the token-bearing log."
+        },
+        "L2": {
+          "effortHours": 0.75,
+          "recipe": "Replace it with non-sensitive state metadata and a source-negation test."
+        },
+        "L3": {
+          "effortHours": 1.5,
+          "recipe": "Add a centralized browser redaction policy with semantic sensitive-field tests."
+        }
+      },
+      "coreLoopStep": "join input → trusted admission fantasy → verified play reward → safe match progression",
+      "executionLog": [
+        "Session 97: the browser no longer logs the Turnstile capability; only non-sensitive completion state remains, protected by a source-negation regression."
+      ]
+    },
+    {
+      "id": 163,
+      "slug": "single-bounded-remote-ai-executor",
+      "tier": "🔥",
+      "axis": "AI / reliability / token-API reduction",
+      "effortHours": 5,
+      "impact": 8,
+      "innovation": 7,
+      "priority": 138,
+      "status": "shipped",
+      "complete": true,
+      "title": "Route every remote AI edge through one bounded executor",
+      "why": "Oracle, recap, and coach use the bounded executor, but prophecy, dynasty, and prematch call the provider SDK directly after reserving quota; abandoned or slow calls can retain server work and spend capacity. Prophecy prompts on mutator while its cache key omits it.",
+      "recipe": "Route every provider call through reserve-execute-validate-receipt, include all prompt-shaping fields in cache keys, forward request abort, expose timeout/cancel evidence, and make direct SDK calls outside the helper fail CI. Core-loop step: certified state → optional intelligence fantasy → bounded insight reward → informed progression.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Apply the existing AI deadline and fix the prophecy cache key."
+        },
+        "L2": {
+          "effortHours": 3,
+          "recipe": "Forward request abort, validate outputs, and expose timeout/cancel counts."
+        },
+        "L3": {
+          "effortHours": 5,
+          "recipe": "Ship one statically inventoried reserve-execute-validate-receipt helper for every provider edge."
+        }
+      },
+      "coreLoopStep": "certified state → optional intelligence fantasy → bounded insight reward → informed progression",
+      "executionLog": [
+        "Session 97: every Worker and narrator provider edge now runs through one deadline/cancellation/outcome executor; request disconnects propagate, output bounds fail closed, prophecy cache identity includes mutator, and focused contracts pass."
+      ]
+    },
+    {
+      "id": 164,
+      "slug": "reachable-doctrine-match-spine",
+      "tier": "🔥",
+      "axis": "gamification / retention / feature depth",
+      "effortHours": 8,
+      "impact": 9,
+      "innovation": 9,
+      "priority": 160,
+      "status": "shipped",
+      "complete": true,
+      "title": "Make Doctrine rematch intent reach the next live match",
+      "why": "ProgressionDebrief emits a Doctrine-bound rematch event, but production only binds the game generation and no runtime consumer handles the event; the prior completion claim is therefore test-only at the progression-to-input seam.",
+      "recipe": "Consume the rematch event in production, bind its certified Doctrine id/brief to the next match generation, let it frame local coaching without changing statistics, and render a certified post-match Doctrine Review with stale-session, accessibility, mobile, and theme proof. Core-loop step: certified reward → chosen commander identity → doctrine-framed next-match input → mastery progression.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Consume the rematch event and bind its Doctrine receipt to the next generation."
+        },
+        "L2": {
+          "effortHours": 4,
+          "recipe": "Use the frame in local hints and route emphasis without power changes."
+        },
+        "L3": {
+          "effortHours": 8,
+          "recipe": "Add a certified Doctrine Review, generation safety, accessibility, and rendered proof."
+        }
+      },
+      "coreLoopStep": "certified reward → chosen commander identity → doctrine-framed next-match input → mastery progression",
+      "executionLog": [
+        "Session 97: certified Doctrine intent persists source/target match identity, binds exactly once to the subsequent live generation, frames local coaching without statistics, and passes generation/UI tests."
+      ]
+    },
+    {
+      "id": 165,
+      "slug": "cause-bound-local-coach",
+      "tier": "🔥",
+      "axis": "feedback loop / UX / soul fidelity",
+      "effortHours": 6,
+      "impact": 9,
+      "innovation": 8,
+      "priority": 150,
+      "status": "shipped",
+      "complete": true,
+      "title": "Bind local coaching to deterministic execution causes",
+      "why": "The local coach maps comeback_surge to chain_broken even though chain resets occur on independent invalid or expired transitions, so the visible explanation can fabricate causality.",
+      "recipe": "Emit typed reset reasons from deterministic simulation, render an explainable what/why/next coaching receipt with a focus action, and certify the reason into post-match evaluation without accepting browser-authored causes. Core-loop step: tactical input → deterministic consequence fantasy → explainable coaching reward → skill progression.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Remove the false comeback_surge-to-chain_broken mapping."
+        },
+        "L2": {
+          "effortHours": 3,
+          "recipe": "Emit and render typed reset reasons for timeout, wrong order, and failed denial."
+        },
+        "L3": {
+          "effortHours": 6,
+          "recipe": "Add explainable action receipts, map focus, post-match evaluation, and certification tests."
+        }
+      },
+      "coreLoopStep": "tactical input → deterministic consequence fantasy → explainable coaching reward → skill progression",
+      "executionLog": [
+        "Session 97: deterministic execution publishes typed chain-reset reason/tick/from-step evidence and the coach consumes only that source; fabricated comeback_surge causality is removed."
+      ]
+    },
+    {
+      "id": 166,
+      "slug": "accessible-reroute-decision-matrix",
+      "tier": "⚡",
+      "axis": "UX / accessibility / feature depth",
+      "effortHours": 5,
+      "impact": 8,
+      "innovation": 7,
+      "priority": 118,
+      "status": "shipped",
+      "complete": true,
+      "title": "Turn reroute projections into an accessible decision matrix",
+      "why": "Five rich reroute projections render as sub-44px ungrouped buttons without pressed state or decision semantics, so keyboard, touch, and assistive-technology users cannot reliably compare the advanced command surface.",
+      "recipe": "Expose a keyboard-operable radio group with 44px targets, pressed/selected semantics, live ETA-risk-reward deltas, Safe/Fast/Value summaries, and full matrix disclosure; preserve exact simulation authority and add desktop/mobile/all-theme proof. Core-loop step: route input → commander decision fantasy → legible tradeoff reward → tactical progression.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Enforce 44px targets, button type, pressed state, and descriptive labels."
+        },
+        "L2": {
+          "effortHours": 3,
+          "recipe": "Ship radio-group keyboard behavior and live ETA-risk-reward deltas."
+        },
+        "L3": {
+          "effortHours": 5,
+          "recipe": "Add Safe/Fast/Value summaries, full disclosure, Doctrine emphasis, and rendered proof."
+        }
+      },
+      "coreLoopStep": "route input → commander decision fantasy → legible tradeoff reward → tactical progression",
+      "executionLog": [
+        "Session 97: reroute projections now use 44px radio/pressed controls, roving arrow/Home/End navigation, and polite live ETA-risk-reward descriptions; focused HUD tests pass."
       ]
     }
   ],

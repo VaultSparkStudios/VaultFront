@@ -1,5 +1,8 @@
+import { readFileSync, readdirSync } from "node:fs";
+import { join, relative } from "node:path";
 import { describe, expect, test } from "vitest";
 import {
+  STATE_STORE_SOURCE_INVENTORY,
   buildStateScopeLedger,
   inspectStateScopeLedgerIntegrity,
   stateScopeCatalogDigest,
@@ -42,7 +45,8 @@ describe("StateScopeLedger", () => {
     expect(ready.summary.volatileReleaseCriticalStores).not.toContain(
       "playtest-pulse",
     );
-    expect(ready.summary.releasePersistenceStatus).toBe("pass");
+    expect(ready.summary.volatileReleaseCriticalStores).toContain("replays");
+    expect(ready.summary.releasePersistenceStatus).toBe("warn");
   });
 
   test("declares the privacy-bounded feedback store in every effective scope", () => {
@@ -76,6 +80,9 @@ describe("StateScopeLedger", () => {
     const invalid: StateScopeLedgerEntry = {
       store: "bad-store",
       owner: "BadStore",
+      kind: "store",
+      sourceFile: "src/server/BadStore.ts",
+      runtimeExport: "badStore",
       capability: "postgres-optional",
       declaredScope: "process",
       durability: "volatile",
@@ -92,5 +99,53 @@ describe("StateScopeLedger", () => {
     expect(stateScopeCatalogDigest([invalid])).not.toBe(
       buildStateScopeLedger(posture("disabled")).catalogDigest,
     );
+  });
+
+  test("accounts for every exported runtime Store singleton exactly once", () => {
+    const root = join(process.cwd(), "src", "server");
+    const sourceFiles = readdirSync(root, { recursive: true })
+      .filter(
+        (entry): entry is string =>
+          typeof entry === "string" && entry.endsWith(".ts"),
+      )
+      .map((entry) => join(root, entry));
+    const discovered = new Map<
+      string,
+      { owner: string | null; sourceFile: string }
+    >();
+    const singletonPattern =
+      /export const (\w*[sS]tore)\s*=\s*(?:new\s+(\w+Store)\s*\(|\{)/g;
+    for (const file of sourceFiles) {
+      const source = readFileSync(file, "utf8");
+      for (const match of source.matchAll(singletonPattern)) {
+        discovered.set(match[1], {
+          owner: match[2] ?? null,
+          sourceFile: relative(process.cwd(), file).replace(/\\/g, "/"),
+        });
+      }
+    }
+
+    const registered = new Map(
+      STATE_STORE_SOURCE_INVENTORY.map((entry) => [entry.runtimeExport, entry]),
+    );
+    expect(
+      [...discovered.keys()].filter(
+        (runtimeExport) => !registered.has(runtimeExport),
+      ),
+    ).toEqual([]);
+    for (const [runtimeExport, actual] of discovered) {
+      const expected = registered.get(runtimeExport)!;
+      expect(expected.sourceFile).toBe(actual.sourceFile);
+      if (actual.owner) expect(expected.owner).toBe(actual.owner);
+    }
+    for (const entry of STATE_STORE_SOURCE_INVENTORY) {
+      const source = readFileSync(
+        join(process.cwd(), entry.sourceFile),
+        "utf8",
+      );
+      expect(source).toMatch(
+        new RegExp(`export const ${entry.runtimeExport}\\s*=`),
+      );
+    }
   });
 });

@@ -343,7 +343,10 @@ export function buildDeployTopologyEvidence(projectRoot, observedAt) {
     failures.push("container-healthcheck-missing");
   if (/cloudflared|CF_TUNNEL|CF_API_TOKEN/iu.test(dockerfile + supervisor))
     failures.push("secondary-cloudflare-ingress-present");
-  if (!updater.includes("traefik.http.routers.${CONTAINER_NAME}.rule"))
+  if (
+    !updater.includes("traefik.http.routers.${CONTAINER_NAME}.rule") &&
+    !updater.includes("traefik.http.routers.${name}.rule")
+  )
     failures.push("traefik-router-label-missing");
   if (!/Traefik is the sole runtime ingress authority/iu.test(runbook))
     failures.push("runbook-sole-authority-declaration-missing");

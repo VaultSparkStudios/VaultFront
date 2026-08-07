@@ -112,9 +112,13 @@ describe("buildVaultFrontReadiness", () => {
       persistence,
     });
 
-    expect(payload.releaseWarnings).toContain(
-      "Release-critical stores are process-local: player-stats, certified-outcomes, achievements, clans, tournaments, playtest-pulse.",
+    const persistenceWarning = payload.releaseWarnings.find((warning) =>
+      warning.startsWith("Release-critical stores are process-local:"),
     );
+    expect(persistenceWarning).toContain("achievements");
+    expect(persistenceWarning).toContain("progression-receipts");
+    expect(persistenceWarning).toContain("game-archive-outbox");
+    expect(persistenceWarning).toContain("replays");
     expect(payload.checks.persistence).toBe("warn");
   });
 
@@ -293,6 +297,10 @@ describe("buildVaultFrontReadiness", () => {
         callsByFeature: { coach: 2 },
         providerBoundReservations: 2,
         deniedReservations: 0,
+        completedCalls: 0,
+        failedCalls: 0,
+        timedOutCalls: 0,
+        cancelledCalls: 0,
         costProfile: "metered-hard-cap",
         reason: "ready",
       },

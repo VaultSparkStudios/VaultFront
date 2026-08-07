@@ -114,6 +114,59 @@ requireText(
   /DEPLOY_IMAGE_RETENTION/u,
   "remote updater has no bounded retention input",
 );
+requireText(
+  update,
+  /DEPLOY_DRAIN_TIMEOUT_SECONDS/u,
+  "remote updater has no bounded incumbent drain input",
+);
+check(
+  !/docker\s+rm\s+-f/u.test(update),
+  "remote updater still hard-kills a deployment container",
+);
+check(
+  update.indexOf('run_container "$GHCR_IMAGE"') <
+    update.indexOf('docker stop --time "$DEPLOY_DRAIN_TIMEOUT_SECONDS"'),
+  "remote updater stops the incumbent before starting the candidate",
+);
+check(
+  update.indexOf('docker exec "$CONTAINER_NAME" curl') <
+    update.indexOf('docker stop --time "$DEPLOY_DRAIN_TIMEOUT_SECONDS"'),
+  "remote updater drains the incumbent before proving candidate health",
+);
+check(
+  update.indexOf('[[ "$DOCKER_HEALTHY" != "1" ]]') <
+    update.indexOf('docker stop --time "$DEPLOY_DRAIN_TIMEOUT_SECONDS"'),
+  "remote updater drains the incumbent before Docker reports candidate healthy",
+);
+check(
+  update.indexOf('[[ "$CANDIDATE_ADMITTED" != "1" ]]') <
+    update.indexOf('docker stop --time "$DEPLOY_DRAIN_TIMEOUT_SECONDS"'),
+  "remote updater drains the incumbent before immutable ingress admission",
+);
+check(
+  update.includes('REVISION_URL="${DEPLOY_HEALTH_URL%/_health}/commit.txt"'),
+  "candidate admission is not bound to its immutable revision",
+);
+for (const [pattern, failure] of [
+  [
+    /traefik\.http\.routers\.\$\{name\}\.priority/u,
+    "candidate router has no monotonic generation priority",
+  ],
+  [
+    /loadbalancer\.healthcheck\.path=\/_health/u,
+    "candidate traffic is not gated by a live health check",
+  ],
+  [
+    /docker start "\$OLD_CONTAINER"/u,
+    "failed ingress verification cannot restore the incumbent",
+  ],
+  [
+    /docker rm "\$OLD_CONTAINER"/u,
+    "drained incumbent is not removed non-forcibly",
+  ],
+]) {
+  requireText(update, pattern, failure);
+}
 check(
   !/docker\s+image\s+prune\s+-a/u.test(update),
   "remote updater still prunes every unused image",
@@ -225,7 +278,7 @@ requireText(
   "remote updater does not migrate before traffic",
 );
 check(
-  update.includes("traefik.http.routers.${CONTAINER_NAME}.rule"),
+  update.includes("traefik.http.routers.${name}.rule"),
   "remote updater does not declare Traefik as the container ingress authority",
 );
 requireText(
@@ -329,6 +382,20 @@ requireText(
   /[program:nginx][sS]*[program:node]/u,
   "Supervisor does not own the bounded Nginx + Node process set",
 );
+for (const [pattern, failure] of [
+  [
+    /stopsignal=TERM/u,
+    "Supervisor does not send the runtime a graceful termination signal",
+  ],
+  [
+    /stopwaitsecs=%\(ENV_DEPLOY_DRAIN_TIMEOUT_SECONDS\)s/u,
+    "Supervisor does not preserve the bounded match drain window",
+  ],
+  [/stopasgroup=true/u, "Supervisor does not stop the Node process group"],
+  [/killasgroup=true/u, "Supervisor cannot bound a stuck Node process group"],
+]) {
+  requireText(supervisor, pattern, failure);
+}
 
 requireText(
   runbook,

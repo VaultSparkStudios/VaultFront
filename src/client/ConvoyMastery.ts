@@ -9,12 +9,25 @@ export const CONVOY_MASTERY_STORAGE_KEY = "vaultfront.convoyMasteryGoal.v1";
 export type MasteryGoalKey =
   "vault_first" | "convoy_impact" | "pulse_chain" | "focus_stable" | "";
 
+export interface DoctrineRematchIntent {
+  id: string;
+  name: string;
+  role: string;
+  brief: string;
+  effectPolicy: "coaching-and-identity-only";
+}
+
 export interface ConvoyMasteryPrescription {
   text: string;
   goalKey: MasteryGoalKey;
   source: "recap" | "season" | "achievement" | "rating";
   evidence: string;
   selectedAt: number;
+  /** Match in which the player selected the rematch doctrine. */
+  sourceGameId?: string;
+  /** First subsequent production match that bound the intent. */
+  targetGameId?: string;
+  doctrine?: DoctrineRematchIntent | null;
 }
 
 const METRIC_GOALS: Partial<
@@ -88,9 +101,30 @@ export function readConvoyMastery(): ConvoyMasteryPrescription | null {
     const raw = localStorage.getItem(CONVOY_MASTERY_STORAGE_KEY);
     if (!raw) return null;
     const parsed = JSON.parse(raw) as Partial<ConvoyMasteryPrescription>;
-    return typeof parsed.text === "string" && typeof parsed.goalKey === "string"
-      ? (parsed as ConvoyMasteryPrescription)
-      : null;
+    if (typeof parsed.text !== "string" || typeof parsed.goalKey !== "string") {
+      return null;
+    }
+    if (
+      parsed.doctrine !== undefined &&
+      parsed.doctrine !== null &&
+      (typeof parsed.doctrine !== "object" ||
+        typeof parsed.doctrine.id !== "string" ||
+        typeof parsed.doctrine.name !== "string" ||
+        typeof parsed.doctrine.role !== "string" ||
+        typeof parsed.doctrine.brief !== "string" ||
+        parsed.doctrine.effectPolicy !== "coaching-and-identity-only")
+    ) {
+      return null;
+    }
+    if (
+      (parsed.sourceGameId !== undefined &&
+        typeof parsed.sourceGameId !== "string") ||
+      (parsed.targetGameId !== undefined &&
+        typeof parsed.targetGameId !== "string")
+    ) {
+      return null;
+    }
+    return parsed as ConvoyMasteryPrescription;
   } catch {
     return null;
   }
@@ -109,6 +143,41 @@ export function persistConvoyMastery(
   } else {
     localStorage.removeItem("vaultfront.nextMatchGoalKey");
   }
+}
+
+/**
+ * Binds a doctrine to exactly the first game generated after its source match.
+ * The receipt carries coaching identity only; simulation balance never reads it.
+ */
+export function bindDoctrineToGame(
+  prescription: ConvoyMasteryPrescription | null,
+  gameId: string,
+): DoctrineRematchIntent | null {
+  const doctrine = prescription?.doctrine;
+  if (
+    !prescription ||
+    !doctrine ||
+    doctrine.effectPolicy !== "coaching-and-identity-only" ||
+    !prescription.sourceGameId ||
+    prescription.sourceGameId === gameId
+  ) {
+    return null;
+  }
+  if (prescription.targetGameId && prescription.targetGameId !== gameId) {
+    return null;
+  }
+  if (!prescription.targetGameId) {
+    persistConvoyMastery({ ...prescription, targetGameId: gameId });
+  }
+  return doctrine;
+}
+
+export function frameDoctrineCoaching(
+  doctrine: DoctrineRematchIntent | null,
+  hint: string,
+): string {
+  if (!doctrine) return hint;
+  return `${doctrine.name} · ${doctrine.role}: ${doctrine.brief} ${hint}`;
 }
 
 export function clearConvoyMastery(): void {

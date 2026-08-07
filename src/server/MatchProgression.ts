@@ -446,7 +446,7 @@ export class ServerAuthoritativeProgressionSpine {
       let playerUnlocks = 0;
       const playerUnlockKeys: string[] = [];
       for (const event of events) {
-        const unlocked = this.dependencies.checkAndUnlock(
+        const unlocked = await this.dependencies.checkAndUnlock(
           player.persistentId,
           event,
         );

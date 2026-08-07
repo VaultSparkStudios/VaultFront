@@ -28,7 +28,13 @@ function statusFor(
     convoys: [],
     beacons: [],
     executionChains: {
-      7: { step: 2, expiresAtTick },
+      7: {
+        step: 2,
+        expiresAtTick,
+        lastResetReason: null,
+        lastResetTick: 0,
+        lastResetFromStep: 0,
+      },
     },
     surges: {},
     squadObjectives: [],
@@ -104,7 +110,15 @@ describe("VaultFront execution-chain HUD", () => {
 
     status = {
       ...status,
-      executionChains: { 7: { step: 0, expiresAtTick: 0 } },
+      executionChains: {
+        7: {
+          step: 0,
+          expiresAtTick: 0,
+          lastResetReason: "completed",
+          lastResetTick: 1400,
+          lastResetFromStep: 2,
+        },
+      },
     };
     layer.tick();
     expect(mirror?.textContent).toBe("");

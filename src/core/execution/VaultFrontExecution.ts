@@ -10,7 +10,6 @@ import { TileRef } from "../game/GameMap";
 import {
   GameUpdateType,
   MapEventType,
-  VaultFrontExecutionChainState,
   VaultFrontPressureState,
   VaultFrontSquadObjectiveState,
   VaultFrontStatusUpdate,
@@ -18,6 +17,7 @@ import {
 } from "../game/GameUpdates";
 import { PseudoRandom } from "../PseudoRandom";
 import { simpleHash } from "../Util";
+import { ExecutionChainLedger } from "./ExecutionChainLedger";
 import { RivalryRevengeTracker } from "./RivalryRevengeTracker";
 import { bigintToSafeNumber } from "./SafeNumber";
 import { planConvoyReward, type ConvoyRewardPlan } from "./VaultFrontBalance";
@@ -111,8 +111,7 @@ export class VaultFrontExecution implements Execution {
   private behindSinceTick = new Map<number, number>();
   private surgeUntilTick = new Map<number, number>();
   private minute8BehindMarked = new Set<number>();
-  private executionChainStep = new Map<number, 0 | 1 | 2>();
-  private executionChainExpiresAtTick = new Map<number, number>();
+  private executionChains = new ExecutionChainLedger();
   private executionStreakNextConvoyMultiplier = new Map<number, number>();
   private squadObjectiveWindows: SquadObjectiveWindow[] = [];
   private lastPublishedConvoyDebugKey = "";
@@ -185,8 +184,7 @@ export class VaultFrontExecution implements Execution {
       this.jamBreakerCooldownUntil.set(player.smallID(), 0);
       this.behindSinceTick.set(player.smallID(), -1);
       this.surgeUntilTick.set(player.smallID(), 0);
-      this.executionChainStep.set(player.smallID(), 0);
-      this.executionChainExpiresAtTick.set(player.smallID(), 0);
+      this.executionChains.seed(player.smallID());
       this.executionStreakNextConvoyMultiplier.set(player.smallID(), 1);
       this.beacons.set(player.smallID(), {
         charge: this.random.nextInt(
@@ -261,12 +259,8 @@ export class VaultFrontExecution implements Execution {
     this.sweepExpiredSquadObjectives(ticks);
     for (const player of this.game.players()) {
       const playerID = player.smallID();
-      const step = this.executionChainStep.get(playerID) ?? 0;
-      if (
-        step > 0 &&
-        ticks > (this.executionChainExpiresAtTick.get(playerID) ?? 0)
-      ) {
-        this.resetExecutionChain(playerID);
+      if (this.executionChains.isExpired(playerID, ticks)) {
+        this.executionChains.reset(playerID, "expired", ticks);
       }
     }
 
@@ -1528,16 +1522,14 @@ export class VaultFrontExecution implements Execution {
     );
   }
 
-  private resetExecutionChain(playerID: number): void {
-    this.executionChainStep.set(playerID, 0);
-    this.executionChainExpiresAtTick.set(playerID, 0);
-  }
-
   private updateExecutionChainCapture(player: Player, ticks: number): void {
     const playerID = player.smallID();
-    this.executionChainStep.set(playerID, 1);
-    this.executionChainExpiresAtTick.set(
+    if (this.executionChains.step(playerID) > 0) {
+      this.executionChains.reset(playerID, "capture_restarted", ticks);
+    }
+    this.executionChains.progress(
       playerID,
+      1,
       ticks + this.mutatorBalance.executionChainWindowTicks,
     );
   }
@@ -1547,15 +1539,13 @@ export class VaultFrontExecution implements Execution {
     ticks: number,
   ): void {
     const playerID = player.smallID();
-    const step = this.executionChainStep.get(playerID) ?? 0;
-    const expiresAt = this.executionChainExpiresAtTick.get(playerID) ?? 0;
-    if (step !== 1 || ticks > expiresAt) {
-      this.resetExecutionChain(playerID);
+    if (!this.executionChains.matches(playerID, 1, ticks)) {
+      this.executionChains.reset(playerID, "delivery_out_of_order", ticks);
       return;
     }
-    this.executionChainStep.set(playerID, 2);
-    this.executionChainExpiresAtTick.set(
+    this.executionChains.progress(
       playerID,
+      2,
       ticks + this.mutatorBalance.executionChainWindowTicks,
     );
   }
@@ -1567,16 +1557,14 @@ export class VaultFrontExecution implements Execution {
   ): void {
     const playerID = player.smallID();
     if (!deniedPulse) return;
-    const step = this.executionChainStep.get(playerID) ?? 0;
-    const expiresAt = this.executionChainExpiresAtTick.get(playerID) ?? 0;
-    if (step !== 2 || ticks > expiresAt) {
-      this.resetExecutionChain(playerID);
+    if (!this.executionChains.matches(playerID, 2, ticks)) {
+      this.executionChains.reset(playerID, "pulse_deny_out_of_order", ticks);
       return;
     }
     const streakMultiplier = this.mutatorBalance.executionChainRewardMultiplier;
     this.executionStreakNextConvoyMultiplier.set(playerID, streakMultiplier);
     this.game.stats().cleanExecutionStreak(player);
-    this.resetExecutionChain(playerID);
+    this.executionChains.reset(playerID, "completed", ticks);
     this.game.displayMessage(
       `Clean execution chain complete. Next Vault Convoy rewards +${Math.round((streakMultiplier - 1) * 100)}%.`,
       MessageType.CHAT,
@@ -2072,7 +2060,11 @@ export class VaultFrontExecution implements Execution {
         this.game.stats().vaultConvoyLost(owner, this.game.ticks());
         this.rivalryRevenge.record(interceptor, owner, this.game.stats());
         this.game.stats().vaultInteraction(interceptor);
-        this.resetExecutionChain(owner.smallID());
+        this.executionChains.reset(
+          owner.smallID(),
+          "convoy_intercepted",
+          ticks,
+        );
         this.contributeToSquadObjective(interceptor, ticks, currentTile);
 
         // Bounty Board tracking
@@ -2675,7 +2667,7 @@ export class VaultFrontExecution implements Execution {
           factoryCount,
         };
       }),
-      executionChains: this.buildExecutionChainStates(),
+      executionChains: this.executionChains.project(),
       surges: this.buildSurgeStates(),
       squadObjectives: this.buildSquadObjectiveStates(),
       pressure: this.buildPressureStates(),
@@ -2791,18 +2783,6 @@ export class VaultFrontExecution implements Execution {
       MessageType.ATTACK_REQUEST,
       null,
     );
-  }
-
-  private buildExecutionChainStates(): Record<
-    number,
-    VaultFrontExecutionChainState
-  > {
-    const result: Record<number, VaultFrontExecutionChainState> = {};
-    for (const [playerID, step] of this.executionChainStep.entries()) {
-      const expiresAtTick = this.executionChainExpiresAtTick.get(playerID) ?? 0;
-      result[playerID] = { step, expiresAtTick };
-    }
-    return result;
   }
 
   private buildSurgeStates(): Record<number, VaultFrontSurgeState> {

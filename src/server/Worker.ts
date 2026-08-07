@@ -34,7 +34,6 @@ import {
   parseCoachProviderOutput,
   parseOracleProviderOutput,
   parseRecapProviderOutput,
-  withAiDeadline,
 } from "./CanonicalAiEvidence";
 import { certifiedDailyMasteryStore } from "./CertifiedDailyMasteryStore";
 import {
@@ -98,12 +97,25 @@ import { authorizeArchivedRematchSource } from "./RematchAuthorization";
 import { registerRematchRoutes } from "./RematchRouter";
 import { rematchStore } from "./RematchStore";
 import { remoteAiPosture, reserveRemoteAiCall } from "./RemoteAiPolicy";
+import {
+  COACH_DEBRIEF_SYSTEM_PROMPT,
+  DYNASTY_SYSTEM_PROMPT,
+  ORACLE_SYSTEM_PROMPT,
+  PREMATCH_BRIEF_SYSTEM_PROMPT,
+  PROPHECY_SYSTEM_PROMPT,
+  RECAP_SYSTEM_PROMPT,
+} from "./RemoteAiPrompts";
 import { replayHighlightStore } from "./ReplayHighlightStore";
 import {
   createReplayShareProjection,
   ReplayShareContractError,
 } from "./ReplayShareContract";
 import { getReplayIntegrityPosture, replayStore } from "./ReplayStore";
+import {
+  boundedProviderText,
+  buildProphecyCacheKey,
+  executeRequestBoundAi,
+} from "./RequestBoundRemoteAi";
 import { buildRuntimeIntegrityPassport } from "./RuntimeIntegrityPassport";
 import { registerSeasonCommunityRoutes } from "./SeasonCommunityRouter";
 import { registerSeasonContractRoutes } from "./SeasonContractRouter";
@@ -875,9 +887,6 @@ export async function startWorker() {
 
   // ── Vault Prophecy ────────────────────────────────────────────────────────
   const prophecyRateLimit = rateLimit({ windowMs: 10_000, max: 5 });
-  const PROPHECY_SYSTEM_PROMPT =
-    "You are an ancient oracle who speaks in cryptic, poetic verse about battles. Generate exactly 2 sentences — dramatic, vague, and atmospheric. Never mention specific game mechanics or rule names. Be ominous.";
-
   app.post(
     "/api/vaultfront/match-prophecy",
     prophecyRateLimit,
@@ -887,8 +896,11 @@ export async function startWorker() {
         playerCount = 4,
         mutator = "none",
       } = req.body ?? {};
-      const pcBucket = playerCount <= 2 ? "2" : playerCount <= 4 ? "4" : "8+";
-      const prophecyCacheKey = `prophecy:${String(mapName).slice(0, 20)}:${pcBucket}`;
+      const prophecyCacheKey = buildProphecyCacheKey(
+        mapName,
+        playerCount,
+        mutator,
+      );
       const cachedProphecy = aiCacheGet(prophecyCacheKey);
       if (cachedProphecy) return res.json({ ...cachedProphecy, cached: true });
       try {
@@ -897,25 +909,32 @@ export async function startWorker() {
             .status(503)
             .json({ error: "Prophecy service unavailable" });
         }
-        const message = await anthropic.messages.create({
-          model: "claude-haiku-4-5-20251001",
-          max_tokens: 80,
-          system: [
-            {
-              type: "text",
-              text: PROPHECY_SYSTEM_PROMPT,
-              cache_control: { type: "ephemeral" },
-            },
-          ],
-          messages: [
-            {
-              role: "user",
-              content: `Map: ${mapName}. Players: ${playerCount}. Active condition: ${mutator}.`,
-            },
-          ],
-        });
-        const prophecy =
-          message.content[0].type === "text" ? message.content[0].text : "";
+        const message = await executeRequestBoundAi(
+          res,
+          (signal) =>
+            anthropic.messages.create(
+              {
+                model: "claude-haiku-4-5-20251001",
+                max_tokens: 80,
+                system: [
+                  {
+                    type: "text",
+                    text: PROPHECY_SYSTEM_PROMPT,
+                    cache_control: { type: "ephemeral" },
+                  },
+                ],
+                messages: [
+                  {
+                    role: "user",
+                    content: `Map: ${mapName}. Players: ${playerCount}. Active condition: ${mutator}.`,
+                  },
+                ],
+              },
+              { signal },
+            ),
+          8_000,
+        );
+        const prophecy = boundedProviderText(message, 400, "match-prophecy");
         const result = { ok: true, prophecy };
         aiCacheSet(prophecyCacheKey, result);
         return res.json(result);
@@ -954,9 +973,6 @@ export async function startWorker() {
     }
     aiResponseCache.set(key, { data, expiresAt: Date.now() + AI_CACHE_TTL_MS });
   }
-
-  const ORACLE_SYSTEM_PROMPT =
-    "You are a VaultFront match predictor. Given player ELO ratings, return ONLY valid JSON with key 'predictions': array of {playerId, deltaIfWin, deltaIfLoss, threat?}. deltaIfWin and deltaIfLoss are integers. threat is the name/id of the most dangerous opponent for that player, or omitted. No prose, no markdown, just JSON.";
 
   const oracleEvidenceCache = new BoundedTtlCache<{
     ok: true;
@@ -1028,7 +1044,8 @@ export async function startWorker() {
       if (!reserveRemoteAiCall("intel").allowed) {
         return res.status(503).json({ error: "Oracle unavailable" });
       }
-      const msg = await withAiDeadline(
+      const msg = await executeRequestBoundAi(
+        res,
         (signal) =>
           anthropic.messages.create(
             {
@@ -1076,9 +1093,6 @@ export async function startWorker() {
   // ── Dynasty Story Engine ─────────────────────────────────────────────────
   const dynastyRateLimit = rateLimit({ windowMs: 60_000, max: 10 });
 
-  const DYNASTY_SYSTEM_PROMPT =
-    "You are the chronicler of VaultFront dynasty histories. Write exactly one sentence (max 120 characters) as a new chapter entry for this clan's legend. Tone: epic, specific, past-tense. Reference the actual events provided. No quotation marks.";
-
   const DynastyStorySchema = z.object({ gameId: z.string().min(1).max(64) });
 
   app.post(
@@ -1114,20 +1128,27 @@ export async function startWorker() {
       try {
         if (!reserveRemoteAiCall("other").allowed)
           return res.status(503).json({ error: "Dynasty service unavailable" });
-        const msg = await anthropic.messages.create({
-          model: "claude-haiku-4-5-20251001",
-          max_tokens: 80,
-          system: [
-            {
-              type: "text",
-              text: DYNASTY_SYSTEM_PROMPT,
-              cache_control: { type: "ephemeral" },
-            },
-          ],
-          messages: [{ role: "user", content: userContent }],
-        });
-        const chapter =
-          (msg.content[0] as { type: string; text: string }).text?.trim() ?? "";
+        const msg = await executeRequestBoundAi(
+          res,
+          (signal) =>
+            anthropic.messages.create(
+              {
+                model: "claude-haiku-4-5-20251001",
+                max_tokens: 80,
+                system: [
+                  {
+                    type: "text",
+                    text: DYNASTY_SYSTEM_PROMPT,
+                    cache_control: { type: "ephemeral" },
+                  },
+                ],
+                messages: [{ role: "user", content: userContent }],
+              },
+              { signal },
+            ),
+          8_000,
+        );
+        const chapter = boundedProviderText(msg, 120, "dynasty-story");
         if (chapter)
           await clanStore.appendDynastyStoryOnce(
             clanId,
@@ -1183,9 +1204,6 @@ export async function startWorker() {
 
   // ── Pre-Match Intelligence Brief ─────────────────────────────────────────
   const prematchBriefRateLimit = rateLimit({ windowMs: 30_000, max: 3 });
-  const PREMATCH_BRIEF_SYSTEM_PROMPT =
-    "You are a VaultFront tactical analyst. Generate a 2-sentence personalized pre-match brief for the player. Be specific: reference the map, the player's style, and their recent streak. Tone: confident, strategic. Maximum 180 characters total.";
-
   app.get(
     "/api/vaultfront/prematch-brief",
     prematchBriefRateLimit,
@@ -1221,25 +1239,32 @@ export async function startWorker() {
         if (!reserveRemoteAiCall("briefing").allowed) {
           return res.status(503).json({ error: "Brief service unavailable" });
         }
-        const msg = await anthropic.messages.create({
-          model: "claude-haiku-4-5-20251001",
-          max_tokens: 120,
-          system: [
-            {
-              type: "text",
-              text: PREMATCH_BRIEF_SYSTEM_PROMPT,
-              cache_control: { type: "ephemeral" },
-            },
-          ],
-          messages: [
-            {
-              role: "user",
-              content: `Style: ${style}. Map: ${mapName}. Recent form: ${streak}. Last 5 results: ${wins}/5 wins.`,
-            },
-          ],
-        });
-        const brief =
-          (msg.content[0] as { type: string; text: string }).text?.trim() ?? "";
+        const msg = await executeRequestBoundAi(
+          res,
+          (signal) =>
+            anthropic.messages.create(
+              {
+                model: "claude-haiku-4-5-20251001",
+                max_tokens: 120,
+                system: [
+                  {
+                    type: "text",
+                    text: PREMATCH_BRIEF_SYSTEM_PROMPT,
+                    cache_control: { type: "ephemeral" },
+                  },
+                ],
+                messages: [
+                  {
+                    role: "user",
+                    content: `Style: ${style}. Map: ${mapName}. Recent form: ${streak}. Last 5 results: ${wins}/5 wins.`,
+                  },
+                ],
+              },
+              { signal },
+            ),
+          8_000,
+        );
+        const brief = boundedProviderText(msg, 180, "prematch-brief");
         const result = { ok: true, brief };
         aiCacheSet(briefKey, result);
         return res.json(result);
@@ -1252,8 +1277,6 @@ export async function startWorker() {
 
   // ── AI Sports-Journalism Match Recap ─────────────────────────────────────
   const recapRateLimit = rateLimit({ windowMs: 60_000, max: 5 });
-  const RECAP_SYSTEM_PROMPT =
-    "You are a sports journalist covering VaultFront, a browser real-time strategy game. Write a 3-sentence dramatic match recap that reads like ESPN coverage. Reference the actual winner, key events, and what made this match special. Tone: exciting, specific, human. No bullet points.";
   const matchRecapCache = new BoundedTtlCache<{
     recap: string;
     receipt: ReturnType<typeof buildCanonicalAiResponseReceipt>;
@@ -1300,7 +1323,8 @@ export async function startWorker() {
         if (!reserveRemoteAiCall("debrief").allowed) {
           return res.status(503).json({ error: "Recap service unavailable" });
         }
-        const msg = await withAiDeadline(
+        const msg = await executeRequestBoundAi(
+          res,
           (signal) =>
             anthropic.messages.create(
               {
@@ -1344,8 +1368,6 @@ export async function startWorker() {
 
   // ── Post-Match AI Coach Debrief ───────────────────────────────────────────
   const coachDebriefRateLimit = rateLimit({ windowMs: 60_000, max: 3 });
-  const COACH_DEBRIEF_SYSTEM_PROMPT =
-    "You are a VaultFront strategic coach analyzing a player's key decision moments. Identify 2-3 specific decision points where a different choice would have changed the outcome. For each: state the tick/moment, what happened, what the optimal play was, and why. Be specific, direct, and constructive. Format as a JSON array: [{tick, decision, optimal, why}].";
   const coachDebriefCache = new BoundedTtlCache<{
     moments: ReturnType<typeof parseCoachProviderOutput>;
     receipt: ReturnType<typeof buildCanonicalAiResponseReceipt>;
@@ -1399,7 +1421,8 @@ export async function startWorker() {
         if (!reserveRemoteAiCall("debrief").allowed) {
           return res.status(503).json({ error: "Coach debrief unavailable" });
         }
-        const msg = await withAiDeadline(
+        const msg = await executeRequestBoundAi(
+          res,
           (signal) =>
             anthropic.messages.create(
               {
@@ -1473,9 +1496,13 @@ export async function startWorker() {
   registerAchievementRoutes(app, {
     authenticate: (req, res) => requireVaultFrontActor(req, res),
     rateLimit: achievementProfileRateLimit,
+    ensureHydrated: (persistentId) =>
+      achievementStore.ensureHydrated(persistentId),
     getProgress: (persistentId) => achievementStore.getProgress(persistentId),
     getMetaChainProgress: (persistentId) =>
       achievementStore.getMetaChainProgress(persistentId),
+    getHydrationState: (persistentId) =>
+      achievementStore.getHydrationState(persistentId),
     reportError: (error) =>
       log.error("achievement profile unavailable", { error: String(error) }),
   });
@@ -2293,8 +2320,23 @@ export async function startWorker() {
       log.info(`[worker ${workerId}] HTTP server closed`);
     });
 
-    // Wait up to 30 s for active games to finish
-    const DRAIN_TIMEOUT_MS = 30_000;
+    // Blue/green promotion routes new admissions to the candidate generation;
+    // existing WebSockets remain here until their games finish or this explicit
+    // bounded drain budget expires.
+    const configuredDrainSeconds = Number.parseInt(
+      process.env.DEPLOY_DRAIN_TIMEOUT_SECONDS ?? "900",
+      10,
+    );
+    const containerStopSeconds =
+      Number.isSafeInteger(configuredDrainSeconds) &&
+      configuredDrainSeconds >= 45 &&
+      configuredDrainSeconds <= 10_800
+        ? configuredDrainSeconds
+        : 900;
+    // Reserve 30 seconds inside Docker's stop deadline for incomplete replay /
+    // archive finalization, telemetry flush, and Supervisor process-group exit.
+    const drainSeconds = Math.max(15, containerStopSeconds - 30);
+    const DRAIN_TIMEOUT_MS = drainSeconds * 1_000;
     const POLL_INTERVAL_MS = 1_000;
     const deadline = Date.now() + DRAIN_TIMEOUT_MS;
 
@@ -2303,6 +2345,14 @@ export async function startWorker() {
       if (active === 0) break;
       log.info(`[worker ${workerId}] draining ${active} active game(s)…`);
       await new Promise((resolve) => setTimeout(resolve, POLL_INTERVAL_MS));
+    }
+
+    const remaining = gm.activeGameCount();
+    if (remaining > 0) {
+      log.warn(
+        `[worker ${workerId}] drain deadline reached; finalizing ${remaining} incomplete game(s)`,
+      );
+      await gm.endAllForShutdown();
     }
 
     log.info(`[worker ${workerId}] shutdown complete`);

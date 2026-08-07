@@ -82,4 +82,14 @@ describe("remote AI reservation ordering contract", () => {
       }
     },
   );
+
+  it("routes every Worker provider edge through the request-bound executor", () => {
+    const providerCalls = source.match(/anthropic\.messages\.create/g) ?? [];
+    const boundedCalls =
+      source.match(
+        /executeRequestBoundAi\([\s\S]*?anthropic\.messages\.create/g,
+      ) ?? [];
+    expect(providerCalls.length).toBeGreaterThan(0);
+    expect(boundedCalls).toHaveLength(providerCalls.length);
+  });
 });

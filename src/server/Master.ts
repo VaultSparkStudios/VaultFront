@@ -94,6 +94,7 @@ export async function startMaster() {
   log.info(`Setting up ${config.numWorkers()} workers...`);
 
   lobbyService = new MasterLobbyService(config, playlist, log);
+  let masterShuttingDown = false;
 
   // Generate admin token for worker authentication
   const ADMIN_TOKEN = crypto.randomBytes(16).toString("hex");
@@ -130,6 +131,11 @@ export async function startMaster() {
     const workerIdNum = parseInt(workerId);
     lobbyService.removeWorker(workerIdNum);
 
+    if (masterShuttingDown) {
+      log.info(`Worker ${workerId} exited during bounded master drain`);
+      return;
+    }
+
     log.warn(
       `Worker ${workerId} (PID: ${worker.process.pid}) died with code: ${code} and signal: ${signal}`,
     );
@@ -154,28 +160,41 @@ export async function startMaster() {
   });
 
   // ── Graceful shutdown ───────────────────────────────────────────────────
-  let masterShuttingDown = false;
-
   function shutdownMaster(signal: string): void {
     if (masterShuttingDown) return;
     masterShuttingDown = true;
     log.info(`[master] received ${signal} — stopping new game creation`);
 
-    // Stop accepting HTTP connections; let workers drain via their own SIGTERM
+    // Stop accepting new master traffic and immediately put every worker into
+    // its own bounded match drain. Waiting for server.close before forwarding
+    // the signal can deadlock on long-lived upgraded connections.
     server.close(() => {
-      log.info(`[master] HTTP server closed, forwarding signal to workers`);
-      for (const worker of Object.values(cluster.workers ?? {})) {
-        worker?.process.kill(signal as NodeJS.Signals);
-      }
-      setTimeout(async () => {
-        log.info(`[master] exiting`);
+      log.info(`[master] HTTP server closed`);
+    });
+    for (const worker of Object.values(cluster.workers ?? {})) {
+      worker?.process.kill(signal as NodeJS.Signals);
+    }
+    const configuredDrainSeconds = Number.parseInt(
+      process.env.DEPLOY_DRAIN_TIMEOUT_SECONDS ?? "900",
+      10,
+    );
+    const containerStopSeconds =
+      Number.isSafeInteger(configuredDrainSeconds) &&
+      configuredDrainSeconds >= 45 &&
+      configuredDrainSeconds <= 10_800
+        ? configuredDrainSeconds
+        : 900;
+    setTimeout(
+      async () => {
+        log.info(`[master] bounded drain complete; exiting`);
         const telemetry = await shutdownTelemetry(5_000);
         if (telemetry.failures.length > 0) {
           console.error("telemetry shutdown incomplete", telemetry);
         }
         process.exit(0);
-      }, 35_000); // give workers 35 s to drain
-    });
+      },
+      Math.max(30, containerStopSeconds - 10) * 1_000,
+    );
   }
 
   process.on("SIGTERM", () => shutdownMaster("SIGTERM"));

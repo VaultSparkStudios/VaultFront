@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "1.3",
+  "project": "vaultfront",
+  "date": "2026-08-06",
+  "session": 97,
+  "agent": "codex",
+  "kind": "durable-certification-bounded-intelligence-rendered-decision-arc",
+  "mission": "Exhaust every premise-verified local improvement, verify rendered decision states and release truth, close directly to main, and deploy only through satisfied evidence gates",
+  "sil": {
+    "score": 997,
+    "max": 1000,
+    "velocity": 9,
+    "categories": {
+      "devHealth": 100,
+      "creativeAlignment": 100,
+      "momentum": 100,
+      "engagement": 99,
+      "processQuality": 100,
+      "crossRepoCoherence": 99,
+      "securityPosture": 100,
+      "ecosystemIntegration": 99,
+      "capitalEfficiency": 100,
+      "automationCoverage": 100
+    },
+    "gameRubric": {
+      "loopTightness": 100,
+      "retentionHook": 99,
+      "soulFidelity": 100,
+      "velocity": 100
+    }
+  },
+  "work": {
+    "audit": {
+      "total": 32,
+      "shipped": 32,
+      "pendingUnblocked": 0,
+      "sessionItems": [158, 159, 160, 161, 162, 163, 164, 165, 166]
+    },
+    "innovations": {
+      "cumulativeTotal": 62,
+      "cumulativeShipped": 62,
+      "pendingUnblocked": 0
+    }
+  },
+  "verification": {
+    "vitest": "232/232 files passed across root 39, client/core 70, scripts 51, and server 72; exact counts include root 301, scripts 187, server 298, plus a clean serialized client confirmation of 18 files / 83 tests after orphan cleanup; new aggregate assertion total intentionally unclaimed",
+    "typecheck": "pass",
+    "lint": "pass",
+    "formatRatchet": "0 regressions",
+    "contracts": "pass; 106 deploy checks",
+    "balance": "28125 scenarios; zero counterexamples",
+    "productionBuild": "pass",
+    "bundleBudgets": "pass",
+    "playwright": "2/2; 114 hash-bound captures; three themes; desktop and mobile",
+    "canon053": "pass",
+    "productionDependencyAudit": "zero vulnerabilities"
+  },
+  "releaseGate": {
+    "status": "no-go",
+    "workExhausted": true,
+    "fabricatedEvidence": false,
+    "topology": "verified-traefik-sole-ingress",
+    "boundary": "Local implementation and infrastructure readiness do not substitute for approved staging/parity and health, project-domain Zoho reply identity, native Obelisk, live-theme evidence, distinct-human Alpha, real revenue, observed rollback, exact-revision provider CI, or founder approval."
+  }
+}

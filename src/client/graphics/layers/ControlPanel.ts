@@ -8,6 +8,7 @@ import {
   VaultFrontActivityUpdate,
   VaultFrontBeaconState,
   VaultFrontConvoyState,
+  type VaultFrontReroutePreview,
   VaultFrontStatusUpdate,
 } from "../../../core/game/GameUpdates";
 import { GameView } from "../../../core/game/GameView";
@@ -16,7 +17,12 @@ import {
   fetchVaultFrontRuntimeAssignment,
   recordVaultFrontRuntimeEvent,
 } from "../../Api";
-import { clearConvoyMastery, readConvoyMastery } from "../../ConvoyMastery";
+import {
+  type DoctrineRematchIntent,
+  bindDoctrineToGame,
+  clearConvoyMastery,
+  readConvoyMastery,
+} from "../../ConvoyMastery";
 import {
   EMPTY_FIRST_EXTRACTION_PROGRESS,
   FIRST_EXTRACTION_STEPS,
@@ -165,6 +171,9 @@ export class ControlPanel extends LitElement implements Layer {
   private nextMatchGoalCompleted = false;
 
   @state()
+  private activeDoctrine: DoctrineRematchIntent | null = null;
+
+  @state()
   private convoyRoutePreference: "city" | "port" | "factory" | "silo" = "city";
 
   @state()
@@ -301,6 +310,7 @@ export class ControlPanel extends LitElement implements Layer {
       mastery?.goalKey ??
       localStorage.getItem("vaultfront.nextMatchGoalKey") ??
       "";
+    this.activeDoctrine = bindDoctrineToGame(mastery, this.game.gameID());
     this.loadHudLayout();
     applyGlobalHudScale(this.hudScale);
     if (typeof window !== "undefined" && "matchMedia" in window) {
@@ -2012,6 +2022,42 @@ export class ControlPanel extends LitElement implements Layer {
     });
   }
 
+  private navigateRerouteOptions(
+    event: KeyboardEvent,
+    previews: VaultFrontReroutePreview[],
+  ): void {
+    const keys = [
+      "ArrowRight",
+      "ArrowDown",
+      "ArrowLeft",
+      "ArrowUp",
+      "Home",
+      "End",
+    ];
+    if (!keys.includes(event.key) || previews.length === 0) return;
+    event.preventDefault();
+    const current = Math.max(
+      0,
+      previews.findIndex(
+        (preview) => preview.command === this.selectedPreviewCommand,
+      ),
+    );
+    const next =
+      event.key === "Home"
+        ? 0
+        : event.key === "End"
+          ? previews.length - 1
+          : event.key === "ArrowRight" || event.key === "ArrowDown"
+            ? (current + 1) % previews.length
+            : (current - 1 + previews.length) % previews.length;
+    this.selectedPreviewCommand = previews[next].command;
+    void this.updateComplete.then(() => {
+      this.querySelector<HTMLElement>(
+        `[data-reroute-command="${this.selectedPreviewCommand}"]`,
+      )?.focus();
+    });
+  }
+
   private renderReroutePreviewPanel(convoy: VaultFrontConvoyState) {
     const previews = convoy.reroutePreviews ?? [];
     if (previews.length === 0) return "";
@@ -2030,28 +2076,49 @@ export class ControlPanel extends LitElement implements Layer {
               : "Safest";
     return html`
       <div
-        class="mt-1 rounded border border-cyan-300/35 bg-cyan-950/20 ${
+        class="vf-reroute-panel mt-1 rounded border border-cyan-300/35 bg-cyan-950/20 ${
           compact ? "p-1" : "p-1.5"
         }"
       >
-        <div class="text-[10px] text-cyan-100/90">
+        <div
+          id="reroute-decision-label"
+          class="vf-reroute-label text-xs text-cyan-100/90"
+        >
           ${compact ? "Reroute Preview" : "Pre-Action Reroute Preview"}
         </div>
         <div
           class="mt-1 ${compact ? "grid grid-cols-3" : "flex flex-wrap"} gap-1"
+          role="radiogroup"
+          aria-labelledby="reroute-decision-label"
+          aria-describedby="reroute-live-description"
+          @keydown=${(event: KeyboardEvent) =>
+            this.navigateRerouteOptions(event, previews)}
         >
           ${previews.map(
             (preview) => html`
               <button
-                class="rounded border ${
-                  compact ? "px-1 py-1" : "px-1.5 py-0.5"
-                } text-[10px] ${
+                type="button"
+                role="radio"
+                aria-checked=${
+                  this.selectedPreviewCommand === preview.command
+                    ? "true"
+                    : "false"
+                }
+                aria-pressed=${
+                  this.selectedPreviewCommand === preview.command
+                    ? "true"
+                    : "false"
+                }
+                aria-describedby="reroute-live-description"
+                tabindex=${
+                  this.selectedPreviewCommand === preview.command ? "0" : "-1"
+                }
+                data-reroute-command=${preview.command}
+                class="vf-reroute-option min-h-11 min-w-11 rounded border px-2 py-1 text-xs ${
                   this.selectedPreviewCommand === preview.command
                     ? "border-cyan-200/70 bg-cyan-500/25 text-cyan-50"
                     : "border-cyan-300/35 bg-cyan-500/10 text-cyan-100 hover:bg-cyan-500/20"
                 }"
-                @mouseenter=${() =>
-                  (this.selectedPreviewCommand = preview.command)}
                 @focus=${() => (this.selectedPreviewCommand = preview.command)}
                 @click=${() => (this.selectedPreviewCommand = preview.command)}
               >
@@ -2060,32 +2127,35 @@ export class ControlPanel extends LitElement implements Layer {
             `,
           )}
         </div>
-        <div class="mt-1 text-[10px] text-cyan-50 tabular-nums">
-          ETA ${selected.etaSeconds}s
+        <div
+          id="reroute-live-description"
+          class="vf-reroute-status mt-1 text-xs text-cyan-50 tabular-nums"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          ${laneLabel(selected.command)} lane. ETA ${selected.etaSeconds}s
           (${
             selected.deltaEtaSeconds >= 0 ? "+" : ""
           }${selected.deltaEtaSeconds}s)
-          | Risk ${selected.routeRisk.toFixed(2)}
+          . Risk ${selected.routeRisk.toFixed(2)}
           (${selected.deltaRisk >= 0 ? "+" : ""}${selected.deltaRisk.toFixed(
             2,
           )})
-        </div>
-        <div class="text-[10px] text-cyan-100/90 tabular-nums">
-          Est +${selected.goldReward.toLocaleString()}g
+          . Reward ${selected.goldReward.toLocaleString()} gold
           (${
             selected.deltaGold >= 0 ? "+" : ""
           }${selected.deltaGold.toLocaleString()}g)
           ${
             compact
               ? ""
-              : html` +${selected.troopsReward.toLocaleString()}t
-                (${
-                  selected.deltaTroops >= 0 ? "+" : ""
-                }${selected.deltaTroops.toLocaleString()}t)`
+              : html` and ${selected.troopsReward.toLocaleString()} troops
+                (${selected.deltaTroops >= 0 ? "+" : ""}${selected.deltaTroops.toLocaleString()})`
           }
         </div>
         <button
-          class="mt-1 rounded border border-cyan-200/50 bg-cyan-500/25 px-1.5 py-0.5 text-[10px] text-cyan-50 hover:bg-cyan-500/35"
+          type="button"
+          class="vf-reroute-action mt-1 min-h-11 rounded border border-cyan-200/50 bg-cyan-500/25 px-3 py-1 text-xs text-cyan-50 hover:bg-cyan-500/35"
           @click=${() => this.sendRerouteSpecificCommand(selected.command)}
         >
           ${compact ? "Apply" : "Apply Previewed Reroute"}
@@ -2796,6 +2866,27 @@ export class ControlPanel extends LitElement implements Layer {
         >
           ${this.nextMatchGoalCompleted ? "[x] " : ""}${this.nextMatchGoal}
         </div>
+        ${
+          this.activeDoctrine
+            ? html`
+                <div
+                  class="mt-1.5 rounded border border-cyan-300/35 bg-cyan-950/30 p-1.5 text-cyan-50"
+                  aria-label="Active rematch doctrine"
+                >
+                  <div class="font-semibold text-cyan-200">
+                    Doctrine · ${this.activeDoctrine.name}
+                  </div>
+                  <div>${this.activeDoctrine.role}</div>
+                  <div class="mt-0.5 text-cyan-100/90">
+                    ${this.activeDoctrine.brief}
+                  </div>
+                  <div class="mt-0.5 text-cyan-200/80">
+                    Coaching identity only · no stat modifiers
+                  </div>
+                </div>
+              `
+            : ""
+        }
       </div>
     `;
   }

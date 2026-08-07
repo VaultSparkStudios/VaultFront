@@ -17,10 +17,16 @@ const executionStates = ["normal", "rush", "rush-reduced-complete"] as const;
 type ExecutionState = (typeof executionStates)[number];
 
 function luminance(hex: string): number {
-  const value = hex.trim().replace("#", "");
-  const rgb = [0, 2, 4].map(
-    (offset) => parseInt(value.slice(offset, offset + 2), 16) / 255,
+  const value = hex.trim();
+  const rgbMatch = value.match(
+    /^rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)/u,
   );
+  const rgb = rgbMatch
+    ? rgbMatch.slice(1, 4).map((channel) => Number(channel) / 255)
+    : [0, 2, 4].map(
+        (offset) =>
+          parseInt(value.replace("#", "").slice(offset, offset + 2), 16) / 255,
+      );
   const linear = rgb.map((channel) =>
     channel <= 0.03928 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4,
   );
@@ -150,6 +156,52 @@ test("three themes retain readable page, panel, and settings surfaces", async ({
       control.shouldShowOnboarding = () => true;
       control.render = control.renderOnboarding.bind(control);
 
+      const reroute = document.createElement("control-panel") as any;
+      reroute.selectedPreviewCommand = "reroute_safest";
+      reroute.isMobilePriorityMode = () => innerWidth <= 430;
+      const reroutePreviews = [
+        {
+          command: "reroute_safest",
+          destinationTile: 10,
+          etaSeconds: 18,
+          routeRisk: 0.2,
+          routeDistance: 16,
+          rewardMultiplier: 1,
+          rewardScale: 1,
+          strengthMultiplier: 1,
+          phaseMultiplier: 1,
+          riskMultiplier: 1,
+          goldReward: 180_000,
+          troopsReward: 1_400,
+          rewardMath: "visual proof",
+          deltaGold: 0,
+          deltaTroops: 0,
+          deltaEtaSeconds: 0,
+          deltaRisk: 0,
+        },
+        {
+          command: "reroute_city",
+          destinationTile: 12,
+          etaSeconds: 12,
+          routeRisk: 0.45,
+          routeDistance: 12,
+          rewardMultiplier: 1,
+          rewardScale: 1,
+          strengthMultiplier: 1,
+          phaseMultiplier: 1,
+          riskMultiplier: 1,
+          goldReward: 220_000,
+          troopsReward: 1_400,
+          rewardMath: "visual proof",
+          deltaGold: 40_000,
+          deltaTroops: 0,
+          deltaEtaSeconds: -6,
+          deltaRisk: 0.25,
+        },
+      ];
+      reroute.render = () =>
+        reroute.renderReroutePreviewPanel({ reroutePreviews });
+
       const doctrine = document.createElement("game-right-sidebar") as any;
       doctrine.hudScale = 1;
       doctrine.masterySelectionPending = null;
@@ -195,18 +247,36 @@ test("three themes retain readable page, panel, and settings surfaces", async ({
         },
       };
       doctrine.render = doctrine.renderDailyChallenge.bind(doctrine);
-      surface.append(control, doctrine);
+      surface.append(control, reroute, doctrine);
       overlay.append(surface);
       document.body.append(overlay);
       control.requestUpdate();
       doctrine.requestUpdate();
-      await Promise.all([control.updateComplete, doctrine.updateComplete]);
+      await Promise.all([
+        control.updateComplete,
+        reroute.updateComplete,
+        doctrine.updateComplete,
+      ]);
       overlay.querySelectorAll<HTMLElement>(".fixed").forEach((element) => {
         element.style.position = "relative";
         element.style.inset = "auto";
         element.style.width = "100%";
       });
       const rect = surface.getBoundingClientRect();
+      const reroutePanel =
+        overlay.querySelector<HTMLElement>(".vf-reroute-panel");
+      const rerouteOptions = [
+        ...overlay.querySelectorAll<HTMLElement>(".vf-reroute-option"),
+      ];
+      const selectedOption = rerouteOptions.find(
+        (option) => option.getAttribute("aria-checked") === "true",
+      );
+      const unselectedOption = rerouteOptions.find(
+        (option) => option.getAttribute("aria-checked") === "false",
+      );
+      if (!reroutePanel || !selectedOption || !unselectedOption) {
+        throw new Error("reroute decision matrix did not render");
+      }
       return {
         overflow: overlay.scrollWidth > overlay.clientWidth,
         surfaceWithinViewport: rect.left >= 0 && rect.right <= innerWidth,
@@ -216,14 +286,46 @@ test("three themes retain readable page, panel, and settings surfaces", async ({
         hasDoctrinePolicy: overlay.textContent?.includes(
           "Coaching identity only · never combat power",
         ),
+        hasRerouteMatrix:
+          overlay.querySelectorAll('[role="radiogroup"] [role="radio"]')
+            .length === 2 &&
+          overlay.textContent?.includes("Safest lane. ETA 18s"),
+        rerouteColors: {
+          panelText: getComputedStyle(reroutePanel).color,
+          panelBackground: getComputedStyle(reroutePanel).backgroundColor,
+          selectedText: getComputedStyle(selectedOption).color,
+          selectedBackground: getComputedStyle(selectedOption).backgroundColor,
+          unselectedText: getComputedStyle(unselectedOption).color,
+          unselectedBackground:
+            getComputedStyle(unselectedOption).backgroundColor,
+        },
       };
     });
-    expect(agencyDoctrine).toEqual({
+    expect(agencyDoctrine).toMatchObject({
       overflow: false,
       surfaceWithinViewport: true,
       hasAgencyReceipt: true,
       hasDoctrinePolicy: true,
+      hasRerouteMatrix: true,
     });
+    expect(
+      contrast(
+        agencyDoctrine.rerouteColors.panelText,
+        agencyDoctrine.rerouteColors.panelBackground,
+      ),
+    ).toBeGreaterThanOrEqual(4.5);
+    expect(
+      contrast(
+        agencyDoctrine.rerouteColors.selectedText,
+        agencyDoctrine.rerouteColors.selectedBackground,
+      ),
+    ).toBeGreaterThanOrEqual(4.5);
+    expect(
+      contrast(
+        agencyDoctrine.rerouteColors.unselectedText,
+        agencyDoctrine.rerouteColors.unselectedBackground,
+      ),
+    ).toBeGreaterThanOrEqual(4.5);
     await page.locator("[data-vf-visual-qa-agency]").screenshot({
       path: path.join(
         artifactDir,

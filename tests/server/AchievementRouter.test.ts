@@ -22,6 +22,11 @@ function harness(actorId: string | null = "player-1") {
   };
   const getProgress = vi.fn(() => [{ id: "first_vault" }]);
   const getMetaChainProgress = vi.fn(() => [{ id: "vault_sovereign" }]);
+  const ensureHydrated = vi.fn().mockResolvedValue({ status: "ready" });
+  const getHydrationState = vi.fn(() => ({
+    status: "ready",
+    source: "postgres",
+  }));
   registerAchievementRoutes(app, {
     authenticate: async (_req, res) => {
       if (actorId) return { persistentId: actorId, actorKey: "actor-key" };
@@ -29,16 +34,25 @@ function harness(actorId: string | null = "player-1") {
       return null;
     },
     rateLimit: (_req: any, _res: any, next: () => void) => next(),
+    ensureHydrated,
     getProgress,
     getMetaChainProgress,
+    getHydrationState,
     reportError: vi.fn(),
   });
-  return { routes, getProgress, getMetaChainProgress };
+  return {
+    routes,
+    ensureHydrated,
+    getProgress,
+    getMetaChainProgress,
+    getHydrationState,
+  };
 }
 
 describe("registerAchievementRoutes", () => {
   test("returns only the authenticated actor profile", async () => {
-    const { routes, getProgress, getMetaChainProgress } = harness();
+    const { routes, ensureHydrated, getProgress, getMetaChainProgress } =
+      harness();
     const handler = routes.get(
       "GET /api/vaultfront/achievements/:persistentId",
     );
@@ -48,7 +62,10 @@ describe("registerAchievementRoutes", () => {
     expect(own.body).toMatchObject({
       achievements: [{ id: "first_vault" }],
       metaChains: [{ id: "vault_sovereign" }],
+      persistence: { status: "ready", source: "postgres" },
     });
+    expect(ensureHydrated).toHaveBeenCalledOnce();
+    expect(ensureHydrated).toHaveBeenCalledWith("player-1");
     expect(getProgress).toHaveBeenCalledWith("player-1");
     expect(getMetaChainProgress).toHaveBeenCalledWith("player-1");
   });
@@ -67,6 +84,7 @@ describe("registerAchievementRoutes", () => {
       "GET /api/vaultfront/achievements/meta-chains/:persistentId",
     )({ params: { persistentId: "player-2" } }, forged);
     expect(forged.statusCode).toBe(403);
+    expect(authenticated.ensureHydrated).not.toHaveBeenCalled();
     expect(authenticated.getMetaChainProgress).not.toHaveBeenCalled();
   });
 

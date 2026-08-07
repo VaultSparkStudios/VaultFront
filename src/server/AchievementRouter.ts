@@ -11,8 +11,10 @@ export interface AchievementRouteApp {
 export interface AchievementRouterDependencies {
   authenticate(req: any, res: any): Promise<VerifiedVaultFrontActor | null>;
   rateLimit: Handler;
+  ensureHydrated(persistentId: string): Promise<unknown>;
   getProgress(persistentId: string): unknown;
   getMetaChainProgress(persistentId: string): unknown;
+  getHydrationState(persistentId: string): unknown;
   reportError(error: unknown): void;
 }
 
@@ -49,10 +51,12 @@ export function registerAchievementRoutes(
       const requested = requestedActor(req, res);
       if (!requested || !actorOwns(actor, requested, res)) return;
       try {
+        await dependencies.ensureHydrated(actor.persistentId);
         return res.json({
           ok: true,
           achievements: dependencies.getProgress(actor.persistentId),
           metaChains: dependencies.getMetaChainProgress(actor.persistentId),
+          persistence: dependencies.getHydrationState(actor.persistentId),
         });
       } catch (error) {
         dependencies.reportError(error);
@@ -72,9 +76,11 @@ export function registerAchievementRoutes(
       const requested = requestedActor(req, res);
       if (!requested || !actorOwns(actor, requested, res)) return;
       try {
+        await dependencies.ensureHydrated(actor.persistentId);
         return res.json({
           ok: true,
           metaChains: dependencies.getMetaChainProgress(actor.persistentId),
+          persistence: dependencies.getHydrationState(actor.persistentId),
         });
       } catch (error) {
         dependencies.reportError(error);

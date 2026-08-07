@@ -1,3 +1,5 @@
+import { AiDeadlineError, withAiDeadline } from "./CanonicalAiEvidence";
+
 /**
  * Process-local cost firewall for optional remote AI features.
  *
@@ -27,6 +29,10 @@ export interface RemoteAiPosture {
   callsByFeature: Readonly<Partial<Record<RemoteAiFeature, number>>>;
   providerBoundReservations: number;
   deniedReservations: number;
+  completedCalls: number;
+  failedCalls: number;
+  timedOutCalls: number;
+  cancelledCalls: number;
   costProfile: "cost-neutral" | "metered-hard-cap";
   reason: "disabled" | "missing-key" | "zero-cap" | "ready" | "cap-exhausted";
 }
@@ -36,6 +42,10 @@ interface WindowState {
   calls: number;
   deniedReservations: number;
   byFeature: Partial<Record<RemoteAiFeature, number>>;
+  completedCalls: number;
+  failedCalls: number;
+  timedOutCalls: number;
+  cancelledCalls: number;
 }
 
 const HOUR_MS = 60 * 60 * 1000;
@@ -45,6 +55,10 @@ let state: WindowState = {
   calls: 0,
   deniedReservations: 0,
   byFeature: {},
+  completedCalls: 0,
+  failedCalls: 0,
+  timedOutCalls: 0,
+  cancelledCalls: 0,
 };
 
 function configuredCap(env: NodeJS.ProcessEnv): number {
@@ -58,7 +72,16 @@ function configuredCap(env: NodeJS.ProcessEnv): number {
 
 function refreshWindow(now: number): void {
   if (now - state.startedAt >= HOUR_MS || now < state.startedAt) {
-    state = { startedAt: now, calls: 0, deniedReservations: 0, byFeature: {} };
+    state = {
+      startedAt: now,
+      calls: 0,
+      deniedReservations: 0,
+      byFeature: {},
+      completedCalls: 0,
+      failedCalls: 0,
+      timedOutCalls: 0,
+      cancelledCalls: 0,
+    };
   }
 }
 
@@ -90,6 +113,10 @@ export function remoteAiPosture(
     callsByFeature: { ...state.byFeature },
     providerBoundReservations: state.calls,
     deniedReservations: state.deniedReservations,
+    completedCalls: state.completedCalls,
+    failedCalls: state.failedCalls,
+    timedOutCalls: state.timedOutCalls,
+    cancelledCalls: state.cancelledCalls,
     costProfile: available ? "metered-hard-cap" : "cost-neutral",
     reason,
   };
@@ -119,6 +146,35 @@ export function reserveRemoteAiCall(
   return { allowed: true, posture: remoteAiPosture(env, now) };
 }
 
+/**
+ * Execute one already-reserved provider call through the canonical bounded
+ * cancellation boundary. Reservations are never refunded: the outcome
+ * counters explain what happened after provider-bound capacity was consumed.
+ */
+export async function executeReservedRemoteAiCall<T>(
+  operation: (signal: AbortSignal) => Promise<T>,
+  timeoutMs: number,
+  parentSignal?: AbortSignal,
+): Promise<T> {
+  try {
+    const result = await withAiDeadline(operation, timeoutMs, parentSignal);
+    state.completedCalls += 1;
+    return result;
+  } catch (error) {
+    if (error instanceof AiDeadlineError) {
+      state.timedOutCalls += 1;
+    } else if (
+      parentSignal?.aborted ||
+      (error instanceof Error && error.name === "AbortError")
+    ) {
+      state.cancelledCalls += 1;
+    } else {
+      state.failedCalls += 1;
+    }
+    throw error;
+  }
+}
+
 export function remoteAiUsageByFeature(): Readonly<
   Partial<Record<RemoteAiFeature, number>>
 > {
@@ -127,5 +183,14 @@ export function remoteAiUsageByFeature(): Readonly<
 
 /** Test-only reset; intentionally explicit so production code cannot refund calls. */
 export function resetRemoteAiPolicyForTests(now = Date.now()): void {
-  state = { startedAt: now, calls: 0, deniedReservations: 0, byFeature: {} };
+  state = {
+    startedAt: now,
+    calls: 0,
+    deniedReservations: 0,
+    byFeature: {},
+    completedCalls: 0,
+    failedCalls: 0,
+    timedOutCalls: 0,
+    cancelledCalls: 0,
+  };
 }

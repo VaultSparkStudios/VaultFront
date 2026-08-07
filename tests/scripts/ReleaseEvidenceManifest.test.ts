@@ -327,7 +327,7 @@ describe("Release Evidence Manifest", () => {
       );
       fs.writeFileSync(
         path.join(fixture, "update.sh"),
-        "traefik.http.routers.${CONTAINER_NAME}.rule\n",
+        'run_container() { local name="$2"; echo traefik.http.routers.${name}.rule; }\n',
       );
       fs.writeFileSync(
         path.join(fixture, "docs/DEPLOY_RUNTIME_RUNBOOK.md"),

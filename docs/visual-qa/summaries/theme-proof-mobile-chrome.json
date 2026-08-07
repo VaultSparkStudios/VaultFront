@@ -1,9 +1,9 @@
 {
   "project": "mobile-chrome",
   "localOnly": true,
-  "capturedAt": "2026-08-05T21:59:20.501Z",
+  "capturedAt": "2026-08-06T23:00:51.375Z",
   "source": {
-    "digest": "sha256:b6f542a7ce41c529836c5d315fd89aa28ec86c8fc350a5e8c82bbc2fc55f0238",
+    "digest": "sha256:e39906438bd10aded637e955e7d18ee937a65265597c75fdeebb01d9a99ed5d0",
     "files": [
       {
         "path": "config/vaultfront-balance.v1.json",
@@ -12,8 +12,8 @@
       },
       {
         "path": "e2e/theme-visual-proof.spec.ts",
-        "bytes": 40483,
-        "digest": "sha256:97c399a43d075171dcbd39aeb2258cc3cde34f6a41b35ba1def06d36a173e4ea"
+        "bytes": 43968,
+        "digest": "sha256:f0402f6527216b71eef7624a3fd3756b964c3543d00d8ad35ddb5a956e3ae96f"
       },
       {
         "path": "src/client/AccountModal.ts",
@@ -167,8 +167,8 @@
       },
       {
         "path": "src/client/components/ProgressionDebrief.ts",
-        "bytes": 13423,
-        "digest": "sha256:f84cf9cc5aa58ae724803f7115e8bd4fe4b19f2b35d03c572cb356fd9a8fca32"
+        "bytes": 13685,
+        "digest": "sha256:07dd24b6eaa5cfcd2a3e267e96e8e0cea565a3c494cd100da20d7a6ee7b40ae4"
       },
       {
         "path": "src/client/components/RankedModal.ts",
@@ -312,13 +312,13 @@
       },
       {
         "path": "src/client/graphics/layers/CoachHintEngine.ts",
-        "bytes": 12066,
-        "digest": "sha256:709c039449e4c89b4cd5d8202e257ce6f30697ea0c753daf7b7507ee7e4c3110"
+        "bytes": 15120,
+        "digest": "sha256:b5ee6d21ab3db6621aafe46cbdd52f2d43097e5a4bd320d3be7d4bd552ad7c6d"
       },
       {
         "path": "src/client/graphics/layers/ControlPanel.ts",
-        "bytes": 117194,
-        "digest": "sha256:1eb4885c880c7a163defd20d827023533ee58e41c72044da988286a758f53c37"
+        "bytes": 120227,
+        "digest": "sha256:4a7c2e3444d1e5d9aef50e275555297e2b8190439709cc3f8fc243003852aee9"
       },
       {
         "path": "src/client/graphics/layers/GameRightSidebar.ts",
@@ -342,8 +342,8 @@
       },
       {
         "path": "src/client/styles.css",
-        "bytes": 19370,
-        "digest": "sha256:a47a75f2f4692ed00ec0ba7ffaa23045b230a8b5b3d95cda76822fd0207271c0"
+        "bytes": 20723,
+        "digest": "sha256:728fa77f6ffd25b500521b1f0936eafc4a59387ff6e1711864d7ba5c5095fd59"
       },
       {
         "path": "src/client/styles/components/button.css",
@@ -392,8 +392,8 @@
       },
       {
         "path": "src/core/execution/VaultFrontExecution.ts",
-        "bytes": 95591,
-        "digest": "sha256:ff9b4e59fedf79f4c50de904ac3f195bd90c25b0c9aa032a228094e292c77dd2"
+        "bytes": 94789,
+        "digest": "sha256:2ee1d0113f91149ed12c666c221ea9a8ad08643abc82633a7e72a0ec4ec9b675"
       },
       {
         "path": "src/core/execution/VaultFrontRuntimeBalance.ts",
@@ -402,8 +402,8 @@
       },
       {
         "path": "src/core/game/GameUpdates.ts",
-        "bytes": 14951,
-        "digest": "sha256:6cdcc9aaa6ec4f60a0d99bf58f8b18670db1cfab90aa39b3c47acbf054815696"
+        "bytes": 15487,
+        "digest": "sha256:76c45a06adcd7e8f317ef6c22e61fac9895e3113ebf45c8b971ee7c5f364831d"
       },
       {
         "path": "src/shared/PublicRouteGraph.json",
@@ -413,7 +413,7 @@
       {
         "path": "static/index.html",
         "bytes": 17352,
-        "digest": "sha256:5e74d8d7f998d794a9c4264dc1fa95d5f88626476bd7c43626714f1dd42ab17d"
+        "digest": "sha256:272d5c864cc4e9d51b0441174f6c52e76b4cf2972ee05a03216c0c96d4d3c3ec"
       }
     ]
   },
@@ -470,7 +470,16 @@
         "overflow": false,
         "surfaceWithinViewport": true,
         "hasAgencyReceipt": true,
-        "hasDoctrinePolicy": true
+        "hasDoctrinePolicy": true,
+        "hasRerouteMatrix": true,
+        "rerouteColors": {
+          "panelText": "rgb(240, 249, 255)",
+          "panelBackground": "rgb(11, 38, 52)",
+          "selectedText": "rgb(255, 255, 255)",
+          "selectedBackground": "rgb(14, 116, 144)",
+          "unselectedText": "rgb(240, 249, 255)",
+          "unselectedBackground": "rgb(22, 78, 99)"
+        }
       },
       "accountRecovery": {
         "state": "error",
@@ -685,7 +694,16 @@
         "overflow": false,
         "surfaceWithinViewport": true,
         "hasAgencyReceipt": true,
-        "hasDoctrinePolicy": true
+        "hasDoctrinePolicy": true,
+        "hasRerouteMatrix": true,
+        "rerouteColors": {
+          "panelText": "rgb(16, 34, 53)",
+          "panelBackground": "rgb(230, 244, 248)",
+          "selectedText": "rgb(255, 255, 255)",
+          "selectedBackground": "rgb(14, 116, 144)",
+          "unselectedText": "rgb(16, 34, 53)",
+          "unselectedBackground": "rgb(208, 231, 239)"
+        }
       },
       "accountRecovery": {
         "state": "error",
@@ -900,7 +918,16 @@
         "overflow": false,
         "surfaceWithinViewport": true,
         "hasAgencyReceipt": true,
-        "hasDoctrinePolicy": true
+        "hasDoctrinePolicy": true,
+        "hasRerouteMatrix": true,
+        "rerouteColors": {
+          "panelText": "rgb(248, 240, 255)",
+          "panelBackground": "rgb(33, 12, 50)",
+          "selectedText": "rgb(255, 255, 255)",
+          "selectedBackground": "rgb(107, 33, 168)",
+          "unselectedText": "rgb(248, 240, 255)",
+          "unselectedBackground": "rgb(59, 21, 84)"
+        }
       },
       "accountRecovery": {
         "state": "error",

@@ -26,6 +26,10 @@ import {
 } from "../core/Schemas";
 import { createPartialGameRecord, getClanTag } from "../core/Util";
 import { archive, finalizeGameRecord } from "./Archive";
+import type {
+  ArchiveDeliveryKind,
+  ArchiveDeliveryReceipt,
+} from "./ArchiveDelivery";
 import { projectCertifiedNarration } from "./CertifiedNarrationProjection";
 import { Client } from "./Client";
 import { matchProgressionSpine } from "./MatchProgression";
@@ -88,6 +92,8 @@ export class GameServer {
   private lastPingUpdate = 0;
 
   private resultCertificate: MatchResultCertificate | null = null;
+  private archiveDeliveryKind: ArchiveDeliveryKind | null = null;
+  private archiveDeliveryPromise: Promise<ArchiveDeliveryReceipt> | null = null;
 
   // Note: This can be undefined if accessed before the game starts.
   private gameStartInfo!: GameStartInfo;
@@ -923,6 +929,10 @@ export class GameServer {
   }
 
   async end() {
+    if (this._hasEnded) {
+      await this.archiveDeliveryPromise;
+      return;
+    }
     this._hasEnded = true;
 
     if (this._hasStarted && this._startTime !== null) {
@@ -931,7 +941,7 @@ export class GameServer {
     }
 
     // Persist the replay before closing connections
-    replayStore.finishRecording(this.id).catch((err) => {
+    await replayStore.finishRecording(this.id).catch((err) => {
       this.log.warn("Failed to finalize replay recording", {
         gameID: this.id,
         err,
@@ -960,12 +970,16 @@ export class GameServer {
         this.log.info("no clients joined, not archiving game", {
           gameID: this.id,
         });
-      } else if (this.resultCertificate !== null) {
-        this.log.info("game already archived", {
-          gameID: this.id,
-        });
       } else {
-        this.archiveGame();
+        const kind: ArchiveDeliveryKind =
+          this.resultCertificate === null ? "incomplete" : "certified";
+        const receipt = await this.archiveGame(kind);
+        if (receipt.state !== "delivered") {
+          this.log.warn("game archive remains in explicit delivery state", {
+            ...receipt,
+            gameID: this.id,
+          });
+        }
       }
     } catch (error) {
       let errorDetails;
@@ -1161,10 +1175,22 @@ export class GameServer {
     });
   }
 
-  private archiveGame() {
+  private archiveGame(
+    kind: ArchiveDeliveryKind = this.resultCertificate
+      ? "certified"
+      : "incomplete",
+  ): Promise<ArchiveDeliveryReceipt> {
+    if (
+      this.archiveDeliveryPromise &&
+      (this.archiveDeliveryKind === kind ||
+        this.archiveDeliveryKind === "certified")
+    ) {
+      return this.archiveDeliveryPromise;
+    }
     const certifiedResult = this.resultCertificate?.result;
     this.log.info("archiving game", {
       gameID: this.id,
+      kind,
       winner: certifiedResult?.winner,
       resultCertificateId: this.resultCertificate?.certificateId,
     });
@@ -1187,7 +1213,7 @@ export class GameServer {
         } satisfies PlayerRecord;
       },
     );
-    archive(
+    const delivery = archive(
       finalizeGameRecord(
         createPartialGameRecord(
           this.id,
@@ -1204,7 +1230,10 @@ export class GameServer {
           },
         ),
       ),
+      kind,
     );
+    this.archiveDeliveryKind = kind;
+    this.archiveDeliveryPromise = delivery;
 
     // Aggregate vault-specific stats across all players and record to OTel.
     if (certifiedResult?.allPlayersStats) {
@@ -1227,6 +1256,7 @@ export class GameServer {
         surgeActivations,
       });
     }
+    return delivery;
   }
 
   private progressionWinnerClientIDs(): Set<string> {
@@ -1461,6 +1491,11 @@ export class GameServer {
       activeUniqueIPs: attestation.activeUniqueIPs,
     });
     this.recordProgressionOutcome();
-    this.archiveGame();
+    void this.archiveGame("certified").catch((error) => {
+      this.log.error("certified archive delivery failed unexpectedly", {
+        gameID: this.id,
+        error: error instanceof Error ? error.message : String(error),
+      });
+    });
   }
 }
