@@ -91,6 +91,18 @@ describe("RadialMenuElements ally break", () => {
     expect(ally.color(params)).toBe(COLORS.breakAlly);
   });
 
+  test("gives every top-level radial menu item a descriptive aria-label", () => {
+    const params = makeParams();
+    const items = rootMenuElement.subMenu!(params);
+
+    items.forEach((item) => {
+      expect(item.ariaLabel).toBeTruthy();
+    });
+
+    const ally = findAllyBreak(items)!;
+    expect(ally.ariaLabel).toBe("player_panel.break_alliance");
+  });
+
   test("shows break option with orange color when allied to traitor", () => {
     const params = makeParams({
       selected: makePlayer("p2", { isTraitor: true }),

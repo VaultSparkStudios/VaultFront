@@ -221,9 +221,12 @@ describe("MIRVExecution", () => {
 
     expect(displaySpy).toHaveBeenCalled();
     const callArgs = displaySpy.mock.calls[0];
-    expect(callArgs[1]).toContain("MIRV INBOUND");
+    // The message is a translation key (S99 audit #176), not a hardcoded
+    // English string, so the client can render it in the player's language.
+    expect(callArgs[1]).toBe("events_display.mirv_inbound");
     expect(callArgs[2]).toBe(MessageType.MIRV_INBOUND);
     expect(callArgs[3]).toBe(otherPlayer.id());
+    expect(callArgs[4]).toMatchObject({ name: player.name() });
   });
 
   test("MIRV should not launch if player cannot build it", async () => {

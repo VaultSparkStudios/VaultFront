@@ -30,8 +30,26 @@ tags:
     description: VaultFront game outcome telemetry
   - name: vault-funnel
     description: VaultFront player funnel telemetry
+  - name: vault-clans
+    description: VaultFront clans and squads
+  - name: vault-tournaments
+    description: VaultFront tournaments
+  - name: vault-rematch
+    description: VaultFront rematch continuity
+  - name: vault-replay
+    description: VaultFront replay and highlight sharing
+  - name: vault-prediction-league
+    description: VaultFront spectator prediction league
+  - name: vault-season
+    description: VaultFront season pass and community mutator voting
   - name: misc
     description: Miscellaneous endpoints
+  - name: admin
+    description: |
+      Internal operator-only endpoints gated by a shared admin token
+      (see RoutePolicyManifest.ts). Not part of the public/agent-facing
+      contract; documented here only as present-and-internal (S99 audit
+      #181), not with full request/response schemas.
 
 paths:
   /api/env:
@@ -381,6 +399,440 @@ paths:
         "200":
           description: Funnel summary data
 
+  # VaultFront — Clans (S99 audit #181)
+  /api/clans:
+    post:
+      tags: [vault-clans]
+      summary: Create a clan
+      security:
+        - bearerAuth: []
+      responses:
+        "201":
+          description: Clan created
+        "409":
+          description: Name/tag taken, profanity rejected, or already in a clan
+
+  /api/clans/leaderboard:
+    get:
+      tags: [vault-clans]
+      summary: Get the clan leaderboard, ranked by clan Elo
+      responses:
+        "200":
+          description: Ranked clan leaderboard
+
+  /api/clans/{clanId}:
+    get:
+      tags: [vault-clans]
+      summary: Get a clan's public profile and member roster
+      parameters:
+        - name: clanId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Clan with members
+        "404":
+          description: Clan not found
+
+  /api/clans/player/{persistentId}:
+    get:
+      tags: [vault-clans]
+      summary: Get the clan a player currently belongs to, if any
+      parameters:
+        - name: persistentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Clan membership, or null
+
+  /api/clans/{clanId}/join:
+    post:
+      tags: [vault-clans]
+      summary: Join an existing clan
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: clanId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Joined
+        "409":
+          description: Clan full or already in a clan
+
+  /api/clans/leave:
+    post:
+      tags: [vault-clans]
+      summary: Leave the caller's current clan
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Left clan
+
+  # VaultFront — Tournaments (S99 audit #181)
+  /api/tournaments:
+    get:
+      tags: [vault-tournaments]
+      summary: List open/active tournaments
+      responses:
+        "200":
+          description: Tournament list
+    post:
+      tags: [vault-tournaments]
+      summary: Create a tournament
+      security:
+        - bearerAuth: []
+      responses:
+        "201":
+          description: Tournament created
+
+  /api/tournaments/{id}:
+    get:
+      tags: [vault-tournaments]
+      summary: Get tournament details
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Tournament details
+        "404":
+          description: Tournament not found
+
+  /api/tournaments/{id}/bracket:
+    get:
+      tags: [vault-tournaments]
+      summary: Get the tournament bracket
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Bracket state
+
+  /api/tournaments/{id}/register:
+    post:
+      tags: [vault-tournaments]
+      summary: Register the caller for a tournament
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Registered
+
+  /api/tournaments/{id}/seed:
+    post:
+      tags: [vault-tournaments]
+      summary: Seed the tournament bracket once registration closes
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Bracket seeded
+
+  /api/tournaments/matches/{matchId}/report:
+    post:
+      tags: [vault-tournaments]
+      summary: Report a certified match result into the tournament bracket
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: matchId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Result recorded and bracket advanced
+
+  # VaultFront — Rematch continuity (S99 audit #181)
+  /api/rematch/{gameId}:
+    post:
+      tags: [vault-rematch]
+      summary: Create or join a certified rematch of a prior source game
+      description: |
+        Requires a verified actor who belongs to the live source game or to
+        a valid archived result-certificate roster; knowing a game ID alone
+        does not authorize cloning its private configuration.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: gameId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Rematch created/joined
+        "403":
+          description: Caller is not a verified source participant
+
+  /api/rematch/status/{gameId}:
+    get:
+      tags: [vault-rematch]
+      summary: Get rematch status for a source game
+      parameters:
+        - name: gameId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Rematch status
+
+  /api/rematch/code/{code}:
+    get:
+      tags: [vault-rematch]
+      summary: Resolve a rematch join code to its game
+      parameters:
+        - name: code
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Resolved rematch game
+        "404":
+          description: Unknown or expired code
+
+  # VaultFront — Replay and highlight sharing (S99 audit #181)
+  /api/replays:
+    get:
+      tags: [vault-replay]
+      summary: List available replays
+      responses:
+        "200":
+          description: Replay list
+
+  /api/replay/{id}:
+    get:
+      tags: [vault-replay]
+      summary: Get a stored replay
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Replay data
+        "404":
+          description: Replay not found
+
+  /api/replay/{gameId}/highlight:
+    get:
+      tags: [vault-replay]
+      summary: Get the auto-generated highlight for a certified match
+      parameters:
+        - name: gameId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Signed highlight share
+
+  /api/replay/{gameId}/clip:
+    post:
+      tags: [vault-replay]
+      summary: Create a custom bounded-range replay clip share
+      description: |
+        Public per RoutePolicyManifest -- clip creation binds to signed
+        replay evidence rather than caller identity, so no bearer token is
+        required, but every clip is content-addressed and independently
+        verifiable.
+      parameters:
+        - name: gameId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          description: Signed clip share created
+
+  # VaultFront — Prediction League (S99 audit #181)
+  /api/vaultfront/prediction-league/predict:
+    post:
+      tags: [vault-prediction-league]
+      summary: Submit a prediction pick for a live, still-open game
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Pick recorded
+        "409":
+          description: Game already resolved or duplicate pick
+
+  /api/vaultfront/prediction-league/leaderboard:
+    get:
+      tags: [vault-prediction-league]
+      summary: Get the prediction league leaderboard
+      responses:
+        "200":
+          description: Ranked leaderboard
+
+  /api/vaultfront/prediction-league/games/{gameId}/consensus:
+    get:
+      tags: [vault-prediction-league]
+      summary: Get privacy-minimal live prediction consensus for a game
+      parameters:
+        - name: gameId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Consensus summary
+
+  /api/vaultfront/prediction-league/stats:
+    get:
+      tags: [vault-prediction-league]
+      summary: Get aggregate prediction league stats
+      responses:
+        "200":
+          description: Aggregate stats
+
+  /api/vaultfront/prediction-league/stats/{spectatorId}:
+    get:
+      tags: [vault-prediction-league]
+      summary: Get a spectator's private prediction accuracy stats
+      parameters:
+        - name: spectatorId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Spectator stats, or null
+
+  # VaultFront — Season pass and community voting (S99 audit #181)
+  /api/season/current:
+    get:
+      tags: [vault-season]
+      summary: Get the current season contract cycle
+      responses:
+        "200":
+          description: Current season descriptor
+
+  /api/mutator-vote:
+    post:
+      tags: [vault-season]
+      summary: Cast one weekly community mutator ballot
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Vote recorded
+
+  /api/vaultfront/season-progress/{persistentId}:
+    get:
+      tags: [vault-season]
+      summary: Get a player's season pass progress
+      parameters:
+        - name: persistentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Season pass progress
+
+  /api/vaultfront/season-progress/claim:
+    post:
+      tags: [vault-season]
+      summary: Claim an earned season pass reward tier
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Reward claimed
+        "409":
+          description: Tier not yet earned or already claimed
+
+  # Admin (internal-only; documented as present, not with full schemas — S99 #181)
+  /api/admin/vaultfront/runtime-integrity-passport:
+    get:
+      tags: [admin]
+      summary: Runtime integrity passport (internal)
+      security:
+        - adminToken: []
+      responses:
+        "200":
+          description: Internal-only
+  /api/admin/anti-cheat/flagged:
+    get:
+      tags: [admin]
+      summary: Flagged-match anti-cheat queue (internal)
+      security:
+        - adminToken: []
+      responses:
+        "200":
+          description: Internal-only
+  /api/admin/ab/results:
+    get:
+      tags: [admin]
+      summary: Unified experiment results (internal)
+      security:
+        - adminToken: []
+      responses:
+        "200":
+          description: Internal-only
+  /api/admin/match-ratings:
+    get:
+      tags: [admin]
+      summary: Raw match feedback ratings (internal)
+      security:
+        - adminToken: []
+      responses:
+        "200":
+          description: Internal-only
+  /api/admin/vaultfront/certified-outcomes:
+    get:
+      tags: [admin]
+      summary: Certified outcome admin view (internal)
+      security:
+        - adminToken: []
+      responses:
+        "200":
+          description: Internal-only
+
 components:
   securitySchemes:
     bearerAuth:
@@ -388,6 +840,13 @@ components:
       scheme: bearer
       bearerFormat: JWT
       description: JWT issued by api-vaultfront.vaultsparkstudios.com
+    adminToken:
+      type: apiKey
+      in: header
+      name: X-VaultFront-Admin
+      description: |
+        Shared operator token (see config.adminHeader()/adminToken()).
+        Internal-only; never distributed to players or third-party agents.
 
   parameters:
     GameId:

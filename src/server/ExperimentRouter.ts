@@ -1,7 +1,9 @@
+import rateLimit from "express-rate-limit";
 import { z } from "zod";
 import { ExperimentIntegrityGate } from "./ExperimentIntegrity";
 
-type RouteHandler = (req: any, res: any) => unknown;
+// next is optional so rate-limit middleware (req, res, next) also satisfies this.
+type RouteHandler = (req: any, res: any, next?: any) => unknown;
 
 export interface ExperimentRouteApp {
   get(path: string, ...handlers: RouteHandler[]): unknown;
@@ -129,6 +131,8 @@ const OBJECTIVE_EVENTS = new Set([
   "hud_vault_notice_jump",
   "hud_timeline_jump",
 ]);
+// S99 #175: sibling write routers all rate-limit; these four had none.
+const EXPERIMENT_WRITE_RATE_LIMIT = rateLimit({ windowMs: 60_000, max: 60 });
 const EVENT_HISTORY_LIMIT = 800;
 const TREND_WINDOW_MS = 5 * 60 * 1000;
 const GUARDRAIL_MIN_ASSIGNED = 60;
@@ -605,28 +609,32 @@ export function registerExperimentRoutes(
     "POST",
     "/api/vaultfront/ab/dock/event",
   );
-  app.post("/api/vaultfront/ab/dock/event", async (req, res) => {
-    const actor = await dependencies.resolveActor(req);
-    if (
-      !dependencies.authorize(
-        "experiment-dock-event",
-        { hasVerifiedActor: Boolean(actor) },
-        res,
-      ) ||
-      !actor
-    )
-      return;
-    const parsed = DockEventSchema.safeParse(req.body);
-    if (!parsed.success) {
-      return res.status(400).json({ error: z.prettifyError(parsed.error) });
-    }
-    const result = plane.checkDockEvent(
-      `auth:${actor.persistentId}`,
-      parsed.data,
-    );
-    if (!result.ok) return res.status(409).json({ error: result.reason });
-    return res.json({ ok: true, ...result.assignment });
-  });
+  app.post(
+    "/api/vaultfront/ab/dock/event",
+    EXPERIMENT_WRITE_RATE_LIMIT,
+    async (req, res) => {
+      const actor = await dependencies.resolveActor(req);
+      if (
+        !dependencies.authorize(
+          "experiment-dock-event",
+          { hasVerifiedActor: Boolean(actor) },
+          res,
+        ) ||
+        !actor
+      )
+        return;
+      const parsed = DockEventSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: z.prettifyError(parsed.error) });
+      }
+      const result = plane.checkDockEvent(
+        `auth:${actor.persistentId}`,
+        parsed.data,
+      );
+      if (!result.ok) return res.status(409).json({ error: result.reason });
+      return res.json({ ok: true, ...result.assignment });
+    },
+  );
   app.get("/api/vaultfront/ab/dock/summary", (req, res) =>
     dependencies.isAdmin(req)
       ? res.json(plane.dockSummary())
@@ -643,28 +651,32 @@ export function registerExperimentRoutes(
     "POST",
     "/api/vaultfront/ab/recap/event",
   );
-  app.post("/api/vaultfront/ab/recap/event", async (req, res) => {
-    const actor = await dependencies.resolveActor(req);
-    if (
-      !dependencies.authorize(
-        "experiment-recap-event",
-        { hasVerifiedActor: Boolean(actor) },
-        res,
-      ) ||
-      !actor
-    )
-      return;
-    const parsed = RecapEventSchema.safeParse(req.body);
-    if (!parsed.success) {
-      return res.status(400).json({ error: z.prettifyError(parsed.error) });
-    }
-    const result = plane.checkRecapEvent(
-      `auth:${actor.persistentId}`,
-      parsed.data,
-    );
-    if (!result.ok) return res.status(409).json({ error: result.reason });
-    return res.json({ ok: true, ...result.assignment });
-  });
+  app.post(
+    "/api/vaultfront/ab/recap/event",
+    EXPERIMENT_WRITE_RATE_LIMIT,
+    async (req, res) => {
+      const actor = await dependencies.resolveActor(req);
+      if (
+        !dependencies.authorize(
+          "experiment-recap-event",
+          { hasVerifiedActor: Boolean(actor) },
+          res,
+        ) ||
+        !actor
+      )
+        return;
+      const parsed = RecapEventSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: z.prettifyError(parsed.error) });
+      }
+      const result = plane.checkRecapEvent(
+        `auth:${actor.persistentId}`,
+        parsed.data,
+      );
+      if (!result.ok) return res.status(409).json({ error: result.reason });
+      return res.json({ ok: true, ...result.assignment });
+    },
+  );
   app.get("/api/vaultfront/ab/recap/summary", (req, res) =>
     dependencies.isAdmin(req)
       ? res.json(plane.recapSummary())
@@ -681,28 +693,32 @@ export function registerExperimentRoutes(
     "POST",
     "/api/vaultfront/ab/runtime/event",
   );
-  app.post("/api/vaultfront/ab/runtime/event", async (req, res) => {
-    const actor = await dependencies.resolveActor(req);
-    if (
-      !dependencies.authorize(
-        "experiment-runtime-event",
-        { hasVerifiedActor: Boolean(actor) },
-        res,
-      ) ||
-      !actor
-    )
-      return;
-    const parsed = RuntimeEventSchema.safeParse(req.body);
-    if (!parsed.success) {
-      return res.status(400).json({ error: z.prettifyError(parsed.error) });
-    }
-    const result = plane.checkRuntimeEvent(
-      `auth:${actor.persistentId}`,
-      parsed.data,
-    );
-    if (!result.ok) return res.status(409).json({ error: result.reason });
-    return res.json({ ok: true, ...result.assignment });
-  });
+  app.post(
+    "/api/vaultfront/ab/runtime/event",
+    EXPERIMENT_WRITE_RATE_LIMIT,
+    async (req, res) => {
+      const actor = await dependencies.resolveActor(req);
+      if (
+        !dependencies.authorize(
+          "experiment-runtime-event",
+          { hasVerifiedActor: Boolean(actor) },
+          res,
+        ) ||
+        !actor
+      )
+        return;
+      const parsed = RuntimeEventSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: z.prettifyError(parsed.error) });
+      }
+      const result = plane.checkRuntimeEvent(
+        `auth:${actor.persistentId}`,
+        parsed.data,
+      );
+      if (!result.ok) return res.status(409).json({ error: result.reason });
+      return res.json({ ok: true, ...result.assignment });
+    },
+  );
   app.get("/api/vaultfront/ab/runtime/summary", (req, res) =>
     dependencies.isAdmin(req)
       ? res.json(plane.runtimeSummary())
@@ -719,28 +735,32 @@ export function registerExperimentRoutes(
     "POST",
     "/api/vaultfront/outcome",
   );
-  app.post("/api/vaultfront/outcome", async (req, res) => {
-    const actor = await dependencies.resolveActor(req);
-    if (
-      !dependencies.authorize(
-        "experiment-outcome-observation",
-        { hasVerifiedActor: Boolean(actor) },
-        res,
-      ) ||
-      !actor
-    )
-      return;
-    const parsed = OutcomeTelemetrySchema.safeParse(req.body);
-    if (!parsed.success) {
-      return res.status(400).json({ error: z.prettifyError(parsed.error) });
-    }
-    const result = plane.recordOutcome(
-      `auth:${actor.persistentId}`,
-      parsed.data,
-    );
-    if (!result.ok) return res.status(409).json({ error: result.reason });
-    return res.json({ ok: true, bucketKey: result.bucketKey });
-  });
+  app.post(
+    "/api/vaultfront/outcome",
+    EXPERIMENT_WRITE_RATE_LIMIT,
+    async (req, res) => {
+      const actor = await dependencies.resolveActor(req);
+      if (
+        !dependencies.authorize(
+          "experiment-outcome-observation",
+          { hasVerifiedActor: Boolean(actor) },
+          res,
+        ) ||
+        !actor
+      )
+        return;
+      const parsed = OutcomeTelemetrySchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: z.prettifyError(parsed.error) });
+      }
+      const result = plane.recordOutcome(
+        `auth:${actor.persistentId}`,
+        parsed.data,
+      );
+      if (!result.ok) return res.status(409).json({ error: result.reason });
+      return res.json({ ok: true, bucketKey: result.bucketKey });
+    },
+  );
   app.get("/api/vaultfront/outcome/summary", (req, res) =>
     dependencies.isAdmin(req)
       ? res.json(plane.outcomeSummary())

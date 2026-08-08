@@ -36,10 +36,10 @@
       "branches": 78.57
     },
     "src/server/WorkerLobbyService.ts": {
-      "lines": 27.51,
-      "statements": 29.41,
-      "functions": 25,
-      "branches": 38.04
+      "lines": 91.5,
+      "statements": 91.7,
+      "functions": 96.5,
+      "branches": 81
     },
     "src/client/graphics/layers/GameRightSidebar.ts": {
       "lines": 24.71,

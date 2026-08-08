@@ -123,4 +123,32 @@ describe("registerExperimentRoutes", () => {
     ]);
     expect(assertPolicyBinding).toHaveBeenCalledTimes(4);
   });
+
+  test("rate-limits all four write endpoints (S99 audit #175)", () => {
+    const get = vi.fn();
+    const post = vi.fn();
+
+    registerExperimentRoutes(
+      { get, post },
+      {
+        resolveIdentity: async () => "identity",
+        resolveActor: async () => ({ persistentId: "player" }),
+        authorize: () => true,
+        assertPolicyBinding: () => {},
+        isAdmin: () => true,
+      },
+      new ExperimentControlPlane(),
+    );
+
+    // Each POST call is (path, rateLimitMiddleware, handler) -- three args,
+    // with a rate-limit middleware function inserted before the handler.
+    for (const call of post.mock.calls) {
+      expect(call).toHaveLength(3);
+      expect(typeof call[1]).toBe("function");
+      expect(typeof call[2]).toBe("function");
+    }
+    // All four share one bounded window rather than four independent ones.
+    const limiters = new Set(post.mock.calls.map((call) => call[1]));
+    expect(limiters.size).toBe(1);
+  });
 });

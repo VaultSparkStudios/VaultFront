@@ -57,6 +57,7 @@ import { logHudTelemetry } from "../HudTelemetry";
 import { UIState } from "../UIState";
 import { Layer } from "./Layer";
 import { GoToPositionEvent } from "./Leaderboard";
+import { isMobilePriorityMode, viewportWidth } from "./ViewportMode";
 import goldCoinIcon from "/images/GoldCoinIcon.svg?url";
 import soldierIcon from "/images/SoldierIcon.svg?url";
 import swordIcon from "/images/SwordIcon.svg?url";
@@ -1305,15 +1306,15 @@ export class ControlPanel extends LitElement implements Layer {
   }
 
   private viewportWidth(): number {
-    return typeof window !== "undefined" ? window.innerWidth : 1920;
+    return viewportWidth();
   }
 
   private isMobilePriorityMode(): boolean {
-    return (
-      this.runtimeHudVariant === "mobile_priority" ||
-      this.hudPreset === "mobile" ||
-      this.viewportWidth() < 980
-    );
+    return isMobilePriorityMode({
+      hudVariant: this.runtimeHudVariant,
+      hudPreset: this.hudPreset,
+      viewportWidth: this.viewportWidth(),
+    });
   }
 
   private onReducedMotionChanged = (event: MediaQueryListEvent): void => {

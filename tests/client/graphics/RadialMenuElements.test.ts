@@ -1,8 +1,10 @@
 import { vi, type Mock } from "vitest";
 import {
   attackMenuElement,
+  boatMenuElement,
   buildMenuElement,
   COLORS,
+  deleteUnitElement,
   MenuElementParams,
   rootMenuElement,
   Slot,
@@ -162,6 +164,10 @@ describe("RadialMenuElements", () => {
       expect(attackMenuElement.color).toBe(COLORS.attack);
     });
 
+    it("should have a descriptive aria-label", () => {
+      expect(attackMenuElement.ariaLabel).toBe("Attack");
+    });
+
     it("should be disabled during spawn phase", () => {
       mockGame.inSpawnPhase = vi.fn(() => true);
       expect(attackMenuElement.disabled(mockParams)).toBe(true);
@@ -202,6 +208,24 @@ describe("RadialMenuElements", () => {
       });
     });
 
+    it("should give every attack submenu item a descriptive aria-label", () => {
+      const enemyPlayer = {
+        id: () => 2,
+        isPlayer: vi.fn(() => true),
+      } as unknown as PlayerView;
+      mockParams.selected = enemyPlayer;
+
+      const subMenu = attackMenuElement.subMenu!(mockParams);
+      const atomBombElement = subMenu.find(
+        (item) => item.id === "attack_Atom Bomb",
+      );
+
+      expect(atomBombElement!.ariaLabel).toBe("unit_type.atom_bomb");
+      subMenu.forEach((item) => {
+        expect(item.ariaLabel).toBeTruthy();
+      });
+    });
+
     it("should not include construction units in attack menu", () => {
       const enemyPlayer = {
         id: () => 2,
@@ -236,6 +260,20 @@ describe("RadialMenuElements", () => {
       expect(buildMenuElement.name).toBe("build");
       expect(buildMenuElement.icon).toBeDefined();
       expect(buildMenuElement.color).toBe(COLORS.build);
+    });
+
+    it("should have a descriptive aria-label", () => {
+      expect(buildMenuElement.ariaLabel).toBe("Build");
+    });
+
+    it("should give every build submenu item a descriptive aria-label", () => {
+      const subMenu = buildMenuElement.subMenu!(mockParams);
+      const cityElement = subMenu.find((item) => item.id === "build_City");
+
+      expect(cityElement!.ariaLabel).toBe("unit_type.city");
+      subMenu.forEach((item) => {
+        expect(item.ariaLabel).toBeTruthy();
+      });
     });
 
     it("should be disabled during spawn phase", () => {
@@ -334,6 +372,15 @@ describe("RadialMenuElements", () => {
       const infoMenu = subMenu.find((item) => item.id === Slot.Info);
 
       expect(infoMenu).toBeDefined();
+      expect(infoMenu!.ariaLabel).toBe("Info");
+    });
+
+    it("should give every top-level radial menu item a descriptive aria-label", () => {
+      const subMenu = rootMenuElement.subMenu!(mockParams);
+
+      subMenu.forEach((item) => {
+        expect(item.ariaLabel).toBeTruthy();
+      });
     });
 
     it("should handle ally menu correctly", () => {
@@ -351,6 +398,7 @@ describe("RadialMenuElements", () => {
       const allyMenu = subMenu.find((item) => item.id === "ally_break");
 
       expect(allyMenu).toBeDefined();
+      expect(allyMenu!.ariaLabel).toBe("player_panel.break_alliance");
     });
 
     it("should show extend element when inAllianceExtensionWindow is true", () => {
@@ -622,6 +670,33 @@ describe("RadialMenuElements", () => {
       expect(translateText).toHaveBeenCalledWith(
         "unit_type.hydrogen_bomb_desc",
       );
+    });
+  });
+
+  describe("Menu element aria-labels", () => {
+    it("gives the delete unit action a descriptive aria-label", () => {
+      expect(deleteUnitElement.ariaLabel).toBe("radial_menu.delete_unit_title");
+    });
+
+    it("gives the boat action a descriptive aria-label", () => {
+      expect(boatMenuElement.ariaLabel).toBe("unit_type.boat");
+    });
+
+    it("gives every enemy-territory radial menu item a descriptive aria-label", () => {
+      const enemyPlayer = {
+        id: () => 2,
+        isPlayer: vi.fn(() => true),
+        isAlliedWith: vi.fn(() => false),
+        isDisconnected: vi.fn(() => false),
+      } as unknown as PlayerView;
+      mockParams.selected = enemyPlayer;
+      mockGame.owner = vi.fn(() => enemyPlayer);
+
+      const subMenu = rootMenuElement.subMenu!(mockParams);
+
+      subMenu.forEach((item) => {
+        expect(item.ariaLabel).toBeTruthy();
+      });
     });
   });
 });

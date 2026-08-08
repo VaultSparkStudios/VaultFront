@@ -1,6 +1,7 @@
 import { NukeExecution } from "../../../src/core/execution/NukeExecution";
 import {
   Game,
+  MessageType,
   Player,
   PlayerInfo,
   PlayerType,
@@ -99,6 +100,46 @@ describe("NukeExecution", () => {
     //near target should be targetable (distance target < 400)
     executeTicks(game, 35);
     expect(nukeExec.getNuke()!.isTargetable()).toBeTruthy();
+  });
+
+  test("atom bomb displays a translation-key warning with the attacker's name (S99 audit #176)", async () => {
+    otherPlayer.conquer(game.ref(10, 10));
+    player.buildUnit(UnitType.MissileSilo, game.ref(1, 1), {});
+    const displaySpy = vi.spyOn(game, "displayIncomingUnit");
+
+    game.addExecution(
+      new NukeExecution(UnitType.AtomBomb, player, game.ref(10, 10), null),
+    );
+    executeTicks(game, 5);
+
+    const call = displaySpy.mock.calls.find(
+      (c) => c[2] === MessageType.NUKE_INBOUND,
+    );
+    expect(call).toBeDefined();
+    // The message is a translation key (not hardcoded English), so the
+    // client can render it in the player's selected language.
+    expect(call?.[1]).toBe("events_display.atom_bomb_inbound");
+    expect(call?.[3]).toBe(otherPlayer.id());
+    expect(call?.[4]).toMatchObject({ name: player.name() });
+  });
+
+  test("hydrogen bomb displays a translation-key warning with the attacker's name (S99 audit #176)", async () => {
+    otherPlayer.conquer(game.ref(10, 10));
+    player.buildUnit(UnitType.MissileSilo, game.ref(1, 1), {});
+    const displaySpy = vi.spyOn(game, "displayIncomingUnit");
+
+    game.addExecution(
+      new NukeExecution(UnitType.HydrogenBomb, player, game.ref(10, 10), null),
+    );
+    executeTicks(game, 5);
+
+    const call = displaySpy.mock.calls.find(
+      (c) => c[2] === MessageType.HYDROGEN_BOMB_INBOUND,
+    );
+    expect(call).toBeDefined();
+    expect(call?.[1]).toBe("events_display.hydrogen_bomb_inbound");
+    expect(call?.[3]).toBe(otherPlayer.id());
+    expect(call?.[4]).toMatchObject({ name: player.name() });
   });
 
   test("nuke should break alliances on launch", async () => {

@@ -56,6 +56,7 @@ export interface MenuElement {
   color?: string | ((params: MenuElementParams) => string);
   icon?: string;
   text?: string;
+  ariaLabel?: string;
   fontSize?: string;
   tooltipItems?: TooltipItem[];
   tooltipKeys?: TooltipKey[];
@@ -144,6 +145,7 @@ const infoChatElement: MenuElement = {
   disabled: () => false,
   color: COLORS.chat.default,
   icon: chatIcon,
+  ariaLabel: translateText("player_panel.chat"),
   subMenu: (params: MenuElementParams) =>
     params.chatIntegration
       .createQuickChatMenu(params.selected!)
@@ -165,6 +167,7 @@ const allyTargetElement: MenuElement = {
   },
   color: COLORS.target,
   icon: targetIcon,
+  ariaLabel: translateText("player_panel.target"),
   action: (params: MenuElementParams) => {
     params.playerActionHandler.handleTargetPlayer(params.selected!.id());
     params.closeMenu();
@@ -181,6 +184,7 @@ const allyTradeElement: MenuElement = {
     !params.playerActions?.interaction?.canEmbargo,
   color: COLORS.trade,
   text: translateText("player_panel.start_trade"),
+  ariaLabel: translateText("player_panel.start_trade"),
   action: (params: MenuElementParams) => {
     params.playerActionHandler.handleEmbargo(params.selected!, "stop");
     params.closeMenu();
@@ -197,6 +201,7 @@ const allyEmbargoElement: MenuElement = {
     !!params.playerActions?.interaction?.canEmbargo,
   color: COLORS.embargo,
   text: translateText("player_panel.stop_trade"),
+  ariaLabel: translateText("player_panel.stop_trade"),
   action: (params: MenuElementParams) => {
     params.playerActionHandler.handleEmbargo(params.selected!, "start");
     params.closeMenu();
@@ -212,6 +217,7 @@ const allyRequestElement: MenuElement = {
     !params.playerActions?.interaction?.canBreakAlliance,
   color: COLORS.ally,
   icon: allianceIcon,
+  ariaLabel: translateText("player_panel.send_alliance"),
   action: (params: MenuElementParams) => {
     params.playerActionHandler.handleAllianceRequest(
       params.myPlayer,
@@ -230,6 +236,7 @@ const allyExtendElement: MenuElement = {
     !params.playerActions?.interaction?.allianceInfo?.canExtend,
   color: COLORS.ally,
   icon: allianceIcon,
+  ariaLabel: "Extend Alliance",
   action: (params: MenuElementParams) => {
     if (!params.playerActions?.interaction?.allianceInfo?.canExtend) return;
     params.playerActionHandler.handleExtendAlliance(params.selected!);
@@ -263,6 +270,7 @@ const allyBreakElement: MenuElement = {
       ? COLORS.breakAllyNoDebuff
       : COLORS.breakAlly,
   icon: traitorIcon,
+  ariaLabel: translateText("player_panel.break_alliance"),
   action: (params: MenuElementParams) => {
     params.playerActionHandler.handleBreakAlliance(
       params.myPlayer,
@@ -280,6 +288,7 @@ const allyDonateGoldElement: MenuElement = {
     !params.playerActions?.interaction?.canDonateGold,
   color: COLORS.ally,
   icon: donateGoldIcon,
+  ariaLabel: translateText("player_panel.send_gold"),
   action: (params: MenuElementParams) => {
     params.playerActionHandler.handleDonateGold(params.selected!);
     params.closeMenu();
@@ -294,6 +303,7 @@ const allyDonateTroopsElement: MenuElement = {
     !params.playerActions?.interaction?.canDonateTroops,
   color: COLORS.ally,
   icon: donateTroopIcon,
+  ariaLabel: translateText("player_panel.send_troops"),
   action: (params: MenuElementParams) => {
     params.playerActionHandler.handleDonateTroops(params.selected!);
     params.closeMenu();
@@ -307,6 +317,7 @@ const infoPlayerElement: MenuElement = {
   disabled: () => false,
   color: COLORS.info,
   icon: infoIcon,
+  ariaLabel: "Player Info",
   action: (params: MenuElementParams) => {
     params.playerPanel.show(params.playerActions, params.tile);
   },
@@ -319,6 +330,7 @@ const infoEmojiElement: MenuElement = {
   disabled: () => false,
   color: COLORS.infoEmoji,
   icon: emojiIcon,
+  ariaLabel: translateText("player_panel.emotes"),
   subMenu: (params: MenuElementParams) => {
     const emojiElements: MenuElement[] = [
       {
@@ -327,6 +339,7 @@ const infoEmojiElement: MenuElement = {
         disabled: () => false,
         color: COLORS.infoEmoji,
         icon: emojiIcon,
+        ariaLabel: "More Emojis",
         action: (params: MenuElementParams) => {
           params.emojiTable.showTable((emoji) => {
             const targetPlayer =
@@ -349,6 +362,7 @@ const infoEmojiElement: MenuElement = {
         id: `emoji_${i}`,
         name: flattenedEmojiTable[i],
         text: flattenedEmojiTable[i],
+        ariaLabel: flattenedEmojiTable[i],
         disabled: () => false,
         fontSize: "25px",
         action: (params: MenuElementParams) => {
@@ -373,6 +387,7 @@ export const infoMenuElement: MenuElement = {
     !params.selected || params.game.inSpawnPhase(),
   icon: infoIcon,
   color: COLORS.info,
+  ariaLabel: "Info",
   action: (params: MenuElementParams) => {
     params.playerPanel.show(params.playerActions, params.tile);
   },
@@ -432,6 +447,7 @@ function createMenuElements(
             : COLORS.building
           : undefined,
         icon: item.icon,
+        ariaLabel: translateText(item.key ?? ""),
         tooltipItems: [
           { text: translateText(item.key ?? ""), className: "title" },
           {
@@ -470,6 +486,7 @@ export const attackMenuElement: MenuElement = {
   disabled: (params: MenuElementParams) => params.game.inSpawnPhase(),
   icon: swordIcon,
   color: COLORS.attack,
+  ariaLabel: "Attack",
 
   subMenu: (params: MenuElementParams) => {
     if (params === undefined) return [];
@@ -485,6 +502,7 @@ const donateGoldRadialElement: MenuElement = {
     !params.playerActions?.interaction?.canDonateGold,
   icon: donateGoldIcon,
   color: "#EAB308",
+  ariaLabel: translateText("player_panel.send_gold"),
   action: (params: MenuElementParams) => {
     if (!params.selected) return;
     params.playerPanel.openSendGoldModal(
@@ -534,6 +552,7 @@ export const deleteUnitElement: MenuElement = {
   },
   icon: xIcon,
   color: COLORS.delete,
+  ariaLabel: translateText("radial_menu.delete_unit_title"),
   tooltipKeys: [
     {
       key: "radial_menu.delete_unit_title",
@@ -574,6 +593,7 @@ export const buildMenuElement: MenuElement = {
   disabled: (params: MenuElementParams) => params.game.inSpawnPhase(),
   icon: buildIcon,
   color: COLORS.build,
+  ariaLabel: "Build",
 
   subMenu: (params: MenuElementParams) => {
     if (params === undefined) return [];
@@ -590,6 +610,7 @@ export const boatMenuElement: MenuElement = {
     ),
   icon: boatIcon,
   color: COLORS.boat,
+  ariaLabel: translateText("unit_type.boat"),
 
   action: async (params: MenuElementParams) => {
     params.playerActionHandler.handleBoatAttack(params.myPlayer, params.tile);

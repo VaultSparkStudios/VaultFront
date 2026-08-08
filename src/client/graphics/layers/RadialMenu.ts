@@ -21,6 +21,10 @@ function resolveColor(
   return item.color;
 }
 
+function resolveAriaLabel(item: MenuElement): string {
+  return item.ariaLabel ?? item.text ?? item.name;
+}
+
 export class CloseRadialMenuEvent implements GameEvent {
   constructor() {}
 }
@@ -84,6 +88,7 @@ export class RadialMenu implements Layer {
   > = new Map();
 
   private selectedItemId: string | null = null;
+  private focusedItemId: string | null = null;
   private submenuHoverTimeout: number | null = null;
   private backButtonHoverTimeout: number | null = null;
   private navigationInProgress: boolean = false;
@@ -126,6 +131,7 @@ export class RadialMenu implements Layer {
     this.eventBus.on(CloseViewEvent, (e) => {
       this.hideRadialMenu();
     });
+    window.addEventListener("keydown", this.handleKeyDown, { capture: true });
   }
 
   private createMenuElement() {
@@ -171,6 +177,7 @@ export class RadialMenu implements Layer {
     const container = svg
       .append("g")
       .attr("class", "menu-container")
+      .attr("role", "menu")
       .attr("transform", `translate(${totalSize / 2},${totalSize / 2})`);
 
     // Add glow filter for hover effects
@@ -191,6 +198,9 @@ export class RadialMenu implements Layer {
       .attr("class", "center-button-hitbox")
       .attr("r", this.config.centerButtonSize)
       .attr("fill", "transparent")
+      .attr("role", "menuitem")
+      .attr("tabindex", "-1")
+      .attr("aria-label", this.getCenterButtonAriaLabel())
       .style("cursor", "pointer")
       .on("click", (event) => {
         event.stopPropagation();
@@ -357,7 +367,13 @@ export class RadialMenu implements Layer {
           this.config.menuTransitionDuration / 2
         }ms, fill ${this.config.menuTransitionDuration / 2}ms`,
       )
-      .attr("data-id", (d) => d.data.id);
+      .attr("data-id", (d) => d.data.id)
+      .attr("role", "menuitem")
+      .attr("tabindex", "-1")
+      .attr("aria-label", (d) => resolveAriaLabel(d.data))
+      .attr("aria-disabled", (d) =>
+        this.params === null || d.data.disabled(this.params) ? "true" : "false",
+      );
 
     // Timer gradient for items with timerFraction
     arcs.each((d) => {
@@ -505,12 +521,6 @@ export class RadialMenu implements Layer {
 
     const onClick = (d: d3.PieArcDatum<MenuElement>, event: Event) => {
       event.stopPropagation();
-      if (
-        this.params === null ||
-        d.data.disabled(this.params) ||
-        this.navigationInProgress
-      )
-        return;
 
       if (
         this.currentLevel > 0 &&
@@ -519,18 +529,7 @@ export class RadialMenu implements Layer {
       )
         return;
 
-      const subMenu = d.data.subMenu?.(this.params);
-      if (subMenu && subMenu.length > 0) {
-        this.navigationInProgress = true;
-        this.selectedItemId = d.data.id;
-        this.navigateToSubMenu(subMenu);
-        this.updateCenterButtonState("back");
-      } else {
-        d.data.action?.(this.params);
-        // Force transition state to false to ensure menu hides
-        this.isTransitioning = false;
-        this.hideRadialMenu();
-      }
+      this.activateItem(d.data);
     };
 
     function handleMouseMove(event: MouseEvent) {
@@ -578,6 +577,114 @@ export class RadialMenu implements Layer {
       item.disabled(this.params)
     );
   }
+
+  private activateItem(item: MenuElement) {
+    if (
+      this.params === null ||
+      this.isItemDisabled(item) ||
+      this.navigationInProgress
+    )
+      return;
+
+    const subMenu = item.subMenu?.(this.params);
+    if (subMenu && subMenu.length > 0) {
+      this.navigationInProgress = true;
+      this.selectedItemId = item.id;
+      this.navigateToSubMenu(subMenu);
+      this.updateCenterButtonState("back");
+    } else {
+      item.action?.(this.params);
+      // Force transition state to false to ensure menu hides
+      this.isTransitioning = false;
+      this.hideRadialMenu();
+    }
+  }
+
+  private getFocusableItems(): MenuElement[] {
+    return this.currentMenuItems.filter((item) => !this.isItemDisabled(item));
+  }
+
+  private setFocusedItem(itemId: string | null, moveDomFocus = true) {
+    if (this.focusedItemId && this.focusedItemId !== itemId) {
+      const previousPath = this.menuPaths.get(this.focusedItemId);
+      if (previousPath) {
+        previousPath.attr("tabindex", "-1");
+        previousPath.attr("filter", null);
+        previousPath.attr("stroke-width", "2");
+      }
+    }
+
+    this.focusedItemId = itemId;
+    if (!itemId) return;
+
+    const path = this.menuPaths.get(itemId);
+    if (!path) return;
+
+    path.attr("tabindex", "0");
+    path.attr("filter", "url(#glow)");
+    path.attr("stroke-width", "3");
+
+    if (moveDomFocus) {
+      const node = path.node();
+      if (node && typeof node.focus === "function") {
+        node.focus({ preventScroll: true });
+      }
+    }
+  }
+
+  private focusFirstAvailableItem() {
+    const focusable = this.getFocusableItems();
+    this.setFocusedItem(focusable.length > 0 ? focusable[0].id : null);
+  }
+
+  private moveFocus(direction: 1 | -1) {
+    const focusable = this.getFocusableItems();
+    if (focusable.length === 0) return;
+
+    const currentIndex = focusable.findIndex(
+      (item) => item.id === this.focusedItemId,
+    );
+    const nextIndex =
+      currentIndex === -1
+        ? 0
+        : (currentIndex + direction + focusable.length) % focusable.length;
+
+    this.setFocusedItem(focusable[nextIndex].id);
+  }
+
+  private activateFocusedItem() {
+    if (!this.focusedItemId) return;
+    const item = this.findMenuItem(this.focusedItemId);
+    if (!item) return;
+    this.activateItem(item);
+  }
+
+  private handleKeyDown = (event: KeyboardEvent) => {
+    if (!this.isVisible) return;
+
+    switch (event.code) {
+      case "ArrowRight":
+      case "ArrowDown":
+        event.preventDefault();
+        event.stopPropagation();
+        this.moveFocus(1);
+        break;
+      case "ArrowLeft":
+      case "ArrowUp":
+        event.preventDefault();
+        event.stopPropagation();
+        this.moveFocus(-1);
+        break;
+      case "Enter":
+      case "Space":
+        event.preventDefault();
+        event.stopPropagation();
+        this.activateFocusedItem();
+        break;
+      default:
+        break;
+    }
+  };
 
   private renderIconsAndText(
     arcs: d3.Selection<
@@ -707,6 +814,7 @@ export class RadialMenu implements Layer {
     this.renderMenuItems(this.currentMenuItems, this.currentLevel);
     this.updateMenuGroupVisibility();
     this.animatePreviousMenu();
+    this.focusFirstAvailableItem();
   }
 
   private updateMenuGroupVisibility() {
@@ -787,6 +895,7 @@ export class RadialMenu implements Layer {
     this.clearSelectedItemHoverState();
     this.updateMenuVisibility("backward");
     this.animateMenuTransitions();
+    this.focusFirstAvailableItem();
   }
 
   private updateMenuLevels() {
@@ -890,6 +999,7 @@ export class RadialMenu implements Layer {
 
     this.renderMenuItems(this.currentMenuItems, this.currentLevel);
     this.onCenterButtonHover(true);
+    this.focusFirstAvailableItem();
     window.addEventListener("resize", this.handleResize);
   }
 
@@ -988,7 +1098,8 @@ export class RadialMenu implements Layer {
 
     centerButton
       .select(".center-button-hitbox")
-      .style("cursor", enabled ? "pointer" : "not-allowed");
+      .style("cursor", enabled ? "pointer" : "not-allowed")
+      .attr("aria-label", this.getCenterButtonAriaLabel());
 
     // Use default color for back button, otherwise use the current center button color
     const buttonColor =
@@ -1000,6 +1111,10 @@ export class RadialMenu implements Layer {
     centerButton
       .select(".center-button-icon")
       .style("opacity", enabled ? 1 : 0.5);
+  }
+
+  private getCenterButtonAriaLabel(): string {
+    return this.centerButtonState === "back" ? "Back" : "Confirm";
   }
 
   private isCenterButtonEnabled(): boolean {
@@ -1088,6 +1203,7 @@ export class RadialMenu implements Layer {
     this.currentMenuItems = this.rootMenu.subMenu!(this.params!);
 
     this.navigationInProgress = false;
+    this.focusedItemId = null;
 
     this.menuGroups.clear();
     this.menuPaths.clear();

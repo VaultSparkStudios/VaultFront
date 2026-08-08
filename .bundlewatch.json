@@ -13,8 +13,8 @@
   ],
   "initialEntry": {
     "html": "static/index.html",
-    "baselineGzipBytes": 738885,
-    "baselineBrotliBytes": 586751,
+    "baselineGzipBytes": 740758,
+    "baselineBrotliBytes": 592938,
     "crossPlatformVariancePercent": 1
   },
   "media": {

@@ -608,3 +608,18 @@ export function getDiscordAvatarUrl(user: {
 
   return null;
 }
+
+/**
+ * Best-effort mobile haptic pulse (S99 audit #182). Silently no-ops on
+ * browsers without navigator.vibrate (all desktop, iOS Safari) -- callers
+ * must gate this behind UserSettings.hapticsEnabled().
+ */
+export function triggerHaptic(pattern: number | number[]): void {
+  try {
+    if (typeof navigator === "undefined") return;
+    if (typeof navigator.vibrate !== "function") return;
+    navigator.vibrate(pattern);
+  } catch {
+    // Unsupported or blocked -- never let a haptic pulse break gameplay.
+  }
+}

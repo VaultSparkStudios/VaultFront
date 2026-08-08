@@ -966,6 +966,10 @@ if ("serviceWorker" in navigator && process.env.GAME_ENV === "prod") {
 
 // Initialize the client when the DOM is loaded
 const bootstrap = async () => {
+  // Not needed for first paint; keep it off the initial-entry budget.
+  void import("./ClientCrashReporter").then(({ installClientCrashReporter }) =>
+    installClientCrashReporter(),
+  );
   // Own the lobby-definition → menu-binding sequence as one boundary so the
   // fallback handler cannot race a player's first click.
   await import("./components/PlayPage");

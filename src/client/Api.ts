@@ -1953,3 +1953,35 @@ export async function fetchPredictionConsensus(
     return null;
   }
 }
+
+export interface ClientCrashReport {
+  kind: "error" | "unhandledrejection";
+  message: string;
+  stackHash?: string;
+  tick?: number;
+  gameId?: string;
+}
+
+/**
+ * S99 audit #183: best-effort crash beacon. Never throws -- a failed
+ * telemetry POST must never compound an already-broken client.
+ */
+export async function reportClientCrash(
+  report: ClientCrashReport,
+): Promise<void> {
+  try {
+    const authHeader = await getAuthHeader();
+    if (!authHeader) return;
+    await fetch(`${getApiBase()}/api/vaultfront/client-crash`, {
+      method: "POST",
+      headers: {
+        Authorization: authHeader,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(report),
+      keepalive: true,
+    });
+  } catch {
+    // Best-effort only.
+  }
+}

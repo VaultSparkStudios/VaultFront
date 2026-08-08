@@ -8,12 +8,18 @@
  * Constraints (enforced both in-memory and in DB):
  *   - Clan names: 2–32 chars, alphanumeric + spaces
  *   - Tags: 2–6 chars, uppercase alphanumeric
+ *   - Name/description reject the base profanity dataset by default;
+ *     callers should inject the live-refreshed PrivilegeChecker's
+ *     censorship result for full parity with username enforcement.
  *   - Max members per clan: 50
  *   - A player may belong to at most one clan
  */
 
 import { nanoid } from "nanoid";
 import { pool } from "./db/pool";
+import { createMatcher } from "./Privilege";
+
+const profanityMatcher = createMatcher([]);
 
 export type ClanRole = "founder" | "officer" | "member";
 
@@ -68,6 +74,8 @@ class ClanStore {
     tag: string,
     founderId: string,
     description = "",
+    isProfane: (text: string) => boolean = (text) =>
+      profanityMatcher.hasMatch(text),
   ): Promise<Clan | { error: string }> {
     name = name.trim();
     tag = tag.trim().toUpperCase();
@@ -77,6 +85,12 @@ class ClanStore {
     }
     if (!/^[A-Z0-9]{2,6}$/.test(tag)) {
       return { error: "Tag must be 2–6 uppercase alphanumeric characters." };
+    }
+    if (isProfane(name)) {
+      return { error: "Clan name is not allowed." };
+    }
+    if (description && isProfane(description)) {
+      return { error: "Clan description is not allowed." };
     }
     if (this.playerClan.has(founderId)) {
       return { error: "You are already in a clan. Leave it first." };

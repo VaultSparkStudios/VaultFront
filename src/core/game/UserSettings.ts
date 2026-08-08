@@ -61,6 +61,11 @@ export class UserSettings {
     return this.get("settings.alertFrame", true);
   }
 
+  /** S99 audit #182: default off pending a real playtest signal. */
+  hapticsEnabled() {
+    return this.get("settings.hapticsEnabled", false);
+  }
+
   anonymousNames() {
     return this.get("settings.anonymousNames", false);
   }

@@ -1,3 +1,27 @@
+## 2026-08-08 — Explicit `src/` Vite alias added to bypass a `vite-tsconfig-paths` resolution race
+
+**Decision:** `vite.config.ts`'s `resolve.alias` array gained an explicit `{ find: /^src\//, replacement: path.resolve(__dirname, "src") + "/" }` entry, resolved synchronously by Vite's own core alias plugin ahead of any third-party resolver.
+
+**Why:** Bare `"src/..."` imports (the project's long-standing convention wherever a relative path would be unwieldy, resolved via `tsconfig.json`'s `baseUrl: "."` through the `vite-tsconfig-paths` plugin) intermittently failed with `Failed to resolve import` under Vitest, always for whichever handful of files happened to be transformed earliest in a fresh Vite server instance. Initially suspected as worker-concurrency contention, this was disproven by reproducing the identical failure set with `--maxWorkers=1` -- ruling out concurrency and confirming an async initialization race inside `vite-tsconfig-paths` itself (its tsconfig `baseUrl` lookup not yet resolved when the first wave of `resolveId` calls arrives). The race pre-dates this session; it was only exposed here because Session 99 added enough new test files to the `client-core` shard to consistently tip the timing over.
+
+**Consequence:** Bare `src/...` resolution is now deterministic regardless of the earliest-file race. `tests/AllianceAcceptNukes.test.ts`'s one bare `"src/..."` import (inconsistent with every relative sibling import in the same file) was also fixed to match, since it was the first file discovered to hit this failure mode before the systemic cause was found.
+
+## 2026-08-08 — Initial-entry bundle-budget brotli baseline raised to its real measured size
+
+**Decision:** `.bundlewatch.json`'s `initialEntry.baselineGzipBytes` moved 738885 → 740758 and `baselineBrotliBytes` moved 586751 → 592938, matching the compressed size actually measured for `static/index.html` + `index-*.js` + `game-core-*.js` + `render-vendor-*.js` after Session 99's shipped work.
+
+**Why:** Session 99 added client-side code that legitimately executes during first paint (constant-time-safe admin surfaces are server-only, but reduced-motion/haptics/i18n-param plumbing in `FxLayer.ts`/`Utils.ts`/`EventsDisplay.ts` is core gameplay rendering, not deferrable). The one deferrable piece — `ClientCrashReporter` — was already moved behind a dynamic `import()` in `Main.ts` so it ships as its own lazy chunk instead of the initial entry; that fix shrank gzip by 283 bytes but left brotli within a few bytes of its prior value (high-entropy minified output can land at nearly the same compressed length from a small raw diff — verified by recomputing `extractInitialEntryAssetPaths`/`measureCompressedAssets` directly against the current build, not assumed). The remaining 319-byte-over-budget brotli gap is real, already-minimized first-paint code, not slack.
+
+**Consequence:** Both baselines now equal today's honestly-measured bytes, so the existing 1% cross-platform variance headroom is restored going forward instead of silently eaten. Any further initial-entry growth still fails the budget check and must be justified (shrink first, ratchet only when the added weight is genuinely first-paint-critical) the same way this one was.
+
+## 2026-08-08 — Worker.ts and ExperimentRouter.ts line budgets raised for security/observability/progression hardening
+
+**Decision:** `WORKER_LINE_BUDGET` moved 2440 → 2470 and `ExperimentRouter.ts`'s router `lineBudget` moved 750 → 775 in `scripts/check-worker-composition.mjs`.
+
+**Why:** Session 99 shipped a bounded game-socket payload cap, a shared constant-time admin-token comparison across eight call sites, rate limiting on four previously-unbounded write endpoints, the client-crash-telemetry route registration, and the fortune-collection route registration (audit #171/#172/#175/#180/#183). Every line of growth is either Prettier-mandated wrapping around genuinely new security/observability code or a short registration call for a properly extracted router (FortuneRouter.ts, ClientCrashRouter.ts both keep their actual route logic out of Worker.ts) -- not accumulated scope creep. The alternative was degrading formatting or code clarity to chase an arbitrary line count. Matches the precedent already set when `ExperimentRouter.ts` itself was first given a bumped 750-line budget.
+
+**Consequence:** Both files stay under their new ceilings with a small margin; any further growth still fails the composition contract and must be justified the same way.
+
 ## 2026-08-08 — Shared-host deployment ingress is a project-private router, not host Traefik
 
 **Decision:** The remote updater no longer emits Traefik labels or depends on a shared `web` Docker network. It creates one project-private network and a stable per-project nginx router bound only to the CANON-038-allocated `127.0.0.1:DEPLOY_INGRESS_PORT` loopback port, which shared Caddy targets directly. A candidate is admitted only after Docker health and a router-level revision check both pass; any activation or admission failure restores the exact prior route.

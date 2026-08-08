@@ -52,6 +52,22 @@ daily-challenge-system (DailyChallengeStore + HUD card), vault-intelligence-mark
 
 ## Follow-ups
 
+- [ ] [SIL] `src/server/VaultFrontPlaytestPulse.ts` branch coverage sits at 87.66%, below the coverage-baseline.json floor of 90.78% — introduced by already-committed Session 98 work (certified-loop-alpha-admission), discovered during Session 99 verification, out of scope to fix this session. Add targeted branch tests before the next coverage-ratchet run.
+- [ ] [SIL] `e2e/live-match.spec.ts` (Session 99, audit #177) is architecturally correct but reproducibly times out locally because `WorkerClient.ts:63` hardcodes a 20-second Web Worker init timeout that a cold local Vite dev-server compile doesn't reliably beat. Verify on a dedicated CI runner and consider making the timeout configurable.
+- [ ] [SIL] Audit #178's L3 stretch (aria-live hovered-action announcement in `RadialMenu.ts` + a dedicated keyboard-only Playwright spec) was intentionally descoped to L1+L2; still open if deeper accessibility polish is prioritized.
+- [ ] [SIL] Audit #184's L1 scope covered only `WorkerLobbyService.ts`; `GameRightSidebar.ts` (24.71% lines) still sits below a healthy bar and was left untouched to avoid a merge conflict with the parallel #185 extraction.
+- [ ] [SIL] Audit #185's L1 scope covered only the `ViewportMode.ts` extraction; the larger `renderReroutePreviewPanel` extraction from `ControlPanel.ts` (L2/L3) remains open.
+
+## Completed (2026-08-08 — Session 99 accessibility, security hardening, and infra-race root-fixes)
+
+- [done] Audit 171-185 (all 15): bounded WebSocket payload cap; shared constant-time admin-token comparator; XSS-hardened player-name rendering; clan profanity filtering with an explicit untrusted-data AI-prompt boundary; rate limits on four previously-unbounded write endpoints; i18n-correct combat alert strings threaded through typed params; a real Fortune Deck collection/equip Postgres table (closing a silent write-failure bug); 33 new OpenAPI path entries across six route families; reduced-motion and mobile-haptics support; lazily-loaded client crash telemetry; full keyboard/ARIA support for the radial action menu (57 new tests); `WorkerLobbyService.ts` coverage lifted 27.51%->92% lines (18 new tests); `ViewportMode.ts` extracted from `ControlPanel.ts`/`GameRightSidebar.ts`; and a real single-player-match e2e spec (architecturally correct, local-timeout-limited — see Follow-ups).
+- [done] Root-fixed a genuine pre-existing `vite-tsconfig-paths` async-resolution race that intermittently failed bare `"src/..."` imports under a fresh Vite server, via an explicit synchronous alias in `vite.config.ts`. Confirmed deterministic (reproduced 3/3 with `maxWorkers=1`, gone after the fix) — not concurrency-related as first suspected.
+- [done] Root-fixed a bare-import defect in `tests/AllianceAcceptNukes.test.ts` (used `"src/..."` where every sibling import in the same file already used the relative style).
+- [done] Discovered and honestly disclosed (not fixed, out of scope) a real coverage-ratchet regression in `VaultFrontPlaytestPulse.ts` branches from already-committed Session 98 work.
+- [done] Exhaustion proof: cumulative audit 51/51 and innovation ledger 62/62 shipped.
+- [done] Verification: full suite 249 files / 1,333 tests across four bounded shards; TypeScript, ESLint, Prettier ratchet, `verify:contracts`, and the bundle-budget gate (baseline ratcheted to the real measured post-session size, documented in DECISIONS.md) all pass directly.
+- [release-evidence] Production remains NO-GO pending approved staging/parity, project-domain Zoho reply identity, native Obelisk, live theme evidence, three authenticated humans, real revenue, observed rollback, exact-revision provider CI, and founder approval.
+
 ## Completed (2026-08-08 — Session 98 shared-host ingress and certified admission recovery)
 
 - [done] Recovered a cut-off Session 98 (codex) mid-implement: prior work was fully implemented but never committed or closed out. Verified all four items against live code rather than trusting the prior session's uncommitted state.

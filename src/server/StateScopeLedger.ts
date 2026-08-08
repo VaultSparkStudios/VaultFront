@@ -109,6 +109,15 @@ export const STATE_SCOPE_REGISTRY: readonly StateScopeLedgerEntry[] = [
     runtimeExport: "clanStore",
     releaseCritical: true,
   }),
+  processStore({
+    store: "client-crash-telemetry",
+    owner: "ClientCrashStore",
+    sourceFile: "src/server/ClientCrashStore.ts",
+    runtimeExport: "clientCrashStore",
+    releaseCritical: false,
+    retention: "newest 500 events in the owning process",
+    recovery: "diagnostic-only; a lost event is not a gameplay regression",
+  }),
   postgresStore({
     store: "match-feedback",
     owner: "MatchFeedbackStore",

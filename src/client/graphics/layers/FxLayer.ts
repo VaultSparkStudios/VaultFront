@@ -5,6 +5,7 @@ import { TileRef } from "../../../core/game/GameMap";
 import { ConquestUpdate, GameUpdateType } from "../../../core/game/GameUpdates";
 import { GameView, UnitView } from "../../../core/game/GameView";
 import SoundManager, { SoundEffect } from "../../sound/SoundManager";
+import { triggerHaptic } from "../../Utils";
 import { AnimatedSpriteLoader } from "../AnimatedSpriteLoader";
 import { conquestFxFactory } from "../fx/ConquestFx";
 import { Fx, FxType } from "../fx/Fx";
@@ -202,6 +203,15 @@ export class FxLayer implements Layer {
     }
   }
 
+  /** S99 audit #179: matches VaultFrontLayer's reduced-motion check. */
+  private prefersReducedMotion(): boolean {
+    return (
+      typeof window !== "undefined" &&
+      "matchMedia" in window &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    );
+  }
+
   handleNukeExplosion(unit: UnitView, radius: number) {
     const x = this.game.x(unit.lastTile());
     const y = this.game.y(unit.lastTile());
@@ -211,8 +221,12 @@ export class FxLayer implements Layer {
       y,
       radius,
       this.game,
+      this.prefersReducedMotion(),
     );
     this.allFx = this.allFx.concat(nukeFx);
+    if (this.game.config().userSettings()?.hapticsEnabled()) {
+      triggerHaptic([80, 40, 80, 40, 120]);
+    }
   }
 
   handleSAMInterception(unit: UnitView) {
@@ -225,7 +239,14 @@ export class FxLayer implements Layer {
       FxType.SAMExplosion,
     );
     this.allFx.push(explosion);
-    const shockwave = new ShockwaveFx(x, y, 800, 40);
+    const reducedMotion = this.prefersReducedMotion();
+    const shockwave = new ShockwaveFx(
+      x,
+      y,
+      reducedMotion ? 400 : 800,
+      40,
+      reducedMotion ? 0.5 : 1,
+    );
     this.allFx.push(shockwave);
   }
 

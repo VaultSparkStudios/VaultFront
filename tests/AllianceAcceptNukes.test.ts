@@ -1,5 +1,4 @@
-import { AllianceRequestExecution } from "src/core/execution/alliance/AllianceRequestExecution";
-import { GameUpdateType } from "src/core/game/GameUpdates";
+import { AllianceRequestExecution } from "../src/core/execution/alliance/AllianceRequestExecution";
 import { NukeExecution } from "../src/core/execution/NukeExecution";
 import {
   Game,
@@ -8,6 +7,7 @@ import {
   PlayerType,
   UnitType,
 } from "../src/core/game/Game";
+import { GameUpdateType } from "../src/core/game/GameUpdates";
 import { setup } from "./util/Setup";
 import { TestConfig } from "./util/TestConfig";
 

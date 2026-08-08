@@ -5,7 +5,11 @@ import { fileURLToPath } from "node:url";
 
 // Session 93 reachability closure retired unsupported feature surfaces. Keep
 // the reclaimed complexity from silently returning to the central worker.
-export const WORKER_LINE_BUDGET = 2440;
+// Session 99 raised the ceiling 30 lines total for the game-socket payload
+// bound, constant-time admin-token comparison, and the crash-telemetry and
+// fortune-collection route registrations (audit #171/#172/#180/#183); see
+// DECISIONS.md.
+export const WORKER_LINE_BUDGET = 2470;
 export const ROUTER_LINE_BUDGET = 180;
 
 export const EXTRACTED_DOMAINS = [
@@ -44,7 +48,9 @@ export const EXTRACTED_DOMAINS = [
     router: "ExperimentRouter.ts",
     registration: "registerExperimentRoutes",
     forbiddenInWorker: "/api/vaultfront/ab/dock",
-    lineBudget: 750,
+    // Session 99 raised this 25 lines for rate-limiting the four write
+    // endpoints (audit #175); see DECISIONS.md.
+    lineBudget: 775,
   },
   {
     router: "ProgressionRouter.ts",

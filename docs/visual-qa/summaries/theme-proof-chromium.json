@@ -1,9 +1,9 @@
 {
   "project": "chromium",
   "localOnly": true,
-  "capturedAt": "2026-08-08T07:18:59.249Z",
+  "capturedAt": "2026-08-08T23:24:32.866Z",
   "source": {
-    "digest": "sha256:dd00349c972434f1d77fe50184731877a51c019b4564aeaee26627d958137d64",
+    "digest": "sha256:e9d3af0abfc76c67e95dd8f75ac440773ffbb30144356214a5f559d0e66e11ab",
     "files": [
       {
         "path": "config/vaultfront-balance.v1.json",
@@ -22,8 +22,8 @@
       },
       {
         "path": "src/client/Api.ts",
-        "bytes": 53449,
-        "digest": "sha256:22ced6e6df715473911ed5cf3781aa2af49a18b6f74116da18aa20604ac3e6ff"
+        "bytes": 54223,
+        "digest": "sha256:8f901b18431e622203544655628d97d24756cb9e6a037fe43d1bbbc8245be210"
       },
       {
         "path": "src/client/BrandTheme.ts",
@@ -317,13 +317,13 @@
       },
       {
         "path": "src/client/graphics/layers/ControlPanel.ts",
-        "bytes": 121752,
-        "digest": "sha256:ba6adf1397414de6f39054787d70ea4a2cf4657ace15ae445ac021daa0db638a"
+        "bytes": 121797,
+        "digest": "sha256:45c1533c880e14bf92c6062046af7bd6236c58ffaf2b6719346fd8cf1687aacd"
       },
       {
         "path": "src/client/graphics/layers/GameRightSidebar.ts",
-        "bytes": 53268,
-        "digest": "sha256:3f8ccfa526d3d342ca74345936ba9003be834e32f39666a4a073dbc2b88f0e02"
+        "bytes": 53275,
+        "digest": "sha256:4278ae3aba8b976120a71d3d0bb79dbcfae870d68d5fc69b96fe5844fc66a2fe"
       },
       {
         "path": "src/client/graphics/layers/MultiTabModal.ts",
@@ -402,8 +402,8 @@
       },
       {
         "path": "src/core/game/GameUpdates.ts",
-        "bytes": 15487,
-        "digest": "sha256:76c45a06adcd7e8f317ef6c22e61fac9895e3113ebf45c8b971ee7c5f364831d"
+        "bytes": 15531,
+        "digest": "sha256:c6a9bf68e450d0f13417ec009345bdeaac116bc49873596e77a5f701946357aa"
       },
       {
         "path": "src/shared/PublicRouteGraph.json",
@@ -413,7 +413,7 @@
       {
         "path": "static/index.html",
         "bytes": 17352,
-        "digest": "sha256:29310f830d33126c6e47f3f0d338b3dcbf833490b8e1f95b9d1889e9ce9ddc20"
+        "digest": "sha256:61e816ad472f3cd586a4614bc5d0089bb3b98956723c0aa1bdea164213be335f"
       }
     ]
   },

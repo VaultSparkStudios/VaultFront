@@ -29,6 +29,7 @@ import { generateID, replacer } from "../core/Util";
 import { CreateGameInputSchema } from "../core/WorkerSchemas";
 import { registerAchievementRoutes } from "./AchievementRouter";
 import { achievementStore } from "./AchievementStore";
+import { isAdminTokenMatch } from "./AdminAuth";
 import { antiCheatMonitor } from "./AntiCheatMonitor";
 import { archive, finalizeGameRecord, readGameRecord } from "./Archive";
 import {
@@ -51,6 +52,8 @@ import { certifiedOutcomeStore } from "./CertifiedOutcomeStore";
 import { certifiedSeasonContractStore } from "./CertifiedSeasonContractStore";
 import { clanStore } from "./ClanStore";
 import { Client } from "./Client";
+import { registerClientCrashRoutes } from "./ClientCrashRouter";
+import { clientCrashStore } from "./ClientCrashStore";
 import { registerDailyMasteryRoute } from "./DailyMasteryRouter";
 import {
   databaseAllowsRequest,
@@ -64,6 +67,7 @@ import {
   registerExperimentRoutes,
 } from "./ExperimentRouter";
 import { fortuneDeck } from "./FortuneDeck";
+import { registerFortuneRoutes } from "./FortuneRouter";
 import { GameCreationAdmissionGuard } from "./GameCreationAdmission";
 import { GameAllocationError, GameManager } from "./GameManager";
 import { registerGamePreviewRoute } from "./GamePreviewRoute";
@@ -148,6 +152,8 @@ import {
 import { initWorkerMetrics } from "./WorkerMetrics";
 
 const config = getServerConfigFromServer();
+const isRequestAdmin = (req: Request) =>
+  isAdminTokenMatch(req.headers[config.adminHeader()], config.adminToken());
 const workerId = parseInt(process.env.WORKER_ID ?? "0");
 const log = logger.child({ comp: `w_${workerId}` });
 const playlist = new MapPlaylist();
@@ -322,7 +328,10 @@ export async function startWorker() {
     next();
   });
   const server = http.createServer(app);
-  const wss = new WebSocketServer({ noServer: true });
+  const wss = new WebSocketServer({
+    noServer: true,
+    maxPayload: LOBBY_WS_MAX_PAYLOAD_BYTES, // bound like lobby/spectator (S99 #172)
+  });
 
   const gm = new GameManager(config, log);
   const gameCreationAdmission = new GameCreationAdmissionGuard(12, 60_000);
@@ -472,8 +481,7 @@ export async function startWorker() {
       !authorizeRoutePolicy(
         "runtime-integrity",
         {
-          hasAdminToken:
-            req.headers[config.adminHeader()] === config.adminToken(),
+          hasAdminToken: isRequestAdmin(req),
         },
         res,
       )
@@ -519,7 +527,7 @@ export async function startWorker() {
     const authHeader = req.headers.authorization;
     const adminHeaderValue = req.headers[config.adminHeader()];
     const hasAdminHeader = adminHeaderValue !== undefined;
-    const adminAuthorized = adminHeaderValue === config.adminToken();
+    const adminAuthorized = isRequestAdmin(req);
     if (authHeader?.startsWith("Bearer ")) {
       const token = authHeader.substring("Bearer ".length);
       const result = await verifyClientToken(token, config);
@@ -694,13 +702,13 @@ export async function startWorker() {
     authorize: (policyId, context, res) =>
       authorizeRoutePolicy(policyId, context, res),
     assertPolicyBinding: assertRoutePolicyBinding,
-    isAdmin: (req) => req.headers[config.adminHeader()] === config.adminToken(),
+    isAdmin: isRequestAdmin,
   });
 
   registerCertifiedOutcomeRoutes(app, {
     authenticate: (req, res) => requireVaultFrontActor(req, res),
     acceptActorClaim,
-    isAdmin: (req) => req.headers[config.adminHeader()] === config.adminToken(),
+    isAdmin: isRequestAdmin,
     profile: certifiedOutcomeStore.profile.bind(certifiedOutcomeStore),
     summary: certifiedOutcomeStore.summary.bind(certifiedOutcomeStore),
     reportError: (error) =>
@@ -709,7 +717,8 @@ export async function startWorker() {
       }),
   });
   registerLoopEvidenceRoutes(app, {
-    isAdmin: (headers) => headers[config.adminHeader()] === config.adminToken(),
+    isAdmin: (headers) =>
+      isAdminTokenMatch(headers[config.adminHeader()], config.adminToken()),
     getSummary: (limit) => certifiedLoopEvidenceStore.getSummary(limit),
     reportError: (error) =>
       log.error("Loop evidence unavailable", { err: String(error) }),
@@ -793,7 +802,7 @@ export async function startWorker() {
     authorize: (policyId, context, res) =>
       authorizeRoutePolicy(policyId, context, res),
     assertPolicyBinding: assertRoutePolicyBinding,
-    isAdmin: (req) => req.headers[config.adminHeader()] === config.adminToken(),
+    isAdmin: isRequestAdmin,
     record: (input) => matchFeedbackStore.record(input),
     summary: () => matchFeedbackStore.summary(),
     writeRateLimit: rateLimit({ windowMs: 60_000, max: 5 }),
@@ -811,10 +820,17 @@ export async function startWorker() {
     reportError: (error) =>
       log.error("playtest evidence route failed", { error: String(error) }),
   });
+  registerClientCrashRoutes(app, {
+    rateLimit: rateLimit({ windowMs: 60_000, max: 30 }),
+    resolveActor: resolveAuthenticatedActorKey,
+    record: (event) => clientCrashStore.record(event),
+    reportError: (error) =>
+      log.error("client crash telemetry failed", { error: String(error) }),
+  });
 
   // ── Anti-Cheat Admin ─────────────────────────────────────────────────────
   app.get("/api/admin/anti-cheat/flagged", async (req, res) => {
-    if (req.headers[config.adminHeader()] !== config.adminToken()) {
+    if (!isRequestAdmin(req)) {
       return res.status(401).json({ error: "Unauthorized" });
     }
     const limit = Math.min(200, Number(req.query["limit"] ?? 50) || 50);
@@ -849,7 +865,7 @@ export async function startWorker() {
   });
 
   app.get("/api/ignis/signals", async (req, res) => {
-    if (req.headers[config.adminHeader()] !== config.adminToken()) {
+    if (!isRequestAdmin(req)) {
       return res.status(401).json({ error: "Unauthorized" });
     }
     if (!pool) return res.json({ ok: true, signals: [] });
@@ -1538,6 +1554,13 @@ export async function startWorker() {
       return res.json({ ok: true, item, alreadyOwned });
     },
   );
+  registerFortuneRoutes(app, {
+    authenticate: (req, res) => requireVaultFrontActor(req, res),
+    getCollection: (id) => fortuneDeck.getCollection(id),
+    getEquippedTitle: (id) => fortuneDeck.getEquippedTitle(id),
+    equipTitle: (id, itemId) => fortuneDeck.equipTitle(id, itemId),
+    rateLimit: fortuneRateLimit,
+  });
 
   registerProgressionRoutes(app, {
     authenticate: (req, res) => requireVaultFrontActor(req, res),
@@ -1725,6 +1748,7 @@ export async function startWorker() {
       parsed.data.tag,
       actor.persistentId,
       parsed.data.description,
+      (text) => privilegeRefresher.get().censorUsername(text) !== text,
     );
     if ("error" in result) return res.status(409).json(result);
     return res.status(201).json(result);

@@ -34,6 +34,7 @@ import { GoToPositionEvent } from "./Leaderboard";
 import { ShowReplayPanelEvent } from "./ReplayPanel";
 import { ShowSettingsModalEvent } from "./SettingsModal";
 import { SpawnBarVisibleEvent } from "./SpawnTimer";
+import { viewportWidth } from "./ViewportMode";
 import exitIcon from "/images/ExitIconWhite.svg?url";
 import FastForwardIconSolid from "/images/FastForwardIconSolidWhite.svg?url";
 import pauseIcon from "/images/PauseIconWhite.svg?url";
@@ -164,7 +165,7 @@ export class GameRightSidebar extends LitElement implements Layer {
   private lifecycleGeneration = 0;
 
   private viewportWidth(): number {
-    return typeof window !== "undefined" ? window.innerWidth : 1920;
+    return viewportWidth();
   }
 
   createRenderRoot() {

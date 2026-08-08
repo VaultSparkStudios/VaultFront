@@ -2,6 +2,7 @@ import { html, LitElement } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { GameUpdateType } from "../../../core/game/GameUpdates";
 import { GameView } from "../../../core/game/GameView";
+import { triggerHaptic } from "../../Utils";
 import { Layer } from "./Layer";
 
 interface InterceptEvent {
@@ -33,6 +34,10 @@ export class InterceptCelebration extends LitElement implements Layer {
       const goldText = act.label ? ` — ${act.label}` : "";
       const id = this.nextId++;
       this.events = [...this.events, { label: `INTERCEPTED${goldText}`, id }];
+
+      if (this.game.config().userSettings()?.hapticsEnabled()) {
+        triggerHaptic([40, 30, 60]);
+      }
 
       // Fire show-message toast
       window.dispatchEvent(

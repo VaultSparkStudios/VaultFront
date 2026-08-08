@@ -250,6 +250,22 @@
       "evidence": "signed-replay",
       "binding": "CustomClipSchema",
       "rationale": "Read-like share-link derivation from an existing replay; no replay or player state is mutated."
+    },
+    {
+      "method": "POST",
+      "path": "/api/vaultfront/client-crash",
+      "auth": "verified-actor",
+      "rateLimit": "dependencies.rateLimit",
+      "evidence": "authenticated-event",
+      "binding": "dependencies.resolveActor"
+    },
+    {
+      "method": "POST",
+      "path": "/api/vaultfront/fortune-collection/equip",
+      "auth": "verified-actor",
+      "rateLimit": "dependencies.rateLimit",
+      "evidence": "authenticated-event",
+      "binding": "dependencies.authenticate"
     }
   ]
 }

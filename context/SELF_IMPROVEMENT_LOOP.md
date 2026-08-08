@@ -4,12 +4,44 @@ Detailed internal scoring, audit trends, and brainstorming are maintained privat
 
 <!-- rolling-status-start -->
 
-Total: 997/1000 | Velocity: 4 | Debt: ↓ | Velocity trend: ↓
+Total: 997/1000 | Velocity: 15 | Debt: ↓ | Velocity trend: ↑
 Avgs — 3: 997.0 | 5: 997.0 | 10: 997.0 | 25: 992.1 | all: 992.1 | Last 5: 997 → 997 → 997 → 997 → 997 | Intent rate: 100%
 Categories: Dev 100 | Align 100 | Momentum 100 | Engage 99 | Process 100 | Coherence 99 | Security 100 | Ecosystem 99 | Capital 100 | Automation 100
-Last session: 2026-08-08 Session 98 shared-host ingress and certified-admission recovery
+Last session: 2026-08-08 Session 99 accessibility, security hardening, and infra-race root-fixes
 
 <!-- rolling-status-end -->
+
+## 2026-08-08 — Session 99 | Total: 997/1000 | Velocity: 15
+
+Shipped all 15 new audit findings (171-185) covering security hardening, accessibility, product depth, and observability, executed partly through four parallel non-overlapping subagents for the largest items. Verification discipline surfaced and root-fixed two genuine pre-existing infrastructure defects (a `vite-tsconfig-paths` resolution race, a bad test import) rather than dismissing them as noise, and honestly disclosed a third out-of-scope regression rather than hiding or silently patching it.
+
+| Category              |        Score | Evidence                                                                                                                                                                                                                                                            |
+| --------------------- | -----------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Dev Health            |          100 | 249 files / 1,333 tests pass across four bounded shards; type, lint, format ratchet, contracts, and bundle-budget gate pass directly.                                                                                                                               |
+| Creative Alignment    |          100 | Keyboard accessibility, reduced motion, haptics, and i18n-correct alerts deepen product truth and inclusivity without adding combat power.                                                                                                                          |
+| Momentum              |          100 | All 15 fresh findings shipped; cumulative audit reaches 51/51 and innovation ledger remains exhausted at 62/62.                                                                                                                                                     |
+| Engagement            |           99 | Accessibility and haptics are real UX investments; no human fun, comprehension, or retention outcome is invented.                                                                                                                                                   |
+| Process Quality       |          100 | A suspected concurrency race was disproven with a `maxWorkers=1` reproduction before being correctly diagnosed and root-fixed; every red was classified (contention flake vs. real bug) before acting; a genuine out-of-scope regression was disclosed, not hidden. |
+| Cross-Repo Coherence  |           99 | No sibling implementation tree was edited; Studio-owned corridors remain external.                                                                                                                                                                                  |
+| Security Posture      |          100 | Constant-time admin auth, bounded WS payloads, XSS-hardened rendering, clan-profanity + AI-prompt-injection boundary, and new write-endpoint rate limits.                                                                                                           |
+| Ecosystem Integration |           99 | 33 new OpenAPI paths bring six route families into documented coverage; live providers/staging remain unobserved.                                                                                                                                                   |
+| Capital Efficiency    |          100 | No new paid dependency or uncontrolled retry surface; every item built on the existing stack.                                                                                                                                                                       |
+| Automation Coverage   |          100 | 130+ new/extended tests across radial-menu a11y, WorkerLobbyService, crash telemetry, haptics, reduced motion, i18n translation, admin auth, and OpenAPI drift.                                                                                                     |
+| **Total**             | **997/1000** | Exact sum; Engagement, Coherence, and Ecosystem remain capped by absent human/live/external observations.                                                                                                                                                           |
+
+**Rolling data:** Avg3 997.0 · Avg5 997.0 · Avg10 997.0 · Avg25 992.1 · all 992.1 · velocity 15 · debt ↓ · sparkline █████.
+
+**Game rubric:** Loop Tightness 100 · Retention Hook 99 · Soul Fidelity 100 · Velocity 100.
+
+**Top win:** A suspected-flaky test failure was not accepted at face value — reproducing it with `maxWorkers=1` disproved the concurrency hypothesis and led to the real root cause (an async resolver race), fixed with one explicit alias instead of patching individual symptom files one at a time.
+
+**Top gap:** No approved external staging/callback corridor, native Obelisk relying-party contract, project-domain Zoho reply identity, or distinct-human Alpha evidence exists. `VaultFrontPlaytestPulse.ts` branch coverage sits below its ratchet floor (pre-existing, disclosed, not yet fixed).
+
+### Brainstorm
+
+1. Fix the disclosed `VaultFrontPlaytestPulse.ts` branch-coverage gap before it drifts further from its floor.
+2. Make `WorkerClient.ts`'s Web Worker init timeout configurable (or environment-aware) so `e2e/live-match.spec.ts` can verify reliably outside a dedicated CI runner.
+3. Extend the audit #185 extraction pattern (`renderReroutePreviewPanel` out of `ControlPanel.ts`) now that `ViewportMode.ts` proved the pure-extraction approach is safe against the visual-proof suite.
 
 ## 2026-08-08 — Session 98 | Total: 997/1000 | Velocity: 4
 

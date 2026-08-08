@@ -1,4 +1,20 @@
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { computeAllianceClipPath } from "../src/client/graphics/PlayerIcons";
+
+describe("NameLayer player-name rendering (S99 audit #173)", () => {
+  test("never assigns untrusted player names via innerHTML", () => {
+    const source = readFileSync(
+      resolve(__dirname, "../src/client/graphics/layers/NameLayer.ts"),
+      "utf8",
+    );
+    expect(source).not.toMatch(
+      /\.innerHTML\s*=\s*(player|render\.player)\.name\(\)/u,
+    );
+    expect(source).toContain("nameSpan.textContent = player.name();");
+    expect(source).toContain("span.textContent = render.player.name();");
+  });
+});
 
 describe("PlayerIcons", () => {
   describe("computeAllianceClipPath", () => {

@@ -549,4 +549,25 @@ CREATE INDEX IF NOT EXISTS idx_prediction_league_week_resolved
   ON prediction_league_predictions (week_key, resolved_at DESC)
   WHERE resolved_at IS NOT NULL;
 
+-- ── Fortune Deck (S99 audit #180) ───────────────────────────────────────────
+-- FortuneDeck.draw() has always attempted this INSERT, but the table was
+-- never created -- every Postgres-mode draw silently failed to persist
+-- (caught and logged, never surfaced). This closes the write path and adds
+-- the read path (fortune-collection endpoint) plus an equip slot.
+CREATE TABLE IF NOT EXISTS player_fortune (
+  persistent_id VARCHAR(64)  NOT NULL REFERENCES player_stats(persistent_id),
+  match_id      VARCHAR(64)  NOT NULL,
+  item_id       VARCHAR(64)  NOT NULL,
+  rarity        VARCHAR(16)  NOT NULL CHECK (rarity IN ('common', 'rare', 'legendary')),
+  item_name     VARCHAR(64)  NOT NULL,
+  drawn_at      TIMESTAMPTZ  NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (persistent_id, match_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_player_fortune_persistent
+  ON player_fortune (persistent_id, drawn_at DESC);
+
+ALTER TABLE player_stats
+  ADD COLUMN IF NOT EXISTS equipped_fortune_title VARCHAR(64);
+
 

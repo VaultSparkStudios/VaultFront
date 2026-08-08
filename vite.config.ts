@@ -146,6 +146,15 @@ export default defineConfig(({ mode }) => {
           find: "resources",
           replacement: path.resolve(__dirname, "resources"),
         },
+        // vite-tsconfig-paths resolves bare "src/..." specifiers via an async
+        // tsconfig baseUrl lookup that can lose a race against the first batch
+        // of resolveId calls in a fresh Vite server, intermittently failing
+        // "Failed to resolve import" for whichever files happen to be first.
+        // An explicit alias resolves synchronously and never hits that race.
+        {
+          find: /^src\//,
+          replacement: `${path.resolve(__dirname, "src")}/`,
+        },
       ],
     },
 
