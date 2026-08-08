@@ -52,6 +52,14 @@ daily-challenge-system (DailyChallengeStore + HUD card), vault-intelligence-mark
 
 ## Follow-ups
 
+## Completed (2026-08-08 — Session 98 shared-host ingress and certified admission recovery)
+
+- [done] Recovered a cut-off Session 98 (codex) mid-implement: prior work was fully implemented but never committed or closed out. Verified all four items against live code rather than trusting the prior session's uncommitted state.
+- [done] Audit 167–170: shared-host-compatible candidate-first blue/green ingress (project-private router + CANON-038 loopback port, retiring the Traefik-only updater); truthful public `/stats` surface with a machine-readable twin (CANON-054); persistent First Extraction guidance through decisive delivery; and certified-loop evidence bound into Alpha Gate admission.
+- [done] Exhaustion proof: cumulative audit 36/36 and innovation ledger 62/62 shipped; zero pending unblocked local work.
+- [done] Verification: full suite 235 files / 1,233 tests across four bounded shards; fresh Playwright 26/26 with 114 hash-bound artifacts across three themes × desktop/mobile, directly reviewed with no regressions; project doctor 13/13 with `blockingFailing: 0`.
+- [release-evidence] Production remains NO-GO pending approved staging/parity and health observations, project-domain Zoho reply identity, native Obelisk, live theme evidence, three authenticated humans, real revenue, observed rollback, exact-revision provider CI, and founder approval.
+
 ## Completed (2026-08-06 — Session 97 durable certification and bounded-intelligence arc)
 
 - [done] Audit 158–166: durable certified archive outbox; match-safe blue/green promotion; authoritative achievement hydration; complete state-scope inventory; Turnstile token redaction; one bounded remote-AI executor; cause-bound local coaching; reachable Doctrine match continuity; and an accessible reroute decision matrix.

@@ -1,4 +1,4 @@
-import { LitElement, html } from "lit";
+import { LitElement, PropertyValues, html } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { Difficulty, GameMapType } from "../../../core/game/Game";
 import { terrainMapFileLoader } from "../../TerrainMapFileLoader";
@@ -15,51 +15,44 @@ export class MapDisplay extends LitElement {
   @state() private mapName: string | null = null;
   @state() private isLoading = true;
   @state() private hasNations = true;
-  private observer: IntersectionObserver | null = null;
-  private dataLoaded = false;
 
   createRenderRoot() {
     return this;
   }
 
-  connectedCallback() {
-    super.connectedCallback();
-    this.observer = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((e) => e.isIntersecting) && !this.dataLoaded) {
-          this.dataLoaded = true;
-          this.loadMapData();
-          this.observer?.disconnect();
-        }
-      },
-      { rootMargin: "200px" },
-    );
-    this.observer.observe(this);
-  }
-
-  disconnectedCallback() {
-    this.observer?.disconnect();
-    this.observer = null;
-    super.disconnectedCallback();
+  protected updated(changed: PropertyValues<this>) {
+    if (changed.has("mapKey")) void this.loadMapData();
   }
 
   private async loadMapData() {
-    if (!this.mapKey) return;
+    const requestedMapKey = this.mapKey;
+    if (!requestedMapKey) {
+      this.isLoading = false;
+      this.mapWebpPath = null;
+      return;
+    }
 
     try {
       this.isLoading = true;
-      const mapValue = GameMapType[this.mapKey as keyof typeof GameMapType];
+      const mapValue = GameMapType[requestedMapKey as keyof typeof GameMapType];
       const data = terrainMapFileLoader.getMapData(mapValue);
-      this.mapWebpPath = data.webpPath;
       const manifest = await data.manifest();
+      if (this.mapKey !== requestedMapKey) return;
+      this.mapWebpPath = data.webpPath;
       this.mapName = manifest.name;
       this.hasNations =
         Array.isArray(manifest.nations) && manifest.nations.length > 0;
     } catch (error) {
+      if (this.mapKey !== requestedMapKey) return;
+      this.mapWebpPath = null;
       console.error("Failed to load map data:", error);
     } finally {
-      this.isLoading = false;
+      if (this.mapKey === requestedMapKey) this.isLoading = false;
     }
+  }
+
+  private handleImageError() {
+    this.mapWebpPath = null;
   }
 
   private handleKeydown(event: KeyboardEvent) {
@@ -105,6 +98,7 @@ export class MapDisplay extends LitElement {
                     alt="${this.translation || this.mapName}"
                     draggable="false"
                     @dragstart=${this.preventImageDrag}
+                    @error=${this.handleImageError}
                     class="w-full h-full object-cover ${
                       this.selected ? "opacity-100" : "opacity-80"
                     } group-hover:opacity-100 transition-opacity duration-200"

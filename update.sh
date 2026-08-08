@@ -13,13 +13,33 @@ source "$ENV_FILE"
 
 : "${GHCR_IMAGE:?GHCR_IMAGE is required}"
 : "${DEPLOY_HEALTH_URL:?DEPLOY_HEALTH_URL is required}"
+: "${DEPLOY_INGRESS_PORT:?DEPLOY_INGRESS_PORT is required from the CANON-038 allocation}"
 [[ "$GHCR_IMAGE" =~ @sha256:[0-9a-f]{64}$ ]] || {
     echo "Remote update rejected a mutable image reference" >&2
     exit 2
 }
+[[ "$DEPLOY_INGRESS_PORT" =~ ^[0-9]+$ ]] \
+    && ((DEPLOY_INGRESS_PORT >= 8110 && DEPLOY_INGRESS_PORT <= 8999)) || {
+    echo "DEPLOY_INGRESS_PORT must be an allocated CANON-038 port in 8110-8999" >&2
+    exit 2
+}
 
 APP_NAME="${APP_NAME:-vaultfront}"
+for identifier in "$APP_NAME" "$ENV" "$SUBDOMAIN"; do
+    [[ "$identifier" =~ ^[a-z0-9-]+$ ]] || {
+        echo "Deployment identifiers must contain only lowercase letters, digits, and hyphens" >&2
+        exit 2
+    }
+done
 DEPLOYMENT_KEY="${APP_NAME}-${ENV}-${SUBDOMAIN}"
+NETWORK_NAME="${DEPLOYMENT_KEY}-private"
+ROUTER_NAME="${DEPLOYMENT_KEY}-router"
+ROUTER_STATE_DIR="${HOME}/.${APP_NAME}/${DEPLOYMENT_KEY}"
+ROUTER_CONFIG="${ROUTER_STATE_DIR}/router.conf"
+[[ "$ROUTER_STATE_DIR" == "$HOME/.$APP_NAME/$DEPLOYMENT_KEY" ]] || {
+    echo "Router state escaped the project-owned directory" >&2
+    exit 2
+}
 IMAGE_REPO="${GHCR_IMAGE%@sha256:*}"
 RETENTION="${DEPLOY_IMAGE_RETENTION:-5}"
 DEPLOY_DRAIN_TIMEOUT_SECONDS="${DEPLOY_DRAIN_TIMEOUT_SECONDS:-900}"
@@ -36,9 +56,9 @@ fi
 docker pull "$GHCR_IMAGE"
 docker image inspect "$GHCR_IMAGE" > /dev/null
 : "${DATABASE_URL:?DATABASE_URL is required for release migration}"
-docker network create web > /dev/null 2>&1 || true
+docker network create "$NETWORK_NAME" > /dev/null 2>&1 || true
 docker run --rm \
-    --network web \
+    --network "$NETWORK_NAME" \
     --env-file "$ENV_FILE" \
     --entrypoint node \
     "$GHCR_IMAGE" \
@@ -50,6 +70,7 @@ docker run --rm \
 mapfile -t INCUMBENTS < <(
     docker ps \
         --filter "label=com.vaultfront.deployment=${DEPLOYMENT_KEY}" \
+        --filter "label=com.vaultfront.role=app" \
         --format '{{.Names}}'
 )
 if ((${#INCUMBENTS[@]} > 1)); then
@@ -72,7 +93,6 @@ if [[ -n "$OLD_CONTAINER" ]]; then
     [[ "$OLD_GENERATION" =~ ^[0-9]+$ ]] || OLD_GENERATION=0
 fi
 NEW_GENERATION=$((OLD_GENERATION + 1))
-ROUTER_PRIORITY=$((1000 + NEW_GENERATION))
 DIGEST_SHORT="${IMAGE_DIGEST#sha256:}"
 DIGEST_SHORT="${DIGEST_SHORT:0:12}"
 CONTAINER_NAME="${DEPLOYMENT_KEY}-g${NEW_GENERATION}-${DIGEST_SHORT}"
@@ -81,31 +101,22 @@ run_container() {
     local image="$1"
     local name="$2"
     local generation="$3"
-    local priority="$4"
     docker run -d \
         --restart="$RESTART" \
         --env-file "$ENV_FILE" \
         --name "$name" \
-        --network web \
+        --network "$NETWORK_NAME" \
         --label "com.vaultfront.deployment=${DEPLOYMENT_KEY}" \
+        --label "com.vaultfront.role=app" \
         --label "com.vaultfront.generation=${generation}" \
         --label "com.vaultfront.image-digest=${IMAGE_DIGEST}" \
-        --label "traefik.enable=true" \
-        --label "traefik.http.routers.${name}.rule=Host(\`${SUBDOMAIN}.${DOMAIN}\`)" \
-        --label "traefik.http.routers.${name}.entrypoints=websecure" \
-        --label "traefik.http.routers.${name}.tls=true" \
-        --label "traefik.http.routers.${name}.priority=${priority}" \
-        --label "traefik.http.services.${name}.loadbalancer.server.port=80" \
-        --label "traefik.http.services.${name}.loadbalancer.healthcheck.path=/_health" \
-        --label "traefik.http.services.${name}.loadbalancer.healthcheck.interval=5s" \
-        --label "traefik.http.services.${name}.loadbalancer.healthcheck.timeout=3s" \
         "$image"
 }
 
 # Start and prove the candidate before signalling the incumbent. The higher
-# router priority sends new admissions to this generation after its Traefik
-# health check turns green; already-upgraded WebSockets remain on the incumbent.
-run_container "$GHCR_IMAGE" "$CONTAINER_NAME" "$NEW_GENERATION" "$ROUTER_PRIORITY"
+# project-router route is activated only after health and immutable revision
+# checks; shared Caddy always targets the one allocated loopback port.
+run_container "$GHCR_IMAGE" "$CONTAINER_NAME" "$NEW_GENERATION"
 CANDIDATE_HEALTHY=0
 for _ in {1..30}; do
     if docker exec "$CONTAINER_NAME" curl -fsS --max-time 5 http://127.0.0.1/_health > /dev/null; then
@@ -121,10 +132,8 @@ if [[ "$CANDIDATE_HEALTHY" != "1" ]]; then
     exit 1
 fi
 
-# Docker's health state is the admission signal consumed by Traefik's Docker
-# provider. Wait for it explicitly, then prove the higher-priority candidate
-# through real ingress by immutable Git revision while the incumbent can still
-# serve and be restored without a restart.
+# Docker health is the candidate-local admission signal. Wait for it before
+# changing the stable project router, so the incumbent remains untouched.
 DOCKER_HEALTHY=0
 for _ in {1..90}; do
     if [[ "$(docker inspect --format '{{.State.Health.Status}}' "$CONTAINER_NAME")" == "healthy" ]]; then
@@ -152,6 +161,127 @@ if [[ -z "$EXPECTED_REVISION" || "$EXPECTED_REVISION" == "unknown" ]]; then
     docker rm "$CONTAINER_NAME" > /dev/null 2>&1 || true
     exit 1
 fi
+
+write_router_config() {
+    local target="$1"
+    local output="$2"
+    cat > "$output" << EOF
+map \$http_upgrade \$connection_upgrade {
+    default upgrade;
+    '' close;
+}
+server {
+    listen 80;
+    location / {
+        proxy_pass http://${target}:80;
+        proxy_http_version 1.1;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header Upgrade \$http_upgrade;
+        proxy_set_header Connection \$connection_upgrade;
+        proxy_read_timeout 10800s;
+        proxy_send_timeout 10800s;
+    }
+}
+EOF
+}
+
+activate_route() {
+    local target="$1"
+    local validation_image="$2"
+    local candidate_dir="${ROUTER_STATE_DIR}/candidate"
+    local candidate_config="${candidate_dir}/router.conf"
+    mkdir -p "$ROUTER_STATE_DIR" || return 1
+    rm -rf "$candidate_dir" || return 1
+    mkdir -p "$candidate_dir" || return 1
+    write_router_config "$target" "$candidate_config" || {
+        rm -rf "$candidate_dir"
+        return 1
+    }
+    docker run --rm \
+        --network "$NETWORK_NAME" \
+        --volume "${candidate_dir}:/etc/nginx/conf.d:ro" \
+        --entrypoint nginx \
+        "$validation_image" -t || {
+        rm -rf "$candidate_dir"
+        return 1
+    }
+    cp "$candidate_config" "$ROUTER_CONFIG" || {
+        rm -rf "$candidate_dir"
+        return 1
+    }
+    if docker container inspect "$ROUTER_NAME" > /dev/null 2>&1; then
+        local router_bind
+        router_bind="$(docker port "$ROUTER_NAME" 80/tcp | head -n 1)"
+        [[ "$router_bind" == "127.0.0.1:${DEPLOY_INGRESS_PORT}" ]] || {
+            echo "Project router bind ${router_bind:-missing} does not match allocated 127.0.0.1:${DEPLOY_INGRESS_PORT}" >&2
+            rm -rf "$candidate_dir"
+            return 1
+        }
+        docker exec "$ROUTER_NAME" nginx -t || {
+            rm -rf "$candidate_dir"
+            return 1
+        }
+        docker exec "$ROUTER_NAME" nginx -s reload || {
+            rm -rf "$candidate_dir"
+            return 1
+        }
+    else
+        docker run -d \
+            --restart=always \
+            --name "$ROUTER_NAME" \
+            --network "$NETWORK_NAME" \
+            --publish "127.0.0.1:${DEPLOY_INGRESS_PORT}:80" \
+            --volume "${ROUTER_STATE_DIR}:/etc/nginx/conf.d:ro" \
+            --label "com.vaultfront.deployment=${DEPLOYMENT_KEY}" \
+            --label "com.vaultfront.role=router" \
+            --entrypoint nginx \
+            "$validation_image" -g 'daemon off;' || {
+            rm -rf "$candidate_dir"
+            return 1
+        }
+    fi
+    rm -rf "$candidate_dir"
+}
+
+restore_incumbent_route() {
+    if [[ -n "$OLD_CONTAINER" && -n "$OLD_IMAGE" ]]; then
+        docker start "$OLD_CONTAINER" > /dev/null 2>&1 || true
+        activate_route "$OLD_CONTAINER" "$OLD_IMAGE"
+    else
+        docker stop --time 45 "$ROUTER_NAME" > /dev/null 2>&1 || true
+        docker rm "$ROUTER_NAME" > /dev/null 2>&1 || true
+        rm -f "$ROUTER_CONFIG"
+    fi
+}
+
+# Switch only the project-private router. Caddy remains the sole shared-host
+# public ingress authority and forwards to 127.0.0.1:DEPLOY_INGRESS_PORT.
+if ! activate_route "$CONTAINER_NAME" "$GHCR_IMAGE"; then
+    echo "Candidate route activation failed; restoring the incumbent route" >&2
+    restore_incumbent_route || true
+    docker stop --time 45 "$CONTAINER_NAME" > /dev/null 2>&1 || true
+    docker rm "$CONTAINER_NAME" > /dev/null 2>&1 || true
+    exit 1
+fi
+
+ROUTER_ADMITTED=0
+for _ in {1..30}; do
+    if [[ "$(curl -fsS --max-time 5 "http://127.0.0.1:${DEPLOY_INGRESS_PORT}/commit.txt" 2> /dev/null || true)" == "$EXPECTED_REVISION" ]]; then
+        ROUTER_ADMITTED=1
+        break
+    fi
+    sleep 2
+done
+if [[ "$ROUTER_ADMITTED" != "1" ]]; then
+    echo "Candidate revision was not admitted through the project router; incumbent remains active" >&2
+    restore_incumbent_route
+    docker stop --time 45 "$CONTAINER_NAME" > /dev/null 2>&1 || true
+    docker rm "$CONTAINER_NAME" > /dev/null 2>&1 || true
+    exit 1
+fi
+
 CANDIDATE_ADMITTED=0
 for _ in {1..30}; do
     if [[ "$(curl -fsS --max-time 5 "$REVISION_URL" 2> /dev/null || true)" == "$EXPECTED_REVISION" ]]; then
@@ -161,7 +291,8 @@ for _ in {1..30}; do
     sleep 2
 done
 if [[ "$CANDIDATE_ADMITTED" != "1" ]]; then
-    echo "Candidate revision was not admitted through ingress; incumbent remains active" >&2
+    echo "Candidate revision was not admitted through shared Caddy ingress; incumbent remains active" >&2
+    restore_incumbent_route
     docker stop --time 45 "$CONTAINER_NAME" > /dev/null 2>&1 || true
     docker rm "$CONTAINER_NAME" > /dev/null 2>&1 || true
     exit 1
@@ -185,9 +316,7 @@ for _ in {1..30}; do
 done
 if [[ "$LIVE_HEALTHY" != "1" ]]; then
     echo "Ingress health verification failed; restoring incumbent" >&2
-    if [[ -n "$OLD_CONTAINER" && -n "$OLD_IMAGE" ]]; then
-        docker start "$OLD_CONTAINER" > /dev/null
-    fi
+    restore_incumbent_route
     docker stop --time 45 "$CONTAINER_NAME" > /dev/null 2>&1 || true
     docker rm "$CONTAINER_NAME" > /dev/null 2>&1 || true
     exit 1

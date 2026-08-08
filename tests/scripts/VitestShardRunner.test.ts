@@ -48,6 +48,21 @@ describe("bounded Vitest shard runner", () => {
     expect(calls[2]).toContain("tests/scripts/AuditRenderer.test.ts");
   });
 
+  it("allows a bounded worker cap for resource-constrained hosts", () => {
+    const calls: string[][] = [];
+    const status = runVitestShards({
+      maxWorkers: 1,
+      spawn: (_command, args) => {
+        calls.push(args as string[]);
+        return { status: 0 } as never;
+      },
+    });
+
+    expect(status).toBe(0);
+    expect(calls).toHaveLength(4);
+    expect(calls.every((args) => args.includes("--maxWorkers=1"))).toBe(true);
+  });
+
   it("owns the canonical package test command", () => {
     const pkg = JSON.parse(readFileSync(resolve("package.json"), "utf8"));
     expect(pkg.scripts.test).toBe("node scripts/run-vitest-shards.mjs");

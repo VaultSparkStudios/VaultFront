@@ -5,7 +5,7 @@
 > Suggest: `node ../vaultspark-studio-ops/scripts/check-canon-adoption.mjs --project . --suggest` uses conformance evidence to pre-fill safe suggestions.
 > Mark each: **adopted** · **pending** · **review** · **exempt (reason)**. This file is maintained, not auto-trusted.
 
-Audience: public-unlaunched · Live ACTIVE canons: 52 · Pending review: 40
+Audience: public-unlaunched · Live ACTIVE canons: 54 · Pending review: 41
 
 | Canon     | Title                                                        | Status              | Evidence / note                                                                                                                     |
 | --------- | ------------------------------------------------------------ | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
@@ -18,7 +18,7 @@ Audience: public-unlaunched · Live ACTIVE canons: 52 · Pending review: 40
 | CANON-007 | Every project must have a staging environment before deployi | review              |                                                                                                                                     |
 | CANON-008 | All VaultSpark IP is proprietary by default; open-source lic | review              |                                                                                                                                     |
 | CANON-009 | SIL rubric is 10 × 100 = 1000 (v3.0)                         | adopted (suggested) | Conformance checker passed: 1000-pt v3.0 · 10 cats · Σ==silScore(999)                                                               |
-| CANON-010 | Claude Code and Codex must have strict skills + hooks + MCP  | review              |                                                                                                                                     |
+| CANON-010 | Claude Code and Codex must have strict skills + hooks + MCP  | adopted (suggested) | Conformance checker passed: }                                                                                                       |
 | CANON-011 | Every public-facing project must follow the universal sitema | adopted             | Live sitemap compliance passed 10/10 in Session 74; public routes and standard files exist.                                         |
 | CANON-012 | Every studio agent resolves credentials via the secrets gate | review              |                                                                                                                                     |
 | CANON-013 | Every project picks one of 3 canonical low-cost archetypes a | review              |                                                                                                                                     |
@@ -61,3 +61,5 @@ Audience: public-unlaunched · Live ACTIVE canons: 52 · Pending review: 40
 | CANON-051 | Web Hardening: every public surface meets the edge-security  | review              |                                                                                                                                     |
 | CANON-052 | Project Lifecycle Ladder: FORGE/SPARKED/VAULTED with sub-sta | review              |                                                                                                                                     |
 | CANON-053 | Rendered-Pixel UI Discipline: look at the real interface whi | adopted (suggested) | Conformance checker passed: no UI/UX files changed                                                                                  |
+| CANON-054 | Public Stats Surface: every website reports and analyzes its | review              |                                                                                                                                     |
+| CANON-055 | Surface Follow-Through: every project change reaches the thi | review              |                                                                                                                                     |

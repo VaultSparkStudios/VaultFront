@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import {
+  attachCertifiedLoopAlphaEvidence,
   buildVaultFrontPlaytestPulseSummary,
   recordVaultFrontPlaytestPulse,
   resetVaultFrontPlaytestPulseForTests,
@@ -194,6 +195,60 @@ describe("VaultFront playtest pulse", () => {
       rivalAction: true,
     });
     expect(summary.alphaGate.passLabel).toContain("Alpha gate passed");
+
+    const unavailable = attachCertifiedLoopAlphaEvidence(summary, null, 16_000);
+    expect(unavailable.alphaGate.status).toBe("warming");
+    expect(unavailable.alphaGate.checks.certifiedOrderedLoop).toBe(false);
+    expect(unavailable.alphaGate.nextCheck).toContain("unavailable");
+
+    const certifiedEvidence = {
+      windowStartAt: 0,
+      windowEndAt: 16_000,
+      latestEvidenceAt: 15_000,
+      vaultParticipants: 1,
+      outcomeParticipants: 1,
+      pressureParticipants: 1,
+      breachParticipants: 1,
+      decisiveDeliveryParticipants: 1,
+      certifiedLoopParticipants: 1,
+    };
+    const certified = attachCertifiedLoopAlphaEvidence(
+      summary,
+      certifiedEvidence,
+      16_000,
+    );
+    expect(certified.alphaGate.status).toBe("ready");
+    expect(certified.alphaGate.checks).toMatchObject({
+      certifiedCapture: true,
+      certifiedConvoyOutcome: true,
+      certifiedPressure: true,
+      certifiedBreach: true,
+      certifiedDecisiveDelivery: true,
+      certifiedOrderedLoop: true,
+    });
+    expect(certified.alphaGate.passLabel).toContain("server-certified");
+
+    const missingPressure = attachCertifiedLoopAlphaEvidence(
+      summary,
+      { ...certifiedEvidence, pressureParticipants: 0 },
+      16_000,
+    );
+    expect(missingPressure.alphaGate.status).toBe("warming");
+    expect(missingPressure.alphaGate.checks.certifiedPressure).toBe(false);
+    expect(missingPressure.alphaGate.nextCheck).toContain("Pressure");
+
+    const stale = attachCertifiedLoopAlphaEvidence(
+      summary,
+      {
+        ...certifiedEvidence,
+        windowStartAt: 60 * 60 * 1000,
+        windowEndAt: 25 * 60 * 60 * 1000,
+        latestEvidenceAt: 1,
+      },
+      25 * 60 * 60 * 1000,
+    );
+    expect(stale.alphaGate.status).toBe("blocked");
+    expect(stale.alphaGate.nextCheck).toContain("within 24 hours");
   });
   it("deduplicates event ids and excludes non-human sources from the gate", () => {
     const shared = {

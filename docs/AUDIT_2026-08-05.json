@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
-  "session": 97,
+  "session": 98,
   "generatedBy": "codex",
-  "generatedAt": "2026-08-05T21:20:00.000-04:00",
+  "generatedAt": "2026-08-07T20:22:00.000-04:00",
   "project": {
     "slug": "vaultfront",
     "name": "VaultFront",
@@ -13,7 +13,7 @@
     "stagingType": "local",
     "registryMedium": "game"
   },
-  "summary": "Session 97 merged nine new premise-verified findings into the exhausted Session 96 ledger: deployment hard-kills live matches despite a graceful worker path; certified archives can be silently lost; achievements do not rehydrate authoritatively after restart; the state-scope release ledger omits live stores; a Turnstile capability token is logged; three remote-AI routes bypass the bounded executor; Doctrine rematch intent has no runtime consumer; one local-coach cause is fabricated; and advanced reroute controls miss accessible decision semantics. No balance, launch, revenue, human-retention, or external-readiness claim is inferred.",
+  "summary": "Session 98 merged four premise-verified release and loop findings into the exhausted Session 97 ledger. The checked-in updater still assumes host Traefik even though the live shared host and current CANON-038 use Caddy, so a live run would mutate the host before failing ingress. VaultFront also has authenticated player statistics but no truthful public /stats surface or machine-readable twin required by CANON-054. First Extraction guidance can retire before decisive delivery, and the Alpha Gate can pass without certified Pressure, Breach, or decisive-delivery evidence. No live staging, launch, population, retention, or revenue claim is inferred.",
   "axes": {
     "featureDepth": 1.5,
     "innovation": 1.5,
@@ -36,7 +36,7 @@
     "speedOrganization": 13,
     "tokenApiReduction": 8,
     "novelCandidates": 17,
-    "culledBelowThresholdOrFalsePremise": 46
+    "culledBelowThresholdOrFalsePremise": 51
   },
   "specialtyReviews": {
     "infrastructure": {
@@ -170,6 +170,11 @@
       "candidate": "Claim retention lift from Doctrine continuity or causal feedback",
       "result": "deferred",
       "evidence": "The code can close a measurable progression and learning seam, but only authenticated human observations may establish a retention outcome."
+    },
+    {
+      "candidate": "Bind the next nominal free port and deploy before Studio Ops records a live-reconciled allocation",
+      "result": "externally-blocked",
+      "evidence": "CANON-038 makes portfolio/SHARED_SERVER_PORTS.json plus live listeners the allocation authority. The next candidate block begins at 8120, but claiming it in this sibling repo or binding it without an owner write would violate cross-repo transport and shared-tenancy isolation."
     }
   ],
   "items": [
@@ -1268,6 +1273,142 @@
       "coreLoopStep": "route input → commander decision fantasy → legible tradeoff reward → tactical progression",
       "executionLog": [
         "Session 97: reroute projections now use 44px radio/pressed controls, roving arrow/Home/End navigation, and polite live ETA-risk-reward descriptions; focused HUD tests pass."
+      ]
+    },
+    {
+      "id": 167,
+      "slug": "caddy-contained-blue-green-ingress",
+      "tier": "🔥",
+      "axis": "release architecture / reliability / security / organization",
+      "effortHours": 10,
+      "impact": 10,
+      "innovation": 9,
+      "priority": 190,
+      "status": "shipped",
+      "complete": true,
+      "title": "Make candidate-first deployment compatible with the shared Caddy edge",
+      "why": "The live shared host runs Caddy and has no host Traefik or shared Docker web network, while update.sh creates that network and depends on Traefik labels for candidate admission. The workflow would build, push, migrate, and start containers before discovering that no ingress controller consumes those labels.",
+      "recipe": "Replace host-Traefik assumptions with one project-private Docker network and a stable project router bound only to an allocated 127.0.0.1 port that shared Caddy can target. Switch the router to a healthy immutable candidate before draining the incumbent, restore the exact prior route on failure, require an explicit CANON-038 allocation before any live run, and update workflow/runbook/contracts. Core-loop step: live player input → uninterrupted match fantasy → certified result reward → shared-host-safe progression.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 2,
+          "recipe": "Fail live deployment before build unless an allocated loopback ingress port is present; remove false Traefik claims from the runbook."
+        },
+        "L2": {
+          "effortHours": 6,
+          "recipe": "Add a stable private router and Caddy-facing loopback port with candidate-first health and revision admission."
+        },
+        "L3": {
+          "effortHours": 10,
+          "recipe": "Preserve WebSocket drain and exact-incumbent rollback, add allocation and topology contracts, dry-run coverage, and a one-time Caddy bootstrap boundary."
+        }
+      },
+      "coreLoopStep": "live player input → uninterrupted match fantasy → certified result reward → shared-host-safe progression",
+      "executionLog": [
+        "Session 98: replaced host-Traefik assumptions with a project-private Docker network and a stable nginx router bound only to the allocated 127.0.0.1:DEPLOY_INGRESS_PORT loopback port; candidate-first health/revision admission activates the router only after the candidate is healthy, restores the exact incumbent route on any activation/admission failure, validates the CANON-038 port range (8110-8999) in deploy.sh/update.sh/CI, and the deploy-contract checker verifies transactional activation, router-state isolation, and Traefik-label absence. 26/26 deploy-contract checks and full CI-parity test suite pass."
+      ]
+    },
+    {
+      "id": 168,
+      "slug": "truthful-public-game-stats-surface",
+      "tier": "⚡",
+      "axis": "feedback loop / UX / observability / dual audience",
+      "effortHours": 6,
+      "impact": 8,
+      "innovation": 7,
+      "priority": 140,
+      "status": "shipped",
+      "complete": true,
+      "title": "Publish a truthful public game-stats surface without manufacturing prelaunch counts",
+      "why": "VaultFront exposes authenticated player stats and certified playtest summaries, but has no navigable /stats page, stats-surface descriptor, or machine-readable endpoint. CANON-054 is structurally red, and presenting missing prelaunch population as zero would create a more serious CANON-031 observability defect.",
+      "recipe": "Add /stats to the canonical route graph and public shell; publish a precomputed descriptor and /stats.json twin whose player, certified-match, and decisive-session metrics explicitly say unavailable until approved durable staging exists; include value label, period, computed-at, denominator, source, reason, and interpretation; link the twin from agents.json and llms.txt; add drift/privacy/route/build tests and rendered desktop/mobile theme proof. Core-loop step: certified match reward → community-scale reflection → trustworthy progress signal → return-session progression.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Add a navigable page and honest unavailable metrics with dates and reasons."
+        },
+        "L2": {
+          "effortHours": 3,
+          "recipe": "Add the machine-readable twin, route graph, agents/llms declarations, and structural checker coverage."
+        },
+        "L3": {
+          "effortHours": 6,
+          "recipe": "Generate page and JSON from one authority, preserve privacy banding, and prove visual/build/release integration across desktop/mobile themes."
+        }
+      },
+      "coreLoopStep": "certified match reward → community-scale reflection → trustworthy progress signal → return-session progression",
+      "executionLog": [
+        "Session 98: published /stats as a canonical route (sitemap, footer manifest, agents.json, llms.txt) backed by one generator (scripts/generate-public-stats.mjs) producing byte-identical public/stats/index.html and public/stats.json from public/stats-surface.json; every metric explicitly states pre-launch unavailability with reason/interpretation/source instead of publishing a fabricated zero. PublicStatsSurface and PublicSurface tests pass; rendered-pixel proof confirms the Stats footer link and no visual regressions across three themes desktop/mobile."
+      ]
+    },
+    {
+      "id": 169,
+      "slug": "persistent-first-extraction-spine",
+      "tier": "🔥",
+      "axis": "game loop / UX / retention / soul fidelity",
+      "effortHours": 4,
+      "impact": 9,
+      "innovation": 6,
+      "priority": 146,
+      "status": "shipped",
+      "complete": true,
+      "title": "Keep First Extraction guidance alive through decisive delivery",
+      "why": "The five-step first-match quest ends at decisive delivery, but ControlPanel releases the first-player lock after only capture plus any convoy interaction and can hide the tracker after 1,800 ticks. A normal attempt can therefore lose its progressive guidance before Pressure, Breach, and decisive delivery complete.",
+      "recipe": "Separate compact presentation from quest retirement: keep an unfinished, accessible compact tracker reachable until firstExtractionComplete() or match end, preserve full guidance while space allows, and cover the 1,800-tick and capture-plus-convoy boundaries. Core-loop step: capture input → convoy/Pressure fantasy → Breach and decisive-delivery reward → learned first-match progression.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Remove the premature time and capture/convoy retirement conditions."
+        },
+        "L2": {
+          "effortHours": 2,
+          "recipe": "Retain a compact unfinished-step tracker and explicit match-end cleanup."
+        },
+        "L3": {
+          "effortHours": 4,
+          "recipe": "Add boundary tests, accessibility semantics, responsive rendering, and a loop-tightness receipt."
+        }
+      },
+      "coreLoopStep": "capture input → convoy/Pressure fantasy → Breach and decisive-delivery reward → learned first-match progression",
+      "executionLog": [
+        "Session 98: added firstExtractionTrackerMode() to keep an accessible compact tracker reachable through decisive delivery instead of retiring guidance after capture+convoy or the 1,800-tick timeout; ControlPanel now renders a compact one-line tracker with an expand control when dismissed/compact/past the coaching window, and full detail otherwise, until firstExtractionComplete(). Focused FirstExtractionQuest tests and rendered-pixel proof pass."
+      ]
+    },
+    {
+      "id": 170,
+      "slug": "certified-loop-alpha-admission",
+      "tier": "🔥",
+      "axis": "feedback loop / release truth / retention / analytics",
+      "effortHours": 6,
+      "impact": 10,
+      "innovation": 8,
+      "priority": 172,
+      "status": "shipped",
+      "complete": true,
+      "title": "Require certified signature-loop evidence at the Alpha Gate",
+      "why": "The Alpha Gate currently checks three actors, tutorial interaction, feedback, and Rival exposure/action, but can become ready without any authenticated participant reaching Pressure, opening a Breach, or landing a decisive delivery. CertifiedLoopEvidenceStore already derives privacy-minimal authoritative stage evidence, so the omission is at the release-admission boundary rather than the simulation boundary.",
+      "recipe": "Join fresh certified loop summary evidence into the Alpha Gate, require observed samples at Capture, convoy outcome, Pressure, Breach, and decisive delivery for the qualifying cohort, expose each stage as an independently honest check, and retain unavailable-vs-zero plus small-cohort privacy. Do not invent conversion targets before the baseline exists. Core-loop step: authenticated input → certified VaultFront fantasy → decisive-delivery reward → evidence-backed release progression.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Expose certified stage evidence beside the existing Alpha checks."
+        },
+        "L2": {
+          "effortHours": 3,
+          "recipe": "Make all five signature stages mandatory and fail closed when persistence is unavailable."
+        },
+        "L3": {
+          "effortHours": 6,
+          "recipe": "Bind freshness/cohort provenance, privacy-safe projection, API/client visibility, and release-contract tests."
+        }
+      },
+      "coreLoopStep": "authenticated input → certified VaultFront fantasy → decisive-delivery reward → evidence-backed release progression",
+      "executionLog": [
+        "Session 98: release admission now consumes the existing certified signature-loop authority — CertifiedLoopEvidenceStore tracks an ordered Capture→Convoy→Pressure→Breach→decisive-delivery certifiedLoopParticipants count and a bounded 24h evidence window (windowStartAt/windowEndAt/latestEvidenceAt); VaultFrontPlaytestPulse.attachCertifiedLoopAlphaEvidence binds fresh certified per-stage evidence into the Alpha Gate so it can only report ready after both an authenticated human cohort and a fresh, ordered, server-certified loop are green. Worker wires every playtest-pulse read through this bound summary. Full test suite (235 files / 1,233 tests) passes."
       ]
     }
   ],

@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "name": "VaultFront public game stats",
+  "route": "/stats/",
+  "machineReadable": "/stats.json",
+  "precomputed": true,
+  "status": "pre-launch-unmeasured",
+  "privacy": {
+    "smallCountThreshold": 5,
+    "policy": "Counts from one to four are banded before publication; actor identifiers and free-form player text are never published."
+  },
+  "metrics": [
+    {
+      "id": "authenticated_human_alpha_players",
+      "label": "Authenticated human alpha players",
+      "value": "Not yet measured",
+      "period": "Pre-launch through 2026-08-07",
+      "computedAt": "2026-08-07T21:25:00-04:00",
+      "unitOrDenominator": "Distinct authenticated human actors in the 24-hour alpha evidence window",
+      "source": "Production VaultFront playtest pulse joined to Obelisk-authenticated human actor evidence",
+      "available": false,
+      "unavailableReason": "The public gameplay runtime and Obelisk identity integration are not live, so no qualifying production cohort exists.",
+      "interpretation": "This is intentionally unavailable rather than zero: VaultFront has not opened a production alpha cohort."
+    },
+    {
+      "id": "certified_complete_loop_players",
+      "label": "Certified complete-loop players",
+      "value": "Not yet measured",
+      "period": "Pre-launch through 2026-08-07",
+      "computedAt": "2026-08-07T21:25:00-04:00",
+      "unitOrDenominator": "Players with one ordered Capture → Convoy → Pressure → Breach → decisive-delivery timeline",
+      "source": "Production certified-loop evidence store, restricted to fresh server-certified timelines",
+      "available": false,
+      "unavailableReason": "No production certified-match evidence store is available until isolated staging and production databases are provisioned.",
+      "interpretation": "A launch claim requires at least one fresh, server-certified player timeline; simulated and test evidence is excluded."
+    },
+    {
+      "id": "median_decisive_session_minutes",
+      "label": "Median decisive session length",
+      "value": "Not yet measured",
+      "period": "Pre-launch through 2026-08-07",
+      "computedAt": "2026-08-07T21:25:00-04:00",
+      "unitOrDenominator": "Minutes among certified matches ending in a decisive Breach delivery",
+      "source": "Production certified-loop evidence store decisive-session cohort",
+      "available": false,
+      "unavailableReason": "There are no production certified decisive-session samples from which to compute a median.",
+      "interpretation": "Session length will be published only after a real qualifying cohort exists; an empty cohort is not reported as zero minutes."
+    }
+  ]
+}

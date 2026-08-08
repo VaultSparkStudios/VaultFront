@@ -11,6 +11,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { WebSocket, WebSocketServer } from "ws";
 import { z } from "zod";
+import { GameEnv } from "../core/configuration/Config";
 import { getServerConfigFromServer } from "../core/configuration/ConfigLoader";
 import { GameType } from "../core/game/Game";
 import {
@@ -26,6 +27,9 @@ import {
 } from "../core/Schemas";
 import { generateID, replacer } from "../core/Util";
 import { CreateGameInputSchema } from "../core/WorkerSchemas";
+import { registerAchievementRoutes } from "./AchievementRouter";
+import { achievementStore } from "./AchievementStore";
+import { antiCheatMonitor } from "./AntiCheatMonitor";
 import { archive, finalizeGameRecord, readGameRecord } from "./Archive";
 import {
   BoundedTtlCache,
@@ -45,49 +49,35 @@ import { certifiedLoopEvidenceStore } from "./CertifiedLoopEvidenceStore";
 import { registerCertifiedOutcomeRoutes } from "./CertifiedOutcomeRouter";
 import { certifiedOutcomeStore } from "./CertifiedOutcomeStore";
 import { certifiedSeasonContractStore } from "./CertifiedSeasonContractStore";
+import { clanStore } from "./ClanStore";
 import { Client } from "./Client";
 import { registerDailyMasteryRoute } from "./DailyMasteryRouter";
-import { EloRating } from "./EloRating";
-import {
-  experimentControlPlane,
-  registerExperimentRoutes,
-} from "./ExperimentRouter";
-import { GameCreationAdmissionGuard } from "./GameCreationAdmission";
-import { GameAllocationError, GameManager } from "./GameManager";
-import { registerGamePreviewRoute } from "./GamePreviewRoute";
-import { getUserMe, verifyClientToken } from "./jwt";
-import { logger } from "./Logger";
-import { registerLoopEvidenceRoutes } from "./LoopEvidenceRouter";
-import { registerMatchFeedbackRoutes } from "./MatchFeedbackRouter";
-import { matchFeedbackStore } from "./MatchFeedbackStore";
-import { verifyMatchResultCertificate } from "./MatchResultCertificate";
-import { playerStatsStore } from "./PlayerStatsStore";
-import { registerPlaytestEvidenceRoutes } from "./PlaytestEvidenceRouter";
-import { playtestEvidenceStore } from "./PlaytestEvidenceStore";
-import {
-  assertRoutePolicyBinding,
-  evaluateRouteAuthorization,
-  getRoutePolicy,
-  type RouteAuthorizationContext,
-  type RoutePolicyId,
-} from "./RoutePolicyManifest";
-import { shutdownTelemetry } from "./TelemetryLifecycle";
-
-import { GameEnv } from "../core/configuration/Config";
-import { registerAchievementRoutes } from "./AchievementRouter";
-import { achievementStore } from "./AchievementStore";
-import { antiCheatMonitor } from "./AntiCheatMonitor";
-import { clanStore } from "./ClanStore";
 import {
   databaseAllowsRequest,
   databaseReady,
   getDatabasePosture,
   pool,
 } from "./db/pool";
+import { EloRating } from "./EloRating";
+import {
+  experimentControlPlane,
+  registerExperimentRoutes,
+} from "./ExperimentRouter";
 import { fortuneDeck } from "./FortuneDeck";
+import { GameCreationAdmissionGuard } from "./GameCreationAdmission";
+import { GameAllocationError, GameManager } from "./GameManager";
+import { registerGamePreviewRoute } from "./GamePreviewRoute";
+import { getUserMe, verifyClientToken } from "./jwt";
+import { logger } from "./Logger";
+import { registerLoopEvidenceRoutes } from "./LoopEvidenceRouter";
 import { MapPlaylist } from "./MapPlaylist";
+import { registerMatchFeedbackRoutes } from "./MatchFeedbackRouter";
+import { matchFeedbackStore } from "./MatchFeedbackStore";
+import { verifyMatchResultCertificate } from "./MatchResultCertificate";
 import { narratorBus, type NarratorPersona } from "./NarratorBus";
-import { type MatchHistoryEntry } from "./PlayerStatsStore";
+import { playerStatsStore, type MatchHistoryEntry } from "./PlayerStatsStore";
+import { registerPlaytestEvidenceRoutes } from "./PlaytestEvidenceRouter";
+import { playtestEvidenceStore } from "./PlaytestEvidenceStore";
 import { startPolling } from "./PollingLoop";
 import { registerPredictionLeagueRoutes } from "./PredictionLeagueRouter";
 import { predictionLeagueStore } from "./PredictionLeagueStore";
@@ -116,6 +106,13 @@ import {
   buildProphecyCacheKey,
   executeRequestBoundAi,
 } from "./RequestBoundRemoteAi";
+import {
+  assertRoutePolicyBinding,
+  evaluateRouteAuthorization,
+  getRoutePolicy,
+  type RouteAuthorizationContext,
+  type RoutePolicyId,
+} from "./RoutePolicyManifest";
 import { buildRuntimeIntegrityPassport } from "./RuntimeIntegrityPassport";
 import { registerSeasonCommunityRoutes } from "./SeasonCommunityRouter";
 import { registerSeasonContractRoutes } from "./SeasonContractRouter";
@@ -126,6 +123,7 @@ import {
 } from "./SpectatorBus";
 import { buildStateScopeLedger } from "./StateScopeLedger";
 import { streamingBus } from "./StreamingBus";
+import { shutdownTelemetry } from "./TelemetryLifecycle";
 import { tournamentStore } from "./TournamentStore";
 import { verifyTurnstileToken } from "./Turnstile";
 import {
@@ -133,7 +131,10 @@ import {
   verifyOptionalIdentityClaim,
   type VerifiedVaultFrontActor,
 } from "./VaultFrontAuthorization";
-import { recordVaultFrontPlaytestPulse } from "./VaultFrontPlaytestPulse";
+import {
+  attachCertifiedLoopAlphaEvidence,
+  recordVaultFrontPlaytestPulse,
+} from "./VaultFrontPlaytestPulse";
 import { buildVaultFrontReadiness } from "./VaultFrontReadiness";
 import { vaultSeasonScheduler } from "./VaultSeasonScheduler";
 import { createVerifiedWorkerRoutedGameId } from "./WorkerGameId";
@@ -147,7 +148,6 @@ import {
 import { initWorkerMetrics } from "./WorkerMetrics";
 
 const config = getServerConfigFromServer();
-
 const workerId = parseInt(process.env.WORKER_ID ?? "0");
 const log = logger.child({ comp: `w_${workerId}` });
 const playlist = new MapPlaylist();
@@ -274,20 +274,24 @@ async function loadCertifiedAiContext(
     participant,
   };
 }
-
 // Worker setup
 export async function startWorker() {
   log.info(`Worker starting...`);
   await databaseReady;
-
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
-
   const app = express();
+  const buildAuthenticatedPlaytestSummary = async () => {
+    const observedAt = Date.now();
+    const pulse = await playtestEvidenceStore.summary();
+    const certified = await certifiedLoopEvidenceStore
+      .getSummary(1_000, observedAt - 24 * 60 * 60 * 1_000)
+      .catch(() => null);
+    return attachCertifiedLoopAlphaEvidence(pulse, certified, observedAt);
+  };
   const anthropic = new Anthropic({
     apiKey: process.env.ANTHROPIC_API_KEY ?? "",
   });
-
   // ── Security middleware ───────────────────────────────────────────────────
   const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(",").map((s) =>
     s.trim(),
@@ -306,7 +310,6 @@ export async function startWorker() {
     }),
   );
   // ─────────────────────────────────────────────────────────────────────────
-
   app.use(express.json({ limit: "5mb" }));
   app.use((req, res, next) => {
     const database = getDatabasePosture();
@@ -425,7 +428,7 @@ export async function startWorker() {
       ipc.healthy &&
       database.state !== "connecting" &&
       database.state !== "failed";
-    const playtestPulse = await playtestEvidenceStore.summary();
+    const playtestPulse = await buildAuthenticatedPlaytestSummary();
     const payload = buildVaultFrontReadiness({
       healthy,
       processRole: "worker",
@@ -800,8 +803,11 @@ export async function startWorker() {
   registerPlaytestEvidenceRoutes(app, {
     rateLimit: rateLimit({ windowMs: 60_000, max: 120 }),
     resolveActor: resolveAuthenticatedActorKey,
-    record: (event) => playtestEvidenceStore.record(event),
-    summary: () => playtestEvidenceStore.summary(),
+    record: async (event) => {
+      await playtestEvidenceStore.record(event);
+      return buildAuthenticatedPlaytestSummary();
+    },
+    summary: buildAuthenticatedPlaytestSummary,
     reportError: (error) =>
       log.error("playtest evidence route failed", { error: String(error) }),
   });

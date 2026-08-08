@@ -173,16 +173,16 @@ check(
 );
 for (const [pattern, failure] of [
   [
-    /traefik\.http\.routers\.\$\{name\}\.priority/u,
-    "candidate router has no monotonic generation priority",
+    /activate_route "\$CONTAINER_NAME" "\$GHCR_IMAGE"/u,
+    "candidate does not activate through the stable project router",
   ],
   [
-    /loadbalancer\.healthcheck\.path=\/_health/u,
-    "candidate traffic is not gated by a live health check",
+    /127\.0\.0\.1:\$\{DEPLOY_INGRESS_PORT\}\/commit\.txt/u,
+    "candidate is not revision-admitted through the allocated loopback ingress",
   ],
   [
-    /docker start "\$OLD_CONTAINER"/u,
-    "failed ingress verification cannot restore the incumbent",
+    /restore_incumbent_route/u,
+    "failed Caddy ingress verification cannot restore the incumbent route",
   ],
   [
     /docker rm "\$OLD_CONTAINER"/u,
@@ -191,6 +191,19 @@ for (const [pattern, failure] of [
 ]) {
   requireText(update, pattern, failure);
 }
+check(
+  update.includes('if ! activate_route "$CONTAINER_NAME" "$GHCR_IMAGE"; then'),
+  "candidate route activation failure is not handled transactionally",
+);
+check(
+  update.indexOf('docker rm "$ROUTER_NAME"') <
+    update.indexOf('rm -f "$ROUTER_CONFIG"'),
+  "first-deploy rollback cannot remove the candidate-only router state",
+);
+check(
+  update.includes('docker exec "$ROUTER_NAME" nginx -s reload || {'),
+  "router reload failure is not returned to the rollback boundary",
+);
 check(
   !/docker\s+image\s+prune\s+-a/u.test(update),
   "remote updater still prunes every unused image",
@@ -290,6 +303,16 @@ for (const [name, body] of [
     /DATABASE_URL/u,
     `${name} does not transport durable persistence`,
   );
+  requireText(
+    body,
+    /DEPLOY_INGRESS_PORT/u,
+    `${name} does not require a CANON-038 ingress allocation`,
+  );
+  check(
+    body.indexOf("Require CANON-038 live allocation") <
+      body.indexOf("Log in to GitHub Container Registry"),
+    `${name} validates the shared-host allocation after registry mutation can begin`,
+  );
 }
 requireText(
   deploy,
@@ -301,9 +324,19 @@ requireText(
   /apply-schema\.ts/u,
   "remote updater does not migrate before traffic",
 );
+requireText(
+  update,
+  /NETWORK_NAME="\$\{DEPLOYMENT_KEY\}-private"/u,
+  "remote updater does not isolate the project-private Docker network",
+);
+requireText(
+  update,
+  /--publish "127\.0\.0\.1:\$\{DEPLOY_INGRESS_PORT\}:80"/u,
+  "project router is not bound to the allocated loopback port",
+);
 check(
-  update.includes("traefik.http.routers.${name}.rule"),
-  "remote updater does not declare Traefik as the container ingress authority",
+  !/traefik\./iu.test(update),
+  "remote updater still depends on host Traefik labels",
 );
 requireText(
   dockerfile,
@@ -462,12 +495,14 @@ requireText(
 );
 requireText(
   runbook,
-  /Traefik is the sole runtime ingress authority/u,
-  "runbook does not declare the single ingress authority",
+  /Caddy is the sole public ingress authority/u,
+  "runbook does not declare shared Caddy as the sole public ingress authority",
 );
 check(
-  !/Configure Caddy|cloudflared tunnel create/u.test(runbook),
-  "runbook still instructs a second ingress authority",
+  !/Traefik is the sole runtime ingress authority|cloudflared tunnel create/u.test(
+    runbook,
+  ),
+  "runbook still instructs a conflicting ingress authority",
 );
 
 for (const script of deploymentScripts) {
@@ -486,6 +521,7 @@ const baseEnv = {
   ...process.env,
   DEPLOY_DRY_RUN: "1",
   DEPLOY_HEALTH_URL: "https://staging.example.test/_health",
+  DEPLOY_INGRESS_PORT: "8999",
   GHCR_REPO: "vaultfront",
   GHCR_USERNAME: "vaultsparkstudios",
 };

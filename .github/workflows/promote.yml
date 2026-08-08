@@ -101,10 +101,20 @@ jobs:
         env:
           DEPLOY_DRY_RUN: "1"
           DEPLOY_HEALTH_URL: https://${{ env.FQDN }}/_health
+          DEPLOY_INGRESS_PORT: "8999"
           DEPLOY_STAGING_ATTESTATION: ${{ steps.attestation.outputs.image_digest }}
           GHCR_REPO: ${{ vars.GHCR_REPO || 'vaultfront' }}
           GHCR_USERNAME: ${{ vars.GHCR_USERNAME || 'vaultsparkstudios' }}
         run: ./deploy.sh prod primary "${{ steps.attestation.outputs.image_digest }}" "$SUBDOMAIN"
+
+      - name: Require CANON-038 live allocation
+        if: ${{ !inputs.dry_run }}
+        env:
+          DEPLOY_INGRESS_PORT: ${{ vars.DEPLOY_INGRESS_PORT }}
+        run: |
+          set -euo pipefail
+          [[ "$DEPLOY_INGRESS_PORT" =~ ^[0-9]+$ ]]
+          ((DEPLOY_INGRESS_PORT >= 8110 && DEPLOY_INGRESS_PORT <= 8999))
 
       - name: Create dry-run validation receipt
         if: ${{ inputs.dry_run }}
@@ -220,6 +230,7 @@ jobs:
           CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
           CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
           DEPLOY_HEALTH_URL: https://${{ env.FQDN }}/_health
+          DEPLOY_INGRESS_PORT: ${{ vars.DEPLOY_INGRESS_PORT }}
           DEPLOY_REMOTE_USER: ${{ vars.DEPLOY_REMOTE_USER || 'vaultfront' }}
           DEPLOY_SERVER_HOST: ${{ secrets.DEPLOY_SERVER_HOST }}
           DEPLOY_STAGING_ATTESTATION: ${{ steps.attestation.outputs.image_digest }}

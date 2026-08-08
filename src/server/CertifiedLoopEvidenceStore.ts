@@ -38,11 +38,13 @@ export interface CertifiedLoopEvidenceInput {
 
 interface LoopEvidenceRecord {
   gameId: string;
+  recordedAt: number;
   durationSeconds: number;
   playerSamples: number;
   vaultParticipants: number;
   outcomeParticipants: number;
   completedCycleParticipants: number;
+  certifiedLoopParticipants: number;
   firstVaultSecondsTotal: number;
   firstVaultSamples: number;
   firstOutcomeSecondsTotal: number;
@@ -73,6 +75,7 @@ export interface CertifiedLoopEvidenceReceipt {
   vaultParticipants: number;
   outcomeParticipants: number;
   completedCycleParticipants: number;
+  certifiedLoopParticipants: number;
   pressureParticipants: number;
   breachParticipants: number;
   decisiveDeliveryParticipants: number;
@@ -84,11 +87,15 @@ export interface CertifiedLoopEvidenceReceipt {
 
 export interface CertifiedLoopEvidenceSummary {
   generatedAt: number;
+  windowStartAt: number | null;
+  windowEndAt: number;
+  latestEvidenceAt: number | null;
   matches: number;
   playerSamples: number;
   vaultParticipants: number;
   outcomeParticipants: number;
   completedCycleParticipants: number;
+  certifiedLoopParticipants: number;
   pressureParticipants: number;
   breachParticipants: number;
   decisiveDeliveryParticipants: number;
@@ -164,6 +171,28 @@ function safeSeconds(
   return (tick! * turnIntervalMs) / 1000;
 }
 
+function hasOrderedCertifiedLoop(player: CertifiedLoopEvidencePlayer): boolean {
+  if (
+    safeCount(player.vaultCaptures) === 0 ||
+    safeCount(player.convoyDeliveries) + safeCount(player.convoysLost) === 0
+  ) {
+    return false;
+  }
+  const ticks = [
+    player.firstVaultCaptureTick,
+    player.firstConvoyOutcomeTick,
+    player.firstVaultPressureTick,
+    player.firstBreachOpenTick,
+    player.decisiveDeliveryTick,
+  ];
+  if (ticks.some((tick) => !Number.isSafeInteger(tick) || (tick ?? -1) < 0)) {
+    return false;
+  }
+  return ticks.every(
+    (tick, index) => index === 0 || tick! >= ticks[index - 1]!,
+  );
+}
+
 function sanitizePhases(input: LoopIntentFunnel): LoopIntentFunnel {
   const output = emptyPhases();
   for (const phase of ["early", "mid", "late"] as const) {
@@ -208,29 +237,49 @@ export class CertifiedLoopEvidenceStore {
     return this.receipt(record, "process-local");
   }
 
-  async getSummary(limit = 1_000): Promise<CertifiedLoopEvidenceSummary> {
+  async getSummary(
+    limit = 1_000,
+    since: number | null = null,
+  ): Promise<CertifiedLoopEvidenceSummary> {
     const boundedLimit = Math.min(10_000, Math.max(1, Math.floor(limit)));
+    const boundedSince = since === null ? null : Math.max(0, Math.floor(since));
     const database = this.poolProvider();
     if (database) {
       const result = await database.query(
-        `SELECT game_id, duration_seconds, player_samples,
+        boundedSince === null
+          ? `SELECT game_id, recorded_at, duration_seconds, player_samples,
                 vault_participants, outcome_participants,
-                completed_cycle_participants, first_vault_seconds_total,
+                completed_cycle_participants, certified_loop_participants,
+                first_vault_seconds_total,
                 first_vault_samples, first_outcome_seconds_total,
                 first_outcome_samples, pressure_breach_funnel, intent_funnel
            FROM certified_loop_evidence
           ORDER BY recorded_at DESC
-          LIMIT $1`,
-        [boundedLimit],
+          LIMIT $1`
+          : `SELECT game_id, recorded_at, duration_seconds, player_samples,
+                vault_participants, outcome_participants,
+                completed_cycle_participants, certified_loop_participants,
+                first_vault_seconds_total,
+                first_vault_samples, first_outcome_seconds_total,
+                first_outcome_samples, pressure_breach_funnel, intent_funnel
+           FROM certified_loop_evidence
+          WHERE recorded_at >= $1
+          ORDER BY recorded_at DESC
+          LIMIT $2`,
+        boundedSince === null
+          ? [boundedLimit]
+          : [new Date(boundedSince), boundedLimit],
       );
       return this.summarize(
         result.rows.map((row) => ({
           gameId: String(row.game_id),
+          recordedAt: new Date(row.recorded_at).getTime(),
           durationSeconds: Number(row.duration_seconds),
           playerSamples: Number(row.player_samples),
           vaultParticipants: Number(row.vault_participants),
           outcomeParticipants: Number(row.outcome_participants),
           completedCycleParticipants: Number(row.completed_cycle_participants),
+          certifiedLoopParticipants: Number(row.certified_loop_participants),
           firstVaultSecondsTotal: Number(row.first_vault_seconds_total),
           firstVaultSamples: Number(row.first_vault_samples),
           firstOutcomeSecondsTotal: Number(row.first_outcome_seconds_total),
@@ -241,19 +290,23 @@ export class CertifiedLoopEvidenceStore {
           ),
         })),
         "postgres",
+        boundedSince,
       );
     }
     this.assertFallbackAvailable();
-    return this.summarize(
-      [...this.records.values()].slice(-boundedLimit),
-      "process-local",
-    );
+    const records = [...this.records.values()]
+      .filter(
+        (record) => boundedSince === null || record.recordedAt >= boundedSince,
+      )
+      .slice(-boundedLimit);
+    return this.summarize(records, "process-local", boundedSince);
   }
 
   private derive(input: CertifiedLoopEvidenceInput): LoopEvidenceRecord {
     let vaultParticipants = 0;
     let outcomeParticipants = 0;
     let completedCycleParticipants = 0;
+    let certifiedLoopParticipants = 0;
     let firstVaultSecondsTotal = 0;
     let firstVaultSamples = 0;
     let firstOutcomeSecondsTotal = 0;
@@ -305,6 +358,7 @@ export class CertifiedLoopEvidenceStore {
         pressureFunnel.decisiveDeliverySecondsTotal +=
           certifiedTimeline.decisiveDeliverySeconds;
         pressureFunnel.decisiveDeliverySamples += 1;
+        if (hasOrderedCertifiedLoop(player)) certifiedLoopParticipants += 1;
       }
       if (certifiedTimeline.victorySeconds !== null) {
         pressureFunnel.victoryParticipants += 1;
@@ -314,11 +368,13 @@ export class CertifiedLoopEvidenceStore {
     }
     return {
       gameId: input.gameId,
+      recordedAt: this.now(),
       durationSeconds: safeCount(input.durationSeconds),
       playerSamples: input.players.length,
       vaultParticipants,
       outcomeParticipants,
       completedCycleParticipants,
+      certifiedLoopParticipants,
       firstVaultSecondsTotal,
       firstVaultSamples,
       firstOutcomeSecondsTotal,
@@ -337,10 +393,11 @@ export class CertifiedLoopEvidenceStore {
       `INSERT INTO certified_loop_evidence
          (game_id, duration_seconds, player_samples, vault_participants,
           outcome_participants, completed_cycle_participants,
+          certified_loop_participants,
           first_vault_seconds_total, first_vault_samples,
           first_outcome_seconds_total, first_outcome_samples,
-          pressure_breach_funnel, intent_funnel)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11::jsonb,$12::jsonb)
+          pressure_breach_funnel, intent_funnel, recorded_at)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12::jsonb,$13::jsonb,$14)
        ON CONFLICT DO NOTHING
        RETURNING game_id`,
       [
@@ -350,12 +407,14 @@ export class CertifiedLoopEvidenceStore {
         record.vaultParticipants,
         record.outcomeParticipants,
         record.completedCycleParticipants,
+        record.certifiedLoopParticipants,
         record.firstVaultSecondsTotal,
         record.firstVaultSamples,
         record.firstOutcomeSecondsTotal,
         record.firstOutcomeSamples,
         JSON.stringify(record.pressureFunnel),
         JSON.stringify(record.phases),
+        new Date(record.recordedAt),
       ],
     );
     return result.rowCount === 0 ? null : this.receipt(record, "postgres");
@@ -364,12 +423,15 @@ export class CertifiedLoopEvidenceStore {
   private summarize(
     records: LoopEvidenceRecord[],
     durability: CertifiedLoopEvidenceSummary["durability"],
+    windowStartAt: number | null = null,
   ): CertifiedLoopEvidenceSummary {
+    const generatedAt = this.now();
     const totals = {
       playerSamples: 0,
       vaultParticipants: 0,
       outcomeParticipants: 0,
       completedCycleParticipants: 0,
+      certifiedLoopParticipants: 0,
       firstVaultSecondsTotal: 0,
       firstVaultSamples: 0,
       firstOutcomeSecondsTotal: 0,
@@ -397,12 +459,19 @@ export class CertifiedLoopEvidenceStore {
     const average = (total: number, samples: number) =>
       samples > 0 ? Number((total / samples).toFixed(2)) : null;
     return {
-      generatedAt: this.now(),
+      generatedAt,
+      windowStartAt,
+      windowEndAt: generatedAt,
+      latestEvidenceAt:
+        records.length > 0
+          ? Math.max(...records.map((record) => record.recordedAt))
+          : null,
       matches: records.length,
       playerSamples: totals.playerSamples,
       vaultParticipants: totals.vaultParticipants,
       outcomeParticipants: totals.outcomeParticipants,
       completedCycleParticipants: totals.completedCycleParticipants,
+      certifiedLoopParticipants: totals.certifiedLoopParticipants,
       pressureParticipants: pressureFunnel.pressureParticipants,
       breachParticipants: pressureFunnel.breachParticipants,
       decisiveDeliveryParticipants: pressureFunnel.decisiveDeliveryParticipants,
@@ -474,6 +543,7 @@ export class CertifiedLoopEvidenceStore {
       vaultParticipants: record.vaultParticipants,
       outcomeParticipants: record.outcomeParticipants,
       completedCycleParticipants: record.completedCycleParticipants,
+      certifiedLoopParticipants: record.certifiedLoopParticipants,
       pressureParticipants: record.pressureFunnel.pressureParticipants,
       breachParticipants: record.pressureFunnel.breachParticipants,
       decisiveDeliveryParticipants:

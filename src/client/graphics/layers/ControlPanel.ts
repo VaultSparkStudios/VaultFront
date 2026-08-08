@@ -33,6 +33,7 @@ import {
   breachVictoryCallout,
   buildFirstExtractionEvidenceReceipt,
   firstExtractionComplete,
+  firstExtractionTrackerMode,
   isFirstExtractionConvoyActivity,
 } from "../../FirstExtractionQuest";
 import { AttackRatioEvent } from "../../InputHandler";
@@ -773,20 +774,18 @@ export class ControlPanel extends LitElement implements Layer {
   }
 
   private shouldShowOnboarding(): boolean {
-    const lockRequired =
-      this.tutorialLockActive &&
-      (!this.onboardingProgress.vaultCaptured ||
-        !this.onboardingProgress.convoyAction);
-    if (!lockRequired && this.hudCompactMode) return false;
-    if (this.onboardingDismissed || this.latestVaultStatus === null)
-      return false;
-    if (
-      !lockRequired &&
-      (this.game?.ticks() ?? 0) > ControlPanel.ONBOARDING_DURATION_TICKS
-    ) {
-      return false;
-    }
-    return !this.onboardingChainCompleted();
+    if (this.latestVaultStatus === null) return false;
+    if (this.onboardingChainCompleted()) return false;
+    return this.firstExtractionTrackerMode() !== "hidden";
+  }
+
+  private firstExtractionTrackerMode() {
+    return firstExtractionTrackerMode(this.onboardingProgress, {
+      dismissed: this.onboardingDismissed,
+      hudCompact: this.hudCompactMode,
+      currentTick: this.game?.ticks() ?? 0,
+      expandedDurationTicks: ControlPanel.ONBOARDING_DURATION_TICKS,
+    });
   }
 
   private onboardingChainCompleted(): boolean {
@@ -815,6 +814,11 @@ export class ControlPanel extends LitElement implements Layer {
     }
     this.onboardingDismissed = true;
     localStorage.setItem(ControlPanel.ONBOARDING_DISMISS_KEY, "1");
+  }
+
+  private expandOnboarding() {
+    this.onboardingDismissed = false;
+    localStorage.removeItem(ControlPanel.ONBOARDING_DISMISS_KEY);
   }
 
   private myBeacon(): VaultFrontBeaconState | null {
@@ -2893,6 +2897,7 @@ export class ControlPanel extends LitElement implements Layer {
 
   private renderOnboarding() {
     if (!this.shouldShowOnboarding()) return "";
+    const trackerMode = this.firstExtractionTrackerMode();
     const lockRequired =
       this.tutorialLockActive &&
       (!this.onboardingProgress.vaultCaptured ||
@@ -2917,6 +2922,37 @@ export class ControlPanel extends LitElement implements Layer {
       currentTick: this.game?.ticks?.() ?? 0,
       decisiveDelivery: this.onboardingProgress.decisiveDelivery,
     });
+
+    if (trackerMode === "compact") {
+      const nextStep = steps[activeIndex];
+      return html`
+        <div
+          class="vf-first-extraction vf-first-extraction-compact mt-1.5 border border-emerald-400/50 rounded-md bg-emerald-950/35 p-1.5 text-[10px] lg:text-[11px]"
+          aria-label="First Extraction persistent tracker"
+        >
+          <div class="flex items-center justify-between gap-2">
+            <div class="min-w-0">
+              <span class="font-semibold text-emerald-200"
+                >${FIRST_EXTRACTION_TITLE}</span
+              >
+              <span class="ml-1 text-white"
+                >› ${nextStep?.label ?? "Complete"}</span
+              >
+            </div>
+            <button
+              type="button"
+              class="min-h-11 min-w-11 shrink-0 rounded px-2 text-emerald-300/80 hover:text-emerald-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300"
+              aria-label="Expand First Extraction tracker"
+              aria-expanded="false"
+              @click=${() => this.expandOnboarding()}
+            >
+              Show
+            </button>
+          </div>
+          <div class="mt-1 text-[9px] text-cyan-100">${evidence.summary}</div>
+        </div>
+      `;
+    }
 
     return html`
       <div

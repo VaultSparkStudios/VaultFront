@@ -35,7 +35,8 @@ ENV NPM_CONFIG_IGNORE_SCRIPTS=1
 COPY package*.json ./
 RUN --mount=type=cache,target=/root/.npm npm ci --omit=dev
 
-# Final production image. Host-level Traefik is the only ingress authority.
+# Final production image. Shared-host Caddy is the sole public ingress authority;
+# a project-private router provides candidate-first switching behind its loopback port.
 FROM base
 
 RUN apt-get update && apt-get install -y nginx curl supervisor apache2-utils && rm -rf /var/lib/apt/lists/*

@@ -1,9 +1,9 @@
 # VaultFront Runtime Deployment Runbook
 
-This runbook covers the 8 manual steps required to bring the VaultFront gameplay
-runtime online. The CI/CD pipeline (`deploy.yml`, `promote.yml`) handles all
-subsequent deployments automatically — this runbook only needs to be executed once
-per environment.
+This runbook covers the one-time shared-host admission and the automated path that
+brings the VaultFront gameplay runtime online. The CI/CD pipeline (`deploy.yml`,
+`promote.yml`) handles subsequent deployments after Studio Ops allocates an isolated
+CANON-038 block, database role, deploy user, DNS record, and Caddy route.
 
 **Target URLs:**
 
@@ -15,74 +15,38 @@ per environment.
 
 ## Prerequisites
 
-- Hetzner account with billing enabled
+- A recorded VaultFront allocation in the shared-host registry
 - Cloudflare account with `vaultsparkstudios.com` zone access
 - GitHub org admin access to `VaultSparkStudios/VaultFront`
 - GHCR write access (to push Docker images)
-- Local: `ssh-keygen`, `hcloud` CLI, `gh` CLI
+- A scoped VaultFront database role and deploy user issued by Studio Ops
+- Local: `ssh-keygen`, `gh` CLI
 
 ---
 
-## Step 1 — Provision the VPS
+## Step 1 — Admit VaultFront to the shared host
 
-**Spec:** 4 vCPU / 8 GB RAM / 80 GB disk — Hetzner CX32 or equivalent.
-
-```bash
-# Using hcloud CLI (Hetzner)
-hcloud server create \
-  --name vaultfront-runtime \
-  --type cx32 \
-  --image ubuntu-24.04 \
-  --location nbg1 \
-  --ssh-key your-key-name
-```
-
-Note the server's public IPv4 address — needed in Steps 3 and 4.
-
-**Manual Hetzner UI path:**
-Servers → Create Server → Ubuntu 24.04 → CX32 → Nuremberg → Add SSH key → Create
+Do not provision a project-specific server. CANON-038 assigns VaultFront one
+live-reconciled 10-port block on the existing `studio-db-us-east` shared host.
+The allocation authority is `portfolio/SHARED_SERVER_PORTS.json` plus current
+`ss` and Docker listener evidence. Record the assigned loopback ingress port as
+the protected GitHub environment variable `DEPLOY_INGRESS_PORT` only after that
+authority names VaultFront; a nominal free port is not an allocation.
 
 ---
 
-## Step 2 — Prepare the VPS
+## Step 2 — Prepare the isolated project namespace
 
-SSH in and run:
+Studio Ops owns the one-time shared-host work. It creates the unprivileged
+`vaultfront` deploy user, `/opt/vaultfront`, the scoped database role/database,
+and the Caddy site that proxies both VaultFront hostnames to the allocated
+`127.0.0.1:<DEPLOY_INGRESS_PORT>` listener. The project never receives the
+shared PostgreSQL administrator DSN.
 
-```bash
-ssh root@<VPS_IP>
-
-# Install Docker
-curl -fsSL https://get.docker.com | sh
-systemctl enable --now docker
-
-# Install Caddy
-apt install -y debian-keyring debian-archive-keyring apt-transport-https curl
-curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' \
-  | gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
-curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' \
-  | tee /etc/apt/sources.list.d/caddy-stable.list
-apt update && apt install -y caddy
-
-# Install Postgres + Redis
-apt install -y postgresql redis-server
-systemctl enable --now postgresql redis-server
-
-# Create app user and deploy directory
-useradd -m -s /bin/bash vaultfront
-mkdir -p /opt/vaultfront
-chown vaultfront:vaultfront /opt/vaultfront
-
-# Allow vaultfront user to run docker
-usermod -aG docker vaultfront
-```
-
-Upload the deploy scripts:
-
-```bash
-# From your local machine
-scp update.sh root@ < VPS_IP > :/opt/vaultfront/update.sh
-ssh root@ < VPS_IP > "chmod +x /opt/vaultfront/update.sh"
-```
+Upload `update.sh` to `/opt/vaultfront/update.sh`, make it executable, and grant
+the deploy user only the Docker and project-directory access required by the
+workflow. The updater creates `${DEPLOYMENT_KEY}-private` plus a stable Nginx
+router container; neither resource is shared with another project.
 
 ---
 
@@ -94,8 +58,8 @@ Add the following **Secrets**:
 
 | Secret                        | Value                                                   |
 | ----------------------------- | ------------------------------------------------------- |
-| `DEPLOY_SERVER_HOST`          | VPS public IPv4 from Step 1                             |
-| `DEPLOY_SSH_KEY`              | Private SSH key content for the VPS deploy user         |
+| `DEPLOY_SERVER_HOST`          | Shared-host address recorded by the allocation          |
+| `DEPLOY_SSH_KEY`              | Private SSH key for the scoped VaultFront deploy user   |
 | `GHCR_TOKEN`                  | GitHub PAT with `write:packages` scope                  |
 | `API_KEY`                     | Internal API key shared with api-vaultfront service     |
 | `CF_ACCOUNT_ID`               | Cloudflare account ID                                   |
@@ -108,70 +72,56 @@ Add the following **Secrets**:
 
 Add the following **Variables**:
 
-| Variable                    | Value                          |
-| --------------------------- | ------------------------------ |
-| `DOMAIN`                    | `vaultsparkstudios.com`        |
-| `GHCR_REPO`                 | `vaultsparkstudios/vaultfront` |
-| `GHCR_USERNAME`             | Your GHCR org username         |
-| `DEPLOY_REMOTE_USER`        | `vaultfront`                   |
-| `DEPLOY_REMOTE_SCRIPT_PATH` | `/opt/vaultfront/update.sh`    |
+| Variable                    | Value                           |
+| --------------------------- | ------------------------------- |
+| `DOMAIN`                    | `vaultsparkstudios.com`         |
+| `GHCR_REPO`                 | `vaultsparkstudios/vaultfront`  |
+| `GHCR_USERNAME`             | Your GHCR org username          |
+| `DEPLOY_REMOTE_USER`        | `vaultfront`                    |
+| `DEPLOY_REMOTE_SCRIPT_PATH` | `/opt/vaultfront/update.sh`     |
+| `DEPLOY_INGRESS_PORT`       | Allocated loopback ingress port |
 
 ---
 
-## Step 4 — Configure Postgres and Redis
+## Step 4 — Verify project data isolation
 
-```bash
-ssh vaultfront@<VPS_IP>
-
-# Postgres: create vaultfront DB and user
-sudo -u postgres psql <<EOF
-CREATE USER vaultfront WITH PASSWORD 'changeme';
-CREATE DATABASE vaultfront OWNER vaultfront;
-GRANT ALL PRIVILEGES ON DATABASE vaultfront TO vaultfront;
-EOF
-
-# Test connection
-psql -U vaultfront -d vaultfront -c "SELECT 1;"
-
-# Redis: verify it's running
-redis-cli ping  # should return PONG
-```
-
-Update `/opt/vaultfront/.env` with:
-
-```env
-DATABASE_URL=postgres://vaultfront:changeme@localhost:5432/vaultfront
-REDIS_URL=redis://localhost:6379
-```
+Studio Ops provisions the database through the shared-host database tool and
+places only the scoped `DATABASE_URL` in the protected GitHub environments.
+Verify that the VaultFront role can connect and migrate its own database, cannot
+enumerate or mutate sibling databases, and has no role-management privileges.
+If Redis is enabled, use a project-scoped credential and key prefix; do not use
+an unauthenticated shared endpoint.
 
 ---
 
 ## Step 5 — Configure DNS Records
 
-Traefik is the sole runtime ingress authority. The production container starts
+Caddy is the sole public ingress authority. The production container starts
 only Nginx and Node; it never creates a provider tunnel, rewrites DNS, or
 receives Cloudflare control-plane credentials.
 
 In Cloudflare DNS for `vaultsparkstudios.com`, point the proxied records at
 the shared VPS:
 
-| Type | Name              | Content    | Proxy   |
-| ---- | ----------------- | ---------- | ------- |
-| `A`  | `play-vaultfront` | `<VPS_IP>` | Proxied |
-| `A`  | `api-vaultfront`  | `<VPS_IP>` | Proxied |
+| Type | Name              | Content     | Proxy   |
+| ---- | ----------------- | ----------- | ------- |
+| `A`  | `play-vaultfront` | Shared host | Proxied |
+| `A`  | `api-vaultfront`  | Shared host | Proxied |
 
-The remote updater joins the existing `web` network and supplies the exact
-Traefik Host rule and internal port label. DNS, TLS termination, and routing
-therefore have one declared owner.
+The remote updater binds its stable project router only to the allocated
+loopback port. Caddy owns DNS-facing TLS and proxies the exact hostnames to that
+listener, so public ingress has one declared owner.
 
 ---
 
 ## Step 6 — Verify the host ingress boundary
 
-A host-level private transport may feed Traefik, but it is provisioned outside
-the application image and must not create per-container DNS or tunnel state.
-Confirm `update.sh` is the only application-owned routing path and that the
-container exposes port 80 only to the shared `web` network.
+Confirm Caddy is active and its VaultFront route resolves to the allocated
+loopback listener. Confirm the stable project router publishes only
+`127.0.0.1:<DEPLOY_INGRESS_PORT>:80`, app candidates expose no host ports, and
+both are attached only to `${DEPLOYMENT_KEY}-private`. The updater must verify
+health and the expected revision through both the loopback router and public
+Caddy path before draining the incumbent.
 
 ---
 

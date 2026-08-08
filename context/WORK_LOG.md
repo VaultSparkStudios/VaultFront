@@ -2,6 +2,15 @@
 
 Append chronological entries.
 
+### 2026-08-08 — Session 98 shared-host ingress and certified-admission recovery
+
+- Goal: Run Phase 0 recovery on a cut-off prior session (do not assume it completed), verify its uncommitted work against live code, finish and close it out, then continue the arc.
+- Recovery: Session 97 had already closed out and pushed cleanly (`8e264657`); a new Session 98 (codex) started immediately after, implemented four items, then went dark with a stale lock and ~48 uncommitted files. Classified mid-implement (not mid-closeout) from the dirty tree, fresh-but-unshipped audit JSON, and no closeout artifacts.
+- What changed: Verified and shipped candidate-first shared-Caddy-compatible blue/green deployment ingress; a truthful public `/stats` route + machine-readable twin; a persistent First Extraction tracker through decisive delivery; and certified-loop evidence bound into Alpha Gate admission. Regenerated Playwright visual proof and marked all four audit items shipped.
+- Files or systems touched: deploy.sh/update.sh/CI workflows/deploy-contract checker, public stats generator/route/manifest surfaces, ControlPanel/FirstExtractionQuest, CertifiedLoopEvidenceStore/VaultFrontPlaytestPulse/Worker, theme-proof receipt, audit JSON/MD.
+- Risks created or removed: Removed a live-deploy topology mismatch (Traefik labels vs. the shared host's actual Caddy edge) that would have mutated the host before failing ingress; removed a CANON-054 gap (no truthful public stats surface); removed a First Extraction guidance drop-off before decisive delivery; removed an Alpha Gate readiness path that could report ready without certified loop evidence.
+- Recommended next move: fresh `/audit` against live code for the next verified findings, or apply the pending Ark allocation (`01JVF5O44A385AF9033E414452`) to unblock the external staging/deploy corridor.
+
 ### 2026-08-06 — Session 97 certified-continuation and release-evidence arc
 
 - Goal: Run the complete `/arc → /closeout` mission, exhaust verified local work, push directly to `main`, and deploy only through truthful release gates.

@@ -1,12 +1,12 @@
 {
   "vectorVersion": "1.0",
-  "generatedAt": "2026-08-07",
-  "generatedAtMs": 1786146061383,
-  "session": 97,
-  "vectorHash": "8e1887299ef80c60",
+  "generatedAt": "2026-08-08",
+  "generatedAtMs": 1786175023508,
+  "session": 98,
+  "vectorHash": "7a39315ba0535375",
   "silTotal": 997,
   "silAvg3": 997,
-  "velocity": 9,
+  "velocity": 4,
   "debt": "down",
   "runway": "unknown",
   "intentRate": "100%",
@@ -28,16 +28,16 @@
   "genome": "24/25",
   "ignisScore": 43037,
   "ignisGrade": "FORGE",
-  "ignisAgeDays": 6,
+  "ignisAgeDays": 7,
   "name": "VaultFront",
   "slug": "vaultfront",
   "type": "game",
   "lifecycle": "alpha",
-  "nextMilestone": "Establish an approved staging origin plus native Obelisk and project-domain Zoho contracts, then collect parity, human, revenue, rollback, and founder evidence in gate order.",
-  "currentFocus": "Session 97 closed locally: Nano ID 3.3.18 security revision 6920b1b4 passed exact GitHub CI, E2E, Release, brief-format, and Dependabot. Exact-SHA staging dry-run 31217165276 is green; live staging stopped before mutation on unprovisioned CANON-038/database/DNS/deploy-user/edge topology and Ark 01JVF5O44A385AF9033E414452 remains pending. Production remains NO-GO.",
+  "nextMilestone": "Apply the pending CANON-038 allocation from Ark 01JVF5O44A385AF9033E414452 to exercise the new project-router deploy path, then establish native Obelisk and project-domain Zoho contracts and collect parity, human, revenue, rollback, and founder evidence in gate order.",
+  "currentFocus": "Session 98 recovered and closed: a cut-off prior session (codex) had implemented shared-host-compatible deployment ingress, a truthful public /stats surface, persistent First Extraction guidance, and certified-loop-bound Alpha admission but never committed. Verified against live code (235 files / 1,233 tests, fresh Playwright 26/26, doctor 13/13) and shipped. Live staging remains unprovisioned; Ark 01JVF5O44A385AF9033E414452 remains pending. Production remains NO-GO.",
   "lastShipped": "see LATEST_HANDOFF.md",
   "blockers": [
-    "Live staging infrastructure is not provisioned: VaultFront has no CANON-038 port allocation, STUDIO_PG_ADMIN_URL is missing, staging DNS/deploy user are absent, and the host runs Caddy while the checked-in updater requires Traefik. Evidence: dry-run 31217165276; Ark 01JVF5O44A385AF9033E414452.",
+    "Live staging infrastructure is not provisioned: VaultFront has no CANON-038 port allocation, STUDIO_PG_ADMIN_URL is missing, and staging DNS/deploy user are absent. The deployment updater now targets the shared host's actual Caddy edge (Session 98), but the loopback port allocation and database credential are still pending Ark 01JVF5O44A385AF9033E414452.",
     "Production remains NO-GO until approved staging/parity/health, Zoho reply identity, native Obelisk identity, live theme, three-human Alpha, real revenue, rollback, and founder approval evidence exist."
   ]
 }

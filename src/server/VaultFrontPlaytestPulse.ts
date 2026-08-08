@@ -1,3 +1,5 @@
+import type { CertifiedLoopEvidenceSummary } from "./CertifiedLoopEvidenceStore";
+
 export type VaultFrontPulseSurface =
   "tutorial" | "match" | "tournament" | "retention";
 
@@ -82,6 +84,12 @@ export interface VaultFrontPlaytestPulseSummary {
       feedback: boolean;
       rivalExposure: boolean;
       rivalAction: boolean;
+      certifiedCapture?: boolean;
+      certifiedConvoyOutcome?: boolean;
+      certifiedPressure?: boolean;
+      certifiedBreach?: boolean;
+      certifiedDecisiveDelivery?: boolean;
+      certifiedOrderedLoop?: boolean;
     };
     passLabel: string;
     nextCheck: string;
@@ -546,6 +554,107 @@ function buildAlphaGate(
         ? "Alpha gate passed: three authenticated actors, tutorial, feedback, rivalry exposure, Rival action, and freshness are all green."
         : `${passed}/${total} alpha gate checks passing.`,
     nextCheck,
+  };
+}
+
+/**
+ * Binds the authenticated human cohort to the server-certified gameplay loop.
+ * Missing or stale evidence can never preserve a ready gate.
+ */
+export function attachCertifiedLoopAlphaEvidence(
+  summary: VaultFrontPlaytestPulseSummary,
+  certified: Pick<
+    CertifiedLoopEvidenceSummary,
+    | "windowStartAt"
+    | "windowEndAt"
+    | "latestEvidenceAt"
+    | "vaultParticipants"
+    | "outcomeParticipants"
+    | "pressureParticipants"
+    | "breachParticipants"
+    | "decisiveDeliveryParticipants"
+    | "certifiedLoopParticipants"
+  > | null,
+  now = Date.now(),
+): VaultFrontPlaytestPulseSummary {
+  const evidenceWindowMs = 24 * 60 * 60 * 1000;
+  const latestEvidenceAt = certified?.latestEvidenceAt ?? null;
+  const cohortWindowBound =
+    certified !== null &&
+    certified.windowStartAt !== null &&
+    certified.windowStartAt >= now - evidenceWindowMs - 1_000 &&
+    certified.windowEndAt <= now + 1_000;
+  const certifiedFresh =
+    cohortWindowBound &&
+    latestEvidenceAt !== null &&
+    latestEvidenceAt <= now &&
+    now - latestEvidenceAt <= evidenceWindowMs;
+  const certifiedCapture =
+    certifiedFresh && (certified?.vaultParticipants ?? 0) > 0;
+  const certifiedConvoyOutcome =
+    certifiedFresh && (certified?.outcomeParticipants ?? 0) > 0;
+  const certifiedPressure =
+    certifiedFresh && (certified?.pressureParticipants ?? 0) > 0;
+  const certifiedBreach =
+    certifiedFresh && (certified?.breachParticipants ?? 0) > 0;
+  const certifiedDecisiveDelivery =
+    certifiedFresh && (certified?.decisiveDeliveryParticipants ?? 0) > 0;
+  const certifiedOrderedLoop =
+    certifiedFresh && (certified?.certifiedLoopParticipants ?? 0) > 0;
+  const certifiedChecks = {
+    certifiedCapture,
+    certifiedConvoyOutcome,
+    certifiedPressure,
+    certifiedBreach,
+    certifiedDecisiveDelivery,
+    certifiedOrderedLoop,
+  };
+  const checks = { ...summary.alphaGate.checks, ...certifiedChecks };
+  const passed = Object.values(checks).filter(Boolean).length;
+  const total = Object.keys(checks).length;
+  const hadReadyHumanCohort = summary.alphaGate.status === "ready";
+  const certifiedStagesReady = Object.values(certifiedChecks).every(Boolean);
+  const status =
+    summary.alphaGate.status === "not-started"
+      ? "not-started"
+      : !summary.alphaGate.checks.fresh ||
+          (latestEvidenceAt !== null && !certifiedFresh)
+        ? "blocked"
+        : hadReadyHumanCohort && certifiedStagesReady
+          ? "ready"
+          : "warming";
+  const nextCheck = !certified
+    ? "Certified loop evidence is unavailable; restore the evidence store and complete Capture → Convoy → Pressure → Breach → decisive delivery."
+    : certified.windowStartAt === null
+      ? "Query the certified evidence store through the bounded 24-hour Alpha cohort window."
+      : !certifiedFresh
+        ? "Complete a fresh certified Capture → Convoy → Pressure → Breach → decisive-delivery loop within 24 hours."
+        : !certifiedCapture
+          ? "Complete a server-certified Vault capture in the current Alpha cohort."
+          : !certifiedConvoyOutcome
+            ? "Complete a server-certified convoy delivery or loss after Capture."
+            : !certifiedPressure
+              ? "Start certified Vault Pressure after the convoy outcome."
+              : !certifiedBreach
+                ? "Open a certified Breach from the active Pressure chain."
+                : !certifiedDecisiveDelivery
+                  ? "Land the certified decisive delivery before the Breach window closes."
+                  : !certifiedOrderedLoop
+                    ? "Complete Capture → Convoy → Pressure → Breach → decisive delivery in order in one certified player timeline."
+                    : summary.alphaGate.nextCheck;
+
+  return {
+    ...summary,
+    alphaGate: {
+      ...summary.alphaGate,
+      status,
+      checks,
+      passLabel:
+        status === "ready"
+          ? "Alpha gate passed: three authenticated actors plus a fresh, ordered, server-certified Capture-to-decisive-delivery loop are green."
+          : `${passed}/${total} alpha gate checks passing.`,
+      nextCheck,
+    },
   };
 }
 

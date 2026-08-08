@@ -44,9 +44,9 @@ describe("public footer manifest", () => {
   it("proves scoped route parity, ownership, copyright, and legal links on every leaf", () => {
     expect(checkFooterManifest(process.cwd())).toMatchObject({
       ok: true,
-      pageCount: 10,
-      headerLinkCount: 4,
-      footerLinkCount: 7,
+      pageCount: 11,
+      headerLinkCount: 5,
+      footerLinkCount: 8,
       appExternalLinkCount: 2,
       appConsumer: "src/client/components/Footer.ts",
       errors: [],

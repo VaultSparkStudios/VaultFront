@@ -22,6 +22,13 @@ const CHECK_LABELS: Record<
   feedback: "At least one post-match feedback signal",
   rivalExposure: "Rival Challenge card shown",
   rivalAction: "Rival Challenge action rate 25%+",
+  certifiedCapture: "Fresh server-certified Vault capture",
+  certifiedConvoyOutcome: "Fresh server-certified convoy outcome",
+  certifiedPressure: "Fresh server-certified Vault Pressure",
+  certifiedBreach: "Fresh server-certified Breach opening",
+  certifiedDecisiveDelivery: "Fresh server-certified decisive delivery",
+  certifiedOrderedLoop:
+    "One fresh ordered Capture-to-decisive-delivery player timeline",
 };
 
 export function buildVaultFrontAlphaGateRunbook(input: {

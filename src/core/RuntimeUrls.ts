@@ -11,6 +11,15 @@ function normalizeOrigin(origin: string | undefined): string {
   return (origin ?? "").trim().replace(/\/+$/, "");
 }
 
+export function isLoopbackHostname(hostname: string): boolean {
+  const normalized = hostname.trim().toLowerCase();
+  return (
+    normalized === "localhost" ||
+    normalized === "[::1]" ||
+    normalized.startsWith("127.")
+  );
+}
+
 function normalizeWebSocketOrigin(origin: string | undefined): string {
   const normalized = normalizeOrigin(origin);
   if (!normalized) {

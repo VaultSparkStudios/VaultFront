@@ -169,3 +169,27 @@ export function firstExtractionComplete(
 ): boolean {
   return FIRST_EXTRACTION_STEPS.every((step) => progress[step.key]);
 }
+
+export type FirstExtractionTrackerMode = "hidden" | "compact" | "expanded";
+
+/**
+ * The core-loop spine remains reachable until every certified stage is done.
+ * Player dismissal, a compact HUD, or the initial coaching timeout collapses
+ * detail; none of them may erase the next required action.
+ */
+export function firstExtractionTrackerMode(
+  progress: FirstExtractionProgress,
+  options: {
+    dismissed: boolean;
+    hudCompact: boolean;
+    currentTick: number;
+    expandedDurationTicks: number;
+  },
+): FirstExtractionTrackerMode {
+  if (firstExtractionComplete(progress)) return "hidden";
+  return options.dismissed ||
+    options.hudCompact ||
+    options.currentTick > options.expandedDurationTicks
+    ? "compact"
+    : "expanded";
+}

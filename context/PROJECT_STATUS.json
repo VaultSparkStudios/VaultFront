@@ -4,15 +4,15 @@
   "name": "VaultFront",
   "status": "active",
   "health": "green",
-  "currentSession": 97,
-  "lastAgent": "codex",
-  "currentFocus": "Session 97 closed locally: Nano ID 3.3.18 security revision 6920b1b4 passed exact GitHub CI, E2E, Release, brief-format, and Dependabot. Exact-SHA staging dry-run 31217165276 is green; live staging stopped before mutation on unprovisioned CANON-038/database/DNS/deploy-user/edge topology and Ark 01JVF5O44A385AF9033E414452 remains pending. Production remains NO-GO.",
-  "nextMilestone": "Establish an approved staging origin plus native Obelisk and project-domain Zoho contracts, then collect parity, human, revenue, rollback, and founder evidence in gate order.",
+  "currentSession": 98,
+  "lastAgent": "claude",
+  "currentFocus": "Session 98 recovered and closed: a cut-off prior session (codex) had implemented shared-host-compatible deployment ingress, a truthful public /stats surface, persistent First Extraction guidance, and certified-loop-bound Alpha admission but never committed. Verified against live code (235 files / 1,233 tests, fresh Playwright 26/26, doctor 13/13) and shipped. Live staging remains unprovisioned; Ark 01JVF5O44A385AF9033E414452 remains pending. Production remains NO-GO.",
+  "nextMilestone": "Apply the pending CANON-038 allocation from Ark 01JVF5O44A385AF9033E414452 to exercise the new project-router deploy path, then establish native Obelisk and project-domain Zoho contracts and collect parity, human, revenue, rollback, and founder evidence in gate order.",
   "blockers": [
-    "Live staging infrastructure is not provisioned: VaultFront has no CANON-038 port allocation, STUDIO_PG_ADMIN_URL is missing, staging DNS/deploy user are absent, and the host runs Caddy while the checked-in updater requires Traefik. Evidence: dry-run 31217165276; Ark 01JVF5O44A385AF9033E414452.",
+    "Live staging infrastructure is not provisioned: VaultFront has no CANON-038 port allocation, STUDIO_PG_ADMIN_URL is missing, and staging DNS/deploy user are absent. The deployment updater now targets the shared host's actual Caddy edge (Session 98), but the loopback port allocation and database credential are still pending Ark 01JVF5O44A385AF9033E414452.",
     "Production remains NO-GO until approved staging/parity/health, Zoho reply identity, native Obelisk identity, live theme, three-human Alpha, real revenue, rollback, and founder approval evidence exist."
   ],
-  "lastUpdated": "2026-08-07",
+  "lastUpdated": "2026-08-08",
   "lifecycle": "alpha",
   "audience": "public-unlaunched",
   "type": "game",
@@ -28,7 +28,7 @@
       "status": "green",
       "label": "Unit and server regression",
       "command": "npm test",
-      "purpose": "All 232 current test files passed through canonical and bounded shards: root 39 files / 301 tests, client/core 70 files (with a clean serialized 18-file / 83-test confirmation after host pool exhaustion), scripts 51 files / 187 tests, and server 72 files / 298 tests. A new aggregate assertion count is intentionally not inferred."
+      "purpose": "All 235 current test files passed through four bounded shards: root 39 files / 301 tests, client-core 72 files / 442 tests, scripts 52 files / 190 tests, server 72 files / 300 tests. Verified twice (one earlier scripts-shard failure classified flaky from concurrent recovery diagnostics, not a code regression)."
     },
     {
       "type": "tests",
@@ -42,7 +42,7 @@
       "status": "green",
       "label": "E2E smoke",
       "command": "npm run e2e",
-      "purpose": "Session 97 rendered-pixel proof passed 2/2; 114 refreshed hash-bound captures cover VaultFront, Light, and Competitive themes on desktop/mobile, including Doctrine and reroute decisions."
+      "purpose": "Session 98 recovery rendered-pixel proof passed 26/26 (all e2e specs); 114 refreshed hash-bound captures cover VaultFront, Light, and Competitive themes on desktop/mobile, directly reviewed with no regressions and the new Stats footer link visible."
     },
     {
       "type": "local",
@@ -57,13 +57,13 @@
   "readinessEndpoint": "/api/vaultfront/readiness",
   "playtestPulseEndpoint": "/api/vaultfront/playtest-pulse/summary",
   "truthAuditStatus": "green",
-  "truthAuditLastRun": "2026-08-06",
+  "truthAuditLastRun": "2026-08-08",
   "silRubricVersion": "3.0",
   "silMax": 1000,
   "silScoreLegacy500": null,
   "silScore": 997,
-  "testsPassing": 1221,
-  "testsTotal": 1221,
+  "testsPassing": 1233,
+  "testsTotal": 1233,
   "silCategoriesV3": {
     "devHealth": 100,
     "creativeAlignment": 100,
@@ -88,10 +88,10 @@
   "sessionMode": "founder",
   "sessionModeAutoShiftedAt": "2026-07-28T04:43:27.874Z",
   "silAvg3": 997,
-  "silVelocity": 9,
+  "silVelocity": 4,
   "silDebt": "down",
-  "silLastSession": "97",
-  "auditStatus": "audit-32-of-32-shipped; session-97-new-primary-9-of-9-shipped; cumulative-innovations-62-of-62-shipped; zero-pending-unblocked; external-release-evidence-no-go",
+  "silLastSession": "98",
+  "auditStatus": "audit-36-of-36-shipped; session-98-recovery-4-of-4-shipped; cumulative-innovations-62-of-62-shipped; zero-pending-unblocked; external-release-evidence-no-go",
   "releaseGates": [
     "staging deployment and exact-digest parity verification",
     "authenticated evidence from at least three distinct human alpha sessions",
@@ -112,18 +112,18 @@
     "warnings": 0,
     "failing": 0,
     "blockingFailing": 0,
-    "date": "2026-08-07",
-    "observedAt": "2026-08-07T23:43:36.272Z",
+    "date": "2026-08-08",
+    "observedAt": "2026-08-08T08:14:45.411Z",
     "source": "scripts/project-doctor.mjs",
     "evidencePath": "audits/doctor-latest.json",
-    "evidenceDigest": "sha256:c920a28d588b51b90192a3d73298b18c37ec688d8fd392a97549d350d7642a83",
+    "evidenceDigest": "sha256:2a91c865f8d9151aa7c57401f586055c91e1352336f8951aec03e9a766eba1c9",
     "evidenceSchemaVersion": 1,
     "checkCount": 13
   },
   "complianceScore": 49,
   "complianceTotal": 49,
   "sanitizationLastCleared": "2026-07-26",
-  "lastSession": 97,
+  "lastSession": 98,
   "bootAmortization": {
     "ratio": 0.09,
     "verdict": "wasted",
@@ -144,16 +144,16 @@
     }
   ],
   "sessionShellHygiene": {
-    "session": 97,
+    "session": 98,
     "running": 0,
-    "enumeratedAt": "2026-08-07T00:24:22.354Z",
-    "scope": "Owned VaultFront Vitest and E2E orphans were resolved by exact command line; final inventory is rechecked after push."
+    "enumeratedAt": "2026-08-08T07:39:37.537Z",
+    "scope": "Background diagnostic/test/e2e shells spawned during recovery all completed and were read to completion; none left running."
   },
-  "testsLastRun": "2026-08-07",
-  "testsLastRunMode": "GitHub exact-revision CI 31226843311: all 232 files / 1,221 tests, coverage ratchet, security audit, build, lint, formatting, bundle, and exact release evidence passed on 6920b1b4; E2E 31226843279, Release 31226843269, brief-format 31226843270, and Dependabot 31226914767 also passed.",
+  "testsLastRun": "2026-08-08",
+  "testsLastRunMode": "Local recovery verification: canonical npm test passed 235 files / 1,233 tests across four bounded shards (root 301, client-core 442, scripts 190, server 300); fresh npm run e2e passed 26/26 including the theme-visual-proof matrix on chromium and mobile-chrome.",
   "testsDeferred": [],
   "testsBudgetExhausted": false,
-  "lastSessionSummary": "Session 97 shipped all nine fresh audit items, exhausted audit 32/32 plus innovations 62/62, closed three stale CI-only execution-chain test seams against the extracted ledger, and preserves external launch NO-GO.",
+  "lastSessionSummary": "Session 98 recovered a cut-off prior session (codex), verified its uncommitted implementation against live code, and shipped shared-host-compatible deployment ingress, a truthful public /stats surface, persistent First Extraction guidance, and certified-loop-bound Alpha admission. Audit 36/36 and innovations 62/62 remain exhausted; production remains NO-GO.",
   "providerCiStatus": {
     "status": "green",
     "revision": "6920b1b47918b4bc208d518bfa3024f64b028446",

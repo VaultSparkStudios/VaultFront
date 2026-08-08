@@ -27,10 +27,10 @@ const input: CertifiedLoopEvidenceInput = {
       convoyDeliveries: 1,
       convoyIntercepts: 0,
       convoysLost: 0,
-      firstVaultCaptureTick: 120,
-      firstConvoyOutcomeTick: 300,
-      firstVaultPressureTick: 100,
-      firstBreachOpenTick: 200,
+      firstVaultCaptureTick: 100,
+      firstConvoyOutcomeTick: 150,
+      firstVaultPressureTick: 200,
+      firstBreachOpenTick: 250,
       decisiveDeliveryTick: 300,
       vaultBreachVictoryTick: 300,
     },
@@ -63,6 +63,9 @@ describe("CertifiedLoopEvidenceStore", () => {
     expect(schema).toMatch(
       /ADD COLUMN IF NOT EXISTS pressure_breach_funnel JSONB NOT NULL DEFAULT '\{\}'/,
     );
+    expect(schema).toMatch(
+      /ADD COLUMN IF NOT EXISTS certified_loop_participants INT NOT NULL DEFAULT 0/,
+    );
   });
 
   test("derives privacy-minimal timing and participation once per certified game", async () => {
@@ -78,6 +81,7 @@ describe("CertifiedLoopEvidenceStore", () => {
       vaultParticipants: 1,
       outcomeParticipants: 2,
       completedCycleParticipants: 1,
+      certifiedLoopParticipants: 1,
       pressureParticipants: 2,
       breachParticipants: 1,
       decisiveDeliveryParticipants: 1,
@@ -88,25 +92,29 @@ describe("CertifiedLoopEvidenceStore", () => {
     await expect(store.recordCertifiedMatch(input)).resolves.toBeNull();
     await expect(store.getSummary()).resolves.toEqual({
       generatedAt: 123,
+      windowStartAt: null,
+      windowEndAt: 123,
+      latestEvidenceAt: 123,
       matches: 1,
       playerSamples: 2,
       vaultParticipants: 1,
       outcomeParticipants: 2,
       completedCycleParticipants: 1,
+      certifiedLoopParticipants: 1,
       pressureParticipants: 2,
       breachParticipants: 1,
       decisiveDeliveryParticipants: 1,
       victoryParticipants: 1,
       vaultParticipationRatePct: 50,
       cycleCompletionRatePct: 100,
-      averageFirstVaultSeconds: 12,
-      averageFirstOutcomeSeconds: 40,
+      averageFirstVaultSeconds: 10,
+      averageFirstOutcomeSeconds: 32.5,
       pressureParticipationRatePct: 100,
       pressureToBreachConversionRatePct: 50,
       breachToDecisiveDeliveryConversionRatePct: 100,
       breachToVictoryConversionRatePct: 100,
-      averageFirstPressureSeconds: 25,
-      averageFirstBreachSeconds: 20,
+      averageFirstPressureSeconds: 30,
+      averageFirstBreachSeconds: 25,
       averageDecisiveDeliverySeconds: 30,
       averageVaultBreachVictorySeconds: 30,
       phases: input.intentFunnel,
@@ -158,6 +166,50 @@ describe("CertifiedLoopEvidenceStore", () => {
         input.turnIntervalMs,
       ),
     ).toBe(false);
+  });
+
+  test("does not certify a full loop when Capture and convoy chronology is reversed", async () => {
+    const store = new CertifiedLoopEvidenceStore({
+      pool: () => null,
+      databaseConfigured: () => false,
+      now: () => 123,
+    });
+    const receipt = await store.recordCertifiedMatch({
+      ...input,
+      gameId: "unordered-loop",
+      players: [
+        {
+          ...input.players[0],
+          firstVaultCaptureTick: 175,
+          firstConvoyOutcomeTick: 150,
+        },
+      ],
+    });
+    expect(receipt).toMatchObject({
+      decisiveDeliveryParticipants: 1,
+      certifiedLoopParticipants: 0,
+    });
+  });
+
+  test("projects only records inside the requested evidence window", async () => {
+    let now = 1_000;
+    const store = new CertifiedLoopEvidenceStore({
+      pool: () => null,
+      databaseConfigured: () => false,
+      now: () => now,
+    });
+    await store.recordCertifiedMatch({ ...input, gameId: "older" });
+    now = 2_000;
+    await store.recordCertifiedMatch({ ...input, gameId: "current" });
+
+    await expect(store.getSummary(1_000, 1_500)).resolves.toMatchObject({
+      generatedAt: 2_000,
+      windowStartAt: 1_500,
+      windowEndAt: 2_000,
+      latestEvidenceAt: 2_000,
+      matches: 1,
+      certifiedLoopParticipants: 1,
+    });
   });
 
   test("isolates matches, sanitizes intent keys, and bounds invalid counters", async () => {
@@ -310,8 +362,8 @@ describe("CertifiedLoopEvidenceStore", () => {
     });
     await expect(store.recordCertifiedMatch(input)).resolves.toBeNull();
     expect(query.mock.calls[0][0]).toContain("ON CONFLICT DO NOTHING");
-    expect(query.mock.calls[0][1]).toHaveLength(12);
-    expect(JSON.parse(query.mock.calls[0][1][10])).toMatchObject({
+    expect(query.mock.calls[0][1]).toHaveLength(14);
+    expect(JSON.parse(query.mock.calls[0][1][11])).toMatchObject({
       pressureParticipants: 2,
       breachParticipants: 1,
       decisiveDeliveryParticipants: 1,
@@ -336,12 +388,14 @@ describe("CertifiedLoopEvidenceStore", () => {
             vault_participants: inserted[3],
             outcome_participants: inserted[4],
             completed_cycle_participants: inserted[5],
-            first_vault_seconds_total: inserted[6],
-            first_vault_samples: inserted[7],
-            first_outcome_seconds_total: inserted[8],
-            first_outcome_samples: inserted[9],
-            pressure_breach_funnel: JSON.parse(String(inserted[10])),
-            intent_funnel: JSON.parse(String(inserted[11])),
+            certified_loop_participants: inserted[6],
+            first_vault_seconds_total: inserted[7],
+            first_vault_samples: inserted[8],
+            first_outcome_seconds_total: inserted[9],
+            first_outcome_samples: inserted[10],
+            pressure_breach_funnel: JSON.parse(String(inserted[11])),
+            intent_funnel: JSON.parse(String(inserted[12])),
+            recorded_at: inserted[13],
           },
         ],
       };
@@ -360,14 +414,15 @@ describe("CertifiedLoopEvidenceStore", () => {
     await postgres.recordCertifiedMatch(input);
     await processLocal.recordCertifiedMatch(input);
     const [postgresSummary, localSummary] = await Promise.all([
-      postgres.getSummary(),
-      processLocal.getSummary(),
+      postgres.getSummary(1_000, 0),
+      processLocal.getSummary(1_000, 0),
     ]);
 
     expect(postgresSummary).toEqual({
       ...localSummary,
       durability: "postgres",
     });
+    expect(query.mock.calls.at(-1)?.[1]).toEqual([new Date(0), 1_000]);
     expect(JSON.stringify(postgresSummary)).not.toMatch(/persistent|player-/i);
   });
 });

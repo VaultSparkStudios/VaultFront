@@ -500,6 +500,7 @@ CREATE TABLE IF NOT EXISTS certified_loop_evidence (
   vault_participants            INT NOT NULL DEFAULT 0 CHECK (vault_participants >= 0),
   outcome_participants          INT NOT NULL DEFAULT 0 CHECK (outcome_participants >= 0),
   completed_cycle_participants  INT NOT NULL DEFAULT 0 CHECK (completed_cycle_participants >= 0),
+  certified_loop_participants   INT NOT NULL DEFAULT 0 CHECK (certified_loop_participants >= 0),
   first_vault_seconds_total     DOUBLE PRECISION NOT NULL DEFAULT 0 CHECK (first_vault_seconds_total >= 0),
   first_vault_samples           INT NOT NULL DEFAULT 0 CHECK (first_vault_samples >= 0),
   first_outcome_seconds_total   DOUBLE PRECISION NOT NULL DEFAULT 0 CHECK (first_outcome_seconds_total >= 0),
@@ -513,6 +514,10 @@ CREATE TABLE IF NOT EXISTS certified_loop_evidence (
 -- Pressure → Breach → decisive-delivery/victory funnel was introduced.
 ALTER TABLE certified_loop_evidence
   ADD COLUMN IF NOT EXISTS pressure_breach_funnel JSONB NOT NULL DEFAULT '{}';
+
+ALTER TABLE certified_loop_evidence
+  ADD COLUMN IF NOT EXISTS certified_loop_participants INT NOT NULL DEFAULT 0
+  CHECK (certified_loop_participants >= 0);
 
 CREATE INDEX IF NOT EXISTS idx_certified_loop_evidence_recorded
   ON certified_loop_evidence (recorded_at DESC);

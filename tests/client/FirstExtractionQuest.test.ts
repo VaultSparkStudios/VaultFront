@@ -9,6 +9,7 @@ import {
   FIRST_EXTRACTION_STEPS,
   FIRST_EXTRACTION_TITLE,
   firstExtractionComplete,
+  firstExtractionTrackerMode,
   isFirstExtractionConvoyActivity,
   VAULTFRONT_VICTORY_LOOP,
 } from "../../src/client/FirstExtractionQuest";
@@ -152,5 +153,61 @@ describe("First Extraction quest contract", () => {
       team: { pressure: 3, threshold: 3, breachActive: true },
       summary: "You: 1 Pressure delivery · Team: 3/3 · Breach live",
     });
+  });
+
+  it("keeps an incomplete core-loop spine visible after dismissal and timeout", () => {
+    expect(
+      firstExtractionTrackerMode(EMPTY_FIRST_EXTRACTION_PROGRESS, {
+        dismissed: false,
+        hudCompact: false,
+        currentTick: 100,
+        expandedDurationTicks: 1_800,
+      }),
+    ).toBe("expanded");
+    expect(
+      firstExtractionTrackerMode(
+        { ...EMPTY_FIRST_EXTRACTION_PROGRESS, vaultCaptured: true },
+        {
+          dismissed: true,
+          hudCompact: false,
+          currentTick: 100,
+          expandedDurationTicks: 1_800,
+        },
+      ),
+    ).toBe("compact");
+    expect(
+      firstExtractionTrackerMode(
+        {
+          vaultCaptured: true,
+          convoyAction: true,
+          pressureStarted: true,
+          breachOpened: false,
+          decisiveDelivery: false,
+        },
+        {
+          dismissed: false,
+          hudCompact: false,
+          currentTick: 1_801,
+          expandedDurationTicks: 1_800,
+        },
+      ),
+    ).toBe("compact");
+    expect(
+      firstExtractionTrackerMode(
+        {
+          vaultCaptured: true,
+          convoyAction: true,
+          pressureStarted: true,
+          breachOpened: true,
+          decisiveDelivery: true,
+        },
+        {
+          dismissed: false,
+          hudCompact: false,
+          currentTick: 2_000,
+          expandedDurationTicks: 1_800,
+        },
+      ),
+    ).toBe("hidden");
   });
 });

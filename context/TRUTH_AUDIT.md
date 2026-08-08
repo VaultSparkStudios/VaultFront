@@ -2,6 +2,18 @@
 
 # Truth Audit
 
+## 2026-08-08 — Session 98 recovery, deployment, stats, and admission truth
+
+- Recovery truth: Session 98 (codex) was cut off mid-implement — not mid-closeout — after Session 97's genuine closeout (`8e264657`) had already committed and pushed. The prior session's implementation was verified against live code and a fresh full test/visual/doctor pass before any "done" claim, per the same discipline as prior interrupted-session recoveries.
+- Work truth: audit items 167–170 are shipped; cumulative audit is exhausted at 36/36 and innovations remain exhausted at 62/62 with zero pending unblocked local work.
+- Deployment truth: the remote updater's ingress model previously assumed host Traefik, which the live shared host does not run (it runs Caddy). It now uses one project-private Docker network and a stable nginx router bound only to the CANON-038-allocated loopback port; a candidate is health- and revision-admitted through that router before the incumbent is drained, and any activation/admission failure restores the exact prior route. No live deployment is claimed — this is a local/CI-verified contract change only.
+- Public-surface truth: `/stats` and `/stats.json` are generated from one descriptor and are byte-identical; every metric explicitly states pre-launch unavailability with a reason rather than a fabricated zero, satisfying CANON-054 without inventing population or engagement data.
+- Admission truth: release/Alpha Gate readiness now requires a fresh, ordered, server-certified Capture→Convoy→Pressure→Breach→decisive-delivery evidence chain in addition to the existing authenticated human-cohort checks; it cannot report ready from human activity alone.
+- Verification truth: full canonical `npm test` passes 235 files / 1,233 tests across four bounded shards. One "scripts"-shard failure observed mid-recovery was classified flaky (CPU contention from concurrent diagnostic commands run by this recovery session, not a code regression) — confirmed by an isolated re-run and a second clean full-suite pass with no code changes between runs.
+- Visual truth: fresh Playwright rendered-pixel proof passes 26/26 across chromium and mobile-chrome; 114 hash-bound artifacts cover three themes × desktop/mobile at source digest `sha256:dd00349c972434f1d77fe50184731877a51c019b4564aeaee26627d958137d64`, directly reviewed with no regressions from this session's changes.
+- Debris truth: a stray `.playwright-cli/` directory of Playwright CLI console/page debug logs, left by the cut-off session and referenced nowhere in source, was deleted before closeout.
+- Release truth: production remains NO-GO. No approved staging/parity, Zoho reply identity, native Obelisk, live theme, distinct-human Alpha, real revenue, observed rollback, exact-revision provider CI, or founder approval was inferred during recovery.
+
 ## 2026-08-06 — Session 97 persistence, intelligence, decision, and release truth
 
 - Work truth: audit items 158–166 are shipped; cumulative audit 32/32 and innovations 62/62 are exhausted with zero pending unblocked local work.

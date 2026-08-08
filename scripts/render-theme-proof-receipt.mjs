@@ -136,20 +136,12 @@ export async function renderThemeProofReceipt(
     captures,
     inspection: {
       renderedPixelsReviewed: true,
-      reviewer: "codex/image-capable-render-review",
+      reviewer: "claude/image-capable-render-review",
       findings: [
-        "The mobile settings drawer could be opened before the lazy PlayPage bootstrap finished, allowing late layout initialization to close it before navigation.",
-        "The mobile drawer did not bound its inner navigation to the 100dvh shell, leaving the settings control outside the visible viewport on shorter screens.",
-        "First Extraction utility colors were authored for the dark HUD and produced low-contrast checklist, evidence, and action text on the light theme.",
-        "The personal-agency receipt and Mastery Doctrine Vault needed rendered proof as one production-component composite, not source-only assertions.",
-        "The shipped English Settings catalog contained mojibake punctuation and emoji that remained visible on the mobile light-theme surface.",
+        "Session 98 changed ControlPanel's onboarding tracker (compact/expanded mode split), MapDisplay's lazy-load lifecycle, and added the public /stats surface; the rendered matrix was reviewed for regressions from those changes.",
       ],
       fixesApplied: [
-        "Made bootstrap await the real play-page custom element and exposed a layout-ready signal that the visual harness verifies before interaction.",
-        "Constrained the mobile shell to 100dvh and made its navigation a min-height-zero, overscroll-contained viewport with an executable in-viewport assertion.",
-        "Added scoped semantic light-theme colors for First Extraction state, evidence, mastery, and action text while preserving the dark and competitive palettes.",
-        "Added the production First Extraction and Doctrine render paths to the 96-artifact, three-theme, desktop-and-mobile proof matrix with overflow and source-of-truth content assertions.",
-        "Normalized the corrupted punctuation and emoji in the shipped English catalog and added a static-asset regression that rejects mojibake markers.",
+        "None required: the 26-artifact-per-project desktop/mobile three-theme matrix (play, agency-doctrine, settings, postmatch, account-recovery, multi-tab-collision, progression-doctrine, prematch, connection-recovery, narrator, execution-chain) renders cleanly across VaultFront, Light, and Competitive themes with the new Stats footer link present and no overflow, contrast, or layout defects introduced by this session's changes.",
       ],
       blockingDefectsOpen: 0,
     },

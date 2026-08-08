@@ -224,7 +224,7 @@ describe("Release Evidence Manifest", () => {
         deploymentTopology: {
           schemaVersion: 1,
           status: "verified",
-          authority: "traefik",
+          authority: "caddy+project-router",
           source: "fixture",
           observedAt: generatedAt,
           sourceDigest: `sha256:${"8".repeat(64)}`,
@@ -327,16 +327,17 @@ describe("Release Evidence Manifest", () => {
       );
       fs.writeFileSync(
         path.join(fixture, "update.sh"),
-        'run_container() { local name="$2"; echo traefik.http.routers.${name}.rule; }\n',
+        'DEPLOY_INGRESS_PORT=8999\nactivate_route "$CONTAINER_NAME" "$GHCR_IMAGE"\necho "127.0.0.1:${DEPLOY_INGRESS_PORT}"\n',
       );
       fs.writeFileSync(
         path.join(fixture, "docs/DEPLOY_RUNTIME_RUNBOOK.md"),
-        "Traefik is the sole runtime ingress authority.\n",
+        "Caddy is the sole public ingress authority.\n",
       );
       const verified = buildDeployTopologyEvidence(
         fixture,
         "2026-07-17T12:00:00.000Z",
       );
+      expect(verified.authority).toBe("caddy+project-router");
       fs.appendFileSync(
         path.join(fixture, "Dockerfile"),
         "RUN cloudflared tunnel run\n",
@@ -348,7 +349,7 @@ describe("Release Evidence Manifest", () => {
 
       expect(verified).toMatchObject({
         status: "verified",
-        authority: "traefik",
+        authority: "caddy+project-router",
       });
       expect(contradicted).toMatchObject({ status: "failed", authority: null });
       expect(contradicted.failures).toContain(

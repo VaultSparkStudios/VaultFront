@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="robots" content="noindex,follow" />
+    <title>Public game stats · VaultFront</title>
+    <meta
+      name="description"
+      content="Period-labelled VaultFront player and core-loop measurements, with explicit pre-launch availability."
+    />
+    <link
+      rel="canonical"
+      href="https://vaultsparkstudios.com/vaultfront/stats/"
+    />
+    <link rel="stylesheet" href="/legal.css" />
+    <link rel="stylesheet" href="/stats.css" />
+    <link rel="icon" href="/images/Favicon.svg" type="image/svg+xml" />
+    <script src="/stats-theme.js" defer></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Dataset",
+        "name": "VaultFront public game stats",
+        "url": "https://vaultsparkstudios.com/vaultfront/stats/",
+        "isAccessibleForFree": true,
+        "creator": {
+          "@type": "Organization",
+          "name": "VaultSpark Studios LLC",
+          "url": "https://vaultsparkstudios.com"
+        },
+        "distribution": {
+          "@type": "DataDownload",
+          "encodingFormat": "application/json",
+          "contentUrl": "https://vaultsparkstudios.com/vaultfront/stats.json"
+        }
+      }
+    </script>
+  </head>
+  <body class="stats-page">
+    <main>
+      <!-- public-shell:nav:start -->
+      <!-- prettier-ignore -->
+      <nav aria-label="Primary">
+        <a href="/">Play</a> · <a href="/about/">About</a> · <a href="/docs/">How to play</a> · <a href="/stats/">Stats</a> · <a href="/contact/">Contact</a>
+      </nav>
+      <!-- public-shell:nav:end -->
+
+      <div class="stats-toolbar">
+        <div>
+          <p class="eyebrow">VaultFront · public-unlaunched alpha</p>
+          <h1>Game stats, without imaginary zeros.</h1>
+        </div>
+        <div class="theme-switcher" role="group" aria-label="Color theme">
+          <button type="button" data-theme-choice="dark" aria-pressed="true">
+            Dark
+          </button>
+          <button type="button" data-theme-choice="light" aria-pressed="false">
+            Light
+          </button>
+        </div>
+      </div>
+
+      <!-- stats-surface:content:start -->
+      <!-- prettier-ignore -->
+      <div class="stats-generated">
+      <section class="truth-banner" aria-labelledby="measurement-status">
+        <h2 id="measurement-status">Measurement has not started.</h2>
+        <p>
+          <strong>Unmeasured is not zero.</strong> VaultFront has no qualifying
+          production cohort while its public runtime, isolated data plane, and
+          Obelisk identity gate remain offline. These cards state that absence
+          directly instead of fabricating launch metrics from tests.
+        </p>
+      </section>
+
+      <div class="metrics-grid">
+        <article class="metric-card">
+          <h2>Authenticated human alpha players</h2>
+          <p class="metric-value">Not yet measured</p>
+          <p class="metric-period">Pre-launch through 2026-08-07</p>
+          <p>Distinct authenticated human actors in the 24-hour alpha evidence window.</p>
+          <p class="metric-source">Source: Production VaultFront playtest pulse joined to Obelisk-authenticated human actor evidence.</p>
+          <p class="metric-reading">This is intentionally unavailable rather than zero: VaultFront has not opened a production alpha cohort.</p>
+        </article>
+
+        <article class="metric-card">
+          <h2>Certified complete-loop players</h2>
+          <p class="metric-value">Not yet measured</p>
+          <p class="metric-period">Pre-launch through 2026-08-07</p>
+          <p>Players with one ordered Capture → Convoy → Pressure → Breach → decisive-delivery timeline.</p>
+          <p class="metric-source">Source: Production certified-loop evidence store, restricted to fresh server-certified timelines.</p>
+          <p class="metric-reading">A launch claim requires at least one fresh, server-certified player timeline; simulated and test evidence is excluded.</p>
+        </article>
+
+        <article class="metric-card">
+          <h2>Median decisive session length</h2>
+          <p class="metric-value">Not yet measured</p>
+          <p class="metric-period">Pre-launch through 2026-08-07</p>
+          <p>Minutes among certified matches ending in a decisive Breach delivery.</p>
+          <p class="metric-source">Source: Production certified-loop evidence store decisive-session cohort.</p>
+          <p class="metric-reading">Session length will be published only after a real qualifying cohort exists; an empty cohort is not reported as zero minutes.</p>
+        </article>
+      </div>
+
+      <p class="stats-meta">
+        Precomputed at <time datetime="2026-08-07T21:25:00-04:00">2026-08-07T21:25:00-04:00</time> ·
+        <a href="/stats.json">Machine-readable JSON</a> · Structure is
+        automatically checked; underlying measurements remain review-enforced.
+      </p>
+      </div>
+      <!-- stats-surface:content:end -->
+      <a class="cta" href="/">Return to VaultFront</a>
+    </main>
+
+    <!-- public-shell:footer:start -->
+    <!-- prettier-ignore -->
+    <footer>
+      <p><a href="https://vaultsparkstudios.com">A VaultSpark Studios production</a></p>
+      <p>© 2026 VaultSpark Studios LLC. All rights reserved.</p>
+      <p><a href="/">Play</a> · <a href="/about/">About</a> · <a href="/docs/">How to play</a> · <a href="/stats/">Stats</a> · <a href="/contact/">Contact</a> · <a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="/ip/">Rights &amp; attribution</a></p>
+      <p>Based on OpenFrontIO; source licensing and upstream credits remain available in LICENSE, LICENSING.md, and CREDITS.md.</p>
+    </footer>
+    <!-- public-shell:footer:end -->
+  </body>
+</html>

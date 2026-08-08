@@ -13,8 +13,8 @@
   },
   "scripts": {
     "build-dev": "concurrently \"tsc --noEmit\" \"vite build --mode development\"",
-    "build-prod": "tsc --noEmit && npm run balance:verify && vite build && node scripts/postbuild-pages.mjs && node scripts/generate-release-evidence.mjs",
-    "build:pages": "concurrently --kill-others-on-fail \"tsc --noEmit\" \"vite build\" && node scripts/postbuild-pages.mjs",
+    "build-prod": "node scripts/generate-public-stats.mjs --check && tsc --noEmit && npm run balance:verify && vite build && node scripts/postbuild-pages.mjs && node scripts/generate-release-evidence.mjs",
+    "build:pages": "node scripts/generate-public-stats.mjs --check && concurrently --kill-others-on-fail \"tsc --noEmit\" \"vite build\" && node scripts/postbuild-pages.mjs",
     "start:client": "vite",
     "start:server": "tsx src/server/Server.ts",
     "start:server-dev": "cross-env GAME_ENV=dev tsx src/server/Server.ts",
@@ -27,6 +27,9 @@
     "test:server": "vitest run tests/server --maxWorkers=4",
     "verify:contracts": "node scripts/check-project-status-writers.mjs && node scripts/check-client-reachability.mjs && node scripts/check-runtime-feature-reachability.mjs && node scripts/check-route-policy-coverage.mjs && node scripts/check-worker-composition.mjs && node scripts/check-vaultfront-execution-composition.mjs && node scripts/check-deploy-contract.mjs && node scripts/check-release-input-trust.mjs && node scripts/check-hosted-cron-contract.mjs && node scripts/check-vaultfront-balance-authority.mjs && node scripts/check-win-modal-composition.mjs",
     "verify:pages": "node scripts/check-pages-deploy-contract.mjs --artifact static",
+    "verify:stats": "node scripts/generate-public-stats.mjs --check && node ../vaultspark-studio-ops/scripts/check-stats-surface.mjs --project . --json",
+    "generate:stats": "node scripts/generate-public-stats.mjs --write",
+    "generate:public-shell": "node scripts/generate-public-shell.mjs --write",
     "perf": "npx tsx tests/perf/run-all.ts",
     "test:coverage": "vitest run --coverage --maxWorkers=4",
     "format": "prettier --ignore-unknown --write .",
@@ -42,7 +45,8 @@
     "balance:verify": "tsx scripts/generate-balance-envelope.ts",
     "format:check": "node scripts/check-prettier-ratchet.mjs",
     "start:e2e-fixture": "node scripts/e2e-fixture-server.mjs",
-    "start:e2e-client": "cross-env SKIP_BROWSER_OPEN=true DEV_API_ORIGIN=http://127.0.0.1:39081 DEV_LOBBY_ORIGIN=ws://127.0.0.1:39081 DEV_WORKER_ORIGIN=ws://127.0.0.1:39081 vite --host 127.0.0.1"
+    "start:e2e-client": "cross-env SKIP_BROWSER_OPEN=true DEV_API_ORIGIN=http://127.0.0.1:39081 DEV_LOBBY_ORIGIN=ws://127.0.0.1:39081 DEV_WORKER_ORIGIN=ws://127.0.0.1:39081 vite --host 127.0.0.1",
+    "preview:artifact": "vite preview --host 127.0.0.1 --port 4173"
   },
   "lint-staged": {
     "**/*": [

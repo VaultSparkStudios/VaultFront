@@ -1,5 +1,5 @@
 import { UserSettings } from "../game/UserSettings";
-import { gameServiceHttpUrl } from "../RuntimeUrls";
+import { gameServiceHttpUrl, isLoopbackHostname } from "../RuntimeUrls";
 import { GameConfig } from "../Schemas";
 import { Config, GameEnv, ServerConfig } from "./Config";
 import { DefaultConfig } from "./DefaultConfig";
@@ -31,19 +31,23 @@ export async function getServerConfigFromClient(): Promise<ServerConfig> {
   if (cachedSC) {
     return cachedSC;
   }
-  const response = await fetch(gameServiceHttpUrl("/api/env"));
-
-  if (!response.ok) {
-    throw new Error(
-      `Failed to fetch server config: ${response.status} ${response.statusText}`,
-    );
+  try {
+    const response = await fetch(gameServiceHttpUrl("/api/env"));
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch server config: ${response.status} ${response.statusText}`,
+      );
+    }
+    const config = await response.json();
+    console.log("Server config loaded:", config);
+    cachedSC = getServerConfig(config.game_env);
+    return cachedSC;
+  } catch (error) {
+    if (!isLoopbackHostname(window.location.hostname)) throw error;
+    console.warn("Local game service unavailable; using Solo configuration");
+    cachedSC = getServerConfig("dev");
+    return cachedSC;
   }
-  const config = await response.json();
-  // Log the retrieved configuration
-  console.log("Server config loaded:", config);
-
-  cachedSC = getServerConfig(config.game_env);
-  return cachedSC;
 }
 export function getServerConfigFromServer(): ServerConfig {
   const gameEnv = Env.GAME_ENV;

@@ -7,6 +7,8 @@
 - Public runtime: unavailable
 - Join alpha: mailto:founder@vaultsparkstudios.com?subject=VaultFront%20alpha%20interest
 - How to play: https://vaultsparkstudios.com/vaultfront/#how-to-play
+- Public stats: https://vaultsparkstudios.com/vaultfront/stats/
+- Machine-readable stats: https://vaultsparkstudios.com/vaultfront/stats.json
 - Source: https://github.com/VaultSparkStudios/VaultFront
 
 ## What this project does

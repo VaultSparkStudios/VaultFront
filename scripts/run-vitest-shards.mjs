@@ -77,22 +77,33 @@ export function validateShardPlan(
   return { fileCount: discovered.length, shardCount: plan.length };
 }
 
-export function runVitestShards({ root = ROOT, spawn = spawnSync } = {}) {
+export function runVitestShards({
+  root = ROOT,
+  spawn = spawnSync,
+  maxWorkers = Number(process.env.VITEST_MAX_WORKERS) || Infinity,
+} = {}) {
+  if (
+    maxWorkers !== Infinity &&
+    (!(maxWorkers > 0) || !Number.isInteger(maxWorkers))
+  ) {
+    throw new Error("VITEST_MAX_WORKERS must be a positive integer");
+  }
   const plan = createShardPlan();
   const summary = validateShardPlan(plan);
   const vitest = join(root, "node_modules", "vitest", "vitest.mjs");
   for (const shard of plan) {
+    const effectiveWorkers = Math.min(shard.maxWorkers, maxWorkers);
     console.log(
       "\n[vitest-shard] " +
         shard.name +
         ": " +
         shard.files.length +
         " files, maxWorkers=" +
-        shard.maxWorkers,
+        effectiveWorkers,
     );
     const result = spawn(
       process.execPath,
-      [vitest, "run", ...shard.files, "--maxWorkers=" + shard.maxWorkers],
+      [vitest, "run", ...shard.files, "--maxWorkers=" + effectiveWorkers],
       { cwd: root, stdio: "inherit" },
     );
     if (result.error) throw result.error;

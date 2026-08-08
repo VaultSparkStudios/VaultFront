@@ -15,6 +15,8 @@
   "endpoints": {
     "landing": "https://vaultsparkstudios.com/vaultfront/",
     "docs": "https://vaultsparkstudios.com/vaultfront/#how-to-play",
+    "stats": "https://vaultsparkstudios.com/vaultfront/stats/",
+    "statsMachine": "/stats.json",
     "contact": "mailto:founder@vaultsparkstudios.com?subject=VaultFront%20alpha%20interest",
     "source": "https://github.com/VaultSparkStudios/VaultFront",
     "capabilityManifest": "/capability-reachability.json",
@@ -30,6 +32,11 @@
       "method": "GET",
       "path": "/balance-envelope.json",
       "purpose": "Inspect deterministic convoy reward bounds, tuning lineage, and invariant counterexamples."
+    },
+    {
+      "method": "GET",
+      "path": "/stats.json",
+      "purpose": "Inspect precomputed, period-labelled public game metrics and explicit pre-launch unavailability reasons."
     }
   ],
   "authentication": {

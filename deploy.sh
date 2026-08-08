@@ -32,8 +32,14 @@ SUBDOMAIN="$4"
 : "${GHCR_USERNAME:?GHCR_USERNAME is required}"
 : "${GHCR_REPO:?GHCR_REPO is required}"
 : "${DEPLOY_HEALTH_URL:?DEPLOY_HEALTH_URL is required}"
+: "${DEPLOY_INGRESS_PORT:?DEPLOY_INGRESS_PORT is required from the CANON-038 allocation}"
 [[ "$DEPLOY_HEALTH_URL" =~ ^https://[^[:space:]]+$ ]] || {
     echo "DEPLOY_HEALTH_URL must be an https URL" >&2
+    exit 2
+}
+[[ "$DEPLOY_INGRESS_PORT" =~ ^[0-9]+$ ]] \
+    && ((DEPLOY_INGRESS_PORT >= 8110 && DEPLOY_INGRESS_PORT <= 8999)) || {
+    echo "DEPLOY_INGRESS_PORT must be an allocated CANON-038 port in 8110-8999" >&2
     exit 2
 }
 
@@ -54,8 +60,8 @@ IMAGE_RETENTION_COUNT="${DEPLOY_IMAGE_RETENTION:-5}"
 
 GHCR_IMAGE="${GHCR_USERNAME}/${GHCR_REPO}@${IMAGE_DIGEST}"
 if [[ "${DEPLOY_DRY_RUN:-0}" == "1" ]]; then
-    printf 'deploy-contract ok environment=%s host=%s subdomain=%s image=%s health=%s retention=%s\n' \
-        "$ENVIRONMENT" "$HOST_LABEL" "$SUBDOMAIN" "$GHCR_IMAGE" "$DEPLOY_HEALTH_URL" "$IMAGE_RETENTION_COUNT"
+    printf 'deploy-contract ok environment=%s host=%s subdomain=%s image=%s health=%s ingress=127.0.0.1:%s retention=%s\n' \
+        "$ENVIRONMENT" "$HOST_LABEL" "$SUBDOMAIN" "$GHCR_IMAGE" "$DEPLOY_HEALTH_URL" "$DEPLOY_INGRESS_PORT" "$IMAGE_RETENTION_COUNT"
     exit 0
 fi
 
@@ -94,6 +100,7 @@ write_env GHCR_REPO "$GHCR_REPO"
 write_env APP_NAME "$APP_NAME"
 write_env DEPLOY_ALWAYS_RESTART "${DEPLOY_ALWAYS_RESTART:-}"
 write_env DEPLOY_HEALTH_URL "$DEPLOY_HEALTH_URL"
+write_env DEPLOY_INGRESS_PORT "$DEPLOY_INGRESS_PORT"
 write_env DEPLOY_IMAGE_RETENTION "$IMAGE_RETENTION_COUNT"
 write_env DEPLOY_DRAIN_TIMEOUT_SECONDS "${DEPLOY_DRAIN_TIMEOUT_SECONDS:-900}"
 write_env GHCR_TOKEN "${GHCR_TOKEN:-}"

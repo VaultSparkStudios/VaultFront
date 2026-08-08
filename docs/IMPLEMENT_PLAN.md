@@ -1,24 +1,20 @@
-# Implementation Plan — Session 97
+# Implementation Plan — Session 98
 
-Source: `docs/AUDIT_2026-08-05.json` (nine shipped items; plan exhausted)
+Source: `docs/AUDIT_2026-08-05.json` (four new verified items; items 167–170)
 
 ## Efficiency order
 
-1. `redact-turnstile-capability-tokens` — close the smallest live credential-exposure seam and establish its source-negation test.
-2. `match-safe-blue-green-promotion` — establish bounded drain/promotion semantics before any requested deployment.
-3. `complete-state-scope-inventory` — make release persistence truth complete before deeper store changes.
-4. `authoritative-achievement-rehydration` — consume the persistence authority with restart-safe authenticated progression.
-5. `durable-certified-archive-outbox` — make certified history delivery typed, bounded, retryable, and observable.
-6. `cause-bound-local-coach` — repair deterministic cause truth before extending Doctrine continuity.
-7. `reachable-doctrine-match-spine` — wire the prior test-only rematch intent into the next live generation.
-8. `accessible-reroute-decision-matrix` — finish the touched command surface with semantic keyboard/touch comparison.
-9. `single-bounded-remote-ai-executor` — consolidate provider edges last, after runtime behavior settles and cost/reliability can be measured.
+1. `caddy-contained-blue-green-ingress` — replace the known-live false topology before any non-dry-run deployment can build, push, migrate, or bind shared-host resources.
+2. `certified-loop-alpha-admission` — make release admission consume the existing certified signature-loop authority before presenting its aggregates publicly.
+3. `persistent-first-extraction-spine` — keep first-match guidance reachable through the same decisive-delivery boundary the gate measures.
+4. `truthful-public-game-stats-surface` — expose certified-community reflection through the canonical route graph once deployment and evidence truth are fail-closed.
 
 ## Parallel lanes
 
-- Release/persistence: items 2–5.
-- Core-loop experience: items 6–8.
-- Security/AI integration: items 1 and 9.
+- Release architecture: item 167.
+- Certified release feedback: item 170.
+- Core-loop guidance: item 169.
+- Public feedback/dual audience: item 168.
 
 ## Mandatory gates
 
@@ -27,3 +23,5 @@ Source: `docs/AUDIT_2026-08-05.json` (nine shipped items; plan exhausted)
 - Every UI change receives real browser proof across VaultFront, light, and competitive themes at desktop and mobile before closeout.
 - Audit rows move to `shipped` only after focused behavior verification.
 - Deployment remains fail-closed until the independent app-release-gate ledger is green; local implementation never substitutes for missing provider evidence.
+- Item 167 must preserve candidate-first health, immutable revision admission, WebSocket drain, exact-incumbent rollback, and shared-host isolation.
+- Item 168 must publish unavailable—not zero—until certified durable observations exist, with one source authority for human and machine views.

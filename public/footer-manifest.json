@@ -9,12 +9,14 @@
     { "href": "/", "label": "Play" },
     { "href": "/about/", "label": "About" },
     { "href": "/docs/", "label": "How to play" },
+    { "href": "/stats/", "label": "Stats" },
     { "href": "/contact/", "label": "Contact" }
   ],
   "footerLinks": [
     { "href": "/", "label": "Play" },
     { "href": "/about/", "label": "About" },
     { "href": "/docs/", "label": "How to play" },
+    { "href": "/stats/", "label": "Stats" },
     { "href": "/contact/", "label": "Contact" },
     { "href": "/privacy/", "label": "Privacy", "i18n": "main.privacy_policy" },
     { "href": "/terms/", "label": "Terms", "i18n": "main.terms_of_service" },
@@ -39,6 +41,7 @@
     { "route": "/about/", "source": "public/about/index.html" },
     { "route": "/contact/", "source": "public/contact/index.html" },
     { "route": "/docs/", "source": "public/docs/index.html" },
+    { "route": "/stats/", "source": "public/stats/index.html" },
     { "route": "/ip/", "source": "public/ip/index.html" },
     { "route": "/privacy/", "source": "public/privacy/index.html" },
     { "route": "/terms/", "source": "public/terms/index.html" },

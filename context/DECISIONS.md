@@ -1,3 +1,27 @@
+## 2026-08-08 — Shared-host deployment ingress is a project-private router, not host Traefik
+
+**Decision:** The remote updater no longer emits Traefik labels or depends on a shared `web` Docker network. It creates one project-private network and a stable per-project nginx router bound only to the CANON-038-allocated `127.0.0.1:DEPLOY_INGRESS_PORT` loopback port, which shared Caddy targets directly. A candidate is admitted only after Docker health and a router-level revision check both pass; any activation or admission failure restores the exact prior route.
+
+**Why:** The live shared host runs Caddy, not Traefik. The prior updater would have built, pushed, and started containers before discovering no ingress controller consumed its Traefik labels — mutating the host before failing.
+
+**Consequence:** `deploy.sh`/`update.sh` and CI now require and validate `DEPLOY_INGRESS_PORT` in the CANON-038 range (8110–8999); the deploy-contract checker verifies transactional router activation, incumbent restoration, and the absence of any Traefik dependency.
+
+## 2026-08-08 — Public stats state unmeasured, never a fabricated zero
+
+**Decision:** The public `/stats` surface and its `/stats.json` twin are generated from one descriptor. Every metric that has no qualifying production cohort explicitly says `"Not yet measured"` with a reason and interpretation; it is never rendered or computed as `0`.
+
+**Why:** VaultFront has no live production runtime or isolated data plane yet. Publishing `0` would misrepresent genuine absence-of-measurement as an observed empty result — a more serious honesty defect than publishing nothing.
+
+**Consequence:** CANON-054 (public stats surface) is satisfied without inventing prelaunch population, retention, or session data; the page and JSON twin are byte-identical from one authority and covered by a drift regression.
+
+## 2026-08-08 — Alpha Gate readiness requires certified loop evidence, not just human-cohort activity
+
+**Decision:** Release/Alpha Gate admission now binds a fresh, ordered, server-certified Capture→Convoy→Pressure→Breach→decisive-delivery evidence chain (bounded to a 24-hour window) on top of the existing authenticated-human-cohort checks. The gate can only report `ready` when both are green.
+
+**Why:** A human cohort could previously satisfy the gate through tutorial/feedback/retention activity alone, without ever completing a real certified match loop — an admission path that could pass without proving the core loop actually works end to end.
+
+**Consequence:** `VaultFrontPlaytestPulse.attachCertifiedLoopAlphaEvidence` merges `CertifiedLoopEvidenceStore` per-stage participant counts into the existing alpha-gate checks; the Worker's playtest-pulse read/record paths all route through this bound summary.
+
 ## 2026-08-05 — A match generation owns every client execution surface
 
 **Decision:** Lobby construction, active play, and leave use one monotonically invalidated generation. A runner can be stopped before or after start, and stop owns worker, transport, renderer canvas/frame/layers, input, touch, timers, and match-scoped EventBus callbacks exactly once.

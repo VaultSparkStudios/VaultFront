@@ -9,7 +9,7 @@ import {
   UserMeResponse,
   UserMeResponseSchema,
 } from "../core/ApiSchemas";
-import { appUrl } from "../core/RuntimeUrls";
+import { appUrl, isLoopbackHostname } from "../core/RuntimeUrls";
 import { AnalyticsRecord, AnalyticsRecordSchema } from "../core/Schemas";
 import { getAuthHeader, getPlayToken, logOut, userAuth } from "./Auth";
 
@@ -127,8 +127,12 @@ export async function createCheckoutSession(
 }
 
 export function getApiBase() {
-  const apiDomain = process?.env?.API_DOMAIN;
-  if (apiDomain) {
+  const apiDomain = process?.env?.API_DOMAIN?.trim();
+  if (
+    apiDomain &&
+    apiDomain.toLowerCase() !== "undefined" &&
+    apiDomain.toLowerCase() !== "null"
+  ) {
     return /^https?:\/\//.test(apiDomain) ? apiDomain : `https://${apiDomain}`;
   }
 
@@ -142,6 +146,7 @@ export function getApiBase() {
 
 export function getAudience() {
   const { hostname } = new URL(window.location.href);
+  if (isLoopbackHostname(hostname)) return "localhost";
   const domainname = hostname.split(".").slice(-2).join(".");
   return domainname;
 }
@@ -509,6 +514,12 @@ const VaultFrontPlaytestPulseSummarySchema = z.object({
       feedback: z.boolean(),
       rivalExposure: z.boolean(),
       rivalAction: z.boolean(),
+      certifiedCapture: z.boolean().optional(),
+      certifiedConvoyOutcome: z.boolean().optional(),
+      certifiedPressure: z.boolean().optional(),
+      certifiedBreach: z.boolean().optional(),
+      certifiedDecisiveDelivery: z.boolean().optional(),
+      certifiedOrderedLoop: z.boolean().optional(),
     }),
     passLabel: z.string(),
     nextCheck: z.string(),

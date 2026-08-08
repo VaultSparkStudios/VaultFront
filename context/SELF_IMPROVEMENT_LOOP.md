@@ -4,12 +4,44 @@ Detailed internal scoring, audit trends, and brainstorming are maintained privat
 
 <!-- rolling-status-start -->
 
-Total: 997/1000 | Velocity: 9 | Debt: ↓ | Velocity trend: ↑
-Avgs — 3: 997.0 | 5: 997.0 | 10: 997.0 | 25: 991.9 | all: 991.9 | Last 5: 997 → 997 → 997 → 997 → 997 | Intent rate: 100%
+Total: 997/1000 | Velocity: 4 | Debt: ↓ | Velocity trend: ↓
+Avgs — 3: 997.0 | 5: 997.0 | 10: 997.0 | 25: 992.1 | all: 992.1 | Last 5: 997 → 997 → 997 → 997 → 997 | Intent rate: 100%
 Categories: Dev 100 | Align 100 | Momentum 100 | Engage 99 | Process 100 | Coherence 99 | Security 100 | Ecosystem 99 | Capital 100 | Automation 100
-Last session: 2026-08-06 Session 97 durable certification and bounded intelligence
+Last session: 2026-08-08 Session 98 shared-host ingress and certified-admission recovery
 
 <!-- rolling-status-end -->
+
+## 2026-08-08 — Session 98 | Total: 997/1000 | Velocity: 4
+
+Recovered a cut-off prior session, verified its work against live code rather than trusting its state, then shipped four premise-verified findings closing a real live-deploy topology mismatch, a CANON-054 gap, an early guidance drop-off, and a weak Alpha Gate admission path.
+
+| Category              |        Score | Evidence                                                                                                                                                   |
+| --------------------- | -----------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Dev Health            |          100 | 235 files / 1,233 tests pass across four bounded shards; type, lint, format, contracts, build, and doctor 13/13 gates pass directly.                       |
+| Creative Alignment    |          100 | Persistent First Extraction guidance and certified-loop-bound Alpha admission deepen the core loop's truth without adding combat power or fabricated data. |
+| Momentum              |          100 | Four fresh findings recovered, verified, and shipped; cumulative audit 36/36 and innovation ledger 62/62 remain exhausted.                                 |
+| Engagement            |           99 | First Extraction stays visible through decisive delivery; no human fun, comprehension, or retention outcome is invented.                                   |
+| Process Quality       |          100 | Recovery classified mid-implement correctly, re-verified prior claims from scratch, classified one flaky failure honestly instead of hiding or forcing it. |
+| Cross-Repo Coherence  |           99 | Studio-owned identity, mail, and staging corridors remain external; no sibling implementation tree was edited.                                             |
+| Security Posture      |          100 | Deploy ingress no longer trusts an absent Traefik controller; router activation and incumbent restoration are transactional and CI-verified.               |
+| Ecosystem Integration |           99 | Human, agent-readable (`/stats.json`, `agents.json`), and internal evidence agree; live providers and staging remain unobserved.                           |
+| Capital Efficiency    |          100 | No dependency, paid service, or uncontrolled retry surface was added; the stats generator reuses one authority for both surfaces.                          |
+| Automation Coverage   |          100 | Deploy-contract, stats-drift, first-extraction-tracker, and certified-loop-alpha-evidence behavior all execute in tests.                                   |
+| **Total**             | **997/1000** | Exact sum; Engagement, Coherence, and Ecosystem remain capped by absent human/live/external observations.                                                  |
+
+**Rolling data:** Avg3 997.0 · Avg5 997.0 · Avg10 997.0 · Avg25 992.1 · all 992.1 · velocity 4 · debt ↓ · sparkline █████.
+
+**Game rubric:** Loop Tightness 100 · Retention Hook 99 · Soul Fidelity 100 · Velocity 97.
+
+**Top win:** A cut-off session's uncommitted work was verified against live code (full suite, fresh visual proof, doctor) rather than trusted at face value, then closed out cleanly — proving the recovery protocol on real interrupted work rather than a clean-tree edge case.
+
+**Top gap:** No approved external staging/callback corridor, native Obelisk relying-party contract, project-domain Zoho reply identity, or distinct-human Alpha evidence exists.
+
+### Brainstorm
+
+1. Apply the owner-reconciled CANON-038 port allocation from Ark `01JVF5O44A385AF9033E414452` and exercise the new project-router deploy path on a real dry run.
+2. Once staging exists, verify the `/stats` twin renders identically behind the shared Caddy edge before removing its `pre-launch-unmeasured` framing for any metric.
+3. Measure whether the compact First Extraction tracker (vs. the always-expanded prior state) changes tutorial completion once real human sessions exist.
 
 ## 2026-08-06 — Session 97 | Total: 997/1000 | Velocity: 9
 

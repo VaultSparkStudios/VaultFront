@@ -1,9 +1,9 @@
 {
   "project": "chromium",
   "localOnly": true,
-  "capturedAt": "2026-08-07T22:49:36.824Z",
+  "capturedAt": "2026-08-08T07:18:59.249Z",
   "source": {
-    "digest": "sha256:caabe5a9a3a7087bb57bddfb0733914db679377e00d2f1cbef1c9434b9622944",
+    "digest": "sha256:dd00349c972434f1d77fe50184731877a51c019b4564aeaee26627d958137d64",
     "files": [
       {
         "path": "config/vaultfront-balance.v1.json",
@@ -22,8 +22,8 @@
       },
       {
         "path": "src/client/Api.ts",
-        "bytes": 52961,
-        "digest": "sha256:08a3f4a528426a784f1864f70abf1a4576e6c8cd6e83a9a8bd5de6b22b1a4f9a"
+        "bytes": 53449,
+        "digest": "sha256:22ced6e6df715473911ed5cf3781aa2af49a18b6f74116da18aa20604ac3e6ff"
       },
       {
         "path": "src/client/BrandTheme.ts",
@@ -42,8 +42,8 @@
       },
       {
         "path": "src/client/FirstExtractionQuest.ts",
-        "bytes": 5616,
-        "digest": "sha256:330002b2351f076ba5044ee28137f25a428c927ee9700240fc9b9321b7cce981"
+        "bytes": 6364,
+        "digest": "sha256:c0c43a339b522c008a4a1494ac4ad3344c270b9fd27d3471419c432467bca90e"
       },
       {
         "path": "src/client/GameStartingModal.ts",
@@ -282,8 +282,8 @@
       },
       {
         "path": "src/client/components/map/MapDisplay.ts",
-        "bytes": 5913,
-        "digest": "sha256:3b946181da9e2c013c3384bf41f26f2165fb964b74f472301fc1c361b297ad9c"
+        "bytes": 5850,
+        "digest": "sha256:2b3b714a9f3201011eaa1c8f2d5b851f1de5ed3a0fb31099b642ef6796760675"
       },
       {
         "path": "src/client/components/map/MapPicker.ts",
@@ -317,8 +317,8 @@
       },
       {
         "path": "src/client/graphics/layers/ControlPanel.ts",
-        "bytes": 120227,
-        "digest": "sha256:4a7c2e3444d1e5d9aef50e275555297e2b8190439709cc3f8fc243003852aee9"
+        "bytes": 121752,
+        "digest": "sha256:ba6adf1397414de6f39054787d70ea4a2cf4657ace15ae445ac021daa0db638a"
       },
       {
         "path": "src/client/graphics/layers/GameRightSidebar.ts",
@@ -407,13 +407,13 @@
       },
       {
         "path": "src/shared/PublicRouteGraph.json",
-        "bytes": 2094,
-        "digest": "sha256:10b01cb23179a76e488be022612939e9e24f8860667ca046c689bbbc6b49c17a"
+        "bytes": 2249,
+        "digest": "sha256:860dc84197ac023b89f1fb9f7a78f58a0379aa6bba4a3ea63c7c2f2f51db6ba7"
       },
       {
         "path": "static/index.html",
         "bytes": 17352,
-        "digest": "sha256:2e56a52ebe1c4f00df3f3c01b5a05aa4c2933af342e5541b3daa274bf5b4560b"
+        "digest": "sha256:29310f830d33126c6e47f3f0d338b3dcbf833490b8e1f95b9d1889e9ce9ddc20"
       }
     ]
   },

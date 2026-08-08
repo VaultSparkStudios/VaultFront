@@ -343,24 +343,25 @@ export function buildDeployTopologyEvidence(projectRoot, observedAt) {
     failures.push("container-healthcheck-missing");
   if (/cloudflared|CF_TUNNEL|CF_API_TOKEN/iu.test(dockerfile + supervisor))
     failures.push("secondary-cloudflare-ingress-present");
-  if (
-    !updater.includes("traefik.http.routers.${CONTAINER_NAME}.rule") &&
-    !updater.includes("traefik.http.routers.${name}.rule")
-  )
-    failures.push("traefik-router-label-missing");
-  if (!/Traefik is the sole runtime ingress authority/iu.test(runbook))
+  if (!updater.includes('activate_route "$CONTAINER_NAME" "$GHCR_IMAGE"'))
+    failures.push("project-router-candidate-switch-missing");
+  if (!/127\.0\.0\.1:\$\{DEPLOY_INGRESS_PORT\}/u.test(updater))
+    failures.push("allocated-loopback-ingress-missing");
+  if (/traefik\./iu.test(updater))
+    failures.push("host-traefik-dependency-present");
+  if (!/Caddy is the sole public ingress authority/iu.test(runbook))
     failures.push("runbook-sole-authority-declaration-missing");
   return {
     schemaVersion: 1,
     status: failures.length === 0 ? "verified" : "failed",
-    authority: failures.length === 0 ? "traefik" : null,
+    authority: failures.length === 0 ? "caddy+project-router" : null,
     source: sources.join(" + "),
     observedAt,
     sourceDigest: digestFiles(projectRoot, sources),
     failures,
     detail:
       failures.length === 0
-        ? "Image, Supervisor, updater, and runbook agree on Traefik as the sole ingress authority."
+        ? "Image, Supervisor, updater, and runbook agree on shared Caddy as the sole public ingress authority with a project-private candidate router."
         : `Deployment topology contradictions: ${failures.join(", ")}.`,
   };
 }

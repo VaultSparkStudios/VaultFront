@@ -72,7 +72,11 @@ describe("release truth boundary", () => {
     const supervisor = read("supervisord.conf");
     const updater = read("update.sh");
 
-    expect(updater).toContain("traefik.http.routers.${name}.rule");
+    expect(updater).toContain('NETWORK_NAME="${DEPLOYMENT_KEY}-private"');
+    expect(updater).toContain(
+      '--publish "127.0.0.1:${DEPLOY_INGRESS_PORT}:80"',
+    );
+    expect(updater).not.toContain("traefik.");
     expect(dockerfile).toContain(
       'ENTRYPOINT ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]',
     );
@@ -89,11 +93,19 @@ describe("release truth boundary", () => {
 
     expect(updater).not.toMatch(/docker\s+rm\s+-f/u);
     expect(updater).toContain("DEPLOY_DRAIN_TIMEOUT_SECONDS");
+    expect(updater).toContain("activate_route()");
+    expect(updater).toContain('activate_route "$CONTAINER_NAME" "$GHCR_IMAGE"');
     expect(updater).toContain(
-      "traefik.http.services.${name}.loadbalancer.healthcheck.path=/_health",
+      'if ! activate_route "$CONTAINER_NAME" "$GHCR_IMAGE"; then',
+    );
+    expect(updater).toContain('docker rm "$ROUTER_NAME"');
+    expect(updater).toContain('rm -f "$ROUTER_CONFIG"');
+    expect(updater).toContain("restore_incumbent_route || true");
+    expect(updater).toContain(
+      'docker exec "$ROUTER_NAME" nginx -s reload || {',
     );
     expect(updater).toContain(
-      "traefik.http.routers.${name}.priority=${priority}",
+      'curl -fsS --max-time 5 "http://127.0.0.1:${DEPLOY_INGRESS_PORT}/commit.txt"',
     );
     expect(updater.indexOf('run_container "$GHCR_IMAGE"')).toBeLessThan(
       updater.indexOf('docker stop --time "$DEPLOY_DRAIN_TIMEOUT_SECONDS"'),

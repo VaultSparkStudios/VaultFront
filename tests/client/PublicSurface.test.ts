@@ -4,7 +4,15 @@ import { describe, expect, it } from "vitest";
 
 const root = path.resolve(__dirname, "../..");
 const read = (file: string) => readFileSync(path.join(root, file), "utf8");
-const publicPages = ["about", "docs", "contact", "privacy", "terms", "ip"];
+const publicPages = [
+  "about",
+  "docs",
+  "stats",
+  "contact",
+  "privacy",
+  "terms",
+  "ip",
+];
 
 describe("public launch foundation", () => {
   it("ships the exact Studio footer and upstream attribution on every leaf page", () => {
@@ -33,12 +41,16 @@ describe("public launch foundation", () => {
       project: "vaultfront",
       vaultStatus: "FORGE",
       releaseStatus: "public-unlaunched",
-      agentInteractions: [
+      agentInteractions: expect.arrayContaining([
         expect.objectContaining({
           method: "GET",
           path: "/balance-envelope.json",
         }),
-      ],
+        expect.objectContaining({
+          method: "GET",
+          path: "/stats.json",
+        }),
+      ]),
       authentication: { status: "not-wired" },
       availability: { publicRuntime: "unavailable" },
     });

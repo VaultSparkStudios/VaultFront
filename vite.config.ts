@@ -169,12 +169,18 @@ export default defineConfig(({ mode }) => {
             src: "public/*",
             dest: ".",
           },
-          ...["about", "contact", "docs", "ip", "privacy", "terms"].map(
-            (route) => ({
-              src: `public/${route}/*`,
-              dest: route,
-            }),
-          ),
+          ...[
+            "about",
+            "contact",
+            "docs",
+            "ip",
+            "privacy",
+            "stats",
+            "terms",
+          ].map((route) => ({
+            src: `public/${route}/*`,
+            dest: route,
+          })),
           {
             src: "public/.well-known/*",
             dest: ".well-known",

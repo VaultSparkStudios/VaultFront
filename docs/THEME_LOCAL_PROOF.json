@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "capturedAt": "2026-08-07T22:50:23.217Z",
-  "generatedAt": "2026-08-07T22:50:23.217Z",
+  "capturedAt": "2026-08-08T07:23:17.218Z",
+  "generatedAt": "2026-08-08T07:23:17.218Z",
   "scope": "local-only",
   "claimBoundary": "This is local browser evidence, not live staging parity or founder approval.",
   "themes": ["dark", "light", "competitive"],
   "captures": [
     {
       "file": "artifacts/chromium-vaultfront-play.png",
-      "sha256": "6ed2c8eb970a480c14476038448955b54ac22492f8fb976fa9757a28d03cda96",
+      "sha256": "cca5da09be1bf6878466f112fb5a40929aea58f99bc489981e2fdec5dc291c46",
       "page": "play",
       "state": "play",
       "theme": "dark",
@@ -26,7 +26,7 @@
     },
     {
       "file": "artifacts/chromium-vaultfront-settings.png",
-      "sha256": "f72ca8513116a1de80734d14dade2c0eab1e4dd9480179471093c95f1829b339",
+      "sha256": "0a15b34f752addeec7002d75e054f2f81fdf43cff26237563f9de88029273b2d",
       "page": "settings",
       "state": "settings",
       "theme": "dark",
@@ -35,7 +35,7 @@
     },
     {
       "file": "artifacts/chromium-vaultfront-postmatch.png",
-      "sha256": "a774b915100ebec18e9858192e6b7281bb2ba9f5403b58cff9773a9d30375b82",
+      "sha256": "fbbcefb023dc7ae31d76166ef4d54773c4dcf2cd6b063075e99d93f5e837b729",
       "page": "postmatch",
       "state": "postmatch",
       "theme": "dark",
@@ -179,7 +179,7 @@
     },
     {
       "file": "artifacts/chromium-light-play.png",
-      "sha256": "f97acc20948e783a262c8561e5161f70161e07d41a400553037db6b0efdd62d6",
+      "sha256": "f4c9bea8b9936baf4877c495210e7e86413680f9bb6d1137f502e665bc4c50f6",
       "page": "play",
       "state": "play",
       "theme": "light",
@@ -197,7 +197,7 @@
     },
     {
       "file": "artifacts/chromium-light-settings.png",
-      "sha256": "53e5558f301c6f8bdb2e18314032471e86953fc701632540127f0004a9299aef",
+      "sha256": "08b2dbafdc533e6c9a2fadf5b8117b09b65ff12db0fb5a7fcf721766cc693d5c",
       "page": "settings",
       "state": "settings",
       "theme": "light",
@@ -215,7 +215,7 @@
     },
     {
       "file": "artifacts/chromium-light-account-recovery.png",
-      "sha256": "b62ae0e861c3604b89cf6f717988e07cba71ffe31a01cd5815d7ea9c2bce58d9",
+      "sha256": "d66819b101185c31f82b22da91e9106a0fde960ac861bc18f53d80b5430e7599",
       "page": "account-recovery",
       "state": "account-recovery",
       "theme": "light",
@@ -350,7 +350,7 @@
     },
     {
       "file": "artifacts/chromium-competitive-play.png",
-      "sha256": "316c3d58c3798cd4c15eaf22f16bf951a3161e1ec0d47d041b2b7993f1e1186e",
+      "sha256": "a4dc18f98377a12cb6cb194bfa14a1bf101cc79ca5c9f7038d1bf61452125174",
       "page": "play",
       "state": "play",
       "theme": "competitive",
@@ -368,7 +368,7 @@
     },
     {
       "file": "artifacts/chromium-competitive-settings.png",
-      "sha256": "6364d75b94e057f86e1fc88f9b92f754bc6865e8f255d876621e146fbe3f8ca7",
+      "sha256": "7c72ce3e91ce5166d0b203123ce6f1463d287b6214ff7581ed6addff0a5b0d5e",
       "page": "settings",
       "state": "settings",
       "theme": "competitive",
@@ -386,7 +386,7 @@
     },
     {
       "file": "artifacts/chromium-competitive-account-recovery.png",
-      "sha256": "b2c7c5535831b94d1809a846e89484bb88c81e3024cb2e8cca1dc9fa27e96c89",
+      "sha256": "c14481929b58257ee9cb3aade3644132d224af05dad214f13277136d2632183a",
       "page": "account-recovery",
       "state": "account-recovery",
       "theme": "competitive",
@@ -485,7 +485,7 @@
     },
     {
       "file": "artifacts/chromium-competitive-narrator-certified.png",
-      "sha256": "1e3e42bf6eaf62eb15d39eee56cdd51e7c47919fbd687fb0ca0159b7c8bc87f3",
+      "sha256": "30e9581dc0dd98373e3badea12d5e0da8476ab8df1f100f0f964b6316f19b031",
       "page": "narrator-certified",
       "state": "narrator-certified",
       "theme": "competitive",
@@ -521,7 +521,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-vaultfront-play.png",
-      "sha256": "7492077411a34cfc8911d6c750b9f1eb206667f4cf9592f27ace4c93ae427558",
+      "sha256": "31ddd7b7acbcd99de30501aaffaa956e609a9f78bf326cda280f0f756b5d9513",
       "page": "play",
       "state": "play",
       "theme": "dark",
@@ -539,7 +539,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-vaultfront-settings.png",
-      "sha256": "f2b552d4605a5284bd3ed363dc704632c0a33e59af39ebede12d503452032b18",
+      "sha256": "a57681f2a9b9f632ff6e265d9f1c9027623c5c8078263581d9e4d77dbb3a69d7",
       "page": "settings",
       "state": "settings",
       "theme": "dark",
@@ -548,7 +548,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-vaultfront-postmatch.png",
-      "sha256": "5337c0342b174f2478b26a5a401b8a18626bb97b8b744bf830617bf665e7b25b",
+      "sha256": "eeffc2418f3019ef6abe71850a9a20537568961e85863e823b2d23b5f6d03876",
       "page": "postmatch",
       "state": "postmatch",
       "theme": "dark",
@@ -692,7 +692,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-light-play.png",
-      "sha256": "39d6139f2f8050ccff5b662b09ab85fe16cd5f638c8ada74c9e97d887b3aaeb0",
+      "sha256": "ec96cbf5c29b7cde19028db8528b6ae45ecb91af857dd944756136dc406f7b60",
       "page": "play",
       "state": "play",
       "theme": "light",
@@ -710,7 +710,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-light-settings.png",
-      "sha256": "a665df22077a971f9df5942c1945452ad9af26340ea0a0e3d4d6c2f576a9531f",
+      "sha256": "724dee2c6d71be9519dbe12e9e45c34e0b937746fe642871b732a75716be1788",
       "page": "settings",
       "state": "settings",
       "theme": "light",
@@ -863,7 +863,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-competitive-play.png",
-      "sha256": "13d099e47d2f6bf65f709636738d70e76555fc3b11b0c1ff4b60e22438fed43c",
+      "sha256": "a45c62442c9be68e49f7084525879c0d94fb113b5e29a6e3f2a6fd63e17109a2",
       "page": "play",
       "state": "play",
       "theme": "competitive",
@@ -881,7 +881,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-competitive-settings.png",
-      "sha256": "b6060768161fd090f6c0c5758c2728e7e467937080d15f78f9c71e6d9bc573a0",
+      "sha256": "c7b8be800e3993cfbd8dd5ff388ac53ceb0b513803167446f006332c42291436",
       "page": "settings",
       "state": "settings",
       "theme": "competitive",
@@ -899,7 +899,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-competitive-account-recovery.png",
-      "sha256": "2de59fbddfa62f9c62a6ebaeec1b55d269eeb4e2d34fe312d353d5cf64e1afab",
+      "sha256": "3c19fc9ff99e3d96a07fdc6b750d954c8057b78c7eb38f236541d1378413e094",
       "page": "account-recovery",
       "state": "account-recovery",
       "theme": "competitive",
@@ -1035,33 +1035,25 @@
   ],
   "inspection": {
     "renderedPixelsReviewed": true,
-    "reviewer": "codex/image-capable-render-review",
+    "reviewer": "claude/image-capable-render-review",
     "findings": [
-      "The mobile settings drawer could be opened before the lazy PlayPage bootstrap finished, allowing late layout initialization to close it before navigation.",
-      "The mobile drawer did not bound its inner navigation to the 100dvh shell, leaving the settings control outside the visible viewport on shorter screens.",
-      "First Extraction utility colors were authored for the dark HUD and produced low-contrast checklist, evidence, and action text on the light theme.",
-      "The personal-agency receipt and Mastery Doctrine Vault needed rendered proof as one production-component composite, not source-only assertions.",
-      "The shipped English Settings catalog contained mojibake punctuation and emoji that remained visible on the mobile light-theme surface."
+      "Session 98 changed ControlPanel's onboarding tracker (compact/expanded mode split), MapDisplay's lazy-load lifecycle, and added the public /stats surface; the rendered matrix was reviewed for regressions from those changes."
     ],
     "fixesApplied": [
-      "Made bootstrap await the real play-page custom element and exposed a layout-ready signal that the visual harness verifies before interaction.",
-      "Constrained the mobile shell to 100dvh and made its navigation a min-height-zero, overscroll-contained viewport with an executable in-viewport assertion.",
-      "Added scoped semantic light-theme colors for First Extraction state, evidence, mastery, and action text while preserving the dark and competitive palettes.",
-      "Added the production First Extraction and Doctrine render paths to the 96-artifact, three-theme, desktop-and-mobile proof matrix with overflow and source-of-truth content assertions.",
-      "Normalized the corrupted punctuation and emoji in the shipped English catalog and added a static-asset regression that rejects mojibake markers."
+      "None required: the 26-artifact-per-project desktop/mobile three-theme matrix (play, agency-doctrine, settings, postmatch, account-recovery, multi-tab-collision, progression-doctrine, prematch, connection-recovery, narrator, execution-chain) renders cleanly across VaultFront, Light, and Competitive themes with the new Stats footer link present and no overflow, contrast, or layout defects introduced by this session's changes."
     ],
     "blockingDefectsOpen": 0
   },
   "comparisonBase": {
     "source": "git:HEAD:docs/visual-qa/LATEST.json",
-    "gitRevision": "a1f28f82999ae9b035280cf0dd6150303d952f77",
-    "capturedAt": "2026-08-07T20:31:49.606Z",
-    "sourceDigest": "sha256:c734c70c5e5bd830084502344ac87dea9180ee2a4c3af6931547ebe188852a84"
+    "gitRevision": "be5a05986e385fccc86132565f0eed5d9e541a13",
+    "capturedAt": "2026-08-07T22:50:23.217Z",
+    "sourceDigest": "sha256:caabe5a9a3a7087bb57bddfb0733914db679377e00d2f1cbef1c9434b9622944"
   },
   "source": {
-    "gitRevision": "be5a05986e385fccc86132565f0eed5d9e541a13",
+    "gitRevision": "8e2646571c0c562f3982d67138f8842cd0cc78cb",
     "dirty": true,
-    "digest": "sha256:caabe5a9a3a7087bb57bddfb0733914db679377e00d2f1cbef1c9434b9622944",
+    "digest": "sha256:dd00349c972434f1d77fe50184731877a51c019b4564aeaee26627d958137d64",
     "files": [
       {
         "path": "config/vaultfront-balance.v1.json",
@@ -1080,8 +1072,8 @@
       },
       {
         "path": "src/client/Api.ts",
-        "bytes": 52961,
-        "digest": "sha256:08a3f4a528426a784f1864f70abf1a4576e6c8cd6e83a9a8bd5de6b22b1a4f9a"
+        "bytes": 53449,
+        "digest": "sha256:22ced6e6df715473911ed5cf3781aa2af49a18b6f74116da18aa20604ac3e6ff"
       },
       {
         "path": "src/client/BrandTheme.ts",
@@ -1100,8 +1092,8 @@
       },
       {
         "path": "src/client/FirstExtractionQuest.ts",
-        "bytes": 5616,
-        "digest": "sha256:330002b2351f076ba5044ee28137f25a428c927ee9700240fc9b9321b7cce981"
+        "bytes": 6364,
+        "digest": "sha256:c0c43a339b522c008a4a1494ac4ad3344c270b9fd27d3471419c432467bca90e"
       },
       {
         "path": "src/client/GameStartingModal.ts",
@@ -1340,8 +1332,8 @@
       },
       {
         "path": "src/client/components/map/MapDisplay.ts",
-        "bytes": 5913,
-        "digest": "sha256:3b946181da9e2c013c3384bf41f26f2165fb964b74f472301fc1c361b297ad9c"
+        "bytes": 5850,
+        "digest": "sha256:2b3b714a9f3201011eaa1c8f2d5b851f1de5ed3a0fb31099b642ef6796760675"
       },
       {
         "path": "src/client/components/map/MapPicker.ts",
@@ -1375,8 +1367,8 @@
       },
       {
         "path": "src/client/graphics/layers/ControlPanel.ts",
-        "bytes": 120227,
-        "digest": "sha256:4a7c2e3444d1e5d9aef50e275555297e2b8190439709cc3f8fc243003852aee9"
+        "bytes": 121752,
+        "digest": "sha256:ba6adf1397414de6f39054787d70ea4a2cf4657ace15ae445ac021daa0db638a"
       },
       {
         "path": "src/client/graphics/layers/GameRightSidebar.ts",
@@ -1465,13 +1457,13 @@
       },
       {
         "path": "src/shared/PublicRouteGraph.json",
-        "bytes": 2094,
-        "digest": "sha256:10b01cb23179a76e488be022612939e9e24f8860667ca046c689bbbc6b49c17a"
+        "bytes": 2249,
+        "digest": "sha256:860dc84197ac023b89f1fb9f7a78f58a0379aa6bba4a3ea63c7c2f2f51db6ba7"
       },
       {
         "path": "static/index.html",
         "bytes": 17352,
-        "digest": "sha256:2e56a52ebe1c4f00df3f3c01b5a05aa4c2933af342e5541b3daa274bf5b4560b"
+        "digest": "sha256:29310f830d33126c6e47f3f0d338b3dcbf833490b8e1f95b9d1889e9ce9ddc20"
       }
     ]
   },
@@ -1480,12 +1472,12 @@
       {
         "path": "docs/visual-qa/summaries/theme-proof-chromium.json",
         "bytes": 45499,
-        "digest": "sha256:da62cdc7f8d489112d368dcdb2299fac43be6e16039715ccdf7c06fc956f8bc5"
+        "digest": "sha256:16ecb126f92b76decd48e0a6793a09b7363d41f79bf184bc635f39c6faaf7ec1"
       },
       {
         "path": "docs/visual-qa/summaries/theme-proof-mobile-chrome.json",
         "bytes": 45495,
-        "digest": "sha256:00e5038c85227d186ba0d9232877e6ec43e7649a7fbb6beeaf7cdafc0d26c1e5"
+        "digest": "sha256:36d3a41999704f58af15a14b2cdaf561134faaf5b7d057528229101128070143"
       }
     ],
     "artifacts": [
@@ -1494,8 +1486,8 @@
         "theme": "vaultfront",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-play.png",
-        "bytes": 703359,
-        "digest": "sha256:6ed2c8eb970a480c14476038448955b54ac22492f8fb976fa9757a28d03cda96"
+        "bytes": 704267,
+        "digest": "sha256:cca5da09be1bf6878466f112fb5a40929aea58f99bc489981e2fdec5dc291c46"
       },
       {
         "project": "chromium",
@@ -1510,16 +1502,16 @@
         "theme": "vaultfront",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-settings.png",
-        "bytes": 363883,
-        "digest": "sha256:f72ca8513116a1de80734d14dade2c0eab1e4dd9480179471093c95f1829b339"
+        "bytes": 364265,
+        "digest": "sha256:0a15b34f752addeec7002d75e054f2f81fdf43cff26237563f9de88029273b2d"
       },
       {
         "project": "chromium",
         "theme": "vaultfront",
         "surface": "postmatch",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-postmatch.png",
-        "bytes": 69459,
-        "digest": "sha256:a774b915100ebec18e9858192e6b7281bb2ba9f5403b58cff9773a9d30375b82"
+        "bytes": 69441,
+        "digest": "sha256:fbbcefb023dc7ae31d76166ef4d54773c4dcf2cd6b063075e99d93f5e837b729"
       },
       {
         "project": "chromium",
@@ -1646,8 +1638,8 @@
         "theme": "light",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/chromium-light-play.png",
-        "bytes": 669412,
-        "digest": "sha256:f97acc20948e783a262c8561e5161f70161e07d41a400553037db6b0efdd62d6"
+        "bytes": 669624,
+        "digest": "sha256:f4c9bea8b9936baf4877c495210e7e86413680f9bb6d1137f502e665bc4c50f6"
       },
       {
         "project": "chromium",
@@ -1662,8 +1654,8 @@
         "theme": "light",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/chromium-light-settings.png",
-        "bytes": 301341,
-        "digest": "sha256:53e5558f301c6f8bdb2e18314032471e86953fc701632540127f0004a9299aef"
+        "bytes": 302021,
+        "digest": "sha256:08b2dbafdc533e6c9a2fadf5b8117b09b65ff12db0fb5a7fcf721766cc693d5c"
       },
       {
         "project": "chromium",
@@ -1678,8 +1670,8 @@
         "theme": "light",
         "surface": "account-recovery",
         "path": "docs/visual-qa/artifacts/chromium-light-account-recovery.png",
-        "bytes": 32309,
-        "digest": "sha256:b62ae0e861c3604b89cf6f717988e07cba71ffe31a01cd5815d7ea9c2bce58d9"
+        "bytes": 32304,
+        "digest": "sha256:d66819b101185c31f82b22da91e9106a0fde960ac861bc18f53d80b5430e7599"
       },
       {
         "project": "chromium",
@@ -1798,8 +1790,8 @@
         "theme": "competitive",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/chromium-competitive-play.png",
-        "bytes": 714408,
-        "digest": "sha256:316c3d58c3798cd4c15eaf22f16bf951a3161e1ec0d47d041b2b7993f1e1186e"
+        "bytes": 715031,
+        "digest": "sha256:a4dc18f98377a12cb6cb194bfa14a1bf101cc79ca5c9f7038d1bf61452125174"
       },
       {
         "project": "chromium",
@@ -1814,8 +1806,8 @@
         "theme": "competitive",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/chromium-competitive-settings.png",
-        "bytes": 340838,
-        "digest": "sha256:6364d75b94e057f86e1fc88f9b92f754bc6865e8f255d876621e146fbe3f8ca7"
+        "bytes": 341363,
+        "digest": "sha256:7c72ce3e91ce5166d0b203123ce6f1463d287b6214ff7581ed6addff0a5b0d5e"
       },
       {
         "project": "chromium",
@@ -1830,8 +1822,8 @@
         "theme": "competitive",
         "surface": "account-recovery",
         "path": "docs/visual-qa/artifacts/chromium-competitive-account-recovery.png",
-        "bytes": 34178,
-        "digest": "sha256:b2c7c5535831b94d1809a846e89484bb88c81e3024cb2e8cca1dc9fa27e96c89"
+        "bytes": 34175,
+        "digest": "sha256:c14481929b58257ee9cb3aade3644132d224af05dad214f13277136d2632183a"
       },
       {
         "project": "chromium",
@@ -1918,8 +1910,8 @@
         "theme": "competitive",
         "surface": "narrator-certified",
         "path": "docs/visual-qa/artifacts/chromium-competitive-narrator-certified.png",
-        "bytes": 74810,
-        "digest": "sha256:1e3e42bf6eaf62eb15d39eee56cdd51e7c47919fbd687fb0ca0159b7c8bc87f3"
+        "bytes": 74827,
+        "digest": "sha256:30e9581dc0dd98373e3badea12d5e0da8476ab8df1f100f0f964b6316f19b031"
       },
       {
         "project": "chromium",
@@ -1950,8 +1942,8 @@
         "theme": "vaultfront",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-play.png",
-        "bytes": 1187125,
-        "digest": "sha256:7492077411a34cfc8911d6c750b9f1eb206667f4cf9592f27ace4c93ae427558"
+        "bytes": 1185493,
+        "digest": "sha256:31ddd7b7acbcd99de30501aaffaa956e609a9f78bf326cda280f0f756b5d9513"
       },
       {
         "project": "mobile-chrome",
@@ -1966,16 +1958,16 @@
         "theme": "vaultfront",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-settings.png",
-        "bytes": 309607,
-        "digest": "sha256:f2b552d4605a5284bd3ed363dc704632c0a33e59af39ebede12d503452032b18"
+        "bytes": 310731,
+        "digest": "sha256:a57681f2a9b9f632ff6e265d9f1c9027623c5c8078263581d9e4d77dbb3a69d7"
       },
       {
         "project": "mobile-chrome",
         "theme": "vaultfront",
         "surface": "postmatch",
         "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-postmatch.png",
-        "bytes": 179388,
-        "digest": "sha256:5337c0342b174f2478b26a5a401b8a18626bb97b8b744bf830617bf665e7b25b"
+        "bytes": 179413,
+        "digest": "sha256:eeffc2418f3019ef6abe71850a9a20537568961e85863e823b2d23b5f6d03876"
       },
       {
         "project": "mobile-chrome",
@@ -2102,8 +2094,8 @@
         "theme": "light",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/mobile-chrome-light-play.png",
-        "bytes": 1116971,
-        "digest": "sha256:39d6139f2f8050ccff5b662b09ab85fe16cd5f638c8ada74c9e97d887b3aaeb0"
+        "bytes": 1116608,
+        "digest": "sha256:ec96cbf5c29b7cde19028db8528b6ae45ecb91af857dd944756136dc406f7b60"
       },
       {
         "project": "mobile-chrome",
@@ -2118,8 +2110,8 @@
         "theme": "light",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/mobile-chrome-light-settings.png",
-        "bytes": 232094,
-        "digest": "sha256:a665df22077a971f9df5942c1945452ad9af26340ea0a0e3d4d6c2f576a9531f"
+        "bytes": 233471,
+        "digest": "sha256:724dee2c6d71be9519dbe12e9e45c34e0b937746fe642871b732a75716be1788"
       },
       {
         "project": "mobile-chrome",
@@ -2254,8 +2246,8 @@
         "theme": "competitive",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-play.png",
-        "bytes": 1187850,
-        "digest": "sha256:13d099e47d2f6bf65f709636738d70e76555fc3b11b0c1ff4b60e22438fed43c"
+        "bytes": 1187451,
+        "digest": "sha256:a45c62442c9be68e49f7084525879c0d94fb113b5e29a6e3f2a6fd63e17109a2"
       },
       {
         "project": "mobile-chrome",
@@ -2270,8 +2262,8 @@
         "theme": "competitive",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-settings.png",
-        "bytes": 254663,
-        "digest": "sha256:b6060768161fd090f6c0c5758c2728e7e467937080d15f78f9c71e6d9bc573a0"
+        "bytes": 256354,
+        "digest": "sha256:c7b8be800e3993cfbd8dd5ff388ac53ceb0b513803167446f006332c42291436"
       },
       {
         "project": "mobile-chrome",
@@ -2286,8 +2278,8 @@
         "theme": "competitive",
         "surface": "account-recovery",
         "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-account-recovery.png",
-        "bytes": 111896,
-        "digest": "sha256:2de59fbddfa62f9c62a6ebaeec1b55d269eeb4e2d34fe312d353d5cf64e1afab"
+        "bytes": 112145,
+        "digest": "sha256:3c19fc9ff99e3d96a07fdc6b750d954c8057b78c7eb38f236541d1378413e094"
       },
       {
         "project": "mobile-chrome",
@@ -2407,9 +2399,9 @@
     {
       "project": "chromium",
       "localOnly": true,
-      "capturedAt": "2026-08-07T22:49:36.824Z",
+      "capturedAt": "2026-08-08T07:18:59.249Z",
       "source": {
-        "digest": "sha256:caabe5a9a3a7087bb57bddfb0733914db679377e00d2f1cbef1c9434b9622944",
+        "digest": "sha256:dd00349c972434f1d77fe50184731877a51c019b4564aeaee26627d958137d64",
         "files": [
           {
             "path": "config/vaultfront-balance.v1.json",
@@ -2428,8 +2420,8 @@
           },
           {
             "path": "src/client/Api.ts",
-            "bytes": 52961,
-            "digest": "sha256:08a3f4a528426a784f1864f70abf1a4576e6c8cd6e83a9a8bd5de6b22b1a4f9a"
+            "bytes": 53449,
+            "digest": "sha256:22ced6e6df715473911ed5cf3781aa2af49a18b6f74116da18aa20604ac3e6ff"
           },
           {
             "path": "src/client/BrandTheme.ts",
@@ -2448,8 +2440,8 @@
           },
           {
             "path": "src/client/FirstExtractionQuest.ts",
-            "bytes": 5616,
-            "digest": "sha256:330002b2351f076ba5044ee28137f25a428c927ee9700240fc9b9321b7cce981"
+            "bytes": 6364,
+            "digest": "sha256:c0c43a339b522c008a4a1494ac4ad3344c270b9fd27d3471419c432467bca90e"
           },
           {
             "path": "src/client/GameStartingModal.ts",
@@ -2688,8 +2680,8 @@
           },
           {
             "path": "src/client/components/map/MapDisplay.ts",
-            "bytes": 5913,
-            "digest": "sha256:3b946181da9e2c013c3384bf41f26f2165fb964b74f472301fc1c361b297ad9c"
+            "bytes": 5850,
+            "digest": "sha256:2b3b714a9f3201011eaa1c8f2d5b851f1de5ed3a0fb31099b642ef6796760675"
           },
           {
             "path": "src/client/components/map/MapPicker.ts",
@@ -2723,8 +2715,8 @@
           },
           {
             "path": "src/client/graphics/layers/ControlPanel.ts",
-            "bytes": 120227,
-            "digest": "sha256:4a7c2e3444d1e5d9aef50e275555297e2b8190439709cc3f8fc243003852aee9"
+            "bytes": 121752,
+            "digest": "sha256:ba6adf1397414de6f39054787d70ea4a2cf4657ace15ae445ac021daa0db638a"
           },
           {
             "path": "src/client/graphics/layers/GameRightSidebar.ts",
@@ -2813,13 +2805,13 @@
           },
           {
             "path": "src/shared/PublicRouteGraph.json",
-            "bytes": 2094,
-            "digest": "sha256:10b01cb23179a76e488be022612939e9e24f8860667ca046c689bbbc6b49c17a"
+            "bytes": 2249,
+            "digest": "sha256:860dc84197ac023b89f1fb9f7a78f58a0379aa6bba4a3ea63c7c2f2f51db6ba7"
           },
           {
             "path": "static/index.html",
             "bytes": 17352,
-            "digest": "sha256:2e56a52ebe1c4f00df3f3c01b5a05aa4c2933af342e5541b3daa274bf5b4560b"
+            "digest": "sha256:29310f830d33126c6e47f3f0d338b3dcbf833490b8e1f95b9d1889e9ce9ddc20"
           }
         ]
       },
@@ -3474,9 +3466,9 @@
     {
       "project": "mobile-chrome",
       "localOnly": true,
-      "capturedAt": "2026-08-07T22:50:01.284Z",
+      "capturedAt": "2026-08-08T07:20:16.631Z",
       "source": {
-        "digest": "sha256:caabe5a9a3a7087bb57bddfb0733914db679377e00d2f1cbef1c9434b9622944",
+        "digest": "sha256:dd00349c972434f1d77fe50184731877a51c019b4564aeaee26627d958137d64",
         "files": [
           {
             "path": "config/vaultfront-balance.v1.json",
@@ -3495,8 +3487,8 @@
           },
           {
             "path": "src/client/Api.ts",
-            "bytes": 52961,
-            "digest": "sha256:08a3f4a528426a784f1864f70abf1a4576e6c8cd6e83a9a8bd5de6b22b1a4f9a"
+            "bytes": 53449,
+            "digest": "sha256:22ced6e6df715473911ed5cf3781aa2af49a18b6f74116da18aa20604ac3e6ff"
           },
           {
             "path": "src/client/BrandTheme.ts",
@@ -3515,8 +3507,8 @@
           },
           {
             "path": "src/client/FirstExtractionQuest.ts",
-            "bytes": 5616,
-            "digest": "sha256:330002b2351f076ba5044ee28137f25a428c927ee9700240fc9b9321b7cce981"
+            "bytes": 6364,
+            "digest": "sha256:c0c43a339b522c008a4a1494ac4ad3344c270b9fd27d3471419c432467bca90e"
           },
           {
             "path": "src/client/GameStartingModal.ts",
@@ -3755,8 +3747,8 @@
           },
           {
             "path": "src/client/components/map/MapDisplay.ts",
-            "bytes": 5913,
-            "digest": "sha256:3b946181da9e2c013c3384bf41f26f2165fb964b74f472301fc1c361b297ad9c"
+            "bytes": 5850,
+            "digest": "sha256:2b3b714a9f3201011eaa1c8f2d5b851f1de5ed3a0fb31099b642ef6796760675"
           },
           {
             "path": "src/client/components/map/MapPicker.ts",
@@ -3790,8 +3782,8 @@
           },
           {
             "path": "src/client/graphics/layers/ControlPanel.ts",
-            "bytes": 120227,
-            "digest": "sha256:4a7c2e3444d1e5d9aef50e275555297e2b8190439709cc3f8fc243003852aee9"
+            "bytes": 121752,
+            "digest": "sha256:ba6adf1397414de6f39054787d70ea4a2cf4657ace15ae445ac021daa0db638a"
           },
           {
             "path": "src/client/graphics/layers/GameRightSidebar.ts",
@@ -3880,13 +3872,13 @@
           },
           {
             "path": "src/shared/PublicRouteGraph.json",
-            "bytes": 2094,
-            "digest": "sha256:10b01cb23179a76e488be022612939e9e24f8860667ca046c689bbbc6b49c17a"
+            "bytes": 2249,
+            "digest": "sha256:860dc84197ac023b89f1fb9f7a78f58a0379aa6bba4a3ea63c7c2f2f51db6ba7"
           },
           {
             "path": "static/index.html",
             "bytes": 17352,
-            "digest": "sha256:2e56a52ebe1c4f00df3f3c01b5a05aa4c2933af342e5541b3daa274bf5b4560b"
+            "digest": "sha256:29310f830d33126c6e47f3f0d338b3dcbf833490b8e1f95b9d1889e9ce9ddc20"
           }
         ]
       },
