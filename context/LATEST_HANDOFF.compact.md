@@ -1,51 +1,53 @@
 <!-- generated-by: scripts/compact-handoff.mjs v3.1 -->
-<!-- source-hash: f34300e8e43b -->
-<!-- generated-at: 2026-08-07T23:17:54.966Z -->
+<!-- source-hash: 51182851f1b7 -->
+<!-- generated-at: 2026-08-07T23:40:56.916Z -->
 
 # LATEST_HANDOFF (compact)
 
-SESSION: 97 complete (2026-08-06), branch main
+SESSION 97 HANDOFF SUMMARY
 
-STATUS
+Status
 
-- Local arc exhausted: audit 32/32, innovations 62/62. No pending unblocked code work.
-- Release posture: public-unlaunched / NO-GO.
+- Session 97 complete on branch main. Local arc exhausted: audit 32/32, innovations 62/62. No pending unblocked code work.
 
-SHIPPED (Session 97)
+Shipped (Session 97)
 
-- Durable certified archive outbox; safe candidate-first deployment drain.
-- Achievement rehydration; complete runtime state-scope inventory.
-- Turnstile token redaction; bounded request-owned remote-AI executor.
+- Durable certified archive outbox; safe candidate-first deployment drain; achievement rehydration.
+- Complete runtime state-scope inventory; Turnstile token redaction; bounded request-owned remote-AI executor.
 - Cause-bound coaching; reachable Doctrine continuation; accessible reroute decision matrix.
-- Light-theme contrast defect found and fixed via real-browser inspection (3 themes, desktop/mobile).
+- Fixed light-theme contrast defect via real-browser inspection across three themes, desktop/mobile.
 
-CURRENT INTENT
+Verification
 
-- Resume live staging deployment and collect external release-gate evidence in gate order; do not weaken evidence boundaries or claim unobserved deployment.
+- Security head 6920b1b passed CI 31226843311, E2E 31226843279, Release 31226843269, brief-format, Dependabot.
+- 232 files / 1,221 tests green; build, lint, format, bundle, production audit all pass.
+- Nano ID 3.3.18 trust-approved (fixes 3.3.17 async native zero-size guard); DOMPurify pinned 3.4.13.
+- CANON-053 passes at source digest sha256:caabe5a9...622944; 114 artifacts hash-bound.
+- Closeout commit is evidence-only, uses [skip ci].
 
-VERIFICATION STATE
+Current Intent
 
-- Evidence head be5a0598 passed Release, build, lint, format, bundle, all 232 files / 1,221 tests.
-- 114 artifacts source/hash-bound; CANON-053 passes at digest sha256:caabe5a9...622944.
-- Playwright 2/2; representative desktop/mobile pixels re-inspected, no blocking defect.
-- Nano ID upgraded to trust-approved 3.3.18 (fixes GHSA-2v37-7h3g-55p8); focused ID tests 10/10. DOMPurify pinned 3.4.13.
+- Reach public release; posture is public-unlaunched / NO-GO. Do not promote production or claim deployment until every release observation is verified in gate order.
 
-NOW (top 3)
+Now (top 3)
 
-1. Obtain Ark reply on VaultFront CANON-038 port allocation and Caddy-to-Traefik topology reconciliation (question 01JVF5O44A385AF9033E414452).
-2. Provision durable database credential (STUDIO_PG_ADMIN_URL) plus staging DNS and deploy user.
-3. After above: run live staging, collect parity/health/identity/delivery/human/revenue/rollback/founder evidence in gate order.
+- Await Ark reply 01JVF5O44A385AF9033E414452 for VaultFront CANON-038 port allocation and Caddy-to-Traefik topology reconciliation.
+- Obtain durable database credential (STUDIO_PG_ADMIN_URL) plus staging DNS and deploy user.
+- Resume live staging; collect parity, health, identity, delivery, human, revenue, rollback, founder evidence in gate order.
 
-BLOCKERS (top 3)
+Blockers (top 3)
 
-1. CI red pending successor exact-provider proof for the Nano ID 3.3.18 revision (production audit/build/Playwright/visual pass locally).
-2. Shared host runs Caddy; checked-in updater requires Traefik — transport mismatch blocks live preflight mutation.
-3. VaultFront lacks CANON-038 port allocation, admin DB URL, staging DNS, deploy user, approved transport.
+- No CANON-038 port allocation for VaultFront; live preflight stopped before mutation.
+- Host runs Caddy but checked-in updater requires Traefik; no approved transport.
+- Missing staging DNS, deploy user, and STUDIO_PG_ADMIN_URL credential.
 
-HUMAN-BLOCKED (with age)
+Human-Blocked (owner-owned)
 
-- Ark question 01JVF5O44A385AF9033E414452 (owner infra/topology reconciliation): opened Session 97, ~current.
-- Studio registry type reconciliation (ack 01JUJOJL1K040B6517CAF2EFA9): open since Session 88-89, ~8-9 sessions.
-- Ark board-renderer help/regeneration incident 01JUNMP9IR9DF9678CD51FFF1B: since Session 89, ~8 sessions.
+- Ark 01JVF5O44A385AF9033E414452 (owner topology/allocation reconciliation) — opened Session 97.
+- Ark 01JVF5O... database credential provisioning — Session 97.
+- Studio registry type reconciliation, ack 01JUJOJL1K040B6517CAF2EFA9 — open since Session 89.
+- Ark incidents 01JUNMP9IR... (board renderer regeneration) and 01JUNMMD11... (registry path) — since Session 89.
 
-NEXT SESSION: Await Ark infra reply and DB credential; then run live staging and collect release-gate evidence in order — do not promote or claim deployment until every gate is observed.
+Next Session Pointer
+
+- Do not touch code; poll Ark for the allocation/topology and DB credential replies, then execute live staging gate corridor.

@@ -2,6 +2,14 @@
 
 Append chronological entries.
 
+### 2026-08-06 — Session 97 certified-continuation and release-evidence arc
+
+- Goal: Run the complete `/arc → /closeout` mission, exhaust verified local work, push directly to `main`, and deploy only through truthful release gates.
+- What changed: Shipped nine audit findings and the remaining second-order work, repaired executable deployment modes and staging-domain admission, patched trust-reviewed DOMPurify and Nano ID advisories, and closed exact provider evidence green on security head `6920b1b4`.
+- Files or systems touched: Certified persistence, candidate-first deployment, achievement/state-scope recovery, Turnstile and remote-provider boundaries, coaching/Doctrine/reroute experience, deploy contracts and scripts, dependencies, visual receipts, GitHub environment metadata, Ark, and public-safe ledgers.
+- Risks created or removed: Removed archive-loss ambiguity, incumbent-first drain, credential logging, unbounded provider work, stale continuation, deploy-mode drift, and known dependency advisories. Live staging was deliberately not mutated because its shared-host allocation, database, DNS, deploy user, and edge topology are unresolved; production remains NO-GO.
+- Recommended next move: Apply the owner-reconciled CANON-038 allocation and durable database path from Ark `01JVF5O44A385AF9033E414452`, then collect staging parity, identity, delivery, human, revenue, rollback, and founder evidence in gate order.
+
 ### 2026-08-05 — Session 95 trustworthy-tooling and asset-truth arc
 
 - Goal: Complete a fresh full arc after interrupted-session recovery, exhaust newly verified work, and close to main without weakening external release truth.
