@@ -411,3 +411,11 @@ Session 89 closeout tooling incident: invoking the Studio Ops closeout-board ren
 - Cumulative audit reaches 55/55 shipped.
 - Verification: full suite re-confirmed green at 254 files / 1,356 tests; typecheck, lint, Prettier ratchet, `verify:contracts`, and doctor (13/13, `blockingFailing: 0`) all pass directly. Fresh Playwright visual proof 2/2, directly reviewed with no regressions.
 - Recommended next move: `Api.ts` still needs its own composition-ratchet budget now that #187's size change has landed; #187's L3 (equipped-title rendering in NameLayer.ts/leaderboard) and #185's L2/L3 (`renderReroutePreviewPanel` extraction) remain open, or run a fresh `/audit` for the next findings.
+
+### Session 99 disclosed-gap closure
+
+- Rather than leaving the `VaultFrontPlaytestPulse.ts` branch-coverage gap disclosed earlier this session as a standing Follow-up, fixed it directly: pulled the exact uncovered statement/branch lines from v8's coverage-final.json and wrote 13 targeted tests against real, previously-unexercised paths (dedupe-window eviction at 20,000 entries, actor-missing/actor-conflict rejection, tutorial-skip/rival-goal-saved counters, a "broad activity but zero rivalry exposure" operator-guidance branch, two entirely-untested exported functions, and 5 of 6 certified-loop-stage guidance messages).
+- Coverage rose from 91.57%/85.46%/85.71%/92.81% to 100%/100%/100%/95.15% (statements/branches/functions/lines), confirmed identically in both an isolated run and a fresh full-project regeneration.
+- `coverage-baseline.json`'s floor raised 90.78/93.33/100/94.26 → 94/99/100/99 (branches/statements/functions/lines) with real safety margin, locking in the gain rather than the bare minimum.
+- Verification: `node scripts/check-coverage-ratchet.mjs` passes cleanly; full suite re-confirmed green at 254 files / 1,369 tests; typecheck, lint, Prettier ratchet, and doctor (13/13, `blockingFailing: 0`) all pass directly.
+- This closes the last in-scope open item from this session's own work. The one remaining disclosed item (`e2e/live-match.spec.ts`'s local `WorkerClient.ts` init-timeout limitation) is a genuine environment constraint, not something fixable without touching production gameplay-timeout code.

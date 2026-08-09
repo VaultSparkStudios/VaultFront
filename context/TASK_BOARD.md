@@ -52,13 +52,18 @@ daily-challenge-system (DailyChallengeStore + HUD card), vault-intelligence-mark
 
 ## Follow-ups
 
-- [ ] [SIL] `src/server/VaultFrontPlaytestPulse.ts` branch coverage sits at 87.66%, below the coverage-baseline.json floor of 90.78% — introduced by already-committed Session 98 work (certified-loop-alpha-admission), discovered during Session 99 verification, out of scope to fix this session. Add targeted branch tests before the next coverage-ratchet run.
 - [ ] [SIL] `e2e/live-match.spec.ts` (Session 99, audit #177) is architecturally correct but reproducibly times out locally because `WorkerClient.ts:63` hardcodes a 20-second Web Worker init timeout that a cold local Vite dev-server compile doesn't reliably beat. Verify on a dedicated CI runner and consider making the timeout configurable.
 - [ ] [SIL] Audit #178's L3 stretch (aria-live hovered-action announcement in `RadialMenu.ts` + a dedicated keyboard-only Playwright spec) was intentionally descoped to L1+L2; still open if deeper accessibility polish is prioritized.
 - [ ] [SIL] Audit #184's L1 scope covered only `WorkerLobbyService.ts`; `GameRightSidebar.ts` (24.71% lines) still sits below a healthy bar and was left untouched to avoid a merge conflict with the parallel #185 extraction.
 - [ ] [SIL] Audit #185's L1 scope covered only the `ViewportMode.ts` extraction; the larger `renderReroutePreviewPanel` extraction from `ControlPanel.ts` (L2/L3) remains open.
 - [ ] [SIL] Audit #188's client-file composition ratchet (`scripts/check-client-composition.mjs`) intentionally excludes `Api.ts` — it was under concurrent edit by a parallel #187 agent when the ratchet was written. Add `Api.ts`'s budget once its post-#187 size is known.
 - [ ] [SIL] Audit #187's L1+L2 scope wires the client to the Fortune Deck collection/equip endpoints but intentionally skips L3's `NameLayer.ts`/leaderboard equipped-title rendering, per its own ladder — still open if deeper reward-visibility polish is prioritized.
+
+## Completed (2026-08-08 — Session 99 disclosed-gap closure: VaultFrontPlaytestPulse.ts coverage)
+
+- [done] Fixed (not just re-disclosed) the `VaultFrontPlaytestPulse.ts` branch-coverage gap logged earlier this session: added 13 targeted tests covering the dedupe-window eviction at 20,000 entries, actor-missing/actor-conflict rejection, tutorial-skip and rival-goal-saved counters, the "broad activity but zero rivalry exposure" operator-guidance branch, `buildVaultFrontPlaytestPulseSummaryFromEvents`/`isAllowedVaultFrontPulseEvent` (previously entirely untested), and 5 of 6 certified-loop-stage "not yet complete" messages.
+- [done] Coverage rose from 85.46%/91.57%/85.71%/92.81% to 100%/100%/100%/95.15% (branches/statements/functions/lines); `coverage-baseline.json`'s floor for this module raised 90.78→94 branches (and lines/statements 94.26/93.33→99/99) with real safety margin, not to the bare minimum.
+- [done] Verification: `node scripts/check-coverage-ratchet.mjs` passes cleanly (global floor + 10 critical modules); full suite re-confirmed green at 254 files / 1,369 tests; typecheck, lint, Prettier ratchet, and doctor (13/13, `blockingFailing: 0`) all pass directly.
 
 ## Completed (2026-08-08 — Session 99 continuation audit: 4 new items, 186-189)
 

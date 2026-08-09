@@ -2,6 +2,14 @@
 
 # Truth Audit
 
+## 2026-08-08 — Session 99 disclosed-gap closure: VaultFrontPlaytestPulse.ts coverage fixed
+
+- Disclosure-to-closure truth: the `VaultFrontPlaytestPulse.ts` branch-coverage gap disclosed earlier this session (real, pre-existing, from already-committed Session 98 work; deliberately left as an honest disclosure rather than silently patched or masked at the time) is now genuinely fixed, not merely re-disclosed again. This closes the loop the earlier disclosure opened.
+- Coverage truth: measured coverage rose from 91.57%/85.46%/85.71%/92.81% to 100%/100%/100%/95.15% (statements/branches/functions/lines), confirmed both in an isolated test-file run and in a fresh full-project coverage regeneration (161 files / 873 tests) -- the two measurements agree exactly (95.15% branches in both), ruling out a scoping artifact.
+- Test truth: 13 new tests were added, each targeting a real, previously-unexercised code path identified from the actual v8 coverage-final.json branch/statement maps (not guessed): the 20,000-entry dedupe-window FIFO eviction, human-actor-missing rejection, human-actor-session-conflict rejection, tutorial-skip and rival-goal-saved counters, the "broad activity but zero rivalry exposure" operator-guidance branch (both the action-insights list and the operator-next object independently reach it), `buildVaultFrontPlaytestPulseSummaryFromEvents` and `isAllowedVaultFrontPulseEvent` (both entirely untested before this session), and 5 of the 6 certified-loop-stage "next thing to complete" guidance messages (the 6th, Pressure, was already covered by an existing test).
+- Ratchet truth: `coverage-baseline.json`'s floor for this module was raised from 90.78/93.33/100/94.26 to 94/99/100/99 (branches/statements/functions/lines) -- a real safety margin below the newly measured 95.15/100/100/100, not the bare minimum needed to pass. `node scripts/check-coverage-ratchet.mjs` passes cleanly against the full-project measurement (global floor + 10 critical modules, zero failures).
+- Verification truth: full suite re-confirmed green at 254 files / 1,369 tests; typecheck, lint, Prettier ratchet, and doctor (13/13, `blockingFailing: 0`) all pass directly. No client-rendering surface was touched by this fix, so no theme-proof recapture was needed.
+
 ## 2026-08-08 — Session 99 continuation audit: four new findings (186-189)
 
 - Scope truth: a dedicated `/audit` pass was run against live code with an explicit exclusion list (nothing from items 167-185, the disclosed Follow-ups, or the just-shipped second-order pass) to avoid re-surfacing already-handled work. It reported several candidates investigated and dropped on pre-verification, including a false "no client composition ratchet exists" theory (refuted by finding `check-win-modal-composition.mjs` already exists) and a `/stats` CANON-047 theme-scope concern that turned out to already satisfy the documented floor.

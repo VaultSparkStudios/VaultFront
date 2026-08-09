@@ -2,6 +2,13 @@
 
 Append chronological entries.
 
+### 2026-08-08 — Session 99 disclosed-gap closure (same session)
+
+- Rather than leaving `VaultFrontPlaytestPulse.ts`'s branch-coverage gap (disclosed earlier this session, real and pre-existing from already-committed Session 98 work) as a standing Follow-up, fixed it directly: pulled the exact uncovered statement/branch lines from v8's `coverage-final.json` and wrote 13 targeted tests against genuinely unexercised paths — dedupe-window eviction at 20,000 entries, actor-missing/actor-conflict rejection, tutorial-skip/rival-goal-saved counters, a "broad activity but zero rivalry exposure" operator-guidance branch (independently reached from two different functions), two entirely-untested exported functions (`buildVaultFrontPlaytestPulseSummaryFromEvents`, `isAllowedVaultFrontPulseEvent`), and 5 of 6 certified-loop-stage "next thing to complete" guidance messages.
+- What changed: branch coverage rose from 85.46% to 95.15% (statements/functions/lines all reach 100%), confirmed identically in both an isolated test-file run and a fresh full-project coverage regeneration (ruling out a scoping artifact). `coverage-baseline.json`'s floor raised with real safety margin (94/99/100/99, not the bare minimum) to lock in the gain.
+- Verification: `node scripts/check-coverage-ratchet.mjs` passes cleanly against the fresh full-project measurement; full suite re-confirmed green at 254 files / 1,369 tests; typecheck, lint, Prettier ratchet, and doctor (13/13, `blockingFailing: 0`) all pass directly.
+- This closes the last in-scope open item this session itself created. The one remaining disclosed item (`e2e/live-match.spec.ts`'s local Worker-init timeout) is a genuine environment limitation, not fixable without touching production gameplay-timeout code.
+
 ### 2026-08-08 — Session 99 continuation audit (same session)
 
 - Ran a fresh `/audit` against live code with an explicit exclusion list (nothing from items 167-185, the disclosed Follow-ups, or the second-order addendum) and found 4 more genuinely new findings, appended as items 186-189, all shipped — several other candidates were investigated and correctly dropped on pre-verification (a false "no composition ratchet exists" theory, a `/stats` theme-scope non-issue).
