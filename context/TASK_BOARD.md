@@ -56,8 +56,11 @@ daily-challenge-system (DailyChallengeStore + HUD card), vault-intelligence-mark
 - [ ] [SIL] Audit #178's L3 stretch (aria-live hovered-action announcement in `RadialMenu.ts` + a dedicated keyboard-only Playwright spec) was intentionally descoped to L1+L2; still open if deeper accessibility polish is prioritized.
 - [ ] [SIL] Audit #184's L1 scope covered only `WorkerLobbyService.ts`; `GameRightSidebar.ts` (24.71% lines) still sits below a healthy bar and was left untouched to avoid a merge conflict with the parallel #185 extraction.
 - [ ] [SIL] Audit #185's L1 scope covered only the `ViewportMode.ts` extraction; the larger `renderReroutePreviewPanel` extraction from `ControlPanel.ts` (L2/L3) remains open.
-- [ ] [SIL] Audit #188's client-file composition ratchet (`scripts/check-client-composition.mjs`) intentionally excludes `Api.ts` — it was under concurrent edit by a parallel #187 agent when the ratchet was written. Add `Api.ts`'s budget once its post-#187 size is known.
 - [ ] [SIL] Audit #187's L1+L2 scope wires the client to the Fortune Deck collection/equip endpoints but intentionally skips L3's `NameLayer.ts`/leaderboard equipped-title rendering, per its own ladder — still open if deeper reward-visibility polish is prioritized.
+
+## Completed (2026-08-08 — Session 99: Api.ts composition-ratchet follow-up closed)
+
+- [done] `scripts/check-client-composition.mjs`'s registry now includes `src/client/Api.ts` (2043/2060 lines), measured after #187's Fortune Deck client-integration work had actually landed rather than guessed concurrently. Closes the open Follow-up from the #188 ratchet.
 
 ## Completed (2026-08-08 — Session 99 infra fix: configurable Worker init timeout)
 

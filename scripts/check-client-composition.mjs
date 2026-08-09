@@ -7,9 +7,9 @@ import { fileURLToPath } from "node:url";
 // pattern stops god-object files from silently regrowing after being trimmed.
 // ControlPanel.ts is mid-extraction (see the open #185 follow-up) and was the
 // largest ungoverned client file with zero enforced budget; this registry closes
-// that gap for it and its similarly-ungoverned siblings. Api.ts is intentionally
-// excluded here -- it was under concurrent edit by a parallel #187 agent when
-// this ratchet was written; add it in a follow-up once that work lands.
+// that gap for it and its similarly-ungoverned siblings. Api.ts was added once
+// the concurrent #187 Fortune Deck client-integration work (which grew it) had
+// landed, so its budget reflects the real post-change size, not a racy guess.
 export const CLIENT_FILE_BUDGETS = [
   {
     file: "src/client/graphics/layers/ControlPanel.ts",
@@ -26,6 +26,10 @@ export const CLIENT_FILE_BUDGETS = [
   {
     file: "src/client/graphics/layers/VaultFrontLayer.ts",
     lineBudget: 2120,
+  },
+  {
+    file: "src/client/Api.ts",
+    lineBudget: 2060,
   },
 ];
 
