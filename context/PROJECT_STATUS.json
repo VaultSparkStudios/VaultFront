@@ -6,13 +6,13 @@
   "health": "green",
   "currentSession": 99,
   "lastAgent": "claude",
-  "currentFocus": "Session 99 shipped all 15 fresh audit findings (171-185): security hardening (constant-time admin auth, bounded WS payloads, XSS-hardened rendering, clan profanity + AI-prompt boundary, new rate limits), i18n-correct combat alerts, a real Fortune Deck Postgres table, 33 new OpenAPI paths, reduced-motion/haptics, lazily-loaded crash telemetry, full radial-menu keyboard/ARIA support, WorkerLobbyService coverage lift, and a ViewportMode extraction. Root-fixed a genuine vite-tsconfig-paths resolution race discovered during verification; disclosed (not fixed) a pre-existing VaultFrontPlaytestPulse.ts coverage gap from already-committed Session 98 work.",
+  "currentFocus": "Session 99 shipped all 15 fresh audit findings (171-185): security hardening (constant-time admin auth, bounded WS payloads, XSS-hardened rendering, clan profanity + AI-prompt boundary, new rate limits), i18n-correct combat alerts, a real Fortune Deck Postgres table, 33 new OpenAPI paths, reduced-motion/haptics, lazily-loaded crash telemetry, full radial-menu keyboard/ARIA support, WorkerLobbyService coverage lift, and a ViewportMode extraction. Root-fixed a genuine vite-tsconfig-paths resolution race discovered during verification; disclosed (not fixed) a pre-existing VaultFrontPlaytestPulse.ts coverage gap from already-committed Session 98 work. A post-closeout second-order pass then found and shipped 3 genuine follow-up gaps (server-crash-telemetry symmetry, tournament-name profanity gate, a third viewport-mode duplicate) via direct code investigation, not manufactured busywork. Innovation ledger now 65/65.",
   "nextMilestone": "Fix the disclosed VaultFrontPlaytestPulse.ts branch-coverage gap and consider making WorkerClient.ts's Web Worker init timeout configurable, or run a fresh /audit against live code. Apply the pending CANON-038 allocation from Ark 01JVF5O44A385AF9033E414452 to unblock the external staging/deploy corridor.",
   "blockers": [
     "Live staging infrastructure is not provisioned: VaultFront has no CANON-038 port allocation, STUDIO_PG_ADMIN_URL is missing, and staging DNS/deploy user are absent. The loopback port allocation and database credential are still pending Ark 01JVF5O44A385AF9033E414452.",
     "Production remains NO-GO until approved staging/parity/health, Zoho reply identity, native Obelisk identity, live theme, three-human Alpha, real revenue, rollback, and founder approval evidence exist."
   ],
-  "lastUpdated": "2026-08-08",
+  "lastUpdated": "2026-08-09",
   "lifecycle": "alpha",
   "audience": "public-unlaunched",
   "type": "game",
@@ -62,8 +62,8 @@
   "silMax": 1000,
   "silScoreLegacy500": null,
   "silScore": 997,
-  "testsPassing": 1333,
-  "testsTotal": 1333,
+  "testsPassing": 1340,
+  "testsTotal": 1340,
   "silCategoriesV3": {
     "devHealth": 100,
     "creativeAlignment": 100,
@@ -91,7 +91,7 @@
   "silVelocity": 4,
   "silDebt": "down",
   "silLastSession": "99",
-  "auditStatus": "audit-51-of-51-shipped; session-99-15-of-15-shipped; cumulative-innovations-62-of-62-shipped; zero-pending-unblocked-in-scope; one-disclosed-out-of-scope-coverage-gap; external-release-evidence-no-go",
+  "auditStatus": "audit-51-of-51-shipped; session-99-15-of-15-shipped-plus-3-second-order-follow-ups; cumulative-innovations-65-of-65-shipped; zero-pending-unblocked-in-scope; one-disclosed-out-of-scope-coverage-gap; external-release-evidence-no-go",
   "releaseGates": [
     "staging deployment and exact-digest parity verification",
     "authenticated evidence from at least three distinct human alpha sessions",
@@ -149,10 +149,10 @@
     "scope": "All background diagnostic/test/e2e/subagent shells spawned during Session 99 completed and were read to completion; none left running."
   },
   "testsLastRun": "2026-08-08",
-  "testsLastRunMode": "Local Session 99 verification: canonical npm test passed 249 files / 1,333 tests across four bounded shards, confirmed clean twice; fresh npm run e2e passed 2/2 (theme-visual-proof matrix on chromium and mobile-chrome).",
+  "testsLastRunMode": "Local Session 99 verification (incl. second-order pass): canonical npm test passed 250 files / 1,340 tests across four bounded shards, confirmed clean twice; fresh npm run e2e passed 2/2 (theme-visual-proof matrix on chromium and mobile-chrome).",
   "testsDeferred": [],
   "testsBudgetExhausted": false,
-  "lastSessionSummary": "Session 99 shipped all 15 fresh audit findings (171-185) covering security hardening, accessibility, product depth, and observability; root-fixed a genuine vite-tsconfig-paths resolution race and a bad test import discovered during verification; disclosed (not fixed) a pre-existing coverage-ratchet regression from already-committed Session 98 work. Audit 51/51 and innovations 62/62 remain exhausted; production remains NO-GO.",
+  "lastSessionSummary": "Session 99 shipped all 15 fresh audit findings (171-185) covering security hardening, accessibility, product depth, and observability; root-fixed a genuine vite-tsconfig-paths resolution race and a bad test import; disclosed (not fixed) a pre-existing coverage-ratchet regression from already-committed Session 98 work. A post-closeout second-order investigation then found and shipped 3 genuine follow-up gaps (server-crash-telemetry symmetry, tournament-name profanity gate, GameLeftSidebar viewport-mode dedup), advancing the innovation ledger to 65/65. Audit 51/51 shipped; production remains NO-GO.",
   "providerCiStatus": {
     "status": "green",
     "revision": "6920b1b47918b4bc208d518bfa3024f64b028446",

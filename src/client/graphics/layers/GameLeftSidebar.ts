@@ -21,6 +21,7 @@ import { logHudTelemetry } from "../HudTelemetry";
 import { ImmunityBarVisibleEvent } from "./ImmunityTimer";
 import { Layer } from "./Layer";
 import { SpawnBarVisibleEvent } from "./SpawnTimer";
+import { viewportWidth } from "./ViewportMode";
 import leaderboardRegularIcon from "/images/LeaderboardIconRegularWhite.svg?url";
 import leaderboardSolidIcon from "/images/LeaderboardIconSolidWhite.svg?url";
 import teamRegularIcon from "/images/TeamIconRegularWhite.svg?url";
@@ -146,10 +147,6 @@ export class GameLeftSidebar extends LitElement implements Layer {
     return (this.spawnBarVisible ? 7 : 0) + (this.immunityBarVisible ? 7 : 0);
   }
 
-  private viewportWidth(): number {
-    return typeof window !== "undefined" ? window.innerWidth : 1920;
-  }
-
   private setDockExpanded(expanded: boolean, autoCollapse: boolean): void {
     if (expanded === this.isDockExpanded) return;
     this.isDockExpanded = expanded;
@@ -244,7 +241,7 @@ export class GameLeftSidebar extends LitElement implements Layer {
 
   private applyDockRules(forceUpdate = false): void {
     const shouldCollapse =
-      this.viewportWidth() < 1200 || this.anyBlockingPanelOpen();
+      viewportWidth() < 1200 || this.anyBlockingPanelOpen();
     if (shouldCollapse && this.isDockExpanded) {
       this.setDockExpanded(false, true);
       if (forceUpdate) this.requestUpdate();
@@ -322,7 +319,7 @@ export class GameLeftSidebar extends LitElement implements Layer {
 
   render() {
     const expanded = this.isDockExpanded;
-    const mobile = this.viewportWidth() < 1200;
+    const mobile = viewportWidth() < 1200;
     const topLayout = expanded
       ? `left-1/2 -translate-x-1/2 ${mobile ? "w-[98vw]" : "w-[min(98vw,1220px)]"} rounded-b-lg`
       : "left-0 min-[1200px]:left-4 w-12 rounded-br-lg min-[1200px]:rounded-lg";

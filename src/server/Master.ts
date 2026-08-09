@@ -13,6 +13,10 @@ import { logger } from "./Logger";
 import { MapPlaylist } from "./MapPlaylist";
 import { MasterLobbyService } from "./MasterLobbyService";
 import { renderHtml } from "./RenderHtml";
+import {
+  serverCrashStore,
+  truncateServerCrashMessage,
+} from "./ServerCrashStore";
 import { shutdownTelemetry } from "./TelemetryLifecycle";
 import { buildVaultFrontReadiness } from "./VaultFrontReadiness";
 
@@ -199,6 +203,33 @@ export async function startMaster() {
 
   process.on("SIGTERM", () => shutdownMaster("SIGTERM"));
   process.on("SIGINT", () => shutdownMaster("SIGINT"));
+
+  // Process-level error handlers (S99 second-order follow-up: previously
+  // unhandled here, meaning a master-process crash produced no structured
+  // record before the process died -- see ServerCrashStore.ts).
+  process.on("uncaughtException", (err) => {
+    log.error(`uncaught exception:`, err);
+    serverCrashStore.record({
+      process: "master",
+      processId: process.pid,
+      kind: "uncaughtException",
+      message: truncateServerCrashMessage(err.message),
+      at: Date.now(),
+    });
+  });
+
+  process.on("unhandledRejection", (reason, promise) => {
+    log.error(`unhandled rejection at:`, promise, "reason:", reason);
+    serverCrashStore.record({
+      process: "master",
+      processId: process.pid,
+      kind: "unhandledRejection",
+      message: truncateServerCrashMessage(
+        reason instanceof Error ? reason.message : String(reason),
+      ),
+      at: Date.now(),
+    });
+  });
   // ─────────────────────────────────────────────────────────────────────────
 }
 

@@ -58,6 +58,16 @@ daily-challenge-system (DailyChallengeStore + HUD card), vault-intelligence-mark
 - [ ] [SIL] Audit #184's L1 scope covered only `WorkerLobbyService.ts`; `GameRightSidebar.ts` (24.71% lines) still sits below a healthy bar and was left untouched to avoid a merge conflict with the parallel #185 extraction.
 - [ ] [SIL] Audit #185's L1 scope covered only the `ViewportMode.ts` extraction; the larger `renderReroutePreviewPanel` extraction from `ControlPanel.ts` (L2/L3) remains open.
 
+## Completed (2026-08-08 — Session 99 second-order pass: 3 genuine follow-up gaps)
+
+- [done] Audited where Session 99's own shipped patterns should apply elsewhere and found three genuine gaps (not manufactured busywork), each verified by direct code reading before implementing: `Worker.ts`/`Master.ts` had no structured server-crash record the way `ClientCrashStore` now gives client crashes (`Master.ts` had zero crash-handler coverage at all); tournament-name creation had no profanity gate despite the sibling clan-creation route two blocks above it in `Worker.ts` having one; `GameLeftSidebar.ts` had a third undetected duplicate of the `viewportWidth()` logic `ViewportMode.ts` was extracted to eliminate.
+- [done] New `ServerCrashStore.ts` (bounded, 500-event, process-local, signature-summarized -- same shape as `ClientCrashStore.ts`) wired into both `Worker.ts` and `Master.ts` crash handlers; registered in `StateScopeLedger.ts`.
+- [done] `TournamentStore.create()` gained the same injectable `isProfane` gate `ClanStore.createClan()` uses; `Worker.ts`'s tournament route wires the existing `censorUsername` matcher.
+- [done] `GameLeftSidebar.ts` now imports `viewportWidth` from `ViewportMode.ts` instead of maintaining its own copy.
+- [done] `WORKER_LINE_BUDGET` ratcheted 2470→2490 (shrunk a duplicated helper into `ServerCrashStore.ts` first, then ratcheted only the genuinely new lines; DECISIONS.md updated).
+- [done] Innovation ledger advances 62/62 → 65/65 (`server-crash-telemetry-symmetry`, `tournament-name-profanity-gate`, `game-left-sidebar-viewport-mode-adoption`).
+- [done] Verification: full suite re-confirmed green at 250 files / 1,340 tests; typecheck, lint, and `verify:contracts` all pass directly.
+
 ## Completed (2026-08-08 — Session 99 accessibility, security hardening, and infra-race root-fixes)
 
 - [done] Audit 171-185 (all 15): bounded WebSocket payload cap; shared constant-time admin-token comparator; XSS-hardened player-name rendering; clan profanity filtering with an explicit untrusted-data AI-prompt boundary; rate limits on four previously-unbounded write endpoints; i18n-correct combat alert strings threaded through typed params; a real Fortune Deck collection/equip Postgres table (closing a silent write-failure bug); 33 new OpenAPI path entries across six route families; reduced-motion and mobile-haptics support; lazily-loaded client crash telemetry; full keyboard/ARIA support for the radial action menu (57 new tests); `WorkerLobbyService.ts` coverage lifted 27.51%->92% lines (18 new tests); `ViewportMode.ts` extracted from `ControlPanel.ts`/`GameRightSidebar.ts`; and a real single-player-match e2e spec (architecturally correct, local-timeout-limited — see Follow-ups).

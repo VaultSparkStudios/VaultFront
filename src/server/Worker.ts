@@ -121,6 +121,10 @@ import { buildRuntimeIntegrityPassport } from "./RuntimeIntegrityPassport";
 import { registerSeasonCommunityRoutes } from "./SeasonCommunityRouter";
 import { registerSeasonContractRoutes } from "./SeasonContractRouter";
 import {
+  serverCrashStore,
+  truncateServerCrashMessage,
+} from "./ServerCrashStore";
+import {
   MAX_SPECTATOR_BUFFERED_BYTES,
   MAX_SPECTATORS_PER_GAME,
   MAX_SPECTATORS_PER_WORKER,
@@ -1818,10 +1822,11 @@ export async function startWorker() {
       return res.status(400).json({ error: z.prettifyError(parsed.error) });
     const actor = await requireVaultFrontActor(req, res);
     if (!actor || !acceptActorClaim(actor, parsed.data.createdBy, res)) return;
-    const t = await tournamentStore.create({
-      ...parsed.data,
-      createdBy: actor.persistentId,
-    });
+    const t = await tournamentStore.create(
+      { ...parsed.data, createdBy: actor.persistentId },
+      (text) => privilegeRefresher.get().censorUsername(text) !== text,
+    );
+    if ("error" in t) return res.status(409).json(t);
     return res.status(201).json(t);
   });
 
@@ -2325,10 +2330,26 @@ export async function startWorker() {
   // Process-level error handlers
   process.on("uncaughtException", (err) => {
     log.error(`uncaught exception:`, err);
+    serverCrashStore.record({
+      process: "worker",
+      processId: process.pid,
+      kind: "uncaughtException",
+      message: truncateServerCrashMessage(err.message),
+      at: Date.now(),
+    });
   });
 
   process.on("unhandledRejection", (reason, promise) => {
     log.error(`unhandled rejection at:`, promise, "reason:", reason);
+    serverCrashStore.record({
+      process: "worker",
+      processId: process.pid,
+      kind: "unhandledRejection",
+      message: truncateServerCrashMessage(
+        reason instanceof Error ? reason.message : String(reason),
+      ),
+      at: Date.now(),
+    });
   });
 
   // ── Graceful shutdown ─────────────────────────────────────────────────────

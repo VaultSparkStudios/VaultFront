@@ -2,6 +2,15 @@
 
 Append chronological entries.
 
+### 2026-08-08 — Session 99 second-order addendum (same session)
+
+- Rather than stopping at the 15 shipped audit items, dispatched a read-only investigation asking whether Session 99's own new patterns (constant-time comparison, client crash telemetry, profanity filtering, viewport-mode extraction) had untreated siblings elsewhere in the codebase. Found 3 genuine gaps with concrete file:line evidence (and confirmed one area, timing-safe comparisons, was already fully covered) — not manufactured busywork to hit a quota.
+- What changed: new `ServerCrashStore.ts` (bounded, process-local, mirrors `ClientCrashStore.ts`) wired into `Worker.ts` and `Master.ts`'s `uncaughtException`/`unhandledRejection` handlers — `Master.ts` previously had zero crash-handler coverage at all; `TournamentStore.create()` gained the same injectable profanity gate `ClanStore.createClan()` already used, closing a gap where the sibling clan-creation route was filtered but tournament creation wasn't; `GameLeftSidebar.ts`'s third undetected duplicate of `viewportWidth()` now imports the shared `ViewportMode.ts` util instead.
+- Files touched: `ServerCrashStore.ts` (new), `Worker.ts`, `Master.ts`, `TournamentStore.ts`, `GameLeftSidebar.ts`, `StateScopeLedger.ts`, `scripts/check-worker-composition.mjs`, `docs/INNOVATION_PACK.json`, plus new/extended tests.
+- `WORKER_LINE_BUDGET` ratcheted 2470→2490 — shrunk a duplicated helper into `ServerCrashStore.ts` first, then ratcheted only the genuinely new lines (documented in DECISIONS.md, same honest-ratchet pattern used earlier this session).
+- Innovation ledger advances 62/62 → 65/65 (`server-crash-telemetry-symmetry`, `tournament-name-profanity-gate`, `game-left-sidebar-viewport-mode-adoption`); the append-only `forgottenShippedInnovationIds` guard confirms no prior entry was silently dropped.
+- Verification: full suite re-run twice, confirmed green both times at 250 files / 1,340 tests (one intervening scripts-shard failure was the same pre-existing `InnovationPack.test.ts` collateral-disruption pattern already root-caused earlier this session — confirmed via isolation, not force-greened). Typecheck, lint, and `verify:contracts` all pass directly.
+
 ### 2026-08-08 — Session 99 accessibility, security hardening, and infra-race root-fixes
 
 - Goal: continue the arc directly from Session 98's recovery closeout (same conversation), run a fresh audit against live code, implement every finding, and close out.

@@ -13,6 +13,7 @@ async function seedTwoPlayerMatch(store: TournamentStore, name: string) {
     createdBy: "organizer",
     maxPlayers: 2,
   });
+  if ("error" in tournament) throw new Error(tournament.error);
   await store.register(tournament.id, "alpha", 1500);
   await store.register(tournament.id, "bravo", 1200);
   const seeded = await store.seedBracket(tournament.id);
@@ -27,6 +28,7 @@ describe("TournamentStore operations brief", () => {
       createdBy: "organizer",
       maxPlayers: 4,
     });
+    if ("error" in tournament) throw new Error(tournament.error);
 
     await tournamentStore.register(tournament.id, "alpha", 1500);
     await tournamentStore.register(tournament.id, "bravo", 1200);
@@ -149,5 +151,32 @@ describe("TournamentStore operations brief", () => {
         ([persisted]) => persisted.status === "complete",
       ),
     ).toHaveLength(1);
+  });
+});
+
+describe("TournamentStore create identity gate", () => {
+  it("accepts a clean tournament name", async () => {
+    const result = await tournamentStore.create({
+      name: "Vault Champions",
+      createdBy: "organizer",
+    });
+    expect("error" in result).toBe(false);
+  });
+
+  it("rejects a name caught by the default base profanity dataset", async () => {
+    const result = await tournamentStore.create({
+      name: "Fuck Cup",
+      createdBy: "organizer",
+    });
+    expect(result).toMatchObject({ error: expect.any(String) });
+  });
+
+  it("uses an injected isProfane gate instead of the default matcher", async () => {
+    const isProfane = (text: string) => /nazi|hitler/i.test(text);
+    const result = await tournamentStore.create(
+      { name: "Nazi Bracket", createdBy: "organizer" },
+      isProfane,
+    );
+    expect(result).toMatchObject({ error: expect.any(String) });
   });
 });

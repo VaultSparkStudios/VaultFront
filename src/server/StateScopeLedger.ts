@@ -118,6 +118,15 @@ export const STATE_SCOPE_REGISTRY: readonly StateScopeLedgerEntry[] = [
     retention: "newest 500 events in the owning process",
     recovery: "diagnostic-only; a lost event is not a gameplay regression",
   }),
+  processStore({
+    store: "server-crash-telemetry",
+    owner: "ServerCrashStore",
+    sourceFile: "src/server/ServerCrashStore.ts",
+    runtimeExport: "serverCrashStore",
+    releaseCritical: false,
+    retention: "newest 500 events in the owning process",
+    recovery: "diagnostic-only; a lost event is not a gameplay regression",
+  }),
   postgresStore({
     store: "match-feedback",
     owner: "MatchFeedbackStore",

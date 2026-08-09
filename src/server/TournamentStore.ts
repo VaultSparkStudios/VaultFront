@@ -12,6 +12,9 @@
 
 import { nanoid } from "nanoid";
 import { pool } from "./db/pool";
+import { createMatcher } from "./Privilege";
+
+const profanityMatcher = createMatcher([]);
 
 export type TournamentStatus = "registration" | "active" | "complete";
 export type MatchStatus = "pending" | "active" | "complete";
@@ -93,12 +96,19 @@ export class TournamentStore {
 
   // ── Create ──────────────────────────────────────────────────────────────
 
-  async create(opts: {
-    name: string;
-    mapName?: string;
-    maxPlayers?: number;
-    createdBy: string;
-  }): Promise<Tournament> {
+  async create(
+    opts: {
+      name: string;
+      mapName?: string;
+      maxPlayers?: number;
+      createdBy: string;
+    },
+    isProfane: (text: string) => boolean = (text) =>
+      profanityMatcher.hasMatch(text),
+  ): Promise<Tournament | { error: string }> {
+    if (isProfane(opts.name)) {
+      return { error: "Tournament name is not allowed." };
+    }
     const id = nanoid(12);
     const t: Tournament = {
       id,

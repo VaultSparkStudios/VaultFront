@@ -2,6 +2,16 @@
 
 # Truth Audit
 
+## 2026-08-08 — Session 99 second-order addendum: three genuine follow-up gaps
+
+- Investigation truth: rather than manufacturing filler second-order innovations to hit a quota, a dedicated read-only investigation was dispatched to check whether Session 99's own newly-shipped patterns (constant-time comparison, client crash telemetry, profanity filtering, viewport-mode extraction) had untreated siblings elsewhere in the codebase. It reported findings against concrete file:line evidence for four questions, verdicting "GENUINE GAP FOUND" for three and "NO GAP -- already covered" for the fourth (timing-safe comparison -- all eight admin-token sites plus the pre-existing `ReplayStore.ts`/`jwt.ts` comparisons were already constant-time or library-verified).
+- Server-crash-telemetry truth: `Worker.ts`'s `uncaughtException`/`unhandledRejection` handlers previously only logged; `Master.ts` had no such handlers at all -- a master-process crash was fully unhandled before this session. Both now record into a new bounded (500-event), process-local `ServerCrashStore.ts`, registered in `StateScopeLedger.ts`, mirroring `ClientCrashStore.ts`'s shape exactly.
+- Tournament-profanity truth: `POST /api/tournaments` accepted an unfiltered public-facing name while the sibling `POST /api/clans` two blocks above it in `Worker.ts` already gated name/description through the profanity matcher. `TournamentStore.create()` now takes the same injectable `isProfane` parameter.
+- Viewport-mode truth: `GameLeftSidebar.ts` had a third byte-for-byte duplicate of the `viewportWidth()` method `ViewportMode.ts` was extracted from `ControlPanel.ts`/`GameRightSidebar.ts` to eliminate. It now imports the shared function.
+- Budget truth: `WORKER_LINE_BUDGET` moved 2470 → 2490. A duplicated `truncateServerCrashMessage` helper was first extracted into `ServerCrashStore.ts` and shared between `Worker.ts`/`Master.ts` (shrink first); the ratchet covers only the genuinely new lines that remained.
+- Verification truth: typecheck, targeted tests (14/14), full lint, and `verify:contracts` all pass directly; the full suite was re-run twice end-to-end and confirmed green at 250 files / 1,340 tests both times (one intervening "scripts" shard failure was the same pre-existing `InnovationPack.test.ts` collateral-disruption pattern already root-caused earlier in this session -- confirmed via isolation, not force-greened).
+- Innovation-ledger truth: three new entries (`server-crash-telemetry-symmetry`, `tournament-name-profanity-gate`, `game-left-sidebar-viewport-mode-adoption`) appended to `docs/INNOVATION_PACK.json` with unique IDs and sequential ranks (63-65); the append-only `forgottenShippedInnovationIds` guard in `tests/scripts/InnovationPack.test.ts` still passes, confirming no prior entry was silently dropped.
+
 ## 2026-08-08 — Session 99 hardening, accessibility, and infra-race truth
 
 - Work truth: audit items 171-185 are shipped; cumulative audit reaches 51/51 and innovations remain exhausted at 62/62 with zero pending unblocked local work.

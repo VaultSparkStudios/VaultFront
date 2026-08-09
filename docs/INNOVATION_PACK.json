@@ -561,6 +561,33 @@
       "description": "Turn the bundle recovery into a source-owned entry boundary so tutorial, lobby implementation, and leaderboard remain lazy while the existing byte ceiling independently measures the result.",
       "complete": true,
       "evidence": "three explicit lazy boundaries, authoritative match-ready ordering, unchanged executable byte ceiling, and regression tests"
+    },
+    {
+      "rank": 63,
+      "status": "shipped",
+      "id": "server-crash-telemetry-symmetry",
+      "title": "Give server-process crashes the same structured record client crashes now get",
+      "description": "Session 99 shipped bounded, queryable client-crash telemetry (audit #183) but left Worker.ts uncaughtException/unhandledRejection as an unstructured log line, and Master.ts with no crash handler at all. A new process-local ServerCrashStore now records both, bounded and summarizable exactly like its client counterpart.",
+      "complete": true,
+      "evidence": "ServerCrashStore.ts (bounded, 500-event, signature-summarized), wired into both Worker.ts and Master.ts uncaughtException/unhandledRejection handlers, StateScopeLedger registration, and regression tests"
+    },
+    {
+      "rank": 64,
+      "status": "shipped",
+      "id": "tournament-name-profanity-gate",
+      "title": "Apply the clan-name profanity gate to tournament creation too",
+      "description": "Session 99 added profanity filtering to clan name/description creation, but the sibling tournament-creation route two blocks below it in Worker.ts accepted an unfiltered public-facing free-text name. TournamentStore.create() now takes the same injectable isProfane gate ClanStore.createClan() uses, defaulting to the same base matcher.",
+      "complete": true,
+      "evidence": "TournamentStore.create() isProfane parameter and error path, Worker.ts route wiring the existing censorUsername gate, and clean/rejected/injected-gate regression tests"
+    },
+    {
+      "rank": 65,
+      "status": "shipped",
+      "id": "game-left-sidebar-viewport-mode-adoption",
+      "title": "Finish the viewport-mode dedup ViewportMode.ts started",
+      "description": "Session 99 extracted ViewportMode.ts from ControlPanel.ts and GameRightSidebar.ts duplicate viewportWidth() methods, but GameLeftSidebar.ts had the identical duplicate and was not migrated. It now imports the shared util instead of maintaining a third copy.",
+      "complete": true,
+      "evidence": "GameLeftSidebar.ts imports viewportWidth from ViewportMode.ts; zero behavior change verified by the full theme-visual-proof e2e pass"
     }
   ]
 }

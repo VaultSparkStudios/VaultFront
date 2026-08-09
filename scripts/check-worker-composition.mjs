@@ -7,9 +7,11 @@ import { fileURLToPath } from "node:url";
 // the reclaimed complexity from silently returning to the central worker.
 // Session 99 raised the ceiling 30 lines total for the game-socket payload
 // bound, constant-time admin-token comparison, and the crash-telemetry and
-// fortune-collection route registrations (audit #171/#172/#180/#183); see
-// DECISIONS.md.
-export const WORKER_LINE_BUDGET = 2470;
+// fortune-collection route registrations (audit #171/#172/#180/#183), then
+// 16 more lines for a second-order follow-up wiring server-process crash
+// telemetry (uncaughtException/unhandledRejection) into ServerCrashStore and
+// adding a profanity gate to tournament-name creation; see DECISIONS.md.
+export const WORKER_LINE_BUDGET = 2490;
 export const ROUTER_LINE_BUDGET = 180;
 
 export const EXTRACTED_DOMAINS = [
