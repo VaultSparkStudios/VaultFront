@@ -13,6 +13,28 @@ import { ClientID, GameStartInfo, Turn } from "../Schemas";
 import { generateID } from "../Util";
 import { WorkerMessage } from "./WorkerMessages";
 
+const DEFAULT_WORKER_INIT_TIMEOUT_MS = 20_000;
+
+/**
+ * Resolves the Web Worker init timeout from Vite's built-in VITE_-prefixed
+ * import.meta.env (populated in both dev serve and production build, unlike
+ * this file's other process.env.* references which only apply to
+ * production builds via vite.config.ts's define block), falling back to the
+ * production default when the override is absent, empty, or not a positive
+ * integer. Production and staging never set VITE_WORKER_INIT_TIMEOUT_MS, so
+ * their behavior is unchanged; it exists to give slow local/CI e2e
+ * dev-server cold-compiles headroom without touching the real gameplay
+ * timeout.
+ */
+export function resolveWorkerInitTimeoutMs(
+  raw: string | boolean | undefined,
+): number {
+  const parsed = Number(raw);
+  return raw && Number.isFinite(parsed) && parsed > 0
+    ? parsed
+    : DEFAULT_WORKER_INIT_TIMEOUT_MS;
+}
+
 export class WorkerClient {
   private worker: Worker;
   private isInitialized = false;
@@ -84,12 +106,15 @@ export class WorkerClient {
       });
 
       // Add timeout for initialization
-      setTimeout(() => {
-        if (!this.isInitialized) {
-          this.messageHandlers.delete(messageId);
-          reject(new Error("Worker initialization timeout"));
-        }
-      }, 20000); // 20 second timeout
+      setTimeout(
+        () => {
+          if (!this.isInitialized) {
+            this.messageHandlers.delete(messageId);
+            reject(new Error("Worker initialization timeout"));
+          }
+        },
+        resolveWorkerInitTimeoutMs(import.meta.env.VITE_WORKER_INIT_TIMEOUT_MS),
+      );
     });
   }
 

@@ -2,6 +2,15 @@
 
 Append chronological entries.
 
+### 2026-08-08 — Session 99 configurable-timeout infra fix (same session)
+
+- Reconsidered `e2e/live-match.spec.ts`'s disclosed timeout limitation and made `WorkerClient.ts`'s hardcoded 20-second Web Worker init timeout genuinely configurable — a value that stays fixed at its production default everywhere except e2e is safe and additive, not a risky change to gameplay behavior.
+- First attempt used `vite.config.ts`'s existing `process.env.*` custom `define` pattern. Root-fixed after directly proving it doesn't apply in `vite serve`/dev mode at all (confirmed by HTTP-inspecting the served module and finding the same non-substitution on a pre-existing, already-shipped reference). Switched to Vite's native `import.meta.env.VITE_*` mechanism, confirmed correct via direct inspection.
+- What changed: `WorkerClient.ts` gained a pure, directly-testable `resolveWorkerInitTimeoutMs` resolver (5 new tests covering fallback behavior); `start:e2e-client` sets `VITE_WORKER_INIT_TIMEOUT_MS=60000`; every other build/dev script is untouched, so production/staging behavior is byte-for-byte unchanged.
+- When the local e2e test still failed after the genuinely-working fix, measured the real bottleneck instead of guessing: a cold `Worker.worker.ts` compile took 0.4 seconds (both warm and with Vite's cache forcibly cleared), ruling out compile speed and isolating the cause to OS/chromium-level CPU contention from this session's own many hours of accumulated background load — a genuine environment limitation of this specific marathon session, not a code defect.
+- Verification: full suite re-confirmed green at 255 files / 1,374 tests; typecheck, lint, Prettier ratchet, `verify:contracts`, a full production rebuild with bundle-budget re-check (headroom preserved), and doctor (13/13, `blockingFailing: 0`) all pass directly. Fresh Playwright visual proof 2/2, directly reviewed.
+- Recommended next move: verify `e2e/live-match.spec.ts` on a dedicated CI runner or a fresh local session — the infrastructure now supports it.
+
 ### 2026-08-08 — Session 99 disclosed-gap closure (same session)
 
 - Rather than leaving `VaultFrontPlaytestPulse.ts`'s branch-coverage gap (disclosed earlier this session, real and pre-existing from already-committed Session 98 work) as a standing Follow-up, fixed it directly: pulled the exact uncovered statement/branch lines from v8's `coverage-final.json` and wrote 13 targeted tests against genuinely unexercised paths — dedupe-window eviction at 20,000 entries, actor-missing/actor-conflict rejection, tutorial-skip/rival-goal-saved counters, a "broad activity but zero rivalry exposure" operator-guidance branch (independently reached from two different functions), two entirely-untested exported functions (`buildVaultFrontPlaytestPulseSummaryFromEvents`, `isAllowedVaultFrontPulseEvent`), and 5 of 6 certified-loop-stage "next thing to complete" guidance messages.

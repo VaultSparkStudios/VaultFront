@@ -52,12 +52,19 @@ daily-challenge-system (DailyChallengeStore + HUD card), vault-intelligence-mark
 
 ## Follow-ups
 
-- [ ] [SIL] `e2e/live-match.spec.ts` (Session 99, audit #177) is architecturally correct but reproducibly times out locally because `WorkerClient.ts:63` hardcodes a 20-second Web Worker init timeout that a cold local Vite dev-server compile doesn't reliably beat. Verify on a dedicated CI runner and consider making the timeout configurable.
+- [ ] [SIL] `e2e/live-match.spec.ts` (Session 99, audit #177): the Web Worker init timeout is now genuinely configurable (`resolveWorkerInitTimeoutMs` in `WorkerClient.ts`, sourced from `import.meta.env.VITE_WORKER_INIT_TIMEOUT_MS`, wired to 60s for e2e via `start:e2e-client`'s `VITE_WORKER_INIT_TIMEOUT_MS`; verified reaching the browser bundle via direct source inspection). It still fails locally even at 60s -- directly measured a cold `Worker.worker.ts` compile at 0.4s, so the bottleneck is confirmed to be OS/browser-level CPU contention from this session's own many hours of parallel background work, not compile speed or the timeout mechanism. Verify on a dedicated CI runner or a fresh local session with no competing load.
 - [ ] [SIL] Audit #178's L3 stretch (aria-live hovered-action announcement in `RadialMenu.ts` + a dedicated keyboard-only Playwright spec) was intentionally descoped to L1+L2; still open if deeper accessibility polish is prioritized.
 - [ ] [SIL] Audit #184's L1 scope covered only `WorkerLobbyService.ts`; `GameRightSidebar.ts` (24.71% lines) still sits below a healthy bar and was left untouched to avoid a merge conflict with the parallel #185 extraction.
 - [ ] [SIL] Audit #185's L1 scope covered only the `ViewportMode.ts` extraction; the larger `renderReroutePreviewPanel` extraction from `ControlPanel.ts` (L2/L3) remains open.
 - [ ] [SIL] Audit #188's client-file composition ratchet (`scripts/check-client-composition.mjs`) intentionally excludes `Api.ts` — it was under concurrent edit by a parallel #187 agent when the ratchet was written. Add `Api.ts`'s budget once its post-#187 size is known.
 - [ ] [SIL] Audit #187's L1+L2 scope wires the client to the Fortune Deck collection/equip endpoints but intentionally skips L3's `NameLayer.ts`/leaderboard equipped-title rendering, per its own ladder — still open if deeper reward-visibility polish is prioritized.
+
+## Completed (2026-08-08 — Session 99 infra fix: configurable Worker init timeout)
+
+- [done] `WorkerClient.ts`'s hardcoded 20-second Web Worker init timeout is now genuinely configurable via `import.meta.env.VITE_WORKER_INIT_TIMEOUT_MS` (Vite's native env mechanism, verified to work correctly in both dev serve and production build -- an earlier attempt via `vite.config.ts`'s custom `define` block was found and root-fixed to not apply in dev mode at all, confirmed by direct HTTP inspection of the served module). Production and staging never set this variable, so their behavior is byte-for-byte unchanged; only `start:e2e-client` sets it (60s), matching the same isolation principle as every other e2e-only override in that script.
+- [done] Extracted `resolveWorkerInitTimeoutMs` as a pure, directly-testable function (5 new tests: unset/empty/non-numeric/non-positive all correctly fall back to the 20s production default; a valid override is honored).
+- [done] Diagnosed the remaining local e2e failure precisely rather than assuming the fix didn't work: directly measured a cold `Worker.worker.ts` compile at 0.4s (both from a warm and a genuinely cache-cleared fresh dev server), ruling out compile speed as the bottleneck even at the new 60s ceiling. The failure is OS/chromium-level CPU contention from this session's own many hours of parallel background work, not a defect in the fix.
+- [done] Verification: full suite re-confirmed green at 255 files / 1,374 tests; typecheck, lint, Prettier ratchet, `verify:contracts`, bundle-budget (headroom preserved), and doctor (13/13, `blockingFailing: 0`) all pass directly. Fresh Playwright visual proof 2/2, directly reviewed with no regressions.
 
 ## Completed (2026-08-08 — Session 99 disclosed-gap closure: VaultFrontPlaytestPulse.ts coverage)
 

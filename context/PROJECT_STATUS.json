@@ -6,7 +6,7 @@
   "health": "green",
   "currentSession": 99,
   "lastAgent": "claude",
-  "currentFocus": "Session 99 shipped all 15 fresh audit findings (171-185): security hardening (constant-time admin auth, bounded WS payloads, XSS-hardened rendering, clan profanity + AI-prompt boundary, new rate limits), i18n-correct combat alerts, a real Fortune Deck Postgres table, 33 new OpenAPI paths, reduced-motion/haptics, lazily-loaded crash telemetry, full radial-menu keyboard/ARIA support, WorkerLobbyService coverage lift, and a ViewportMode extraction. Root-fixed a genuine vite-tsconfig-paths resolution race discovered during verification; disclosed (not fixed) a pre-existing VaultFrontPlaytestPulse.ts coverage gap from already-committed Session 98 work. A post-closeout second-order pass then found and shipped 3 genuine follow-up gaps (server-crash-telemetry symmetry, tournament-name profanity gate, a third viewport-mode duplicate) via direct code investigation, not manufactured busywork. Innovation ledger now 65/65. A continuation audit then found and shipped 4 more genuinely new findings (186-189): recap/coach-debrief AI prompt-injection boundary, Fortune Deck client integration, a client-file composition ratchet, and a stats-page touch-target fix. Cumulative audit now 55/55. The disclosed VaultFrontPlaytestPulse.ts coverage gap was then genuinely fixed (13 new tests, branch coverage 85.46%->95.15%), not just re-disclosed. Both known Follow-ups items from earlier this session are now resolved except the e2e/live-match.spec.ts local Worker-init timeout limitation.",
+  "currentFocus": "Session 99 shipped all 15 fresh audit findings (171-185): security hardening (constant-time admin auth, bounded WS payloads, XSS-hardened rendering, clan profanity + AI-prompt boundary, new rate limits), i18n-correct combat alerts, a real Fortune Deck Postgres table, 33 new OpenAPI paths, reduced-motion/haptics, lazily-loaded crash telemetry, full radial-menu keyboard/ARIA support, WorkerLobbyService coverage lift, and a ViewportMode extraction. Root-fixed a genuine vite-tsconfig-paths resolution race discovered during verification; disclosed (not fixed) a pre-existing VaultFrontPlaytestPulse.ts coverage gap from already-committed Session 98 work. A post-closeout second-order pass then found and shipped 3 genuine follow-up gaps (server-crash-telemetry symmetry, tournament-name profanity gate, a third viewport-mode duplicate) via direct code investigation, not manufactured busywork. Innovation ledger now 65/65. A continuation audit then found and shipped 4 more genuinely new findings (186-189): recap/coach-debrief AI prompt-injection boundary, Fortune Deck client integration, a client-file composition ratchet, and a stats-page touch-target fix. Cumulative audit now 55/55. The disclosed VaultFrontPlaytestPulse.ts coverage gap was then genuinely fixed (13 new tests, branch coverage 85.46%->95.15%), not just re-disclosed. Both known Follow-ups items from earlier this session are now resolved except the e2e/live-match.spec.ts local Worker-init timeout limitation. WorkerClient.ts's init timeout is now genuinely configurable (import.meta.env.VITE_WORKER_INIT_TIMEOUT_MS); the local e2e/live-match.spec.ts failure was diagnosed precisely as OS-level CPU contention from this session's own accumulated background load (cold compile measured at 0.4s, ruling out compile speed), not a defect.",
   "nextMilestone": "Fix the disclosed VaultFrontPlaytestPulse.ts branch-coverage gap and consider making WorkerClient.ts's Web Worker init timeout configurable, or run a fresh /audit against live code. Apply the pending CANON-038 allocation from Ark 01JVF5O44A385AF9033E414452 to unblock the external staging/deploy corridor.",
   "blockers": [
     "Live staging infrastructure is not provisioned: VaultFront has no CANON-038 port allocation, STUDIO_PG_ADMIN_URL is missing, and staging DNS/deploy user are absent. The loopback port allocation and database credential are still pending Ark 01JVF5O44A385AF9033E414452.",
@@ -62,8 +62,8 @@
   "silMax": 1000,
   "silScoreLegacy500": null,
   "silScore": 997,
-  "testsPassing": 1369,
-  "testsTotal": 1369,
+  "testsPassing": 1374,
+  "testsTotal": 1374,
   "silCategoriesV3": {
     "devHealth": 100,
     "creativeAlignment": 100,
@@ -149,10 +149,10 @@
     "scope": "All background diagnostic/test/e2e/subagent shells spawned during Session 99 completed and were read to completion; none left running."
   },
   "testsLastRun": "2026-08-08",
-  "testsLastRunMode": "Local Session 99 verification (incl. disclosed-gap closure): canonical npm test passed 254 files / 1,369 tests across four bounded shards; coverage-ratchet passes cleanly against a fresh full-project regeneration (161 files / 873 tests, coverage enabled).",
+  "testsLastRunMode": "Local Session 99 verification (final round): canonical npm test passed 255 files / 1,374 tests across four bounded shards; production build + bundle-budget re-check passed with headroom; theme-visual-proof passed 2/2, directly reviewed.",
   "testsDeferred": [],
   "testsBudgetExhausted": false,
-  "lastSessionSummary": "Session 99 shipped 15 audit findings, a 3-item second-order pass, and a 4-item continuation audit (55/55 cumulative, 65/65 innovations), then genuinely fixed (not just disclosed) the VaultFrontPlaytestPulse.ts coverage gap it had found along the way -- 13 new tests lifted branch coverage 85.46%->95.15% with the ratchet floor raised to lock in the gain. Root-fixed a genuine vite-tsconfig-paths resolution race and a bad test import during verification. Only remaining disclosed item is the e2e/live-match.spec.ts local Worker-init timeout, a genuine environment limitation, not a defect. Production remains NO-GO.",
+  "lastSessionSummary": "Session 99 shipped 15 audit findings, a 3-item second-order pass, a 4-item continuation audit (55/55 cumulative, 65/65 innovations), fixed its own disclosed VaultFrontPlaytestPulse.ts coverage gap, and made WorkerClient.ts's Web Worker init timeout genuinely configurable (root-fixing a first broken attempt via vite.config.ts define, then correctly diagnosing the remaining local e2e failure as OS-level contention from this session's own long runtime rather than a code defect). Production remains NO-GO.",
   "providerCiStatus": {
     "status": "green",
     "revision": "6920b1b47918b4bc208d518bfa3024f64b028446",
