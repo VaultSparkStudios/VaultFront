@@ -25,7 +25,7 @@
     "tunnel": "npm run build-prod && npm run start:server",
     "test": "node scripts/run-vitest-shards.mjs",
     "test:server": "vitest run tests/server --maxWorkers=4",
-    "verify:contracts": "node scripts/check-project-status-writers.mjs && node scripts/check-client-reachability.mjs && node scripts/check-runtime-feature-reachability.mjs && node scripts/check-route-policy-coverage.mjs && node scripts/check-worker-composition.mjs && node scripts/check-vaultfront-execution-composition.mjs && node scripts/check-deploy-contract.mjs && node scripts/check-release-input-trust.mjs && node scripts/check-hosted-cron-contract.mjs && node scripts/check-vaultfront-balance-authority.mjs && node scripts/check-win-modal-composition.mjs && node scripts/check-openapi-route-drift.mjs",
+    "verify:contracts": "node scripts/check-project-status-writers.mjs && node scripts/check-client-reachability.mjs && node scripts/check-runtime-feature-reachability.mjs && node scripts/check-route-policy-coverage.mjs && node scripts/check-worker-composition.mjs && node scripts/check-vaultfront-execution-composition.mjs && node scripts/check-deploy-contract.mjs && node scripts/check-release-input-trust.mjs && node scripts/check-hosted-cron-contract.mjs && node scripts/check-vaultfront-balance-authority.mjs && node scripts/check-win-modal-composition.mjs && node scripts/check-openapi-route-drift.mjs && node scripts/check-client-composition.mjs",
     "verify:pages": "node scripts/check-pages-deploy-contract.mjs --artifact static",
     "verify:stats": "node scripts/generate-public-stats.mjs --check && node ../vaultspark-studio-ops/scripts/check-stats-surface.mjs --project . --json",
     "generate:stats": "node scripts/generate-public-stats.mjs --write",

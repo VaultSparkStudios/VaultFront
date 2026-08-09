@@ -1579,6 +1579,61 @@ export async function fetchWinFortune(
   }
 }
 
+export interface FortuneCollectionEntry {
+  itemId: string;
+  name: string;
+  rarity: "common" | "rare" | "legendary";
+  type: "title" | "badge" | "emoji" | null;
+  value: string | null;
+  drawnAt: number | null;
+}
+
+export async function fetchFortuneCollection(persistentId: string): Promise<{
+  items: FortuneCollectionEntry[];
+  equippedTitle: string | null;
+} | null> {
+  try {
+    const res = await fetch(
+      `${getApiBase()}/api/vaultfront/fortune-collection/${encodeURIComponent(persistentId)}`,
+      { headers: await vaultFrontIdentityHeaders() },
+    );
+    if (!res.ok) return null;
+    return (await res.json()) as {
+      items: FortuneCollectionEntry[];
+      equippedTitle: string | null;
+    };
+  } catch {
+    return null;
+  }
+}
+
+export async function equipFortuneTitle(
+  itemId: string,
+): Promise<{ ok: true; title: string } | { ok: false; error: string }> {
+  try {
+    const res = await fetch(
+      `${getApiBase()}/api/vaultfront/fortune-collection/equip`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(await vaultFrontIdentityHeaders()),
+        },
+        body: JSON.stringify({ itemId }),
+      },
+    );
+    const data = (await res.json().catch(() => null)) as
+      { ok: true; title: string } | { error?: string } | null;
+    if (res.ok && data && "ok" in data && data.ok) {
+      return { ok: true, title: data.title };
+    }
+    const error = data && "error" in data ? data.error : undefined;
+    return { ok: false, error: error ?? `Equip failed (HTTP ${res.status}).` };
+  } catch {
+    return { ok: false, error: "Equip is temporarily unavailable." };
+  }
+}
+
 export async function fetchPrematchBrief(
   persistentId: string,
   mapName: string,

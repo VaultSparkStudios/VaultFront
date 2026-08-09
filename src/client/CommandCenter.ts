@@ -13,6 +13,8 @@ import { getUserMe } from "./Api";
 import "./ClanModal";
 import type { ClanModal } from "./ClanModal";
 import { featureLivenessGraph } from "./FeatureLiveness";
+import "./FortuneCollectionPanel";
+import type { FortuneCollectionPanel } from "./FortuneCollectionPanel";
 import "./SeasonPassTrack";
 import type { SeasonPassTrack } from "./SeasonPassTrack";
 import "./TournamentModal";
@@ -87,9 +89,13 @@ export class CommandCenter extends LitElement {
     const achievements =
       this.querySelector<AchievementsPanel>("achievements-panel");
     const season = this.querySelector<SeasonPassTrack>("season-pass-track");
+    const fortune = this.querySelector<FortuneCollectionPanel>(
+      "fortune-collection-panel",
+    );
     await Promise.allSettled([
       achievements?.loadForPlayer(persistentId),
       season?.loadForPlayer(persistentId),
+      fortune?.loadForPlayer(persistentId),
     ]);
     if (epoch === this.hydrationEpoch) {
       this.lastHydratedAt = Date.now();
@@ -205,6 +211,11 @@ export class CommandCenter extends LitElement {
               class="rounded-2xl border border-white/10 bg-black/20 p-4 sm:p-6"
             >
               <season-pass-track></season-pass-track>
+            </article>
+            <article
+              class="rounded-2xl border border-white/10 bg-black/20 p-4 sm:p-6 xl:col-span-2"
+            >
+              <fortune-collection-panel></fortune-collection-panel>
             </article>
           </div>
 

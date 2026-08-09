@@ -57,6 +57,15 @@ daily-challenge-system (DailyChallengeStore + HUD card), vault-intelligence-mark
 - [ ] [SIL] Audit #178's L3 stretch (aria-live hovered-action announcement in `RadialMenu.ts` + a dedicated keyboard-only Playwright spec) was intentionally descoped to L1+L2; still open if deeper accessibility polish is prioritized.
 - [ ] [SIL] Audit #184's L1 scope covered only `WorkerLobbyService.ts`; `GameRightSidebar.ts` (24.71% lines) still sits below a healthy bar and was left untouched to avoid a merge conflict with the parallel #185 extraction.
 - [ ] [SIL] Audit #185's L1 scope covered only the `ViewportMode.ts` extraction; the larger `renderReroutePreviewPanel` extraction from `ControlPanel.ts` (L2/L3) remains open.
+- [ ] [SIL] Audit #188's client-file composition ratchet (`scripts/check-client-composition.mjs`) intentionally excludes `Api.ts` — it was under concurrent edit by a parallel #187 agent when the ratchet was written. Add `Api.ts`'s budget once its post-#187 size is known.
+- [ ] [SIL] Audit #187's L1+L2 scope wires the client to the Fortune Deck collection/equip endpoints but intentionally skips L3's `NameLayer.ts`/leaderboard equipped-title rendering, per its own ladder — still open if deeper reward-visibility polish is prioritized.
+
+## Completed (2026-08-08 — Session 99 continuation audit: 4 new items, 186-189)
+
+- [done] A fresh `/audit` against live code (explicitly excluding everything already shipped or disclosed this session) found and shipped 4 genuinely new findings: `RECAP_SYSTEM_PROMPT`/`COACH_DEBRIEF_SYSTEM_PROMPT` prompt-injection boundary gap (security, mirrors the #174 clan-name fix, extended defensively to all 6 system prompts); Fortune Deck client-integration closure (`Api.ts` gained `fetchFortuneCollection`/`equipFortuneTitle`, new `FortuneCollectionPanel.ts` mounted in `CommandCenter.ts`); `scripts/check-client-composition.mjs` extending the Worker.ts/WinModal.ts line-budget-ratchet pattern to `ControlPanel.ts`/`GameRightSidebar.ts`/`RadialMenu.ts`/`VaultFrontLayer.ts`; and the public `/stats` theme-toggle touch target raised 40px→44px.
+- [done] Cumulative audit reaches 55/55 shipped.
+- [done] Verification: full suite re-confirmed green at 254 files / 1,356 tests; typecheck, lint, Prettier ratchet, `verify:contracts`, and doctor (13/13, `blockingFailing: 0`) all pass directly. Fresh Playwright visual proof 2/2, directly reviewed with no regressions.
+- [release-evidence] Production remains NO-GO pending approved staging/parity, project-domain Zoho reply identity, native Obelisk, live theme evidence, three authenticated humans, real revenue, observed rollback, exact-revision provider CI, and founder approval.
 
 ## Completed (2026-08-08 — Session 99 second-order pass: 3 genuine follow-up gaps)
 

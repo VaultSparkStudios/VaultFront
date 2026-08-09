@@ -4,14 +4,16 @@ Detailed internal scoring, audit trends, and brainstorming are maintained privat
 
 <!-- rolling-status-start -->
 
-Total: 997/1000 | Velocity: 18 | Debt: ↓ | Velocity trend: ↑
+Total: 997/1000 | Velocity: 22 | Debt: ↓ | Velocity trend: ↑
 Avgs — 3: 997.0 | 5: 997.0 | 10: 997.0 | 25: 992.1 | all: 992.1 | Last 5: 997 → 997 → 997 → 997 → 997 | Intent rate: 100%
 Categories: Dev 100 | Align 100 | Momentum 100 | Engage 99 | Process 100 | Coherence 99 | Security 100 | Ecosystem 99 | Capital 100 | Automation 100
-Last session: 2026-08-08 Session 99 accessibility, security hardening, infra-race root-fixes, and a second-order pass
+Last session: 2026-08-08 Session 99 accessibility, security hardening, infra-race root-fixes, a second-order pass, and a continuation audit
 
 <!-- rolling-status-end -->
 
-**Addendum (same session, post-closeout):** a second-order pass audited where Session 99's own shipped patterns should apply elsewhere and found three genuine gaps, each confirmed by direct code reading before implementing (not manufactured to hit a quota): server-process crash telemetry now has the same bounded, queryable record client crashes do (`ServerCrashStore.ts`, wired into `Worker.ts` and `Master.ts` -- `Master.ts` previously had zero crash-handler coverage); the tournament-creation route gained the same profanity gate the sibling clan-creation route already had; and a third undetected duplicate of the `viewportWidth()` logic was found in `GameLeftSidebar.ts` and migrated to the shared `ViewportMode.ts` util. Innovation ledger advances 62/62 → 65/65; full suite re-confirmed green at 250 files / 1,340 tests. Total/category scores are unchanged (997/1000, same evidence class as the entry below) since this addendum is the same session's own honest-innovation-generation step, not new session-level work.
+**Addendum 2 (same session, continuation audit):** rather than stopping after the second-order pass, ran a fresh `/audit` against live code and found 4 more genuinely new findings (186-189): the `RECAP_SYSTEM_PROMPT`/`COACH_DEBRIEF_SYSTEM_PROMPT` prompt-injection boundary gap (security, mirrors an already-shipped fix, defensively extended to all 6 prompts); the Fortune Deck reward's client integration was fully missing despite the server half shipping earlier this session (now closed via `Api.ts` + a new `FortuneCollectionPanel.ts`); a client-file line-budget ratchet extending an already-proven pattern to 4 more ungoverned files; and a real 4px touch-target gap on the public `/stats` page. Cumulative audit reaches 55/55. Full suite re-confirmed green at 254 files / 1,356 tests. Total/category scores unchanged (997/1000) -- this is the same session's own audit-and-implement discipline, not new session-level work.
+
+**Addendum 1 (same session, post-closeout):** a second-order pass audited where Session 99's own shipped patterns should apply elsewhere and found three genuine gaps, each confirmed by direct code reading before implementing (not manufactured to hit a quota): server-process crash telemetry now has the same bounded, queryable record client crashes do (`ServerCrashStore.ts`, wired into `Worker.ts` and `Master.ts` -- `Master.ts` previously had zero crash-handler coverage); the tournament-creation route gained the same profanity gate the sibling clan-creation route already had; and a third undetected duplicate of the `viewportWidth()` logic was found in `GameLeftSidebar.ts` and migrated to the shared `ViewportMode.ts` util. Innovation ledger advances 62/62 → 65/65; full suite re-confirmed green at 250 files / 1,340 tests. Total/category scores are unchanged (997/1000, same evidence class as the entry below) since this addendum is the same session's own honest-innovation-generation step, not new session-level work.
 
 ## 2026-08-08 — Session 99 | Total: 997/1000 | Velocity: 15
 

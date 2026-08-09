@@ -2,6 +2,14 @@
 
 Append chronological entries.
 
+### 2026-08-08 — Session 99 continuation audit (same session)
+
+- Ran a fresh `/audit` against live code with an explicit exclusion list (nothing from items 167-185, the disclosed Follow-ups, or the second-order addendum) and found 4 more genuinely new findings, appended as items 186-189, all shipped — several other candidates were investigated and correctly dropped on pre-verification (a false "no composition ratchet exists" theory, a `/stats` theme-scope non-issue).
+- What changed: `RECAP_SYSTEM_PROMPT`/`COACH_DEBRIEF_SYSTEM_PROMPT` gained the same untrusted-player-data prompt-injection boundary `DYNASTY_SYSTEM_PROMPT` got this session, closing a gap where both fed the same attacker-controllable username field straight to Claude unguarded — extended defensively to every other system prompt too, so the gap can't reopen via a future input change; `Api.ts` gained `fetchFortuneCollection`/`equipFortuneTitle` and a new `FortuneCollectionPanel.ts` (mirroring `AchievementsPanel`, mounted in `CommandCenter.ts`) closes the Fortune Deck client-integration gap left by #180's server-only fix; `scripts/check-client-composition.mjs` extends the proven Worker.ts/WinModal.ts line-budget-ratchet pattern to `ControlPanel.ts` (largest ungoverned client file)/`GameRightSidebar.ts`/`RadialMenu.ts`/`VaultFrontLayer.ts`; `public/stats.css`'s theme-toggle touch target raised 40px→44px.
+- Files touched: `RemoteAiPrompts.ts`, `Api.ts`, `FortuneCollectionPanel.ts` (new), `CommandCenter.ts`, `scripts/check-client-composition.mjs` (new), `public/stats.css`, `package.json` (verify:contracts wiring), plus new/extended tests.
+- Cumulative audit reaches 55/55 shipped.
+- Verification: full suite re-confirmed green at 254 files / 1,356 tests; typecheck, lint, Prettier ratchet, `verify:contracts`, and doctor (13/13, `blockingFailing: 0`) all pass directly. Fresh Playwright visual proof 2/2, directly reviewed with no regressions.
+
 ### 2026-08-08 — Session 99 second-order addendum (same session)
 
 - Rather than stopping at the 15 shipped audit items, dispatched a read-only investigation asking whether Session 99's own new patterns (constant-time comparison, client crash telemetry, profanity filtering, viewport-mode extraction) had untreated siblings elsewhere in the codebase. Found 3 genuine gaps with concrete file:line evidence (and confirmed one area, timing-safe comparisons, was already fully covered) — not manufactured busywork to hit a quota.

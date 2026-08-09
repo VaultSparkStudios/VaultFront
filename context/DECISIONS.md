@@ -1,3 +1,11 @@
+## 2026-08-08 — Client-file line-budget ratchet extended beyond Worker.ts/WinModal.ts (audit #188)
+
+**Decision:** New `scripts/check-client-composition.mjs`, wired into `verify:contracts`, ratchets `ControlPanel.ts` (3560), `GameRightSidebar.ts` (1600), `RadialMenu.ts` (1545), and `VaultFrontLayer.ts` (2120) at their currently-measured sizes plus small headroom.
+
+**Why:** `check-worker-composition.mjs` and `check-win-modal-composition.mjs` both proved the line-budget-ratchet pattern stops god-object files from silently regrowing after being trimmed, but the pattern only covered those two files. `ControlPanel.ts` (the single largest client file, ~49% larger than the already-ratcheted `WinModal.ts`) is mid-extraction per the open #185 follow-up and had zero enforced budget — nothing would fail if it grew straight back past its pre-extraction size the moment that follow-up landed. `Api.ts` is intentionally excluded from this registry: it was under concurrent edit by a parallel audit #187 agent (wiring the Fortune Deck client) at the time this ratchet was written, so including it here risked a spurious race-induced failure. Add it in a follow-up once that work lands and its post-change size is known.
+
+**Consequence:** All four files stay under their new ceilings with a small margin; any further growth (including once the #185 `renderReroutePreviewPanel` extraction lands) fails the composition contract and must be justified the same way the Worker/WinModal ratchets are. `Api.ts` remains an open gap, tracked in `context/TASK_BOARD.md` Follow-ups.
+
 ## 2026-08-08 — Explicit `src/` Vite alias added to bypass a `vite-tsconfig-paths` resolution race
 
 **Decision:** `vite.config.ts`'s `resolve.alias` array gained an explicit `{ find: /^src\//, replacement: path.resolve(__dirname, "src") + "/" }` entry, resolved synchronously by Vite's own core alias plugin ahead of any third-party resolver.
