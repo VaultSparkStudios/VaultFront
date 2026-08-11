@@ -23,7 +23,7 @@ export function isLoopbackHostname(hostname: string): boolean {
 function normalizeWebSocketOrigin(origin: string | undefined): string {
   const normalized = normalizeOrigin(origin);
   if (!normalized) {
-    return `${window.location.protocol === "https:" ? "wss:" : "ws:"}//${window.location.host}`;
+    return `${globalThis.location.protocol === "https:" ? "wss:" : "ws:"}//${globalThis.location.host}`;
   }
   if (normalized.startsWith("http://")) {
     return `ws://${normalized.slice("http://".length)}`;
@@ -62,7 +62,7 @@ export function appRelativePath(path = ""): string {
 }
 
 export function appUrl(path = ""): string {
-  return new URL(appRelativePath(path), window.location.origin).toString();
+  return new URL(appRelativePath(path), globalThis.location.origin).toString();
 }
 
 export function stripAppBase(pathname: string): string {
@@ -82,12 +82,13 @@ export function stripAppBase(pathname: string): string {
 }
 
 export function currentAppPathname(): string {
-  return stripAppBase(window.location.pathname);
+  return stripAppBase(globalThis.location.pathname);
 }
 
 export function gameServiceOrigin(): string {
   return (
-    normalizeOrigin(process?.env?.GAME_SERVICE_ORIGIN) || window.location.origin
+    normalizeOrigin(process?.env?.GAME_SERVICE_ORIGIN) ||
+    globalThis.location.origin
   );
 }
 
@@ -123,7 +124,7 @@ export function workerGameUrl(
 ): string {
   return new URL(
     workerGamePath(workerPath, gameId, search),
-    window.location.origin,
+    globalThis.location.origin,
   ).toString();
 }
 

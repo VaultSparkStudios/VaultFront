@@ -6,6 +6,7 @@ import {
 import { GameStartInfoSchema } from "../src/core/Schemas";
 import {
   projectMatchPlayer,
+  resolveAdmissionFortuneTitle,
   resolveEquippedFortuneTitle,
 } from "../src/server/PlayerIdentityProjection";
 
@@ -98,5 +99,25 @@ describe("authoritative Fortune title identity", () => {
       ),
     ).resolves.toBeNull();
     expect(report).toHaveBeenCalledOnce();
+  });
+
+  test("reports admission lookup failures with the affected game", async () => {
+    const log = { warn: vi.fn() };
+    await expect(
+      resolveAdmissionFortuneTitle(
+        "player-1",
+        "game-1",
+        {
+          getEquippedTitle: async () => {
+            throw new Error("database unavailable");
+          },
+        },
+        log,
+      ),
+    ).resolves.toBeNull();
+    expect(log.warn).toHaveBeenCalledWith(
+      "equipped Fortune title unavailable during admission",
+      expect.objectContaining({ gameID: "game-1" }),
+    );
   });
 });

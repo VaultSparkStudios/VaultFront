@@ -30,13 +30,13 @@ test.describe("Live match", () => {
     const modal = page.locator("single-player-modal");
     await expect(modal).toBeVisible({ timeout: 5_000 });
 
-    // Use the smallest shipped map plus one real opponent. The previous
-    // "compact" fixture still booted World with 100 bots, so Vite's cold
-    // worker compile and bot initialization exhausted the bounded worker-init
-    // window before the authoritative game could emit its first status.
+    // Use a small match and auto-spawn the human player. Without Random Spawn,
+    // the game correctly waits for manual map placement and cannot emit the
+    // player-authoritative VaultFront status used as the readiness boundary.
     await modal.getByRole("tab", { name: /all/i }).click();
     await modal.getByRole("button", { name: /bosphorus straits/i }).click();
     await modal.getByRole("button", { name: "Compact Map" }).click();
+    await modal.getByRole("button", { name: "Random Spawn" }).click();
 
     const botSlider = modal.locator(
       'fluent-slider[labelkey="single_modal.bots"] input[type="range"]',
@@ -57,13 +57,23 @@ test.describe("Live match", () => {
       timeout: 30_000,
     });
 
-    await page.waitForFunction(
-      () =>
-        (window as unknown as { __vfMatchReady?: boolean }).__vfMatchReady ===
-        true,
-      undefined,
-      { timeout: 60_000 },
-    );
+    await expect
+      .poll(
+        () =>
+          page.evaluate(() => {
+            const panel = document.querySelector(
+              "control-panel",
+            ) as unknown as { latestVaultStatus?: unknown } | null;
+            return {
+              event:
+                (window as unknown as { __vfMatchReady?: boolean })
+                  .__vfMatchReady === true,
+              status: panel?.latestVaultStatus != null,
+            };
+          }),
+        { timeout: 60_000 },
+      )
+      .toEqual({ event: true, status: true });
 
     await expect(page.locator("canvas")).toBeVisible();
     await expect(page.locator("control-panel #resource-focus")).toBeVisible({

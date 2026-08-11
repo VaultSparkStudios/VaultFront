@@ -43,7 +43,7 @@ export async function getServerConfigFromClient(): Promise<ServerConfig> {
     cachedSC = getServerConfig(config.game_env);
     return cachedSC;
   } catch (error) {
-    if (!isLoopbackHostname(window.location.hostname)) throw error;
+    if (!isLoopbackHostname(globalThis.location.hostname)) throw error;
     console.warn("Local game service unavailable; using Solo configuration");
     cachedSC = getServerConfig("dev");
     return cachedSC;

@@ -25,7 +25,7 @@ import {
   PersistentIdSchema,
   ServerErrorMessage,
 } from "../core/Schemas";
-import { generateID, replacer } from "../core/Util";
+import { replacer } from "../core/Util";
 import { CreateGameInputSchema } from "../core/WorkerSchemas";
 import { registerAchievementRoutes } from "./AchievementRouter";
 import { achievementStore } from "./AchievementStore";
@@ -51,7 +51,6 @@ import { registerCertifiedOutcomeRoutes } from "./CertifiedOutcomeRouter";
 import { certifiedOutcomeStore } from "./CertifiedOutcomeStore";
 import { certifiedSeasonContractStore } from "./CertifiedSeasonContractStore";
 import { clanStore } from "./ClanStore";
-import { Client } from "./Client";
 import { registerClientCrashRoutes } from "./ClientCrashRouter";
 import { clientCrashStore } from "./ClientCrashStore";
 import { registerDailyMasteryRoute } from "./DailyMasteryRouter";
@@ -79,7 +78,7 @@ import { registerMatchFeedbackRoutes } from "./MatchFeedbackRouter";
 import { matchFeedbackStore } from "./MatchFeedbackStore";
 import { verifyMatchResultCertificate } from "./MatchResultCertificate";
 import { narratorBus, type NarratorPersona } from "./NarratorBus";
-import { resolveEquippedFortuneTitle } from "./PlayerIdentityProjection";
+import { createAdmittedClient } from "./PlayerIdentityProjection";
 import { playerStatsStore, type MatchHistoryEntry } from "./PlayerStatsStore";
 import { registerPlaytestEvidenceRoutes } from "./PlaytestEvidenceRouter";
 import { playtestEvidenceStore } from "./PlaytestEvidenceStore";
@@ -2254,32 +2253,20 @@ export async function startWorker() {
           }
         }
 
-        // Resolve social identity from the authenticated server-owned store;
-        // the join message never carries or controls this field.
-        const equippedFortuneTitle = await resolveEquippedFortuneTitle(
-          persistentId,
-          (id) => fortuneDeck.getEquippedTitle(id),
-          (error) =>
-            log.warn("equipped Fortune title unavailable during admission", {
-              gameID: clientMsg.gameID,
-              error: String(error),
-            }),
-        );
-
-        // Create client and add to game
-        const client = new Client(
-          generateID(),
+        const client = await createAdmittedClient({
           persistentId,
           claims,
           roles,
           flares,
           ip,
-          censoredUsername,
-          clientMsg.username,
+          username: censoredUsername,
+          uncensoredUsername: clientMsg.username,
           ws,
-          cosmeticResult.cosmetics,
-          equippedFortuneTitle,
-        );
+          cosmetics: cosmeticResult.cosmetics,
+          gameID: clientMsg.gameID,
+          reader: fortuneDeck,
+          log,
+        });
 
         const joinResult = gm.joinClient(client, clientMsg.gameID);
 
