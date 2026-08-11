@@ -75,8 +75,8 @@ Add the following **Variables**:
 | Variable                    | Value                           |
 | --------------------------- | ------------------------------- |
 | `DOMAIN`                    | `vaultsparkstudios.com`         |
-| `GHCR_REPO`                 | `vaultsparkstudios/vaultfront`  |
-| `GHCR_USERNAME`             | Your GHCR org username          |
+| `GHCR_REPO`                 | `vaultfront`                    |
+| `GHCR_USERNAME`             | `vaultsparkstudios`             |
 | `DEPLOY_REMOTE_USER`        | `vaultfront`                    |
 | `DEPLOY_REMOTE_SCRIPT_PATH` | `/opt/vaultfront/update.sh`     |
 | `DEPLOY_INGRESS_PORT`       | Allocated loopback ingress port |

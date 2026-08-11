@@ -201,7 +201,7 @@ jobs:
           GHCR_USERNAME: ${{ vars.GHCR_USERNAME }}
         run: |
           set -euo pipefail
-          IMAGE_REF="${GHCR_USERNAME}/${GHCR_REPO}@${IMAGE_DIGEST}"
+          IMAGE_REF="ghcr.io/${GHCR_USERNAME}/${GHCR_REPO}@${IMAGE_DIGEST}"
           docker pull "$IMAGE_REF"
           EXPECTED_GIT_SHA="$(docker image inspect --format '{{ index .Config.Labels "org.opencontainers.image.revision" }}' "$IMAGE_REF")"
           [[ "$EXPECTED_GIT_SHA" =~ ^[0-9a-f]{40}$ ]]

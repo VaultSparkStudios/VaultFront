@@ -58,7 +58,7 @@ IMAGE_RETENTION_COUNT="${DEPLOY_IMAGE_RETENTION:-5}"
     exit 2
 }
 
-GHCR_IMAGE="${GHCR_USERNAME}/${GHCR_REPO}@${IMAGE_DIGEST}"
+GHCR_IMAGE="ghcr.io/${GHCR_USERNAME}/${GHCR_REPO}@${IMAGE_DIGEST}"
 if [[ "${DEPLOY_DRY_RUN:-0}" == "1" ]]; then
     printf 'deploy-contract ok environment=%s host=%s subdomain=%s image=%s health=%s ingress=127.0.0.1:%s retention=%s\n' \
         "$ENVIRONMENT" "$HOST_LABEL" "$SUBDOMAIN" "$GHCR_IMAGE" "$DEPLOY_HEALTH_URL" "$DEPLOY_INGRESS_PORT" "$IMAGE_RETENTION_COUNT"

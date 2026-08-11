@@ -46,6 +46,7 @@ for (const script of deploymentScripts) {
 }
 
 const deploy = read("deploy.sh");
+const build = read("build.sh");
 const update = read("update.sh");
 const buildDeploy = read("build-deploy.sh");
 const deployWorkflow = read(".github/workflows/deploy.yml");
@@ -83,6 +84,21 @@ requireText(
   deploy,
   /\^sha256:\[0-9a-f\]\{64\}\$/u,
   "deploy.sh does not validate immutable digests",
+);
+requireText(
+  build,
+  /GHCR_IMAGE="ghcr\.io\/\$\{GHCR_USERNAME\}\/\$\{GHCR_REPO\}:\$\{VERSION_TAG\}"/u,
+  "build.sh does not qualify the image with ghcr.io",
+);
+requireText(
+  deploy,
+  /GHCR_IMAGE="ghcr\.io\/\$\{GHCR_USERNAME\}\/\$\{GHCR_REPO\}@\$\{IMAGE_DIGEST\}"/u,
+  "deploy.sh does not qualify the immutable image with ghcr.io",
+);
+requireText(
+  promoteWorkflow,
+  /IMAGE_REF="ghcr\.io\/\$\{GHCR_USERNAME\}\/\$\{GHCR_REPO\}@\$\{IMAGE_DIGEST\}"/u,
+  "promotion does not inspect the attested image from ghcr.io",
 );
 for (const [name, body] of [
   ["deploy workflow", deployWorkflow],
@@ -531,7 +547,9 @@ const dryRun = spawnSync(
   { cwd: ROOT, encoding: "utf8", env: baseEnv },
 );
 check(
-  dryRun.status === 0 && /deploy-contract ok/u.test(String(dryRun.stdout)),
+  dryRun.status === 0 &&
+    /deploy-contract ok/u.test(String(dryRun.stdout)) &&
+    String(dryRun.stdout).includes("ghcr.io/vaultsparkstudios/vaultfront@"),
   `staging dry-run failed: ${String(dryRun.stderr).trim()}`,
 );
 const mutable = spawnSync(
