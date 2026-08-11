@@ -86,6 +86,9 @@ describe("release truth boundary", () => {
 
     expect(updater).toContain('NETWORK_NAME="${DEPLOYMENT_KEY}-private"');
     expect(updater).toContain(
+      'docker network connect "$NETWORK_NAME" "$DATABASE_DOCKER_CONTAINER"',
+    );
+    expect(updater).toContain(
       '--publish "127.0.0.1:${DEPLOY_INGRESS_PORT}:80"',
     );
     expect(updater).not.toContain("traefik.");

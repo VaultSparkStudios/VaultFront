@@ -161,6 +161,16 @@ requireText(
 );
 requireText(
   update,
+  /docker network connect "\$NETWORK_NAME" "\$DATABASE_DOCKER_CONTAINER"/u,
+  "remote updater does not attach the database to the project-private network",
+);
+requireText(
+  deploy,
+  /write_env DATABASE_DOCKER_CONTAINER/u,
+  "deploy transport does not carry the private database container contract",
+);
+requireText(
+  update,
   /DEPLOY_DRAIN_TIMEOUT_SECONDS/u,
   "remote updater has no bounded incumbent drain input",
 );

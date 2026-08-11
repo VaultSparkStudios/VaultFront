@@ -58,6 +58,21 @@ docker pull "$GHCR_IMAGE"
 docker image inspect "$GHCR_IMAGE" > /dev/null
 : "${DATABASE_URL:?DATABASE_URL is required for release migration}"
 docker network create "$NETWORK_NAME" > /dev/null 2>&1 || true
+DATABASE_DOCKER_CONTAINER="${DATABASE_DOCKER_CONTAINER:-}"
+if [[ -n "$DATABASE_DOCKER_CONTAINER" ]]; then
+    [[ "$DATABASE_DOCKER_CONTAINER" =~ ^[a-zA-Z0-9][a-zA-Z0-9_.-]*$ ]] || {
+        echo "DATABASE_DOCKER_CONTAINER has an invalid Docker identifier" >&2
+        exit 2
+    }
+    docker network connect "$NETWORK_NAME" "$DATABASE_DOCKER_CONTAINER" > /dev/null 2>&1 || {
+        docker inspect \
+            --format '{{json .NetworkSettings.Networks}}' \
+            "$DATABASE_DOCKER_CONTAINER" | grep -q "\\\"${NETWORK_NAME}\\\"" || {
+                echo "Database container could not join the project-private network" >&2
+                exit 1
+            }
+    }
+fi
 docker run --rm \
     --network "$NETWORK_NAME" \
     --env-file "$ENV_FILE" \
