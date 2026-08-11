@@ -156,6 +156,11 @@ requireText(
 );
 requireText(
   update,
+  /IMAGE_DIGEST="\$\{GHCR_IMAGE##\*@\}"/u,
+  "remote updater does not derive its digest label from the validated image reference",
+);
+requireText(
+  update,
   /DEPLOY_DRAIN_TIMEOUT_SECONDS/u,
   "remote updater has no bounded incumbent drain input",
 );

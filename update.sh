@@ -18,6 +18,7 @@ source "$ENV_FILE"
     echo "Remote update rejected a mutable image reference" >&2
     exit 2
 }
+IMAGE_DIGEST="${GHCR_IMAGE##*@}"
 [[ "$DEPLOY_INGRESS_PORT" =~ ^[0-9]+$ ]] \
     && ((DEPLOY_INGRESS_PORT >= 8110 && DEPLOY_INGRESS_PORT <= 8999)) || {
     echo "DEPLOY_INGRESS_PORT must be an allocated CANON-038 port in 8110-8999" >&2
