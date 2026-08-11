@@ -1,3 +1,11 @@
+## Recovery Addendum — Session 99 write-back complete (2026-08-11)
+
+- Recovery classification: the tree was clean and synced, but one substantive commit (`1105af17`) followed the Session 99 SIL anchor. This was a post-closeout write-back omission, not uncommitted implementation.
+- Recovered truth: `src/client/Api.ts` is governed by the client composition ratchet at 2,043/2,060 lines, closing the tracked #188 follow-up with a measured post-integration budget.
+- Score boundary: Session 99 remains 997/1000 and its velocity is not incremented; the recovery records provenance without relabeling already-shipped work.
+- Release boundary: public-unlaunched / NO-GO remains in force until the external staging, identity, mail, live-theme, human, revenue, rollback, and founder gates are observed.
+- Next: begin the fresh Session 100 Arc from this recovered boundary, audit live game and release surfaces, implement every admitted item, then verify staging before any production promotion.
+
 ## Where We Left Off — Session 99 complete (2026-08-08)
 
 - Branch: `main`; a fresh `/audit` against live code (continuing directly from Session 98's recovery closeout in this same conversation) found 15 new premise-verified findings, all 15 shipped. Cumulative audit reaches 51/51; innovations remain 62/62.

@@ -1,53 +1,40 @@
 <!-- generated-by: scripts/compact-handoff.mjs v3.1 -->
-<!-- source-hash: 51182851f1b7 -->
-<!-- generated-at: 2026-08-07T23:40:56.916Z -->
+<!-- source-hash: 5f78da8ac6e9 -->
+<!-- generated-at: 2026-08-11T05:12:03.019Z -->
 
 # LATEST_HANDOFF (compact)
 
-SESSION 97 HANDOFF SUMMARY
+SESSION: 99 complete (2026-08-08), branch main. Cumulative audit 51/51, innovations 62/62 — local arc exhausted.
 
-Status
+SHIPPED THIS SESSION
 
-- Session 97 complete on branch main. Local arc exhausted: audit 32/32, innovations 62/62. No pending unblocked code work.
+- Security: bounded WebSocket payload cap, shared constant-time admin-token comparator (8 sites), XSS-hardened player-name render, clan-name/description profanity filter with untrusted-data boundary in Dynasty AI prompt, rate limits on 4 write endpoints.
+- Features/fixes: i18n combat alerts via typed params (MIRV/atom/hydrogen/naval), real Fortune Deck Postgres table (fixed silent write-failure), 33 OpenAPI path entries (6 route families), reduced-motion + mobile-haptics VFX, lazy client crash telemetry (dynamic import).
+- Quality: full keyboard/ARIA radial menu (57 tests), WorkerLobbyService coverage 27%->92% (18 tests), shared ViewportMode.ts extraction, live-match e2e spec.
+- Infra root-fixes: vite-tsconfig-paths async race fixed with explicit sync alias (reproduced 3/3); one bare import in AllianceAcceptNukes.test.ts corrected.
 
-Shipped (Session 97)
+VERIFICATION
 
-- Durable certified archive outbox; safe candidate-first deployment drain; achievement rehydration.
-- Complete runtime state-scope inventory; Turnstile token redaction; bounded request-owned remote-AI executor.
-- Cause-bound coaching; reachable Doctrine continuation; accessible reroute decision matrix.
-- Fixed light-theme contrast defect via real-browser inspection across three themes, desktop/mobile.
+- npm test: 249 files / 1,333 tests pass across 4 shards. TypeScript, ESLint, Prettier, verify:contracts, bundle-budget all green. Brotli baseline ratcheted to 592,938 bytes (DECISIONS.md).
 
-Verification
+CURRENT INTENT
 
-- Security head 6920b1b passed CI 31226843311, E2E 31226843279, Release 31226843269, brief-format, Dependabot.
-- 232 files / 1,221 tests green; build, lint, format, bundle, production audit all pass.
-- Nano ID 3.3.18 trust-approved (fixes 3.3.17 async native zero-size guard); DOMPurify pinned 3.4.13.
-- CANON-053 passes at source digest sha256:caabe5a9...622944; 114 artifacts hash-bound.
-- Closeout commit is evidence-only, uses [skip ci].
+- Continue agent-neutral /start->/audit->/implement->/closeout arc; implement premise-verified findings at highest bar, root-fix infra defects, disclose out-of-scope regressions, never fabricate external release evidence.
 
-Current Intent
+NOW (top 3)
 
-- Reach public release; posture is public-unlaunched / NO-GO. Do not promote production or claim deployment until every release observation is verified in gate order.
+1. Fix disclosed VaultFrontPlaytestPulse.ts branch coverage gap (87.66% vs 90.78% floor) — real Session 98 regression, logged in TASK_BOARD Follow-ups.
+2. Fix WorkerClient.ts:63 hardcoded 20s worker-init timeout causing live-match.spec.ts local timeout; make configurable, verify in CI.
+3. Or run fresh /audit against live code for next findings.
 
-Now (top 3)
+BLOCKERS (top 3)
 
-- Await Ark reply 01JVF5O44A385AF9033E414452 for VaultFront CANON-038 port allocation and Caddy-to-Traefik topology reconciliation.
-- Obtain durable database credential (STUDIO_PG_ADMIN_URL) plus staging DNS and deploy user.
-- Resume live staging; collect parity, health, identity, delivery, human, revenue, rollback, founder evidence in gate order.
+1. Release NO-GO: public-unlaunched; no approved staging/parity, live-theme, or founder approval.
+2. e2e live-match.spec.ts times out locally (3/3) on cold Vite compile — not a spec defect; needs CI verification.
+3. VaultFrontPlaytestPulse coverage regression pending fix.
 
-Blockers (top 3)
+HUMAN-BLOCKED
 
-- No CANON-038 port allocation for VaultFront; live preflight stopped before mutation.
-- Host runs Caddy but checked-in updater requires Traefik; no approved transport.
-- Missing staging DNS, deploy user, and STUDIO_PG_ADMIN_URL credential.
+- Ark allocation 01JVF5O44A385AF9033E414452 governs external staging/deploy corridor — pending since Session 97 (~2 sessions). No staging DNS, deploy user, STUDIO_PG_ADMIN_URL, or Caddy-to-Traefik transport approval.
 
-Human-Blocked (owner-owned)
-
-- Ark 01JVF5O44A385AF9033E414452 (owner topology/allocation reconciliation) — opened Session 97.
-- Ark 01JVF5O... database credential provisioning — Session 97.
-- Studio registry type reconciliation, ack 01JUJOJL1K040B6517CAF2EFA9 — open since Session 89.
-- Ark incidents 01JUNMP9IR... (board renderer regeneration) and 01JUNMMD11... (registry path) — since Session 89.
-
-Next Session Pointer
-
-- Do not touch code; poll Ark for the allocation/topology and DB credential replies, then execute live staging gate corridor.
+NEXT: Fix VaultFrontPlaytestPulse coverage + WorkerClient timeout, or run fresh /audit.

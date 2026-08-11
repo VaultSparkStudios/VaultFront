@@ -2,6 +2,14 @@
 
 # Truth Audit
 
+## 2026-08-11 — Session 99 post-closeout recovery truth
+
+- Manual chronology corrected the generic write-back checker: VaultFront's actual last SIL commit is `92d99249`, so the only uncaptured substantive successor is `1105af17`; unrelated Studio Ops hashes emitted by the generic explanation are not VaultFront evidence.
+- The missing behavior is narrow and directly observable: `scripts/check-client-composition.mjs` now includes `src/client/Api.ts` at 2,043/2,060 lines, and `context/TASK_BOARD.md` already marks the #188 follow-up done.
+- Recovery updates the remaining public-safe state surfaces without reimplementing code, inventing a new SIL score, or changing the production release posture.
+- Startup profiling currently disagrees on project type: the central Arc profiler reports `app`, while `context/PROJECT_STATUS.json`, the local skill overlay, and the shipped product identify VaultFront as a `game`. Session 100 applies the game/product lens plus the public release gate and preserves this mismatch as central registry drift rather than silently trusting one derived label.
+- Verification truth: the composition contract is green. The host could not provide one trustworthy aggregate Vitest run: four-worker execution failed to start eight forks, those exact eight files passed 81/81 serially, and a later one-worker aggregate timed out only in an already-passing translation scan. A 30-minute remaining-shards batch was explicitly terminated and is not counted as a pass. Doctor is independently green at 13/13 and `blockingFailing: 0`; exact provider CI will decide aggregate release truth.
+
 ## 2026-08-08 — Session 99 infra fix: configurable Worker init timeout, diagnosed correctly this time
 
 - Root-cause discipline truth: the first attempt to make `WorkerClient.ts`'s 20-second Web Worker init timeout configurable (via `vite.config.ts`'s custom `process.env.*` `define` block, matching this codebase's existing `DOMAIN`/`GAME_SERVICE_ORIGIN` pattern) was verified to NOT WORK -- direct HTTP inspection of the dev-server-served module showed the literal unsubstituted `process.env.WORKER_INIT_TIMEOUT_MS` expression, and the SAME test on the pre-existing, already-shipped `process.env.GAME_ENV` reference in `Main.ts` proved this `define` mechanism has never applied to `vite serve` (dev) mode in this project at all, only to `vite build`. This was root-fixed by switching to Vite's native `import.meta.env.VITE_*` mechanism (confirmed working in dev mode by direct inspection: the served module's `import.meta.env` object correctly contained the injected value) rather than accepting the first, silently-broken attempt.
