@@ -4,6 +4,7 @@ import { FetchGameMapLoader } from "../game/FetchGameMapLoader";
 import { ErrorUpdate, GameUpdateViewData } from "../game/GameUpdates";
 import {
   AttackAveragePositionResultMessage,
+  InitializationErrorMessage,
   InitializedMessage,
   MainThreadMessage,
   PlayerActionsResultMessage,
@@ -135,13 +136,26 @@ ctx.addEventListener("message", async (e: MessageEvent<MainThreadMessage>) => {
           message.clientID,
           mapLoader,
           gameUpdate,
-        ).then((gr) => {
-          sendMessage({
-            type: "initialized",
-            id: message.id,
-          } as InitializedMessage);
-          return gr;
-        });
+        )
+          .then((gr) => {
+            sendMessage({
+              type: "initialized",
+              id: message.id,
+            } as InitializedMessage);
+            return gr;
+          })
+          .catch((error: unknown) => {
+            const detail =
+              error instanceof Error ? error.message : String(error);
+            console.error("Failed to initialize game runner:", error);
+            sendMessage({
+              type: "initialization_error",
+              id: message.id,
+              error: detail,
+            } as InitializationErrorMessage);
+            gameRunner = null;
+            throw error;
+          });
       } catch (error) {
         console.error("Failed to initialize game runner:", error);
         throw error;

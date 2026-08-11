@@ -13,6 +13,7 @@ import { ClientID, GameStartInfo, Turn } from "../Schemas";
 export type WorkerMessageType =
   | "init"
   | "initialized"
+  | "initialization_error"
   | "turn"
   | "game_update"
   | "game_update_batch"
@@ -50,6 +51,11 @@ export interface TurnMessage extends BaseWorkerMessage {
 // Messages from worker to main thread
 export interface InitializedMessage extends BaseWorkerMessage {
   type: "initialized";
+}
+
+export interface InitializationErrorMessage extends BaseWorkerMessage {
+  type: "initialization_error";
+  error: string;
 }
 
 export interface GameUpdateMessage extends BaseWorkerMessage {
@@ -145,6 +151,7 @@ export type MainThreadMessage =
 // Message send from worker
 export type WorkerMessage =
   | InitializedMessage
+  | InitializationErrorMessage
   | GameUpdateMessage
   | GameUpdateBatchMessage
   | PlayerActionsResultMessage

@@ -95,6 +95,8 @@ export class WorkerClient {
         if (message.type === "initialized") {
           this.isInitialized = true;
           resolve();
+        } else if (message.type === "initialization_error") {
+          reject(new Error(`Worker initialization failed: ${message.error}`));
         }
       });
 

@@ -5,22 +5,25 @@ import {
   sidebarFeedActivityLabel,
   sidebarTimelineCategory,
 } from "../../../src/client/graphics/layers/SidebarActivityProjection";
-import type { VaultFrontActivityUpdate } from "../../../src/core/game/GameUpdates";
+import {
+  GameUpdateType,
+  type VaultFrontActivityUpdate,
+} from "../../../src/core/game/GameUpdates";
 
 function update(
   activity: VaultFrontActivityUpdate["activity"],
   sourcePlayerID: number | null,
-  label = activity,
+  label: string = activity,
 ): VaultFrontActivityUpdate {
   return {
-    type: 28,
+    type: GameUpdateType.VaultFrontActivity,
     activity,
     tile: 9,
     sourcePlayerID,
     targetPlayerID: null,
     label,
     durationTicks: 0,
-  } as VaultFrontActivityUpdate;
+  };
 }
 
 const relation = {
