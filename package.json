@@ -84,7 +84,7 @@
     "canvas": "3.2.3",
     "chai": "5.2.0",
     "concurrently": "8.2.2",
-    "cross-env": "7.0.3",
+    "cross-env": "10.1.0",
     "d3": "7.9.0",
     "eslint": "10.8.0",
     "eslint-config-prettier": "10.1.8",
