@@ -56,7 +56,7 @@ jobs:
       SUBDOMAIN: ${{ inputs.target_subdomain }}
       FQDN: ${{ inputs.target_subdomain == 'main' && vars.DOMAIN || format('{0}.{1}', inputs.target_subdomain, vars.DOMAIN) }}
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Validate repository promotion contract
         run: |
@@ -145,7 +145,7 @@ jobs:
 
       - name: Retain dry-run validation receipt
         if: ${{ inputs.dry_run }}
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: promotion-validation-${{ github.run_id }}
           path: promotion-validation.json
@@ -186,7 +186,7 @@ jobs:
 
       - name: Log in to GitHub Container Registry
         if: ${{ !inputs.dry_run }}
-        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3
+        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
         with:
           registry: ghcr.io
           username: ${{ vars.GHCR_USERNAME }}
@@ -300,7 +300,7 @@ jobs:
 
       - name: Retain promotion or rollback outcome receipt
         if: ${{ !inputs.dry_run }}
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: promotion-outcome-${{ github.run_id }}
           path: promotion-outcome.json
