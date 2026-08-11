@@ -10,7 +10,7 @@ export const preprodConfig = new (class extends DefaultServerConfig {
     return 2;
   }
   turnstileSiteKey(): string {
-    return "0x4AAAAAAB7QetxHwRCKw-aP";
+    return "0x4AAAAAAENd8CLji_2o-S97";
   }
   jwtAudience(): string {
     return Env.DOMAIN ?? "openfront.dev";

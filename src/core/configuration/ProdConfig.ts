@@ -13,6 +13,6 @@ export const prodConfig = new (class extends DefaultServerConfig {
     return Env.DOMAIN ?? "vaultfront.io";
   }
   turnstileSiteKey(): string {
-    return "0x4AAAAAACFLkaecN39lS8sk";
+    return "0x4AAAAAAENd8CLji_2o-S97";
   }
 })();

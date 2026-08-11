@@ -28,6 +28,18 @@ function nginxLocationBlocks(source: string): string[] {
 }
 
 describe("release truth boundary", () => {
+  it("uses the dedicated VaultFront Turnstile widget in both release environments", () => {
+    const production = read("src/core/configuration/ProdConfig.ts");
+    const preproduction = read("src/core/configuration/PreprodConfig.ts");
+    const siteKey = "0x4AAAAAAENd8CLji_2o-S97";
+
+    expect(production).toContain(siteKey);
+    expect(preproduction).toContain(siteKey);
+    expect(`${production}\n${preproduction}`).not.toMatch(
+      /0x4AAAAAACFLkaecN39lS8sk|0x4AAAAAAB7QetxHwRCKw-aP/u,
+    );
+  });
+
   it("re-applies the security policy in every location with local headers", () => {
     const nginx = read("nginx.conf");
     const headerLocations = nginxLocationBlocks(nginx).filter((block) =>
