@@ -41,8 +41,13 @@ test.describe("Live match", () => {
     const botSlider = modal.locator(
       'fluent-slider[labelkey="single_modal.bots"] input[type="range"]',
     );
+    const nationSlider = modal.locator(
+      'fluent-slider[labelkey="single_modal.nations"] input[type="range"]',
+    );
     await botSlider.fill("1");
+    await nationSlider.fill("0");
     await expect(botSlider).toHaveValue("1");
+    await expect(nationSlider).toHaveValue("0");
 
     const startButton = modal.getByRole("button", { name: /start/i });
     await expect(startButton).toBeEnabled();
