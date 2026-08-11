@@ -348,6 +348,12 @@ export const UsernameSchema = z
   .regex(/^[a-zA-Z0-9_ [\]üÜ.]+$/u)
   .min(3)
   .max(27);
+export const FortuneTitleSchema = z
+  .string()
+  .trim()
+  .min(1)
+  .max(32)
+  .regex(/^[\p{L}\p{N}][\p{L}\p{N} '&-]*$/u);
 const countryCodes = countries.filter((c) => !c.restricted).map((c) => c.code);
 
 export const QuickChatKeySchema = z.enum(
@@ -612,6 +618,7 @@ export const PlayerSchema = z.object({
   clientID: ID,
   username: UsernameSchema,
   cosmetics: PlayerCosmeticsSchema.optional(),
+  equippedFortuneTitle: FortuneTitleSchema.optional(),
   isLobbyCreator: z.boolean().optional(),
 });
 

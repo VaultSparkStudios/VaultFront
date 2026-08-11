@@ -243,6 +243,8 @@ export class LocalServer {
         clientID: this.clientID!,
         stats: this.allPlayersStats[this.clientID!],
         cosmetics: this.lobbyConfig.gameStartInfo?.players[0].cosmetics,
+        equippedFortuneTitle:
+          this.lobbyConfig.gameStartInfo?.players[0].equippedFortuneTitle,
         clanTag: getClanTag(this.lobbyConfig.playerName) ?? undefined,
       },
     ];

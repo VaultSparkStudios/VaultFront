@@ -38,6 +38,7 @@ import {
   MatchResultQuorum,
 } from "./MatchResultCertificate";
 import { narratorBus } from "./NarratorBus";
+import { projectMatchPlayer } from "./PlayerIdentityProjection";
 import { replayStore } from "./ReplayStore";
 import { spectatorBus } from "./SpectatorBus";
 import { streamingBus } from "./StreamingBus";
@@ -691,12 +692,9 @@ export class GameServer {
       gameID: this.id,
       lobbyCreatedAt: this.createdAt,
       config: this.gameConfig,
-      players: this.activeClients.map((c) => ({
-        username: c.username,
-        clientID: c.clientID,
-        cosmetics: c.cosmetics,
-        isLobbyCreator: this.lobbyCreatorID === c.clientID,
-      })),
+      players: this.activeClients.map((client) =>
+        projectMatchPlayer(client, this.lobbyCreatorID === client.clientID),
+      ),
     });
     if (!result.success) {
       const error = z.prettifyError(result.error);
@@ -1209,6 +1207,7 @@ export class GameServer {
             this.allClients.get(player.clientID)?.persistentID ?? "",
           stats,
           cosmetics: player.cosmetics,
+          equippedFortuneTitle: player.equippedFortuneTitle,
           clanTag: getClanTag(player.username) ?? undefined,
         } satisfies PlayerRecord;
       },

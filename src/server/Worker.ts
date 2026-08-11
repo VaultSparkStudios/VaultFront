@@ -79,6 +79,7 @@ import { registerMatchFeedbackRoutes } from "./MatchFeedbackRouter";
 import { matchFeedbackStore } from "./MatchFeedbackStore";
 import { verifyMatchResultCertificate } from "./MatchResultCertificate";
 import { narratorBus, type NarratorPersona } from "./NarratorBus";
+import { resolveEquippedFortuneTitle } from "./PlayerIdentityProjection";
 import { playerStatsStore, type MatchHistoryEntry } from "./PlayerStatsStore";
 import { registerPlaytestEvidenceRoutes } from "./PlaytestEvidenceRouter";
 import { playtestEvidenceStore } from "./PlaytestEvidenceStore";
@@ -2253,6 +2254,18 @@ export async function startWorker() {
           }
         }
 
+        // Resolve social identity from the authenticated server-owned store;
+        // the join message never carries or controls this field.
+        const equippedFortuneTitle = await resolveEquippedFortuneTitle(
+          persistentId,
+          (id) => fortuneDeck.getEquippedTitle(id),
+          (error) =>
+            log.warn("equipped Fortune title unavailable during admission", {
+              gameID: clientMsg.gameID,
+              error: String(error),
+            }),
+        );
+
         // Create client and add to game
         const client = new Client(
           generateID(),
@@ -2265,6 +2278,7 @@ export async function startWorker() {
           clientMsg.username,
           ws,
           cosmeticResult.cosmetics,
+          equippedFortuneTitle,
         );
 
         const joinResult = gm.joinClient(client, clientMsg.gameID);

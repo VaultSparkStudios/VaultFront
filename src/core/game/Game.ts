@@ -510,6 +510,7 @@ export class PlayerInfo {
     // TODO: make player id the small id
     public readonly id: PlayerID,
     public readonly isLobbyCreator: boolean = false,
+    public readonly equippedFortuneTitle: string | null = null,
   ) {
     this.clan = getClanTag(name);
   }

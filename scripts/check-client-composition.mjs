@@ -10,18 +10,21 @@ import { fileURLToPath } from "node:url";
 // that gap for it and its similarly-ungoverned siblings. Api.ts was added once
 // the concurrent #187 Fortune Deck client-integration work (which grew it) had
 // landed, so its budget reflects the real post-change size, not a racy guess.
+// S100 lowered the two largest budgets after projection extraction. RadialMenu's
+// exact-size ratchet includes its new keyboard announcement and disposal lifecycle;
+// the live-region DOM implementation itself lives in RadialMenuAnnouncer.ts.
 export const CLIENT_FILE_BUDGETS = [
   {
     file: "src/client/graphics/layers/ControlPanel.ts",
-    lineBudget: 3560,
+    lineBudget: 3385,
   },
   {
     file: "src/client/graphics/layers/GameRightSidebar.ts",
-    lineBudget: 1600,
+    lineBudget: 1458,
   },
   {
     file: "src/client/graphics/layers/RadialMenu.ts",
-    lineBudget: 1545,
+    lineBudget: 1571,
   },
   {
     file: "src/client/graphics/layers/VaultFrontLayer.ts",

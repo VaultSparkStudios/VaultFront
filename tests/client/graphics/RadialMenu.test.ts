@@ -56,7 +56,7 @@ describe("RadialMenu accessibility", () => {
   let centerButtonElement: CenterButtonElement;
 
   afterEach(() => {
-    radialMenu?.hideRadialMenu();
+    radialMenu?.dispose();
     document.body.innerHTML = "";
   });
 
@@ -228,6 +228,9 @@ describe("RadialMenu accessibility", () => {
       expect(itemAPath?.getAttribute("tabindex")).toBe("0");
       expect(disabledPath?.getAttribute("tabindex")).toBe("-1");
       expect(itemSubPath?.getAttribute("tabindex")).toBe("-1");
+      expect(
+        document.querySelector(".radial-menu-live-region")?.textContent,
+      ).toBe("Item A. Available. Action. Item 1 of 2");
     });
 
     it("moves focus to the next enabled item on ArrowRight, skipping disabled items", () => {
@@ -238,6 +241,9 @@ describe("RadialMenu accessibility", () => {
 
       expect(itemAPath?.getAttribute("tabindex")).toBe("-1");
       expect(itemSubPath?.getAttribute("tabindex")).toBe("0");
+      expect(
+        document.querySelector(".radial-menu-live-region")?.textContent,
+      ).toBe("Item Sub. Available. Opens submenu. Item 2 of 2");
     });
 
     it("wraps focus around with ArrowLeft, skipping disabled items", () => {
@@ -270,6 +276,9 @@ describe("RadialMenu accessibility", () => {
       expect(radialMenu.getCurrentLevel()).toBe(1);
       const childPath = document.querySelector('path[data-id="child_item"]');
       expect(childPath?.getAttribute("tabindex")).toBe("0");
+      expect(
+        document.querySelector(".radial-menu-live-region")?.textContent,
+      ).toBe("Child Item. Available. Action. Item 1 of 1. Submenu level 1");
 
       // The submenu-open transition guards re-entrant activation until its
       // "end" event fires; settle it here rather than waiting on real CSS
@@ -295,6 +304,17 @@ describe("RadialMenu accessibility", () => {
       dispatchKey("Enter");
 
       expect(itemASpy).not.toHaveBeenCalled();
+      expect(
+        document.querySelector(".radial-menu-live-region")?.textContent,
+      ).toBe("");
+    });
+
+    it("removes its owned status and tooltip nodes on dispose", () => {
+      radialMenu.dispose();
+
+      expect(document.querySelector(".radial-menu-live-region")).toBeNull();
+      expect(document.querySelector(".radial-tooltip")).toBeNull();
+      expect(document.querySelector(".radial-menu-container")).toBeNull();
     });
   });
 

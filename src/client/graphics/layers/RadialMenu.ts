@@ -3,6 +3,7 @@ import { EventBus, GameEvent } from "../../../core/EventBus";
 import { CloseViewEvent } from "../../InputHandler";
 import { getSvgAspectRatio, translateText } from "../../Utils";
 import { Layer } from "./Layer";
+import { RadialMenuAnnouncer } from "./RadialMenuAnnouncer";
 import {
   CenterButtonElement,
   MenuElement,
@@ -56,6 +57,8 @@ type RequiredRadialMenuConfig = Required<RadialMenuConfig>;
 export class RadialMenu implements Layer {
   private menuElement: d3.Selection<HTMLDivElement, unknown, null, undefined>;
   private tooltipElement: HTMLDivElement | null = null;
+  private readonly announcer = new RadialMenuAnnouncer();
+  private tooltipStyleElement: HTMLStyleElement | null = null;
   private isVisible: boolean = false;
 
   private currentLevel: number = 0; // Current menu level (0 = main menu, 1 = submenu, etc.)
@@ -128,6 +131,7 @@ export class RadialMenu implements Layer {
   init() {
     this.createMenuElement();
     this.createTooltipElement();
+    this.announcer.init();
     this.eventBus.on(CloseViewEvent, (e) => {
       this.hideRadialMenu();
     });
@@ -247,8 +251,8 @@ export class RadialMenu implements Layer {
     this.tooltipElement.style.display = "none";
     document.body.appendChild(this.tooltipElement);
 
-    const style = document.createElement("style");
-    style.textContent = `
+    this.tooltipStyleElement = document.createElement("style");
+    this.tooltipStyleElement.textContent = `
       .radial-tooltip .title {
         font-weight: bold;
         font-size: 14px;
@@ -257,7 +261,7 @@ export class RadialMenu implements Layer {
 
       ${this.config.tooltipStyle}
     `;
-    document.head.appendChild(style);
+    document.head.appendChild(this.tooltipStyleElement);
   }
 
   private getInnerRadiusForLevel(level: number): number {
@@ -615,7 +619,10 @@ export class RadialMenu implements Layer {
     }
 
     this.focusedItemId = itemId;
-    if (!itemId) return;
+    if (!itemId) {
+      this.announceFocusedItem(null);
+      return;
+    }
 
     const path = this.menuPaths.get(itemId);
     if (!path) return;
@@ -630,6 +637,24 @@ export class RadialMenu implements Layer {
         node.focus({ preventScroll: true });
       }
     }
+    this.announceFocusedItem(this.findMenuItem(itemId) ?? null);
+  }
+
+  private announceFocusedItem(item: MenuElement | null) {
+    if (!item) {
+      this.announcer.clear();
+      return;
+    }
+    const focusable = this.getFocusableItems();
+    const position = focusable.findIndex((entry) => entry.id === item.id);
+    this.announcer.announce({
+      label: resolveAriaLabel(item),
+      disabled: this.isItemDisabled(item),
+      hasSubmenu: Boolean(item.subMenu?.(this.params!)?.length),
+      position,
+      count: focusable.length,
+      level: this.currentLevel,
+    });
   }
 
   private focusFirstAvailableItem() {
@@ -1015,6 +1040,7 @@ export class RadialMenu implements Layer {
     this.isVisible = false;
     this.selectedItemId = null;
     this.hideTooltip();
+    this.announcer.clear();
 
     this.resetMenu();
     this.isTransitioning = false;
@@ -1025,6 +1051,20 @@ export class RadialMenu implements Layer {
 
     this.lastHideTime = Date.now();
     window.removeEventListener("resize", this.handleResize);
+  }
+
+  public dispose() {
+    this.hideRadialMenu();
+    window.removeEventListener("keydown", this.handleKeyDown, {
+      capture: true,
+    });
+    window.removeEventListener("resize", this.handleResize);
+    this.menuElement?.remove();
+    this.tooltipElement?.remove();
+    this.announcer.dispose();
+    this.tooltipStyleElement?.remove();
+    this.tooltipElement = null;
+    this.tooltipStyleElement = null;
   }
 
   private handleCenterButtonClick() {

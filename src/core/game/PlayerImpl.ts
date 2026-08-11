@@ -1,4 +1,5 @@
 import { renderNumber, renderTroops } from "../../client/Utils";
+import { formatPlayerDisplayName } from "../PlayerIdentity";
 import { PseudoRandom } from "../PseudoRandom";
 import { ClientID } from "../Schemas";
 import {
@@ -124,7 +125,10 @@ export class PlayerImpl implements Player {
       0,
       100,
     );
-    this._displayName = this._name;
+    this._displayName = formatPlayerDisplayName(
+      this._name,
+      playerInfo.equippedFortuneTitle,
+    );
     this._pseudo_random = new PseudoRandom(simpleHash(this.playerInfo.id));
   }
 

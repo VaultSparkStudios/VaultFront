@@ -8,7 +8,6 @@ import {
   VaultFrontActivityUpdate,
   VaultFrontBeaconState,
   VaultFrontConvoyState,
-  type VaultFrontReroutePreview,
   VaultFrontStatusUpdate,
 } from "../../../core/game/GameUpdates";
 import { GameView } from "../../../core/game/GameView";
@@ -57,6 +56,10 @@ import { logHudTelemetry } from "../HudTelemetry";
 import { UIState } from "../UIState";
 import { Layer } from "./Layer";
 import { GoToPositionEvent } from "./Leaderboard";
+import {
+  type RerouteCommand,
+  renderReroutePreviewPanel,
+} from "./ReroutePreviewPanel";
 import { isMobilePriorityMode, viewportWidth } from "./ViewportMode";
 import goldCoinIcon from "/images/GoldCoinIcon.svg?url";
 import soldierIcon from "/images/SoldierIcon.svg?url";
@@ -1961,38 +1964,6 @@ export class ControlPanel extends LitElement implements Layer {
     return `background-image: conic-gradient(${color} ${Math.round(ratio * 360)}deg, rgba(15,23,42,0.32) 0deg);`;
   }
 
-  private activeReroutePreview(convoy: VaultFrontConvoyState): {
-    command:
-      | "reroute_city"
-      | "reroute_port"
-      | "reroute_factory"
-      | "reroute_silo"
-      | "reroute_safest";
-    destinationTile: number;
-    etaSeconds: number;
-    routeRisk: number;
-    routeDistance: number;
-    rewardMultiplier: number;
-    rewardScale: number;
-    strengthMultiplier: number;
-    phaseMultiplier: number;
-    riskMultiplier: number;
-    goldReward: number;
-    troopsReward: number;
-    rewardMath: string;
-    deltaGold: number;
-    deltaTroops: number;
-    deltaEtaSeconds: number;
-    deltaRisk: number;
-  } | null {
-    const previews = convoy.reroutePreviews ?? [];
-    return (
-      previews.find((entry) => entry.command === this.selectedPreviewCommand) ??
-      previews[0] ??
-      null
-    );
-  }
-
   private sendRerouteSpecificCommand(
     command:
       | "reroute_city"
@@ -2027,146 +1998,23 @@ export class ControlPanel extends LitElement implements Layer {
     });
   }
 
-  private navigateRerouteOptions(
-    event: KeyboardEvent,
-    previews: VaultFrontReroutePreview[],
-  ): void {
-    const keys = [
-      "ArrowRight",
-      "ArrowDown",
-      "ArrowLeft",
-      "ArrowUp",
-      "Home",
-      "End",
-    ];
-    if (!keys.includes(event.key) || previews.length === 0) return;
-    event.preventDefault();
-    const current = Math.max(
-      0,
-      previews.findIndex(
-        (preview) => preview.command === this.selectedPreviewCommand,
-      ),
-    );
-    const next =
-      event.key === "Home"
-        ? 0
-        : event.key === "End"
-          ? previews.length - 1
-          : event.key === "ArrowRight" || event.key === "ArrowDown"
-            ? (current + 1) % previews.length
-            : (current - 1 + previews.length) % previews.length;
-    this.selectedPreviewCommand = previews[next].command;
-    void this.updateComplete.then(() => {
-      this.querySelector<HTMLElement>(
-        `[data-reroute-command="${this.selectedPreviewCommand}"]`,
-      )?.focus();
-    });
-  }
-
   private renderReroutePreviewPanel(convoy: VaultFrontConvoyState) {
-    const previews = convoy.reroutePreviews ?? [];
-    if (previews.length === 0) return "";
-    const selected = this.activeReroutePreview(convoy);
-    if (!selected) return "";
-    const compact = this.isMobilePriorityMode();
-    const laneLabel = (command: string): string =>
-      command === "reroute_city"
-        ? "City"
-        : command === "reroute_port"
-          ? "Port"
-          : command === "reroute_factory"
-            ? "Factory"
-            : command === "reroute_silo"
-              ? "Silo"
-              : "Safest";
-    return html`
-      <div
-        class="vf-reroute-panel mt-1 rounded border border-cyan-300/35 bg-cyan-950/20 ${
-          compact ? "p-1" : "p-1.5"
-        }"
-      >
-        <div
-          id="reroute-decision-label"
-          class="vf-reroute-label text-xs text-cyan-100/90"
-        >
-          ${compact ? "Reroute Preview" : "Pre-Action Reroute Preview"}
-        </div>
-        <div
-          class="mt-1 ${compact ? "grid grid-cols-3" : "flex flex-wrap"} gap-1"
-          role="radiogroup"
-          aria-labelledby="reroute-decision-label"
-          aria-describedby="reroute-live-description"
-          @keydown=${(event: KeyboardEvent) =>
-            this.navigateRerouteOptions(event, previews)}
-        >
-          ${previews.map(
-            (preview) => html`
-              <button
-                type="button"
-                role="radio"
-                aria-checked=${
-                  this.selectedPreviewCommand === preview.command
-                    ? "true"
-                    : "false"
-                }
-                aria-pressed=${
-                  this.selectedPreviewCommand === preview.command
-                    ? "true"
-                    : "false"
-                }
-                aria-describedby="reroute-live-description"
-                tabindex=${
-                  this.selectedPreviewCommand === preview.command ? "0" : "-1"
-                }
-                data-reroute-command=${preview.command}
-                class="vf-reroute-option min-h-11 min-w-11 rounded border px-2 py-1 text-xs ${
-                  this.selectedPreviewCommand === preview.command
-                    ? "border-cyan-200/70 bg-cyan-500/25 text-cyan-50"
-                    : "border-cyan-300/35 bg-cyan-500/10 text-cyan-100 hover:bg-cyan-500/20"
-                }"
-                @focus=${() => (this.selectedPreviewCommand = preview.command)}
-                @click=${() => (this.selectedPreviewCommand = preview.command)}
-              >
-                ${laneLabel(preview.command)}
-              </button>
-            `,
-          )}
-        </div>
-        <div
-          id="reroute-live-description"
-          class="vf-reroute-status mt-1 text-xs text-cyan-50 tabular-nums"
-          role="status"
-          aria-live="polite"
-          aria-atomic="true"
-        >
-          ${laneLabel(selected.command)} lane. ETA ${selected.etaSeconds}s
-          (${
-            selected.deltaEtaSeconds >= 0 ? "+" : ""
-          }${selected.deltaEtaSeconds}s)
-          . Risk ${selected.routeRisk.toFixed(2)}
-          (${selected.deltaRisk >= 0 ? "+" : ""}${selected.deltaRisk.toFixed(
-            2,
-          )})
-          . Reward ${selected.goldReward.toLocaleString()} gold
-          (${
-            selected.deltaGold >= 0 ? "+" : ""
-          }${selected.deltaGold.toLocaleString()}g)
-          ${
-            compact
-              ? ""
-              : html` and ${selected.troopsReward.toLocaleString()} troops
-                (${selected.deltaTroops >= 0 ? "+" : ""}${selected.deltaTroops.toLocaleString()})`
-          }
-        </div>
-        <button
-          type="button"
-          class="vf-reroute-action mt-1 min-h-11 rounded border border-cyan-200/50 bg-cyan-500/25 px-3 py-1 text-xs text-cyan-50 hover:bg-cyan-500/35"
-          @click=${() => this.sendRerouteSpecificCommand(selected.command)}
-        >
-          ${compact ? "Apply" : "Apply Previewed Reroute"}
-        </button>
-      </div>
-    `;
+    return renderReroutePreviewPanel({
+      previews: convoy.reroutePreviews ?? [],
+      selectedCommand: this.selectedPreviewCommand,
+      compact: this.isMobilePriorityMode(),
+      onSelect: (command: RerouteCommand, moveFocus: boolean) => {
+        this.selectedPreviewCommand = command;
+        if (moveFocus) {
+          void this.updateComplete.then(() => {
+            this.querySelector<HTMLElement>(
+              `[data-reroute-command="${command}"]`,
+            )?.focus();
+          });
+        }
+      },
+      onApply: (command) => this.sendRerouteSpecificCommand(command),
+    });
   }
 
   private renderRewardExplainPanel(convoy: VaultFrontConvoyState | null) {

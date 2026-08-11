@@ -33,6 +33,15 @@ import { Layer } from "./Layer";
 import { GoToPositionEvent } from "./Leaderboard";
 import { ShowReplayPanelEvent } from "./ReplayPanel";
 import { ShowSettingsModalEvent } from "./SettingsModal";
+import {
+  type ObjectiveRailItem,
+  projectObjectiveRail,
+  projectSidebarActivityFeed,
+  pruneSidebarFeed,
+  sidebarFeedActivityLabel,
+  type SidebarFeedEntry,
+  sidebarTimelineCategory,
+} from "./SidebarActivityProjection";
 import { SpawnBarVisibleEvent } from "./SpawnTimer";
 import { viewportWidth } from "./ViewportMode";
 import exitIcon from "/images/ExitIconWhite.svg?url";
@@ -52,14 +61,6 @@ export class GameRightSidebar extends LitElement implements Layer {
     "jam_breaker",
     "comeback_surge",
   ]);
-  private static readonly VAULT_FEED_MAX_ITEMS = 4;
-  private static readonly VAULT_FEED_TTL_TICKS = 260;
-  private static readonly PASSIVE_FEED_MERGE_WINDOW_TICKS = 240;
-  private static readonly FEED_PRIORITY_SELF = 4;
-  private static readonly FEED_PRIORITY_ALLY = 3;
-  private static readonly FEED_PRIORITY_GLOBAL = 2;
-  private static readonly FEED_PRIORITY_GLOBAL_PASSIVE = 1;
-  private static readonly OBJECTIVE_RAIL_MAX_ITEMS = 3;
   private static readonly VAULT_DEBUG_STORAGE_KEY = "vaultfront.debug";
   private static readonly VAULT_DEBUG_EVENT = "vaultfront-debug-toggle";
   // Frozen Vault feed rules: self > ally > global, passive income merges briefly, feed stays short-lived.
@@ -123,16 +124,7 @@ export class GameRightSidebar extends LitElement implements Layer {
   private dockOffsetY = 0;
 
   @state()
-  private recentVaultFeed: Array<{
-    key: string;
-    tick: number;
-    tile?: number;
-    label: string;
-    activity: VaultFrontActivityUpdate["activity"];
-    audience: "self" | "ally" | "global";
-    priority: number;
-    count?: number;
-  }> = [];
+  private recentVaultFeed: SidebarFeedEntry[] = [];
 
   @state()
   private vaultDebugActive = false;
@@ -289,114 +281,27 @@ export class GameRightSidebar extends LitElement implements Layer {
     this.pruneVaultFeed(this.game.ticks());
   }
 
-  private feedAudience(
-    entry: VaultFrontActivityUpdate,
-  ): "self" | "ally" | "global" {
-    const me = this.game.myPlayer();
-    if (!me) return "global";
-    if (
-      entry.sourcePlayerID === me.smallID() ||
-      entry.targetPlayerID === me.smallID()
-    ) {
-      return "self";
-    }
-    for (const id of [entry.sourcePlayerID, entry.targetPlayerID]) {
-      if (id === null) continue;
-      const player = this.game.playerBySmallID(id);
-      if (player?.isPlayer() && me.isFriendly(player)) {
-        return "ally";
-      }
-    }
-    return "global";
-  }
-
-  private feedPriority(entry: VaultFrontActivityUpdate): number {
-    const audience = this.feedAudience(entry);
-    if (audience === "self") return GameRightSidebar.FEED_PRIORITY_SELF;
-    if (audience === "ally") return GameRightSidebar.FEED_PRIORITY_ALLY;
-    if (entry.activity === "vault_passive_income") {
-      return GameRightSidebar.FEED_PRIORITY_GLOBAL_PASSIVE;
-    }
-    return GameRightSidebar.FEED_PRIORITY_GLOBAL;
-  }
-
-  private mergePassiveFeedLabel(
-    existing: string,
-    next: string,
-    count: number,
-  ): string {
-    const goldMatch = /\+([\d,]+)g/.exec(next);
-    const gold = goldMatch ? goldMatch[1] : null;
-    if (gold) {
-      return `Passive income +${gold}g x${count}`;
-    }
-    return existing;
-  }
-
   private pruneVaultFeed(now: number): void {
-    this.recentVaultFeed = this.recentVaultFeed.filter(
-      (entry) => now - entry.tick <= GameRightSidebar.VAULT_FEED_TTL_TICKS,
-    );
+    this.recentVaultFeed = pruneSidebarFeed(this.recentVaultFeed, now);
   }
 
   private appendVaultFeed(
     updates: VaultFrontActivityUpdate[],
     now: number,
   ): void {
-    let feed = this.recentVaultFeed.filter(
-      (entry) => now - entry.tick <= GameRightSidebar.VAULT_FEED_TTL_TICKS,
-    );
-    for (const entry of updates) {
-      if (
-        entry.activity !== "vault_passive_income" &&
-        entry.activity !== "convoy_delivered" &&
-        entry.activity !== "convoy_intercepted" &&
-        entry.activity !== "vault_captured" &&
-        entry.activity !== "jam_breaker" &&
-        entry.activity !== "beacon_pulse"
-      ) {
-        continue;
-      }
-
-      const audience = this.feedAudience(entry);
-      const priority = this.feedPriority(entry);
-      const last = feed[feed.length - 1];
-      if (
-        last &&
-        last.activity === "vault_passive_income" &&
-        entry.activity === "vault_passive_income" &&
-        last.priority === priority &&
-        last.audience === audience &&
-        now - last.tick <= GameRightSidebar.PASSIVE_FEED_MERGE_WINDOW_TICKS
-      ) {
-        const nextCount = (last.count ?? 1) + 1;
-        last.tick = now;
-        last.count = nextCount;
-        last.label = this.mergePassiveFeedLabel(
-          last.label,
-          entry.label,
-          nextCount,
-        );
-        last.tile = entry.tile;
-        continue;
-      }
-
-      feed.push({
-        key: `${entry.activity}-${now}-${feed.length}`,
-        tick: now,
-        tile: entry.tile,
-        label: entry.label,
-        activity: entry.activity,
-        audience,
-        priority,
-      });
-    }
-
-    feed = feed
-      .sort((a, b) => b.priority - a.priority || b.tick - a.tick)
-      .slice(0, GameRightSidebar.VAULT_FEED_MAX_ITEMS)
-      .sort((a, b) => a.tick - b.tick);
-    this.recentVaultFeed = feed;
+    const me = this.game.myPlayer();
+    this.recentVaultFeed = projectSidebarActivityFeed({
+      current: this.recentVaultFeed,
+      updates,
+      now,
+      relation: {
+        myPlayerId: me?.smallID(),
+        isAlly: (playerId) => {
+          const player = this.game.playerBySmallID(playerId);
+          return Boolean(player?.isPlayer() && me?.isFriendly(player));
+        },
+      },
+    });
   }
 
   public dispose(): void {
@@ -495,19 +400,6 @@ export class GameRightSidebar extends LitElement implements Layer {
   private toggleTimeline(): void {
     this.timelineExpanded = !this.timelineExpanded;
     logHudTelemetry("hud_timeline_toggle", { visible: this.timelineExpanded });
-  }
-
-  private timelineCategory(
-    activity: VaultFrontActivityUpdate["activity"],
-  ): "captures" | "convoys" | "pulses" | "surge" {
-    if (activity === "vault_captured" || activity === "vault_passive_income") {
-      return "captures";
-    }
-    if (activity === "comeback_surge") return "surge";
-    if (activity === "beacon_pulse" || activity === "jam_breaker") {
-      return "pulses";
-    }
-    return "convoys";
   }
 
   private isTerritoryNearVault(tile: number, myID: number): boolean {
@@ -950,27 +842,11 @@ export class GameRightSidebar extends LitElement implements Layer {
     return 0;
   }
 
-  private objectiveRailItems(): Array<{
-    key: string;
-    tile: number;
-    text: string;
-    tag?: string;
-    details?: string;
-    actionLabel?: "Capture" | "Defend" | "Intercept";
-    actionTile?: number;
-  }> {
+  private objectiveRailItems(): ObjectiveRailItem[] {
     const status = this.latestVaultStatus;
     if (!status) return [];
     const now = this.game.ticks();
-    const items: Array<{
-      key: string;
-      tile: number;
-      text: string;
-      tag?: string;
-      details?: string;
-      actionLabel?: "Capture" | "Defend" | "Intercept";
-      actionTile?: number;
-    }> = [];
+    const items: ObjectiveRailItem[] = [];
 
     const myID = this.game.myPlayer()?.smallID();
     if (myID !== undefined) {
@@ -998,6 +874,8 @@ export class GameRightSidebar extends LitElement implements Layer {
           details: `${nearbySite.rewardMath} | Est +${nearbySite.projectedGoldReward.toLocaleString()}g +${nearbySite.projectedTroopsReward.toLocaleString()}t | Threat ${trend}`,
           actionLabel,
           actionTile: nearbySite.tile,
+          projectionPriority: 300,
+          etaTicks: nearbySite.cooldownTicks,
         });
       }
     }
@@ -1036,6 +914,8 @@ export class GameRightSidebar extends LitElement implements Layer {
             ? "Defend"
             : "Intercept",
         actionTile: convoy.destinationTile,
+        projectionPriority: 200 + this.convoyRailPriority(convoy, myID),
+        etaTicks: convoy.ticksRemaining,
       });
     }
 
@@ -1049,9 +929,11 @@ export class GameRightSidebar extends LitElement implements Layer {
         tile: activePulse.anchorTile,
         text: `Pulse ${Math.max(0, Math.ceil((activePulse.maskedUntilTick - now) / 10))}s`,
         details: `Pulse lockout ${Math.max(0, Math.ceil((activePulse.cooldownUntilTick - now) / 10))}s | Jam lockout ${Math.max(0, Math.ceil((activePulse.jamBreakerCooldownUntilTick - now) / 10))}s`,
+        projectionPriority: 100,
+        etaTicks: activePulse.maskedUntilTick - now,
       });
     }
-    return items.slice(0, GameRightSidebar.OBJECTIVE_RAIL_MAX_ITEMS);
+    return projectObjectiveRail(items);
   }
 
   private feedAudienceLabel(
@@ -1060,17 +942,6 @@ export class GameRightSidebar extends LitElement implements Layer {
     if (audience === "self") return "You";
     if (audience === "ally") return "Ally";
     return "Map";
-  }
-
-  private feedActivityLabel(
-    activity: VaultFrontActivityUpdate["activity"],
-  ): string {
-    if (activity === "convoy_delivered") return "Delivery";
-    if (activity === "convoy_intercepted") return "Intercept";
-    if (activity === "vault_captured") return "Vault";
-    if (activity === "jam_breaker") return "Jam";
-    if (activity === "beacon_pulse") return "Pulse";
-    return "Income";
   }
 
   private feedActivityToneClass(
@@ -1323,7 +1194,7 @@ export class GameRightSidebar extends LitElement implements Layer {
                         entry.activity,
                       )}"
                     >
-                      ${this.feedActivityLabel(entry.activity)}
+                      ${sidebarFeedActivityLabel(entry.activity)}
                     </span>
                     <span>${this.feedAgeLabel(entry.tick)}</span>
                   </div>
@@ -1407,7 +1278,7 @@ export class GameRightSidebar extends LitElement implements Layer {
         ? "text-red-400"
         : "";
     const filteredTimeline = this.vaultTimeline.filter((entry) => {
-      const category = this.timelineCategory(entry.activity);
+      const category = sidebarTimelineCategory(entry.activity);
       return this.timelineFilters[category];
     });
 

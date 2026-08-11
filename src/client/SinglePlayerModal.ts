@@ -10,9 +10,11 @@ import {
   GameType,
   UnitType,
 } from "../core/game/Game";
+import { normalizeFortuneTitle } from "../core/PlayerIdentity";
 import { TeamCountConfig } from "../core/Schemas";
 import { generateID } from "../core/Util";
-import { hasLinkedAccount } from "./Api";
+import { fetchFortuneCollection, hasLinkedAccount } from "./Api";
+import { getPersistentID } from "./Auth";
 import "./components/baseComponents/Button";
 import "./components/baseComponents/Modal";
 import { BaseModal } from "./components/BaseModal";
@@ -715,6 +717,11 @@ export class SinglePlayerModal extends BaseModal {
 
     await crazyGamesSDK.requestMidgameAd();
 
+    const [cosmetics, fortuneCollection] = await Promise.all([
+      getPlayerCosmetics(),
+      fetchFortuneCollection(getPersistentID()),
+    ]);
+
     this.dispatchEvent(
       new CustomEvent("join-lobby", {
         detail: {
@@ -725,7 +732,10 @@ export class SinglePlayerModal extends BaseModal {
               {
                 clientID,
                 username: usernameInput.getCurrentUsername(),
-                cosmetics: await getPlayerCosmetics(),
+                cosmetics,
+                equippedFortuneTitle:
+                  normalizeFortuneTitle(fortuneCollection?.equippedTitle) ??
+                  undefined,
               },
             ],
             config: {

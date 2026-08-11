@@ -329,6 +329,8 @@ export class ClientGameRunner {
         username: this.lobby.playerName,
         clientID: this.clientID,
         stats: update.allPlayersStats[this.clientID],
+        equippedFortuneTitle:
+          this.lobby.gameStartInfo?.players[0]?.equippedFortuneTitle,
       },
     ];
 
