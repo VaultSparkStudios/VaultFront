@@ -1,3 +1,7 @@
+## Session Intent — Session 100
+
+Run one continuous `/arc` from the recovered S99 boundary: perform a fresh live-code and game-loop audit, implement every admitted finding and second-order innovation at the highest quality bar, verify rendered desktop/mobile/theme states and the full release gate, commit and push directly to `main`, provision Cloudflare for `vaultfront.io`, deploy the complete production surface, and verify the live result. If Namecheap remains the authoritative DNS control plane, finish every Cloudflare-side prerequisite first and hand the founder only the exact minimal delegation/record change.
+
 ## Recovery Addendum — Session 99 write-back complete (2026-08-11)
 
 - Recovery classification: the tree was clean and synced, but one substantive commit (`1105af17`) followed the Session 99 SIL anchor. This was a post-closeout write-back omission, not uncommitted implementation.

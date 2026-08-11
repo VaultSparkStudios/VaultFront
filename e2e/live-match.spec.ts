@@ -30,9 +30,19 @@ test.describe("Live match", () => {
     const modal = page.locator("single-player-modal");
     await expect(modal).toBeVisible({ timeout: 5_000 });
 
-    // Compact map + fewer bots keeps terrain load and spawn simulation fast
-    // so this spec proves the real pipeline without paying World-map cost.
+    // Use the smallest shipped map plus one real opponent. The previous
+    // "compact" fixture still booted World with 100 bots, so Vite's cold
+    // worker compile and bot initialization exhausted the bounded worker-init
+    // window before the authoritative game could emit its first status.
+    await modal.getByRole("tab", { name: /all/i }).click();
+    await modal.getByRole("button", { name: /bosphorus straits/i }).click();
     await modal.getByRole("button", { name: "Compact Map" }).click();
+
+    const botSlider = modal.locator(
+      'fluent-slider[labelkey="single_modal.bots"] input[type="range"]',
+    );
+    await botSlider.fill("1");
+    await expect(botSlider).toHaveValue("1");
 
     const startButton = modal.getByRole("button", { name: /start/i });
     await expect(startButton).toBeEnabled();

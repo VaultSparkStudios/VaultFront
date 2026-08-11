@@ -87,6 +87,41 @@ export default defineConfig(({ mode }) => {
     }
     return undefined;
   };
+  const runtimeProxy = {
+    "/lobbies": {
+      target: devLobbyOrigin,
+      ws: true,
+      changeOrigin: true,
+    },
+    "/w0": {
+      target: devWorkerOrigin,
+      ws: true,
+      secure: false,
+      changeOrigin: true,
+      bypass: (req: Parameters<typeof devGameHtmlBypass>[0]) =>
+        devGameHtmlBypass(req),
+      rewrite: (requestPath: string) => requestPath.replace(/^\/w0/, ""),
+    },
+    "/w1": {
+      target: devWorkerOrigin,
+      ws: true,
+      secure: false,
+      changeOrigin: true,
+      bypass: (req: Parameters<typeof devGameHtmlBypass>[0]) =>
+        devGameHtmlBypass(req),
+      rewrite: (requestPath: string) => requestPath.replace(/^\/w1/, ""),
+    },
+    "/_health": {
+      target: devApiOrigin,
+      changeOrigin: true,
+      secure: false,
+    },
+    "/api": {
+      target: devApiOrigin,
+      changeOrigin: true,
+      secure: false,
+    },
+  };
 
   return {
     // Keep actionable warn/error telemetry while stripping conversational debug
@@ -244,41 +279,11 @@ export default defineConfig(({ mode }) => {
       port: 9000,
       // Automatically open the browser when the server starts
       open: process.env.SKIP_BROWSER_OPEN !== "true",
-      proxy: {
-        "/lobbies": {
-          target: devLobbyOrigin,
-          ws: true,
-          changeOrigin: true,
-        },
-        // Worker proxies
-        "/w0": {
-          target: devWorkerOrigin,
-          ws: true,
-          secure: false,
-          changeOrigin: true,
-          bypass: (req) => devGameHtmlBypass(req),
-          rewrite: (path) => path.replace(/^\/w0/, ""),
-        },
-        "/w1": {
-          target: devWorkerOrigin,
-          ws: true,
-          secure: false,
-          changeOrigin: true,
-          bypass: (req) => devGameHtmlBypass(req),
-          rewrite: (path) => path.replace(/^\/w1/, ""),
-        },
-        // API and canonical health proxies
-        "/_health": {
-          target: devApiOrigin,
-          changeOrigin: true,
-          secure: false,
-        },
-        "/api": {
-          target: devApiOrigin,
-          changeOrigin: true,
-          secure: false,
-        },
-      },
+      proxy: runtimeProxy,
+    },
+    preview: {
+      port: 9000,
+      proxy: runtimeProxy,
     },
   };
 });

@@ -1,0 +1,290 @@
+{
+  "schemaVersion": "1.0",
+  "session": 100,
+  "generatedBy": "codex",
+  "generatedAt": "2026-08-11T02:20:00-04:00",
+  "project": {
+    "slug": "vaultfront",
+    "name": "VaultFront",
+    "type": "game",
+    "registryType": "app",
+    "audience": "public-unlaunched",
+    "stage": "FORGE",
+    "stagingType": "local",
+    "registryMedium": "game"
+  },
+  "summary": "Session 100 fresh audit from the recovered Session 99 boundary. The prior ledger is exhausted at 55/55. Six new premises survive live-code and provider verification: the owned-domain release corridor is unconfigured while vaultfront.io still resolves to Namecheap parking; the real-match Playwright test fails on a clean GitHub runner in both projects; Fortune titles can be equipped but never enter public match identity; Radial Menu focus lacks an announced live-region contract; GameRightSidebar keeps high-value feed projection inside a low-covered LitElement; and ControlPanel still owns the reroute decision panel that audit #185 intentionally deferred. No human retention, revenue, staging, or production claim is inferred.",
+  "axes": {
+    "featureDepth": 1.5,
+    "innovation": 1.5,
+    "ux": 2,
+    "feedbackLoop": 2,
+    "gamification": 3,
+    "aiIntegration": 1.5,
+    "security": 3,
+    "speedOrganization": 3,
+    "tokenApiReduction": 2
+  },
+  "candidateGeneration": {
+    "featureDepth": 4,
+    "innovation": 3,
+    "ux": 5,
+    "feedbackLoop": 4,
+    "gamification": 4,
+    "aiIntegration": 2,
+    "security": 4,
+    "speedOrganization": 5,
+    "tokenApiReduction": 3,
+    "novelCandidates": 3,
+    "culledBelowThresholdOrFalsePremise": 5
+  },
+  "specialtyReviews": {
+    "gameLoop": {
+      "scores100": {
+        "loopTightness": 93,
+        "progression": 87,
+        "sessionEngagement": 91,
+        "retention": 77,
+        "soulFidelity": 96
+      },
+      "result": "Capture to Convoy to Pressure to Breach to decisive delivery is tight, certified, and well surfaced. The sharpest remaining reward break is social: a player can earn and equip a Fortune title, but the title never appears in a match or leaderboard. Retention stays evidence-capped because no distinct-human cohort or return-intent observation exists."
+    },
+    "release": {
+      "verdict": "no-go",
+      "passing": [
+        "exact recovery revision provider CI is green",
+        "cost-neutral declaration and local cost gate",
+        "doctor 13/13, footer, sitemap, local theme proof, and dual-audience source contracts",
+        "strict public sanitization and staged secret scan"
+      ],
+      "red": [
+        "vaultfront.io delegates to Namecheap nameservers and resolves to parking IP 192.64.119.175",
+        "Cloudflare zone/custom hostname and repository deploy variables/secrets are absent",
+        "latest exact recovery E2E is pending and the prior exact code revision failed live-match readiness on desktop and mobile",
+        "no verified external staging health/parity, project-domain Zoho reply identity, native Obelisk relying-party, human Alpha, revenue, observed rollback, or founder launch record"
+      ]
+    }
+  },
+  "rejectedPremises": [
+    {
+      "premise": "A dedicated clean-runner live-match workflow is missing.",
+      "verdict": "false",
+      "evidence": ".github/workflows/e2e.yml already runs every e2e/*.spec.ts file on ubuntu-latest with one Playwright worker; provider run 31292803827 reaches e2e/live-match.spec.ts and exposes a real match-readiness failure."
+    },
+    {
+      "premise": "VaultFront lacks theme coverage or desktop/mobile proof.",
+      "verdict": "false",
+      "evidence": "docs/visual-qa/LATEST.json binds 114 artifacts across three themes and desktop/mobile; doctor local-theme-proof passes."
+    },
+    {
+      "premise": "The public stats surface is missing.",
+      "verdict": "false",
+      "evidence": "public/stats.html and public/stats.json derive from one generator and publish explicit Not yet measured states; the central CANON-054 checker gap is a checker/profile disagreement, not absent product code."
+    },
+    {
+      "premise": "A project-local identity system should replace the blocked Obelisk relying-party corridor.",
+      "verdict": "rejected",
+      "evidence": "context/PROJECT_STATUS.json declares obeliskArchitecture external and CANON-045 forbids substituting local auth for the Studio identity plane."
+    },
+    {
+      "premise": "The local aggregate test suite is currently product-red.",
+      "verdict": "not established",
+      "evidence": "The only local reds are fork-start and test-timeout symptoms on a host with dozens of unrelated Node processes; the exact initially skipped eight files pass 81/81 serially and provider CI at recovery revision 0d515835 is green."
+    }
+  ],
+  "items": [
+    {
+      "id": 190,
+      "slug": "owned-domain-cloudflare-release-corridor",
+      "tier": "🔥",
+      "axis": "security / release / ux",
+      "effortHours": 5,
+      "impact": 10,
+      "innovation": 7,
+      "priority": 74.8,
+      "status": "pending",
+      "complete": false,
+      "title": "Make vaultfront.io the explicit staged Cloudflare production origin",
+      "why": "Live DNS proves vaultfront.io still delegates to dns1/dns2.registrar-servers.com, the apex resolves to Namecheap parking 192.64.119.175, and www points to parkingpage.namecheap.com. The GitHub repository currently has zero Actions variables and zero Actions secrets, while deploy/promote workflows require DOMAIN, DEPLOY_INGRESS_PORT, server host/user, GHCR credentials, DATABASE_URL, Cloudflare, Turnstile, and SSH inputs. A purchased domain and READY Cloudflare gateway credentials therefore cannot produce a live game until the edge/origin contract is explicit and the provider configuration is provisioned.",
+      "recipe": "Define vaultfront.io as the canonical production origin and staging.vaultfront.io as the staging origin; update public API/server metadata and release defaults without changing VaultSpark brand links; provision the Cloudflare zone and edge records through gateway credentials; configure bounded GitHub Actions variables/secrets via stdin from getSecret(); execute staging and exact-digest promotion; verify health, revision, TLS, headers, redirects, agent files, and rollback evidence. If Namecheap remains authoritative, leave Cloudflare fully ready and surface only the exact nameserver delegation. Core-loop step: acquisition input -> immediate commander fantasy -> first match reward -> return progression.",
+      "recommendedModel": "opus",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Make vaultfront.io/staging.vaultfront.io canonical in checked-in release metadata and add a drift contract."
+        },
+        "L2": {
+          "effortHours": 3,
+          "recipe": "Provision Cloudflare zone/records and repository variables/secrets from the Studio gateway without printing values."
+        },
+        "L3": {
+          "effortHours": 5,
+          "recipe": "Deploy staging, attest exact digest, promote production, verify live edge/runtime/rollback evidence, and produce the minimal Namecheap handoff only if delegation remains external."
+        }
+      },
+      "coreLoopStep": "acquisition input -> immediate commander fantasy -> first match reward -> return progression",
+      "executionLog": []
+    },
+    {
+      "id": 191,
+      "slug": "provider-live-match-readiness-root-fix",
+      "tier": "🔥",
+      "axis": "automation / game-loop reliability",
+      "effortHours": 5,
+      "impact": 9,
+      "innovation": 7,
+      "priority": 67.3,
+      "status": "pending",
+      "complete": false,
+      "title": "Root-fix the clean-runner live-match readiness failure",
+      "why": "Provider run 31292803827 passes 26 browser checks but e2e/live-match.spec.ts times out in both chromium and mobile-chrome across all retries waiting for __vfMatchReady. That clean ubuntu-latest evidence disproves Session 99's local-only resource-contention conclusion as a complete cause. The configurable Worker timeout is real but does not make the production ClientGameRunner/Renderer pipeline reach match-ready, so the primary loop has no green end-to-end admission proof.",
+      "recipe": "Download and inspect the provider failure context/trace, instrument the exact worker, transport, fixture, and game-start milestones with test-only structured diagnostics, identify the first missing transition, then fix the product or fixture contract at its owner. Keep the 60-second match-ready assertion strict, add a regression for the diagnosed boundary, and prove both Playwright projects green on a clean provider run. Core-loop step: start-match input -> live strategic battlefield fantasy -> first authoritative interaction reward -> session continuation.",
+      "recommendedModel": "opus",
+      "ladder": {
+        "L1": {
+          "effortHours": 1.5,
+          "recipe": "Recover the exact provider artifact and expose structured readiness milestones on failure."
+        },
+        "L2": {
+          "effortHours": 3,
+          "recipe": "Root-fix the first missing worker/transport/game transition with focused regression coverage."
+        },
+        "L3": {
+          "effortHours": 5,
+          "recipe": "Prove desktop and mobile live-match readiness in exact-revision provider E2E without raising the assertion timeout or excluding the spec."
+        }
+      },
+      "coreLoopStep": "start-match input -> live strategic battlefield fantasy -> first authoritative interaction reward -> session continuation",
+      "executionLog": []
+    },
+    {
+      "id": 192,
+      "slug": "public-fortune-title-projection",
+      "tier": "🔥",
+      "axis": "gamification / feature depth",
+      "effortHours": 8,
+      "impact": 8,
+      "innovation": 7,
+      "priority": 50.6,
+      "status": "pending",
+      "complete": false,
+      "title": "Carry equipped Fortune titles into authoritative match identity",
+      "why": "FortuneDeck persists equipped_fortune_title and the Command Center can equip it, but every in-match identity surface still renders only player.displayName(); there is no equippedTitle reference in NameLayer.ts or Leaderboard.ts and no authoritative player projection carrying it to opponents. The reward loop therefore ends in a private settings state instead of the social recognition promised by equip.",
+      "recipe": "Extend the authenticated match-admission/player projection with an optional bounded equipped Fortune title, keep it coaching/identity-only and HTML-safe, expose one formatted display authority consumed by map labels and leaderboard rows, preserve replay compatibility and anonymous/bot behavior, and add server/client/schema plus three-theme desktop/mobile proof. Core-loop step: victory reward -> equip progression -> visible commander identity fantasy -> next-match motivation.",
+      "recommendedModel": "opus",
+      "ladder": {
+        "L1": {
+          "effortHours": 2,
+          "recipe": "Show the authenticated local player's equipped title in their own leaderboard and map-label surfaces."
+        },
+        "L2": {
+          "effortHours": 5,
+          "recipe": "Carry a bounded optional title through authoritative player admission so opponents receive the same identity."
+        },
+        "L3": {
+          "effortHours": 8,
+          "recipe": "One safe formatted-display authority, replay/backward compatibility, adversarial title tests, and full rendered proof."
+        }
+      },
+      "coreLoopStep": "victory reward -> equip progression -> visible commander identity fantasy -> next-match motivation",
+      "executionLog": []
+    },
+    {
+      "id": 193,
+      "slug": "radial-menu-announced-focus-contract",
+      "tier": "⚡",
+      "axis": "ux / accessibility",
+      "effortHours": 4,
+      "impact": 7,
+      "innovation": 5,
+      "priority": 27.1,
+      "status": "pending",
+      "complete": false,
+      "title": "Make Radial Menu keyboard focus understandable without vision",
+      "why": "RadialMenu now has menu/menuitem roles, labels, roving tabindex, and keyboard activation, but it has no aria-live status and no keyboard-only Playwright proof. SVG focus moves among slices while the visual tooltip remains the only rich explanation of the hovered action, so screen-reader users cannot reliably hear the current action, availability, or nested-menu position.",
+      "recipe": "Add one visually hidden polite live region owned by RadialMenu; announce the focused item's resolved label plus disabled/submenu state on keyboard movement without duplicating pointer noise; clear it on hide/dispose; and add a keyboard-only Playwright state that opens, traverses, enters a submenu, activates, and verifies the announcement on desktop and mobile-emulated input. Core-loop step: command input -> legible tactical choice fantasy -> successful action reward -> confident continued play.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Announce resolved focused-item labels in one polite live region."
+        },
+        "L2": {
+          "effortHours": 2.5,
+          "recipe": "Include disabled/submenu position semantics and lifecycle cleanup with focused unit tests."
+        },
+        "L3": {
+          "effortHours": 4,
+          "recipe": "Keyboard-only desktop/mobile Playwright proof across open, traverse, submenu, activation, and close."
+        }
+      },
+      "coreLoopStep": "command input -> legible tactical choice fantasy -> successful action reward -> confident continued play",
+      "executionLog": []
+    },
+    {
+      "id": 194,
+      "slug": "sidebar-feed-projection-kernel",
+      "tier": "⚡",
+      "axis": "feedback loop / speed / organization",
+      "effortHours": 6,
+      "impact": 6,
+      "innovation": 5,
+      "priority": 30,
+      "status": "pending",
+      "complete": false,
+      "title": "Extract GameRightSidebar's tactical feed rules into a pure tested projection",
+      "why": "GameRightSidebar.ts remains 1,587 lines and coverage-baseline records only 24.71% line coverage. Its self > ally > global priority, passive merge window, TTL, objective rail, and activity labels are player-critical feedback rules embedded inside a LitElement with timers, storage, layout, and network hydration, making exact edge coverage costly and fragile.",
+      "recipe": "Extract a pure SidebarActivityProjection module that owns audience priority, merge, expiry, filter, label, and objective-rail selection; inject current tick and player relation facts; cover equal-priority ties, passive merges, TTL boundaries, reconnect replay, and empty states; then keep the LitElement as a thin renderer. Core-loop step: authoritative action -> tactical feedback fantasy -> comprehension reward -> next decision.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 2,
+          "recipe": "Extract pure priority/merge/expiry helpers and cover the existing frozen rules."
+        },
+        "L2": {
+          "effortHours": 4,
+          "recipe": "Move label/filter/objective-rail projection behind one typed input/output boundary."
+        },
+        "L3": {
+          "effortHours": 6,
+          "recipe": "Thin renderer integration, adversarial lifecycle tests, and an honestly raised coverage ratchet."
+        }
+      },
+      "coreLoopStep": "authoritative action -> tactical feedback fantasy -> comprehension reward -> next decision",
+      "executionLog": []
+    },
+    {
+      "id": 195,
+      "slug": "reroute-preview-panel-extraction",
+      "tier": "⚡",
+      "axis": "speed / organization / token reduction",
+      "effortHours": 6,
+      "impact": 6,
+      "innovation": 4,
+      "priority": 24,
+      "status": "pending",
+      "complete": false,
+      "title": "Finish the deferred reroute decision-panel extraction",
+      "why": "Audit #185 intentionally shipped only ViewportMode. ControlPanel.ts is still 3,537 lines and still owns renderReroutePreviewPanel plus route comparison, recommendation, risk, and copy presentation. The composition ratchet prevents further growth but does not reduce the blast radius or token cost of changing the game's most sophisticated convoy decision aid.",
+      "recipe": "Extract a pure reroute decision view model and a focused ReroutePreviewPanel renderer with typed callbacks; preserve route ranking, exact risk/ETA copy, keyboard order, and semantic theme tokens; reduce ControlPanel below a newly ratcheted budget and cover both view-model edge cases and three-theme desktop/mobile output. Core-loop step: convoy-route input -> strategic interception fantasy -> informed reroute reward -> mastery progression.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 2,
+          "recipe": "Extract the pure route comparison/recommendation view model."
+        },
+        "L2": {
+          "effortHours": 4,
+          "recipe": "Move rendering and typed callbacks into ReroutePreviewPanel."
+        },
+        "L3": {
+          "effortHours": 6,
+          "recipe": "Ratchet ControlPanel downward, add behavior tests, and recapture all touched themes at desktop/mobile."
+        }
+      },
+      "coreLoopStep": "convoy-route input -> strategic interception fantasy -> informed reroute reward -> mastery progression",
+      "executionLog": []
+    }
+  ],
+  "secondOrderInnovations": []
+}
