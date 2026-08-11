@@ -3,12 +3,12 @@
 > A convoy-driven browser strategy warfront in public-unlaunched alpha.
 
 ## Core URLs
-- Landing: https://vaultsparkstudios.com/vaultfront/
+- Landing: https://vaultfront.io/
 - Public runtime: unavailable
 - Join alpha: mailto:founder@vaultsparkstudios.com?subject=VaultFront%20alpha%20interest
-- How to play: https://vaultsparkstudios.com/vaultfront/#how-to-play
-- Public stats: https://vaultsparkstudios.com/vaultfront/stats/
-- Machine-readable stats: https://vaultsparkstudios.com/vaultfront/stats.json
+- How to play: https://vaultfront.io/docs/
+- Public stats: https://vaultfront.io/stats/
+- Machine-readable stats: https://vaultfront.io/stats.json
 - Source: https://github.com/VaultSparkStudios/VaultFront
 
 ## What this project does

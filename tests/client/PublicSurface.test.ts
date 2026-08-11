@@ -64,8 +64,8 @@ describe("public launch foundation", () => {
 
   it("lists every local public page in the sitemap and exposes AI discovery", () => {
     const sitemap = read("public/sitemap.xml");
-    expect(sitemap).toContain("https://vaultsparkstudios.com/vaultfront/");
-    expect(sitemap).not.toContain("vaultfront.vaultsparkstudios.com");
+    expect(sitemap).toContain("https://vaultfront.io/");
+    expect(sitemap).not.toContain("play-vaultfront.vaultsparkstudios.com");
     for (const page of publicPages) {
       expect(read(`public/${page}/index.html`)).toContain(
         'name="robots" content="noindex,follow"',

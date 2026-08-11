@@ -306,8 +306,8 @@ export async function startWorker() {
   const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(",").map((s) =>
     s.trim(),
   ) ?? [
-    "https://play-vaultfront.vaultsparkstudios.com",
-    "https://vaultsparkstudios.com",
+    "https://vaultfront.io",
+    "https://staging.vaultfront.io",
     ...(config.env() === GameEnv.Dev
       ? ["http://localhost:5173", "http://localhost:3000"]
       : []),
@@ -1661,9 +1661,7 @@ export async function startWorker() {
     const mapName = game?.gameConfig.gameMap ?? "Unknown Map";
     const phase = game?.phase() ?? "unknown";
 
-    const playBase =
-      process.env.PLAY_BASE_URL ??
-      "https://play-vaultfront.vaultsparkstudios.com";
+    const playBase = process.env.PLAY_BASE_URL ?? "https://vaultfront.io";
     const shareUrl = `${playBase}/join?gameId=${encodeURIComponent(gameId)}`;
 
     return res.json({
@@ -1989,8 +1987,7 @@ export async function startWorker() {
       const lobbyId = allocation.gameId;
       gm.createGame(lobbyId, sourceConfig, creatorPersistentId);
       const playBase = (
-        process.env.PLAY_BASE_URL ??
-        "https://play-vaultfront.vaultsparkstudios.com"
+        process.env.PLAY_BASE_URL ?? "https://vaultfront.io"
       ).replace(/\/+$/, "");
       const workerPath = config.workerPath(lobbyId).replace(/^\/+|\/+$/g, "");
       return {

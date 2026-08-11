@@ -47,8 +47,7 @@ export function createReplayShareProjection(
     startTurn: number;
     endTurn: number;
   },
-  playBase = process.env.PLAY_BASE_URL ??
-    "https://play-vaultfront.vaultsparkstudios.com",
+  playBase = process.env.PLAY_BASE_URL ?? "https://vaultfront.io",
 ): ReplayShareProjection {
   if (!verifyReplaySignature(manifest) || !manifest.signature) {
     throw new ReplayShareContractError(

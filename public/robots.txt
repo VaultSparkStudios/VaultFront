@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-# Canonical public page: https://vaultsparkstudios.com/vaultfront/
+# Canonical public page: https://vaultfront.io/

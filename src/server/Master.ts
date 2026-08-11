@@ -38,8 +38,8 @@ app.use(express.json());
 const masterAllowedOrigins = process.env.ALLOWED_ORIGINS?.split(",").map((s) =>
   s.trim(),
 ) ?? [
-  "https://play-vaultfront.vaultsparkstudios.com",
-  "https://vaultsparkstudios.com",
+  "https://vaultfront.io",
+  "https://staging.vaultfront.io",
   "http://localhost:5173",
   "http://localhost:3000",
 ];

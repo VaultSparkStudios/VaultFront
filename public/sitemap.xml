@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://vaultsparkstudios.com/vaultfront/</loc></url>
-  <url><loc>https://vaultsparkstudios.com/vaultfront/stats/</loc></url>
+  <url><loc>https://vaultfront.io/</loc></url>
+  <url><loc>https://vaultfront.io/about/</loc></url>
+  <url><loc>https://vaultfront.io/contact/</loc></url>
+  <url><loc>https://vaultfront.io/docs/</loc></url>
+  <url><loc>https://vaultfront.io/ip/</loc></url>
+  <url><loc>https://vaultfront.io/privacy/</loc></url>
+  <url><loc>https://vaultfront.io/stats/</loc></url>
+  <url><loc>https://vaultfront.io/terms/</loc></url>
 </urlset>

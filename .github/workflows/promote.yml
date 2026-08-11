@@ -31,9 +31,9 @@ on:
         default: ""
         type: string
       target_subdomain:
-        description: "Production subdomain"
+        description: "Production subdomain; main targets the apex domain"
         required: true
-        default: "play-vaultfront"
+        default: "main"
         type: string
       dry_run:
         description: "Validate promotion without connecting to production"

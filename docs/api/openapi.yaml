@@ -6,13 +6,13 @@ info:
     Internal REST API served by VaultFront's Master and Worker processes.
     All `/api/vaultfront/*` endpoints are VaultFront-specific additions on top
     of the OpenFrontIO base. Authentication uses JWT bearer tokens issued
-    by the external API service (api-vaultfront.vaultsparkstudios.com).
+    by the VaultFront runtime (vaultfront.io).
   contact:
     name: VaultSpark Studios
     url: https://vaultsparkstudios.com
 
 servers:
-  - url: https://play-vaultfront.vaultsparkstudios.com
+  - url: https://vaultfront.io
     description: Production gameplay server
   - url: http://localhost:3000
     description: Local development (Master/Worker 0)
@@ -839,7 +839,7 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-      description: JWT issued by api-vaultfront.vaultsparkstudios.com
+      description: JWT issued by vaultfront.io
     adminToken:
       type: apiKey
       in: header

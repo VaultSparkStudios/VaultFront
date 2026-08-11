@@ -77,8 +77,8 @@ VaultFrontLayer.tick()                      ← renders canvas overlay
 ```
 Hetzner VPS (shared studio)
   └─ Traefik (TLS termination + routing by Host label)
-       ├─ play-vaultfront.vaultsparkstudios.com  → vaultfront-prod-main
-       └─ api-vaultfront.vaultsparkstudios.com   → api container
+       ├─ vaultfront.io, www.vaultfront.io  → vaultfront-prod-main
+       └─ staging.vaultfront.io             → vaultfront-staging-staging
 
 GitHub Pages (frontend stub / eventual client)
   └─ vaultsparkstudios.com/vaultfront/  → pages-stub/ (manual deploy-pages.yml)

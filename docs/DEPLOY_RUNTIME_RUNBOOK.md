@@ -7,16 +7,16 @@ CANON-038 block, database role, deploy user, DNS record, and Caddy route.
 
 **Target URLs:**
 
-- Gameplay: `https://play-vaultfront.vaultsparkstudios.com`
-- API: `https://api-vaultfront.vaultsparkstudios.com`
-- Public page: `https://vaultsparkstudios.com/vaultfront/` (already live)
+- Production gameplay + API: `https://vaultfront.io`
+- Stable staging: `https://staging.vaultfront.io`
+- Legacy studio discovery page: `https://vaultsparkstudios.com/vaultfront/`
 
 ---
 
 ## Prerequisites
 
 - A recorded VaultFront allocation in the shared-host registry
-- Cloudflare account with `vaultsparkstudios.com` zone access
+- Cloudflare account with `vaultfront.io` zone access
 - GitHub org admin access to `VaultSparkStudios/VaultFront`
 - GHCR write access (to push Docker images)
 - A scoped VaultFront database role and deploy user issued by Studio Ops
@@ -39,11 +39,11 @@ authority names VaultFront; a nominal free port is not an allocation.
 
 Studio Ops owns the one-time shared-host work. It creates the unprivileged
 `vaultfront` deploy user, `/opt/vaultfront`, the scoped database role/database,
-and the Caddy site that proxies both VaultFront hostnames to the allocated
-`127.0.0.1:<DEPLOY_INGRESS_PORT>` listener. The project never receives the
+and the Caddy sites that proxy the production and staging hostnames to their
+separately allocated `127.0.0.1:<DEPLOY_INGRESS_PORT>` listeners. The project never receives the
 shared PostgreSQL administrator DSN.
 
-Upload `update.sh` to `/opt/vaultfront/update.sh`, make it executable, and grant
+Upload `update.sh` to `/home/vaultfront/update-vaultfront.sh`, make it executable, and grant
 the deploy user only the Docker and project-directory access required by the
 workflow. The updater creates `${DEPLOYMENT_KEY}-private` plus a stable Nginx
 router container; neither resource is shared with another project.
@@ -61,7 +61,7 @@ Add the following **Secrets**:
 | `DEPLOY_SERVER_HOST`          | Shared-host address recorded by the allocation          |
 | `DEPLOY_SSH_KEY`              | Private SSH key for the scoped VaultFront deploy user   |
 | `GHCR_TOKEN`                  | GitHub PAT with `write:packages` scope                  |
-| `API_KEY`                     | Internal API key shared with api-vaultfront service     |
+| `API_KEY`                     | Internal VaultFront API key                             |
 | `CF_ACCOUNT_ID`               | Cloudflare account ID                                   |
 | `CF_API_TOKEN`                | Cloudflare API token with Tunnel + DNS write scope      |
 | `TURNSTILE_SECRET_KEY`        | Cloudflare Turnstile secret for the domain              |
@@ -72,14 +72,14 @@ Add the following **Secrets**:
 
 Add the following **Variables**:
 
-| Variable                    | Value                           |
-| --------------------------- | ------------------------------- |
-| `DOMAIN`                    | `vaultsparkstudios.com`         |
-| `GHCR_REPO`                 | `vaultfront`                    |
-| `GHCR_USERNAME`             | `vaultsparkstudios`             |
-| `DEPLOY_REMOTE_USER`        | `vaultfront`                    |
-| `DEPLOY_REMOTE_SCRIPT_PATH` | `/opt/vaultfront/update.sh`     |
-| `DEPLOY_INGRESS_PORT`       | Allocated loopback ingress port |
+| Variable                    | Value                                                         |
+| --------------------------- | ------------------------------------------------------------- |
+| `DOMAIN`                    | `vaultfront.io`                                               |
+| `GHCR_REPO`                 | `vaultfront`                                                  |
+| `GHCR_USERNAME`             | `vaultsparkstudios`                                           |
+| `DEPLOY_REMOTE_USER`        | `vaultfront`                                                  |
+| `DEPLOY_REMOTE_SCRIPT_PATH` | `/home/vaultfront/update-vaultfront.sh`                       |
+| `DEPLOY_INGRESS_PORT`       | `8160` staging / `8161` production after canonical allocation |
 
 ---
 
@@ -100,13 +100,14 @@ Caddy is the sole public ingress authority. The production container starts
 only Nginx and Node; it never creates a provider tunnel, rewrites DNS, or
 receives Cloudflare control-plane credentials.
 
-In Cloudflare DNS for `vaultsparkstudios.com`, point the proxied records at
+In Cloudflare DNS for `vaultfront.io`, point the proxied records at
 the shared VPS:
 
-| Type | Name              | Content     | Proxy   |
-| ---- | ----------------- | ----------- | ------- |
-| `A`  | `play-vaultfront` | Shared host | Proxied |
-| `A`  | `api-vaultfront`  | Shared host | Proxied |
+| Type    | Name      | Content           | Proxy   |
+| ------- | --------- | ----------------- | ------- |
+| `A`     | `@`       | `178.156.211.100` | Proxied |
+| `CNAME` | `www`     | `vaultfront.io`   | Proxied |
+| `A`     | `staging` | `178.156.211.100` | Proxied |
 
 The remote updater binds its stable project router only to the allocated
 loopback port. Caddy owns DNS-facing TLS and proxies the exact hostnames to that
@@ -157,7 +158,7 @@ its retained attestation and is never re-entered by an operator.
 3. Set:
    - `staging_run_id`: the successful **Deploy staging** run ID from this repository
    - `operation`: `promotion`
-   - `target_subdomain`: `play-vaultfront`
+   - `target_subdomain`: `main`
    - `dry_run`: `true`
 4. Run the dry-run contract validation. It downloads the named staging artifact,
    verifies the GitHub run succeeded in this repository, verifies freshness and
@@ -189,7 +190,7 @@ Once the gameplay backend health check passes:
 4. Update `context/CURRENT_STATE.md` — remove the "Pending" flags for the runtime URLs
 
 Optionally update `pages-stub/index.html` hero text from "Under Development" to
-a live link pointing to `https://play-vaultfront.vaultsparkstudios.com`.
+a live link pointing to `https://vaultfront.io`.
 
 ---
 
@@ -199,11 +200,11 @@ Capture a release receipt instead of relying on a green workflow badge alone.
 
 ```bash
 # Canonical health endpoint
-curl https://play-vaultfront.vaultsparkstudios.com/_health
+curl https://vaultfront.io/_health
 # Expected: {"status":"ok"}
 
 # Commit SHA matches the revision label embedded in the promoted image
-curl https://play-vaultfront.vaultsparkstudios.com/commit.txt
+curl https://vaultfront.io/commit.txt
 # Must equal the EXPECTED_GIT_SHA resolved by promote.yml
 
 # Staging observation bundle
@@ -211,10 +212,10 @@ curl https://play-vaultfront.vaultsparkstudios.com/commit.txt
 # parity evidence, and workflow run URL before production promotion.
 
 # WebSocket connectivity (use wscat or browser dev tools)
-wscat -c wss://play-vaultfront.vaultsparkstudios.com/lobbies
+wscat -c wss://vaultfront.io/lobbies
 
 # Env config reachable
-curl https://play-vaultfront.vaultsparkstudios.com/api/env
+curl https://vaultfront.io/api/env
 ```
 
 Before promotion, verify:
@@ -241,7 +242,7 @@ Rollback is a promotion of a previously verified immutable digest, never a mutab
    - `operation`: `rollback`
    - `replaced_staging_run_id`: the currently deployed revision's staging run
    - `rollback_reason`: the incident or decision reference
-   - `target_subdomain`: `play-vaultfront`
+   - `target_subdomain`: `main`
    - `dry_run`: `true`
 5. Run the validation-only promotion and require its retained
    `promotion-validation-<run-id>` artifact.

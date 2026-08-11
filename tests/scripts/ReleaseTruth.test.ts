@@ -145,12 +145,8 @@ describe("release truth boundary", () => {
     expect(descriptor.availability).toMatchObject({
       publicRuntime: "unavailable",
     });
-    expect(descriptor.endpoints.landing).toBe(
-      "https://vaultsparkstudios.com/vaultfront/",
-    );
-    expect(read("pages-stub/index.html")).not.toContain(
-      "play-vaultfront.vaultsparkstudios.com",
-    );
+    expect(descriptor.endpoints.landing).toBe("https://vaultfront.io/");
+    expect(read("pages-stub/index.html")).not.toContain("vaultfront.io");
     expect(read("pages-stub/index.html")).toContain("Join Alpha");
     expect(read("public/.well-known/llms.txt")).toContain(
       "Public runtime: unavailable",
@@ -161,7 +157,7 @@ describe("release truth boundary", () => {
     const html = read("index.html");
     expect(html).not.toContain("%VITE_CANONICAL_URL%");
     expect(html).not.toContain("%VITE_OG_IMAGE_URL%");
-    expect(html).toContain("https://vaultsparkstudios.com/vaultfront/");
+    expect(html).toContain("https://vaultfront.io/");
     expect(read("vite.config.ts")).not.toContain('return "game-ui"');
   });
 });

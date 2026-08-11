@@ -19,8 +19,7 @@ import type { ReplayManifest, ReplayTurn } from "./ReplayStore";
 
 const CLIP_TURNS = 60; // ~30 s at 2 turns/s
 const CACHE_TTL_MS = 2 * 60 * 60 * 1_000;
-const PLAY_BASE =
-  process.env.PLAY_BASE_URL ?? "https://play-vaultfront.vaultsparkstudios.com";
+const PLAY_BASE = process.env.PLAY_BASE_URL ?? "https://vaultfront.io";
 
 export interface ReplayHighlight {
   gameId: string;

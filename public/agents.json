@@ -13,9 +13,9 @@
     "verified-balance-envelope"
   ],
   "endpoints": {
-    "landing": "https://vaultsparkstudios.com/vaultfront/",
-    "docs": "https://vaultsparkstudios.com/vaultfront/#how-to-play",
-    "stats": "https://vaultsparkstudios.com/vaultfront/stats/",
+    "landing": "https://vaultfront.io/",
+    "docs": "https://vaultfront.io/docs/",
+    "stats": "https://vaultfront.io/stats/",
     "statsMachine": "/stats.json",
     "contact": "mailto:founder@vaultsparkstudios.com?subject=VaultFront%20alpha%20interest",
     "source": "https://github.com/VaultSparkStudios/VaultFront",

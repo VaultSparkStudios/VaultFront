@@ -1,6 +1,13 @@
 import { render } from "lit";
 import { GameRightSidebar } from "../../../../src/client/graphics/layers/GameRightSidebar";
+import { GameType } from "../../../../src/core/game/Game";
 import { GameUpdateType } from "../../../../src/core/game/GameUpdates";
+
+afterEach(() => {
+  localStorage.clear();
+  sessionStorage.clear();
+  vi.useRealTimers();
+});
 
 describe("GameRightSidebar Vault feed", () => {
   test("passive income updates merge and render as a single readable feed item", () => {
@@ -224,4 +231,164 @@ test("playtest pulse tile surfaces rival conversion and next operator action", (
   expect(text).toContain("Alpha gatewarming");
   expect(text).toContain("Seed a rivalry rematch scenario.");
   expect(text).toContain("Run the focused rivalry/rematch alpha gate.");
+});
+
+test("lifecycle wires visibility events and releases scheduled mastery work", () => {
+  vi.useFakeTimers();
+  localStorage.setItem("vaultfront.debug", "1");
+  localStorage.setItem("vaultfront.kpi.panel", "1");
+  const handlers: Array<(event?: any) => void> = [];
+  const sidebar = new GameRightSidebar() as any;
+  sidebar.viewportWidth = () => 1280;
+  sidebar.game = {
+    config: () => ({
+      gameConfig: () => ({ gameType: GameType.Singleplayer }),
+      isReplay: () => false,
+    }),
+    inSpawnPhase: vi.fn(() => false),
+  };
+  sidebar.eventBus = {
+    on: vi.fn((_eventType: unknown, handler: (event?: any) => void) => {
+      handlers.push(handler);
+    }),
+  };
+
+  sidebar.init();
+  handlers[0]({ visible: true });
+  handlers[1]({ visible: true });
+  handlers[2]();
+
+  expect(sidebar._isSinglePlayer).toBe(true);
+  expect(sidebar.vaultDebugActive).toBe(true);
+  expect(sidebar.kpiPanelVisible).toBe(true);
+  expect(sidebar.timelineExpanded).toBe(true);
+  expect(sidebar.spawnBarVisible).toBe(true);
+  expect(sidebar.immunityBarVisible).toBe(true);
+  expect(sidebar.hasWinner).toBe(true);
+  expect(sidebar.dailyMasteryTimers.size).toBe(2);
+
+  sidebar.dispose();
+  expect(sidebar.dailyMasteryTimers.size).toBe(0);
+});
+
+test("tick consumes authoritative status and persists major activity", () => {
+  sessionStorage.setItem("vaultfront.matchTimeline", "not-json");
+  let inSpawnPhase = false;
+  let ticks = 100;
+  const sidebar = new GameRightSidebar() as any;
+  const me = {
+    smallID: () => 1,
+    isLobbyCreator: () => true,
+    isFriendly: () => false,
+  };
+  const status = { type: GameUpdateType.VaultFrontStatus, sites: [] };
+  const activity = {
+    type: GameUpdateType.VaultFrontActivity,
+    activity: "vault_captured",
+    tile: 19,
+    sourcePlayerID: 1,
+    targetPlayerID: null,
+    label: "Your vault captured",
+    durationTicks: 120,
+  };
+  sidebar.game = {
+    myPlayer: () => me,
+    playerBySmallID: (id: number) => ({
+      isPlayer: () => true,
+      smallID: () => id,
+    }),
+    config: () => ({
+      gameConfig: () => ({ maxTimerValue: 2 }),
+      numSpawnPhaseTurns: () => 20,
+    }),
+    ticks: () => ticks,
+    inSpawnPhase: () => inSpawnPhase,
+    updatesSinceLastTick: () => ({
+      [GameUpdateType.VaultFrontStatus]: [status],
+      [GameUpdateType.VaultFrontActivity]: [activity],
+    }),
+  };
+
+  sidebar.tick();
+
+  expect(sidebar.isLobbyCreator).toBe(true);
+  expect(sidebar.timer).toBe(112);
+  expect(sidebar.latestVaultStatus).toBe(status);
+  expect(sidebar.vaultTimeline).toMatchObject([
+    { tick: 100, activity: "vault_captured", tile: 19 },
+  ]);
+  expect(sidebar.recentVaultFeed).toHaveLength(1);
+  expect(
+    JSON.parse(sessionStorage.getItem("vaultfront.matchTimeline") ?? "[]"),
+  ).toMatchObject([{ tick: 100, activity: "vault_captured", tile: 19 }]);
+
+  inSpawnPhase = true;
+  ticks = 110;
+  sidebar.tick();
+  expect(sidebar.timer).toBe(120);
+
+  inSpawnPhase = false;
+  sidebar.hasWinner = true;
+  sidebar.timer = 17;
+  sidebar.tick();
+  expect(sidebar.timer).toBe(17);
+});
+
+test("operator controls persist toggles and classify changing vault risk", () => {
+  const sidebar = new GameRightSidebar() as any;
+  sidebar.playtestPulseLastFetchAt = Date.now();
+
+  sidebar.toggleKpiPanel();
+  expect(sidebar.kpiPanelVisible).toBe(true);
+  expect(localStorage.getItem("vaultfront.kpi.panel")).toBe("1");
+  sidebar.toggleKpiPanel();
+  expect(localStorage.getItem("vaultfront.kpi.panel")).toBe("0");
+
+  const debugEvents: boolean[] = [];
+  window.addEventListener(
+    "vaultfront-debug-toggle",
+    ((event: CustomEvent<{ enabled: boolean }>) => {
+      debugEvents.push(event.detail.enabled);
+    }) as EventListener,
+    { once: true },
+  );
+  sidebar.toggleVaultDebug();
+  expect(debugEvents).toEqual([true]);
+  expect(sessionStorage.getItem("vaultfront.debug")).toBe("1");
+
+  const initialTimeline = sidebar.timelineExpanded;
+  sidebar.toggleTimeline();
+  expect(sidebar.timelineExpanded).toBe(!initialTimeline);
+  const capturesEnabled = sidebar.timelineFilters.captures;
+  sidebar.toggleTimelineFilter("captures");
+  expect(sidebar.timelineFilters.captures).toBe(!capturesEnabled);
+
+  expect(sidebar.kpiPercent(1, 4)).toBe("25.0%");
+  expect(sidebar.kpiPercent(1, 0)).toBe("0%");
+  expect(sidebar.vaultRiskTrend(3, "Low")).toBe("steady");
+  expect(sidebar.vaultRiskTrend(3, "Medium")).toBe("rising");
+  expect(sidebar.vaultRiskTrend(3, "Low")).toBe("falling");
+
+  const owner = (id: number) => ({
+    isPlayer: () => true,
+    smallID: () => id,
+  });
+  const me = {
+    smallID: () => 1,
+    isFriendly: () => false,
+  };
+  sidebar.game = {
+    x: () => 5,
+    y: () => 5,
+    width: () => 12,
+    height: () => 12,
+    ref: (x: number, y: number) => ({ x, y }),
+    owner: ({ x, y }: { x: number; y: number }) =>
+      x === 5 && y === 5 ? owner(1) : owner(2),
+    myPlayer: () => me,
+  };
+
+  expect(sidebar.isTerritoryNearVault(12, 1)).toBe(true);
+  expect(sidebar.vaultRiskTag(12, 1)).toBe("High");
+  expect(sidebar.vaultRiskTag(12, 9)).toBe("Low");
 });

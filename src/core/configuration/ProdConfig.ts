@@ -10,7 +10,7 @@ export const prodConfig = new (class extends DefaultServerConfig {
     return GameEnv.Prod;
   }
   jwtAudience(): string {
-    return Env.DOMAIN ?? "vaultsparkstudios.com";
+    return Env.DOMAIN ?? "vaultfront.io";
   }
   turnstileSiteKey(): string {
     return "0x4AAAAAACFLkaecN39lS8sk";
