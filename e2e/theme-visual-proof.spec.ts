@@ -643,7 +643,7 @@ test("three themes retain readable page, panel, and settings surfaces", async ({
         ?.remove();
     });
 
-    results[results.length - 1].accountRecovery = accountRecovery;
+    results[results.length - 1].accountHandoff = accountHandoff;
     results[results.length - 1].multiTabCollision = multiTabCollision;
     results[results.length - 1].progressionDoctrine = progressionDoctrine;
     const prematchProof: Array<Record<string, unknown>> = [];
