@@ -52,7 +52,15 @@ daily-challenge-system (DailyChallengeStore + HUD card), vault-intelligence-mark
 
 ## Follow-ups
 
-- No pending unblocked local work. Session 100 closed every inherited SIL follow-up; production-only observations remain release gates, not implementation tasks.
+- No pending unblocked local work. Session 101 exhausted all eight live audit findings and all 70 second-order innovations; production-only observations remain release gates, not implementation tasks.
+
+## Completed (2026-08-12 — Session 101 saturated arc)
+
+- [done] Audits #196–203: same-origin Worker API proxy; privacy-safe public pulse singleflight; one-source unbiased map shuffle; certified local coach baseline; 44px post-match/prediction action floor; attestation-bound staging product smoke; shared Analytica Feed v1 homepage/deep-stats pulse; supported Node 22.13 hosted-runtime floor.
+- [done] Second-order saturation: extracted `CoachDebriefRouter`, made staging attest the eight-check product receipt, repaired monotonic innovation regeneration, and expanded the innovation ledger to 70/70 shipped.
+- [done] Rendered-pixel proof: 21 surfaces × three themes × desktop/mobile = 126 artifacts; direct inspection found and fixed the mobile Alpha Pulse density defect.
+- [done] Exact-revision provider and staging proof: `264f24e0` passed CI/E2E/Release and staging run `31642400012`; live API is JSON, privacy threshold is five, Obelisk PKCE/cookie posture passes, and agent surfaces resolve.
+- [done] Verification: 268/268 test files and 1,419/1,419 tests; Playwright 30/30; 133 deploy checks; doctor 13/13 with `blockingFailing: 0`.
 
 ## Completed (2026-08-12 — Session 100 recovered saturated arc)
 

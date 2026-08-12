@@ -4,12 +4,46 @@ Detailed internal scoring, audit trends, and brainstorming are maintained privat
 
 <!-- rolling-status-start -->
 
-Total: 997/1000 | Velocity: 5 | Debt: ↓ | Velocity trend: ↓
-Avgs — 3: 997.0 | 5: 997.0 | 10: 997.0 | 25: 992.5 | all: 992.5 | Last 5: 997 → 997 → 997 → 997 → 997 | Intent rate: 100%
-Categories: Dev 100 | Align 100 | Momentum 100 | Engage 99 | Process 100 | Coherence 99 | Security 100 | Ecosystem 99 | Capital 100 | Automation 100
-Last session: 2026-08-12 Session 100 recovered saturated audit, exact-digest staging, accessibility/product extractions, and release-truth repair
+Total: 998/1000 | Velocity: 8 | Debt: ↓ | Velocity trend: ↑
+Avgs — 3: 997.3 | 5: 997.2 | 10: 997.1 | 25: 992.8 | all: 992.8 | Last 5: 997 → 997 → 997 → 997 → 998 | Intent rate: 100%
+Categories: Dev 100 | Align 100 | Momentum 100 | Engage 99 | Process 100 | Coherence 99 | Security 100 | Ecosystem 100 | Capital 100 | Automation 100
+Last session: 2026-08-12 Session 101 same-origin product plane, certified local coaching, Analytica pulse, and exact-revision staging admission
 
 <!-- rolling-status-end -->
+
+## 2026-08-12 — Session 101 | Total: 998/1000 | Velocity: 8
+
+Recovered and independently checkpointed Session 100, then shipped all eight fresh audit findings and exhausted 70/70 cumulative innovations. Exact provider evidence and a hash-bound eight-contract staging attestation prove the live candidate; production remains honestly gated on external human and operational observations.
+
+| Category              |        Score | Evidence                                                                                                                                            |
+| --------------------- | -----------: | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Dev Health            |          100 | 268 files / 1,419 tests, Playwright 30/30, lint, format, production build, contracts, and project doctor are green.                                 |
+| Creative Alignment    |          100 | Local causal coaching, map variety, player-facing evidence, and compact Alpha Pulse deepen the extraction strategy fantasy without arbitrary power. |
+| Momentum              |          100 | Eight findings shipped, innovations 70/70, and zero pending unblocked work.                                                                         |
+| Engagement            |           99 | The learning/return loop is materially clearer; no human retention or fun outcome is invented before the three-human Alpha.                         |
+| Process Quality       |          100 | Recovery, exact-SHA provider validation, rendered inspection, two runtime-floor corrections, and attestation verification all failed closed.        |
+| Cross-Repo Coherence  |           99 | Studio gates and Obelisk contract are respected without sibling writes; project-domain mail and founder approval remain external.                   |
+| Security Posture      |          100 | Privacy thresholding, no-store unauthenticated identity response, PKCE redirect/cookie posture, and secret scan all pass.                           |
+| Ecosystem Integration |          100 | Exact immutable staging is live with 2/2 workers, JSON API ingress, agent surfaces, and run-bound product attestation.                              |
+| Capital Efficiency    |          100 | No paid dependency or mandatory remote-AI path; public aggregates are precomputed and poll once daily.                                              |
+| Automation Coverage   |          100 | 126 rendered artifacts, eight live product checks, 133 deploy checks, exhaustion proof, and exact provider workflows are automated.                 |
+| **Total**             | **998/1000** | Exact sum; Engagement and Coherence remain capped by missing human/external production observations.                                                |
+
+**Rolling data:** Avg3 997.3 · Avg5 997.2 · Avg10 997.1 · Avg25 992.8 · all 992.8 · velocity 8 · debt ↓ · sparkline █████.
+
+**Game rubric:** Loop Tightness 100 · Progression Curve 99 · Session Engagement 99 · Retention Hooks 99 · Soul Fidelity 100.
+
+**Top win:** Staging product truth now sits inside the deployment attestation, so a healthy master can never again conceal an HTML-fallthrough API plane.
+
+**Top gap:** Production still lacks three-human Alpha, project-domain Zoho reply identity, live revenue, observed rollback, measured parity/Core Web Vitals, and founder approval.
+
+### Brainstorm
+
+1. Use the first qualifying human cohort to compare certified coach advice with the player's own stated alternative, without tuning from synthetic traffic.
+2. Promote the aggregate Alpha Pulse from unavailable to measured only when its five-person privacy floor is genuinely crossed.
+3. Capture a reversible staging rollback drill as the next operational observation before any production promotion.
+
+**Next-session commitments:** collect external evidence in gate order; begin any new code only from a fresh audit premise; preserve the exact-SHA product-attestation boundary.
 
 ## 2026-08-12 — Session 100 | Total: 997/1000 | Velocity: 5
 

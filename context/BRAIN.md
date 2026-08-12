@@ -20,3 +20,5 @@ Public-safe architecture notes only. Detailed implementation and operator reason
 - Human + Agent capability claims remain `implemented-local-unlaunched` until a live runtime exists and must pass source-digested reachability checks.
 - Release evidence is an ordered provenance DAG whose decision root binds source, external gates, local gates, exhaustion, and transfer budgets.
 - Heavy meta surfaces belong behind intent-time lazy boundaries; exact gzip/Brotli budgets decide whether an import may remain initial.
+- Staging admission binds product semantics, not just health: exact revision, JSON API ingress, privacy, identity redirect/cookies, and agent surfaces must live inside the run-bound attestation.
+- The supported Node floor is the intersection of every locked dependency engine; provider evidence may raise it beyond the first dependency that reports an incompatibility.

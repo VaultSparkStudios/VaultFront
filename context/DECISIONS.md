@@ -643,3 +643,23 @@ Public-safe decisions only. Detailed internal decision history is maintained pri
 **Decision:** Correct local deployment topology and READY infrastructure capabilities may authorize bounded staging attempts, but they do not satisfy staging parity, native Obelisk, Zoho reply identity, human Alpha, revenue, rollback, live-theme, exact-revision CI, or founder-approval gates.
 
 **Why:** Deployment mechanics and release evidence are separate facts. Production promotion remains fail-closed until every observation is attached and verified.
+
+## 2026-08-12 — Session 101 release and runtime authority
+
+### The public project API has one same-origin master ingress
+
+**Decision:** The master owns `/api/*` and proxies to workers through one bounded `WorkerApiProxy`. Game routes derive a stable canonical shard from the game identifier; global routes use a stable global shard. Transport failure and timeout return JSON 503 responses and never fall through to the single-page application.
+
+**Why:** A route implemented in a worker is not publicly reachable when nginx terminates on the master. Staging had proved process health while serving HTML for an API URL; ingress ownership and product-contract smoke now prevent that class of phantom green.
+
+### Certified coaching is local-first
+
+**Decision:** Deterministic cause-bound local coaching is the certified baseline. Remote AI may enrich a response only through the extracted coach router and preserves an explicit fallback/receipt boundary; it is never required for a useful post-match debrief.
+
+**Why:** The core learning loop must remain available, reproducible, cost-neutral, and attributable even when provider capacity is unavailable.
+
+### Hosted verification uses the dependency graph's true engine intersection
+
+**Decision:** The repository declares Node `>=22.13 <25`, and all core CI plus brief-validation jobs use exact Node `22.13.0`; the production image remains Node 24.
+
+**Why:** Exact provider runs showed that Node 20 violated `sanitize-html` and Node 22.12 still violated current ESLint packages. The declared floor must satisfy the entire locked graph, not the first failing package encountered.
