@@ -36,7 +36,6 @@ import {
   BoundedTtlCache,
   buildCanonicalAiEvidence,
   buildCanonicalAiResponseReceipt,
-  parseCoachProviderOutput,
   parseOracleProviderOutput,
   parseRecapProviderOutput,
 } from "./CanonicalAiEvidence";
@@ -53,6 +52,7 @@ import { certifiedSeasonContractStore } from "./CertifiedSeasonContractStore";
 import { clanStore } from "./ClanStore";
 import { registerClientCrashRoutes } from "./ClientCrashRouter";
 import { clientCrashStore } from "./ClientCrashStore";
+import { registerCoachDebriefRoute } from "./CoachDebriefRouter";
 import { registerDailyMasteryRoute } from "./DailyMasteryRouter";
 import {
   databaseAllowsRequest,
@@ -82,6 +82,7 @@ import { createAdmittedClient } from "./PlayerIdentityProjection";
 import { playerStatsStore, type MatchHistoryEntry } from "./PlayerStatsStore";
 import { registerPlaytestEvidenceRoutes } from "./PlaytestEvidenceRouter";
 import { playtestEvidenceStore } from "./PlaytestEvidenceStore";
+import { PlaytestSummaryService } from "./PlaytestSummaryService";
 import { startPolling } from "./PollingLoop";
 import { registerPredictionLeagueRoutes } from "./PredictionLeagueRouter";
 import { predictionLeagueStore } from "./PredictionLeagueStore";
@@ -92,7 +93,6 @@ import { registerRematchRoutes } from "./RematchRouter";
 import { rematchStore } from "./RematchStore";
 import { remoteAiPosture, reserveRemoteAiCall } from "./RemoteAiPolicy";
 import {
-  COACH_DEBRIEF_SYSTEM_PROMPT,
   DYNASTY_SYSTEM_PROMPT,
   ORACLE_SYSTEM_PROMPT,
   PREMATCH_BRIEF_SYSTEM_PROMPT,
@@ -139,10 +139,7 @@ import {
   verifyOptionalIdentityClaim,
   type VerifiedVaultFrontActor,
 } from "./VaultFrontAuthorization";
-import {
-  attachCertifiedLoopAlphaEvidence,
-  recordVaultFrontPlaytestPulse,
-} from "./VaultFrontPlaytestPulse";
+import { recordVaultFrontPlaytestPulse } from "./VaultFrontPlaytestPulse";
 import { buildVaultFrontReadiness } from "./VaultFrontReadiness";
 import { vaultSeasonScheduler } from "./VaultSeasonScheduler";
 import { createVerifiedWorkerRoutedGameId } from "./WorkerGameId";
@@ -291,14 +288,15 @@ export async function startWorker() {
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
   const app = express();
-  const buildAuthenticatedPlaytestSummary = async () => {
-    const observedAt = Date.now();
-    const pulse = await playtestEvidenceStore.summary();
-    const certified = await certifiedLoopEvidenceStore
-      .getSummary(1_000, observedAt - 24 * 60 * 60 * 1_000)
-      .catch(() => null);
-    return attachCertifiedLoopAlphaEvidence(pulse, certified, observedAt);
-  };
+  const playtestSummaryService = new PlaytestSummaryService({
+    loadPulse: () => playtestEvidenceStore.summary(),
+    loadCertified: (observedAt) =>
+      certifiedLoopEvidenceStore
+        .getSummary(1_000, observedAt - 24 * 60 * 60 * 1_000)
+        .catch(() => null),
+  });
+  const buildAuthenticatedPlaytestSummary = () =>
+    playtestSummaryService.summary();
   const anthropic = new Anthropic({
     apiKey: process.env.ANTHROPIC_API_KEY ?? "",
   });
@@ -818,6 +816,7 @@ export async function startWorker() {
     resolveActor: resolveAuthenticatedActorKey,
     record: async (event) => {
       await playtestEvidenceStore.record(event);
+      playtestSummaryService.invalidate();
       return buildAuthenticatedPlaytestSummary();
     },
     summary: buildAuthenticatedPlaytestSummary,
@@ -1392,107 +1391,16 @@ export async function startWorker() {
     },
   );
 
-  // ── Post-Match AI Coach Debrief ───────────────────────────────────────────
-  const coachDebriefRateLimit = rateLimit({ windowMs: 60_000, max: 3 });
-  const coachDebriefCache = new BoundedTtlCache<{
-    moments: ReturnType<typeof parseCoachProviderOutput>;
-    receipt: ReturnType<typeof buildCanonicalAiResponseReceipt>;
-  }>({ maxEntries: 500, ttlMs: 24 * 60 * 60 * 1_000 });
-
-  assertRoutePolicyBinding(
-    "coach-debrief",
-    "POST",
-    "/api/vaultfront/coach-debrief",
-  );
-  app.post(
-    "/api/vaultfront/coach-debrief",
-    coachDebriefRateLimit,
-    async (req, res) => {
-      const parsed = z
-        .object({
-          persistentId: z.string().max(64).optional(),
-          gameId: z.string().max(64),
-          // Kept for wire compatibility only; never used as AI evidence.
-          activityLog: z.unknown().optional(),
-          matchStats: z.unknown().optional(),
-        })
-        .safeParse(req.body);
-      if (!parsed.success)
-        return res.status(400).json({ error: "Invalid request" });
-      const actor = await requireVaultFrontActor(req, res);
-      if (!actor || !acceptActorClaim(actor, parsed.data.persistentId, res))
-        return;
-      const context = await loadCertifiedAiContext(
-        parsed.data.gameId,
-        actor,
-        "coach-debrief",
-        res,
-      );
-      if (!context) return;
-      const canonicalInputs = {
-        info: context.record.info,
-        turns: context.record.turns,
-        result: context.certificate.result,
-      };
-      const evidence = buildCanonicalAiEvidence({
-        feature: "coach",
-        certificate: context.certificate,
-        canonicalInputs,
-        requester: actor.persistentId,
-      });
-      const cached = coachDebriefCache.get(evidence.cacheKey);
-      if (cached)
-        return res.json({ ok: true, ...cached, cached: true, evidence });
-      try {
-        if (!reserveRemoteAiCall("debrief").allowed) {
-          return res.status(503).json({ error: "Coach debrief unavailable" });
-        }
-        const msg = await executeRequestBoundAi(
-          res,
-          (signal) =>
-            anthropic.messages.create(
-              {
-                model: "claude-haiku-4-5-20251001",
-                max_tokens: 400,
-                system: [
-                  {
-                    type: "text",
-                    text: COACH_DEBRIEF_SYSTEM_PROMPT,
-                    cache_control: { type: "ephemeral" },
-                  },
-                ],
-                messages: [
-                  {
-                    role: "user",
-                    content: JSON.stringify({ evidence, canonicalInputs }),
-                  },
-                ],
-              },
-              { signal },
-            ),
-          8_000,
-        );
-        const raw =
-          (msg.content[0] as { type: string; text: string }).text?.trim() ??
-          "[]";
-        const moments = parseCoachProviderOutput(
-          raw,
-          context.record.info.num_turns,
-        );
-        const receipt = buildCanonicalAiResponseReceipt({
-          evidence,
-          output: moments,
-          provider: "anthropic",
-          model: "claude-haiku-4-5-20251001",
-        });
-        coachDebriefCache.set(evidence.cacheKey, { moments, receipt });
-        return res.json({ ok: true, moments, evidence, receipt });
-      } catch (err) {
-        logger.error("coach-debrief failed", err);
-        return res.status(500).json({ error: "Coach debrief failed" });
-      }
-    },
-  );
+  registerCoachDebriefRoute(app, {
+    rateLimit: rateLimit({ windowMs: 60_000, max: 3 }),
+    authenticate: requireVaultFrontActor,
+    acceptClaim: acceptActorClaim,
+    loadContext: (gameId, actor, res) =>
+      loadCertifiedAiContext(gameId, actor, "coach-debrief", res),
+    anthropic,
+    assertPolicyBinding: assertRoutePolicyBinding,
+    reportError: (error) => logger.error("coach-debrief failed", error),
+  });
 
   // ── Streaming Overlay API ────────────────────────────────────────────────
   // Streamers add this as an OBS browser source (transparent, 1280×200):

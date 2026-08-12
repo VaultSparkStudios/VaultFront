@@ -20,7 +20,11 @@ function renderMetric(metric) {
   return [
     '        <article class="metric-card">',
     "          <h2>" + escapeHtml(metric.label) + "</h2>",
-    '          <p class="metric-value">' + escapeHtml(metric.value) + "</p>",
+    '          <p class="metric-value">' +
+      escapeHtml(
+        metric.available === false ? "Not yet measured" : metric.value,
+      ) +
+      "</p>",
     '          <p class="metric-period">' + escapeHtml(metric.period) + "</p>",
     "          <p>" +
       escapeHtml(metric.unitOrDenominator).replace(/[.]$/u, "") +
@@ -92,7 +96,6 @@ export function generatePublicStats(root = process.cwd(), write = false) {
     for (const field of [
       "id",
       "label",
-      "value",
       "period",
       "computedAt",
       "unitOrDenominator",
@@ -102,6 +105,9 @@ export function generatePublicStats(root = process.cwd(), write = false) {
       if (!metric[field]) {
         throw new Error(String(metric.id ?? "metric") + " missing " + field);
       }
+    }
+    if (metric.available !== false && metric.value == null) {
+      throw new Error(String(metric.id) + " missing value");
     }
   }
 

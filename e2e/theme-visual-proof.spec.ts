@@ -2,7 +2,10 @@ import { expect, test } from "@playwright/test";
 import { mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 // @ts-expect-error The proof utility is a runtime ESM module exercised by Vitest.
-import { computeThemeProofSourceEvidence } from "../scripts/lib/theme-proof.mjs";
+import {
+  computeThemeProofSourceEvidence,
+  THEME_PROOF_SURFACES,
+} from "../scripts/lib/theme-proof.mjs";
 
 const themes = ["vaultfront", "light", "competitive"] as const;
 const capturedSource = computeThemeProofSourceEvidence(process.cwd());
@@ -111,6 +114,33 @@ test("three themes retain readable page, panel, and settings surfaces", async ({
         `${testInfo.project.name}-${theme}-play.png`,
       ),
       fullPage: true,
+    });
+
+    const statsShowcase = page.locator("public-stats-showcase");
+    await expect(statsShowcase).toBeVisible();
+    const statsArticles = statsShowcase.locator("article");
+    await expect(statsArticles).toHaveCount(3);
+    for (let index = 0; index < 3; index++) {
+      await expect(statsArticles.nth(index)).toBeVisible();
+    }
+    const statsGeometry = await statsShowcase.evaluate((element) => {
+      const box = element.getBoundingClientRect();
+      const link = element.shadowRoot?.querySelector("a");
+      const linkBox = link?.getBoundingClientRect();
+      return {
+        overflow: element.scrollWidth > element.clientWidth + 1,
+        width: box.width,
+        linkHeight: linkBox?.height ?? 0,
+      };
+    });
+    expect(statsGeometry.overflow).toBe(false);
+    expect(statsGeometry.width).toBeGreaterThan(250);
+    expect(statsGeometry.linkHeight).toBeGreaterThanOrEqual(44);
+    await statsShowcase.locator("section").screenshot({
+      path: path.join(
+        artifactDir,
+        `${testInfo.project.name}-${theme}-stats-showcase.png`,
+      ),
     });
 
     const agencyDoctrine = await page.evaluate(async () => {
@@ -470,7 +500,7 @@ test("three themes retain readable page, panel, and settings surfaces", async ({
       ratios,
       renderedColors,
       postMatch: renderedPostMatch,
-      surfaces: ["play", "settings", "postmatch"],
+      surfaces: ["play", "stats-showcase", "settings", "postmatch"],
       agencyDoctrine,
     });
     await page
@@ -643,9 +673,70 @@ test("three themes retain readable page, panel, and settings surfaces", async ({
         ?.remove();
     });
 
+    const predictionLeague = await page.evaluate(async () => {
+      // @ts-expect-error Vite serves this production TypeScript module to the browser harness.
+      await import("/src/client/components/PredictionLeaguePanel.ts");
+      const overlay = document.createElement("main");
+      overlay.dataset.vfVisualQaPredictionLeague = "verified";
+      overlay.style.cssText =
+        "position:fixed;inset:0;z-index:2147483647;display:grid;place-items:center;overflow:auto;padding:16px;background:var(--vf-bg,#07111f);color:var(--vf-text,#f8fafc);font-family:Overpass,sans-serif";
+      const panel = document.createElement("prediction-league-panel") as any;
+      panel.visible = true;
+      panel.accuracy = 67;
+      panel.notice = "Prediction locked for this certified match";
+      panel.consensus = {
+        gameId: "visual-proof",
+        deliveryPct: 62,
+        interceptPct: 38,
+        total: 8,
+        status: "open",
+        durability: "postgres",
+      };
+      overlay.append(panel);
+      document.body.append(overlay);
+      panel.requestUpdate();
+      await panel.updateComplete;
+      const surface = panel.querySelector<HTMLElement>(".prediction-panel");
+      const actions = [
+        ...panel.querySelectorAll<HTMLElement>(".prediction-action"),
+      ];
+      if (!surface || actions.length !== 2) {
+        throw new Error("prediction league did not render");
+      }
+      surface.style.position = "relative";
+      surface.style.inset = "auto";
+      const rect = surface.getBoundingClientRect();
+      return {
+        horizontalOverflow: overlay.scrollWidth > overlay.clientWidth,
+        withinViewport: rect.left >= 0 && rect.right <= innerWidth,
+        minActionHeight: Math.min(
+          ...actions.map((action) => action.getBoundingClientRect().height),
+        ),
+        hasConsensus:
+          surface.textContent?.includes("Delivery 62%") &&
+          surface.textContent?.includes("Intercept 38%"),
+      };
+    });
+    expect(predictionLeague).toMatchObject({
+      horizontalOverflow: false,
+      withinViewport: true,
+      hasConsensus: true,
+    });
+    expect(predictionLeague.minActionHeight).toBeGreaterThanOrEqual(44);
+    await page.locator("[data-vf-visual-qa-prediction-league]").screenshot({
+      path: path.join(
+        artifactDir,
+        testInfo.project.name + "-" + theme + "-prediction-league.png",
+      ),
+    });
+    await page.evaluate(() => {
+      document.querySelector("[data-vf-visual-qa-prediction-league]")?.remove();
+    });
+
     results[results.length - 1].accountHandoff = accountHandoff;
     results[results.length - 1].multiTabCollision = multiTabCollision;
     results[results.length - 1].progressionDoctrine = progressionDoctrine;
+    results[results.length - 1].predictionLeague = predictionLeague;
     const prematchProof: Array<Record<string, unknown>> = [];
     for (const state of ["loading", "degraded", "ready"] as const) {
       const metrics = await page.evaluate(async (state) => {
@@ -1101,27 +1192,7 @@ test("three themes retain readable page, panel, and settings surfaces", async ({
         .evaluate((overlay) => overlay.remove());
     }
     results[results.length - 1].executionChain = executionProof;
-    results[results.length - 1].surfaces = [
-      "play",
-      "agency-doctrine",
-      "settings",
-      "postmatch",
-      "account-handoff",
-      "multi-tab-collision",
-      "progression-doctrine",
-      "prematch-loading",
-      "prematch-degraded",
-      "prematch-ready",
-      "connection-waiting",
-      "connection-synchronizing",
-      "connection-restored",
-      "connection-fatal",
-      "connection-overflow",
-      "narrator-certified",
-      "execution-normal",
-      "execution-rush",
-      "execution-rush-reduced-complete",
-    ];
+    results[results.length - 1].surfaces = [...THEME_PROOF_SURFACES];
   }
 
   expect(new Set(renderedBackgrounds).size).toBe(themes.length);

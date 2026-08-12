@@ -481,8 +481,6 @@ const VaultFrontPlaytestPulseSummarySchema = z.object({
   recent: z.array(
     VaultFrontPlaytestPulseEventSchema.extend({
       at: z.number(),
-      evidenceSessionId: z.string(),
-      eventId: z.string(),
       source: z.enum(["human", "agent", "test", "system"]),
     }),
   ),
@@ -524,6 +522,13 @@ const VaultFrontPlaytestPulseSummarySchema = z.object({
     passLabel: z.string(),
     nextCheck: z.string(),
   }),
+  privacy: z
+    .object({
+      smallCountThreshold: z.number().int().positive(),
+      suppressed: z.boolean(),
+      cohortBand: z.enum(["0", "1-4", "5+"]),
+    })
+    .optional(),
 });
 
 export type VaultFrontDockAssignment = z.infer<
@@ -1688,6 +1693,11 @@ export interface CoachDebriefMoment {
   why: string;
 }
 
+export interface CoachDebriefResult {
+  moments: CoachDebriefMoment[];
+  source: "certified-local" | "remote-enhanced";
+}
+
 export async function fetchCoachDebrief(params: {
   persistentId: string;
   gameId: string;
@@ -1698,7 +1708,7 @@ export async function fetchCoachDebrief(params: {
     convoyDeliveries?: number;
     style?: string;
   };
-}): Promise<CoachDebriefMoment[] | null> {
+}): Promise<CoachDebriefResult | null> {
   try {
     const res = await fetch(`${getApiBase()}/api/vaultfront/coach-debrief`, {
       method: "POST",
@@ -1709,8 +1719,13 @@ export async function fetchCoachDebrief(params: {
       body: JSON.stringify(params),
     });
     if (!res.ok) return null;
-    const data = (await res.json()) as { moments?: CoachDebriefMoment[] };
-    return data.moments ?? null;
+    const data = (await res.json()) as {
+      moments?: CoachDebriefMoment[];
+      source?: CoachDebriefResult["source"];
+    };
+    return data.moments
+      ? { moments: data.moments, source: data.source ?? "certified-local" }
+      : null;
   } catch {
     return null;
   }

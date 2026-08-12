@@ -18,6 +18,7 @@ import {
   VaultFrontPlaytestPulseSummary,
 } from "../../Api";
 import { crazyGamesSDK } from "../../CrazyGamesSDK";
+import { presentPlaytestPulse } from "../../PlaytestPulsePresentation";
 import { PauseGameIntentEvent, SendWinnerEvent } from "../../Transport";
 import { translateText } from "../../Utils";
 import {
@@ -671,22 +672,13 @@ export class GameRightSidebar extends LitElement implements Layer {
 
   private renderPlaytestPulseTile() {
     const p = this.playtestPulse;
+    const display = presentPlaytestPulse(p);
     const dot =
       !p || p.status === "no-signal"
         ? html`<span class="text-slate-400">⬤ no-signal</span>`
         : p.status === "warming"
           ? html`<span class="text-yellow-300">⬤ warming</span>`
           : html`<span class="text-green-400">⬤ ready</span>`;
-    const tutCompletion = p
-      ? p.totals.tutorialShown > 0
-        ? `${Math.round((p.totals.tutorialCompleted / p.totals.tutorialShown) * 100)}%`
-        : "0%"
-      : "—";
-    const retentionAction = p
-      ? p.totals.retentionChallengeShown > 0
-        ? `${Math.round(p.rates.retentionAction * 100)}%`
-        : "—"
-      : "—";
     const nextAction =
       p?.operatorNext.headline ??
       p?.actionInsights[0] ??
@@ -716,17 +708,16 @@ export class GameRightSidebar extends LitElement implements Layer {
           <span class="text-cyan-200/85">Playtest Pulse</span>${dot}
         </div>
         <div class="flex justify-between">
-          <span>Score</span><span>${p ? p.score : "—"}</span>
+          <span>Score</span><span>${display.score}</span>
         </div>
         <div class="flex justify-between">
-          <span>Tutorial done</span><span>${tutCompletion}</span>
+          <span>Tutorial done</span><span>${display.tutorialCompletion}</span>
         </div>
         <div class="flex justify-between">
-          <span>Match feedback</span
-          ><span>${p ? p.totals.matchFeedback : "—"}</span>
+          <span>Match feedback</span><span>${display.matchFeedback}</span>
         </div>
         <div class="flex justify-between">
-          <span>Rival action</span><span>${retentionAction}</span>
+          <span>Rival action</span><span>${display.retentionAction}</span>
         </div>
         <div class="flex justify-between">
           <span>Latest signal</span><span>${latestAge}</span>
@@ -736,7 +727,7 @@ export class GameRightSidebar extends LitElement implements Layer {
         </div>
         <div class="flex justify-between">
           <span>Tournament actions</span
-          ><span>${p ? p.totals.tournamentActions : "—"}</span>
+          ><span>${display.tournamentActions}</span>
         </div>
         <div class="mt-1 text-[10px] leading-snug text-cyan-100/85">
           ${nextAction}

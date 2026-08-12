@@ -324,7 +324,7 @@ export class WinModal extends LitElement implements Layer {
           <div class="flex justify-between gap-2.5">
             <button
               @click=${this._handleShare}
-              class="flex-1 px-3 py-2 text-sm cursor-pointer bg-green-600/70 text-white border-0 rounded-sm transition-all duration-200 hover:bg-green-600/90 hover:-translate-y-px active:translate-y-px"
+              class="min-h-11 flex-1 px-3 py-2 text-sm cursor-pointer bg-green-600/70 text-white border-0 rounded-sm transition-all duration-200 hover:bg-green-600/90 hover:-translate-y-px active:translate-y-px focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300"
             >
               ${this.shareCopied ? "Link copied!" : "Share Match"}
             </button>
@@ -333,7 +333,7 @@ export class WinModal extends LitElement implements Layer {
                 ? null
                 : html`<button
                     @click=${this._handleRematch}
-                    class="flex-1 px-3 py-2 text-sm cursor-pointer bg-orange-500/70 text-white border-0 rounded-sm transition-all duration-200 hover:bg-orange-500/90 hover:-translate-y-px active:translate-y-px disabled:cursor-wait disabled:opacity-60"
+                    class="min-h-11 flex-1 px-3 py-2 text-sm cursor-pointer bg-orange-500/70 text-white border-0 rounded-sm transition-all duration-200 hover:bg-orange-500/90 hover:-translate-y-px active:translate-y-px disabled:cursor-wait disabled:opacity-60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300"
                     ?disabled=${this.rematchPending}
                   >
                     ${
@@ -349,7 +349,7 @@ export class WinModal extends LitElement implements Layer {
             }
             <button
               @click=${this._handleShareHighlight}
-              class="flex-1 px-3 py-2 text-sm cursor-pointer bg-indigo-600/70 text-white border-0 rounded-sm transition-all duration-200 hover:bg-indigo-600/90 hover:-translate-y-px active:translate-y-px"
+              class="min-h-11 flex-1 px-3 py-2 text-sm cursor-pointer bg-indigo-600/70 text-white border-0 rounded-sm transition-all duration-200 hover:bg-indigo-600/90 hover:-translate-y-px active:translate-y-px focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300"
             >
               ${this.highlightCopied ? "Clip copied!" : "Share Clip"}
             </button>
@@ -359,7 +359,7 @@ export class WinModal extends LitElement implements Layer {
                     href=${this.replayHighlight.shareUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="flex-1 px-3 py-2 text-sm cursor-pointer bg-violet-600/70 text-white border-0 rounded-sm transition-all duration-200 hover:bg-violet-600/90 hover:-translate-y-px text-center no-underline"
+                    class="min-h-11 flex-1 px-3 py-2 text-sm cursor-pointer bg-violet-600/70 text-white border-0 rounded-sm transition-all duration-200 hover:bg-violet-600/90 hover:-translate-y-px text-center no-underline flex items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300"
                     title="${this.replayHighlight.ogTitle}"
                   >
                     ▶ Watch Highlight<br /><span
@@ -682,7 +682,7 @@ export class WinModal extends LitElement implements Layer {
               `
             : html`
                 <button
-                  class="w-full py-2 text-sm bg-amber-500/20 border border-amber-400/40 rounded text-amber-200 cursor-pointer hover:bg-amber-500/35 transition-colors"
+                  class="min-h-11 w-full py-2 text-sm bg-amber-500/20 border border-amber-400/40 rounded text-amber-200 cursor-pointer hover:bg-amber-500/35 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300"
                   @click=${() => {
                     this.fortuneRevealed = true;
                     this.requestUpdate();
@@ -717,7 +717,7 @@ export class WinModal extends LitElement implements Layer {
           this.coachDebriefMoments === null
             ? html`
                 <button
-                  class="w-full py-2 text-sm bg-indigo-500/20 border border-indigo-400/40 rounded text-indigo-200 cursor-pointer hover:bg-indigo-500/35 transition-colors"
+                  class="min-h-11 w-full py-2 text-sm bg-indigo-500/20 border border-indigo-400/40 rounded text-indigo-200 cursor-pointer hover:bg-indigo-500/35 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-300"
                   @click=${() => {
                     this._loadCoachDebrief();
                     this.requestUpdate();
@@ -727,7 +727,7 @@ export class WinModal extends LitElement implements Layer {
                   ${
                     this.coachDebriefLoading
                       ? "Loading coach debrief…"
-                      : "🎯 Get AI Coach Debrief"
+                      : "🎯 Read Certified Replay"
                   }
                 </button>
               `
@@ -737,6 +737,10 @@ export class WinModal extends LitElement implements Layer {
                 </div>`
               : html`
                   <div class="space-y-2">
+                    <div class="text-[11px] text-indigo-200/80">
+                      Certificate-bound replay analysis · deterministic
+                      baseline, optional AI enhancement
+                    </div>
                     ${this.coachDebriefMoments.map(
                       (m) => html`
                         <div
@@ -785,7 +789,7 @@ export class WinModal extends LitElement implements Layer {
           ${tabs.map(
             (t) => html`
               <button
-                class="px-3 py-1 text-xs rounded cursor-pointer transition-colors border ${
+                class="min-h-11 px-3 py-1 text-xs rounded cursor-pointer transition-colors border focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300 ${
                   this.activeTab === t.key
                     ? "bg-slate-600/50 border-slate-400/50 text-white"
                     : "bg-transparent border-slate-600/30 text-slate-400 hover:text-slate-200"
@@ -894,7 +898,7 @@ export class WinModal extends LitElement implements Layer {
         >
           <span>Clan Legacy</span>
           <button
-            class="text-xs px-2 py-0.5 bg-amber-500/20 border border-amber-400/30 rounded text-amber-200 hover:bg-amber-500/40 transition-colors cursor-pointer"
+            class="min-h-11 text-xs px-3 py-1 bg-amber-500/20 border border-amber-400/30 rounded text-amber-200 hover:bg-amber-500/40 transition-colors cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300"
             @click=${() => {
               void navigator.clipboard.writeText(shareText);
             }}
@@ -1489,7 +1493,7 @@ export class WinModal extends LitElement implements Layer {
         me && typeof me === "object" && "player" in me
           ? ((me as { player?: { publicId?: string } }).player?.publicId ?? "")
           : "";
-      const moments = await session.settle(
+      const debrief = await session.settle(
         fetchCoachDebrief({
           persistentId,
           gameId,
@@ -1502,7 +1506,7 @@ export class WinModal extends LitElement implements Layer {
         "coach-debrief",
       );
       session.commit(() => {
-        this.coachDebriefMoments = moments ?? [];
+        this.coachDebriefMoments = debrief?.moments ?? [];
         this.coachDebriefLoading = false;
         this.requestUpdate();
       });

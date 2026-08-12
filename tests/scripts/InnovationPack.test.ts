@@ -76,14 +76,14 @@ describe("innovation-pack regeneration", () => {
     const firstAuthority = first.items.find(
       (item) => item.id === "unified-certified-game-authority",
     );
-    expect(first.items).toHaveLength(62);
+    expect(first.items).toHaveLength(69);
     expect(firstAuthority).toMatchObject({ rank: 40, status: "shipped" });
     expect(
       first.items.find(
         (item) => item.id === "monotonic-innovation-ledger-guard",
       ),
     ).toMatchObject({ rank: 44, status: "shipped" });
-    expect(first.items.slice(-9).map((item) => item.id)).toEqual([
+    expect(first.items.slice(-16).map((item) => item.id)).toEqual([
       "dry-run-intent-admission",
       "dual-attestation-rollback-lineage",
       "observed-production-outcome-receipt",
@@ -93,6 +93,13 @@ describe("innovation-pack regeneration", () => {
       "personal-agency-evidence-receipt",
       "mastery-doctrine-receipt-verifier",
       "secondary-ui-entry-ratchet",
+      "server-crash-telemetry-symmetry",
+      "tournament-name-profanity-gate",
+      "game-left-sidebar-viewport-mode-adoption",
+      "playlist-selection-receipt",
+      "attestation-bound-product-smoke",
+      "coach-debrief-composition-boundary",
+      "analytica-homepage-evidence-twin",
     ]);
 
     const output = runGenerator();
@@ -108,7 +115,7 @@ describe("innovation-pack regeneration", () => {
         (item) => item.id === "unified-certified-game-authority",
       ),
     ).toMatchObject({ rank: 40, status: "shipped" });
-    expect(output).toContain("3/62 shipped");
+    expect(output).toContain("3/69 shipped");
   }, 30_000);
 
   it("recognizes stronger semantic ratchets instead of stale exact values", () => {

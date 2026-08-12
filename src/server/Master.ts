@@ -15,14 +15,16 @@ import { MapPlaylist } from "./MapPlaylist";
 import { MasterLobbyService } from "./MasterLobbyService";
 import { readObeliskConfig, registerObeliskAuthRoutes } from "./ObeliskAuth";
 import { playtestEvidenceStore } from "./PlaytestEvidenceStore";
+import { PlaytestSummaryService } from "./PlaytestSummaryService";
+import { projectPublicPlaytestSummary } from "./PublicPlaytestSummary";
 import { renderHtml } from "./RenderHtml";
 import {
   serverCrashStore,
   truncateServerCrashMessage,
 } from "./ServerCrashStore";
 import { shutdownTelemetry } from "./TelemetryLifecycle";
-import { attachCertifiedLoopAlphaEvidence } from "./VaultFrontPlaytestPulse";
 import { buildVaultFrontReadiness } from "./VaultFrontReadiness";
+import { createWorkerApiProxy } from "./WorkerApiProxy";
 
 const config = getServerConfigFromServer();
 const playlist = new MapPlaylist();
@@ -32,11 +34,18 @@ const app = express();
 const server = http.createServer(app);
 
 const log = logger.child({ comp: "m" });
+const playtestSummaryService = new PlaytestSummaryService({
+  loadPulse: () => playtestEvidenceStore.summary(),
+  loadCertified: (observedAt) =>
+    certifiedLoopEvidenceStore
+      .getSummary(1_000, observedAt - 24 * 60 * 60 * 1_000)
+      .catch(() => null),
+});
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.use(express.json());
+app.use(express.json({ limit: "5mb" }));
 
 // ── Security middleware ─────────────────────────────────────────────────────
 const masterAllowedOrigins = process.env.ALLOWED_ORIGINS?.split(",").map((s) =>
@@ -296,13 +305,8 @@ app.get("/api/vaultfront/readiness", (_req, res) => {
 // worker.
 app.get("/api/vaultfront/playtest-pulse/summary", async (_req, res) => {
   try {
-    const observedAt = Date.now();
-    const pulse = await playtestEvidenceStore.summary();
-    const certified = await certifiedLoopEvidenceStore
-      .getSummary(1_000, observedAt - 24 * 60 * 60 * 1_000)
-      .catch(() => null);
     return res.json(
-      attachCertifiedLoopAlphaEvidence(pulse, certified, observedAt),
+      projectPublicPlaytestSummary(await playtestSummaryService.summary()),
     );
   } catch (error) {
     log.error("master playtest evidence summary failed", {
@@ -311,6 +315,18 @@ app.get("/api/vaultfront/playtest-pulse/summary", async (_req, res) => {
     return res.status(503).json({ error: "Playtest evidence unavailable" });
   }
 });
+
+// Project APIs are registered on workers. Keep global calls on one durable
+// control-plane shard and preserve canonical game-id routing for live-match
+// calls instead of allowing the SPA fallback to return HTML with status 200.
+app.use(
+  createWorkerApiProxy({
+    workerIndex: (gameId) => config.workerIndex(gameId),
+    workerPortByIndex: (index) => config.workerPortByIndex(index),
+    reportError: (error) =>
+      log.error("worker API proxy failed", { error: String(error) }),
+  }),
+);
 
 // SPA fallback route
 app.get("*", async function (_req, res) {

@@ -72,6 +72,11 @@ export const EXTRACTED_DOMAINS = [
     forbiddenInWorker: "/api/admin/match-ratings",
     lineBudget: 180,
   },
+  {
+    router: "CoachDebriefRouter.ts",
+    registration: "registerCoachDebriefRoute",
+    forbiddenInWorker: "/api/vaultfront/coach-debrief",
+  },
 ];
 
 const lineCount = (source) => source.split(/\r?\n/).length;

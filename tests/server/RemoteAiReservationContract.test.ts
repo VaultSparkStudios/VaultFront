@@ -2,8 +2,12 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
-const source = readFileSync(
+const workerSource = readFileSync(
   resolve(process.cwd(), "src/server/Worker.ts"),
+  "utf8",
+);
+const coachSource = readFileSync(
+  resolve(process.cwd(), "src/server/CoachDebriefRouter.ts"),
   "utf8",
 );
 
@@ -57,10 +61,12 @@ const contracts = [
   },
   {
     route: "/api/vaultfront/coach-debrief",
+    source: coachSource,
     order: [
-      "requireVaultFrontActor",
-      "loadCertifiedAiContext",
-      "coachDebriefCache.get",
+      "safeParse(req.body)",
+      "options.authenticate",
+      "options.loadContext",
+      "cache.get",
       "reserveRemoteAiCall",
       "anthropic.messages.create",
     ],
@@ -70,7 +76,8 @@ const contracts = [
 describe("remote AI reservation ordering contract", () => {
   it.each(contracts)(
     "reserves only after validation/auth/cache for $route",
-    ({ route, order }) => {
+    ({ route, order, ...contract }) => {
+      const source = "source" in contract ? contract.source : workerSource;
       const start = source.indexOf(`"${route}"`);
       expect(start, `${route} must exist`).toBeGreaterThan(-1);
       const segment = source.slice(start, start + 9_000);
@@ -84,6 +91,7 @@ describe("remote AI reservation ordering contract", () => {
   );
 
   it("routes every Worker provider edge through the request-bound executor", () => {
+    const source = `${workerSource}\n${coachSource}`;
     const providerCalls = source.match(/anthropic\.messages\.create/g) ?? [];
     const boundedCalls =
       source.match(

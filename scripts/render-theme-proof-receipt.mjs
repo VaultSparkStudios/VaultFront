@@ -138,10 +138,10 @@ export async function renderThemeProofReceipt(
       renderedPixelsReviewed: true,
       reviewer: "codex/image-capable-render-review",
       findings: [
-        "The current desktop/mobile matrix was reviewed across VaultFront, Light, and Competitive themes after the Session 100 identity, radial-menu, sidebar, reroute-panel, account-handoff, and public-origin changes.",
+        "The current 21-surface desktop/mobile matrix was reviewed across VaultFront, Light, and Competitive themes after the Session 101 privacy-safe pulse, live public-stats showcase, certified coach, postmatch action-floor, and prediction-state changes.",
       ],
       fixesApplied: [
-        "Replaced nonexistent radial-menu fixture icon URLs with real shipped assets after rendered review exposed broken-image placeholders; the remaining 19-surface-per-theme matrix has no open overflow, contrast, or layout defect.",
+        "Raised touched postmatch and prediction actions to a 44px minimum target, added keyboard-visible focus treatment, and added a live prediction-league state; the full matrix has no open overflow, contrast, clipping, or layout defect.",
       ],
       blockingDefectsOpen: 0,
     },

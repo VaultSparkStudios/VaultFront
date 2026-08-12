@@ -5,7 +5,7 @@
 > Suggest: `node ../vaultspark-studio-ops/scripts/check-canon-adoption.mjs --project . --suggest` uses conformance evidence to pre-fill safe suggestions.
 > Mark each: **adopted** · **pending** · **review** · **exempt (reason)**. This file is maintained, not auto-trusted.
 
-Audience: public-unlaunched · Live ACTIVE canons: 54 · Pending review: 41
+Audience: public-unlaunched · Live ACTIVE canons: 54 · Pending review: 40
 
 | Canon     | Title                                                        | Status              | Evidence / note                                                                                                                     |
 | --------- | ------------------------------------------------------------ | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
@@ -62,4 +62,4 @@ Audience: public-unlaunched · Live ACTIVE canons: 54 · Pending review: 41
 | CANON-052 | Project Lifecycle Ladder: FORGE/SPARKED/VAULTED with sub-sta | review              |                                                                                                                                     |
 | CANON-053 | Rendered-Pixel UI Discipline: look at the real interface whi | adopted (suggested) | Conformance checker passed: no UI/UX files changed                                                                                  |
 | CANON-054 | Public Stats Surface: every website reports and analyzes its | review              |                                                                                                                                     |
-| CANON-055 | Surface Follow-Through: every project change reaches the thi | review              |                                                                                                                                     |
+| CANON-055 | Surface Follow-Through: every project change reaches the thi | adopted (suggested) | Conformance checker passed: }                                                                                                       |

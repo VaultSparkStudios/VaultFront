@@ -1,5 +1,6 @@
 import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
+import "./PublicStatsShowcase";
 
 @customElement("play-page")
 export class PlayPage extends LitElement {
@@ -87,6 +88,10 @@ export class PlayPage extends LitElement {
                 </div>
               </div>
             </div>
+
+            <public-stats-showcase
+              class="lg:col-span-12 px-2 lg:px-0 mb-2"
+            ></public-stats-showcase>
 
             <div
               class="vf-glass-surface px-2 py-2 overflow-visible lg:col-span-9 lg:flex lg:items-center lg:gap-x-2 lg:h-[60px] lg:p-3 lg:relative lg:z-20 lg:border-y-0 lg:rounded-xl"

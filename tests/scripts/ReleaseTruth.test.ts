@@ -116,11 +116,12 @@ describe("release truth boundary", () => {
 
   it("terminates the public playtest summary before the master SPA fallback", () => {
     const master = read("src/server/Master.ts");
+    const summaryService = read("src/server/PlaytestSummaryService.ts");
     const summaryRoute = 'app.get("/api/vaultfront/playtest-pulse/summary"';
     const fallbackRoute = 'app.get("*"';
 
     expect(master).toContain("playtestEvidenceStore.summary()");
-    expect(master).toContain("attachCertifiedLoopAlphaEvidence");
+    expect(summaryService).toContain("attachCertifiedLoopAlphaEvidence");
     expect(master.indexOf(summaryRoute)).toBeGreaterThan(-1);
     expect(master.indexOf(summaryRoute)).toBeLessThan(
       master.indexOf(fallbackRoute),

@@ -28,6 +28,7 @@ if (command === "create") {
     imageDigest: required("--image-digest"),
     healthResponse: fs.readFileSync(required("--health-response"), "utf8"),
     revisionResponse: fs.readFileSync(required("--revision-response"), "utf8"),
+    productSmokeResponse: fs.readFileSync(required("--product-smoke"), "utf8"),
   });
   fs.writeFileSync(output, `${JSON.stringify(attestation, null, 2)}\n`);
   console.log(`WROTE ${output} ${attestation.attestationDigest}`);

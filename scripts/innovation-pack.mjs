@@ -1062,6 +1062,98 @@ const candidates = [
     evidence:
       "three explicit lazy boundaries, authoritative match-ready ordering, unchanged executable byte ceiling, and regression tests",
   },
+  {
+    id: "server-crash-telemetry-symmetry",
+    title:
+      "Give server-process crashes the same structured record client crashes get",
+    description:
+      "Keep Master and Worker uncaught failures in the same bounded, signature-summarized operational evidence plane instead of losing them as unstructured log lines.",
+    complete:
+      has("src/server/ServerCrashStore.ts", /class ServerCrashStore/) &&
+      has("src/server/Master.ts", /ServerCrashStore/) &&
+      has("src/server/Worker.ts", /ServerCrashStore/),
+    evidence:
+      "bounded ServerCrashStore, symmetric Master/Worker handlers, state-scope registration, and regression coverage",
+  },
+  {
+    id: "tournament-name-profanity-gate",
+    title: "Apply the clan-name profanity gate to tournament creation too",
+    description:
+      "Close the sibling public-text gap so tournament names cannot bypass the profanity policy already enforced for clan creation.",
+    complete:
+      has("src/server/TournamentStore.ts", /isProfane/) &&
+      has("src/server/Worker.ts", /censorUsername/),
+    evidence:
+      "injectable TournamentStore profanity gate, Worker route wiring, and clean/rejected/injected-gate tests",
+  },
+  {
+    id: "game-left-sidebar-viewport-mode-adoption",
+    title: "Finish the viewport-mode dedup ViewportMode.ts started",
+    description:
+      "Remove the final sidebar-local viewport-width duplicate so all three game control surfaces share one responsive mode policy.",
+    complete: has(
+      "src/client/graphics/layers/GameLeftSidebar.ts",
+      /ViewportMode/,
+    ),
+    evidence:
+      "GameLeftSidebar imports the shared ViewportMode policy and the full desktop/mobile theme matrix remains green",
+  },
+  {
+    id: "playlist-selection-receipt",
+    title: "Turn reproducible lobby entropy into inspectable operator evidence",
+    description:
+      "Emit a bounded, non-secret SHA-256 receipt for every selected public configuration so a reported lobby can be compared without exposing the entropy stream.",
+    complete:
+      has("src/server/MapPlaylist.ts", /PlaylistSelectionReceipt/) &&
+      has("src/server/MapPlaylist.ts", /lastSelectionReceipt/) &&
+      has("tests/server/MapPlaylistEntropy.test.ts", /defensive copy/),
+    evidence:
+      "monotonic selection sequence, canonical bounded payload digest, defensive-copy API, and deterministic receipt tests",
+  },
+  {
+    id: "attestation-bound-product-smoke",
+    title: "Make product truth a parent of staging provenance",
+    description:
+      "Bind the exact-revision product smoke receipt into the staging attestation itself so an adjacent artifact cannot be silently omitted or substituted.",
+    complete:
+      has("scripts/lib/staging-attestation.mjs", /productSmokeResponse/) &&
+      has(".github/workflows/deploy.yml", /--product-smoke/) &&
+      has(
+        "tests/scripts/StagingAttestation.test.ts",
+        /cross-revision product smoke/,
+      ),
+    evidence:
+      "self-digest verification, origin/revision/pass admission, attestation parent binding, and tamper regression",
+  },
+  {
+    id: "coach-debrief-composition-boundary",
+    title: "Keep certified coaching evolvable without regrowing Worker",
+    description:
+      "Extract the entire local-first and optional-remote coaching transaction behind one registered router boundary while preserving authentication, claims, receipts, cache, and budget policy.",
+    complete:
+      has(
+        "src/server/CoachDebriefRouter.ts",
+        /function registerCoachDebriefRoute/,
+      ) &&
+      has("src/server/Worker.ts", /CoachDebriefRouter/) &&
+      has("scripts/check-worker-composition.mjs", /CoachDebriefRouter/),
+    evidence:
+      "registered composition boundary, Worker budget recovery, local-first fallback, and unchanged runtime reachability contract",
+  },
+  {
+    id: "analytica-homepage-evidence-twin",
+    title:
+      "Make public evidence one living surface for players, agents, and the founder",
+    description:
+      "Use a single precomputed Analytica Feed v1 artifact for the compact homepage pulse and deeper stats page, with declared polling, per-metric definitions, privacy thresholds, and visible stale/unavailable truth.",
+    complete:
+      has("public/stats-surface.json", /"feedVersion": "analytica-feed-v1"/) &&
+      has("src/client/components/PublicStatsShowcase.ts", /Feed is stale/) &&
+      has("tests/client/PublicStatsShowcase.test.ts", /fewer than three/) &&
+      has("tests/scripts/PublicStatsSurface.test.ts", /showcase/),
+    evidence:
+      "one six-metric aggregate feed, curated three-metric homepage pulse, bounded poll/staleness policy, deep definitions, and CANON-054 conformance",
+  },
 ];
 
 const payload = {

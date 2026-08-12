@@ -1,11 +1,29 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": "1.1",
+  "feedVersion": "analytica-feed-v1",
   "name": "VaultFront public game stats",
+  "project": {
+    "slug": "VaultFront",
+    "name": "VaultFront",
+    "type": "game",
+    "audience": "public-game",
+    "url": "https://vaultfront.io/"
+  },
+  "generatedAt": "2026-08-12T20:25:00.000Z",
   "route": "/stats/",
   "machineReadable": "/stats.json",
+  "refreshSeconds": 86400,
+  "refreshMechanism": "poll",
+  "transport": "http",
+  "showcase": [
+    "authenticated_human_alpha_players",
+    "certified_complete_loop_players",
+    "median_decisive_session_minutes"
+  ],
   "precomputed": true,
   "status": "pre-launch-unmeasured",
   "privacy": {
+    "aggregateOnly": true,
     "smallCountThreshold": 5,
     "policy": "Counts from one to four are banded before publication; actor identifiers and free-form player text are never published."
   },
@@ -13,9 +31,9 @@
     {
       "id": "authenticated_human_alpha_players",
       "label": "Authenticated human alpha players",
-      "value": "Not yet measured",
-      "period": "Pre-launch through 2026-08-07",
-      "computedAt": "2026-08-07T21:25:00-04:00",
+      "value": null,
+      "period": "Pre-launch through 2026-08-12",
+      "computedAt": "2026-08-12T20:25:00.000Z",
       "unitOrDenominator": "Distinct authenticated human actors in the 24-hour alpha evidence window",
       "source": "Production VaultFront playtest pulse joined to Obelisk-authenticated human actor evidence",
       "available": false,
@@ -25,9 +43,9 @@
     {
       "id": "certified_complete_loop_players",
       "label": "Certified complete-loop players",
-      "value": "Not yet measured",
-      "period": "Pre-launch through 2026-08-07",
-      "computedAt": "2026-08-07T21:25:00-04:00",
+      "value": null,
+      "period": "Pre-launch through 2026-08-12",
+      "computedAt": "2026-08-12T20:25:00.000Z",
       "unitOrDenominator": "Players with one ordered Capture → Convoy → Pressure → Breach → decisive-delivery timeline",
       "source": "Production certified-loop evidence store, restricted to fresh server-certified timelines",
       "available": false,
@@ -37,14 +55,58 @@
     {
       "id": "median_decisive_session_minutes",
       "label": "Median decisive session length",
-      "value": "Not yet measured",
-      "period": "Pre-launch through 2026-08-07",
-      "computedAt": "2026-08-07T21:25:00-04:00",
+      "value": null,
+      "period": "Pre-launch through 2026-08-12",
+      "computedAt": "2026-08-12T20:25:00.000Z",
       "unitOrDenominator": "Minutes among certified matches ending in a decisive Breach delivery",
       "source": "Production certified-loop evidence store decisive-session cohort",
       "available": false,
       "unavailableReason": "There are no production certified decisive-session samples from which to compute a median.",
       "interpretation": "Session length will be published only after a real qualifying cohort exists; an empty cohort is not reported as zero minutes."
+    },
+    {
+      "id": "certified_breach_deliveries",
+      "label": "Certified Breach deliveries",
+      "value": null,
+      "period": "Pre-launch through 2026-08-12",
+      "computedAt": "2026-08-12T20:25:00.000Z",
+      "unitOrDenominator": "Server-certified decisive VaultFront deliveries in production matches",
+      "source": "Production certified-loop evidence store decisive-delivery records",
+      "available": false,
+      "unavailableReason": "Production match evidence is not yet admitted, so test and staging deliveries are excluded.",
+      "interpretation": "This will show whether the signature objective is actually completed in live play, not merely attempted in simulations."
+    },
+    {
+      "id": "certified_rematch_intent_rate",
+      "label": "Certified rematch intent rate",
+      "value": null,
+      "period": "Pre-launch through 2026-08-12",
+      "computedAt": "2026-08-12T20:25:00.000Z",
+      "unitOrDenominator": "Authenticated certified-match participants choosing rematch within the measured postmatch window",
+      "source": "Production postmatch continuation receipts joined to certified match participants",
+      "available": false,
+      "unavailableReason": "No qualifying production cohort exists from which to compute a privacy-safe rate.",
+      "interpretation": "Once available, this rate will test whether the postmatch learning and progression reward earns another session."
+    },
+    {
+      "id": "certified_prediction_calibration_samples",
+      "label": "Certified prediction calibration samples",
+      "value": null,
+      "period": "Pre-launch through 2026-08-12",
+      "computedAt": "2026-08-12T20:25:00.000Z",
+      "unitOrDenominator": "Privacy-safe player predictions resolved against server-certified match outcomes",
+      "source": "Production Prediction League receipts joined to certified outcome records",
+      "available": false,
+      "unavailableReason": "No production prediction/outcome cohort has been admitted; fixtures and simulations are excluded.",
+      "interpretation": "This sample count will bound how much trust to place in published calibration and accuracy—not substitute volume for predictive quality."
     }
-  ]
+  ],
+  "definitions": {
+    "authenticated_human_alpha_players": "Distinct Obelisk-authenticated human actors observed in the qualifying 24-hour Alpha evidence window; bots, tests, and synthetic health checks are excluded.",
+    "certified_complete_loop_players": "Distinct players whose server-certified timeline contains the ordered signature loop and a decisive delivery.",
+    "median_decisive_session_minutes": "The median duration of certified matches ending in a decisive Breach delivery; non-decisive matches are not silently folded into the denominator.",
+    "certified_breach_deliveries": "Count of decisive VaultFront deliveries admitted by the server certificate authority.",
+    "certified_rematch_intent_rate": "Share of qualifying certified participants who choose the bounded postmatch rematch action; unavailable below the privacy threshold.",
+    "certified_prediction_calibration_samples": "Predictions with both an admitted pre-outcome receipt and a later server-certified result available for calibration."
+  }
 }

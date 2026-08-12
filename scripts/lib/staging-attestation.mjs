@@ -22,6 +22,31 @@ export function createStagingAttestation(input) {
   if (healthPayload.status !== "ok") {
     throw new Error("staging health response is not ready");
   }
+  let productSmoke = null;
+  if (input.productSmokeResponse !== undefined) {
+    let smokePayload;
+    try {
+      smokePayload = JSON.parse(input.productSmokeResponse);
+    } catch {
+      throw new Error("staging product smoke response is not valid JSON");
+    }
+    const { receiptDigest, ...smokeCore } = smokePayload;
+    if (
+      smokePayload.pass !== true ||
+      smokePayload.expectedRevision !== input.gitSha ||
+      smokePayload.origin !== input.origin.replace(/\/$/u, "") ||
+      receiptDigest !== digest(JSON.stringify(smokeCore))
+    ) {
+      throw new Error("staging product smoke response is not admissible");
+    }
+    productSmoke = {
+      receiptDigest,
+      responseDigest: digest(input.productSmokeResponse),
+      checkCount: Array.isArray(smokePayload.checks)
+        ? smokePayload.checks.length
+        : 0,
+    };
+  }
   const payload = {
     schemaVersion: 1,
     repository: input.repository,
@@ -43,6 +68,7 @@ export function createStagingAttestation(input) {
       responseDigest: digest(input.revisionResponse),
       value: input.revisionResponse.trim(),
     },
+    productSmoke,
     observedAt: input.observedAt ?? new Date().toISOString(),
   };
   return { ...payload, attestationDigest: digest(JSON.stringify(payload)) };
@@ -80,6 +106,14 @@ export function verifyStagingAttestation(attestation, run, options = {}) {
     errors.push("invalid-image-digest");
   if (!DIGEST.test(attestation.health?.responseDigest ?? ""))
     errors.push("missing-health-digest");
+  if (
+    attestation.productSmoke != null &&
+    (!DIGEST.test(attestation.productSmoke?.receiptDigest ?? "") ||
+      !DIGEST.test(attestation.productSmoke?.responseDigest ?? "") ||
+      !Number.isInteger(attestation.productSmoke?.checkCount) ||
+      attestation.productSmoke.checkCount < 1)
+  )
+    errors.push("invalid-product-smoke-binding");
   if (attestation.health?.status !== "ok") errors.push("health-not-ready");
   if (!/^https:\/\/[^/]+$/u.test(attestation.origin ?? ""))
     errors.push("invalid-staging-origin");

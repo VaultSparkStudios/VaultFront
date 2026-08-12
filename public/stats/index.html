@@ -75,7 +75,7 @@
         <article class="metric-card">
           <h2>Authenticated human alpha players</h2>
           <p class="metric-value">Not yet measured</p>
-          <p class="metric-period">Pre-launch through 2026-08-07</p>
+          <p class="metric-period">Pre-launch through 2026-08-12</p>
           <p>Distinct authenticated human actors in the 24-hour alpha evidence window.</p>
           <p class="metric-source">Source: Production VaultFront playtest pulse joined to Obelisk-authenticated human actor evidence.</p>
           <p class="metric-reading">This is intentionally unavailable rather than zero: VaultFront has not opened a production alpha cohort.</p>
@@ -84,7 +84,7 @@
         <article class="metric-card">
           <h2>Certified complete-loop players</h2>
           <p class="metric-value">Not yet measured</p>
-          <p class="metric-period">Pre-launch through 2026-08-07</p>
+          <p class="metric-period">Pre-launch through 2026-08-12</p>
           <p>Players with one ordered Capture → Convoy → Pressure → Breach → decisive-delivery timeline.</p>
           <p class="metric-source">Source: Production certified-loop evidence store, restricted to fresh server-certified timelines.</p>
           <p class="metric-reading">A launch claim requires at least one fresh, server-certified player timeline; simulated and test evidence is excluded.</p>
@@ -93,15 +93,42 @@
         <article class="metric-card">
           <h2>Median decisive session length</h2>
           <p class="metric-value">Not yet measured</p>
-          <p class="metric-period">Pre-launch through 2026-08-07</p>
+          <p class="metric-period">Pre-launch through 2026-08-12</p>
           <p>Minutes among certified matches ending in a decisive Breach delivery.</p>
           <p class="metric-source">Source: Production certified-loop evidence store decisive-session cohort.</p>
           <p class="metric-reading">Session length will be published only after a real qualifying cohort exists; an empty cohort is not reported as zero minutes.</p>
         </article>
+
+        <article class="metric-card">
+          <h2>Certified Breach deliveries</h2>
+          <p class="metric-value">Not yet measured</p>
+          <p class="metric-period">Pre-launch through 2026-08-12</p>
+          <p>Server-certified decisive VaultFront deliveries in production matches.</p>
+          <p class="metric-source">Source: Production certified-loop evidence store decisive-delivery records.</p>
+          <p class="metric-reading">This will show whether the signature objective is actually completed in live play, not merely attempted in simulations.</p>
+        </article>
+
+        <article class="metric-card">
+          <h2>Certified rematch intent rate</h2>
+          <p class="metric-value">Not yet measured</p>
+          <p class="metric-period">Pre-launch through 2026-08-12</p>
+          <p>Authenticated certified-match participants choosing rematch within the measured postmatch window.</p>
+          <p class="metric-source">Source: Production postmatch continuation receipts joined to certified match participants.</p>
+          <p class="metric-reading">Once available, this rate will test whether the postmatch learning and progression reward earns another session.</p>
+        </article>
+
+        <article class="metric-card">
+          <h2>Certified prediction calibration samples</h2>
+          <p class="metric-value">Not yet measured</p>
+          <p class="metric-period">Pre-launch through 2026-08-12</p>
+          <p>Privacy-safe player predictions resolved against server-certified match outcomes.</p>
+          <p class="metric-source">Source: Production Prediction League receipts joined to certified outcome records.</p>
+          <p class="metric-reading">This sample count will bound how much trust to place in published calibration and accuracy—not substitute volume for predictive quality.</p>
+        </article>
       </div>
 
       <p class="stats-meta">
-        Precomputed at <time datetime="2026-08-07T21:25:00-04:00">2026-08-07T21:25:00-04:00</time> ·
+        Precomputed at <time datetime="2026-08-12T20:25:00.000Z">2026-08-12T20:25:00.000Z</time> ·
         <a href="/stats.json">Machine-readable JSON</a> · Structure is
         automatically checked; underlying measurements remain review-enforced.
       </p>

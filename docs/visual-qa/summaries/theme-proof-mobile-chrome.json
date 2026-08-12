@@ -1,9 +1,9 @@
 {
   "project": "mobile-chrome",
   "localOnly": true,
-  "capturedAt": "2026-08-12T19:25:56.296Z",
+  "capturedAt": "2026-08-12T20:47:07.513Z",
   "source": {
-    "digest": "sha256:47e29a3fcf9179dbb0e6a727fd1d84a7cd6de3abca98b0dd0adec471747bd276",
+    "digest": "sha256:509769cd48285d2c3f86d133df57bf69159e0fff1c8a457636bc85732cac1a84",
     "files": [
       {
         "path": "config/vaultfront-balance.v1.json",
@@ -12,8 +12,8 @@
       },
       {
         "path": "e2e/theme-visual-proof.spec.ts",
-        "bytes": 43928,
-        "digest": "sha256:3fe1c4cb730a0f4687e44f4066b43e802d83ec96cf411276f897a1ffe9f4225c"
+        "bytes": 47144,
+        "digest": "sha256:1ed3c8f4d498ef387363b5227df82468c27507eeee8bf65f64cc56b4ed4b2aeb"
       },
       {
         "path": "src/client/AccountModal.ts",
@@ -22,8 +22,8 @@
       },
       {
         "path": "src/client/Api.ts",
-        "bytes": 55877,
-        "digest": "sha256:e0e00c9ba9b048c9b9f16c6e5889f92a9101b69fc789ec18e949de17212c3e21"
+        "bytes": 56255,
+        "digest": "sha256:4185ce516d4ddb6416b1ceb0a7ec07ead1969758ac8e5cde439c4e8f8e219c9c"
       },
       {
         "path": "src/client/BrandTheme.ts",
@@ -54,6 +54,11 @@
         "path": "src/client/MultiTabDetector.ts",
         "bytes": 4077,
         "digest": "sha256:5a0a74bda4ab2c9e65b902c5b56b7f5d5d34742290866c58f0d1dc4c8c4339ec"
+      },
+      {
+        "path": "src/client/PlaytestPulsePresentation.ts",
+        "bytes": 1246,
+        "digest": "sha256:b6ac9379ba0c31a9fede2adad2ec537adb8ab13bf5ba892d9d2a1aeace3ca0eb"
       },
       {
         "path": "src/client/PostMatchContinuation.ts",
@@ -157,18 +162,23 @@
       },
       {
         "path": "src/client/components/PlayPage.ts",
-        "bytes": 4890,
-        "digest": "sha256:8a6fba283f1c1371e3b448e8d489c2f9a2b884edf7df723ad776426526499664"
+        "bytes": 5051,
+        "digest": "sha256:6fb727f6118c978692ea4fe953c2c3563262bc5e60c2e971cf1269b600fa1a8c"
       },
       {
         "path": "src/client/components/PredictionLeaguePanel.ts",
-        "bytes": 8057,
-        "digest": "sha256:fc1760924be651d5b6a044b612df8514b27e0ddefcd23fa31b3e2638b8315868"
+        "bytes": 8058,
+        "digest": "sha256:f57db9721500ee51f5530d4aa2d6ce8396575880692ef80b2e059dec4f87a7de"
       },
       {
         "path": "src/client/components/ProgressionDebrief.ts",
-        "bytes": 13685,
-        "digest": "sha256:07dd24b6eaa5cfcd2a3e267e96e8e0cea565a3c494cd100da20d7a6ee7b40ae4"
+        "bytes": 14033,
+        "digest": "sha256:c3585d5de15175f3f2eb1df37f50601dc44710e93a16c9854be78269d957a100"
+      },
+      {
+        "path": "src/client/components/PublicStatsShowcase.ts",
+        "bytes": 6037,
+        "digest": "sha256:8b8ec135e997f6fafd93fda858824e95ed57fd4fd2afbcac90410aad6d25cd19"
       },
       {
         "path": "src/client/components/RankedModal.ts",
@@ -322,8 +332,8 @@
       },
       {
         "path": "src/client/graphics/layers/GameRightSidebar.ts",
-        "bytes": 49309,
-        "digest": "sha256:d56abca02ebeaf14e45f33669afb9f2306567ac257d31f63fa6c8ed9a9aa9d4c"
+        "bytes": 49059,
+        "digest": "sha256:59881a0a310beee993c50f607d045c42c511030ba3e06909fde491d6a6693b26"
       },
       {
         "path": "src/client/graphics/layers/MultiTabModal.ts",
@@ -362,8 +372,8 @@
       },
       {
         "path": "src/client/graphics/layers/WinModal.ts",
-        "bytes": 76356,
-        "digest": "sha256:d650e0541842c40ed45013179aee81f1454bebdb284b8ded47a9c73231c93aec"
+        "bytes": 77558,
+        "digest": "sha256:210dde48a52d598731d582b9134287eaf0089d8b1a04e306612eba90dbb53d79"
       },
       {
         "path": "src/client/styles.css",
@@ -448,7 +458,7 @@
       {
         "path": "static/index.html",
         "bytes": 17230,
-        "digest": "sha256:22dc47fa14fc7dca0b9a6b6f200be97777c35966677b2dc589fa386ead4ff2fb"
+        "digest": "sha256:0995cf2963dd4b984e5cecbead8db4508e23f9c78c3465fadef63c268a713549"
       }
     ]
   },
@@ -482,12 +492,14 @@
       },
       "surfaces": [
         "play",
+        "stats-showcase",
         "agency-doctrine",
         "settings",
         "postmatch",
         "account-handoff",
         "multi-tab-collision",
         "progression-doctrine",
+        "prediction-league",
         "prematch-loading",
         "prematch-degraded",
         "prematch-ready",
@@ -537,6 +549,12 @@
         "horizontalOverflow": false,
         "withinViewport": true,
         "doctrineBound": true
+      },
+      "predictionLeague": {
+        "horizontalOverflow": false,
+        "withinViewport": true,
+        "minActionHeight": 44,
+        "hasConsensus": true
       },
       "prematch": [
         {
@@ -705,12 +723,14 @@
       },
       "surfaces": [
         "play",
+        "stats-showcase",
         "agency-doctrine",
         "settings",
         "postmatch",
         "account-handoff",
         "multi-tab-collision",
         "progression-doctrine",
+        "prediction-league",
         "prematch-loading",
         "prematch-degraded",
         "prematch-ready",
@@ -760,6 +780,12 @@
         "horizontalOverflow": false,
         "withinViewport": true,
         "doctrineBound": true
+      },
+      "predictionLeague": {
+        "horizontalOverflow": false,
+        "withinViewport": true,
+        "minActionHeight": 44,
+        "hasConsensus": true
       },
       "prematch": [
         {
@@ -928,12 +954,14 @@
       },
       "surfaces": [
         "play",
+        "stats-showcase",
         "agency-doctrine",
         "settings",
         "postmatch",
         "account-handoff",
         "multi-tab-collision",
         "progression-doctrine",
+        "prediction-league",
         "prematch-loading",
         "prematch-degraded",
         "prematch-ready",
@@ -983,6 +1011,12 @@
         "horizontalOverflow": false,
         "withinViewport": true,
         "doctrineBound": true
+      },
+      "predictionLeague": {
+        "horizontalOverflow": false,
+        "withinViewport": true,
+        "minActionHeight": 44,
+        "hasConsensus": true
       },
       "prematch": [
         {

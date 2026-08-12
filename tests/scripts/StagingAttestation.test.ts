@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import {
   createStagingAttestation,
@@ -18,6 +19,23 @@ const run = {
   repository: { full_name: repository },
 };
 
+function productSmoke(origin = "https://staging.example.com") {
+  const core = {
+    schemaVersion: 1,
+    origin,
+    expectedRevision: sha,
+    observedAt: "2026-08-03T12:00:00.000Z",
+    pass: true,
+    checks: [{ id: "exact-revision", pass: true, evidence: {} }],
+  };
+  return JSON.stringify({
+    ...core,
+    receiptDigest: `sha256:${createHash("sha256")
+      .update(JSON.stringify(core))
+      .digest("hex")}`,
+  });
+}
+
 describe("staging attestation", () => {
   it("admits fresh same-repository successful staging evidence", () => {
     const observedAt = "2026-08-03T12:00:00.000Z";
@@ -30,6 +48,7 @@ describe("staging attestation", () => {
       imageDigest: `sha256:${"b".repeat(64)}`,
       healthResponse: '{"status":"ok","scope":"master"}',
       revisionResponse: sha,
+      productSmokeResponse: productSmoke(),
       observedAt,
     });
     expect(
@@ -38,6 +57,10 @@ describe("staging attestation", () => {
         now: Date.parse(observedAt) + 1_000,
       }),
     ).toMatchObject({ ok: true, imageDigest: attestation.imageDigest });
+    expect(attestation.productSmoke).toMatchObject({
+      checkCount: 1,
+      receiptDigest: expect.stringMatching(/^sha256:[a-f0-9]{64}$/u),
+    });
   });
 
   it.each([
@@ -91,6 +114,25 @@ describe("staging attestation", () => {
         now: Date.parse(observedAt) + 1_000,
       }).errors,
     ).toContain("attestation-digest-mismatch");
+  });
+
+  it("rejects a failed or cross-revision product smoke receipt", () => {
+    expect(() =>
+      createStagingAttestation({
+        repository,
+        workflowRunId: 42,
+        workflowRunAttempt: 1,
+        gitSha: sha,
+        origin: "https://staging.example.com",
+        imageDigest: `sha256:${"b".repeat(64)}`,
+        healthResponse: '{"status":"ok"}',
+        revisionResponse: sha,
+        productSmokeResponse: productSmoke().replace(
+          `"expectedRevision":"${sha}"`,
+          `"expectedRevision":"${"c".repeat(40)}"`,
+        ),
+      }),
+    ).toThrow(/not admissible/u);
   });
 
   it("rejects non-main and semantically unhealthy staging evidence", () => {

@@ -298,7 +298,7 @@ export class ProgressionDebrief extends LitElement implements Layer {
             ${this.certification}
           </div>
           <button
-            class="rounded px-1.5 py-0.5 text-xs text-slate-400 hover:bg-white/10 hover:text-white"
+            class="min-h-11 rounded px-2 py-1 text-xs text-slate-400 hover:bg-white/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300"
             @click=${this.dismiss}
             aria-label="Dismiss progression debrief"
           >
@@ -357,7 +357,7 @@ export class ProgressionDebrief extends LitElement implements Layer {
                   ${
                     this.claimableMilestoneId
                       ? html`<button
-                          class="rounded border border-amber-300/50 px-2 py-1 text-xs text-amber-100 hover:bg-amber-300/10"
+                          class="min-h-11 rounded border border-amber-300/50 px-3 py-1 text-xs text-amber-100 hover:bg-amber-300/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300"
                           @click=${this.claimReadyMilestone}
                         >
                           Claim ready reward
@@ -365,7 +365,7 @@ export class ProgressionDebrief extends LitElement implements Layer {
                       : html``
                   }
                   <button
-                    class="rounded border border-cyan-300/40 px-2 py-1 text-xs text-cyan-100 hover:bg-cyan-300/10"
+                    class="min-h-11 rounded border border-cyan-300/40 px-3 py-1 text-xs text-cyan-100 hover:bg-cyan-300/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300"
                     @click=${this.requestMasteryRematch}
                   >
                     Rematch with this mastery goal

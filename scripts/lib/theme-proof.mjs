@@ -13,12 +13,14 @@ export const THEME_PROOF_THEMES = Object.freeze([
 ]);
 export const THEME_PROOF_SURFACES = Object.freeze([
   "play",
+  "stats-showcase",
   "agency-doctrine",
   "settings",
   "postmatch",
   "account-handoff",
   "multi-tab-collision",
   "progression-doctrine",
+  "prediction-league",
   "prematch-loading",
   "prematch-degraded",
   "prematch-ready",
@@ -61,6 +63,7 @@ export function collectThemeProofSourceFiles(root) {
     "src/client/ConnectionRecoveryPresenter.ts",
     "src/client/Transport.ts",
     "src/client/CertifiedMatchFeedback.ts",
+    "src/client/PlaytestPulsePresentation.ts",
     "src/client/AccountModal.ts",
     "src/client/MultiTabDetector.ts",
     "src/client/PostMatchContinuation.ts",

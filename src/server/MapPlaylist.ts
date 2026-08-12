@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import {
   Difficulty,
   Duos,
@@ -13,7 +14,6 @@ import {
   Trios,
   mapCategories,
 } from "../core/game/Game";
-import { PseudoRandom } from "../core/PseudoRandom";
 import { GameConfig, PublicGameType, TeamCountConfig } from "../core/Schemas";
 import { logger } from "./Logger";
 import {
@@ -126,6 +126,17 @@ const MUTUALLY_EXCLUSIVE_MODIFIERS: [ModifierKey, ModifierKey][] = [
 // Probability of hard nations modifier in HumansVsNations games.
 const HARD_NATIONS_HVN_PROBABILITY = 0.2; // 20%
 
+export interface PlaylistSelectionReceipt {
+  sequence: number;
+  playlist: PublicGameType | "ranked-1v1";
+  gameMap: GameConfig["gameMap"];
+  gameMode: GameConfig["gameMode"];
+  maxPlayers: number;
+  playerTeams: GameConfig["playerTeams"] | null;
+  modifiers: PublicGameModifiers | null;
+  digest: `sha256:${string}`;
+}
+
 export class MapPlaylist {
   private playlists: Record<PublicGameType, GameMapType[]> = {
     ffa: [],
@@ -136,10 +147,61 @@ export class MapPlaylist {
     GameMapType,
     Promise<MapCapacityObservation>
   >();
+  private selectionSequence = 0;
+  private latestSelection: PlaylistSelectionReceipt | null = null;
 
   public constructor(
     private readonly resolveMapCapacity: MapCapacityResolver = getMapCapacityObservation,
+    private readonly random: () => number = Math.random,
   ) {}
+
+  private roll(): number {
+    const value = this.random();
+    if (!Number.isFinite(value) || value < 0 || value >= 1) {
+      throw new RangeError("playlist entropy must be in [0, 1)");
+    }
+    return value;
+  }
+
+  private shuffle<T>(values: readonly T[]): T[] {
+    const result = [...values];
+    for (let index = result.length - 1; index > 0; index--) {
+      const target = Math.floor(this.roll() * (index + 1));
+      [result[index], result[target]] = [result[target], result[index]];
+    }
+    return result;
+  }
+
+  public lastSelectionReceipt(): PlaylistSelectionReceipt | null {
+    return this.latestSelection === null
+      ? null
+      : structuredClone(this.latestSelection);
+  }
+
+  private recordSelection(
+    playlist: PlaylistSelectionReceipt["playlist"],
+    config: GameConfig,
+  ): GameConfig {
+    if (config.maxPlayers === undefined) {
+      throw new Error("public playlist selection requires maxPlayers");
+    }
+    const core = {
+      sequence: ++this.selectionSequence,
+      playlist,
+      gameMap: config.gameMap,
+      gameMode: config.gameMode,
+      maxPlayers: config.maxPlayers,
+      playerTeams: config.playerTeams ?? null,
+      modifiers: config.publicGameModifiers ?? null,
+    };
+    this.latestSelection = {
+      ...core,
+      digest: `sha256:${createHash("sha256")
+        .update(JSON.stringify(core))
+        .digest("hex")}`,
+    };
+    return config;
+  }
 
   public async gameConfig(type: PublicGameType): Promise<GameConfig> {
     if (type === "special") {
@@ -192,7 +254,7 @@ export class MapPlaylist {
     }
 
     // Create the default public game config (from your GameManager)
-    return {
+    const config = {
       ...PUBLIC_VAULTFRONT_FEATURE_POLICY,
       donateGold: mode === GameMode.Team,
       donateTroops: mode === GameMode.Team,
@@ -229,10 +291,11 @@ export class MapPlaylist {
       ),
       disabledUnits: [],
     } satisfies GameConfig;
+    return this.recordSelection(type, config);
   }
 
   private async getSpecialConfig(): Promise<GameConfig> {
-    const mode = Math.random() < 0.5 ? GameMode.FFA : GameMode.Team;
+    const mode = this.roll() < 0.5 ? GameMode.FFA : GameMode.Team;
     const map = this.getNextMap("special");
     const playerTeams =
       mode === GameMode.Team ? this.getTeamCount(map) : undefined;
@@ -265,7 +328,7 @@ export class MapPlaylist {
       excludedModifiers.push("isHardNations");
       excludedModifiers.push("startingGoldHigh"); // Nations are disabled if that modifier is active
       hardNationsFromIndependentRoll =
-        Math.random() < HARD_NATIONS_HVN_PROBABILITY;
+        this.roll() < HARD_NATIONS_HVN_PROBABILITY;
       poolCountReduction = hardNationsFromIndependentRoll ? 1 : 0;
     }
 
@@ -319,7 +382,7 @@ export class MapPlaylist {
         ? "disabled"
         : "default";
 
-    return {
+    const config = {
       ...PUBLIC_VAULTFRONT_FEATURE_POLICY,
       donateGold: mode === GameMode.Team,
       donateTroops: mode === GameMode.Team,
@@ -351,6 +414,7 @@ export class MapPlaylist {
       ),
       disabledUnits: [],
     } satisfies GameConfig;
+    return this.recordSelection("special", config);
   }
 
   public get1v1Config(): GameConfig {
@@ -361,12 +425,12 @@ export class MapPlaylist {
       GameMapType.Asia, // 20%
       GameMapType.EuropeClassic, // 20%
     ];
-    const isCompact = Math.random() < 0.5;
-    return {
+    const isCompact = this.roll() < 0.5;
+    const config = {
       ...PUBLIC_VAULTFRONT_FEATURE_POLICY,
       donateGold: false,
       donateTroops: false,
-      gameMap: maps[Math.floor(Math.random() * maps.length)],
+      gameMap: maps[Math.floor(this.roll() * maps.length)],
       maxPlayers: 2,
       gameType: GameType.Public,
       gameMapSize: isCompact ? GameMapSize.Compact : GameMapSize.Normal,
@@ -383,6 +447,7 @@ export class MapPlaylist {
       spawnImmunityDuration: 30 * 10,
       disabledUnits: [],
     } satisfies GameConfig;
+    return this.recordSelection("ranked-1v1", config);
   }
 
   private getNextMap(type: PublicGameType): GameMapType {
@@ -395,14 +460,13 @@ export class MapPlaylist {
 
   private generateNewPlaylist(type: PublicGameType): GameMapType[] {
     const maps = this.buildMapsList(type);
-    const rand = new PseudoRandom(Date.now());
     const playlist: GameMapType[] = [];
 
     const numAttempts = 10000;
     for (let attempt = 0; attempt < numAttempts; attempt++) {
       playlist.length = 0;
       // Re-shuffle every attempt so retries can explore different orderings.
-      const source = rand.shuffleArray([...maps]);
+      const source = this.shuffle(maps);
 
       let success = true;
       while (source.length > 0) {
@@ -421,7 +485,7 @@ export class MapPlaylist {
     log.warn(
       `Failed to generate non-consecutive playlist after ${numAttempts} attempts, falling back to shuffle`,
     );
-    return rand.shuffleArray([...maps]);
+    return this.shuffle(maps);
   }
 
   private addNextMapNonConsecutive(
@@ -463,15 +527,15 @@ export class MapPlaylist {
 
   private getTeamCount(map: GameMapType): TeamCountConfig {
     // Override team count for specific maps (75% chance)
-    if (map === GameMapType.Baikal && Math.random() < 0.75) {
+    if (map === GameMapType.Baikal && this.roll() < 0.75) {
       return 2;
     }
-    if (map === GameMapType.FourIslands && Math.random() < 0.75) {
+    if (map === GameMapType.FourIslands && this.roll() < 0.75) {
       return 4;
     }
 
     const totalWeight = TEAM_WEIGHTS.reduce((sum, w) => sum + w.weight, 0);
-    const roll = Math.random() * totalWeight;
+    const roll = this.roll() * totalWeight;
 
     let cumulativeWeight = 0;
     for (const { config, weight } of TEAM_WEIGHTS) {
@@ -487,14 +551,14 @@ export class MapPlaylist {
     playerTeams?: TeamCountConfig,
   ): PublicGameModifiers {
     return {
-      isRandomSpawn: Math.random() < 0.05, // 5% chance
-      isCompact: Math.random() < 0.05, // 5% chance
-      isCrowded: Math.random() < 0.05, // 5% chance
-      startingGold: Math.random() < 0.05 ? 5_000_000 : undefined, // 5% chance
+      isRandomSpawn: this.roll() < 0.05, // 5% chance
+      isCompact: this.roll() < 0.05, // 5% chance
+      isCrowded: this.roll() < 0.05, // 5% chance
+      startingGold: this.roll() < 0.05 ? 5_000_000 : undefined, // 5% chance
       isHardNations:
         playerTeams === HumansVsNations
-          ? Math.random() < HARD_NATIONS_HVN_PROBABILITY
-          : Math.random() < 0.025, // 2.5% chance
+          ? this.roll() < HARD_NATIONS_HVN_PROBABILITY
+          : this.roll() < 0.025, // 2.5% chance
     };
   }
 
@@ -504,7 +568,7 @@ export class MapPlaylist {
     countReduction: number = 0,
   ): PublicGameModifiers {
     // Roll how many modifiers to pick: 30% → 1, 40% → 2, 20% → 3, 10% → 4
-    const modifierCountRoll = Math.floor(Math.random() * 10) + 1;
+    const modifierCountRoll = Math.floor(this.roll() * 10) + 1;
     const k = Math.max(
       0,
       (count ??
@@ -518,9 +582,9 @@ export class MapPlaylist {
     );
 
     // Shuffle the pool, then pick the first k unique modifier keys.
-    const pool = SPECIAL_MODIFIER_POOL.filter(
-      (key) => !excludedModifiers.includes(key),
-    ).sort(() => Math.random() - 0.5);
+    const pool = this.shuffle(
+      SPECIAL_MODIFIER_POOL.filter((key) => !excludedModifiers.includes(key)),
+    );
 
     const selected = new Set<ModifierKey>();
     for (const key of pool) {
@@ -620,7 +684,7 @@ export class MapPlaylist {
   ): Promise<number> {
     const landTiles = (await this.mapCapacity(map)).landTiles;
     const [l, m, s] = this.calculateMapPlayerCounts(landTiles);
-    const r = Math.random();
+    const r = this.roll();
     const base = r < 0.3 ? l : r < 0.6 ? m : s;
     let p = Math.min(mode === GameMode.Team ? Math.ceil(base * 1.5) : base, l);
     // Apply compact map 75% player reduction

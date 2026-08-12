@@ -133,9 +133,9 @@
       "method": "POST",
       "path": "/api/vaultfront/coach-debrief",
       "auth": "verified-actor",
-      "rateLimit": "coachDebriefRateLimit",
+      "rateLimit": "options.rateLimit",
       "evidence": "result-certificate",
-      "binding": "requireVaultFrontActor"
+      "binding": "options.authenticate"
     },
     {
       "method": "POST",

@@ -102,8 +102,8 @@
       "method": "POST",
       "route": "/api/vaultfront/coach-debrief",
       "server": {
-        "file": "src/server/Worker.ts",
-        "marker": "assertRoutePolicyBinding(\n    \"coach-debrief\""
+        "file": "src/server/CoachDebriefRouter.ts",
+        "marker": "const route = \"/api/vaultfront/coach-debrief\""
       },
       "transport": {
         "file": "src/client/Api.ts",

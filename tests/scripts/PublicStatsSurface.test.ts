@@ -30,10 +30,11 @@ describe("public stats surface", () => {
       precomputed: true,
       status: "pre-launch-unmeasured",
     });
-    expect(descriptor.metrics).toHaveLength(3);
+    expect(descriptor.metrics.length).toBeGreaterThanOrEqual(6);
+    expect(descriptor.showcase).toHaveLength(3);
     for (const metric of descriptor.metrics) {
       expect(metric.available).toBe(false);
-      expect(metric.value).toBe("Not yet measured");
+      expect(metric.value).toBeNull();
       expect(metric.unavailableReason.length).toBeGreaterThan(20);
       expect(metric.interpretation.length).toBeGreaterThan(20);
       expect(metric.source.length).toBeGreaterThan(20);
@@ -54,7 +55,7 @@ describe("public stats surface", () => {
     for (const metric of JSON.parse(read("public/stats-surface.json"))
       .metrics) {
       expect(page).toContain(metric.label);
-      expect(page).toContain(metric.value);
+      expect(page).toContain("Not yet measured");
       expect(page).toContain(metric.period);
       expect(page).toContain(metric.source);
       expect(page).toContain(metric.interpretation);

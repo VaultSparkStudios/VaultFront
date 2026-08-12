@@ -125,7 +125,7 @@ export class PredictionLeaguePanel extends LitElement implements Layer {
           margin-top: 0.65rem;
         }
         .prediction-action {
-          min-height: 2.5rem;
+          min-height: 2.75rem;
           border: 1px solid rgba(255, 255, 255, 0.14);
           border-radius: 0.55rem;
           color: #e2e8f0;

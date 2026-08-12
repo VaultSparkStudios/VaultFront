@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-08-06T06:31:51.121Z",
+  "generatedAt": "2026-08-12T20:25:54.197Z",
   "source": "scripts/innovation-pack.mjs",
   "primarySource": "latest audit-backed Unified Genius List",
   "items": [
@@ -566,28 +566,64 @@
       "rank": 63,
       "status": "shipped",
       "id": "server-crash-telemetry-symmetry",
-      "title": "Give server-process crashes the same structured record client crashes now get",
-      "description": "Session 99 shipped bounded, queryable client-crash telemetry (audit #183) but left Worker.ts uncaughtException/unhandledRejection as an unstructured log line, and Master.ts with no crash handler at all. A new process-local ServerCrashStore now records both, bounded and summarizable exactly like its client counterpart.",
+      "title": "Give server-process crashes the same structured record client crashes get",
+      "description": "Keep Master and Worker uncaught failures in the same bounded, signature-summarized operational evidence plane instead of losing them as unstructured log lines.",
       "complete": true,
-      "evidence": "ServerCrashStore.ts (bounded, 500-event, signature-summarized), wired into both Worker.ts and Master.ts uncaughtException/unhandledRejection handlers, StateScopeLedger registration, and regression tests"
+      "evidence": "bounded ServerCrashStore, symmetric Master/Worker handlers, state-scope registration, and regression coverage"
     },
     {
       "rank": 64,
       "status": "shipped",
       "id": "tournament-name-profanity-gate",
       "title": "Apply the clan-name profanity gate to tournament creation too",
-      "description": "Session 99 added profanity filtering to clan name/description creation, but the sibling tournament-creation route two blocks below it in Worker.ts accepted an unfiltered public-facing free-text name. TournamentStore.create() now takes the same injectable isProfane gate ClanStore.createClan() uses, defaulting to the same base matcher.",
+      "description": "Close the sibling public-text gap so tournament names cannot bypass the profanity policy already enforced for clan creation.",
       "complete": true,
-      "evidence": "TournamentStore.create() isProfane parameter and error path, Worker.ts route wiring the existing censorUsername gate, and clean/rejected/injected-gate regression tests"
+      "evidence": "injectable TournamentStore profanity gate, Worker route wiring, and clean/rejected/injected-gate tests"
     },
     {
       "rank": 65,
       "status": "shipped",
       "id": "game-left-sidebar-viewport-mode-adoption",
       "title": "Finish the viewport-mode dedup ViewportMode.ts started",
-      "description": "Session 99 extracted ViewportMode.ts from ControlPanel.ts and GameRightSidebar.ts duplicate viewportWidth() methods, but GameLeftSidebar.ts had the identical duplicate and was not migrated. It now imports the shared util instead of maintaining a third copy.",
+      "description": "Remove the final sidebar-local viewport-width duplicate so all three game control surfaces share one responsive mode policy.",
       "complete": true,
-      "evidence": "GameLeftSidebar.ts imports viewportWidth from ViewportMode.ts; zero behavior change verified by the full theme-visual-proof e2e pass"
+      "evidence": "GameLeftSidebar imports the shared ViewportMode policy and the full desktop/mobile theme matrix remains green"
+    },
+    {
+      "rank": 66,
+      "status": "shipped",
+      "id": "playlist-selection-receipt",
+      "title": "Turn reproducible lobby entropy into inspectable operator evidence",
+      "description": "Emit a bounded, non-secret SHA-256 receipt for every selected public configuration so a reported lobby can be compared without exposing the entropy stream.",
+      "complete": true,
+      "evidence": "monotonic selection sequence, canonical bounded payload digest, defensive-copy API, and deterministic receipt tests"
+    },
+    {
+      "rank": 67,
+      "status": "shipped",
+      "id": "attestation-bound-product-smoke",
+      "title": "Make product truth a parent of staging provenance",
+      "description": "Bind the exact-revision product smoke receipt into the staging attestation itself so an adjacent artifact cannot be silently omitted or substituted.",
+      "complete": true,
+      "evidence": "self-digest verification, origin/revision/pass admission, attestation parent binding, and tamper regression"
+    },
+    {
+      "rank": 68,
+      "status": "shipped",
+      "id": "coach-debrief-composition-boundary",
+      "title": "Keep certified coaching evolvable without regrowing Worker",
+      "description": "Extract the entire local-first and optional-remote coaching transaction behind one registered router boundary while preserving authentication, claims, receipts, cache, and budget policy.",
+      "complete": true,
+      "evidence": "registered composition boundary, Worker budget recovery, local-first fallback, and unchanged runtime reachability contract"
+    },
+    {
+      "rank": 69,
+      "status": "shipped",
+      "id": "analytica-homepage-evidence-twin",
+      "title": "Make public evidence one living surface for players, agents, and the founder",
+      "description": "Use a single precomputed Analytica Feed v1 artifact for the compact homepage pulse and deeper stats page, with declared polling, per-metric definitions, privacy thresholds, and visible stale/unavailable truth.",
+      "complete": true,
+      "evidence": "one six-metric aggregate feed, curated three-metric homepage pulse, bounded poll/staleness policy, deep definitions, and CANON-054 conformance"
     }
   ]
 }
