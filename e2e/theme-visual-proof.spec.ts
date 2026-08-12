@@ -477,61 +477,55 @@ test("three themes retain readable page, panel, and settings surfaces", async ({
       .locator("[data-vf-visual-qa]")
       .evaluate((overlay) => overlay.remove());
 
-    const accountRecovery = await page.evaluate(async () => {
+    const accountHandoff = await page.evaluate(async () => {
       // @ts-expect-error Vite serves this production TypeScript module to the browser harness.
       await import("/src/client/AccountModal.ts");
       const overlay = document.createElement("main");
-      overlay.dataset.vfVisualQaAccountRecovery = "error";
+      overlay.dataset.vfVisualQaAccountHandoff = "obelisk";
       overlay.style.cssText =
         "box-sizing:border-box;position:fixed;inset:0;z-index:2147483647;overflow:auto;padding:16px;background:var(--vf-bg,#07111f);color:var(--vf-text,#f8fafc);font-family:Overpass,sans-serif;display:grid;place-items:center";
       const modal = document.createElement("account-modal") as any;
       modal.inline = true;
-      modal.recoveryState = "error";
-      modal.recoveryMessage =
-        "Enter an email address so we can send a recovery link.";
       overlay.append(modal);
       document.body.append(overlay);
       modal.requestUpdate();
       await modal.updateComplete;
-      const input = modal.querySelector<HTMLInputElement>(
-        'input[type="email"]',
-      );
-      const status = modal.querySelector<HTMLElement>("#email-recovery-status");
-      const button =
-        modal.querySelector<HTMLButtonElement>("button[aria-busy]");
-      if (!input || !status || !button) {
-        throw new Error("account recovery state did not render");
+      const heading = modal.querySelector<HTMLHeadingElement>("h3");
+      const button = modal.querySelector<HTMLButtonElement>("button");
+      if (!heading || !button) {
+        throw new Error("Obelisk account handoff did not render");
       }
       const rect = modal.getBoundingClientRect();
+      const text = modal.textContent?.replace(/\s+/g, " ").trim() ?? "";
       return {
-        state: "error",
-        role: status.getAttribute("role"),
-        ariaLive: status.getAttribute("aria-live"),
-        describedBy: input.getAttribute("aria-describedby"),
-        invalid: input.getAttribute("aria-invalid"),
+        provider: "obelisk",
+        heading: heading.textContent?.trim(),
+        action: button.textContent?.trim(),
+        credentialBoundary:
+          text.includes("Obelisk handles passkeys") &&
+          text.includes("VaultFront never receives your credentials"),
         horizontalOverflow: overlay.scrollWidth > overlay.clientWidth,
         withinViewport: rect.left >= 0 && rect.right <= innerWidth,
         minimumButtonHeight: button.getBoundingClientRect().height,
       };
     });
-    expect(accountRecovery).toMatchObject({
-      state: "error",
-      role: "alert",
-      ariaLive: "polite",
-      describedBy: "email-recovery-status",
-      invalid: "true",
+    expect(accountHandoff).toMatchObject({
+      provider: "obelisk",
+      heading: "VaultSpark Passport",
+      action: "Continue with Obelisk",
+      credentialBoundary: true,
       horizontalOverflow: false,
       withinViewport: true,
     });
-    expect(accountRecovery.minimumButtonHeight).toBeGreaterThanOrEqual(44);
-    await page.locator("[data-vf-visual-qa-account-recovery]").screenshot({
+    expect(accountHandoff.minimumButtonHeight).toBeGreaterThanOrEqual(44);
+    await page.locator("[data-vf-visual-qa-account-handoff]").screenshot({
       path: path.join(
         artifactDir,
-        testInfo.project.name + "-" + theme + "-account-recovery.png",
+        testInfo.project.name + "-" + theme + "-account-handoff.png",
       ),
     });
     await page
-      .locator("[data-vf-visual-qa-account-recovery]")
+      .locator("[data-vf-visual-qa-account-handoff]")
       .evaluate((overlay) => overlay.remove());
 
     const multiTabCollision = await page.evaluate(async () => {
@@ -1108,7 +1102,7 @@ test("three themes retain readable page, panel, and settings surfaces", async ({
       "agency-doctrine",
       "settings",
       "postmatch",
-      "account-recovery",
+      "account-handoff",
       "multi-tab-collision",
       "progression-doctrine",
       "prematch-loading",
