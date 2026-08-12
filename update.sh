@@ -146,6 +146,12 @@ run_container() {
         "$image"
 }
 
+dump_candidate_diagnostics() {
+    echo "Candidate diagnostics for ${CONTAINER_NAME}:" >&2
+    docker exec "$CONTAINER_NAME" supervisorctl status >&2 || true
+    docker logs --tail 200 "$CONTAINER_NAME" >&2 || true
+}
+
 # Start and prove the candidate before signalling the incumbent. The higher
 # project-router route is activated only after health and immutable revision
 # checks; shared Caddy always targets the one allocated loopback port.
@@ -160,6 +166,7 @@ for _ in {1..30}; do
 done
 if [[ "$CANDIDATE_HEALTHY" != "1" ]]; then
     echo "Candidate health verification failed; incumbent remains active" >&2
+    dump_candidate_diagnostics
     docker stop --time 45 "$CONTAINER_NAME" > /dev/null 2>&1 || true
     docker rm "$CONTAINER_NAME" > /dev/null 2>&1 || true
     exit 1
@@ -177,6 +184,7 @@ for _ in {1..90}; do
 done
 if [[ "$DOCKER_HEALTHY" != "1" ]]; then
     echo "Candidate never reached Docker healthy state; incumbent remains active" >&2
+    dump_candidate_diagnostics
     docker stop --time 45 "$CONTAINER_NAME" > /dev/null 2>&1 || true
     docker rm "$CONTAINER_NAME" > /dev/null 2>&1 || true
     exit 1
@@ -190,6 +198,7 @@ EXPECTED_REVISION="$(
 REVISION_URL="${DEPLOY_HEALTH_URL%/_health}/commit.txt"
 if [[ -z "$EXPECTED_REVISION" || "$EXPECTED_REVISION" == "unknown" ]]; then
     echo "Candidate has no immutable Git revision; incumbent remains active" >&2
+    dump_candidate_diagnostics
     docker stop --time 45 "$CONTAINER_NAME" > /dev/null 2>&1 || true
     docker rm "$CONTAINER_NAME" > /dev/null 2>&1 || true
     exit 1
@@ -293,6 +302,7 @@ restore_incumbent_route() {
 # public ingress authority and forwards to 127.0.0.1:DEPLOY_INGRESS_PORT.
 if ! activate_route "$CONTAINER_NAME" "$GHCR_IMAGE"; then
     echo "Candidate route activation failed; restoring the incumbent route" >&2
+    dump_candidate_diagnostics
     restore_incumbent_route || true
     docker stop --time 45 "$CONTAINER_NAME" > /dev/null 2>&1 || true
     docker rm "$CONTAINER_NAME" > /dev/null 2>&1 || true

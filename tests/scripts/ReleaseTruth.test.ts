@@ -114,6 +114,10 @@ describe("release truth boundary", () => {
 
     expect(updater).not.toMatch(/docker\s+rm\s+-f/u);
     expect(updater).toContain("DEPLOY_DRAIN_TIMEOUT_SECONDS");
+    expect(updater).toContain("dump_candidate_diagnostics()");
+    expect(updater).toContain(
+      'docker logs --tail 200 "$CONTAINER_NAME" >&2 || true',
+    );
     expect(updater).toContain('IMAGE_DIGEST="${GHCR_IMAGE##*@}"');
     expect(updater).toContain("activate_route()");
     expect(updater).toContain('activate_route "$CONTAINER_NAME" "$GHCR_IMAGE"');
