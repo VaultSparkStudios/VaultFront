@@ -78,6 +78,22 @@ export function parseSessionSections(markdown) {
   return sections;
 }
 
+/** Select the newest typed session section, optionally constrained by title. */
+export function selectLatestSessionSection(markdown, { titlePrefix } = {}) {
+  const normalizedPrefix = String(titlePrefix ?? "")
+    .trim()
+    .toLocaleLowerCase();
+  return (
+    parseSessionSections(markdown)
+      .filter(
+        (section) =>
+          !normalizedPrefix ||
+          section.title.toLocaleLowerCase().startsWith(normalizedPrefix),
+      )
+      .sort((a, b) => b.session - a.session || b.start - a.start)[0] ?? null
+  );
+}
+
 /** Extract session numbers only from headings or anchored structured fields. */
 export function extractSessionNumbers(markdown) {
   const source = String(markdown ?? "");

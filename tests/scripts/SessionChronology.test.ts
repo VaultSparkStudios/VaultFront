@@ -5,6 +5,7 @@ import {
   freshestIsoDate,
   isIsoCalendarDate,
   parseSessionSections,
+  selectLatestSessionSection,
 } from "../../scripts/lib/session-chronology.mjs";
 import { parseSilHistory } from "../../scripts/lib/sil-forecaster.mjs";
 import { validateStartupBrief } from "../../scripts/validate-brief-format.mjs";
@@ -81,6 +82,22 @@ recovery body
     expect(first.body).toContain("two");
     expect(first.body).not.toContain("three");
     expect(second.body).toContain("three");
+  });
+
+  it("selects the newest matching section instead of a sibling intent heading", () => {
+    const markdown = [
+      "## Where We Left Off — Session 101 complete",
+      "- current product truth",
+      "## Completed Session Intent — Session 101",
+      "intent prose",
+      "## Where We Left Off — Session 100 complete",
+      "- stale product truth",
+    ].join("\n");
+    expect(
+      selectLatestSessionSection(markdown, {
+        titlePrefix: "Where We Left Off",
+      })?.body,
+    ).toContain("current product truth");
   });
 });
 describe("SIL session identity", () => {

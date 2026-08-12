@@ -17,7 +17,7 @@ Recovered and independently checkpointed Session 100, then shipped all eight fre
 
 | Category              |        Score | Evidence                                                                                                                                            |
 | --------------------- | -----------: | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Dev Health            |          100 | 268 files / 1,419 tests, Playwright 30/30, lint, format, production build, contracts, and project doctor are green.                                 |
+| Dev Health            |          100 | 268 files / 1,420 tests, Playwright 30/30, lint, format, production build, contracts, and project doctor are green.                                 |
 | Creative Alignment    |          100 | Local causal coaching, map variety, player-facing evidence, and compact Alpha Pulse deepen the extraction strategy fantasy without arbitrary power. |
 | Momentum              |          100 | Eight findings shipped, innovations 70/70, and zero pending unblocked work.                                                                         |
 | Engagement            |           99 | The learning/return loop is materially clearer; no human retention or fun outcome is invented before the three-human Alpha.                         |

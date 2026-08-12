@@ -44,7 +44,7 @@
     }
   },
   "verification": {
-    "vitest": "268/268 files and 1419/1419 tests",
+    "vitest": "268/268 files and 1420/1420 tests",
     "lint": "pass",
     "formatRatchet": "0 regressions",
     "contracts": "pass; 133 deploy checks",

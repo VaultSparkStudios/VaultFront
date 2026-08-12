@@ -27,7 +27,7 @@
       "status": "green",
       "label": "Canonical unit and server regression",
       "command": "npm test",
-      "purpose": "All 268 test files and 1,419 tests pass across four bounded shards."
+      "purpose": "All 268 test files and 1,420 tests pass across four bounded shards."
     },
     {
       "type": "tests",
@@ -61,8 +61,8 @@
   "silMax": 1000,
   "silScoreLegacy500": null,
   "silScore": 998,
-  "testsPassing": 1419,
-  "testsTotal": 1419,
+  "testsPassing": 1420,
+  "testsTotal": 1420,
   "silCategoriesV3": {
     "devHealth": 100,
     "creativeAlignment": 100,
@@ -110,10 +110,10 @@
     "failing": 0,
     "blockingFailing": 0,
     "date": "2026-08-12",
-    "observedAt": "2026-08-12T21:35:45.579Z",
+    "observedAt": "2026-08-12T21:45:38.008Z",
     "source": "scripts/project-doctor.mjs",
     "evidencePath": "audits/doctor-latest.json",
-    "evidenceDigest": "sha256:89d65dd63b2dc53e3569b7658c2dad81b53cffd0ab43c77baef674df80b8f392",
+    "evidenceDigest": "sha256:0b1504ffba656b67b9f5898a612a41c4fe34473fec209756c982ea07de99a115",
     "evidenceSchemaVersion": 1,
     "checkCount": 13
   },
@@ -147,10 +147,10 @@
     "scope": "All S101 implementation, test, provider, staging, and closeout commands were read to completion; no session-owned background shell is knowingly left running."
   },
   "testsLastRun": "2026-08-12",
-  "testsLastRunMode": "Session 101 canonical npm test 268/268 files and 1,419/1,419 tests; Playwright 30/30; doctor 13/13; exact provider and staging green.",
+  "testsLastRunMode": "Session 101 canonical npm test 268/268 files and 1,420/1,420 tests; Playwright 30/30; doctor 13/13; exact provider and staging green.",
   "testsDeferred": [],
   "testsBudgetExhausted": false,
-  "lastSessionSummary": "Session 101 shipped all eight fresh audit findings and exhausted 70/70 innovations, proved 126 rendered artifacts and 1,419 tests, repaired the hosted runtime floor through exact provider evidence, and admitted the exact implementation SHA to staging with an eight-contract product attestation. Production remains NO-GO.",
+  "lastSessionSummary": "Session 101 shipped all eight fresh audit findings and exhausted 70/70 innovations, proved 126 rendered artifacts and 1,420 tests, repaired the hosted runtime floor through exact provider evidence, and admitted the exact implementation SHA to staging with an eight-contract product attestation. Production remains NO-GO.",
   "providerCiStatus": {
     "status": "green",
     "revision": "264f24e084251cef525f4215889bf16691b86162",
@@ -171,5 +171,8 @@
     "observedAt": "2026-08-07T23:27:02.553Z",
     "source": "npm audit complete graph after trust-approved DOMPurify 3.4.13 and Nano ID 3.3.18; Studio supply-chain incident scan found zero matching repositories"
   },
-  "testsEnvBlocked": []
+  "testsEnvBlocked": [],
+  "stagingUrl": "https://staging.vaultfront.io",
+  "stagingType": "stable-owned-subdomain",
+  "runtimeUrl": "https://vaultfront.io"
 }

@@ -7,13 +7,14 @@
 ╔══ SESSION CLOSEOUT · VaultFront · S101 ════════════════════════╗
 ║  Date: 2026-08-12 · SIL: 998/1000 · V:8  ·  Debt: down           ║
 ║  Mode: FOUNDER  ·  Agent: codex                                  ║
+║  Live:  preview  →  https://vaultfront.io                        ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ WHAT SHIPPED ════════════════════════════════════════════════╗
-║  ✓ Recovery verdict: Session 100 died mid-implement/deployment,  ║
-║  ✓ Shipped audit: items 191-195 are complete — clean-runner liv  ║
-║  ✓ Staging truth: exact revision `01ba5e4f` passed provider CI/  ║
-║  ✓ Recovery root fixes: master now owns the public playtest-sum  ║
-║  ✓ Verification: `npm test` 260/260 files and 1,401/1,401 tests  ║
+║  ✓ Arc verdict: the recovered Session 100 boundary was checkpoi  ║
+║  ✓ Product plane: `Master.ts` now routes every `/api/*` request  ║
+║  ✓ Player loop: deterministic unbiased map rotation, a certifie  ║
+║  ✓ Verification: `npm test` 268 files / 1,420 tests; Playwright  ║
+║  ✓ Provider/staging: exact revision `264f24e084251cef525f421588  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ SCORES · SIL 998/1000 ═══════════════════════════════════════╗
 ║    Dev Health         100  ██████████                            ║
@@ -45,13 +46,13 @@
 ║  Branch: main                                                    ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ DEPLOYMENT ══════════════════════════════════════════════════╗
-║  Staging:  not configured  ·  type: —                            ║
-║  Live:     N/A — pre-deploy (FORGE)                              ║
+║  Staging:  https://staging.vaultfront.io  ·  stable-owned-subdo  ║
+║  Live:     https://vaultfront.io  ·  preview/FORGE (not yet SPA  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ POST-SESSION SIGNALS ════════════════════════════════════════╗
 ║  Doctor:        13/13                                            ║
 ║  Compliance:    49/49                                            ║
-║  Tests:         1419/1419                                        ║
+║  Tests:         1420/1420                                        ║
 ║  IGNIS:         5d ago                                           ║
 ║  Truth:         green                                            ║
 ║  Shell hygiene: 0 running                                        ║

@@ -7,10 +7,11 @@
 - Recovery boundary: Session 100's interrupted work was verified, committed as `eeb2a674`, pushed, and separately deployed before Session 101 began. No S100 uncommitted state was silently folded into the fresh arc.
 - Work truth: `docs/AUDIT_2026-08-12.json` is exhausted at 8/8 shipped and `docs/INNOVATION_PACK.json` at 70/70; work exhaustion reports zero pending unblocked items.
 - Runtime truth: the master-owned API proxy closes the live SPA-fallthrough defect. Staging product smoke observes `/api/clans/leaderboard` as JSON with shard `0`, not merely a source-level route registration.
-- Verification truth: canonical tests pass 268 files / 1,419 tests; Playwright 30/30; 126 visual artifacts across three themes and desktop/mobile; 133 deploy checks; project doctor 13/13 with `blockingFailing: 0`.
+- Verification truth: canonical tests pass 268 files / 1,420 tests; Playwright 30/30; 126 visual artifacts across three themes and desktop/mobile; 133 deploy checks; project doctor 13/13 with `blockingFailing: 0`.
 - Provider truth: exact revision `264f24e084251cef525f4215889bf16691b86162` passed CI `31641733457`, E2E `31641733438`, and Release `31641733412`. Earlier CI failures at `8c79d598` and `7f5801dc` are retained as real discovery evidence, not overwritten by reruns.
 - Staging truth: run `31642400012` deployed immutable image digest `sha256:93066a1a85b01eb56a9c4f9d2e63e0e99569b287daf9b0efab9f22fb7cfd57a8`. Its attestation digest `sha256:b52078bacec25f3d46263ec8f0738e2369f51478a3001c68b9c60262712ae945` binds health, exact revision, and eight passed product checks.
 - Release truth: production remains public-unlaunched / NO-GO. Healthy staging does not establish Zoho reply-as-alias delivery, three distinct authenticated humans, real revenue, observed rollback, production parity/Core Web Vitals, or founder approval.
+- Closeout-board truth: the initial generated board was format-valid but stale because its renderer preferred the first `Where We Left Off` heading and lacked project staging URL metadata. The renderer now selects the newest typed matching session section, the status declares stable staging plus preview production origins, and a focused chronology regression plus the full 1,420-test suite pass.
 
 ## 2026-08-12 — Session 100 interrupted-arc recovery truth
 

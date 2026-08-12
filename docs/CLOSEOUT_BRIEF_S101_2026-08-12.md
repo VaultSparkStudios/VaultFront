@@ -16,7 +16,7 @@ Recovered the interrupted predecessor, then made the complete same-origin produc
 
 ## Proof
 
-- Canonical tests: 268/268 files, 1,419/1,419 tests.
+- Canonical tests: 268/268 files, 1,420/1,420 tests.
 - Browser: 30/30 Playwright checks; 126 hash-bound artifacts across three themes and desktop/mobile.
 - Contracts: 133 deploy checks; work exhaustion has zero pending unblocked items; doctor 13/13 with `blockingFailing: 0`.
 - Exact SHA `264f24e084251cef525f4215889bf16691b86162`: CI `31641733457`, E2E `31641733438`, Release `31641733412` all successful.
