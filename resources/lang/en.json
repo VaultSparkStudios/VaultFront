@@ -28,7 +28,6 @@
   },
   "main": {
     "title": "VaultFront (ALPHA)",
-    "login_discord": "Login with Discord",
     "sign_in": "Sign in",
     "discord_avatar_alt": "Discord profile avatar",
     "user_avatar_alt": "{username}'s avatar",
@@ -211,19 +210,10 @@
     "title": "Account",
     "connected_as": "Connected as",
     "stats_overview": "Stats Overview",
-    "link_discord": "Link Discord Account",
     "log_out": "Log Out",
-    "sign_in_desc": "Sign in to save your stats and progress",
-    "or": "OR",
-    "email_placeholder": "Enter your email address",
-    "get_magic_link": "Get Magic Link",
     "linked_account": "Logged in as {account_name}",
     "fetching_account": "Fetching account information...",
-    "recovery_email_sent": "Recovery email sent to {email}",
     "not_found": "Not Found",
-    "clear_session": "Clear Session",
-    "failed_to_send_recovery_email": "Failed to send recovery email",
-    "enter_email_address": "Please enter an email address",
     "personal_player_id": "Personal Player ID:"
   },
   "leaderboard_modal": {
