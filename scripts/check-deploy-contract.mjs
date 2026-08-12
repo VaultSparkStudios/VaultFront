@@ -96,6 +96,20 @@ requireText(
   "deploy.sh does not qualify the immutable image with ghcr.io",
 );
 requireText(
+  update,
+  /docker login ghcr\.io[\s\S]*--password-stdin/u,
+  "remote update does not authenticate to GHCR with password-stdin",
+);
+requireText(
+  update,
+  /grep -Ev '\^\(GHCR_TOKEN\|CF_API_TOKEN\)='/u,
+  "remote update does not strip deployment-plane credentials from runtime env",
+);
+check(
+  !/--env-file "\$ENV_FILE"/u.test(update),
+  "remote update passes deployment-plane credentials into app containers",
+);
+requireText(
   promoteWorkflow,
   /IMAGE_REF="ghcr\.io\/\$\{GHCR_USERNAME\}\/\$\{GHCR_REPO\}@\$\{IMAGE_DIGEST\}"/u,
   "promotion does not inspect the attested image from ghcr.io",
