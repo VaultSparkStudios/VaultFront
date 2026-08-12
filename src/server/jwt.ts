@@ -8,6 +8,10 @@ import {
 } from "../core/ApiSchemas";
 import { GameEnv, ServerConfig } from "../core/configuration/Config";
 import { PersistentIdSchema } from "../core/Schemas";
+import {
+  deriveObeliskPersistentId,
+  verifyObeliskAccessToken,
+} from "./ObeliskAuth";
 
 type TokenVerificationResult =
   | {
@@ -30,6 +34,20 @@ export async function verifyClientToken(
         message: "persistent ID not allowed in production",
       };
     }
+  }
+  const obelisk = await verifyObeliskAccessToken(token);
+  if (obelisk.type === "success") {
+    return {
+      type: "success",
+      persistentId: deriveObeliskPersistentId(
+        String(obelisk.claims.iss),
+        obelisk.sub,
+      ),
+      claims: null,
+    };
+  }
+  if (obelisk.type === "error") {
+    return { type: "error", message: obelisk.message };
   }
   try {
     const issuer = config.jwtIssuer();

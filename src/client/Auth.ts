@@ -1,21 +1,32 @@
 import { decodeJwt } from "jose";
 import { z } from "zod";
-import { TokenPayload, TokenPayloadSchema } from "../core/ApiSchemas";
-import { base64urlToUuid } from "../core/Base64";
-import { appUrl } from "../core/RuntimeUrls";
 import { getApiBase, getAudience } from "./Api";
 import { generateCryptoRandomUUID } from "./Utils";
 
-export type UserAuth = { jwt: string; claims: TokenPayload } | false;
+const BrowserTokenSchema = z.object({
+  sub: z.string().min(1),
+  iss: z.literal("https://obeliskgate.com"),
+  aud: z.union([z.string(), z.array(z.string())]),
+  exp: z.number(),
+});
+export type UserAuth =
+  | {
+      jwt: string;
+      claims: z.infer<typeof BrowserTokenSchema>;
+    }
+  | false;
 
 const PERSISTENT_ID_KEY = "player_persistent_id";
 
 let __jwt: string | null = null;
+let __persistentId: string | null = null;
 let __refreshPromise: Promise<void> | null = null;
 
-export function discordLogin() {
-  const redirectUri = encodeURIComponent(window.location.href);
-  window.location.href = `${getApiBase()}/auth/login/discord?redirect_uri=${redirectUri}`;
+export function obeliskLogin() {
+  const returnTo = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+  window.location.assign(
+    `${getApiBase()}/auth/login?returnTo=${encodeURIComponent(returnTo)}`,
+  );
 }
 
 export async function tempTokenLogin(token: string): Promise<string | null> {
@@ -62,6 +73,7 @@ export async function logOut(allSessions: boolean = false): Promise<boolean> {
     return false;
   } finally {
     __jwt = null;
+    __persistentId = null;
     localStorage.removeItem(PERSISTENT_ID_KEY);
   }
 }
@@ -98,14 +110,15 @@ export async function userAuth(
     const payload = decodeJwt(jwt);
     const { iss, aud, exp } = payload;
 
-    if (iss !== getApiBase()) {
+    if (iss !== "https://obeliskgate.com") {
       // JWT was not issued by the correct server
       console.error('unexpected "iss" claim value');
       logOut();
       return false;
     }
     const myAud = getAudience();
-    if (myAud !== "localhost" && aud !== myAud) {
+    const audiences = Array.isArray(aud) ? aud : [aud];
+    if (myAud !== "localhost" && !audiences.includes("vaultfront")) {
       // JWT was not issued for this website
       console.error('unexpected "aud" claim value');
       logOut();
@@ -124,7 +137,7 @@ export async function userAuth(
       return userAuth(false);
     }
 
-    const result = TokenPayloadSchema.safeParse(payload);
+    const result = BrowserTokenSchema.safeParse(payload);
     if (!result.success) {
       const error = z.prettifyError(result.error);
       console.error("Invalid payload", error);
@@ -164,45 +177,19 @@ async function doRefreshJwt(): Promise<void> {
       return;
     }
     const json = await response.json();
-    const { jwt } = json;
+    const { jwt, persistentId } = json;
+    if (typeof jwt !== "string" || typeof persistentId !== "string") {
+      throw new Error("Invalid refresh response");
+    }
     console.log("Refresh succeeded");
     __jwt = jwt;
+    __persistentId = persistentId;
   } catch (e) {
     console.error("Refresh failed", e);
     // if server unreachable, just clear jwt
     __jwt = null;
+    __persistentId = null;
     return;
-  }
-}
-
-export async function sendMagicLink(email: string): Promise<boolean> {
-  try {
-    const apiBase = getApiBase();
-    const response = await fetch(`${apiBase}/auth/magic-link`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({
-        redirectDomain: appUrl(""),
-        email: email,
-      }),
-    });
-
-    if (response.ok) {
-      return true;
-    } else {
-      console.error(
-        "Failed to send recovery email:",
-        response.status,
-        response.statusText,
-      );
-      return false;
-    }
-  } catch (error) {
-    console.error("Error sending recovery email:", error);
-    return false;
   }
 }
 
@@ -215,12 +202,7 @@ export async function getPlayToken(): Promise<string> {
 
 // WARNING: DO NOT EXPOSE THIS ID
 export function getPersistentID(): string {
-  const jwt = __jwt;
-  if (!jwt) return getPersistentIDFromLocalStorage();
-  const payload = decodeJwt(jwt);
-  const sub = payload.sub;
-  if (!sub) return getPersistentIDFromLocalStorage();
-  return base64urlToUuid(sub);
+  return __persistentId ?? getPersistentIDFromLocalStorage();
 }
 
 // WARNING: DO NOT EXPOSE THIS ID

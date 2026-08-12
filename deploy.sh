@@ -67,6 +67,10 @@ fi
 
 : "${SSH_KEY:?SSH_KEY is required}"
 : "${DATABASE_URL:?DATABASE_URL is required for staging and production}"
+: "${OBELISK_ISSUER:?OBELISK_ISSUER is required for staging and production}"
+: "${OBELISK_CLIENT_ID:?OBELISK_CLIENT_ID is required for staging and production}"
+: "${OBELISK_REDIRECT_URI:?OBELISK_REDIRECT_URI is required for staging and production}"
+: "${OBELISK_COOKIE_SECRET:?OBELISK_COOKIE_SECRET is required for staging and production}"
 SERVER_HOST="${DEPLOY_SERVER_HOST:-}"
 if [[ -z "$SERVER_HOST" ]]; then
     case "$HOST_LABEL" in
@@ -114,6 +118,10 @@ write_env OTEL_EXPORTER_OTLP_ENDPOINT "${OTEL_EXPORTER_OTLP_ENDPOINT:-}"
 write_env OTEL_AUTH_HEADER "${OTEL_AUTH_HEADER:-}"
 write_env DATABASE_URL "$DATABASE_URL"
 write_env DATABASE_DOCKER_CONTAINER "${DATABASE_DOCKER_CONTAINER:-supabase-db}"
+write_env OBELISK_ISSUER "$OBELISK_ISSUER"
+write_env OBELISK_CLIENT_ID "$OBELISK_CLIENT_ID"
+write_env OBELISK_REDIRECT_URI "$OBELISK_REDIRECT_URI"
+write_env OBELISK_COOKIE_SECRET "$OBELISK_COOKIE_SECRET"
 
 scp -i "$SSH_KEY" ./update.sh "$LOCAL_ENV" \
     "${REMOTE_USER}@${SERVER_HOST}:${REMOTE_DIR}/"

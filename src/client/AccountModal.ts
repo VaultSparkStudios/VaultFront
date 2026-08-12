@@ -8,7 +8,7 @@ import {
 import { getServerConfigFromClient } from "../core/configuration/ConfigLoader";
 import { workerGamePath } from "../core/RuntimeUrls";
 import { fetchPlayerById, getUserMe } from "./Api";
-import { discordLogin, logOut, sendMagicLink } from "./Auth";
+import { logOut, obeliskLogin } from "./Auth";
 import "./components/baseComponents/stats/DiscordUserHeader";
 import "./components/baseComponents/stats/GameList";
 import "./components/baseComponents/stats/PlayerStatsTable";
@@ -22,12 +22,7 @@ import { translateText } from "./Utils";
 
 @customElement("account-modal")
 export class AccountModal extends BaseModal {
-  @state() private email: string = "";
   @state() private isLoadingUser: boolean = false;
-  @state() private recoveryState: "idle" | "pending" | "success" | "error" =
-    "idle";
-  @state() private recoveryMessage = "";
-  private recoveryGeneration = 0;
 
   private userMeResponse: UserMeResponse | null = null;
   private statsTree: PlayerStatsTree | null = null;
@@ -248,169 +243,40 @@ export class AccountModal extends BaseModal {
     return html`
       <div class="flex items-center justify-center p-6 min-h-full">
         <div
-          class="w-full max-w-md bg-white/5 rounded-2xl border border-white/10 p-8"
+          class="w-full max-w-md bg-white/5 rounded-2xl border border-white/10 p-8 text-center"
         >
-          <div class="text-center mb-8">
-            <div
-              class="w-16 h-16 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-white/10 shadow-inner"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="w-8 h-8 text-blue-400"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
-                <polyline points="10 17 15 12 10 7"></polyline>
-                <line x1="15" y1="12" x2="3" y2="12"></line>
-              </svg>
-            </div>
-            <p class="text-white/50 text-sm font-medium">
-              ${translateText("account_modal.sign_in_desc")}
-            </p>
+          <div
+            class="w-16 h-16 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-white/10 shadow-inner"
+            aria-hidden="true"
+          >
+            <span class="text-3xl">🛡️</span>
           </div>
-
-          <div class="space-y-6">
-            <!-- Discord Login Button -->
-            <button
-              @click="${this.handleDiscordLogin}"
-              class="w-full px-6 py-4 text-white bg-[#5865F2] hover:bg-[#4752C4] border border-transparent rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#5865F2] transition-colors duration-200 flex items-center justify-center gap-3 group relative overflow-hidden shadow-lg hover:shadow-[#5865F2]/20"
-            >
-              <img
-                src="/images/DiscordLogo.svg"
-                alt="Discord"
-                class="w-6 h-6 relative z-10"
-              />
-              <span class="font-bold relative z-10 tracking-wide"
-                >${
-                  translateText("main.login_discord") ||
-                  translateText("account_modal.link_discord")
-                }</span
-              >
-            </button>
-
-            <!-- Divider -->
-            <div class="flex items-center gap-4 py-2">
-              <div class="h-px bg-white/10 flex-1"></div>
-              <span
-                class="text-[10px] uppercase tracking-widest text-white/30 font-bold"
-              >
-                ${translateText("account_modal.or")}
-              </span>
-              <div class="h-px bg-white/10 flex-1"></div>
-            </div>
-
-            <!-- Email Recovery -->
-            <div class="space-y-3">
-              <div class="relative group">
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  .value="${this.email}"
-                  @input="${this.handleEmailInput}"
-                  class="w-full pl-4 pr-12 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all font-medium hover:bg-white/10"
-                  placeholder="${translateText(
-                    "account_modal.email_placeholder",
-                  )}"
-                  aria-describedby="email-recovery-status"
-                  aria-invalid=${this.recoveryState === "error" ? "true" : "false"}
-                  ?disabled=${this.recoveryState === "pending"}
-                  required
-                />
-              </div>
-              <button
-                @click="${this.handleSubmit}"
-                class="min-h-11 w-full px-6 py-3 text-sm font-bold text-white uppercase tracking-wider bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 rounded-xl transition-all shadow-lg hover:shadow-blue-900/40 border border-white/5 disabled:cursor-wait disabled:opacity-60"
-                ?disabled=${this.recoveryState === "pending"}
-                aria-busy=${this.recoveryState === "pending" ? "true" : "false"}
-              >
-                ${
-                  this.recoveryState === "pending"
-                    ? "Sending recovery link…"
-                    : translateText("account_modal.get_magic_link")
-                }
-              </button>
-              <p
-                id="email-recovery-status"
-                class="m-0 min-h-5 text-sm ${
-                  this.recoveryState === "error"
-                    ? "text-red-300"
-                    : this.recoveryState === "success"
-                      ? "text-emerald-300"
-                      : "text-white/50"
-                }"
-                role=${this.recoveryState === "error" ? "alert" : "status"}
-                aria-live="polite"
-              >
-                ${this.recoveryMessage}
-              </p>
-            </div>
-          </div>
-
-          <div class="mt-8 text-center border-t border-white/10 pt-6">
-            <button
-              @click="${this.handleLogout}"
-              class="text-[10px] font-bold text-white/20 hover:text-red-400 transition-colors uppercase tracking-widest pb-0.5"
-            >
-              ${translateText("account_modal.clear_session")}
-            </button>
-          </div>
+          <h3 class="text-xl font-bold text-white mb-3">VaultSpark Passport</h3>
+          <p class="text-white/60 text-sm leading-relaxed mb-7">
+            One secure identity across VaultSpark. Obelisk handles passkeys,
+            account creation, and recovery on the hosted Gate; VaultFront never
+            receives your credentials.
+          </p>
+          <button
+            @click="${this.handleObeliskLogin}"
+            class="min-h-12 w-full px-6 py-3 text-sm font-bold text-white uppercase tracking-wider bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-500 hover:to-violet-500 rounded-xl transition-all shadow-lg border border-white/10 focus:outline-none focus:ring-2 focus:ring-blue-300"
+          >
+            Continue with Obelisk
+          </button>
+          <p class="mt-5 text-xs text-white/40">
+            New here? Account creation is included after you continue.
+          </p>
         </div>
       </div>
     `;
   }
 
-  private handleEmailInput(e: Event) {
-    const target = e.target as HTMLInputElement;
-    this.email = target.value;
-    if (this.recoveryState !== "pending") {
-      this.recoveryState = "idle";
-      this.recoveryMessage = "";
-    }
-  }
-
-  private async handleSubmit() {
-    if (this.recoveryState === "pending") return;
-    const email = this.email.trim();
-    if (!email) {
-      this.recoveryState = "error";
-      this.recoveryMessage = translateText("account_modal.enter_email_address");
-      return;
-    }
-
-    this.recoveryState = "pending";
-    this.recoveryMessage = "Sending a recovery link…";
-    const generation = this.recoveryGeneration;
-    const success = await sendMagicLink(email);
-    if (generation !== this.recoveryGeneration) return;
-    if (success) {
-      this.recoveryState = "success";
-      this.recoveryMessage = translateText(
-        "account_modal.recovery_email_sent",
-        { email },
-      );
-    } else {
-      this.recoveryState = "error";
-      this.recoveryMessage = translateText(
-        "account_modal.failed_to_send_recovery_email",
-      );
-    }
-  }
-
-  private handleDiscordLogin() {
-    discordLogin();
+  private handleObeliskLogin() {
+    obeliskLogin();
   }
 
   protected onOpen(): void {
-    this.recoveryGeneration += 1;
     this.isLoadingUser = true;
-    this.recoveryState = "idle";
-    this.recoveryMessage = "";
 
     void getUserMe()
       .then((userMe) => {

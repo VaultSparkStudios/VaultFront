@@ -1,8 +1,7 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
 const authMock = vi.hoisted(() => ({
-  sendMagicLink: vi.fn(),
-  discordLogin: vi.fn(),
+  obeliskLogin: vi.fn(),
   logOut: vi.fn(),
 }));
 vi.mock("../../src/client/Auth", () => authMock);
@@ -11,13 +10,13 @@ vi.mock("../../src/client/Api", () => ({
   getUserMe: vi.fn(),
 }));
 vi.mock("../../src/client/Utils", () => ({
-  translateText: (key: string, params?: { email?: string }) =>
-    params?.email ? key + ":" + params.email : key,
+  translateText: (key: string, params?: { account_name?: string }) =>
+    params?.account_name ? `${key}:${params.account_name}` : key,
 }));
 
 import { AccountModal } from "../../src/client/AccountModal";
 
-describe("AccountModal recovery state", () => {
+describe("AccountModal Obelisk handoff", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -26,35 +25,16 @@ describe("AccountModal recovery state", () => {
     document.body.replaceChildren();
   });
 
-  test("reports missing email inline without a blocking browser alert", async () => {
-    const alertSpy = vi
-      .spyOn(window, "alert")
-      .mockImplementation(() => undefined);
+  test("delegates sign-in, account creation, and recovery to Obelisk", () => {
     const modal = new AccountModal() as any;
-    await modal.handleSubmit();
-    expect(modal.recoveryState).toBe("error");
-    expect(modal.recoveryMessage).toContain("enter_email_address");
-    expect(alertSpy).not.toHaveBeenCalled();
-  });
+    const markup = String(modal.renderLoginOptions().strings.join(""));
 
-  test("guards duplicate submissions and exposes successful recovery inline", async () => {
-    let finish: (value: boolean) => void = () => undefined;
-    authMock.sendMagicLink.mockReturnValue(
-      new Promise<boolean>((resolve) => {
-        finish = resolve;
-      }),
-    );
-    const modal = new AccountModal() as any;
-    modal.email = "captain@example.com";
+    expect(markup).toContain("Continue with Obelisk");
+    expect(markup).toContain("VaultFront never");
+    expect(markup).not.toContain('type="email"');
+    expect(markup).not.toContain("Discord");
 
-    const first = modal.handleSubmit();
-    const second = modal.handleSubmit();
-    expect(modal.recoveryState).toBe("pending");
-    expect(authMock.sendMagicLink).toHaveBeenCalledOnce();
-
-    finish(true);
-    await Promise.all([first, second]);
-    expect(modal.recoveryState).toBe("success");
-    expect(modal.recoveryMessage).toContain("captain@example.com");
+    modal.handleObeliskLogin();
+    expect(authMock.obeliskLogin).toHaveBeenCalledOnce();
   });
 });

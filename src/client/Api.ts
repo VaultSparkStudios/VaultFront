@@ -65,7 +65,7 @@ export async function getUserMe(): Promise<UserMeResponse | false> {
       const { jwt } = userAuthResult;
 
       // Get the user object
-      const response = await fetch(getApiBase() + "/users/@me", {
+      const response = await fetch(getApiBase() + "/auth/me", {
         headers: {
           authorization: `Bearer ${jwt}`,
         },
@@ -141,7 +141,7 @@ export function getApiBase() {
     return localStorage.getItem("apiHost") ?? "http://localhost:8787";
   }
 
-  return `https://api.${domainname}`;
+  return window.location.origin;
 }
 
 export function getAudience() {

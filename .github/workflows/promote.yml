@@ -217,9 +217,10 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p ~/.ssh
-          printf '%s' "$DEPLOY_SSH_KEY" > ~/.ssh/id_rsa
+          printf '%s\n' "$DEPLOY_SSH_KEY" | tr -d '\r' > ~/.ssh/id_rsa
           test -n "$DEPLOY_SERVER_HOST"
           chmod 600 ~/.ssh/id_rsa
+          ssh-keygen -y -f ~/.ssh/id_rsa > /dev/null
           node scripts/prepare-deploy-ssh.mjs ~/.ssh/known_hosts
 
       - name: Deploy promoted digest
@@ -240,6 +241,10 @@ jobs:
           GHCR_USERNAME: ${{ vars.GHCR_USERNAME }}
           OTEL_AUTH_HEADER: ${{ secrets.OTEL_AUTH_HEADER }}
           OTEL_EXPORTER_OTLP_ENDPOINT: ${{ secrets.OTEL_EXPORTER_OTLP_ENDPOINT }}
+          OBELISK_CLIENT_ID: ${{ vars.OBELISK_CLIENT_ID }}
+          OBELISK_COOKIE_SECRET: ${{ secrets.OBELISK_COOKIE_SECRET }}
+          OBELISK_ISSUER: ${{ vars.OBELISK_ISSUER }}
+          OBELISK_REDIRECT_URI: ${{ vars.OBELISK_REDIRECT_URI }}
           SSH_KEY: ~/.ssh/id_rsa
           TURNSTILE_SECRET_KEY: ${{ secrets.TURNSTILE_SECRET_KEY }}
         run: |

@@ -12,6 +12,7 @@ import { getServerConfigFromServer } from "../core/configuration/ConfigLoader";
 import { logger } from "./Logger";
 import { MapPlaylist } from "./MapPlaylist";
 import { MasterLobbyService } from "./MasterLobbyService";
+import { readObeliskConfig, registerObeliskAuthRoutes } from "./ObeliskAuth";
 import { renderHtml } from "./RenderHtml";
 import {
   serverCrashStore,
@@ -45,6 +46,13 @@ const masterAllowedOrigins = process.env.ALLOWED_ORIGINS?.split(",").map((s) =>
 ];
 app.use(cors({ origin: masterAllowedOrigins, credentials: true }));
 app.use(helmet({ contentSecurityPolicy: false }));
+const obeliskConfig = readObeliskConfig();
+if (config.env() !== GameEnv.Dev && !obeliskConfig) {
+  throw new Error(
+    "Obelisk Passport v2 configuration is required outside development",
+  );
+}
+if (obeliskConfig) registerObeliskAuthRoutes(app, log);
 // ─────────────────────────────────────────────────────────────────────────
 
 // Middleware to handle HTML files with EJS templating
