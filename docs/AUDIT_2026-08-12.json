@@ -353,8 +353,8 @@
       "status": "shipped",
       "complete": true,
       "title": "Run CI on the runtime floor the locked dependency graph actually supports",
-      "why": "Exact-revision CI exposed sanitize-html's Node >=22.12 engine contract while the repository still advertised and ran Node 20, forcing native canvas fallback behavior on a no-longer-supported runtime.",
-      "recipe": "Raise the repository engine floor and every core CI/brief job to one exact supported Node 22.12 runtime, retain the Node 24 production image, and verify workflow contracts.",
+      "why": "Exact-revision CI exposed intersecting sanitize-html Node >=22.12 and ESLint Node >=22.13 engine contracts while the repository still advertised and ran Node 20.",
+      "recipe": "Raise the repository engine floor and every core CI/brief job to one exact supported Node 22.13 runtime, retain the Node 24 production image, and verify workflow contracts.",
       "recommendedModel": "sonnet",
       "ladder": {
         "L1": {
@@ -372,7 +372,7 @@
       },
       "coreLoopStep": "candidate revision → reproducible runner install → trusted verification reward → safe staging",
       "executionLog": [
-        "Raised package.json and package-lock.json to Node >=22.12 <25 and all seven CI plus brief-validation setup-node consumers to exact 22.12.0.",
+        "Raised package.json and package-lock.json to Node >=22.13 <25 and all seven CI plus brief-validation setup-node consumers to exact 22.13.0.",
         "Revalidated 133 deploy contracts, 12 hosted workflow contracts, and focused release/deploy regressions before republishing."
       ]
     }

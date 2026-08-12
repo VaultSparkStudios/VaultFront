@@ -1,5 +1,5 @@
 <!-- generated-by: scripts/innovation-pack.mjs -->
-<!-- generated-at: 2026-08-12T20:59:07.600Z -->
+<!-- generated-at: 2026-08-12T21:14:44.085Z -->
 
 # Second-Order Innovation Pack
 
@@ -74,4 +74,4 @@ Generated only after the audit-backed Unified Genius List was exhausted. Complet
 67. [x] **attestation-bound-product-smoke** — Make product truth a parent of staging provenance. Bind the exact-revision product smoke receipt into the staging attestation itself so an adjacent artifact cannot be silently omitted or substituted. Evidence: self-digest verification, origin/revision/pass admission, attestation parent binding, and tamper regression.
 68. [x] **coach-debrief-composition-boundary** — Keep certified coaching evolvable without regrowing Worker. Extract the entire local-first and optional-remote coaching transaction behind one registered router boundary while preserving authentication, claims, receipts, cache, and budget policy. Evidence: registered composition boundary, Worker budget recovery, local-first fallback, and unchanged runtime reachability contract.
 69. [x] **analytica-homepage-evidence-twin** — Make public evidence one living surface for players, agents, and the founder. Use a single precomputed Analytica Feed v1 artifact for the compact homepage pulse and deeper stats page, with declared polling, per-metric definitions, privacy thresholds, and visible stale/unavailable truth. Evidence: one six-metric aggregate feed, curated three-metric homepage pulse, bounded poll/staleness policy, deep definitions, and CANON-054 conformance.
-70. [x] **supported-node-runtime-floor** — Make dependency engines and hosted verification agree. Pin every core CI consumer to the same exact Node 22.12 floor required by the locked graph while retaining the Node 24 production ceiling, eliminating unsupported-runtime native fallbacks. Evidence: engine-floor declaration, seven exact CI consumers, brief validator alignment, and green deploy/hosted-workflow contracts.
+70. [x] **supported-node-runtime-floor** — Make dependency engines and hosted verification agree. Pin every core CI consumer to the same exact Node 22.13 floor required by the locked graph while retaining the Node 24 production ceiling, eliminating unsupported-runtime native fallbacks. Evidence: engine-floor declaration, seven exact CI consumers, brief validator alignment, and green deploy/hosted-workflow contracts.

@@ -1158,18 +1158,18 @@ const candidates = [
     id: "supported-node-runtime-floor",
     title: "Make dependency engines and hosted verification agree",
     description:
-      "Pin every core CI consumer to the same exact Node 22.12 floor required by the locked graph while retaining the Node 24 production ceiling, eliminating unsupported-runtime native fallbacks.",
+      "Pin every core CI consumer to the same exact Node 22.13 floor required by the locked graph while retaining the Node 24 production ceiling, eliminating unsupported-runtime native fallbacks.",
     complete:
-      has("package.json", /">=22\.12 <25"/) &&
-      occurrenceCount(".github/workflows/ci.yml", "node-version: 22.12.0") +
+      has("package.json", /">=22\.13 <25"/) &&
+      occurrenceCount(".github/workflows/ci.yml", "node-version: 22.13.0") +
         occurrenceCount(
           ".github/workflows/ci.yml",
-          'node-version: "22.12.0"',
+          'node-version: "22.13.0"',
         ) ===
         7 &&
       has(
         ".github/workflows/brief-format-check.yml",
-        /node-version: "22\.12\.0"/,
+        /node-version: "22\.13\.0"/,
       ),
     evidence:
       "engine-floor declaration, seven exact CI consumers, brief validator alignment, and green deploy/hosted-workflow contracts",

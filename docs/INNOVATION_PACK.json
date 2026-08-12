@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-08-12T20:59:07.600Z",
+  "generatedAt": "2026-08-12T21:14:44.085Z",
   "source": "scripts/innovation-pack.mjs",
   "primarySource": "latest audit-backed Unified Genius List",
   "items": [
@@ -630,7 +630,7 @@
       "status": "shipped",
       "id": "supported-node-runtime-floor",
       "title": "Make dependency engines and hosted verification agree",
-      "description": "Pin every core CI consumer to the same exact Node 22.12 floor required by the locked graph while retaining the Node 24 production ceiling, eliminating unsupported-runtime native fallbacks.",
+      "description": "Pin every core CI consumer to the same exact Node 22.13 floor required by the locked graph while retaining the Node 24 production ceiling, eliminating unsupported-runtime native fallbacks.",
       "complete": true,
       "evidence": "engine-floor declaration, seven exact CI consumers, brief validator alignment, and green deploy/hosted-workflow contracts"
     }

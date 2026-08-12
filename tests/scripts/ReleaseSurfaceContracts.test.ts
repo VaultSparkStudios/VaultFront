@@ -76,9 +76,9 @@ describe("release surface contracts", () => {
       "utf8",
     );
 
-    expect(manifest.engines?.node).toBe(">=22.12 <25");
-    expect(ci.match(/node-version:\s*["']?22\.12\.0["']?/g)).toHaveLength(7);
-    expect(brief).toMatch(/node-version:\s*["']22\.12\.0["']/);
+    expect(manifest.engines?.node).toBe(">=22.13 <25");
+    expect(ci.match(/node-version:\s*["']?22\.13\.0["']?/g)).toHaveLength(7);
+    expect(brief).toMatch(/node-version:\s*["']22\.13\.0["']/);
     expect(ci).not.toMatch(/node-version:\s*["']?20["']?/);
   });
 

@@ -1,7 +1,7 @@
 {
   "name": "vaultfront",
   "engines": {
-    "node": ">=22.12 <25"
+    "node": ">=22.13 <25"
   },
   "repository": {
     "type": "git",
