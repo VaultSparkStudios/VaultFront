@@ -52,6 +52,7 @@ RUN rm -f /etc/nginx/sites-enabled/default
 COPY --from=prod-deps /usr/src/app/node_modules ./node_modules
 COPY package*.json ./
 COPY --from=build /usr/src/app/static ./static
+COPY --from=build /usr/src/app/config ./config
 COPY resources ./resources
 RUN rm -rf ./resources/maps
 COPY tsconfig.json ./

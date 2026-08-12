@@ -73,6 +73,9 @@ describe("release truth boundary", () => {
   it("copies public launch files and image revision evidence into Docker", () => {
     const dockerfile = read("Dockerfile");
     expect(dockerfile).toContain("COPY public ./public");
+    expect(dockerfile).toContain(
+      "COPY --from=build /usr/src/app/config ./config",
+    );
     expect(dockerfile).toContain("COPY nginx-security-headers.conf");
     expect(dockerfile).toContain(
       'LABEL org.opencontainers.image.revision="$GIT_COMMIT"',

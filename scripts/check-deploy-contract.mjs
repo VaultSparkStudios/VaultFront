@@ -399,6 +399,11 @@ check(
 );
 requireText(
   dockerfile,
+  /COPY --from=build \/usr\/src\/app\/config \.\/config/u,
+  "production image does not package the runtime balance configuration",
+);
+requireText(
+  dockerfile,
   /COPY scripts\/? \.\/scripts\/?/u,
   "build image does not package release-evidence generator scripts",
 );
