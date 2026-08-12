@@ -491,7 +491,11 @@ test("three themes retain readable page, panel, and settings surfaces", async ({
       modal.requestUpdate();
       await modal.updateComplete;
       const heading = modal.querySelector<HTMLHeadingElement>("h3");
-      const button = modal.querySelector<HTMLButtonElement>("button");
+      const button = Array.from(
+        modal.querySelectorAll<HTMLButtonElement>("button"),
+      ).find((candidate) =>
+        candidate.textContent?.includes("Continue with Obelisk"),
+      );
       if (!heading || !button) {
         throw new Error("Obelisk account handoff did not render");
       }
