@@ -19,7 +19,7 @@ VERSION_TAG="sha-$(git rev-parse --short=12 HEAD)"
 METADATA_FILE="$(mktemp)"
 trap 'rm -f "$METADATA_FILE"' EXIT
 
-./build.sh "$ENVIRONMENT" "$VERSION_TAG" "" "" "$METADATA_FILE"
+bash ./build.sh "$ENVIRONMENT" "$VERSION_TAG" "" "" "$METADATA_FILE"
 IMAGE_DIGEST="$(jq -r '."containerimage.digest" // empty' "$METADATA_FILE")"
 if [[ ! "$IMAGE_DIGEST" =~ ^sha256:[0-9a-f]{64}$ ]]; then
     echo "Build did not produce a valid immutable image digest" >&2
