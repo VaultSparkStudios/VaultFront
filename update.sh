@@ -65,7 +65,28 @@ cleanup() {
     rm -rf "$DOCKER_AUTH_DIR"
 }
 trap cleanup EXIT
-grep -Ev '^(GHCR_TOKEN|CF_API_TOKEN)=' "$ENV_FILE" > "$RUNTIME_ENV_FILE"
+
+# deploy.sh emits a shell-safe transport file because this updater must source
+# it. Docker's --env-file format does not interpret shell quoting, so serialize
+# the sourced values again instead of forwarding expressions such as FOO=''.
+# Reject multiline values because Docker env files are line-oriented.
+: > "$RUNTIME_ENV_FILE"
+while IFS='=' read -r variable _; do
+    [[ "$variable" =~ ^[A-Z_][A-Z0-9_]*$ ]] || {
+        echo "Generated environment contains an invalid variable name" >&2
+        exit 2
+    }
+    case "$variable" in
+        GHCR_TOKEN | CF_API_TOKEN) continue ;;
+    esac
+    runtime_value="${!variable-}"
+    if [[ "$runtime_value" == *$'\n'* || "$runtime_value" == *$'\r'* ]]; then
+        echo "Runtime environment values must be single-line" >&2
+        exit 2
+    fi
+    printf '%s=%s\n' "$variable" "$runtime_value" >> "$RUNTIME_ENV_FILE"
+done < "$ENV_FILE"
+chmod 600 "$RUNTIME_ENV_FILE"
 export DOCKER_CONFIG="$DOCKER_AUTH_DIR"
 printf '%s' "$GHCR_TOKEN" | docker login ghcr.io \
     --username "$GHCR_USERNAME" \
@@ -85,9 +106,9 @@ if [[ -n "$DATABASE_DOCKER_CONTAINER" ]]; then
         docker inspect \
             --format '{{json .NetworkSettings.Networks}}' \
             "$DATABASE_DOCKER_CONTAINER" | grep -q "\\\"${NETWORK_NAME}\\\"" || {
-                echo "Database container could not join the project-private network" >&2
-                exit 1
-            }
+            echo "Database container could not join the project-private network" >&2
+            exit 1
+        }
     }
 fi
 docker run --rm \

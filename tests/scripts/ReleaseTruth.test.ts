@@ -95,9 +95,12 @@ describe("release truth boundary", () => {
       '--publish "127.0.0.1:${DEPLOY_INGRESS_PORT}:80"',
     );
     expect(updater).toMatch(/docker login ghcr\.io[\s\S]*--password-stdin/u);
+    expect(updater).toContain('runtime_value="${!variable-}"');
     expect(updater).toContain(
-      "grep -Ev '^(GHCR_TOKEN|CF_API_TOKEN)=' \"$ENV_FILE\"",
+      'printf \'%s=%s\\n\' "$variable" "$runtime_value" >> "$RUNTIME_ENV_FILE"',
     );
+    expect(updater).toContain("GHCR_TOKEN | CF_API_TOKEN) continue");
+    expect(updater).toContain("Runtime environment values must be single-line");
     expect(updater).not.toContain('--env-file "$ENV_FILE"');
     expect(updater).toContain('--env-file "$RUNTIME_ENV_FILE"');
     expect(updater).not.toContain("traefik.");

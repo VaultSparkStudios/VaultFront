@@ -102,7 +102,7 @@ requireText(
 );
 requireText(
   update,
-  /grep -Ev '\^\(GHCR_TOKEN\|CF_API_TOKEN\)='/u,
+  /GHCR_TOKEN \| CF_API_TOKEN\) continue/u,
   "remote update does not strip deployment-plane credentials from runtime env",
 );
 check(
@@ -192,6 +192,26 @@ check(
   !/docker\s+rm\s+-f/u.test(update),
   "remote updater still hard-kills a deployment container",
 );
+for (const [pattern, failure] of [
+  [
+    /runtime_value="\$\{!variable-\}"/u,
+    "runtime Docker environment is not rebuilt from sourced transport values",
+  ],
+  [
+    /printf '%s=%s\\n' "\$variable" "\$runtime_value" >> "\$RUNTIME_ENV_FILE"/u,
+    "runtime Docker environment does not use Docker-native value syntax",
+  ],
+  [
+    /GHCR_TOKEN \| CF_API_TOKEN\) continue/u,
+    "deployment credentials can leak into the long-lived app environment",
+  ],
+  [
+    /Runtime environment values must be single-line/u,
+    "Docker env-file serialization does not reject multiline values",
+  ],
+]) {
+  requireText(update, pattern, failure);
+}
 check(
   update.indexOf('run_container "$GHCR_IMAGE"') <
     update.indexOf('docker stop --time "$DEPLOY_DRAIN_TIMEOUT_SECONDS"'),
