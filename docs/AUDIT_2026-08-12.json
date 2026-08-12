@@ -340,6 +340,41 @@
         "Upgraded the descriptor to Analytica Feed v1 with project identity, a one-day poll contract, aggregate-only privacy, a curated three-metric showcase, and six deeply defined metrics.",
         "Added a theme-aware homepage Alpha Pulse that reads only the shared static feed, labels unavailable and stale truth explicitly, and links into the deeper stats analysis; CANON-054 now conforms with zero findings."
       ]
+    },
+    {
+      "id": 203,
+      "slug": "supported-node-runtime-floor",
+      "tier": "🔥",
+      "axis": "release / supply-chain / reliability",
+      "effortHours": 1,
+      "impact": 8,
+      "innovation": 4,
+      "priority": 48,
+      "status": "shipped",
+      "complete": true,
+      "title": "Run CI on the runtime floor the locked dependency graph actually supports",
+      "why": "Exact-revision CI exposed sanitize-html's Node >=22.12 engine contract while the repository still advertised and ran Node 20, forcing native canvas fallback behavior on a no-longer-supported runtime.",
+      "recipe": "Raise the repository engine floor and every core CI/brief job to one exact supported Node 22.12 runtime, retain the Node 24 production image, and verify workflow contracts.",
+      "recommendedModel": "sonnet",
+      "ladder": {
+        "L1": {
+          "effortHours": 0.25,
+          "recipe": "Rerun the failed job without changing its unsupported runtime."
+        },
+        "L2": {
+          "effortHours": 0.5,
+          "recipe": "Upgrade only the failing test job."
+        },
+        "L3": {
+          "effortHours": 1,
+          "recipe": "Align package engines and every CI consumer on an exact supported floor."
+        }
+      },
+      "coreLoopStep": "candidate revision → reproducible runner install → trusted verification reward → safe staging",
+      "executionLog": [
+        "Raised package.json and package-lock.json to Node >=22.12 <25 and all seven CI plus brief-validation setup-node consumers to exact 22.12.0.",
+        "Revalidated 133 deploy contracts, 12 hosted workflow contracts, and focused release/deploy regressions before republishing."
+      ]
     }
   ]
 }

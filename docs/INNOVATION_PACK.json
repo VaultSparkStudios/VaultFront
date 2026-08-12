@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-08-12T20:25:54.197Z",
+  "generatedAt": "2026-08-12T20:59:07.600Z",
   "source": "scripts/innovation-pack.mjs",
   "primarySource": "latest audit-backed Unified Genius List",
   "items": [
@@ -624,6 +624,15 @@
       "description": "Use a single precomputed Analytica Feed v1 artifact for the compact homepage pulse and deeper stats page, with declared polling, per-metric definitions, privacy thresholds, and visible stale/unavailable truth.",
       "complete": true,
       "evidence": "one six-metric aggregate feed, curated three-metric homepage pulse, bounded poll/staleness policy, deep definitions, and CANON-054 conformance"
+    },
+    {
+      "rank": 70,
+      "status": "shipped",
+      "id": "supported-node-runtime-floor",
+      "title": "Make dependency engines and hosted verification agree",
+      "description": "Pin every core CI consumer to the same exact Node 22.12 floor required by the locked graph while retaining the Node 24 production ceiling, eliminating unsupported-runtime native fallbacks.",
+      "complete": true,
+      "evidence": "engine-floor declaration, seven exact CI consumers, brief validator alignment, and green deploy/hosted-workflow contracts"
     }
   ]
 }

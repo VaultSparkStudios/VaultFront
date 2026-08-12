@@ -66,6 +66,22 @@ function validPagesFixture(): string {
 }
 
 describe("release surface contracts", () => {
+  it("runs hosted verification on the dependency graph's supported Node floor", () => {
+    const manifest = JSON.parse(
+      fs.readFileSync(path.join(process.cwd(), "package.json"), "utf8"),
+    ) as { engines?: { node?: string } };
+    const ci = fs.readFileSync(".github/workflows/ci.yml", "utf8");
+    const brief = fs.readFileSync(
+      ".github/workflows/brief-format-check.yml",
+      "utf8",
+    );
+
+    expect(manifest.engines?.node).toBe(">=22.12 <25");
+    expect(ci.match(/node-version:\s*["']?22\.12\.0["']?/g)).toHaveLength(7);
+    expect(brief).toMatch(/node-version:\s*["']22\.12\.0["']/);
+    expect(ci).not.toMatch(/node-version:\s*["']?20["']?/);
+  });
+
   it("makes the production artifact Pages-complete before release evidence is generated", () => {
     const scripts = JSON.parse(
       fs.readFileSync(path.join(process.cwd(), "package.json"), "utf8"),
