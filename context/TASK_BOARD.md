@@ -52,11 +52,15 @@ daily-challenge-system (DailyChallengeStore + HUD card), vault-intelligence-mark
 
 ## Follow-ups
 
-- [ ] [SIL] `e2e/live-match.spec.ts` (Session 99, audit #177): the Web Worker init timeout is now genuinely configurable (`resolveWorkerInitTimeoutMs` in `WorkerClient.ts`, sourced from `import.meta.env.VITE_WORKER_INIT_TIMEOUT_MS`, wired to 60s for e2e via `start:e2e-client`'s `VITE_WORKER_INIT_TIMEOUT_MS`; verified reaching the browser bundle via direct source inspection). It still fails locally even at 60s -- directly measured a cold `Worker.worker.ts` compile at 0.4s, so the bottleneck is confirmed to be OS/browser-level CPU contention from this session's own many hours of parallel background work, not compile speed or the timeout mechanism. Verify on a dedicated CI runner or a fresh local session with no competing load.
-- [ ] [SIL] Audit #178's L3 stretch (aria-live hovered-action announcement in `RadialMenu.ts` + a dedicated keyboard-only Playwright spec) was intentionally descoped to L1+L2; still open if deeper accessibility polish is prioritized.
-- [ ] [SIL] Audit #184's L1 scope covered only `WorkerLobbyService.ts`; `GameRightSidebar.ts` (24.71% lines) still sits below a healthy bar and was left untouched to avoid a merge conflict with the parallel #185 extraction.
-- [ ] [SIL] Audit #185's L1 scope covered only the `ViewportMode.ts` extraction; the larger `renderReroutePreviewPanel` extraction from `ControlPanel.ts` (L2/L3) remains open.
-- [ ] [SIL] Audit #187's L1+L2 scope wires the client to the Fortune Deck collection/equip endpoints but intentionally skips L3's `NameLayer.ts`/leaderboard equipped-title rendering, per its own ladder — still open if deeper reward-visibility polish is prioritized.
+- No pending unblocked local work. Session 100 closed every inherited SIL follow-up; production-only observations remain release gates, not implementation tasks.
+
+## Completed (2026-08-12 — Session 100 recovered saturated arc)
+
+- [done] Audit #190 completed its infrastructure scope (domain, Cloudflare/GitHub provisioning, exact-digest staging) and is explicitly deferred at the production release gate; no dry-run or 503 response is relabeled as launch evidence.
+- [done] Audits #191–195: reliable clean-runner live-match proof, authoritative Fortune-title identity, radial-menu live announcements plus keyboard-only browser proof, pure sidebar activity projection, and reroute-panel extraction.
+- [done] Closed all five inherited Session 99 follow-ups represented by those findings; audit ledger is 5 shipped / 1 release-gated, with zero pending unblocked work and innovations exhausted at 65/65.
+- [done] Recovery root fixes: the master process owns `/api/vaultfront/playtest-pulse/summary`; radial proof uses real assets; the theme-proof source boundary includes every new UI/identity owner and the current `account-handoff` surface.
+- [done] Verification: 260/260 test files and 1,401/1,401 tests; Playwright 30/30 plus focused radial/theme 2/2 each; 114 hash-bound visual artifacts directly inspected; doctor 13/13 with `blockingFailing: 0`.
 
 ## Completed (2026-08-08 — Session 99: Api.ts composition-ratchet follow-up closed)
 

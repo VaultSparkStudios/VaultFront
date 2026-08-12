@@ -1,6 +1,15 @@
-## Session Intent — Session 100
+## Where We Left Off — Session 100 recovery complete (2026-08-12)
 
-Run one continuous `/arc` from the recovered S99 boundary: perform a fresh live-code and game-loop audit, implement every admitted finding and second-order innovation at the highest quality bar, verify rendered desktop/mobile/theme states and the full release gate, commit and push directly to `main`, provision Cloudflare for `vaultfront.io`, deploy the complete production surface, and verify the live result. If Namecheap remains the authoritative DNS control plane, finish every Cloudflare-side prerequisite first and hand the founder only the exact minimal delegation/record change.
+- Recovery verdict: Session 100 died mid-implement/deployment, not mid-closeout. Its stale lock survived ~10 hours; 22 substantive commits after the Session 99 SIL anchor were already pushed and local `main` matched `origin/main`, while one master-route fix and all canonical write-back remained uncommitted.
+- Shipped audit: items 191-195 are complete — clean-runner live-match readiness, authoritative Fortune-title identity, radial-menu live announcements and keyboard proof, pure sidebar activity projection, and reroute-panel extraction. Item 190 is explicitly deferred at the release gate after completing domain/Cloudflare/GitHub provisioning and live exact-digest staging.
+- Staging truth: exact revision `01ba5e4f` passed provider CI/Release/E2E (30/30), deployed to `staging.vaultfront.io` at digest `sha256:9d3a479fa58caf92c85237ff2137fb000c93558dd91890648598da4241ab20b1`, reports healthy master plus two workers, and returns the exact commit. The production promotion run was validation/dry-run only; `vaultfront.io` currently returns 503 and remains NO-GO.
+- Recovery root fixes: master now owns the public playtest-summary route instead of falling through to SPA HTML; rendered review replaced broken radial fixture icons; theme proof now tracks every new UI/identity owner, uses the Obelisk account-handoff surface, and emits current Codex attribution instead of stale Session 98 prose.
+- Verification: `npm test` 260/260 files and 1,401/1,401 tests; local Playwright 30/30, focused radial 2/2, focused theme 2/2, and final post-build theme recapture 2/2; release/theme/exhaustion/audit regressions 17/17; 114 hash-bound visual artifacts at source digest `sha256:47e29a3fcf9179dbb0e6a727fd1d84a7cd6de3abca98b0dd0adec471747bd276`; doctor 13/13, `blockingFailing: 0`; zero pending unblocked work.
+- Next: begin Session 101 with a fresh `/start` and live-code/game-loop audit. Treat production promotion as release-gated until project-domain Zoho reply identity, three authenticated humans, real revenue, observed rollback, and explicit founder launch approval are observed; never infer them from staging health.
+
+## Completed Session Intent — Session 100
+
+Run one continuous `/arc` from the recovered S99 boundary: perform a fresh live-code and game-loop audit, implement every admitted finding and second-order innovation at the highest quality bar, verify rendered desktop/mobile/theme states and the full release gate, commit and push directly to `main`, provision Cloudflare for `vaultfront.io`, deploy the complete production surface, and verify the live result. The implementation and staging corridor were completed; production promotion was correctly deferred because the full release gate remains red rather than being force-labeled complete.
 
 ## Recovery Addendum — Session 99 write-back complete (2026-08-11)
 
@@ -8,7 +17,6 @@ Run one continuous `/arc` from the recovered S99 boundary: perform a fresh live-
 - Recovered truth: `src/client/Api.ts` is governed by the client composition ratchet at 2,043/2,060 lines, closing the tracked #188 follow-up with a measured post-integration budget.
 - Score boundary: Session 99 remains 997/1000 and its velocity is not incremented; the recovery records provenance without relabeling already-shipped work.
 - Release boundary: public-unlaunched / NO-GO remains in force until the external staging, identity, mail, live-theme, human, revenue, rollback, and founder gates are observed.
-- Next: begin the fresh Session 100 Arc from this recovered boundary, audit live game and release surfaces, implement every admitted item, then verify staging before any production promotion.
 
 ## Where We Left Off — Session 99 complete (2026-08-08)
 

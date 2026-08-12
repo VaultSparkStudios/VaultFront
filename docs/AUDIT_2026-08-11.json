@@ -102,8 +102,9 @@
       "impact": 10,
       "innovation": 7,
       "priority": 74.8,
-      "status": "pending",
+      "status": "deferred",
       "complete": false,
+      "deferredReason": "Session 100 completed the owned-domain contract, Cloudflare/GitHub provisioning, and an exact-digest live staging deployment, but production promotion remains release-gated. The validated promotion run was intentionally dry-run-only; vaultfront.io currently returns HTTP 503, and no production/SPARKED claim is made without the remaining human Alpha, mail identity, revenue, rollback, and founder-approval observations.",
       "title": "Make vaultfront.io the explicit staged Cloudflare production origin",
       "why": "Live DNS proves vaultfront.io still delegates to dns1/dns2.registrar-servers.com, the apex resolves to Namecheap parking 192.64.119.175, and www points to parkingpage.namecheap.com. The GitHub repository currently has zero Actions variables and zero Actions secrets, while deploy/promote workflows require DOMAIN, DEPLOY_INGRESS_PORT, server host/user, GHCR credentials, DATABASE_URL, Cloudflare, Turnstile, and SSH inputs. A purchased domain and READY Cloudflare gateway credentials therefore cannot produce a live game until the edge/origin contract is explicit and the provider configuration is provisioned.",
       "recipe": "Define vaultfront.io as the canonical production origin and staging.vaultfront.io as the staging origin; update public API/server metadata and release defaults without changing VaultSpark brand links; provision the Cloudflare zone and edge records through gateway credentials; configure bounded GitHub Actions variables/secrets via stdin from getSecret(); execute staging and exact-digest promotion; verify health, revision, TLS, headers, redirects, agent files, and rollback evidence. If Namecheap remains authoritative, leave Cloudflare fully ready and surface only the exact nameserver delegation. Core-loop step: acquisition input -> immediate commander fantasy -> first match reward -> return progression.",
@@ -123,7 +124,12 @@
         }
       },
       "coreLoopStep": "acquisition input -> immediate commander fantasy -> first match reward -> return progression",
-      "executionLog": []
+      "executionLog": [
+        "Canonicalized vaultfront.io and staging.vaultfront.io across public metadata, runtime configuration, release workflows, and drift contracts.",
+        "Provisioned Cloudflare/Turnstile and bounded GitHub deployment inputs without exposing secret values.",
+        "GitHub Actions staging run 31567681585 deployed exact revision 01ba5e4f at image digest sha256:9d3a479fa58caf92c85237ff2137fb000c93558dd91890648598da4241ab20b1 and retained hash-bound attestation sha256:42766787a828f62ca1c7d2c3cfe707590ce0ef35b64fa47cb184790e20d8d704.",
+        "Promotion validation run 31568778382 passed in dry-run mode; production was not mutated because release observations remain incomplete."
+      ]
     },
     {
       "id": 191,
@@ -134,8 +140,8 @@
       "impact": 9,
       "innovation": 7,
       "priority": 67.3,
-      "status": "pending",
-      "complete": false,
+      "status": "shipped",
+      "complete": true,
       "title": "Root-fix the clean-runner live-match readiness failure",
       "why": "Provider run 31292803827 passes 26 browser checks but e2e/live-match.spec.ts times out in both chromium and mobile-chrome across all retries waiting for __vfMatchReady. That clean ubuntu-latest evidence disproves Session 99's local-only resource-contention conclusion as a complete cause. The configurable Worker timeout is real but does not make the production ClientGameRunner/Renderer pipeline reach match-ready, so the primary loop has no green end-to-end admission proof.",
       "recipe": "Download and inspect the provider failure context/trace, instrument the exact worker, transport, fixture, and game-start milestones with test-only structured diagnostics, identify the first missing transition, then fix the product or fixture contract at its owner. Keep the 60-second match-ready assertion strict, add a regression for the diagnosed boundary, and prove both Playwright projects green on a clean provider run. Core-loop step: start-match input -> live strategic battlefield fantasy -> first authoritative interaction reward -> session continuation.",
@@ -155,7 +161,11 @@
         }
       },
       "coreLoopStep": "start-match input -> live strategic battlefield fantasy -> first authoritative interaction reward -> session continuation",
-      "executionLog": []
+      "executionLog": [
+        "Recovered the clean-runner failure to worker bootstrap/runtime-origin boundaries, surfaced structured worker initialization errors, and restored worker-safe match startup without weakening the 60-second readiness assertion.",
+        "Bound the fixture nation load and retained strict desktop/mobile match-ready proof.",
+        "Exact revision 01ba5e4f passed all 30 provider Playwright tests in run 31567363776; local recovery rerun also passed 30/30 including both live-match projects."
+      ]
     },
     {
       "id": 192,
@@ -166,8 +176,8 @@
       "impact": 8,
       "innovation": 7,
       "priority": 50.6,
-      "status": "pending",
-      "complete": false,
+      "status": "shipped",
+      "complete": true,
       "title": "Carry equipped Fortune titles into authoritative match identity",
       "why": "FortuneDeck persists equipped_fortune_title and the Command Center can equip it, but every in-match identity surface still renders only player.displayName(); there is no equippedTitle reference in NameLayer.ts or Leaderboard.ts and no authoritative player projection carrying it to opponents. The reward loop therefore ends in a private settings state instead of the social recognition promised by equip.",
       "recipe": "Extend the authenticated match-admission/player projection with an optional bounded equipped Fortune title, keep it coaching/identity-only and HTML-safe, expose one formatted display authority consumed by map labels and leaderboard rows, preserve replay compatibility and anonymous/bot behavior, and add server/client/schema plus three-theme desktop/mobile proof. Core-loop step: victory reward -> equip progression -> visible commander identity fantasy -> next-match motivation.",
@@ -187,7 +197,11 @@
         }
       },
       "coreLoopStep": "victory reward -> equip progression -> visible commander identity fantasy -> next-match motivation",
-      "executionLog": []
+      "executionLog": [
+        "Added a bounded, Unicode-aware Fortune title identity authority and carried the optional title through authenticated match admission into PlayerImpl.displayName().",
+        "Map labels and leaderboard rows consume the same formatted display identity while anonymous, bot, replay, invalid, and legacy payload paths remain compatible.",
+        "Player identity regression coverage passed inside the 260-file/1,401-test recovery suite and the refreshed hash-bound three-theme desktop/mobile matrix."
+      ]
     },
     {
       "id": 193,
@@ -198,8 +212,8 @@
       "impact": 7,
       "innovation": 5,
       "priority": 27.1,
-      "status": "pending",
-      "complete": false,
+      "status": "shipped",
+      "complete": true,
       "title": "Make Radial Menu keyboard focus understandable without vision",
       "why": "RadialMenu now has menu/menuitem roles, labels, roving tabindex, and keyboard activation, but it has no aria-live status and no keyboard-only Playwright proof. SVG focus moves among slices while the visual tooltip remains the only rich explanation of the hovered action, so screen-reader users cannot reliably hear the current action, availability, or nested-menu position.",
       "recipe": "Add one visually hidden polite live region owned by RadialMenu; announce the focused item's resolved label plus disabled/submenu state on keyboard movement without duplicating pointer noise; clear it on hide/dispose; and add a keyboard-only Playwright state that opens, traverses, enters a submenu, activates, and verifies the announcement on desktop and mobile-emulated input. Core-loop step: command input -> legible tactical choice fantasy -> successful action reward -> confident continued play.",
@@ -219,7 +233,11 @@
         }
       },
       "coreLoopStep": "command input -> legible tactical choice fantasy -> successful action reward -> confident continued play",
-      "executionLog": []
+      "executionLog": [
+        "Added RadialMenuAnnouncer as one lifecycle-owned polite live region with availability, action/submenu, position, and nesting semantics.",
+        "Added keyboard-only desktop/mobile Playwright traversal and activation proof; recovery rendered review exposed and fixed nonexistent fixture icon URLs.",
+        "Focused recapture passes 2/2 with real shipped icons and no broken-image placeholders."
+      ]
     },
     {
       "id": 194,
@@ -230,8 +248,8 @@
       "impact": 6,
       "innovation": 5,
       "priority": 30,
-      "status": "pending",
-      "complete": false,
+      "status": "shipped",
+      "complete": true,
       "title": "Extract GameRightSidebar's tactical feed rules into a pure tested projection",
       "why": "GameRightSidebar.ts remains 1,587 lines and coverage-baseline records only 24.71% line coverage. Its self > ally > global priority, passive merge window, TTL, objective rail, and activity labels are player-critical feedback rules embedded inside a LitElement with timers, storage, layout, and network hydration, making exact edge coverage costly and fragile.",
       "recipe": "Extract a pure SidebarActivityProjection module that owns audience priority, merge, expiry, filter, label, and objective-rail selection; inject current tick and player relation facts; cover equal-priority ties, passive merges, TTL boundaries, reconnect replay, and empty states; then keep the LitElement as a thin renderer. Core-loop step: authoritative action -> tactical feedback fantasy -> comprehension reward -> next decision.",
@@ -251,7 +269,11 @@
         }
       },
       "coreLoopStep": "authoritative action -> tactical feedback fantasy -> comprehension reward -> next decision",
-      "executionLog": []
+      "executionLog": [
+        "Extracted SidebarActivityProjection as a pure typed owner for audience priority, passive merge, expiry, filtering, labels, and objective rail selection.",
+        "Reduced GameRightSidebar composition and added adversarial projection coverage for ties, merge windows, TTL boundaries, reconnect replay, and empty states.",
+        "Projection tests passed inside the canonical 260-file/1,401-test recovery suite."
+      ]
     },
     {
       "id": 195,
@@ -262,8 +284,8 @@
       "impact": 6,
       "innovation": 4,
       "priority": 24,
-      "status": "pending",
-      "complete": false,
+      "status": "shipped",
+      "complete": true,
       "title": "Finish the deferred reroute decision-panel extraction",
       "why": "Audit #185 intentionally shipped only ViewportMode. ControlPanel.ts is still 3,537 lines and still owns renderReroutePreviewPanel plus route comparison, recommendation, risk, and copy presentation. The composition ratchet prevents further growth but does not reduce the blast radius or token cost of changing the game's most sophisticated convoy decision aid.",
       "recipe": "Extract a pure reroute decision view model and a focused ReroutePreviewPanel renderer with typed callbacks; preserve route ranking, exact risk/ETA copy, keyboard order, and semantic theme tokens; reduce ControlPanel below a newly ratcheted budget and cover both view-model edge cases and three-theme desktop/mobile output. Core-loop step: convoy-route input -> strategic interception fantasy -> informed reroute reward -> mastery progression.",
@@ -283,7 +305,11 @@
         }
       },
       "coreLoopStep": "convoy-route input -> strategic interception fantasy -> informed reroute reward -> mastery progression",
-      "executionLog": []
+      "executionLog": [
+        "Extracted the reroute decision view model and ReroutePreviewPanel renderer with typed callbacks while preserving ranking, risk, ETA, keyboard order, and semantic theme tokens.",
+        "Reduced ControlPanel by 192 lines and extended the client composition ratchet to the new owners.",
+        "Focused panel tests and the refreshed 114-artifact three-theme desktop/mobile proof pass."
+      ]
     }
   ],
   "secondOrderInnovations": []

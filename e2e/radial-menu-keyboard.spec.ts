@@ -25,7 +25,7 @@ test("keyboard traversal announces submenu context and activates a leaf", async 
       name: "reroute-safe",
       ariaLabel: "Safest route",
       disabled: () => false,
-      icon: "/images/VaultFrontConvoyWhite.svg",
+      icon: "/images/BoatIconWhite.svg",
       action: () => {
         target.__vfRadialActionCount = (target.__vfRadialActionCount ?? 0) + 1;
       },
@@ -40,7 +40,7 @@ test("keyboard traversal announces submenu context and activates a leaf", async 
           name: "attack",
           ariaLabel: "Attack",
           disabled: () => false,
-          icon: "/images/AttackIconWhite.svg",
+          icon: "/images/SwordIconWhite.svg",
           action: () => undefined,
         },
         {
@@ -48,7 +48,7 @@ test("keyboard traversal announces submenu context and activates a leaf", async 
           name: "routes",
           ariaLabel: "Convoy routes",
           disabled: () => false,
-          icon: "/images/VaultFrontConvoyWhite.svg",
+          icon: "/images/BoatIconWhite.svg",
           subMenu: () => [leaf],
         },
       ],

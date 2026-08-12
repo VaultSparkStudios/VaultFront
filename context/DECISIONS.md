@@ -1,3 +1,23 @@
+## 2026-08-12 — Session 100 recovery and release-truth decisions
+
+### Exact-digest staging is evidence, not production approval
+
+**Decision:** Record the healthy `staging.vaultfront.io` deployment and exact image/revision lineage as staging evidence only. A dry-run promotion and a production 503 can never satisfy production readiness; Zoho reply identity, three distinct humans, real revenue, an observed rollback, and founder approval remain required observations.
+
+**Why:** Provider-green and staging health prove software/deployment integrity, not launch consent or market/operational readiness. Preserving that boundary prevents a technically successful corridor from becoming a phantom public launch.
+
+### The master owns public playtest-summary reads
+
+**Decision:** `/api/vaultfront/playtest-pulse/summary` is served by the public master before SPA fallback, using the same evidence aggregation and certified-loop attachment as the worker implementation.
+
+**Why:** The public hostname terminates at the master. Worker-only ownership made a documented agent-readable endpoint return HTML while tests and source appeared complete.
+
+### Visual receipts hash every touched owner and only real fixture assets
+
+**Decision:** Theme-proof source ownership includes the new radial announcer/elements, reroute projection, sidebar projection, and player-identity modules. Render fixtures may reference only repository-present assets, and the receipt names the current `account-handoff` surface and reviewer/session.
+
+**Why:** A passing browser run can still preserve broken-image pixels or a stale source hash if its manifest omits the files that actually own the visible state. The receipt must bind what was inspected to what shipped.
+
 ## 2026-08-08 — Client-file line-budget ratchet extended beyond Worker.ts/WinModal.ts (audit #188)
 
 **Decision:** New `scripts/check-client-composition.mjs`, wired into `verify:contracts`, ratchets `ControlPanel.ts` (3560), `GameRightSidebar.ts` (1600), `RadialMenu.ts` (1545), and `VaultFrontLayer.ts` (2120) at their currently-measured sizes plus small headroom.

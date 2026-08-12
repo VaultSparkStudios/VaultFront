@@ -1,19 +1,19 @@
 <!-- generated-by: scripts/render-closeout-board.mjs v1.0 -->
-<!-- generated-at: 2026-08-08 (Session 98 closeout) -->
+<!-- generated-at: 2026-08-12 (Session 100 closeout) -->
 
 # Closeout Status Board — VaultFront
 
 ```
-╔══ SESSION CLOSEOUT · VaultFront · S98 ═════════════════════════╗
-║  Date: 2026-08-08 · SIL: 997/1000 · V:4  ·  Debt: down           ║
-║  Mode: FOUNDER  ·  Agent: claude                                 ║
+╔══ SESSION CLOSEOUT · VaultFront · S100 ════════════════════════╗
+║  Date: 2026-08-12 · SIL: 997/1000 · V:5  ·  Debt: down           ║
+║  Mode: FOUNDER  ·  Agent: codex                                  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ WHAT SHIPPED ════════════════════════════════════════════════╗
-║  ✓ Branch: `main`; Session 98 (agent: codex) was cut off mid-im  ║
-║  ✓ Shipped: shared-host-compatible candidate-first blue/green i  ║
-║  ✓ Recovery discipline: deleted stray `.playwright-cli/` debug-  ║
-║  ✓ Visual truth: fresh Playwright rendered-pixel proof passes 2  ║
-║  ✓ Verification: canonical `npm test` passes 235 files / 1,233   ║
+║  ✓ Recovery verdict: Session 100 died mid-implement/deployment,  ║
+║  ✓ Shipped audit: items 191-195 are complete — clean-runner liv  ║
+║  ✓ Staging truth: exact revision `01ba5e4f` passed provider CI/  ║
+║  ✓ Recovery root fixes: master now owns the public playtest-sum  ║
+║  ✓ Verification: `npm test` 260/260 files and 1,401/1,401 tests  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ SCORES · SIL 997/1000 ═══════════════════════════════════════╗
 ║    Dev Health         100  ██████████                            ║
@@ -37,10 +37,10 @@
 ║  · docs/CREATIVE_DIRECTION_RECORD.md                             ║
 ║  ✓ context/TRUTH_AUDIT.md                                        ║
 ║  ✓ context/PROJECT_STATUS.json                                   ║
-║  ✓ agent memory (context/BRAIN.md or agent home)                 ║
+║  · agent memory (context/BRAIN.md or agent home)                 ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ GIT STATUS ══════════════════════════════════════════════════╗
-║  Changes: 0 files  ·  M:0 A:0 D:0 ?:0                            ║
+║  Changes: 53 files  ·  M:46 A:0 D:0 ?:7                          ║
 ║  Ahead: 0  ·  Behind: 0                                          ║
 ║  Branch: main                                                    ║
 ╚════════════════════════════════════════════════════════════════╝
@@ -51,11 +51,11 @@
 ╔══ POST-SESSION SIGNALS ════════════════════════════════════════╗
 ║  Doctor:        13/13                                            ║
 ║  Compliance:    49/49                                            ║
-║  Tests:         1233/1233                                        ║
-║  IGNIS:         7d ago                                           ║
+║  Tests:         1401/1401                                        ║
+║  IGNIS:         5d ago                                           ║
 ║  Truth:         green                                            ║
 ║  Shell hygiene: 0 running                                        ║
-║  Sanitization:  13d ago                                          ║
+║  Sanitization:  18d ago                                          ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ NEXT SESSION ════════════════════════════════════════════════╗
 ║  #1: Unified Genius List exhausted                               ║

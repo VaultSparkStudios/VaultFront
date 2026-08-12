@@ -4,15 +4,15 @@
   "name": "VaultFront",
   "status": "active",
   "health": "green",
-  "currentSession": 99,
+  "currentSession": 100,
   "lastAgent": "codex",
-  "currentFocus": "Session 99 shipped all 15 fresh audit findings (171-185): security hardening (constant-time admin auth, bounded WS payloads, XSS-hardened rendering, clan profanity + AI-prompt boundary, new rate limits), i18n-correct combat alerts, a real Fortune Deck Postgres table, 33 new OpenAPI paths, reduced-motion/haptics, lazily-loaded crash telemetry, full radial-menu keyboard/ARIA support, WorkerLobbyService coverage lift, and a ViewportMode extraction. Root-fixed a genuine vite-tsconfig-paths resolution race discovered during verification; disclosed (not fixed) a pre-existing VaultFrontPlaytestPulse.ts coverage gap from already-committed Session 98 work. A post-closeout second-order pass then found and shipped 3 genuine follow-up gaps (server-crash-telemetry symmetry, tournament-name profanity gate, a third viewport-mode duplicate) via direct code investigation, not manufactured busywork. Innovation ledger now 65/65. A continuation audit then found and shipped 4 more genuinely new findings (186-189): recap/coach-debrief AI prompt-injection boundary, Fortune Deck client integration, a client-file composition ratchet, and a stats-page touch-target fix. Cumulative audit now 55/55. The disclosed VaultFrontPlaytestPulse.ts coverage gap was then genuinely fixed (13 new tests, branch coverage 85.46%->95.15%), not just re-disclosed. Both known Follow-ups items from earlier this session are now resolved except the e2e/live-match.spec.ts local Worker-init timeout limitation. WorkerClient.ts's init timeout is now genuinely configurable (import.meta.env.VITE_WORKER_INIT_TIMEOUT_MS); the local e2e/live-match.spec.ts failure was diagnosed precisely as OS-level CPU contention from this session's own accumulated background load (cold compile measured at 0.4s, ruling out compile speed), not a defect.",
-  "nextMilestone": "Begin Session 100 from the recovered Session 99 boundary, run a fresh live-code game/product audit, implement every admitted item, and apply any available staging/deploy corridor evidence in release-gate order without substituting local proof for external observations.",
+  "currentFocus": "Session 100 recovery verified and closed a cut-off saturated arc: audit items 191-195 shipped, item 190 completed its exact-digest staging infrastructure scope and remains explicitly production-release-gated, the master now owns the public playtest-summary route, and rendered proof tracks every touched UI/identity owner with real fixture assets. Zero pending unblocked local work; cumulative innovations remain exhausted at 65/65.",
+  "nextMilestone": "Begin Session 101 with a fresh /start and live-code/game-loop audit after deploying the recovery route fix to exact-sha staging; preserve production NO-GO until every external observation exists.",
   "blockers": [
-    "Live staging infrastructure is not provisioned: VaultFront has no CANON-038 port allocation, STUDIO_PG_ADMIN_URL is missing, and staging DNS/deploy user are absent. The loopback port allocation and database credential are still pending Ark 01JVF5O44A385AF9033E414452.",
-    "Production remains NO-GO until approved staging/parity/health, Zoho reply identity, native Obelisk identity, live theme, three-human Alpha, real revenue, rollback, and founder approval evidence exist."
+    "Production is NO-GO: vaultfront.io currently returns 503 and the project-domain Zoho reply identity, three distinct authenticated humans, real revenue, observed rollback, and explicit founder launch approval are not yet observed.",
+    "The master-owned playtest-summary recovery fix is locally verified but is not live evidence until the recovery revision is deployed to staging and returns JSON at the public endpoint."
   ],
-  "lastUpdated": "2026-08-11",
+  "lastUpdated": "2026-08-12",
   "lifecycle": "alpha",
   "audience": "public-unlaunched",
   "type": "game",
@@ -28,28 +28,28 @@
       "status": "green",
       "label": "Unit and server regression",
       "command": "npm test",
-      "purpose": "All 249 current test files passed through four bounded shards: root 39 files / 303 tests, client-core 78 files / 487 tests, scripts 53 files / 191 tests, server 79 files / 352 tests. Confirmed clean twice after a genuine vite-tsconfig-paths resolution race was root-fixed."
+      "purpose": "All 260 current test files and 1,401 tests pass across four bounded shards: root 40/312, client-core 84/512, scripts 54/195, server 82/382."
     },
     {
       "type": "tests",
       "status": "green",
       "label": "Production build",
       "command": "npm run build-prod",
-      "purpose": "TypeScript, 28,125 balance scenarios, Vite production build, release evidence generation, bundle budgets (baseline ratcheted to real measured post-session size), and production dependency audit pass; external release remains NO-GO."
+      "purpose": "Production build and release contracts verify the recovered master-route ownership; production release remains separately gated."
     },
     {
       "type": "tests",
       "status": "green",
-      "label": "E2E smoke",
+      "label": "E2E and rendered proof",
       "command": "npm run e2e",
-      "purpose": "Session 99 rendered-pixel proof passed 2/2 (chromium + mobile-chrome); 114 refreshed hash-bound captures cover VaultFront, Light, and Competitive themes on desktop/mobile, directly reviewed with no regressions from the radial-menu/ViewportMode changes. A new e2e/live-match.spec.ts is architecturally correct but reproducibly times out locally on WorkerClient.ts's hardcoded 20-second Web Worker init budget (disclosed limitation, not a spec defect)."
+      "purpose": "Playwright passes 30/30; focused radial/theme recaptures pass 2/2 each; 114 hash-bound desktop/mobile artifacts across three themes were directly inspected."
     },
     {
-      "type": "local",
-      "status": "unknown",
-      "label": "Local game server",
-      "command": "npm run dev",
-      "purpose": "Client and worker stack for manual match, tournament, HUD, and three-human Alpha Gate checks; no live evidence is inferred."
+      "type": "staging",
+      "status": "green",
+      "label": "Exact-digest staging",
+      "command": "GitHub Actions staging workflow",
+      "purpose": "Revision 01ba5e4f is healthy at staging.vaultfront.io with one master and two workers; successor route repair awaits exact-sha staging proof."
     }
   ],
   "freeTierCostStatus": "cost-neutral",
@@ -57,13 +57,13 @@
   "readinessEndpoint": "/api/vaultfront/readiness",
   "playtestPulseEndpoint": "/api/vaultfront/playtest-pulse/summary",
   "truthAuditStatus": "green",
-  "truthAuditLastRun": "2026-08-08",
+  "truthAuditLastRun": "2026-08-12",
   "silRubricVersion": "3.0",
   "silMax": 1000,
   "silScoreLegacy500": null,
   "silScore": 997,
-  "testsPassing": 1374,
-  "testsTotal": 1374,
+  "testsPassing": 1401,
+  "testsTotal": 1401,
   "silCategoriesV3": {
     "devHealth": 100,
     "creativeAlignment": 100,
@@ -88,16 +88,14 @@
   "sessionMode": "founder",
   "sessionModeAutoShiftedAt": "2026-07-28T04:43:27.874Z",
   "silAvg3": 997,
-  "silVelocity": 4,
+  "silVelocity": 5,
   "silDebt": "down",
-  "silLastSession": "99",
-  "auditStatus": "audit-55-of-55-shipped; session-99-arc-plus-second-order-plus-continuation-audit-plus-coverage-fix; cumulative-innovations-65-of-65-shipped; zero-pending-unblocked-in-scope; one-disclosed-environment-limitation-remains; external-release-evidence-no-go",
+  "silLastSession": "100",
+  "auditStatus": "session-100-audit-5-shipped-1-production-release-gated; cumulative-innovations-65-of-65-shipped; zero-pending-unblocked; recovery-verified",
   "releaseGates": [
-    "staging deployment and exact-digest parity verification",
+    "deploy the recovery revision to staging and verify the public playtest-summary JSON route",
     "authenticated evidence from at least three distinct human alpha sessions",
     "project-domain Zoho send/receive reply-as-alias delivery verification",
-    "native Obelisk relying-party authentication",
-    "live CSP/HSTS/Core Web Vitals and theme screenshot evidence",
     "real checkout/supporter revenue observation",
     "observed rollback drill with restored health and exact image digest",
     "founder launch approval"
@@ -112,18 +110,18 @@
     "warnings": 0,
     "failing": 0,
     "blockingFailing": 0,
-    "date": "2026-08-11",
-    "observedAt": "2026-08-11T06:04:58.343Z",
+    "date": "2026-08-12",
+    "observedAt": "2026-08-12T19:31:10.838Z",
     "source": "scripts/project-doctor.mjs",
     "evidencePath": "audits/doctor-latest.json",
-    "evidenceDigest": "sha256:fe52293173950be3c4d29921fbdaeae0571661f416fba2a2846bb6ba22018afc",
+    "evidenceDigest": "sha256:54383fcf579a121594532ded6e7501f3fe4c385fb9657023ed58d159bbbc6723",
     "evidenceSchemaVersion": 1,
     "checkCount": 13
   },
   "complianceScore": 49,
   "complianceTotal": 49,
   "sanitizationLastCleared": "2026-07-26",
-  "lastSession": 99,
+  "lastSession": 100,
   "bootAmortization": {
     "ratio": 0.09,
     "verdict": "wasted",
@@ -144,29 +142,28 @@
     }
   ],
   "sessionShellHygiene": {
-    "session": 99,
+    "session": 100,
     "running": 0,
-    "enumeratedAt": "2026-08-08T23:34:17.153Z",
-    "scope": "All background diagnostic/test/e2e/subagent shells spawned during Session 99 completed and were read to completion; none left running."
+    "enumeratedAt": "2026-08-12T19:19:51.267Z",
+    "scope": "All recovery test, E2E, rendering, and diagnostic processes completed and were read to completion; no background shell is knowingly left running."
   },
-  "testsLastRun": "2026-08-08",
-  "testsLastRunMode": "Local Session 99 verification (final round): canonical npm test passed 255 files / 1,374 tests across four bounded shards; production build + bundle-budget re-check passed with headroom; theme-visual-proof passed 2/2, directly reviewed.",
+  "testsLastRun": "2026-08-12",
+  "testsLastRunMode": "Session 100 recovery: canonical npm test 260/260 files and 1,401/1,401 tests; Playwright 30/30; focused recovery regressions 17/17; focused radial/theme 2/2 each; doctor 13/13.",
   "testsDeferred": [],
   "testsBudgetExhausted": false,
-  "lastSessionSummary": "Session 99 shipped 15 audit findings, a 3-item second-order pass, a 4-item continuation audit (55/55 cumulative, 65/65 innovations), fixed its disclosed coverage gap, made WorkerClient.ts's timeout genuinely configurable, and closed audit #188's final follow-up by governing Api.ts at 2,043/2,060 lines. A 2026-08-11 recovery captured that last post-closeout commit without double-counting score or velocity. Production remains NO-GO.",
+  "lastSessionSummary": "Recovered a cut-off S100 mid-implement/deployment, separated 22 pushed commits from one uncommitted route repair and missing write-back, shipped five audit findings, release-gated production honestly, repaired rendered-proof defects, and re-verified the complete suite. Production remains NO-GO.",
   "providerCiStatus": {
     "status": "green",
-    "revision": "6920b1b47918b4bc208d518bfa3024f64b028446",
-    "ciRunId": 31226843311,
-    "e2eRunId": 31226843279,
-    "releasePlannerRunId": 31226843269,
-    "ciUrl": "https://github.com/VaultSparkStudios/vaultfront/actions/runs/31226843311",
-    "e2eUrl": "https://github.com/VaultSparkStudios/vaultfront/actions/runs/31226843279",
-    "releasePlannerUrl": "https://github.com/VaultSparkStudios/vaultfront/actions/runs/31226843269",
-    "observedAt": "2026-08-07T23:27:02.553Z",
-    "source": "GitHub Actions terminal conclusions",
+    "revision": "01ba5e4f5c131be4c042acde2bcb2027581da966",
+    "ciRunId": 31567363745,
+    "e2eRunId": 31567363776,
+    "releasePlannerRunId": 31567363929,
+    "stagingRunId": 31567681585,
+    "promotionDryRunId": 31568778382,
+    "observedAt": "2026-08-12T19:00:00.000Z",
+    "source": "GitHub Actions conclusions plus live staging health/commit checks",
     "currentRevisionVerified": true,
-    "note": "Exact Nano ID 3.3.18 security revision passed CI, E2E, Release, brief-format, and Dependabot. The successor closeout commit is evidence-only and intentionally uses [skip ci]."
+    "note": "Exact implementation revision is green in CI/E2E/Release and healthy on staging. Promotion was dry-run only; production is not live. The successor recovery commit will require its own provider/staging evidence."
   },
   "dependencyAudit": {
     "production": 0,

@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "capturedAt": "2026-08-09T03:23:28.087Z",
-  "generatedAt": "2026-08-09T03:23:28.087Z",
+  "capturedAt": "2026-08-12T19:25:57.173Z",
+  "generatedAt": "2026-08-12T19:25:57.173Z",
   "scope": "local-only",
   "claimBoundary": "This is local browser evidence, not live staging parity or founder approval.",
   "themes": ["dark", "light", "competitive"],
   "captures": [
     {
       "file": "artifacts/chromium-vaultfront-play.png",
-      "sha256": "3d404f89fc390395df871c9aa8fd5cbcf8b43255c31ec81589182ed8a23f3d89",
+      "sha256": "3c691223a144848dc4e59408fb4cd2291c4f4c1c7da592c7ba3684a4d54c91a0",
       "page": "play",
       "state": "play",
       "theme": "dark",
@@ -17,7 +17,7 @@
     },
     {
       "file": "artifacts/chromium-vaultfront-agency-doctrine.png",
-      "sha256": "1b0024b422627d2f41cb13008955af620fce73e062ab11ed527c2c47c9eb0716",
+      "sha256": "b1a3f0007bbea812bcddd0e22117569c58237cce9486bb7d389142612e66118a",
       "page": "agency-doctrine",
       "state": "agency-doctrine",
       "theme": "dark",
@@ -26,7 +26,7 @@
     },
     {
       "file": "artifacts/chromium-vaultfront-settings.png",
-      "sha256": "65db69d979df09c247c70e0155854496acc9faf3e27b0fbc213d6b03338f3b7b",
+      "sha256": "db31cf05d1e56c6191c21ddec9c9de94ce50ed0ce7f1f29aa218604def8f1943",
       "page": "settings",
       "state": "settings",
       "theme": "dark",
@@ -35,7 +35,7 @@
     },
     {
       "file": "artifacts/chromium-vaultfront-postmatch.png",
-      "sha256": "a774b915100ebec18e9858192e6b7281bb2ba9f5403b58cff9773a9d30375b82",
+      "sha256": "715beb6f49c9657cb01d77124ae34ff94331fbc06d7fac255ac1e4fd6ce6e2f7",
       "page": "postmatch",
       "state": "postmatch",
       "theme": "dark",
@@ -43,10 +43,10 @@
       "viewport": { "width": 1280, "height": 720 }
     },
     {
-      "file": "artifacts/chromium-vaultfront-account-recovery.png",
-      "sha256": "b1344c0554b953853e89564ad3e4994785087b7f73c9d9232087e7fd7cb3773a",
-      "page": "account-recovery",
-      "state": "account-recovery",
+      "file": "artifacts/chromium-vaultfront-account-handoff.png",
+      "sha256": "0b7c3cc5eb5eceaa00fe92d6e58232d6dcf732adbad9f21ac0874f8aa66b0612",
+      "page": "account-handoff",
+      "state": "account-handoff",
       "theme": "dark",
       "projectTheme": "vaultfront",
       "viewport": { "width": 1280, "height": 720 }
@@ -143,7 +143,7 @@
     },
     {
       "file": "artifacts/chromium-vaultfront-narrator-certified.png",
-      "sha256": "fde93e35803af40ae80e959edb5cde23e2d6a286d806e411fd88129f8f917e6d",
+      "sha256": "8bf9fab4442b5aa3d486499266d07c406620a750ff6d85bb72a7e0bd1ce567d9",
       "page": "narrator-certified",
       "state": "narrator-certified",
       "theme": "dark",
@@ -179,7 +179,7 @@
     },
     {
       "file": "artifacts/chromium-light-play.png",
-      "sha256": "1cbc4885a37a9f05ab29cd6e579931d145e704e5edd3b3501b93b95433b3c1fe",
+      "sha256": "174f49e5c6f4846e123472fd50582735852f8921a6b7edf04deeed2fcaf0d7df",
       "page": "play",
       "state": "play",
       "theme": "light",
@@ -188,7 +188,7 @@
     },
     {
       "file": "artifacts/chromium-light-agency-doctrine.png",
-      "sha256": "707612de3b1f9940c00ebf4f16b5387a0c521a1dd8a57e50b0868d6d9aaf3f20",
+      "sha256": "ca8902c4de8cbbfd24fc2c3768a40c8f1646f988ded0183bb4f356d92b848729",
       "page": "agency-doctrine",
       "state": "agency-doctrine",
       "theme": "light",
@@ -197,7 +197,7 @@
     },
     {
       "file": "artifacts/chromium-light-settings.png",
-      "sha256": "9620157835244adea342f225677cf5df27823be8bf09b332a3dd137cb16dcc80",
+      "sha256": "eb3e75dfdda8406d6ac496e458fef15763be0aa53f9f18866783a6b996296213",
       "page": "settings",
       "state": "settings",
       "theme": "light",
@@ -214,10 +214,10 @@
       "viewport": { "width": 1280, "height": 720 }
     },
     {
-      "file": "artifacts/chromium-light-account-recovery.png",
-      "sha256": "b62ae0e861c3604b89cf6f717988e07cba71ffe31a01cd5815d7ea9c2bce58d9",
-      "page": "account-recovery",
-      "state": "account-recovery",
+      "file": "artifacts/chromium-light-account-handoff.png",
+      "sha256": "4894d780900cb4e5b0c37dca21cb7094f1c03558a6115a2483faa2fa8ca0a7bd",
+      "page": "account-handoff",
+      "state": "account-handoff",
       "theme": "light",
       "projectTheme": "light",
       "viewport": { "width": 1280, "height": 720 }
@@ -314,7 +314,7 @@
     },
     {
       "file": "artifacts/chromium-light-narrator-certified.png",
-      "sha256": "630c7c8fd9b304344e63fa07970dec235cdcfdf96023f21dae83059132b03e03",
+      "sha256": "92e4621b617d28b87b259c4844400340d5e80f96fc48cce20ad9cdc371da4d80",
       "page": "narrator-certified",
       "state": "narrator-certified",
       "theme": "light",
@@ -350,7 +350,7 @@
     },
     {
       "file": "artifacts/chromium-competitive-play.png",
-      "sha256": "cda366d4a0b02f538ea946c0a30606fbd9a6ae1ab7c7b6a39350939167f1d29f",
+      "sha256": "c3633046a79ed5b6acbd1efc257cc81382894b2f4f4733f80d439a21e2a0eb58",
       "page": "play",
       "state": "play",
       "theme": "competitive",
@@ -359,7 +359,7 @@
     },
     {
       "file": "artifacts/chromium-competitive-agency-doctrine.png",
-      "sha256": "f367cd3a92231977756510c9db20fbfb7e45a2947ba4b02454204e39f84d59ce",
+      "sha256": "bcec235f7aa15dc7e6f6d672ce0817c83e07b333d278dd747a8330c1a22b540a",
       "page": "agency-doctrine",
       "state": "agency-doctrine",
       "theme": "competitive",
@@ -368,7 +368,7 @@
     },
     {
       "file": "artifacts/chromium-competitive-settings.png",
-      "sha256": "c0f72b35642dde044f2a6f214e7b370b5a399752ef666730c6f46e56842df4a0",
+      "sha256": "fac2e7f71095845853cbb1c9b038e8eecf78c7b621d1fb2d5734fe02f8c82fc8",
       "page": "settings",
       "state": "settings",
       "theme": "competitive",
@@ -385,10 +385,10 @@
       "viewport": { "width": 1280, "height": 720 }
     },
     {
-      "file": "artifacts/chromium-competitive-account-recovery.png",
-      "sha256": "c14481929b58257ee9cb3aade3644132d224af05dad214f13277136d2632183a",
-      "page": "account-recovery",
-      "state": "account-recovery",
+      "file": "artifacts/chromium-competitive-account-handoff.png",
+      "sha256": "ef98ad724dcc6a6d968fbb0b72307dad0ebddcfa9a842b50aab6d3b5bfc0d25e",
+      "page": "account-handoff",
+      "state": "account-handoff",
       "theme": "competitive",
       "projectTheme": "competitive",
       "viewport": { "width": 1280, "height": 720 }
@@ -485,7 +485,7 @@
     },
     {
       "file": "artifacts/chromium-competitive-narrator-certified.png",
-      "sha256": "c3126df0461dfc220fd3a16cc6168eb05c145aaf25c3e91c530dd8628fb0eb14",
+      "sha256": "7786d884e102f48c2db9918f5bcebc57e4840158a453e324437b8c2e7ac8de5f",
       "page": "narrator-certified",
       "state": "narrator-certified",
       "theme": "competitive",
@@ -521,7 +521,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-vaultfront-play.png",
-      "sha256": "4816b534ea037fee56cfa67d895f2f9cb80b072acd4867105786033e437c8c15",
+      "sha256": "e7316cda7d6581dba2c39ee1f3fc0911f98671f2e475f759996d623053f8424a",
       "page": "play",
       "state": "play",
       "theme": "dark",
@@ -530,7 +530,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-vaultfront-agency-doctrine.png",
-      "sha256": "69cd86c3972e5a5d885ed4ad55d33864af746e97e594172c8bb36914fd415c6a",
+      "sha256": "8166ed1ba7d7b45d9d5685985ee95465b13bffaf6f11fe6c3b784b22ca16b251",
       "page": "agency-doctrine",
       "state": "agency-doctrine",
       "theme": "dark",
@@ -556,10 +556,10 @@
       "viewport": { "width": 393, "height": 727 }
     },
     {
-      "file": "artifacts/mobile-chrome-vaultfront-account-recovery.png",
-      "sha256": "43085c55d45fccdd0f9a11c10116146e578c264aaf20f2c1701bb44a4ff864d5",
-      "page": "account-recovery",
-      "state": "account-recovery",
+      "file": "artifacts/mobile-chrome-vaultfront-account-handoff.png",
+      "sha256": "b0ac0c21477d47471f181c081375aba9a5dc5b07c0b51f9b34a86081a71eb58f",
+      "page": "account-handoff",
+      "state": "account-handoff",
       "theme": "dark",
       "projectTheme": "vaultfront",
       "viewport": { "width": 393, "height": 727 }
@@ -692,7 +692,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-light-play.png",
-      "sha256": "f0454e40b68af00b0e341e6c42f45a8b7b183eb5c261553c4b8c2269039ff8a7",
+      "sha256": "58c9412315d22822487282321688923d69cc81b1bffd559fe000fe8ff8d644a9",
       "page": "play",
       "state": "play",
       "theme": "light",
@@ -701,7 +701,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-light-agency-doctrine.png",
-      "sha256": "5e7c9eb810ba02c44299f2253f1d09a819eb96b1b797a1260022bc242cf35001",
+      "sha256": "720159248922ac130fa7121e9600f5b090a33c6ee51c0b0405b118116851659c",
       "page": "agency-doctrine",
       "state": "agency-doctrine",
       "theme": "light",
@@ -710,7 +710,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-light-settings.png",
-      "sha256": "08dda709e93995598b1dd83d5c700d18db0fda4bc127b44d8684e99d41986579",
+      "sha256": "724dee2c6d71be9519dbe12e9e45c34e0b937746fe642871b732a75716be1788",
       "page": "settings",
       "state": "settings",
       "theme": "light",
@@ -727,10 +727,10 @@
       "viewport": { "width": 393, "height": 727 }
     },
     {
-      "file": "artifacts/mobile-chrome-light-account-recovery.png",
-      "sha256": "a8ce72b777876959323fc043163cbe0cd2c76806adf6110ebc10aff8bcae9639",
-      "page": "account-recovery",
-      "state": "account-recovery",
+      "file": "artifacts/mobile-chrome-light-account-handoff.png",
+      "sha256": "157f15c7a8024d4407d81750198946d7954d5423907503edf33f07c301cad886",
+      "page": "account-handoff",
+      "state": "account-handoff",
       "theme": "light",
       "projectTheme": "light",
       "viewport": { "width": 393, "height": 727 }
@@ -863,7 +863,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-competitive-play.png",
-      "sha256": "f80ccbe2e4cdd91c4e6f846498b5a9347d6737541a0e98b6d085e52129beba8b",
+      "sha256": "9de769d6fd9669589d865bb605cd588ce1484c098737967212fc406dbcdb32ee",
       "page": "play",
       "state": "play",
       "theme": "competitive",
@@ -872,7 +872,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-competitive-agency-doctrine.png",
-      "sha256": "28ffaaac5d9655cca7a7ccd6e3a6ebaa046e0b2091b98ae850157722834fb7fa",
+      "sha256": "576982f5e40bd71e8e6ff55f9d40f62a5120a54d63b4105cd87d5e1f85e71347",
       "page": "agency-doctrine",
       "state": "agency-doctrine",
       "theme": "competitive",
@@ -881,7 +881,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-competitive-settings.png",
-      "sha256": "c7b8be800e3993cfbd8dd5ff388ac53ceb0b513803167446f006332c42291436",
+      "sha256": "c0de87d0311dc57648b00e16557d88af9bc270a9288dfac332525e88e0b4f03c",
       "page": "settings",
       "state": "settings",
       "theme": "competitive",
@@ -898,10 +898,10 @@
       "viewport": { "width": 393, "height": 727 }
     },
     {
-      "file": "artifacts/mobile-chrome-competitive-account-recovery.png",
-      "sha256": "2de59fbddfa62f9c62a6ebaeec1b55d269eeb4e2d34fe312d353d5cf64e1afab",
-      "page": "account-recovery",
-      "state": "account-recovery",
+      "file": "artifacts/mobile-chrome-competitive-account-handoff.png",
+      "sha256": "e6a7f0c9ba03cae067e3acf962daf4352c542fcca91ead82678aadeed89b1edc",
+      "page": "account-handoff",
+      "state": "account-handoff",
       "theme": "competitive",
       "projectTheme": "competitive",
       "viewport": { "width": 393, "height": 727 }
@@ -1035,25 +1035,25 @@
   ],
   "inspection": {
     "renderedPixelsReviewed": true,
-    "reviewer": "claude/image-capable-render-review",
+    "reviewer": "codex/image-capable-render-review",
     "findings": [
-      "Session 98 changed ControlPanel's onboarding tracker (compact/expanded mode split), MapDisplay's lazy-load lifecycle, and added the public /stats surface; the rendered matrix was reviewed for regressions from those changes."
+      "The current desktop/mobile matrix was reviewed across VaultFront, Light, and Competitive themes after the Session 100 identity, radial-menu, sidebar, reroute-panel, account-handoff, and public-origin changes."
     ],
     "fixesApplied": [
-      "None required: the 26-artifact-per-project desktop/mobile three-theme matrix (play, agency-doctrine, settings, postmatch, account-recovery, multi-tab-collision, progression-doctrine, prematch, connection-recovery, narrator, execution-chain) renders cleanly across VaultFront, Light, and Competitive themes with the new Stats footer link present and no overflow, contrast, or layout defects introduced by this session's changes."
+      "Replaced nonexistent radial-menu fixture icon URLs with real shipped assets after rendered review exposed broken-image placeholders; the remaining 19-surface-per-theme matrix has no open overflow, contrast, or layout defect."
     ],
     "blockingDefectsOpen": 0
   },
   "comparisonBase": {
     "source": "git:HEAD:docs/visual-qa/LATEST.json",
-    "gitRevision": "ab3c118538b4799b8566eeda139d2823924f69b9",
-    "capturedAt": "2026-08-09T02:12:17.132Z",
-    "sourceDigest": "sha256:cc5fc5e5a345e64b17f7bc38aecef95a52746c9f276c6fd2d8aa0bbd7f737212"
+    "gitRevision": "94590156cce34e96977f877811a14cdd9295bc4f",
+    "capturedAt": "2026-08-09T03:23:28.087Z",
+    "sourceDigest": "sha256:76a1b4709b861062acd79d0047d0d234c1657b1be53b48e3eeb01504f9c7ec5e"
   },
   "source": {
-    "gitRevision": "94590156cce34e96977f877811a14cdd9295bc4f",
+    "gitRevision": "01ba5e4f5c131be4c042acde2bcb2027581da966",
     "dirty": true,
-    "digest": "sha256:76a1b4709b861062acd79d0047d0d234c1657b1be53b48e3eeb01504f9c7ec5e",
+    "digest": "sha256:47e29a3fcf9179dbb0e6a727fd1d84a7cd6de3abca98b0dd0adec471747bd276",
     "files": [
       {
         "path": "config/vaultfront-balance.v1.json",
@@ -1062,18 +1062,18 @@
       },
       {
         "path": "e2e/theme-visual-proof.spec.ts",
-        "bytes": 43968,
-        "digest": "sha256:f0402f6527216b71eef7624a3fd3756b964c3543d00d8ad35ddb5a956e3ae96f"
+        "bytes": 43928,
+        "digest": "sha256:3fe1c4cb730a0f4687e44f4066b43e802d83ec96cf411276f897a1ffe9f4225c"
       },
       {
         "path": "src/client/AccountModal.ts",
-        "bytes": 15892,
-        "digest": "sha256:e2b9e523093c21960ef49b8f8cde654cac9758e190f2f63aef6812d31651b178"
+        "bytes": 10694,
+        "digest": "sha256:3ddae5c4973c76304c8b43f00a015ac3dfdf0d0db27df1b9c2acdd2a260ea0e9"
       },
       {
         "path": "src/client/Api.ts",
-        "bytes": 55884,
-        "digest": "sha256:3748510577c55ae5a7b2d02b3ef5c381902f832f2ef8f4f468e9097202cca7ce"
+        "bytes": 55877,
+        "digest": "sha256:e0e00c9ba9b048c9b9f16c6e5889f92a9101b69fc789ec18e949de17212c3e21"
       },
       {
         "path": "src/client/BrandTheme.ts",
@@ -1367,18 +1367,43 @@
       },
       {
         "path": "src/client/graphics/layers/ControlPanel.ts",
-        "bytes": 121797,
-        "digest": "sha256:45c1533c880e14bf92c6062046af7bd6236c58ffaf2b6719346fd8cf1687aacd"
+        "bytes": 116625,
+        "digest": "sha256:3440e0a23c69536eccafd2c2087b4eed1e4a1d01abd2f0748c4e01b930a91800"
       },
       {
         "path": "src/client/graphics/layers/GameRightSidebar.ts",
-        "bytes": 53275,
-        "digest": "sha256:4278ae3aba8b976120a71d3d0bb79dbcfae870d68d5fc69b96fe5844fc66a2fe"
+        "bytes": 49309,
+        "digest": "sha256:d56abca02ebeaf14e45f33669afb9f2306567ac257d31f63fa6c8ed9a9aa9d4c"
       },
       {
         "path": "src/client/graphics/layers/MultiTabModal.ts",
         "bytes": 4529,
         "digest": "sha256:f608e0a2a30e034641b7bec15a2d1b8d6224df56e24347ba5ab28ee388dc5714"
+      },
+      {
+        "path": "src/client/graphics/layers/RadialMenu.ts",
+        "bytes": 48073,
+        "digest": "sha256:99e5552c06cdb5a04559863d38601ad2c95b5d3ba68235af9bcc64c01085b5c4"
+      },
+      {
+        "path": "src/client/graphics/layers/RadialMenuAnnouncer.ts",
+        "bytes": 1333,
+        "digest": "sha256:d6a6c723d5b0dc5801ca438466aa8d9ab7a9e3a36d1b93e1236719132474152b"
+      },
+      {
+        "path": "src/client/graphics/layers/RadialMenuElements.ts",
+        "bytes": 21227,
+        "digest": "sha256:c3d109a5152e044f4f33b372a7dbc3dba10875e0a122db770ed2b5d17098eb1f"
+      },
+      {
+        "path": "src/client/graphics/layers/ReroutePreviewPanel.ts",
+        "bytes": 5698,
+        "digest": "sha256:7764cd3ea0eb5217e128ca1d901cc568ec7e0387a0d9adf88d2f2feb6691f536"
+      },
+      {
+        "path": "src/client/graphics/layers/SidebarActivityProjection.ts",
+        "bytes": 5102,
+        "digest": "sha256:2195c9d24e3da543912f70abcf13d42453d185953e959dee1b70d933750b6b00"
       },
       {
         "path": "src/client/graphics/layers/VaultFrontLayer.ts",
@@ -1441,6 +1466,11 @@
         "digest": "sha256:aa4c8ffee7411e873f48542d8c3a5c97586229720d7c11f3dcf2444166ede02b"
       },
       {
+        "path": "src/core/PlayerIdentity.ts",
+        "bytes": 661,
+        "digest": "sha256:18a77d1ae0cce14ce6355ae52456bae4c7e94123723a3f59316c4b5229e2cdbb"
+      },
+      {
         "path": "src/core/execution/VaultFrontExecution.ts",
         "bytes": 94789,
         "digest": "sha256:2ee1d0113f91149ed12c666c221ea9a8ad08643abc82633a7e72a0ec4ec9b675"
@@ -1456,14 +1486,19 @@
         "digest": "sha256:c6a9bf68e450d0f13417ec009345bdeaac116bc49873596e77a5f701946357aa"
       },
       {
+        "path": "src/core/game/PlayerImpl.ts",
+        "bytes": 37699,
+        "digest": "sha256:9eddc09187384ebf737065bd6cbfe2cae709552e2cf64a2222f2e7b07e69e228"
+      },
+      {
         "path": "src/shared/PublicRouteGraph.json",
         "bytes": 2249,
         "digest": "sha256:860dc84197ac023b89f1fb9f7a78f58a0379aa6bba4a3ea63c7c2f2f51db6ba7"
       },
       {
         "path": "static/index.html",
-        "bytes": 17352,
-        "digest": "sha256:ec43c2d182323dbb28cd5edd97f56bf7ba45d85829788c690cd5ebb860b9dac2"
+        "bytes": 17230,
+        "digest": "sha256:22dc47fa14fc7dca0b9a6b6f200be97777c35966677b2dc589fa386ead4ff2fb"
       }
     ]
   },
@@ -1471,13 +1506,13 @@
     "summaries": [
       {
         "path": "docs/visual-qa/summaries/theme-proof-chromium.json",
-        "bytes": 45499,
-        "digest": "sha256:9414e9829fba88a39b9ef3fe7e4b1f653b356c599cd0b2eb99b249975f7a2ac9"
+        "bytes": 46841,
+        "digest": "sha256:f3a2757081a0560ff9d505c2da3d52f4d1a7ec7adfe93b831d2d4ff2ef3b47b5"
       },
       {
         "path": "docs/visual-qa/summaries/theme-proof-mobile-chrome.json",
-        "bytes": 45495,
-        "digest": "sha256:14b5dd8f5ce37722671ab4643aea8238f99e1d0a6b51e19c17bfd088936553a9"
+        "bytes": 46837,
+        "digest": "sha256:d486512033df42e322b721a4d739da787e4a7f8d6d299eb3fa40be70968c32fe"
       }
     ],
     "artifacts": [
@@ -1486,40 +1521,40 @@
         "theme": "vaultfront",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-play.png",
-        "bytes": 703495,
-        "digest": "sha256:3d404f89fc390395df871c9aa8fd5cbcf8b43255c31ec81589182ed8a23f3d89"
+        "bytes": 702776,
+        "digest": "sha256:3c691223a144848dc4e59408fb4cd2291c4f4c1c7da592c7ba3684a4d54c91a0"
       },
       {
         "project": "chromium",
         "theme": "vaultfront",
         "surface": "agency-doctrine",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-agency-doctrine.png",
-        "bytes": 47123,
-        "digest": "sha256:1b0024b422627d2f41cb13008955af620fce73e062ab11ed527c2c47c9eb0716"
+        "bytes": 46743,
+        "digest": "sha256:b1a3f0007bbea812bcddd0e22117569c58237cce9486bb7d389142612e66118a"
       },
       {
         "project": "chromium",
         "theme": "vaultfront",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-settings.png",
-        "bytes": 364217,
-        "digest": "sha256:65db69d979df09c247c70e0155854496acc9faf3e27b0fbc213d6b03338f3b7b"
+        "bytes": 364097,
+        "digest": "sha256:db31cf05d1e56c6191c21ddec9c9de94ce50ed0ce7f1f29aa218604def8f1943"
       },
       {
         "project": "chromium",
         "theme": "vaultfront",
         "surface": "postmatch",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-postmatch.png",
-        "bytes": 69459,
-        "digest": "sha256:a774b915100ebec18e9858192e6b7281bb2ba9f5403b58cff9773a9d30375b82"
+        "bytes": 69440,
+        "digest": "sha256:715beb6f49c9657cb01d77124ae34ff94331fbc06d7fac255ac1e4fd6ce6e2f7"
       },
       {
         "project": "chromium",
         "theme": "vaultfront",
-        "surface": "account-recovery",
-        "path": "docs/visual-qa/artifacts/chromium-vaultfront-account-recovery.png",
-        "bytes": 33952,
-        "digest": "sha256:b1344c0554b953853e89564ad3e4994785087b7f73c9d9232087e7fd7cb3773a"
+        "surface": "account-handoff",
+        "path": "docs/visual-qa/artifacts/chromium-vaultfront-account-handoff.png",
+        "bytes": 40686,
+        "digest": "sha256:0b7c3cc5eb5eceaa00fe92d6e58232d6dcf732adbad9f21ac0874f8aa66b0612"
       },
       {
         "project": "chromium",
@@ -1606,8 +1641,8 @@
         "theme": "vaultfront",
         "surface": "narrator-certified",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-narrator-certified.png",
-        "bytes": 73692,
-        "digest": "sha256:fde93e35803af40ae80e959edb5cde23e2d6a286d806e411fd88129f8f917e6d"
+        "bytes": 73408,
+        "digest": "sha256:8bf9fab4442b5aa3d486499266d07c406620a750ff6d85bb72a7e0bd1ce567d9"
       },
       {
         "project": "chromium",
@@ -1638,24 +1673,24 @@
         "theme": "light",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/chromium-light-play.png",
-        "bytes": 669538,
-        "digest": "sha256:1cbc4885a37a9f05ab29cd6e579931d145e704e5edd3b3501b93b95433b3c1fe"
+        "bytes": 669797,
+        "digest": "sha256:174f49e5c6f4846e123472fd50582735852f8921a6b7edf04deeed2fcaf0d7df"
       },
       {
         "project": "chromium",
         "theme": "light",
         "surface": "agency-doctrine",
         "path": "docs/visual-qa/artifacts/chromium-light-agency-doctrine.png",
-        "bytes": 57386,
-        "digest": "sha256:707612de3b1f9940c00ebf4f16b5387a0c521a1dd8a57e50b0868d6d9aaf3f20"
+        "bytes": 57087,
+        "digest": "sha256:ca8902c4de8cbbfd24fc2c3768a40c8f1646f988ded0183bb4f356d92b848729"
       },
       {
         "project": "chromium",
         "theme": "light",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/chromium-light-settings.png",
-        "bytes": 301737,
-        "digest": "sha256:9620157835244adea342f225677cf5df27823be8bf09b332a3dd137cb16dcc80"
+        "bytes": 301921,
+        "digest": "sha256:eb3e75dfdda8406d6ac496e458fef15763be0aa53f9f18866783a6b996296213"
       },
       {
         "project": "chromium",
@@ -1668,10 +1703,10 @@
       {
         "project": "chromium",
         "theme": "light",
-        "surface": "account-recovery",
-        "path": "docs/visual-qa/artifacts/chromium-light-account-recovery.png",
-        "bytes": 32309,
-        "digest": "sha256:b62ae0e861c3604b89cf6f717988e07cba71ffe31a01cd5815d7ea9c2bce58d9"
+        "surface": "account-handoff",
+        "path": "docs/visual-qa/artifacts/chromium-light-account-handoff.png",
+        "bytes": 39388,
+        "digest": "sha256:4894d780900cb4e5b0c37dca21cb7094f1c03558a6115a2483faa2fa8ca0a7bd"
       },
       {
         "project": "chromium",
@@ -1758,8 +1793,8 @@
         "theme": "light",
         "surface": "narrator-certified",
         "path": "docs/visual-qa/artifacts/chromium-light-narrator-certified.png",
-        "bytes": 70617,
-        "digest": "sha256:630c7c8fd9b304344e63fa07970dec235cdcfdf96023f21dae83059132b03e03"
+        "bytes": 70367,
+        "digest": "sha256:92e4621b617d28b87b259c4844400340d5e80f96fc48cce20ad9cdc371da4d80"
       },
       {
         "project": "chromium",
@@ -1790,24 +1825,24 @@
         "theme": "competitive",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/chromium-competitive-play.png",
-        "bytes": 715020,
-        "digest": "sha256:cda366d4a0b02f538ea946c0a30606fbd9a6ae1ab7c7b6a39350939167f1d29f"
+        "bytes": 714941,
+        "digest": "sha256:c3633046a79ed5b6acbd1efc257cc81382894b2f4f4733f80d439a21e2a0eb58"
       },
       {
         "project": "chromium",
         "theme": "competitive",
         "surface": "agency-doctrine",
         "path": "docs/visual-qa/artifacts/chromium-competitive-agency-doctrine.png",
-        "bytes": 47257,
-        "digest": "sha256:f367cd3a92231977756510c9db20fbfb7e45a2947ba4b02454204e39f84d59ce"
+        "bytes": 46989,
+        "digest": "sha256:bcec235f7aa15dc7e6f6d672ce0817c83e07b333d278dd747a8330c1a22b540a"
       },
       {
         "project": "chromium",
         "theme": "competitive",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/chromium-competitive-settings.png",
-        "bytes": 341232,
-        "digest": "sha256:c0f72b35642dde044f2a6f214e7b370b5a399752ef666730c6f46e56842df4a0"
+        "bytes": 341419,
+        "digest": "sha256:fac2e7f71095845853cbb1c9b038e8eecf78c7b621d1fb2d5734fe02f8c82fc8"
       },
       {
         "project": "chromium",
@@ -1820,10 +1855,10 @@
       {
         "project": "chromium",
         "theme": "competitive",
-        "surface": "account-recovery",
-        "path": "docs/visual-qa/artifacts/chromium-competitive-account-recovery.png",
-        "bytes": 34175,
-        "digest": "sha256:c14481929b58257ee9cb3aade3644132d224af05dad214f13277136d2632183a"
+        "surface": "account-handoff",
+        "path": "docs/visual-qa/artifacts/chromium-competitive-account-handoff.png",
+        "bytes": 40743,
+        "digest": "sha256:ef98ad724dcc6a6d968fbb0b72307dad0ebddcfa9a842b50aab6d3b5bfc0d25e"
       },
       {
         "project": "chromium",
@@ -1910,8 +1945,8 @@
         "theme": "competitive",
         "surface": "narrator-certified",
         "path": "docs/visual-qa/artifacts/chromium-competitive-narrator-certified.png",
-        "bytes": 74871,
-        "digest": "sha256:c3126df0461dfc220fd3a16cc6168eb05c145aaf25c3e91c530dd8628fb0eb14"
+        "bytes": 74805,
+        "digest": "sha256:7786d884e102f48c2db9918f5bcebc57e4840158a453e324437b8c2e7ac8de5f"
       },
       {
         "project": "chromium",
@@ -1942,16 +1977,16 @@
         "theme": "vaultfront",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-play.png",
-        "bytes": 1186943,
-        "digest": "sha256:4816b534ea037fee56cfa67d895f2f9cb80b072acd4867105786033e437c8c15"
+        "bytes": 1187041,
+        "digest": "sha256:e7316cda7d6581dba2c39ee1f3fc0911f98671f2e475f759996d623053f8424a"
       },
       {
         "project": "mobile-chrome",
         "theme": "vaultfront",
         "surface": "agency-doctrine",
         "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-agency-doctrine.png",
-        "bytes": 162287,
-        "digest": "sha256:69cd86c3972e5a5d885ed4ad55d33864af746e97e594172c8bb36914fd415c6a"
+        "bytes": 161430,
+        "digest": "sha256:8166ed1ba7d7b45d9d5685985ee95465b13bffaf6f11fe6c3b784b22ca16b251"
       },
       {
         "project": "mobile-chrome",
@@ -1972,10 +2007,10 @@
       {
         "project": "mobile-chrome",
         "theme": "vaultfront",
-        "surface": "account-recovery",
-        "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-account-recovery.png",
-        "bytes": 112057,
-        "digest": "sha256:43085c55d45fccdd0f9a11c10116146e578c264aaf20f2c1701bb44a4ff864d5"
+        "surface": "account-handoff",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-account-handoff.png",
+        "bytes": 175966,
+        "digest": "sha256:b0ac0c21477d47471f181c081375aba9a5dc5b07c0b51f9b34a86081a71eb58f"
       },
       {
         "project": "mobile-chrome",
@@ -2094,24 +2129,24 @@
         "theme": "light",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/mobile-chrome-light-play.png",
-        "bytes": 1117779,
-        "digest": "sha256:f0454e40b68af00b0e341e6c42f45a8b7b183eb5c261553c4b8c2269039ff8a7"
+        "bytes": 1119708,
+        "digest": "sha256:58c9412315d22822487282321688923d69cc81b1bffd559fe000fe8ff8d644a9"
       },
       {
         "project": "mobile-chrome",
         "theme": "light",
         "surface": "agency-doctrine",
         "path": "docs/visual-qa/artifacts/mobile-chrome-light-agency-doctrine.png",
-        "bytes": 178255,
-        "digest": "sha256:5e7c9eb810ba02c44299f2253f1d09a819eb96b1b797a1260022bc242cf35001"
+        "bytes": 177304,
+        "digest": "sha256:720159248922ac130fa7121e9600f5b090a33c6ee51c0b0405b118116851659c"
       },
       {
         "project": "mobile-chrome",
         "theme": "light",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/mobile-chrome-light-settings.png",
-        "bytes": 233576,
-        "digest": "sha256:08dda709e93995598b1dd83d5c700d18db0fda4bc127b44d8684e99d41986579"
+        "bytes": 233471,
+        "digest": "sha256:724dee2c6d71be9519dbe12e9e45c34e0b937746fe642871b732a75716be1788"
       },
       {
         "project": "mobile-chrome",
@@ -2124,10 +2159,10 @@
       {
         "project": "mobile-chrome",
         "theme": "light",
-        "surface": "account-recovery",
-        "path": "docs/visual-qa/artifacts/mobile-chrome-light-account-recovery.png",
-        "bytes": 103864,
-        "digest": "sha256:a8ce72b777876959323fc043163cbe0cd2c76806adf6110ebc10aff8bcae9639"
+        "surface": "account-handoff",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-light-account-handoff.png",
+        "bytes": 173978,
+        "digest": "sha256:157f15c7a8024d4407d81750198946d7954d5423907503edf33f07c301cad886"
       },
       {
         "project": "mobile-chrome",
@@ -2246,24 +2281,24 @@
         "theme": "competitive",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-play.png",
-        "bytes": 1188492,
-        "digest": "sha256:f80ccbe2e4cdd91c4e6f846498b5a9347d6737541a0e98b6d085e52129beba8b"
+        "bytes": 1189985,
+        "digest": "sha256:9de769d6fd9669589d865bb605cd588ce1484c098737967212fc406dbcdb32ee"
       },
       {
         "project": "mobile-chrome",
         "theme": "competitive",
         "surface": "agency-doctrine",
         "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-agency-doctrine.png",
-        "bytes": 162018,
-        "digest": "sha256:28ffaaac5d9655cca7a7ccd6e3a6ebaa046e0b2091b98ae850157722834fb7fa"
+        "bytes": 161135,
+        "digest": "sha256:576982f5e40bd71e8e6ff55f9d40f62a5120a54d63b4105cd87d5e1f85e71347"
       },
       {
         "project": "mobile-chrome",
         "theme": "competitive",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-settings.png",
-        "bytes": 256354,
-        "digest": "sha256:c7b8be800e3993cfbd8dd5ff388ac53ceb0b513803167446f006332c42291436"
+        "bytes": 256503,
+        "digest": "sha256:c0de87d0311dc57648b00e16557d88af9bc270a9288dfac332525e88e0b4f03c"
       },
       {
         "project": "mobile-chrome",
@@ -2276,10 +2311,10 @@
       {
         "project": "mobile-chrome",
         "theme": "competitive",
-        "surface": "account-recovery",
-        "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-account-recovery.png",
-        "bytes": 111896,
-        "digest": "sha256:2de59fbddfa62f9c62a6ebaeec1b55d269eeb4e2d34fe312d353d5cf64e1afab"
+        "surface": "account-handoff",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-account-handoff.png",
+        "bytes": 176683,
+        "digest": "sha256:e6a7f0c9ba03cae067e3acf962daf4352c542fcca91ead82678aadeed89b1edc"
       },
       {
         "project": "mobile-chrome",
@@ -2399,9 +2434,9 @@
     {
       "project": "chromium",
       "localOnly": true,
-      "capturedAt": "2026-08-09T03:23:14.702Z",
+      "capturedAt": "2026-08-12T19:25:52.008Z",
       "source": {
-        "digest": "sha256:76a1b4709b861062acd79d0047d0d234c1657b1be53b48e3eeb01504f9c7ec5e",
+        "digest": "sha256:47e29a3fcf9179dbb0e6a727fd1d84a7cd6de3abca98b0dd0adec471747bd276",
         "files": [
           {
             "path": "config/vaultfront-balance.v1.json",
@@ -2410,18 +2445,18 @@
           },
           {
             "path": "e2e/theme-visual-proof.spec.ts",
-            "bytes": 43968,
-            "digest": "sha256:f0402f6527216b71eef7624a3fd3756b964c3543d00d8ad35ddb5a956e3ae96f"
+            "bytes": 43928,
+            "digest": "sha256:3fe1c4cb730a0f4687e44f4066b43e802d83ec96cf411276f897a1ffe9f4225c"
           },
           {
             "path": "src/client/AccountModal.ts",
-            "bytes": 15892,
-            "digest": "sha256:e2b9e523093c21960ef49b8f8cde654cac9758e190f2f63aef6812d31651b178"
+            "bytes": 10694,
+            "digest": "sha256:3ddae5c4973c76304c8b43f00a015ac3dfdf0d0db27df1b9c2acdd2a260ea0e9"
           },
           {
             "path": "src/client/Api.ts",
-            "bytes": 55884,
-            "digest": "sha256:3748510577c55ae5a7b2d02b3ef5c381902f832f2ef8f4f468e9097202cca7ce"
+            "bytes": 55877,
+            "digest": "sha256:e0e00c9ba9b048c9b9f16c6e5889f92a9101b69fc789ec18e949de17212c3e21"
           },
           {
             "path": "src/client/BrandTheme.ts",
@@ -2715,18 +2750,43 @@
           },
           {
             "path": "src/client/graphics/layers/ControlPanel.ts",
-            "bytes": 121797,
-            "digest": "sha256:45c1533c880e14bf92c6062046af7bd6236c58ffaf2b6719346fd8cf1687aacd"
+            "bytes": 116625,
+            "digest": "sha256:3440e0a23c69536eccafd2c2087b4eed1e4a1d01abd2f0748c4e01b930a91800"
           },
           {
             "path": "src/client/graphics/layers/GameRightSidebar.ts",
-            "bytes": 53275,
-            "digest": "sha256:4278ae3aba8b976120a71d3d0bb79dbcfae870d68d5fc69b96fe5844fc66a2fe"
+            "bytes": 49309,
+            "digest": "sha256:d56abca02ebeaf14e45f33669afb9f2306567ac257d31f63fa6c8ed9a9aa9d4c"
           },
           {
             "path": "src/client/graphics/layers/MultiTabModal.ts",
             "bytes": 4529,
             "digest": "sha256:f608e0a2a30e034641b7bec15a2d1b8d6224df56e24347ba5ab28ee388dc5714"
+          },
+          {
+            "path": "src/client/graphics/layers/RadialMenu.ts",
+            "bytes": 48073,
+            "digest": "sha256:99e5552c06cdb5a04559863d38601ad2c95b5d3ba68235af9bcc64c01085b5c4"
+          },
+          {
+            "path": "src/client/graphics/layers/RadialMenuAnnouncer.ts",
+            "bytes": 1333,
+            "digest": "sha256:d6a6c723d5b0dc5801ca438466aa8d9ab7a9e3a36d1b93e1236719132474152b"
+          },
+          {
+            "path": "src/client/graphics/layers/RadialMenuElements.ts",
+            "bytes": 21227,
+            "digest": "sha256:c3d109a5152e044f4f33b372a7dbc3dba10875e0a122db770ed2b5d17098eb1f"
+          },
+          {
+            "path": "src/client/graphics/layers/ReroutePreviewPanel.ts",
+            "bytes": 5698,
+            "digest": "sha256:7764cd3ea0eb5217e128ca1d901cc568ec7e0387a0d9adf88d2f2feb6691f536"
+          },
+          {
+            "path": "src/client/graphics/layers/SidebarActivityProjection.ts",
+            "bytes": 5102,
+            "digest": "sha256:2195c9d24e3da543912f70abcf13d42453d185953e959dee1b70d933750b6b00"
           },
           {
             "path": "src/client/graphics/layers/VaultFrontLayer.ts",
@@ -2789,6 +2849,11 @@
             "digest": "sha256:aa4c8ffee7411e873f48542d8c3a5c97586229720d7c11f3dcf2444166ede02b"
           },
           {
+            "path": "src/core/PlayerIdentity.ts",
+            "bytes": 661,
+            "digest": "sha256:18a77d1ae0cce14ce6355ae52456bae4c7e94123723a3f59316c4b5229e2cdbb"
+          },
+          {
             "path": "src/core/execution/VaultFrontExecution.ts",
             "bytes": 94789,
             "digest": "sha256:2ee1d0113f91149ed12c666c221ea9a8ad08643abc82633a7e72a0ec4ec9b675"
@@ -2804,14 +2869,19 @@
             "digest": "sha256:c6a9bf68e450d0f13417ec009345bdeaac116bc49873596e77a5f701946357aa"
           },
           {
+            "path": "src/core/game/PlayerImpl.ts",
+            "bytes": 37699,
+            "digest": "sha256:9eddc09187384ebf737065bd6cbfe2cae709552e2cf64a2222f2e7b07e69e228"
+          },
+          {
             "path": "src/shared/PublicRouteGraph.json",
             "bytes": 2249,
             "digest": "sha256:860dc84197ac023b89f1fb9f7a78f58a0379aa6bba4a3ea63c7c2f2f51db6ba7"
           },
           {
             "path": "static/index.html",
-            "bytes": 17352,
-            "digest": "sha256:ec43c2d182323dbb28cd5edd97f56bf7ba45d85829788c690cd5ebb860b9dac2"
+            "bytes": 17230,
+            "digest": "sha256:22dc47fa14fc7dca0b9a6b6f200be97777c35966677b2dc589fa386ead4ff2fb"
           }
         ]
       },
@@ -2848,7 +2918,7 @@
             "agency-doctrine",
             "settings",
             "postmatch",
-            "account-recovery",
+            "account-handoff",
             "multi-tab-collision",
             "progression-doctrine",
             "prematch-loading",
@@ -2879,15 +2949,14 @@
               "unselectedBackground": "rgb(22, 78, 99)"
             }
           },
-          "accountRecovery": {
-            "state": "error",
-            "role": "alert",
-            "ariaLive": "polite",
-            "describedBy": "email-recovery-status",
-            "invalid": "true",
+          "accountHandoff": {
+            "provider": "obelisk",
+            "heading": "VaultSpark Passport",
+            "action": "Continue with Obelisk",
+            "credentialBoundary": true,
             "horizontalOverflow": false,
             "withinViewport": true,
-            "minimumButtonHeight": 46
+            "minimumButtonHeight": 48
           },
           "multiTabCollision": {
             "role": "dialog",
@@ -3063,7 +3132,7 @@
             "agency-doctrine",
             "settings",
             "postmatch",
-            "account-recovery",
+            "account-handoff",
             "multi-tab-collision",
             "progression-doctrine",
             "prematch-loading",
@@ -3094,15 +3163,14 @@
               "unselectedBackground": "rgb(208, 231, 239)"
             }
           },
-          "accountRecovery": {
-            "state": "error",
-            "role": "alert",
-            "ariaLive": "polite",
-            "describedBy": "email-recovery-status",
-            "invalid": "true",
+          "accountHandoff": {
+            "provider": "obelisk",
+            "heading": "VaultSpark Passport",
+            "action": "Continue with Obelisk",
+            "credentialBoundary": true,
             "horizontalOverflow": false,
             "withinViewport": true,
-            "minimumButtonHeight": 46
+            "minimumButtonHeight": 48
           },
           "multiTabCollision": {
             "role": "dialog",
@@ -3278,7 +3346,7 @@
             "agency-doctrine",
             "settings",
             "postmatch",
-            "account-recovery",
+            "account-handoff",
             "multi-tab-collision",
             "progression-doctrine",
             "prematch-loading",
@@ -3309,15 +3377,14 @@
               "unselectedBackground": "rgb(59, 21, 84)"
             }
           },
-          "accountRecovery": {
-            "state": "error",
-            "role": "alert",
-            "ariaLive": "polite",
-            "describedBy": "email-recovery-status",
-            "invalid": "true",
+          "accountHandoff": {
+            "provider": "obelisk",
+            "heading": "VaultSpark Passport",
+            "action": "Continue with Obelisk",
+            "credentialBoundary": true,
             "horizontalOverflow": false,
             "withinViewport": true,
-            "minimumButtonHeight": 46
+            "minimumButtonHeight": 48
           },
           "multiTabCollision": {
             "role": "dialog",
@@ -3466,9 +3533,9 @@
     {
       "project": "mobile-chrome",
       "localOnly": true,
-      "capturedAt": "2026-08-09T03:23:25.176Z",
+      "capturedAt": "2026-08-12T19:25:56.296Z",
       "source": {
-        "digest": "sha256:76a1b4709b861062acd79d0047d0d234c1657b1be53b48e3eeb01504f9c7ec5e",
+        "digest": "sha256:47e29a3fcf9179dbb0e6a727fd1d84a7cd6de3abca98b0dd0adec471747bd276",
         "files": [
           {
             "path": "config/vaultfront-balance.v1.json",
@@ -3477,18 +3544,18 @@
           },
           {
             "path": "e2e/theme-visual-proof.spec.ts",
-            "bytes": 43968,
-            "digest": "sha256:f0402f6527216b71eef7624a3fd3756b964c3543d00d8ad35ddb5a956e3ae96f"
+            "bytes": 43928,
+            "digest": "sha256:3fe1c4cb730a0f4687e44f4066b43e802d83ec96cf411276f897a1ffe9f4225c"
           },
           {
             "path": "src/client/AccountModal.ts",
-            "bytes": 15892,
-            "digest": "sha256:e2b9e523093c21960ef49b8f8cde654cac9758e190f2f63aef6812d31651b178"
+            "bytes": 10694,
+            "digest": "sha256:3ddae5c4973c76304c8b43f00a015ac3dfdf0d0db27df1b9c2acdd2a260ea0e9"
           },
           {
             "path": "src/client/Api.ts",
-            "bytes": 55884,
-            "digest": "sha256:3748510577c55ae5a7b2d02b3ef5c381902f832f2ef8f4f468e9097202cca7ce"
+            "bytes": 55877,
+            "digest": "sha256:e0e00c9ba9b048c9b9f16c6e5889f92a9101b69fc789ec18e949de17212c3e21"
           },
           {
             "path": "src/client/BrandTheme.ts",
@@ -3782,18 +3849,43 @@
           },
           {
             "path": "src/client/graphics/layers/ControlPanel.ts",
-            "bytes": 121797,
-            "digest": "sha256:45c1533c880e14bf92c6062046af7bd6236c58ffaf2b6719346fd8cf1687aacd"
+            "bytes": 116625,
+            "digest": "sha256:3440e0a23c69536eccafd2c2087b4eed1e4a1d01abd2f0748c4e01b930a91800"
           },
           {
             "path": "src/client/graphics/layers/GameRightSidebar.ts",
-            "bytes": 53275,
-            "digest": "sha256:4278ae3aba8b976120a71d3d0bb79dbcfae870d68d5fc69b96fe5844fc66a2fe"
+            "bytes": 49309,
+            "digest": "sha256:d56abca02ebeaf14e45f33669afb9f2306567ac257d31f63fa6c8ed9a9aa9d4c"
           },
           {
             "path": "src/client/graphics/layers/MultiTabModal.ts",
             "bytes": 4529,
             "digest": "sha256:f608e0a2a30e034641b7bec15a2d1b8d6224df56e24347ba5ab28ee388dc5714"
+          },
+          {
+            "path": "src/client/graphics/layers/RadialMenu.ts",
+            "bytes": 48073,
+            "digest": "sha256:99e5552c06cdb5a04559863d38601ad2c95b5d3ba68235af9bcc64c01085b5c4"
+          },
+          {
+            "path": "src/client/graphics/layers/RadialMenuAnnouncer.ts",
+            "bytes": 1333,
+            "digest": "sha256:d6a6c723d5b0dc5801ca438466aa8d9ab7a9e3a36d1b93e1236719132474152b"
+          },
+          {
+            "path": "src/client/graphics/layers/RadialMenuElements.ts",
+            "bytes": 21227,
+            "digest": "sha256:c3d109a5152e044f4f33b372a7dbc3dba10875e0a122db770ed2b5d17098eb1f"
+          },
+          {
+            "path": "src/client/graphics/layers/ReroutePreviewPanel.ts",
+            "bytes": 5698,
+            "digest": "sha256:7764cd3ea0eb5217e128ca1d901cc568ec7e0387a0d9adf88d2f2feb6691f536"
+          },
+          {
+            "path": "src/client/graphics/layers/SidebarActivityProjection.ts",
+            "bytes": 5102,
+            "digest": "sha256:2195c9d24e3da543912f70abcf13d42453d185953e959dee1b70d933750b6b00"
           },
           {
             "path": "src/client/graphics/layers/VaultFrontLayer.ts",
@@ -3856,6 +3948,11 @@
             "digest": "sha256:aa4c8ffee7411e873f48542d8c3a5c97586229720d7c11f3dcf2444166ede02b"
           },
           {
+            "path": "src/core/PlayerIdentity.ts",
+            "bytes": 661,
+            "digest": "sha256:18a77d1ae0cce14ce6355ae52456bae4c7e94123723a3f59316c4b5229e2cdbb"
+          },
+          {
             "path": "src/core/execution/VaultFrontExecution.ts",
             "bytes": 94789,
             "digest": "sha256:2ee1d0113f91149ed12c666c221ea9a8ad08643abc82633a7e72a0ec4ec9b675"
@@ -3871,14 +3968,19 @@
             "digest": "sha256:c6a9bf68e450d0f13417ec009345bdeaac116bc49873596e77a5f701946357aa"
           },
           {
+            "path": "src/core/game/PlayerImpl.ts",
+            "bytes": 37699,
+            "digest": "sha256:9eddc09187384ebf737065bd6cbfe2cae709552e2cf64a2222f2e7b07e69e228"
+          },
+          {
             "path": "src/shared/PublicRouteGraph.json",
             "bytes": 2249,
             "digest": "sha256:860dc84197ac023b89f1fb9f7a78f58a0379aa6bba4a3ea63c7c2f2f51db6ba7"
           },
           {
             "path": "static/index.html",
-            "bytes": 17352,
-            "digest": "sha256:ec43c2d182323dbb28cd5edd97f56bf7ba45d85829788c690cd5ebb860b9dac2"
+            "bytes": 17230,
+            "digest": "sha256:22dc47fa14fc7dca0b9a6b6f200be97777c35966677b2dc589fa386ead4ff2fb"
           }
         ]
       },
@@ -3915,7 +4017,7 @@
             "agency-doctrine",
             "settings",
             "postmatch",
-            "account-recovery",
+            "account-handoff",
             "multi-tab-collision",
             "progression-doctrine",
             "prematch-loading",
@@ -3946,15 +4048,14 @@
               "unselectedBackground": "rgb(22, 78, 99)"
             }
           },
-          "accountRecovery": {
-            "state": "error",
-            "role": "alert",
-            "ariaLive": "polite",
-            "describedBy": "email-recovery-status",
-            "invalid": "true",
+          "accountHandoff": {
+            "provider": "obelisk",
+            "heading": "VaultSpark Passport",
+            "action": "Continue with Obelisk",
+            "credentialBoundary": true,
             "horizontalOverflow": false,
             "withinViewport": true,
-            "minimumButtonHeight": 46
+            "minimumButtonHeight": 66
           },
           "multiTabCollision": {
             "role": "dialog",
@@ -4130,7 +4231,7 @@
             "agency-doctrine",
             "settings",
             "postmatch",
-            "account-recovery",
+            "account-handoff",
             "multi-tab-collision",
             "progression-doctrine",
             "prematch-loading",
@@ -4161,15 +4262,14 @@
               "unselectedBackground": "rgb(208, 231, 239)"
             }
           },
-          "accountRecovery": {
-            "state": "error",
-            "role": "alert",
-            "ariaLive": "polite",
-            "describedBy": "email-recovery-status",
-            "invalid": "true",
+          "accountHandoff": {
+            "provider": "obelisk",
+            "heading": "VaultSpark Passport",
+            "action": "Continue with Obelisk",
+            "credentialBoundary": true,
             "horizontalOverflow": false,
             "withinViewport": true,
-            "minimumButtonHeight": 46
+            "minimumButtonHeight": 66
           },
           "multiTabCollision": {
             "role": "dialog",
@@ -4345,7 +4445,7 @@
             "agency-doctrine",
             "settings",
             "postmatch",
-            "account-recovery",
+            "account-handoff",
             "multi-tab-collision",
             "progression-doctrine",
             "prematch-loading",
@@ -4376,15 +4476,14 @@
               "unselectedBackground": "rgb(59, 21, 84)"
             }
           },
-          "accountRecovery": {
-            "state": "error",
-            "role": "alert",
-            "ariaLive": "polite",
-            "describedBy": "email-recovery-status",
-            "invalid": "true",
+          "accountHandoff": {
+            "provider": "obelisk",
+            "heading": "VaultSpark Passport",
+            "action": "Continue with Obelisk",
+            "credentialBoundary": true,
             "horizontalOverflow": false,
             "withinViewport": true,
-            "minimumButtonHeight": 46
+            "minimumButtonHeight": 66
           },
           "multiTabCollision": {
             "role": "dialog",

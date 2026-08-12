@@ -2,6 +2,16 @@
 
 # Truth Audit
 
+## 2026-08-12 — Session 100 interrupted-arc recovery truth
+
+- Chronology: Session 100 died mid-implement/deployment, not mid-closeout. Twenty-two substantive commits after the Session 99 SIL anchor were already on `origin/main`; the master-route repair and every S100 canonical write-back surface were merely uncommitted.
+- Integrity: the full dirty diff contained no merge markers, no malformed changed/untracked JSON or NDJSON, no half-written configuration, and no confirmed command-output debris. The stale session lock was recovery state, not evidence of a running process.
+- Verification: canonical `npm test` passes 260/260 files and 1,401/1,401 tests. Local Playwright passes 30/30; focused radial and theme recaptures pass 2/2 each; 114 hash-bound artifacts were directly inspected. Doctor is 13/13 with `blockingFailing: 0` and work exhaustion reports zero pending unblocked items.
+- Finding truth: audit items 191–195 are shipped. Item 190 is `deferred`, not falsely complete: domain, Cloudflare/GitHub provisioning, and exact-digest staging are done, while the production release observations are not.
+- Deployment truth: revision `01ba5e4f` is live and healthy at `staging.vaultfront.io` with master plus two workers and exact commit/digest evidence. The production promotion run was dry-run validation; `vaultfront.io` returns 503, so production remains NO-GO.
+- Recovery defect truth: live staging returned SPA HTML for `/api/vaultfront/playtest-pulse/summary`. The uncommitted repair makes the master own that public route and has direct release-contract coverage; it is not claimed live until a successor exact-sha staging deployment proves JSON.
+- Visual truth: direct image review found broken radial proof icons caused by nonexistent fixture paths. The fixture now uses real assets; the receipt tracks all new UI/identity owners, expects the actual `account-handoff` surface, and no longer carries stale Session 98/Claude attribution.
+
 ## 2026-08-11 — Session 99 post-closeout recovery truth
 
 - Manual chronology corrected the generic write-back checker: VaultFront's actual last SIL commit is `92d99249`, so the only uncaptured substantive successor is `1105af17`; unrelated Studio Ops hashes emitted by the generic explanation are not VaultFront evidence.

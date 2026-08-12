@@ -136,12 +136,12 @@ export async function renderThemeProofReceipt(
     captures,
     inspection: {
       renderedPixelsReviewed: true,
-      reviewer: "claude/image-capable-render-review",
+      reviewer: "codex/image-capable-render-review",
       findings: [
-        "Session 98 changed ControlPanel's onboarding tracker (compact/expanded mode split), MapDisplay's lazy-load lifecycle, and added the public /stats surface; the rendered matrix was reviewed for regressions from those changes.",
+        "The current desktop/mobile matrix was reviewed across VaultFront, Light, and Competitive themes after the Session 100 identity, radial-menu, sidebar, reroute-panel, account-handoff, and public-origin changes.",
       ],
       fixesApplied: [
-        "None required: the 26-artifact-per-project desktop/mobile three-theme matrix (play, agency-doctrine, settings, postmatch, account-recovery, multi-tab-collision, progression-doctrine, prematch, connection-recovery, narrator, execution-chain) renders cleanly across VaultFront, Light, and Competitive themes with the new Stats footer link present and no overflow, contrast, or layout defects introduced by this session's changes.",
+        "Replaced nonexistent radial-menu fixture icon URLs with real shipped assets after rendered review exposed broken-image placeholders; the remaining 19-surface-per-theme matrix has no open overflow, contrast, or layout defect.",
       ],
       blockingDefectsOpen: 0,
     },

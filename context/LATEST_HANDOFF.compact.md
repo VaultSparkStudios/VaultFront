@@ -1,40 +1,52 @@
 <!-- generated-by: scripts/compact-handoff.mjs v3.1 -->
-<!-- source-hash: 5f78da8ac6e9 -->
-<!-- generated-at: 2026-08-11T05:12:03.019Z -->
+<!-- source-hash: b96a5d8d6c9a -->
+<!-- generated-at: 2026-08-12T19:27:44.861Z -->
 
 # LATEST_HANDOFF (compact)
 
-SESSION: 99 complete (2026-08-08), branch main. Cumulative audit 51/51, innovations 62/62 — local arc exhausted.
+SESSION 100 HANDOFF SUMMARY
 
-SHIPPED THIS SESSION
+Session number
 
-- Security: bounded WebSocket payload cap, shared constant-time admin-token comparator (8 sites), XSS-hardened player-name render, clan-name/description profanity filter with untrusted-data boundary in Dynasty AI prompt, rate limits on 4 write endpoints.
-- Features/fixes: i18n combat alerts via typed params (MIRV/atom/hydrogen/naval), real Fortune Deck Postgres table (fixed silent write-failure), 33 OpenAPI path entries (6 route families), reduced-motion + mobile-haptics VFX, lazy client crash telemetry (dynamic import).
-- Quality: full keyboard/ARIA radial menu (57 tests), WorkerLobbyService coverage 27%->92% (18 tests), shared ViewportMode.ts extraction, live-match e2e spec.
-- Infra root-fixes: vite-tsconfig-paths async race fixed with explicit sync alias (reproduced 3/3); one bare import in AllianceAcceptNukes.test.ts corrected.
+- 100 (recovery complete, 2026-08-12). Next is 101.
 
-VERIFICATION
+What shipped
 
-- npm test: 249 files / 1,333 tests pass across 4 shards. TypeScript, ESLint, Prettier, verify:contracts, bundle-budget all green. Brotli baseline ratcheted to 592,938 bytes (DECISIONS.md).
+- Recovery of cut-off Session 100 (died mid-implement; stale lock ~10h). 22 post-S99 commits already pushed; local main matched origin/main.
+- Audit items 191-195 complete: clean-runner live-match readiness, authoritative Fortune-title identity, radial-menu live announcements/keyboard proof, pure sidebar activity projection, reroute-panel extraction. Item 190 deferred at release gate.
+- Recovery root fixes: master now owns public playtest-summary route (no SPA fall-through); fixed broken radial fixture icons; theme proof tracks all new UI/identity owners via Obelisk account-handoff surface with current Codex attribution.
 
-CURRENT INTENT
+Current intent
 
-- Continue agent-neutral /start->/audit->/implement->/closeout arc; implement premise-verified findings at highest bar, root-fix infra defects, disclose out-of-scope regressions, never fabricate external release evidence.
+- Begin Session 101 with fresh /start plus live-code/game-loop audit. Continue agent-neutral /start to /closeout arc without fabricating external release evidence.
 
-NOW (top 3)
+Now-bucket (top 3)
 
-1. Fix disclosed VaultFrontPlaytestPulse.ts branch coverage gap (87.66% vs 90.78% floor) — real Session 98 regression, logged in TASK_BOARD Follow-ups.
-2. Fix WorkerClient.ts:63 hardcoded 20s worker-init timeout causing live-match.spec.ts local timeout; make configurable, verify in CI.
-3. Or run fresh /audit against live code for next findings.
+- Run fresh /audit against live code for next verified findings.
+- Fix disclosed VaultFrontPlaytestPulse.ts branch coverage regression (87.66% vs 90.78% floor).
+- Fix WorkerClient.ts hardcoded 20s Web Worker init timeout causing local e2e live-match spec timeout; make configurable.
 
-BLOCKERS (top 3)
+Blockers (top 3)
 
-1. Release NO-GO: public-unlaunched; no approved staging/parity, live-theme, or founder approval.
-2. e2e live-match.spec.ts times out locally (3/3) on cold Vite compile — not a spec defect; needs CI verification.
-3. VaultFrontPlaytestPulse coverage regression pending fix.
+- Production NO-GO: vaultfront.io returns 503; production promotion run was dry-run/validation only.
+- Release gate red; must not infer completion from staging health.
+- e2e live-match spec times out on local dev machine (cold Vite compile); recommend CI verification.
 
-HUMAN-BLOCKED
+Human-blocked items (with age)
 
-- Ark allocation 01JVF5O44A385AF9033E414452 governs external staging/deploy corridor — pending since Session 97 (~2 sessions). No staging DNS, deploy user, STUDIO_PG_ADMIN_URL, or Caddy-to-Traefik transport approval.
+- Ark question 01JVF5O44A385AF9033E414452 (staging/deploy corridor, Caddy-vs-Traefik topology + DB credential): open since Session 97 (2026-08-06), ~6 days.
+- Production launch gates awaiting founder: project-domain Zoho reply identity, three authenticated humans, real revenue, observed rollback, explicit founder launch approval — all outstanding.
+- Ark incident 01JUNMP9IR9DF9678CD51FFF1B (board renderer non-mutating help path): open since Session 89 (2026-07-29), ~14 days.
 
-NEXT: Fix VaultFrontPlaytestPulse coverage + WorkerClient timeout, or run fresh /audit.
+Verification snapshot (S100)
+
+- npm test 260/260 files, 1,401/1,401 tests. Playwright 30/30; focused radial 2/2; theme 2/2; post-build theme 2/2. Regressions 17/17. Doctor 13/13, blockingFailing 0. 114 hash-bound artifacts.
+- Staging: revision 01ba5e4f passed provider CI/Release/E2E (30/30); staging.vaultfront.io healthy at digest sha256:9d3a479f..., returns exact commit.
+
+Release posture
+
+- Public-unlaunched / NO-GO. Never infer external gates from staging health.
+
+Next session pointer
+
+- Start S101 with fresh /start, then live-code/game-loop audit; treat production as release-gated until all founder/human/revenue/rollback gates observed.

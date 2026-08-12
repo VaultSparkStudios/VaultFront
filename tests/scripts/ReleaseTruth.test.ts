@@ -114,6 +114,19 @@ describe("release truth boundary", () => {
     expect(supervisor).not.toMatch(/cloudflared|CLOUDFLARE_TUNNEL_TOKEN/u);
   });
 
+  it("terminates the public playtest summary before the master SPA fallback", () => {
+    const master = read("src/server/Master.ts");
+    const summaryRoute = 'app.get("/api/vaultfront/playtest-pulse/summary"';
+    const fallbackRoute = 'app.get("*"';
+
+    expect(master).toContain("playtestEvidenceStore.summary()");
+    expect(master).toContain("attachCertifiedLoopAlphaEvidence");
+    expect(master.indexOf(summaryRoute)).toBeGreaterThan(-1);
+    expect(master.indexOf(summaryRoute)).toBeLessThan(
+      master.indexOf(fallbackRoute),
+    );
+  });
+
   it("admits a healthy blue/green candidate before bounded incumbent drain", () => {
     const updater = read("update.sh");
     const supervisor = read("supervisord.conf");

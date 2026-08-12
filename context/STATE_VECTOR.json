@@ -1,12 +1,12 @@
 {
   "vectorVersion": "1.0",
-  "generatedAt": "2026-08-08",
-  "generatedAtMs": 1786175023508,
-  "session": 98,
-  "vectorHash": "7a39315ba0535375",
+  "generatedAt": "2026-08-12",
+  "generatedAtMs": 1786562417609,
+  "session": 100,
+  "vectorHash": "156d0fbde988221f",
   "silTotal": 997,
   "silAvg3": 997,
-  "velocity": 4,
+  "velocity": 5,
   "debt": "down",
   "runway": "unknown",
   "intentRate": "100%",
@@ -26,18 +26,18 @@
   "health": "green",
   "truthStatus": "local green; external launch NO-GO.",
   "genome": "24/25",
-  "ignisScore": 43037,
+  "ignisScore": 43050,
   "ignisGrade": "FORGE",
-  "ignisAgeDays": 7,
+  "ignisAgeDays": 4,
   "name": "VaultFront",
   "slug": "vaultfront",
   "type": "game",
   "lifecycle": "alpha",
-  "nextMilestone": "Apply the pending CANON-038 allocation from Ark 01JVF5O44A385AF9033E414452 to exercise the new project-router deploy path, then establish native Obelisk and project-domain Zoho contracts and collect parity, human, revenue, rollback, and founder evidence in gate order.",
-  "currentFocus": "Session 98 recovered and closed: a cut-off prior session (codex) had implemented shared-host-compatible deployment ingress, a truthful public /stats surface, persistent First Extraction guidance, and certified-loop-bound Alpha admission but never committed. Verified against live code (235 files / 1,233 tests, fresh Playwright 26/26, doctor 13/13) and shipped. Live staging remains unprovisioned; Ark 01JVF5O44A385AF9033E414452 remains pending. Production remains NO-GO.",
+  "nextMilestone": "Begin Session 101 with a fresh /start and live-code/game-loop audit after deploying the recovery route fix to exact-sha staging; preserve production NO-GO until every external observation exists.",
+  "currentFocus": "Session 100 recovery verified and closed a cut-off saturated arc: audit items 191-195 shipped, item 190 completed its exact-digest staging infrastructure scope and remains explicitly production-release-gated, the master now owns the public playtest-summary route, and rendered proof tracks every touched UI/identity owner with real fixture assets. Zero pending unblocked local work; cumulative innovations remain exhausted at 65/65.",
   "lastShipped": "see LATEST_HANDOFF.md",
   "blockers": [
-    "Live staging infrastructure is not provisioned: VaultFront has no CANON-038 port allocation, STUDIO_PG_ADMIN_URL is missing, and staging DNS/deploy user are absent. The deployment updater now targets the shared host's actual Caddy edge (Session 98), but the loopback port allocation and database credential are still pending Ark 01JVF5O44A385AF9033E414452.",
-    "Production remains NO-GO until approved staging/parity/health, Zoho reply identity, native Obelisk identity, live theme, three-human Alpha, real revenue, rollback, and founder approval evidence exist."
+    "Production is NO-GO: vaultfront.io currently returns 503 and the project-domain Zoho reply identity, three distinct authenticated humans, real revenue, observed rollback, and explicit founder launch approval are not yet observed.",
+    "The master-owned playtest-summary recovery fix is locally verified but is not live evidence until the recovery revision is deployed to staging and returns JSON at the public endpoint."
   ]
 }

@@ -4,12 +4,46 @@ Detailed internal scoring, audit trends, and brainstorming are maintained privat
 
 <!-- rolling-status-start -->
 
-Total: 997/1000 | Velocity: 22 | Debt: ↓ | Velocity trend: ↑
-Avgs — 3: 997.0 | 5: 997.0 | 10: 997.0 | 25: 992.1 | all: 992.1 | Last 5: 997 → 997 → 997 → 997 → 997 | Intent rate: 100%
+Total: 997/1000 | Velocity: 5 | Debt: ↓ | Velocity trend: ↓
+Avgs — 3: 997.0 | 5: 997.0 | 10: 997.0 | 25: 992.5 | all: 992.5 | Last 5: 997 → 997 → 997 → 997 → 997 | Intent rate: 100%
 Categories: Dev 100 | Align 100 | Momentum 100 | Engage 99 | Process 100 | Coherence 99 | Security 100 | Ecosystem 99 | Capital 100 | Automation 100
-Last session: 2026-08-08 Session 99 accessibility, security hardening, infra-race root-fixes, a second-order pass, a continuation audit, a disclosed-gap closure, and a configurable-timeout infra fix
+Last session: 2026-08-12 Session 100 recovered saturated audit, exact-digest staging, accessibility/product extractions, and release-truth repair
 
 <!-- rolling-status-end -->
+
+## 2026-08-12 — Session 100 | Total: 997/1000 | Velocity: 5
+
+Recovered a cut-off saturated arc without trusting its claims: separated 22 already-pushed implementation commits from the one uncommitted master-route fix and missing canonical write-back, re-ran the complete suite and rendered proof, repaired every defect found, and preserved production NO-GO despite a healthy exact-digest staging deployment.
+
+| Category              |        Score | Evidence                                                                                                                                                          |
+| --------------------- | -----------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Dev Health            |          100 | 260/260 files and 1,401/1,401 tests pass; focused recovery regressions 17/17; production route ownership is executable.                                           |
+| Creative Alignment    |          100 | Fortune identity, reroute decisions, activity projection, and accessible radial interaction strengthen the extraction fantasy without adding arbitrary power.     |
+| Momentum              |          100 | Five implementation findings shipped; the sixth completed infrastructure scope and is honestly release-gated; zero pending unblocked work.                        |
+| Engagement            |           99 | Reward identity and action feedback are materially clearer; no human retention outcome is invented.                                                               |
+| Process Quality       |          100 | Recovery distinguished committed from uncommitted truth, directly inspected pixels, and fixed broken fixture assets plus stale receipt ownership before closeout. |
+| Cross-Repo Coherence  |           99 | Cloudflare/GitHub/staging corridors are integrated without editing sibling implementation trees; remaining external observations stay external.                   |
+| Security Posture      |          100 | Public telemetry is master-owned and existing hardened deployment/evidence boundaries remain intact.                                                              |
+| Ecosystem Integration |           99 | Exact-sha staging is live and healthy; production, Zoho reply identity, human Alpha, revenue, rollback, and founder approval remain unobserved.                   |
+| Capital Efficiency    |          100 | No dependency or paid-service expansion; recovery reused existing tests, deploy contracts, and proof machinery.                                                   |
+| Automation Coverage   |          100 | Full Vitest, Playwright 30/30, focused radial/theme proof, 114-artifact receipt, work exhaustion, and doctor 13/13 all pass.                                      |
+| **Total**             | **997/1000** | Exact sum; the three 99 caps preserve the human/live/external evidence boundary.                                                                                  |
+
+**Rolling data:** Avg3 997.0 · Avg5 997.0 · Avg10 997.0 · Avg25 992.5 · all 992.5 · velocity 5 · debt ↓ · sparkline █████.
+
+**Game rubric:** Loop Tightness 100 · Retention Hook 99 · Soul Fidelity 100 · Velocity 99.
+
+**Top win:** The recovery did not accept a green staging badge at face value: it proved exact revision and health, then found the supposedly public playtest-summary endpoint returning SPA HTML and repaired ownership at the master before checkpointing.
+
+**Top gap:** Production remains a real 503 and lacks project-domain Zoho reply identity, three distinct-human Alpha observations, real revenue, an observed rollback, and explicit founder launch approval.
+
+### Brainstorm
+
+1. Turn the public playtest summary into a privacy-safe agent-readable launch-readiness narrative once the master-route fix is deployed to exact-sha staging.
+2. Use the newly pure activity projection and reroute panel as foundations for causal post-match “decision echoes” that teach one high-leverage alternative without generic coaching.
+3. Instrument reward-title visibility as an explicit comprehension event during the next three-human Alpha rather than assuming the new identity surface is noticed.
+
+**Next-session commitments:** deploy and prove the recovery route fix on exact-sha staging; admit only fresh live-code findings or evidence-backed second-order innovations, never activity manufactured to raise velocity.
 
 **Addendum 5 (Session 99 recovery, score held):** recovery triage found one substantive post-closeout commit (`1105af17`) after the Session 99 SIL anchor. It closes audit #188's final follow-up by adding `src/client/Api.ts` to the client composition ratchet at a measured 2,043/2,060 lines. This is provenance repair for already-shipped work, so Session 99 remains 997/1000 and velocity is not double-counted. The recovery contract and project doctor are re-run before the separate checkpoint.
 

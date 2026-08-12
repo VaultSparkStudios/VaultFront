@@ -9,16 +9,19 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { GameEnv } from "../core/configuration/Config";
 import { getServerConfigFromServer } from "../core/configuration/ConfigLoader";
+import { certifiedLoopEvidenceStore } from "./CertifiedLoopEvidenceStore";
 import { logger } from "./Logger";
 import { MapPlaylist } from "./MapPlaylist";
 import { MasterLobbyService } from "./MasterLobbyService";
 import { readObeliskConfig, registerObeliskAuthRoutes } from "./ObeliskAuth";
+import { playtestEvidenceStore } from "./PlaytestEvidenceStore";
 import { renderHtml } from "./RenderHtml";
 import {
   serverCrashStore,
   truncateServerCrashMessage,
 } from "./ServerCrashStore";
 import { shutdownTelemetry } from "./TelemetryLifecycle";
+import { attachCertifiedLoopAlphaEvidence } from "./VaultFrontPlaytestPulse";
 import { buildVaultFrontReadiness } from "./VaultFrontReadiness";
 
 const config = getServerConfigFromServer();
@@ -283,6 +286,30 @@ app.get("/api/vaultfront/readiness", (_req, res) => {
           : { status: "unverified" },
     }),
   );
+});
+
+// Public playtest learning must terminate on the same master origin as the
+// browser. Worker-only registration is insufficient in clustered production:
+// the master owns HTTP and its SPA fallback otherwise turns this JSON route
+// into index.html. Both processes read the same durable evidence stores, so
+// this projection remains authoritative without proxying to an arbitrary
+// worker.
+app.get("/api/vaultfront/playtest-pulse/summary", async (_req, res) => {
+  try {
+    const observedAt = Date.now();
+    const pulse = await playtestEvidenceStore.summary();
+    const certified = await certifiedLoopEvidenceStore
+      .getSummary(1_000, observedAt - 24 * 60 * 60 * 1_000)
+      .catch(() => null);
+    return res.json(
+      attachCertifiedLoopAlphaEvidence(pulse, certified, observedAt),
+    );
+  } catch (error) {
+    log.error("master playtest evidence summary failed", {
+      error: String(error),
+    });
+    return res.status(503).json({ error: "Playtest evidence unavailable" });
+  }
 });
 
 // SPA fallback route
