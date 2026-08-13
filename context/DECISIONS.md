@@ -663,3 +663,17 @@ Public-safe decisions only. Detailed internal decision history is maintained pri
 **Decision:** The repository declares Node `>=22.13 <25`, and all core CI plus brief-validation jobs use exact Node `22.13.0`; the production image remains Node 24.
 
 **Why:** Exact provider runs showed that Node 20 violated `sanitize-html` and Node 22.12 still violated current ESLint packages. The declared floor must satisfy the entire locked graph, not the first failing package encountered.
+
+## 2026-08-13 — Shared runtime authority and evidence-gated production
+
+### Durable policy owners fail closed when configured
+
+**Decision:** Replay evidence and remote-AI hourly capacity use injected PostgreSQL authorities in configured runtime. Admission limits execute before request-body parsers, and participant/result identity is rechecked at rematch continuation.
+
+**Why:** Process-local state and post-parse rejection cannot provide fleet-wide limits, durable evidence, or bounded memory under hostile input. The authority must live at the narrowest shared trust boundary.
+
+### Founder authorization does not waive independent release observations
+
+**Decision:** The founder's explicit direct-push and deploy authorization satisfies the launch-approval gate. Production promotion still fails closed until project-domain Zoho reply identity, three authenticated humans, real revenue, an observed digest rollback, and production parity/Core Web Vitals are directly evidenced.
+
+**Why:** Consent authorizes the operation; it does not turn staging health or local tests into mail, human, revenue, rollback, or production-performance observations.

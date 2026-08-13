@@ -2,6 +2,15 @@
 
 # Truth Audit
 
+## 2026-08-13 — Session 102 exact-revision and production-boundary truth
+
+- Work truth: `docs/AUDIT_2026-08-13.json` records nine shipped findings and one deferred external-mail observation; the canonical contact source correction is not conflated with provider delivery proof.
+- Verification truth: 274 files / 1,434 tests pass with coverage; Playwright passes 30/30; 132 desktop/mobile/theme captures are bound to source digest `sha256:eb0f3c4fc5b7d02794da0016db0ba0b11cbd886e4361b4d16f1b66466e97f524`.
+- Provider truth: exact revision `f938652c76095920b87c51c11ccd7a37df959ddd` passed CI `31742793799`, E2E `31742793815`, DB migration `31742793818`, Release `31742793774`, and brief validation `31742793786`.
+- Staging truth: run `31743202674` deployed image digest `sha256:19f0f9573b8f83f692d06ce61b237b78e5cf0104d577c0d3fec2892a29162242`; health is 2/2, commit identity is exact, agent endpoints respond, and the Obelisk login redirect has PKCE/state-cookie semantics.
+- Promotion truth: validation run `31743525021` passed dry-run and retained its receipt. It did not switch production.
+- Release truth: production returns 503. Founder authorization satisfies the approval gate but cannot satisfy Zoho reply identity, three-human usage, real revenue, observed rollback, or production parity/Core Web Vitals; production remains NO-GO.
+
 ## 2026-08-12 — Session 101 saturated-arc and staging truth
 
 - Recovery boundary: Session 100's interrupted work was verified, committed as `eeb2a674`, pushed, and separately deployed before Session 101 began. No S100 uncommitted state was silently folded into the fresh arc.

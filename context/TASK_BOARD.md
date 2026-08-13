@@ -2,6 +2,34 @@
 
 Public-safe roadmap only. Detailed backlog sequencing is maintained privately.
 
+## Now — production evidence corridor
+
+- [ ] Verify `contact@vaultfront.io` end-to-end through the project-domain Zoho alias: receive, send, and reply-as the same address.
+- [ ] Collect at least three distinct authenticated human Alpha sessions and one real checkout/supporter revenue observation.
+- [ ] Execute and retain an observed digest rollback drill, then measure production parity and Core Web Vitals before live promotion.
+
+## Completed (2026-08-13 — Session 102 runtime and staging arc)
+
+- [done] Shipped audit items 204–212: participant-bound rematch continuation, fatal-drain coordination, durable replay authority, atomic fleet AI limits, pre-parser body admission, accessible modal ownership, normalized Oracle identity, duplicate-icon retirement, and derived coverage floors.
+- [done] Corrected the public contact surface to canonical `contact@vaultfront.io`; external Zoho delivery evidence remains explicitly deferred under item 213.
+- [done] Passed 274 files / 1,434 tests, Playwright 30/30, 132 rendered desktop/mobile/theme captures, build, contracts, balance, lint, format, and security gates.
+- [done] Pushed exact revision `f938652c` to `main`; all exact-revision provider workflows passed; staging run `31743202674` is healthy at the immutable image digest and promotion validation run `31743525021` passed dry-run.
+- [done] Preserved the release boundary: production still returns 503 and was not relabeled as deployed without the remaining independent observations.
+
+## Now — production evidence corridor
+
+- [ ] Verify `contact@vaultfront.io` end-to-end through the project-domain Zoho alias: receive, send, and reply-as the same address.
+- [ ] Collect at least three distinct authenticated human Alpha sessions and one real checkout/supporter revenue observation.
+- [ ] Execute and retain an observed digest rollback drill, then measure production parity and Core Web Vitals before live promotion.
+
+## Completed (2026-08-13 — Session 102 runtime and staging arc)
+
+- [done] Shipped audit items 204–212: participant-bound rematch continuation, fatal-drain coordination, durable replay authority, atomic fleet AI limits, pre-parser body admission, accessible modal ownership, normalized Oracle identity, duplicate-icon retirement, and derived coverage floors.
+- [done] Corrected the public contact surface to canonical `contact@vaultfront.io`; external Zoho delivery evidence remains explicitly deferred under item 213.
+- [done] Passed 274 files / 1,434 tests, Playwright 30/30, 132 rendered desktop/mobile/theme captures, build, contracts, balance, lint, format, and security gates.
+- [done] Pushed exact revision `f938652c` to `main`; all exact-revision provider workflows passed; staging run `31743202674` is healthy at the immutable image digest and promotion validation run `31743525021` passed dry-run.
+- [done] Preserved the release boundary: production still returns 503 and was not relabeled as deployed without the remaining independent observations.
+
 ## Completed (2026-05-17 — Session 2 /implement pass)
 
 All 24 Session-2 audit items shipped. Key wins: vault-heist, bounty-board, warchest-hunt, 5 AI narrative endpoints (prophecy/commentary/lore/mission/coach), 6 map events, economic warfare (sabotage/bribe/trade), adaptive bot personalities, dynasty-mode server logic, color-blind mode, play-style insight card, TouchHandler mobile gestures, anti-cheat admin endpoint, tile dedup encoding, clan ELO.

@@ -4,19 +4,19 @@
   "name": "VaultFront",
   "status": "active",
   "health": "green",
-  "currentSession": 101,
+  "currentSession": 102,
   "lastAgent": "codex",
-  "currentFocus": "Session 101 complete: 8/8 audit findings and 70/70 cumulative innovations shipped; same-origin API ingress, certified local coaching, privacy-safe Analytica pulse, accessible return actions, and attestation-bound staging product proof are live at the exact implementation revision.",
-  "nextMilestone": "Collect the remaining external production evidence in gate order: project-domain Zoho reply identity, three authenticated humans, real revenue, observed rollback, measured parity/Core Web Vitals, and founder approval.",
+  "currentFocus": "Session 102 shipped 9/10 audit findings, corrected the repository-owned contact surface, passed exact-revision provider gates, and deployed the exact immutable candidate to healthy stable staging.",
+  "nextMilestone": "Verify project-domain Zoho reply identity, collect three authenticated humans and real revenue, execute an observed rollback, then measure production parity/Core Web Vitals and promote through the validated corridor.",
   "blockers": [
-    "Production is NO-GO until project-domain Zoho reply-as-alias delivery, three distinct authenticated human sessions, real revenue, an observed rollback, measured production parity/Core Web Vitals, and explicit founder approval are evidenced."
+    "Production is NO-GO until project-domain Zoho send/receive reply-as-alias delivery, three distinct authenticated human sessions, real revenue, an observed rollback, and measured production parity/Core Web Vitals are evidenced."
   ],
-  "lastUpdated": "2026-08-12",
+  "lastUpdated": "2026-08-13",
   "lifecycle": "alpha",
   "audience": "public-unlaunched",
   "type": "game",
   "obeliskArchitecture": "external",
-  "obeliskAuthStatus": "staging-rp-contract-observed-production-unverified",
+  "obeliskAuthStatus": "staging-rp-observed-production-unverified",
   "entropyScore": 0.055,
   "entropyStatus": "healthy",
   "entropyComputedAt": "2026-08-04",
@@ -25,30 +25,37 @@
     {
       "type": "tests",
       "status": "green",
-      "label": "Canonical unit and server regression",
-      "command": "npm test",
-      "purpose": "All 268 test files and 1,420 tests pass across four bounded shards."
+      "label": "Canonical coverage regression",
+      "command": "npm run test:coverage",
+      "purpose": "All 274 test files and 1,434 tests pass with 24 derived coverage owners and 32 measured floors."
     },
     {
       "type": "tests",
       "status": "green",
       "label": "Production build and contracts",
       "command": "npm run build-prod && npm run verify:contracts",
-      "purpose": "Production build passes and the immutable deployment contract has 133 checks."
+      "purpose": "Production build, TypeScript, lint, format, contracts, and 28,125 balance scenarios pass."
     },
     {
       "type": "tests",
       "status": "green",
       "label": "Rendered desktop/mobile themes",
       "command": "npm run e2e",
-      "purpose": "Playwright passes 30/30; 126 artifacts cover 21 surfaces across three themes and desktop/mobile."
+      "purpose": "Playwright passes 30/30; 132 artifacts cover three themes and desktop/mobile."
     },
     {
       "type": "staging",
       "status": "green",
       "label": "Exact-revision product staging",
-      "command": "GitHub Actions Deploy staging run 31642400012",
-      "purpose": "Revision 264f24e0 is healthy with 2/2 workers and an eight-contract hash-bound product attestation."
+      "command": "GitHub Actions Deploy staging run 31743202674",
+      "purpose": "Revision f938652c is healthy with 2/2 workers, exact commit, agent surfaces, and Obelisk PKCE redirect."
+    },
+    {
+      "type": "release",
+      "status": "green",
+      "label": "Production promotion validation",
+      "command": "GitHub Actions production dry-run 31743525021",
+      "purpose": "Promotion intent and retained validation receipt passed without switching production."
     }
   ],
   "freeTierCostStatus": "cost-neutral",
@@ -56,13 +63,13 @@
   "readinessEndpoint": "/api/vaultfront/readiness",
   "playtestPulseEndpoint": "/api/vaultfront/playtest-pulse/summary",
   "truthAuditStatus": "green",
-  "truthAuditLastRun": "2026-08-12",
+  "truthAuditLastRun": "2026-08-13",
   "silRubricVersion": "3.0",
   "silMax": 1000,
   "silScoreLegacy500": null,
   "silScore": 998,
-  "testsPassing": 1420,
-  "testsTotal": 1420,
+  "testsPassing": 1434,
+  "testsTotal": 1434,
   "silCategoriesV3": {
     "devHealth": 100,
     "creativeAlignment": 100,
@@ -86,18 +93,17 @@
   "ignisLastComputed": "2026-08-08",
   "sessionMode": "founder",
   "sessionModeAutoShiftedAt": "2026-07-28T04:43:27.874Z",
-  "silAvg3": 997.3,
-  "silVelocity": 8,
+  "silAvg3": 997.7,
+  "silVelocity": 9,
   "silDebt": "down",
-  "silLastSession": "101",
-  "auditStatus": "session-101-audit-8-of-8-shipped; cumulative-innovations-70-of-70-shipped; zero-pending-unblocked; exact-revision-staging-admitted; production-no-go",
+  "silLastSession": "102",
+  "auditStatus": "session-102-audit-9-of-10-shipped; item-213-source-shipped-external-zoho-deferred; exact-revision-provider-and-staging-green; promotion-validation-green; production-no-go",
   "releaseGates": [
     "project-domain Zoho send/receive reply-as-alias delivery verification",
     "authenticated evidence from at least three distinct human alpha sessions",
     "real checkout/supporter revenue observation",
     "observed rollback drill with restored health and exact image digest",
-    "measured production parity and Core Web Vitals evidence",
-    "founder launch approval"
+    "measured production parity and Core Web Vitals evidence"
   ],
   "entropyLastComputed": "2026-08-08",
   "truthGenome": "24/25",
@@ -110,17 +116,17 @@
     "failing": 0,
     "blockingFailing": 0,
     "date": "2026-08-13",
-    "observedAt": "2026-08-13T07:03:40.656Z",
+    "observedAt": "2026-08-13T21:09:46.000Z",
     "source": "scripts/project-doctor.mjs",
     "evidencePath": "audits/doctor-latest.json",
-    "evidenceDigest": "sha256:eaf055069ed7f1b9f4ed2a7e027b2779f4b108535b14421d7f28f8e38674c6f1",
+    "evidenceDigest": "sha256:53453a8252a2f202eca180f38c81e770f9b18eb4fe05d38dd0d430afec7a1a92",
     "evidenceSchemaVersion": 1,
     "checkCount": 13
   },
   "complianceScore": 49,
   "complianceTotal": 49,
   "sanitizationLastCleared": "2026-07-26",
-  "lastSession": 101,
+  "lastSession": 102,
   "bootAmortization": {
     "ratio": 0.09,
     "verdict": "wasted",
@@ -141,27 +147,30 @@
     }
   ],
   "sessionShellHygiene": {
-    "session": 101,
+    "session": 102,
     "running": 0,
-    "enumeratedAt": "2026-08-12T21:33:39.900Z",
-    "scope": "All S101 implementation, test, provider, staging, and closeout commands were read to completion; no session-owned background shell is knowingly left running."
+    "enumeratedAt": "2026-08-13T21:06:56.305Z",
+    "scope": "All Session 102 implementation, verification, provider, staging, and closeout commands were read to completion; no session-owned background shell is knowingly left running."
   },
-  "testsLastRun": "2026-08-12",
-  "testsLastRunMode": "Session 101 canonical npm test 268/268 files and 1,420/1,420 tests; Playwright 30/30; doctor 13/13; exact provider and staging green.",
+  "testsLastRun": "2026-08-13",
+  "testsLastRunMode": "Session 102 coverage 274/274 files and 1,434/1,434 tests; Playwright 30/30; build/contracts/balance green; exact provider and staging green.",
   "testsDeferred": [],
   "testsBudgetExhausted": false,
-  "lastSessionSummary": "Session 101 shipped all eight fresh audit findings and exhausted 70/70 innovations, proved 126 rendered artifacts and 1,420 tests, repaired the hosted runtime floor through exact provider evidence, and admitted the exact implementation SHA to staging with an eight-contract product attestation. Production remains NO-GO.",
+  "lastSessionSummary": "Session 102 shipped nine audit findings, proved 132 rendered artifacts and 1,434 tests, pushed f938652c directly to main, and deployed it to healthy stable staging. Production remains NO-GO at five independent evidence gates.",
   "providerCiStatus": {
     "status": "green",
-    "revision": "264f24e084251cef525f4215889bf16691b86162",
-    "ciRunId": 31641733457,
-    "e2eRunId": 31641733438,
-    "releasePlannerRunId": 31641733412,
-    "stagingRunId": 31642400012,
-    "observedAt": "2026-08-12T21:27:12.000Z",
-    "source": "GitHub Actions conclusions plus run-bound staging attestation and live product smoke",
+    "revision": "f938652c76095920b87c51c11ccd7a37df959ddd",
+    "ciRunId": 31742793799,
+    "e2eRunId": 31742793815,
+    "databaseMigrationRunId": 31742793818,
+    "releasePlannerRunId": 31742793774,
+    "briefValidationRunId": 31742793786,
+    "stagingRunId": 31743202674,
+    "promotionValidationRunId": 31743525021,
+    "observedAt": "2026-08-13T21:06:56.305Z",
+    "source": "GitHub Actions conclusions plus run-bound staging attestation, live endpoint checks, and retained production dry-run receipt",
     "currentRevisionVerified": true,
-    "note": "Exact implementation revision is green in CI/E2E/Release and healthy on staging; production was not promoted."
+    "note": "Exact revision is green and healthy on staging; production was not promoted."
   },
   "dependencyAudit": {
     "production": 0,

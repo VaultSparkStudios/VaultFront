@@ -1,12 +1,12 @@
 {
   "vectorVersion": "1.0",
-  "generatedAt": "2026-08-12",
-  "generatedAtMs": 1786570426359,
-  "session": 101,
-  "vectorHash": "c9f6fb8ae081ad9f",
+  "generatedAt": "2026-08-13",
+  "generatedAtMs": 1786655223821,
+  "session": 102,
+  "vectorHash": "f7ae21c93070dde4",
   "silTotal": 998,
-  "silAvg3": 997.3,
-  "velocity": 8,
+  "silAvg3": 997.7,
+  "velocity": 9,
   "debt": "down",
   "runway": "unknown",
   "intentRate": "100%",
@@ -14,9 +14,9 @@
   "openNext": 6,
   "openBlocked": 0,
   "topNow": [
-    "[ecosystem] Await the applied acknowledgement for source-tagged registry-delta A",
-    "[release-evidence] Deliberately establish the approved staging contract, deploy ",
-    "[release-evidence] Verify project-domain Brevo delivery and native Obelisk relyi"
+    "Verify `contact@vaultfront.io` end-to-end through the project-domain Zoho alias:",
+    "Collect at least three distinct authenticated human Alpha sessions and one real ",
+    "Execute and retain an observed digest rollback drill, then measure production pa"
   ],
   "topNext": [
     "[release-evidence] Collect three distinct authenticated human Alpha sessions and",
@@ -28,15 +28,15 @@
   "genome": "24/25",
   "ignisScore": 43050,
   "ignisGrade": "FORGE",
-  "ignisAgeDays": 4,
+  "ignisAgeDays": 5,
   "name": "VaultFront",
   "slug": "vaultfront",
   "type": "game",
   "lifecycle": "alpha",
-  "nextMilestone": "Collect the remaining external production evidence in gate order: project-domain Zoho reply identity, three authenticated humans, real revenue, observed rollback, measured parity/Core Web Vitals, and founder approval.",
-  "currentFocus": "Session 101 complete: 8/8 audit findings and 70/70 cumulative innovations shipped; same-origin API ingress, certified local coaching, privacy-safe Analytica pulse, accessible return actions, and attestation-bound staging product proof are live at the exact implementation revision.",
+  "nextMilestone": "Verify project-domain Zoho reply identity, collect three authenticated humans and real revenue, execute an observed rollback, then measure production parity/Core Web Vitals and promote through the validated corridor.",
+  "currentFocus": "Session 102 shipped 9/10 audit findings, corrected the repository-owned contact surface, passed exact-revision provider gates, and deployed the exact immutable candidate to healthy stable staging.",
   "lastShipped": "see LATEST_HANDOFF.md",
   "blockers": [
-    "Production is NO-GO until project-domain Zoho reply-as-alias delivery, three distinct authenticated human sessions, real revenue, an observed rollback, measured production parity/Core Web Vitals, and explicit founder approval are evidenced."
+    "Production is NO-GO until project-domain Zoho send/receive reply-as-alias delivery, three distinct authenticated human sessions, real revenue, an observed rollback, and measured production parity/Core Web Vitals are evidenced."
   ]
 }
