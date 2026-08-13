@@ -1,0 +1,233 @@
+#!/usr/bin/env node
+import { createHash } from "node:crypto";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { chromium } from "playwright";
+import {
+  assessReleaseParityCell,
+  RELEASE_PARITY_THRESHOLDS,
+  summarizeReleaseParity,
+} from "./lib/release-parity.mjs";
+
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const args = process.argv.slice(2);
+const flag = (name, fallback = null) => {
+  const index = args.indexOf(name);
+  return index >= 0 ? args[index + 1] : fallback;
+};
+const url = flag("--url");
+if (!url) {
+  console.error(
+    "usage: node scripts/capture-release-parity.mjs --url <origin> [--output <json>] [--screenshots <dir>]",
+  );
+  process.exit(2);
+}
+const output = path.resolve(
+  root,
+  flag("--output", ".cache/release-parity.json"),
+);
+const screenshots = path.resolve(
+  root,
+  flag("--screenshots", "output/playwright/release-parity"),
+);
+const widths = [390, 768, 1440];
+const themes = ["vaultfront", "light", "competitive"];
+const observedAt = new Date().toISOString();
+const sha256 = (value) =>
+  `sha256:${createHash("sha256").update(value).digest("hex")}`;
+
+fs.mkdirSync(screenshots, { recursive: true });
+const browser = await chromium.launch({ headless: true });
+const cells = [];
+let revision = null;
+
+try {
+  const revisionResponse = await fetch(new URL("/commit.txt", url));
+  if (revisionResponse.ok) revision = (await revisionResponse.text()).trim();
+
+  for (const theme of themes) {
+    for (const width of widths) {
+      const context = await browser.newContext({
+        viewport: { width, height: width <= 480 ? 844 : 900 },
+        colorScheme: theme === "light" ? "light" : "dark",
+      });
+      const page = await context.newPage();
+      await page.addInitScript((selectedTheme) => {
+        localStorage.setItem("vf-theme", selectedTheme);
+        window.__vfReleaseVitals = {
+          lcp: [],
+          cls: 0,
+          interactions: {},
+        };
+        new PerformanceObserver((list) => {
+          window.__vfReleaseVitals.lcp.push(
+            ...list.getEntries().map((entry) => entry.startTime),
+          );
+        }).observe({ type: "largest-contentful-paint", buffered: true });
+        new PerformanceObserver((list) => {
+          for (const entry of list.getEntries()) {
+            if (!entry.hadRecentInput)
+              window.__vfReleaseVitals.cls += entry.value;
+          }
+        }).observe({ type: "layout-shift", buffered: true });
+        new PerformanceObserver((list) => {
+          for (const entry of list.getEntries()) {
+            if (!entry.interactionId) continue;
+            const previous =
+              window.__vfReleaseVitals.interactions[entry.interactionId] ?? 0;
+            window.__vfReleaseVitals.interactions[entry.interactionId] =
+              Math.max(previous, entry.duration);
+          }
+        }).observe({
+          type: "event",
+          buffered: true,
+          durationThreshold: 0,
+        });
+      }, theme);
+
+      const response = await page.goto(url, {
+        waitUntil: "domcontentloaded",
+        timeout: 30_000,
+      });
+      if (!response || response.status() >= 400) {
+        throw new Error(
+          `${url} returned ${response?.status() ?? "no response"} at ${width}px`,
+        );
+      }
+      await page.waitForFunction(
+        () =>
+          !document.documentElement.classList.contains("preload") &&
+          document.documentElement.dataset.vfLayoutReady === "true",
+        null,
+        { timeout: 10_000 },
+      );
+      await page.waitForTimeout(500);
+
+      const interactionTarget =
+        width < 1024
+          ? page.locator("#hamburger-btn")
+          : page.locator("#lang-selector:visible");
+      await interactionTarget.click();
+      await page.keyboard.press("Escape");
+      await page.waitForTimeout(250);
+
+      const measured = await page.evaluate((minimumTargetPx) => {
+        const body = document.documentElement;
+        const targetVisible = (element) => {
+          const rect = element.getBoundingClientRect();
+          const style = getComputedStyle(element);
+          return (
+            rect.width > 0 &&
+            rect.height > 0 &&
+            rect.right > 0 &&
+            rect.bottom > 0 &&
+            rect.left < innerWidth &&
+            rect.top < innerHeight &&
+            style.visibility !== "hidden" &&
+            style.display !== "none"
+          );
+        };
+        const smallTargets =
+          innerWidth <= 480
+            ? [
+                ...document.querySelectorAll(
+                  "a,button,[role=button],input[type=submit]",
+                ),
+              ]
+                .filter(targetVisible)
+                .map((element) => {
+                  const rect = element.getBoundingClientRect();
+                  return {
+                    label: (
+                      element.innerText ||
+                      element.getAttribute("aria-label") ||
+                      element.tagName
+                    )
+                      .trim()
+                      .slice(0, 60),
+                    width: Math.round(rect.width),
+                    height: Math.round(rect.height),
+                  };
+                })
+                .filter(
+                  (target) =>
+                    target.width < minimumTargetPx ||
+                    target.height < minimumTargetPx,
+                )
+            : [];
+        const navSelectors = [
+          "nav",
+          "[role=navigation]",
+          "[aria-label*=menu i]",
+          "#hamburger-btn",
+        ];
+        const interactions = Object.values(
+          window.__vfReleaseVitals.interactions,
+        );
+        const navigation = performance.getEntriesByType("navigation")[0];
+        return {
+          theme: document.documentElement.getAttribute("data-vaultfront-theme"),
+          vitals: {
+            lcpMs: Math.max(0, ...window.__vfReleaseVitals.lcp),
+            inpMs: Math.max(0, ...interactions),
+            cls: Number(window.__vfReleaseVitals.cls.toFixed(4)),
+          },
+          navigation: {
+            domContentLoadedMs: Math.round(
+              navigation?.domContentLoadedEventEnd ?? 0,
+            ),
+            loadMs: Math.round(navigation?.loadEventEnd ?? 0),
+          },
+          dom: {
+            horizontalOverflowPx: Math.max(0, body.scrollWidth - innerWidth),
+            navigationReachable: navSelectors.some((selector) =>
+              [...document.querySelectorAll(selector)].some(targetVisible),
+            ),
+            smallTargets,
+          },
+        };
+      }, RELEASE_PARITY_THRESHOLDS.minimumTargetPx);
+
+      const headers = await response.allHeaders();
+      const screenshotPath = path.join(screenshots, `${theme}-${width}.png`);
+      await page.screenshot({ path: screenshotPath, fullPage: true });
+      const cell = {
+        theme,
+        width,
+        ...measured,
+        httpStatus: response.status(),
+        securityHeaders: {
+          strictTransportSecurity: headers["strict-transport-security"] ?? null,
+          contentSecurityPolicy: headers["content-security-policy"] ?? null,
+        },
+        screenshot: path
+          .relative(root, screenshotPath)
+          .replaceAll(path.sep, "/"),
+        screenshotDigest: sha256(fs.readFileSync(screenshotPath)),
+      };
+      cell.assessment = assessReleaseParityCell(cell);
+      cells.push(cell);
+      await context.close();
+    }
+  }
+} finally {
+  await browser.close();
+}
+
+const report = {
+  schemaVersion: 1,
+  project: "vaultfront",
+  origin: url,
+  observedAt,
+  revision,
+  thresholds: RELEASE_PARITY_THRESHOLDS,
+  summary: summarizeReleaseParity(cells),
+  cells,
+};
+report.digest = sha256(JSON.stringify(report));
+fs.mkdirSync(path.dirname(output), { recursive: true });
+fs.writeFileSync(output, `${JSON.stringify(report, null, 2)}\n`, "utf8");
+console.log(JSON.stringify(report.summary));
+console.log(`release parity receipt: ${path.relative(root, output)}`);
+process.exit(report.summary.pass ? 0 : 1);

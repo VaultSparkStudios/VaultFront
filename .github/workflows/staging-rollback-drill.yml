@@ -1,0 +1,235 @@
+name: Observe staging rollback drill
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_staging_run_id:
+        description: "Previous known-good staging run to roll back to"
+        required: true
+        type: string
+      replaced_staging_run_id:
+        description: "Current staging run to restore after the observation"
+        required: true
+        type: string
+      validation_run_id:
+        description: "Successful rollback dry-run from Promote verified digest"
+        required: true
+        type: string
+      rollback_reason:
+        description: "Durable reason bound into validation and outcome"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  drill:
+    name: Roll back and restore stable staging
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment: staging
+    env:
+      DOMAIN: ${{ vars.DOMAIN }}
+      SUBDOMAIN: staging
+      FQDN: ${{ format('staging.{0}', vars.DOMAIN) }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Validate repository deployment contract
+        run: |
+          node scripts/check-deploy-contract.mjs
+          node scripts/check-release-input-trust.mjs --release
+
+      - name: Admit target and restored staging attestations
+        id: attestations
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TARGET_RUN_ID: ${{ inputs.target_staging_run_id }}
+          RESTORED_RUN_ID: ${{ inputs.replaced_staging_run_id }}
+        run: |
+          set -euo pipefail
+          [[ "$TARGET_RUN_ID" =~ ^[1-9][0-9]*$ ]]
+          [[ "$RESTORED_RUN_ID" =~ ^[1-9][0-9]*$ ]]
+          [[ "$TARGET_RUN_ID" != "$RESTORED_RUN_ID" ]]
+          for pair in "target:$TARGET_RUN_ID" "restored:$RESTORED_RUN_ID"; do
+            label="${pair%%:*}"
+            run_id="${pair##*:}"
+            gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${run_id}" > "${label}-run.json"
+            mkdir -p ".${label}-attestation"
+            gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "staging-attestation-${run_id}" --dir ".${label}-attestation"
+            node scripts/staging-attestation.mjs verify \
+              --attestation ".${label}-attestation/staging-attestation.json" \
+              --run-metadata "${label}-run.json" \
+              --repository "$GITHUB_REPOSITORY" \
+              >> "$GITHUB_STEP_SUMMARY"
+          done
+          node --input-type=module <<'NODE' >> "$GITHUB_OUTPUT"
+          import fs from "node:fs";
+          for (const label of ["target", "restored"]) {
+            const value = JSON.parse(fs.readFileSync(`.${label}-attestation/staging-attestation.json`, "utf8"));
+            console.log(`${label}_image_digest=${value.imageDigest}`);
+            console.log(`${label}_git_sha=${value.gitSha}`);
+            console.log(`${label}_attestation_digest=${value.attestationDigest}`);
+          }
+          NODE
+
+      - name: Admit matching rollback dry-run validation
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VALIDATION_RUN_ID: ${{ inputs.validation_run_id }}
+        run: |
+          set -euo pipefail
+          [[ "$VALIDATION_RUN_ID" =~ ^[1-9][0-9]*$ ]]
+          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${VALIDATION_RUN_ID}" > validation-run.json
+          mkdir -p .promotion-validation
+          gh run download "$VALIDATION_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "promotion-validation-${VALIDATION_RUN_ID}" --dir .promotion-validation
+          node scripts/promotion-receipt.mjs verify-validation \
+            --receipt .promotion-validation/promotion-validation.json \
+            --run-metadata validation-run.json \
+            --repository "$GITHUB_REPOSITORY" \
+            --operation rollback \
+            --target-subdomain staging \
+            --staging-run-id "${{ inputs.target_staging_run_id }}" \
+            --target-attestation-digest "${{ steps.attestations.outputs.target_attestation_digest }}" \
+            --replaced-staging-run-id "${{ inputs.replaced_staging_run_id }}" \
+            --replaced-attestation-digest "${{ steps.attestations.outputs.restored_attestation_digest }}" \
+            --rollback-reason "${{ inputs.rollback_reason }}"
+
+      - name: Require CANON-038 live allocation
+        env:
+          DEPLOY_INGRESS_PORT: ${{ vars.DEPLOY_INGRESS_PORT }}
+        run: |
+          set -euo pipefail
+          [[ "$DEPLOY_INGRESS_PORT" =~ ^[0-9]+$ ]]
+          ((DEPLOY_INGRESS_PORT >= 8110 && DEPLOY_INGRESS_PORT <= 8999))
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3
+        with:
+          registry: ghcr.io
+          username: ${{ vars.GHCR_USERNAME }}
+          password: ${{ secrets.GHCR_TOKEN }}
+
+      - name: Verify both immutable image revisions
+        env:
+          GHCR_REPO: ${{ vars.GHCR_REPO }}
+          GHCR_USERNAME: ${{ vars.GHCR_USERNAME }}
+          TARGET_IMAGE_DIGEST: ${{ steps.attestations.outputs.target_image_digest }}
+          TARGET_GIT_SHA: ${{ steps.attestations.outputs.target_git_sha }}
+          RESTORED_IMAGE_DIGEST: ${{ steps.attestations.outputs.restored_image_digest }}
+          RESTORED_GIT_SHA: ${{ steps.attestations.outputs.restored_git_sha }}
+        run: |
+          set -euo pipefail
+          for pair in "target:$TARGET_IMAGE_DIGEST:$TARGET_GIT_SHA" "restored:$RESTORED_IMAGE_DIGEST:$RESTORED_GIT_SHA"; do
+            digest="$(printf '%s' "$pair" | cut -d: -f2-3)"
+            sha="${pair##*:}"
+            image="ghcr.io/${GHCR_USERNAME}/${GHCR_REPO}@${digest}"
+            docker pull "$image"
+            [[ "$(docker image inspect --format '{{ index .Config.Labels "org.opencontainers.image.revision" }}' "$image")" == "$sha" ]]
+          done
+
+      - name: Create SSH private key
+        env:
+          DEPLOY_SERVER_HOST: ${{ secrets.DEPLOY_SERVER_HOST }}
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          set -euo pipefail
+          mkdir -p ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+          test -n "$DEPLOY_SERVER_HOST"
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keygen -y -f ~/.ssh/id_rsa > /dev/null
+          node scripts/prepare-deploy-ssh.mjs ~/.ssh/known_hosts
+
+      - name: Observe rollback target
+        env:
+          APP_NAME: vaultfront
+          API_KEY: ${{ secrets.API_KEY }}
+          DEPLOY_HEALTH_URL: ${{ format('https://staging.{0}/_health', vars.DOMAIN) }}
+          DEPLOY_INGRESS_PORT: ${{ vars.DEPLOY_INGRESS_PORT }}
+          DEPLOY_REMOTE_USER: ${{ vars.DEPLOY_REMOTE_USER || 'vaultfront' }}
+          DEPLOY_REMOTE_SCRIPT_PATH: ${{ vars.DEPLOY_REMOTE_SCRIPT_PATH }}
+          DEPLOY_SERVER_HOST: ${{ secrets.DEPLOY_SERVER_HOST }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          GHCR_REPO: ${{ vars.GHCR_REPO }}
+          GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
+          GHCR_USERNAME: ${{ vars.GHCR_USERNAME }}
+          OTEL_AUTH_HEADER: ${{ secrets.OTEL_AUTH_HEADER }}
+          OTEL_EXPORTER_OTLP_ENDPOINT: ${{ secrets.OTEL_EXPORTER_OTLP_ENDPOINT }}
+          OBELISK_CLIENT_ID: ${{ vars.OBELISK_CLIENT_ID }}
+          OBELISK_COOKIE_SECRET: ${{ secrets.OBELISK_COOKIE_SECRET }}
+          OBELISK_ISSUER: ${{ vars.OBELISK_ISSUER }}
+          OBELISK_REDIRECT_URI: ${{ vars.OBELISK_REDIRECT_URI }}
+          SSH_KEY: ~/.ssh/id_rsa
+          TURNSTILE_SECRET_KEY: ${{ secrets.TURNSTILE_SECRET_KEY }}
+          TARGET_IMAGE_DIGEST: ${{ steps.attestations.outputs.target_image_digest }}
+          TARGET_GIT_SHA: ${{ steps.attestations.outputs.target_git_sha }}
+        run: |
+          set -euo pipefail
+          echo "DRILL_STARTED_AT=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_ENV"
+          ./deploy.sh staging staging "$TARGET_IMAGE_DIGEST" staging
+          curl -fsS --max-time 10 "https://${FQDN}/_health" -o rollback-health.json
+          curl -fsS --max-time 10 "https://${FQDN}/commit.txt" -o rollback-revision.txt
+          [[ "$(tr -d '\r\n' < rollback-revision.txt)" == "$TARGET_GIT_SHA" ]]
+          echo "ROLLED_BACK_AT=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_ENV"
+
+      - name: Restore current staging revision
+        env:
+          APP_NAME: vaultfront
+          API_KEY: ${{ secrets.API_KEY }}
+          DEPLOY_HEALTH_URL: ${{ format('https://staging.{0}/_health', vars.DOMAIN) }}
+          DEPLOY_INGRESS_PORT: ${{ vars.DEPLOY_INGRESS_PORT }}
+          DEPLOY_REMOTE_USER: ${{ vars.DEPLOY_REMOTE_USER || 'vaultfront' }}
+          DEPLOY_REMOTE_SCRIPT_PATH: ${{ vars.DEPLOY_REMOTE_SCRIPT_PATH }}
+          DEPLOY_SERVER_HOST: ${{ secrets.DEPLOY_SERVER_HOST }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          GHCR_REPO: ${{ vars.GHCR_REPO }}
+          GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
+          GHCR_USERNAME: ${{ vars.GHCR_USERNAME }}
+          OTEL_AUTH_HEADER: ${{ secrets.OTEL_AUTH_HEADER }}
+          OTEL_EXPORTER_OTLP_ENDPOINT: ${{ secrets.OTEL_EXPORTER_OTLP_ENDPOINT }}
+          OBELISK_CLIENT_ID: ${{ vars.OBELISK_CLIENT_ID }}
+          OBELISK_COOKIE_SECRET: ${{ secrets.OBELISK_COOKIE_SECRET }}
+          OBELISK_ISSUER: ${{ vars.OBELISK_ISSUER }}
+          OBELISK_REDIRECT_URI: ${{ vars.OBELISK_REDIRECT_URI }}
+          SSH_KEY: ~/.ssh/id_rsa
+          TURNSTILE_SECRET_KEY: ${{ secrets.TURNSTILE_SECRET_KEY }}
+          TARGET_IMAGE_DIGEST: ${{ steps.attestations.outputs.restored_image_digest }}
+          TARGET_GIT_SHA: ${{ steps.attestations.outputs.restored_git_sha }}
+        run: |
+          set -euo pipefail
+          ./deploy.sh staging staging "$TARGET_IMAGE_DIGEST" staging
+          curl -fsS --max-time 10 "https://${FQDN}/_health" -o restore-health.json
+          curl -fsS --max-time 10 "https://${FQDN}/commit.txt" -o restore-revision.txt
+          [[ "$(tr -d '\r\n' < restore-revision.txt)" == "$TARGET_GIT_SHA" ]]
+
+      - name: Create and self-verify rollback drill receipt
+        run: |
+          set -euo pipefail
+          node scripts/rollback-drill-receipt.mjs create \
+            --repository "$GITHUB_REPOSITORY" \
+            --workflow-run-id "$GITHUB_RUN_ID" \
+            --workflow-run-attempt "$GITHUB_RUN_ATTEMPT" \
+            --origin "https://${FQDN}" \
+            --rollback-reason "${{ inputs.rollback_reason }}" \
+            --validation-receipt .promotion-validation/promotion-validation.json \
+            --target-attestation .target-attestation/staging-attestation.json \
+            --replaced-attestation .restored-attestation/staging-attestation.json \
+            --rollback-health rollback-health.json \
+            --rollback-revision rollback-revision.txt \
+            --restore-health restore-health.json \
+            --restore-revision restore-revision.txt \
+            --started-at "$DRILL_STARTED_AT" \
+            --rolled-back-at "$ROLLED_BACK_AT" \
+            --output staging-rollback-drill.json
+          node scripts/rollback-drill-receipt.mjs verify --receipt staging-rollback-drill.json
+
+      - name: Retain observed rollback drill
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: staging-rollback-drill-${{ github.run_id }}
+          path: staging-rollback-drill.json
+          retention-days: 90

@@ -420,8 +420,10 @@
 
     <!-- Scripts -->
     <script>
-      // Remove preload class after everything is loaded
-      window.addEventListener("load", function () {
+      // Module scripts finish before DOMContentLoaded. Reveal the usable shell
+      // there instead of waiting for every deferred media request: keeping the
+      // root hidden until window.load makes first paint depend on audio/images.
+      window.addEventListener("DOMContentLoaded", function () {
         requestAnimationFrame(() => {
           document.documentElement.classList.remove("preload");
         });
@@ -430,7 +432,7 @@
       // Fallback: remove preload class after timeout in case DOMContentLoaded never fires
       setTimeout(function () {
         document.documentElement.classList.remove("preload");
-      }, 3000);
+      }, 1000);
     </script>
 
     <script>

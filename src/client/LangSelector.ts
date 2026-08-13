@@ -348,9 +348,9 @@ export class LangSelector extends LitElement {
       <button
         id="lang-selector"
         title="Change Language"
+        aria-label="Change language"
         @click=${this.openModal}
-        class="border-none bg-none cursor-pointer p-0 flex items-center justify-center transition-transform duration-200 hover:scale-[1.1] active:scale-[0.9]"
-        style="width: 28px; height: 28px;"
+        class="border-none bg-none cursor-pointer p-0 flex min-h-11 min-w-11 items-center justify-center rounded-md transition-transform duration-200 hover:scale-[1.1] active:scale-[0.9]"
       >
         <img
           id="lang-flag"

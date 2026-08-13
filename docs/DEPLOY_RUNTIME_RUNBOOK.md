@@ -271,3 +271,25 @@ The receipt is invalid if any recorded field changes, if production reports a
 revision other than the admitted target, or if the health response is not ready.
 
 Rollback duration is measured from workflow start to verified revision, not estimated in advance.
+
+### Pre-release staging rollback drill
+
+Before the first production promotion, prove the same immutable rollback
+mechanism on stable staging without claiming a production observation:
+
+1. Deploy the current candidate through **Deploy staging** and retain its run ID.
+2. Choose the previous known-good staging run as the rollback target.
+3. Run **Promote verified digest** in dry-run mode with operation `rollback`,
+   target subdomain `staging`, both unequal staging run IDs, and a durable
+   reason. Retain its validation run ID.
+4. Run **Observe staging rollback drill** with those exact inputs. It admits and
+   verifies both attestations and the dry-run receipt, switches stable staging
+   to the previous immutable digest, observes health and revision, restores the
+   current digest, observes health and revision again, and retains
+   `staging-rollback-drill-<run-id>` for 90 days.
+5. Treat a failed restoration as a real incident: the known-good rollback
+   remains serving, and production stays blocked until current staging is
+   restored and a complete receipt exists.
+
+This drill satisfies rollback-mechanism evidence only. It never counts as a
+production launch, a revenue event, or authenticated human evidence.

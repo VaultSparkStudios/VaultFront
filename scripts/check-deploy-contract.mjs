@@ -52,6 +52,9 @@ const buildDeploy = read("build-deploy.sh");
 const deployWorkflow = read(".github/workflows/deploy.yml");
 const e2eWorkflow = read(".github/workflows/e2e.yml");
 const promoteWorkflow = read(".github/workflows/promote.yml");
+const rollbackDrillWorkflow = read(
+  ".github/workflows/staging-rollback-drill.yml",
+);
 const prWorkflow = read(".github/workflows/pr-description.yml");
 const runbook = read("docs/DEPLOY_RUNTIME_RUNBOOK.md");
 const dockerfile = read("Dockerfile");
@@ -73,6 +76,7 @@ check(
 for (const [name, body] of [
   ["deploy workflow", deployWorkflow],
   ["promote workflow", promoteWorkflow],
+  ["rollback drill workflow", rollbackDrillWorkflow],
 ]) {
   check(
     !/openfront|falk2|deploy-alpha|deploy-beta/iu.test(body),
@@ -329,6 +333,34 @@ for (const [pattern, failure] of [
 ]) {
   requireText(promoteWorkflow, pattern, failure);
 }
+for (const [pattern, failure] of [
+  [
+    /target_staging_run_id/u,
+    "staging rollback drill lacks the known-good target run",
+  ],
+  [
+    /replaced_staging_run_id/u,
+    "staging rollback drill lacks the restored current run",
+  ],
+  [
+    /promotion-receipt\.mjs verify-validation/u,
+    "staging rollback drill does not require a prior dry-run receipt",
+  ],
+  [
+    /rollback-drill-receipt\.mjs verify/u,
+    "staging rollback drill does not self-verify its outcome",
+  ],
+  [
+    /staging-rollback-drill-\$\{\{ github\.run_id \}\}/u,
+    "staging rollback drill outcome is not retained by run ID",
+  ],
+  [
+    /retention-days:\s*90/u,
+    "staging rollback drill lacks bounded 90-day retention",
+  ],
+]) {
+  requireText(rollbackDrillWorkflow, pattern, failure);
+}
 requireText(
   promotionReceipt,
   /timingSafeEqual/u,
@@ -353,6 +385,7 @@ check(
 for (const [name, body] of [
   ["deploy workflow", deployWorkflow],
   ["promote workflow", promoteWorkflow],
+  ["rollback drill workflow", rollbackDrillWorkflow],
 ]) {
   requireText(
     body,

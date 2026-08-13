@@ -272,7 +272,7 @@ export class GameStartingModal extends LitElement {
           href="https://github.com/VaultSparkStudios/VaultFront/blob/main/CREDITS.md"
           target="_blank"
           rel="noopener noreferrer"
-          class="block mt-2.5 mb-4 text-xl text-blue-400 no-underline transition-colors duration-200 hover:text-blue-300 hover:underline"
+          class="inline-flex min-h-11 min-w-11 items-center justify-center mt-2.5 mb-4 text-xl text-blue-400 no-underline transition-colors duration-200 hover:text-blue-300 hover:underline"
           >${translateText("game_starting_modal.credits")}</a
         >
         <p class="my-0.5 text-sm">

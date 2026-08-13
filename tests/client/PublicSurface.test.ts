@@ -99,5 +99,27 @@ describe("public launch foundation", () => {
     expect(footer).toContain("routeGraph.footerLinks.map");
     expect(footer).toContain("routeGraph.copyright");
     expect(footer).toContain("routeGraph.upstreamNotice");
+    expect(footer).toContain("inline-flex min-h-11 min-w-11");
+  });
+
+  it("keeps primary mobile navigation controls at the 44px touch floor", () => {
+    expect(read("src/client/components/PlayPage.ts")).toContain(
+      'id="hamburger-btn"\n                class="col-start-1 justify-self-start h-11 min-w-14',
+    );
+    expect(read("src/client/LangSelector.ts")).toContain(
+      "flex min-h-11 min-w-11",
+    );
+    expect(read("src/client/GameStartingModal.ts")).toContain(
+      "inline-flex min-h-11 min-w-11",
+    );
+  });
+
+  it("reveals the application shell at DOM readiness instead of media load", () => {
+    const shell = read("index.html");
+    expect(shell).toContain(
+      'window.addEventListener("DOMContentLoaded", function ()',
+    );
+    expect(shell).not.toContain('window.addEventListener("load", function ()');
+    expect(shell).toContain("}, 1000);");
   });
 });

@@ -25,7 +25,8 @@ export class PlayPage extends LitElement {
             >
               <button
                 id="hamburger-btn"
-                class="col-start-1 justify-self-start h-10 shrink-0 aspect-[4/3] flex text-white/90 rounded-md items-center justify-center transition-colors"
+                class="col-start-1 justify-self-start h-11 min-w-14 shrink-0 flex text-white/90 rounded-md items-center justify-center transition-colors"
+                aria-label="Open main menu"
                 data-i18n-aria-label="main.menu"
                 aria-expanded="false"
                 aria-controls="sidebar-menu"

@@ -33,14 +33,14 @@ export class Footer extends LitElement {
           href=${routeGraph.brandHref}
           target="_blank"
           rel="noopener noreferrer"
-          class="text-[11px] uppercase tracking-[0.16em] font-semibold text-cyan-300 hover:text-cyan-200 transition-colors"
+          class="inline-flex min-h-11 min-w-11 items-center justify-center px-1 text-[11px] uppercase tracking-[0.16em] font-semibold text-cyan-300 hover:text-cyan-200 transition-colors"
         >
           A VaultSpark Studios production
         </a>
         <p class="text-xs">${routeGraph.copyright}</p>
         <nav
           aria-label="Project information"
-          class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs"
+          class="flex flex-wrap items-center justify-center gap-x-2 text-xs"
         >
           ${routeGraph.footerLinks.map(
             (link) => html`
@@ -48,7 +48,7 @@ export class Footer extends LitElement {
                 href=${link.href}
                 data-i18n=${ifDefined(link.i18n)}
                 data-i18n-aria-label=${ifDefined(link.ariaI18n)}
-                class="hover:text-white transition-colors"
+                class="inline-flex min-h-11 min-w-11 items-center justify-center px-1 hover:text-white transition-colors"
                 >${link.label}</a
               >
             `,
@@ -61,7 +61,7 @@ export class Footer extends LitElement {
                 data-i18n-aria-label=${ifDefined(link.ariaI18n)}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="hover:text-white transition-colors"
+                class="inline-flex min-h-11 min-w-11 items-center justify-center px-1 hover:text-white transition-colors"
                 >${link.label || nothing}</a
               >
             `,
