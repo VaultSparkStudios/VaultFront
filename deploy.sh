@@ -71,6 +71,29 @@ fi
 : "${OBELISK_CLIENT_ID:?OBELISK_CLIENT_ID is required for staging and production}"
 : "${OBELISK_REDIRECT_URI:?OBELISK_REDIRECT_URI is required for staging and production}"
 : "${OBELISK_COOKIE_SECRET:?OBELISK_COOKIE_SECRET is required for staging and production}"
+
+# Replay evidence needs an independent HMAC key outside development. Derive a
+# stable, domain-separated key from the gateway-managed cookie secret so the
+# rollback and promotion paths cannot drift and the cookie key is not reused.
+REPLAY_SECRET="${REPLAY_SECRET:-$(
+    node -e 'const { createHmac } = require("node:crypto"); process.stdout.write(createHmac("sha256", process.env.OBELISK_COOKIE_SECRET).update("vaultfront:replay-signing:v1").digest("hex"));'
+)}"
+[[ "$REPLAY_SECRET" =~ ^[0-9a-f]{64}$ ]] || {
+    echo "REPLAY_SECRET derivation failed" >&2
+    exit 2
+}
+
+# Replay evidence needs an independent HMAC key in every non-development
+# runtime. Derive a stable, domain-separated key from the gateway-managed
+# cookie secret so no second credential can drift between staging, production,
+# and rollback paths. The source secret is never printed or passed on argv.
+REPLAY_SECRET="${REPLAY_SECRET:-$(
+    node -e 'const { createHmac } = require("node:crypto"); process.stdout.write(createHmac("sha256", process.env.OBELISK_COOKIE_SECRET).update("vaultfront:replay-signing:v1").digest("hex"));'
+)}"
+[[ "$REPLAY_SECRET" =~ ^[0-9a-f]{64}$ ]] || {
+    echo "REPLAY_SECRET derivation failed" >&2
+    exit 2
+}
 SERVER_HOST="${DEPLOY_SERVER_HOST:-}"
 if [[ -z "$SERVER_HOST" ]]; then
     case "$HOST_LABEL" in
@@ -122,6 +145,8 @@ write_env OBELISK_ISSUER "$OBELISK_ISSUER"
 write_env OBELISK_CLIENT_ID "$OBELISK_CLIENT_ID"
 write_env OBELISK_REDIRECT_URI "$OBELISK_REDIRECT_URI"
 write_env OBELISK_COOKIE_SECRET "$OBELISK_COOKIE_SECRET"
+write_env REPLAY_SECRET "$REPLAY_SECRET"
+write_env REPLAY_SECRET "$REPLAY_SECRET"
 
 scp -i "$SSH_KEY" ./update.sh "$LOCAL_ENV" \
     "${REMOTE_USER}@${SERVER_HOST}:${REMOTE_DIR}/"

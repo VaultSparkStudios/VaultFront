@@ -293,3 +293,13 @@ mechanism on stable staging without claiming a production observation:
 
 This drill satisfies rollback-mechanism evidence only. It never counts as a
 production launch, a revenue event, or authenticated human evidence.
+
+### Replay integrity key
+
+Non-development deployments derive `REPLAY_SECRET` with Hash-based Message
+Authentication Code Secure Hash Algorithm 256 (HMAC-SHA256) from the
+gateway-managed `OBELISK_COOKIE_SECRET` and the fixed context
+`vaultfront:replay-signing:v1`. This keeps replay signing stable across staging,
+production, promotion, and rollback without creating a second drifting secret
+or reusing the cookie key directly. The transport fails closed unless the
+derived key is a 64-character lowercase hexadecimal value.

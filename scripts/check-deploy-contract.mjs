@@ -418,6 +418,16 @@ requireText(
   "deploy transport does not require DATABASE_URL",
 );
 requireText(
+  deploy,
+  /vaultfront:replay-signing:v1/u,
+  "deploy transport omits domain-separated replay-key derivation",
+);
+requireText(
+  deploy,
+  /write_env REPLAY_SECRET/u,
+  "deploy transport does not pass replay integrity to runtime",
+);
+requireText(
   update,
   /apply-schema\.ts/u,
   "remote updater does not migrate before traffic",
