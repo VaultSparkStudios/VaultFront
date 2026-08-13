@@ -1,9 +1,9 @@
 {
   "project": "chromium",
   "localOnly": true,
-  "capturedAt": "2026-08-13T21:39:14.407Z",
+  "capturedAt": "2026-08-13T22:03:21.574Z",
   "source": {
-    "digest": "sha256:2d8aaf687a968bba96406b0fccff2b9abe98885d336cb6a1ee744304be602b64",
+    "digest": "sha256:8ef64e1521f5b118c0735cc1c4eb2950bc4051f79577fea2749a65f2524e3262",
     "files": [
       {
         "path": "config/vaultfront-balance.v1.json",
@@ -458,7 +458,7 @@
       {
         "path": "static/index.html",
         "bytes": 17426,
-        "digest": "sha256:5c962245e2b1eeb641e3f8aef21234ac5fe9071f590be2af350a25e534482490"
+        "digest": "sha256:19bc4e42cba9f6e04421fbfdf393c497a966daa3cafff43988149798b0114d16"
       }
     ]
   },

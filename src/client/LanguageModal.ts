@@ -66,12 +66,15 @@ export class LanguageModal extends BaseModal {
               return html`
                 <button
                   class="${buttonClasses}"
+                  style="content-visibility: auto; contain-intrinsic-size: 68px;"
                   @click=${() => this.selectLanguage(lang.code)}
                 >
                   <img
                     src="/flags/${lang.svg}.svg"
                     class="w-8 h-6 object-contain rounded-sm shrink-0"
                     alt="${lang.code}"
+                    loading="lazy"
+                    decoding="async"
                   />
                   <div class="flex flex-col items-start min-w-0">
                     <span

@@ -55,6 +55,7 @@ try {
       const page = await context.newPage();
       await page.addInitScript((selectedTheme) => {
         localStorage.setItem("vf-theme", selectedTheme);
+        localStorage.setItem("settings.brandTheme", selectedTheme);
         window.__vfReleaseVitals = {
           lcp: [],
           cls: 0,
@@ -87,7 +88,7 @@ try {
       }, theme);
 
       const response = await page.goto(url, {
-        waitUntil: "domcontentloaded",
+        waitUntil: "load",
         timeout: 30_000,
       });
       if (!response || response.status() >= 400) {

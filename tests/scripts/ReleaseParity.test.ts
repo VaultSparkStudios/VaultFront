@@ -1,3 +1,5 @@
+import fs from "node:fs";
+import path from "node:path";
 import { describe, expect, it } from "vitest";
 import {
   assessReleaseParityCell,
@@ -18,6 +20,19 @@ const healthyCell = {
 };
 
 describe("release parity assessment", () => {
+  it("pins both public-shell and game-settings theme authorities", () => {
+    const capture = fs.readFileSync(
+      path.resolve("scripts/capture-release-parity.mjs"),
+      "utf8",
+    );
+    expect(capture).toContain(
+      'localStorage.setItem("vf-theme", selectedTheme)',
+    );
+    expect(capture).toContain(
+      'localStorage.setItem("settings.brandTheme", selectedTheme)',
+    );
+  });
+
   it("passes measured CWV, responsive, and security-header evidence", () => {
     expect(assessReleaseParityCell(healthyCell)).toEqual({
       pass: true,

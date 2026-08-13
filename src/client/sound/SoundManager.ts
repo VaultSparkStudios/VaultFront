@@ -21,18 +21,21 @@ class SoundManager {
         src: [of4],
         loop: false,
         onend: this.playNext.bind(this),
+        preload: false,
         volume: 0,
       }),
       new Howl({
         src: [openfront],
         loop: false,
         onend: this.playNext.bind(this),
+        preload: false,
         volume: 0,
       }),
       new Howl({
         src: [war],
         loop: false,
         onend: this.playNext.bind(this),
+        preload: false,
         volume: 0,
       }),
     ];
