@@ -1,3 +1,7 @@
+## Session Intent — Session 102 (2026-08-13)
+
+Run the complete `/arc` from the clean Session 101 boundary: perform a fresh live-code, game-loop, and public-release audit; implement every premise-verified primary and second-order item at the highest quality bar; satisfy rendered-pixel desktop/mobile/theme verification; prove the required local/stable staging corridor; then use the founder's explicit authorization to commit and push directly to `main` and fully deploy production. Production promotion must remain evidence-honest: repair every agent-addressable red gate and never fabricate external human, revenue, mail, identity, rollback, or performance observations.
+
 ## Where We Left Off — Session 100 recovery complete (2026-08-12)
 
 - Recovery verdict: Session 100 died mid-implement/deployment, not mid-closeout. Its stale lock survived ~10 hours; 22 substantive commits after the Session 99 SIL anchor were already pushed and local `main` matched `origin/main`, while one master-route fix and all canonical write-back remained uncommitted.

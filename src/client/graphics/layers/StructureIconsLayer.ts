@@ -93,6 +93,9 @@ export class StructureIconsLayer implements Layer {
   private lastGhostQueryAt: number;
   private visibilityStateDirty = true;
   private hasHiddenStructure = false;
+  private disposed = false;
+  private readonly resizeHandler = () => this.resizeCanvas();
+  private readonly eventUnsubscribers: Array<() => void> = [];
   potentialUpgrade: StructureRenderInfo | undefined;
 
   constructor(
@@ -166,14 +169,16 @@ export class StructureIconsLayer implements Layer {
   }
 
   async init() {
-    this.eventBus.on(ToggleStructuresEvent, (e) =>
-      this.toggleStructures(e.structureTypes),
+    this.disposed = false;
+    this.eventUnsubscribers.push(
+      this.eventBus.on(ToggleStructuresEvent, (e) =>
+        this.toggleStructures(e.structureTypes),
+      ),
+      this.eventBus.on(MouseMoveEvent, (e) => this.moveGhost(e)),
+      this.eventBus.on(MouseUpEvent, (e) => this.createStructure(e)),
     );
-    this.eventBus.on(MouseMoveEvent, (e) => this.moveGhost(e));
 
-    this.eventBus.on(MouseUpEvent, (e) => this.createStructure(e));
-
-    window.addEventListener("resize", () => this.resizeCanvas());
+    window.addEventListener("resize", this.resizeHandler);
     await this.setupRenderer();
     this.redraw();
   }
@@ -209,6 +214,28 @@ export class StructureIconsLayer implements Layer {
 
   redraw() {
     this.resizeCanvas();
+  }
+
+  public dispose(): void {
+    if (this.disposed) return;
+    this.disposed = true;
+    window.removeEventListener("resize", this.resizeHandler);
+    for (const unsubscribe of this.eventUnsubscribers.splice(0)) unsubscribe();
+    this.removeGhostStructure();
+    for (const render of this.rendersByUnitId.values()) {
+      render.iconContainer.destroy({ children: true });
+      render.levelContainer.destroy({ children: true });
+      render.dotContainer.destroy({ children: true });
+    }
+    this.rendersByUnitId.clear();
+    this.seenUnitIds.clear();
+    this.connectedAllySmallIds.clear();
+    this.potentialUpgrade = undefined;
+    this.rootStage.destroy({ children: true });
+    this.renderer?.destroy();
+    this.renderer = null;
+    this.rendererInitialized = false;
+    this.pixicanvas?.remove();
   }
 
   renderLayer(mainContext: CanvasRenderingContext2D) {

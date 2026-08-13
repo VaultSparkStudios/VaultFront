@@ -1,6 +1,9 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { vi } from "vitest";
 import { computeAllianceClipPath } from "../src/client/graphics/PlayerIcons";
+import { NameLayer } from "../src/client/graphics/layers/NameLayer";
+import { EventBus } from "../src/core/EventBus";
 
 describe("NameLayer player-name rendering (S99 audit #173)", () => {
   test("never assigns untrusted player names via innerHTML", () => {
@@ -13,6 +16,31 @@ describe("NameLayer player-name rendering (S99 audit #173)", () => {
     );
     expect(source).toContain("nameSpan.textContent = player.name();");
     expect(source).toContain("span.textContent = render.player.name();");
+  });
+
+  test("dispose releases its resize handler, event subscription, and DOM", () => {
+    const add = vi.spyOn(window, "addEventListener");
+    const remove = vi.spyOn(window, "removeEventListener");
+    const bus = new EventBus();
+    const layer = new NameLayer(
+      { config: () => ({ theme: () => "dark" }) } as any,
+      {} as any,
+      bus,
+    );
+
+    layer.init();
+    const resizeHandler = add.mock.calls.find(
+      ([type]) => String(type) === "resize",
+    )?.[1];
+    expect(resizeHandler).toBeTypeOf("function");
+    expect(bus.listenerCountForTest()).toBe(1);
+
+    layer.dispose();
+    layer.dispose();
+
+    expect(remove).toHaveBeenCalledWith("resize", resizeHandler);
+    expect(bus.listenerCountForTest()).toBe(0);
+    expect(document.body.querySelector("div[style*='z-index: 2']")).toBeNull();
   });
 });
 

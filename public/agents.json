@@ -17,14 +17,14 @@
     "docs": "https://vaultfront.io/docs/",
     "stats": "https://vaultfront.io/stats/",
     "statsMachine": "/stats.json",
-    "contact": "mailto:founder@vaultsparkstudios.com?subject=VaultFront%20alpha%20interest",
+    "contact": "mailto:contact@vaultfront.io?subject=VaultFront%20alpha%20interest",
     "source": "https://github.com/VaultSparkStudios/VaultFront",
     "capabilityManifest": "/capability-reachability.json",
     "balanceEnvelope": "/balance-envelope.json"
   },
   "availability": {
     "publicRuntime": "unavailable",
-    "joinAlpha": "mailto:founder@vaultsparkstudios.com?subject=VaultFront%20alpha%20interest",
+    "joinAlpha": "mailto:contact@vaultfront.io?subject=VaultFront%20alpha%20interest",
     "note": "No public gameplay origin is currently declared ready."
   },
   "agentInteractions": [

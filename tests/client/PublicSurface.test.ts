@@ -30,8 +30,12 @@ describe("public launch foundation", () => {
 
   it("keeps contact delivery evidence honest before launch", () => {
     const contact = read("public/contact/index.html");
-    expect(contact).toContain("contact@vaultfront.vaultsparkstudios.com");
-    expect(contact).toContain("founder@vaultsparkstudios.com");
+    expect(contact).toContain("contact@vaultfront.io");
+    expect(contact).not.toContain("contact@vaultfront.vaultsparkstudios.com");
+    expect(contact).not.toContain("founder@vaultsparkstudios.com");
+    const agents = read("public/agents.json");
+    expect(agents).toContain("contact@vaultfront.io");
+    expect(agents).not.toContain("founder@vaultsparkstudios.com");
     expect(contact).toContain("remain a release gate");
   });
 

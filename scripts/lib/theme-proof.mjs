@@ -16,6 +16,7 @@ export const THEME_PROOF_SURFACES = Object.freeze([
   "stats-showcase",
   "agency-doctrine",
   "settings",
+  "accessible-modal",
   "postmatch",
   "account-handoff",
   "multi-tab-collision",

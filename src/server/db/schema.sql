@@ -570,4 +570,23 @@ CREATE INDEX IF NOT EXISTS idx_player_fortune_persistent
 ALTER TABLE player_stats
   ADD COLUMN IF NOT EXISTS equipped_fortune_title VARCHAR(64);
 
+-- ── Signed Replay Manifests ────────────────────────────────────────────────
+-- Shared across workers so replay URLs and verification survive restarts.
+CREATE TABLE IF NOT EXISTS replay_manifests (
+  game_id     VARCHAR(64) PRIMARY KEY,
+  started_at  TIMESTAMPTZ NOT NULL,
+  manifest    JSONB NOT NULL,
+  updated_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
 
+CREATE INDEX IF NOT EXISTS idx_replay_manifests_started
+  ON replay_manifests (started_at DESC);
+
+-- One atomic shared reservation row per UTC hour. The ON CONFLICT update in
+-- RemoteAiPolicy enforces the configured cap across every worker.
+CREATE TABLE IF NOT EXISTS remote_ai_hourly_usage (
+  window_key  BIGINT PRIMARY KEY,
+  calls       INT NOT NULL CHECK (calls >= 0),
+  by_feature  JSONB NOT NULL DEFAULT '{}',
+  updated_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);

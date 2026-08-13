@@ -41,8 +41,7 @@ function validPagesFixture(): string {
   ]) {
     write(root, `static/${file}`);
   }
-  const contact =
-    '<a href="mailto:contact@vaultfront.vaultsparkstudios.com">Contact</a>';
+  const contact = '<a href="mailto:contact@vaultfront.io">Contact</a>';
   write(root, "static/contact.html", contact);
   write(root, "static/contact/index.html", contact);
   write(
@@ -161,7 +160,7 @@ describe("release surface contracts", () => {
     });
     for (const file of ["public/contact.html", "public/contact/index.html"]) {
       expect(fs.readFileSync(file, "utf8")).toContain(
-        'href="mailto:contact@vaultfront.vaultsparkstudios.com"',
+        'href="mailto:contact@vaultfront.io"',
       );
     }
   });

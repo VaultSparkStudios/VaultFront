@@ -187,15 +187,25 @@ export const STATE_SCOPE_REGISTRY: readonly StateScopeLedgerEntry[] = [
     retention: "bounded process cache",
     recovery: "recompute from a retained replay",
   }),
-  processStore({
+  postgresStore({
     store: "replays",
     owner: "ReplayStore",
     sourceFile: "src/server/ReplayStore.ts",
     runtimeExport: "replayStore",
     releaseCritical: true,
-    retention: "newest 500 manifests in the owning process",
-    recovery: "none; HMAC signing provides integrity, not persistence",
+    retention: "database policy; newest 500 manifests in local development",
+    recovery: "database restore; none for process-local development fallback",
     probeOwner: "replay-integrity-posture",
+  }),
+  postgresStore({
+    store: "remote-ai-hourly-budget",
+    owner: "RemoteAiPolicy",
+    sourceFile: "src/server/RemoteAiPolicy.ts",
+    runtimeExport: "reserveRemoteAiCall",
+    releaseCritical: true,
+    retention: "hourly PostgreSQL reservation rows",
+    recovery: "database restore; process-local development resets each process",
+    probeOwner: "vaultfront-readiness",
   }),
   postgresStore({
     store: "season-pass",

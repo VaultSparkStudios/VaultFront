@@ -292,7 +292,7 @@ describe("buildVaultFrontReadiness", () => {
         maxCallsPerHour: 10,
         callsUsed: 2,
         callsRemaining: 8,
-        enforcementScope: "process-local-per-worker",
+        enforcementScope: "process-local-development",
         windowStartedAt: 1_000,
         callsByFeature: { coach: 2 },
         providerBoundReservations: 2,

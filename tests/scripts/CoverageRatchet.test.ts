@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { evaluateCoverage } from "../../scripts/check-coverage-ratchet.mjs";
+import {
+  deriveTrustCriticalCoverageOwners,
+  evaluateCoverage,
+} from "../../scripts/check-coverage-ratchet.mjs";
 
 const metric = (pct: number) => ({ total: 100, covered: pct, pct });
 const coverage = (pct: number) => ({
@@ -45,6 +48,34 @@ describe("coverage ratchet", () => {
     );
     expect(result.failures).toContain(
       "src/server/Worker.ts: missing from production coverage surface",
+    );
+  });
+
+  it("fails closed when a derived trust owner has no measured floor", () => {
+    const result = evaluateCoverage(
+      {
+        "C:\\repo\\src\\server\\Worker.ts": coverage(0),
+        total: coverage(50),
+        "C:\\repo\\src\\server\\Critical.ts": coverage(80),
+      },
+      baseline,
+      ["src/server/Critical.ts", "src/server/NewAuthOwner.ts"],
+    );
+    expect(result.failures).toContain(
+      "src/server/NewAuthOwner.ts: missing trust-critical baseline floor",
+    );
+  });
+
+  it("derives owners from live state, route-policy, auth, and release contracts", () => {
+    const owners = deriveTrustCriticalCoverageOwners(process.cwd());
+    expect(owners).toEqual(
+      expect.arrayContaining([
+        "src/server/ObeliskAuth.ts",
+        "src/server/PlaytestEvidenceStore.ts",
+        "src/server/RemoteAiPolicy.ts",
+        "src/server/ReplayStore.ts",
+        "src/server/WorkerApiProxy.ts",
+      ]),
     );
   });
 });

@@ -6,6 +6,7 @@ import { PredictionLeaguePanel } from "../components/PredictionLeaguePanel";
 import { ProgressionDebrief } from "../components/ProgressionDebrief";
 import { GameStartingModal } from "../GameStartingModal";
 import { RefreshGraphicsEvent as RedrawGraphicsEvent } from "../InputHandler";
+import { PostMatchMasteryContinuationCoordinator } from "../PostMatchMasteryContinuation";
 import { FrameProfiler } from "./FrameProfiler";
 import { AlertFrame } from "./layers/AlertFrame";
 import { AttacksDisplay } from "./layers/AttacksDisplay";
@@ -350,6 +351,7 @@ export function createRenderer(
     predictionLeaguePanel,
     coachHint,
     progressionDebrief,
+    new PostMatchMasteryContinuationCoordinator(progressionDebrief, winModal),
     playStyleChip,
     certifiedNarrator,
     eventsDisplay,

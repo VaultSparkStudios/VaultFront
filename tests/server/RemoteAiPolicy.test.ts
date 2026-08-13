@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, test } from "vitest";
 import {
   canAttemptRemoteAi,
+  configureRemoteAiDatabase,
   executeReservedRemoteAiCall,
   remoteAiPosture,
   remoteAiUsageByFeature,
@@ -15,7 +16,10 @@ const readyEnv = {
 } as NodeJS.ProcessEnv;
 
 describe("RemoteAiPolicy", () => {
-  beforeEach(() => resetRemoteAiPolicyForTests(1_000));
+  beforeEach(() => {
+    configureRemoteAiDatabase(null);
+    resetRemoteAiPolicyForTests(1_000);
+  });
 
   test("defaults to a cost-neutral disabled posture even with a key", () => {
     const posture = remoteAiPosture(
@@ -41,14 +45,18 @@ describe("RemoteAiPolicy", () => {
     expect(posture.costProfile).toBe("cost-neutral");
   });
 
-  test("atomically exhausts the cap and attributes usage", () => {
-    expect(reserveRemoteAiCall("coach", readyEnv, 1_000).allowed).toBe(true);
-    expect(reserveRemoteAiCall("narrator", readyEnv, 1_001).allowed).toBe(true);
-    const denied = reserveRemoteAiCall("coach", readyEnv, 1_002);
+  test("atomically exhausts the cap and attributes usage", async () => {
+    expect((await reserveRemoteAiCall("coach", readyEnv, 1_000)).allowed).toBe(
+      true,
+    );
+    expect(
+      (await reserveRemoteAiCall("narrator", readyEnv, 1_001)).allowed,
+    ).toBe(true);
+    const denied = await reserveRemoteAiCall("coach", readyEnv, 1_002);
 
     expect(denied.allowed).toBe(false);
     expect(denied.posture.reason).toBe("cap-exhausted");
-    expect(denied.posture.enforcementScope).toBe("process-local-per-worker");
+    expect(denied.posture.enforcementScope).toBe("process-local-development");
     expect(denied.posture.windowStartedAt).toBe(1_000);
     expect(denied.posture.callsByFeature).toEqual({ coach: 1, narrator: 1 });
     expect(denied.posture.providerBoundReservations).toBe(2);
@@ -56,12 +64,38 @@ describe("RemoteAiPolicy", () => {
     expect(remoteAiUsageByFeature()).toEqual({ coach: 1, narrator: 1 });
   });
 
-  test("starts a fresh window after one hour", () => {
-    expect(reserveRemoteAiCall("other", readyEnv, 1_000).allowed).toBe(true);
+  test("starts a fresh window after one hour", async () => {
+    expect((await reserveRemoteAiCall("other", readyEnv, 1_000)).allowed).toBe(
+      true,
+    );
     expect(
-      reserveRemoteAiCall("other", readyEnv, 1_000 + 60 * 60 * 1000).allowed,
+      (await reserveRemoteAiCall("other", readyEnv, 1_000 + 60 * 60 * 1000))
+        .allowed,
     ).toBe(true);
     expect(remoteAiUsageByFeature()).toEqual({ other: 1 });
+  });
+
+  test("enforces one atomic cap across concurrent shared-database reservations", async () => {
+    let calls = 0;
+    configureRemoteAiDatabase({
+      query: async (_sql: string, parameters: unknown[]) => {
+        const cap = Number(parameters[2]);
+        if (calls >= cap) return { rows: [] } as any;
+        calls += 1;
+        return { rows: [{ calls, by_feature: { coach: calls } }] } as any;
+      },
+    } as any);
+    const sharedEnv = { ...readyEnv, DATABASE_URL: "postgres://shared" };
+    const reservations = await Promise.all([
+      reserveRemoteAiCall("coach", sharedEnv, 1_000),
+      reserveRemoteAiCall("coach", sharedEnv, 1_000),
+      reserveRemoteAiCall("coach", sharedEnv, 1_000),
+    ]);
+    expect(reservations.filter(({ allowed }) => allowed)).toHaveLength(2);
+    expect(reservations.filter(({ allowed }) => !allowed)).toHaveLength(1);
+    expect(reservations.at(-1)?.posture.enforcementScope).toBe(
+      "shared-postgres-hourly",
+    );
   });
 
   test("records completed, failed, timed-out, and cancelled executions", async () => {

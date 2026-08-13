@@ -45,8 +45,10 @@ describe("StateScopeLedger", () => {
     expect(ready.summary.volatileReleaseCriticalStores).not.toContain(
       "playtest-pulse",
     );
-    expect(ready.summary.volatileReleaseCriticalStores).toContain("replays");
-    expect(ready.summary.releasePersistenceStatus).toBe("warn");
+    expect(ready.summary.volatileReleaseCriticalStores).not.toContain(
+      "replays",
+    );
+    expect(ready.summary.releasePersistenceStatus).toBe("pass");
   });
 
   test("declares the privacy-bounded feedback store in every effective scope", () => {

@@ -19,6 +19,10 @@ import {
   selectConvoyMastery,
 } from "../ConvoyMastery";
 import type { Layer } from "../graphics/layers/Layer";
+import {
+  POST_MATCH_MASTERY_CONTINUE_EVENT,
+  type PostMatchMasteryContinuationDetail,
+} from "../PostMatchMasteryContinuation";
 
 @customElement("progression-debrief")
 export class ProgressionDebrief extends LitElement implements Layer {
@@ -250,15 +254,19 @@ export class ProgressionDebrief extends LitElement implements Layer {
       doctrine,
     });
     this.dispatchEvent(
-      new CustomEvent("vaultfront-mastery-rematch", {
-        detail: {
-          goal: this.masteryText,
-          evidence: this.masteryEvidence,
-          doctrine,
+      new CustomEvent<PostMatchMasteryContinuationDetail>(
+        POST_MATCH_MASTERY_CONTINUE_EVENT,
+        {
+          detail: {
+            sourceGameId: this.game?.gameID() ?? "",
+            goal: this.masteryText,
+            evidence: this.masteryEvidence,
+            doctrine,
+          },
+          bubbles: true,
+          composed: true,
         },
-        bubbles: true,
-        composed: true,
-      }),
+      ),
     );
   }
 

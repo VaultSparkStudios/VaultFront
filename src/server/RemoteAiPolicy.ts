@@ -1,7 +1,8 @@
+import type { Pool } from "pg";
 import { AiDeadlineError, withAiDeadline } from "./CanonicalAiEvidence";
 
 /**
- * Process-local cost firewall for optional remote AI features.
+ * Shared cost firewall for optional remote AI features.
  *
  * Remote calls are disabled unless both an explicit enable flag and a positive
  * hourly cap are present. This keeps the public/default profile cost-neutral
@@ -24,7 +25,7 @@ export interface RemoteAiPosture {
   maxCallsPerHour: number;
   callsUsed: number;
   callsRemaining: number;
-  enforcementScope: "process-local-per-worker";
+  enforcementScope: "shared-postgres-hourly" | "process-local-development";
   windowStartedAt: number;
   callsByFeature: Readonly<Partial<Record<RemoteAiFeature, number>>>;
   providerBoundReservations: number;
@@ -34,7 +35,13 @@ export interface RemoteAiPosture {
   timedOutCalls: number;
   cancelledCalls: number;
   costProfile: "cost-neutral" | "metered-hard-cap";
-  reason: "disabled" | "missing-key" | "zero-cap" | "ready" | "cap-exhausted";
+  reason:
+    | "disabled"
+    | "missing-key"
+    | "zero-cap"
+    | "ready"
+    | "cap-exhausted"
+    | "shared-budget-unavailable";
 }
 
 interface WindowState {
@@ -60,6 +67,13 @@ let state: WindowState = {
   timedOutCalls: 0,
   cancelledCalls: 0,
 };
+let remoteAiDatabase: Pick<Pool, "query"> | null = null;
+
+export function configureRemoteAiDatabase(
+  database: Pick<Pool, "query"> | null,
+): void {
+  remoteAiDatabase = database;
+}
 
 function configuredCap(env: NodeJS.ProcessEnv): number {
   const parsed = Number.parseInt(
@@ -99,6 +113,8 @@ export function remoteAiPosture(
   if (!enabled) reason = "disabled";
   else if (!keyConfigured) reason = "missing-key";
   else if (maxCallsPerHour === 0) reason = "zero-cap";
+  else if (env.DATABASE_URL && !remoteAiDatabase)
+    reason = "shared-budget-unavailable";
   else if (callsRemaining === 0) reason = "cap-exhausted";
 
   const available = reason === "ready";
@@ -108,7 +124,9 @@ export function remoteAiPosture(
     maxCallsPerHour,
     callsUsed: state.calls,
     callsRemaining,
-    enforcementScope: "process-local-per-worker",
+    enforcementScope: env.DATABASE_URL
+      ? "shared-postgres-hourly"
+      : "process-local-development",
     windowStartedAt: state.startedAt,
     callsByFeature: { ...state.byFeature },
     providerBoundReservations: state.calls,
@@ -130,21 +148,56 @@ export function canAttemptRemoteAi(
 }
 
 /** Reserve exactly one provider call immediately before invoking the SDK. */
-export function reserveRemoteAiCall(
+export const reserveRemoteAiCall = async (
   feature: RemoteAiFeature,
   env: NodeJS.ProcessEnv = process.env,
   now = Date.now(),
-): { allowed: boolean; posture: RemoteAiPosture } {
+): Promise<{ allowed: boolean; posture: RemoteAiPosture }> => {
   const posture = remoteAiPosture(env, now);
   if (posture.reason !== "ready") {
     state.deniedReservations += 1;
     return { allowed: false, posture: remoteAiPosture(env, now) };
   }
 
-  state.calls += 1;
-  state.byFeature[feature] = (state.byFeature[feature] ?? 0) + 1;
+  if (env.DATABASE_URL) {
+    if (!remoteAiDatabase) {
+      state.deniedReservations += 1;
+      return { allowed: false, posture: remoteAiPosture(env, now) };
+    }
+    const windowKey = Math.floor(now / HOUR_MS);
+    const result = await remoteAiDatabase.query<{
+      calls: number;
+      by_feature: Partial<Record<RemoteAiFeature, number>>;
+    }>(
+      `INSERT INTO remote_ai_hourly_usage (window_key, calls, by_feature)
+       VALUES ($1, 1, jsonb_build_object($2::text, 1))
+       ON CONFLICT (window_key) DO UPDATE SET
+         calls = remote_ai_hourly_usage.calls + 1,
+         by_feature = jsonb_set(
+           remote_ai_hourly_usage.by_feature,
+           ARRAY[$2::text],
+           to_jsonb(COALESCE((remote_ai_hourly_usage.by_feature ->> $2::text)::int, 0) + 1),
+           true
+         )
+       WHERE remote_ai_hourly_usage.calls < $3
+       RETURNING calls, by_feature`,
+      [windowKey, feature, posture.maxCallsPerHour],
+    );
+    const shared = result.rows[0];
+    if (!shared) {
+      state.calls = posture.maxCallsPerHour;
+      state.deniedReservations += 1;
+      return { allowed: false, posture: remoteAiPosture(env, now) };
+    }
+    state.startedAt = windowKey * HOUR_MS;
+    state.calls = shared.calls;
+    state.byFeature = shared.by_feature;
+  } else {
+    state.calls += 1;
+    state.byFeature[feature] = (state.byFeature[feature] ?? 0) + 1;
+  }
   return { allowed: true, posture: remoteAiPosture(env, now) };
-}
+};
 
 /**
  * Execute one already-reserved provider call through the canonical bounded

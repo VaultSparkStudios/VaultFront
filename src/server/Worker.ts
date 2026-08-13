@@ -65,6 +65,7 @@ import {
   experimentControlPlane,
   registerExperimentRoutes,
 } from "./ExperimentRouter";
+import { FatalProcessCoordinator } from "./FatalProcessCoordinator";
 import { fortuneDeck } from "./FortuneDeck";
 import { registerFortuneRoutes } from "./FortuneRouter";
 import { GameCreationAdmissionGuard } from "./GameCreationAdmission";
@@ -76,6 +77,12 @@ import { registerLoopEvidenceRoutes } from "./LoopEvidenceRouter";
 import { MapPlaylist } from "./MapPlaylist";
 import { registerMatchFeedbackRoutes } from "./MatchFeedbackRouter";
 import { matchFeedbackStore } from "./MatchFeedbackStore";
+import {
+  buildMatchOracleProviderInput,
+  matchOracleCacheKey,
+  matchOraclePrompt,
+  parseMatchOracleRequest,
+} from "./MatchOracleInput";
 import { verifyMatchResultCertificate } from "./MatchResultCertificate";
 import { narratorBus, type NarratorPersona } from "./NarratorBus";
 import { createAdmittedClient } from "./PlayerIdentityProjection";
@@ -91,7 +98,11 @@ import { registerProgressionRoutes } from "./ProgressionRouter";
 import { authorizeArchivedRematchSource } from "./RematchAuthorization";
 import { registerRematchRoutes } from "./RematchRouter";
 import { rematchStore } from "./RematchStore";
-import { remoteAiPosture, reserveRemoteAiCall } from "./RemoteAiPolicy";
+import {
+  configureRemoteAiDatabase,
+  remoteAiPosture,
+  reserveRemoteAiCall,
+} from "./RemoteAiPolicy";
 import {
   DYNASTY_SYSTEM_PROMPT,
   ORACLE_SYSTEM_PROMPT,
@@ -104,7 +115,12 @@ import {
   createReplayShareProjection,
   ReplayShareContractError,
 } from "./ReplayShareContract";
-import { getReplayIntegrityPosture, replayStore } from "./ReplayStore";
+import {
+  configureReplayDatabase,
+  getReplayIntegrityPosture,
+  replayStore,
+} from "./ReplayStore";
+import { installPreparseRequestAdmission } from "./RequestAdmission";
 import {
   boundedProviderText,
   buildProphecyCacheKey,
@@ -285,6 +301,8 @@ async function loadCertifiedAiContext(
 export async function startWorker() {
   log.info(`Worker starting...`);
   await databaseReady;
+  configureReplayDatabase(pool);
+  configureRemoteAiDatabase(pool);
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
   const app = express();
@@ -318,17 +336,6 @@ export async function startWorker() {
     }),
   );
   // ─────────────────────────────────────────────────────────────────────────
-  app.use(express.json({ limit: "5mb" }));
-  app.use((req, res, next) => {
-    const database = getDatabasePosture();
-    if (!databaseAllowsRequest(database, req.method)) {
-      return res.status(503).json({
-        error: "Configured persistence is unavailable",
-        code: "database-unavailable",
-      });
-    }
-    next();
-  });
   const server = http.createServer(app);
   const wss = new WebSocketServer({
     noServer: true,
@@ -341,6 +348,32 @@ export async function startWorker() {
   // Initialize lobby service (handles WebSocket upgrade routing)
   const lobbyService = new WorkerLobbyService(server, wss, gm, log);
   let workerHealthHeartbeatTimer: NodeJS.Timeout | null = null;
+  const fatalProcess = new FatalProcessCoordinator({
+    process: "worker",
+    processId: process.pid,
+    record: (event) =>
+      serverCrashStore.record({
+        ...event,
+        message: truncateServerCrashMessage(event.message),
+      }),
+    stopAdmission: () => {
+      if (workerHealthHeartbeatTimer) {
+        clearInterval(workerHealthHeartbeatTimer);
+        workerHealthHeartbeatTimer = null;
+      }
+      if (server.listening) server.close();
+    },
+    drain: () => gm.endAllForShutdown(),
+    exportCrash: async () => {
+      const telemetry = await shutdownTelemetry(5_000);
+      if (telemetry.failures.length > 0) {
+        log.error("fatal telemetry export incomplete", telemetry);
+      }
+    },
+    exit: (code) => process.exit(code),
+    reportFailure: (phase, error) =>
+      log.error("fatal process drain failed", { phase, error: String(error) }),
+  });
 
   const publishWorkerHealth = (): void => {
     lobbyService.sendHealthHeartbeat(
@@ -401,9 +434,19 @@ export async function startWorker() {
     next();
   });
 
-  app.set("trust proxy", 3);
+  app.use(fatalProcess.admissionMiddleware());
+  installPreparseRequestAdmission(app);
+  app.use((req, res, next) => {
+    const database = getDatabasePosture();
+    if (!databaseAllowsRequest(database, req.method)) {
+      return res.status(503).json({
+        error: "Configured persistence is unavailable",
+        code: "database-unavailable",
+      });
+    }
+    next();
+  });
   app.use(compression());
-  app.use(express.json());
 
   // Configure MIME types for webp files
   express.static.mime.define({ "image/webp": ["webp"] });
@@ -435,6 +478,7 @@ export async function startWorker() {
     const database = getDatabasePosture();
     const persistence = buildStateScopeLedger(database);
     const healthy =
+      fatalProcess.isAccepting() &&
       gameLoop.healthy &&
       ipc.healthy &&
       database.state !== "connecting" &&
@@ -929,7 +973,7 @@ export async function startWorker() {
       const cachedProphecy = aiCacheGet(prophecyCacheKey);
       if (cachedProphecy) return res.json({ ...cachedProphecy, cached: true });
       try {
-        if (!reserveRemoteAiCall("other").allowed) {
+        if (!(await reserveRemoteAiCall("other")).allowed) {
           return res
             .status(503)
             .json({ error: "Prophecy service unavailable" });
@@ -1014,19 +1058,10 @@ export async function startWorker() {
     if (!actor) return;
     if (!authorizeRoutePolicy("match-oracle", { hasVerifiedActor: true }, res))
       return;
-    const playerIdsRaw = req.query["players"];
-    const playerIds = Array.isArray(playerIdsRaw)
-      ? (playerIdsRaw as string[]).slice(0, 8)
-      : typeof playerIdsRaw === "string"
-        ? [playerIdsRaw]
-        : [];
-    const uniquePlayerIds = [...new Set(playerIds)];
-    if (
-      uniquePlayerIds.length < 2 ||
-      uniquePlayerIds.length !== playerIds.length ||
-      !uniquePlayerIds.includes(actor.persistentId) ||
-      uniquePlayerIds.some((id) => !PersistentIdSchema.safeParse(id).success)
-    ) {
+    let oracleRequest;
+    try {
+      oracleRequest = parseMatchOracleRequest(req.query, actor.persistentId);
+    } catch {
       return res.status(400).json({
         error:
           "Roster must contain 2-8 unique verified player identities including the requester",
@@ -1035,23 +1070,26 @@ export async function startWorker() {
 
     // Build the complete roster exclusively from server-owned rating history.
     const eloData = await Promise.all(
-      uniquePlayerIds.map(async (id) => {
+      oracleRequest.playerIds.map(async (id) => {
         const stats = await playerStatsStore.getHistory(id, 1).catch(() => []);
         return { id, elo: (stats[0] as { elo?: number })?.elo ?? 1200 };
       }),
     );
-    eloData.sort((left, right) => left.id.localeCompare(right.id));
-    const eloSummary = eloData.map((p) => `${p.id}: ELO ${p.elo}`).join(", ");
-    const oracleCacheKey = `vaultfront-ai:v1:oracle:${createHash("sha256")
-      .update(JSON.stringify({ requester: actor.persistentId, eloData }))
-      .digest("hex")}`;
+    const providerInput = buildMatchOracleProviderInput(
+      oracleRequest,
+      new Map(eloData.map(({ id, elo }) => [id, elo])),
+    );
+    const normalizedEloData = providerInput.players.map(
+      ({ playerId: id, elo }) => ({ id, elo }),
+    );
+    const oracleCacheKey = matchOracleCacheKey(providerInput);
     const oracleEvidence = {
       schemaVersion: "1.0" as const,
       feature: "oracle" as const,
       requester: actor.persistentId,
       source: "server-owned-player-history" as const,
       rosterDigest: createHash("sha256")
-        .update(JSON.stringify(eloData))
+        .update(JSON.stringify(providerInput.players))
         .digest("hex"),
       evidenceDigest: oracleCacheKey.slice(oracleCacheKey.lastIndexOf(":") + 1),
       cacheKey: oracleCacheKey,
@@ -1060,13 +1098,13 @@ export async function startWorker() {
     if (cached)
       return res.json({
         ...cached,
-        eloData,
+        eloData: normalizedEloData,
         evidence: oracleEvidence,
         cached: true,
       });
 
     try {
-      if (!reserveRemoteAiCall("intel").allowed) {
+      if (!(await reserveRemoteAiCall("intel")).allowed) {
         return res.status(503).json({ error: "Oracle unavailable" });
       }
       const msg = await executeRequestBoundAi(
@@ -1086,7 +1124,7 @@ export async function startWorker() {
               messages: [
                 {
                   role: "user",
-                  content: `Players: ${eloSummary}. Compute ELO deltas (K=32) and identify biggest threat per player.`,
+                  content: matchOraclePrompt(providerInput),
                 },
               ],
             },
@@ -1096,7 +1134,10 @@ export async function startWorker() {
       );
       const raw =
         (msg.content[0] as { type: string; text: string }).text?.trim() ?? "{}";
-      const parsed = parseOracleProviderOutput(raw, uniquePlayerIds);
+      const parsed = parseOracleProviderOutput(
+        raw,
+        providerInput.players.map(({ playerId }) => playerId),
+      );
       const result = {
         ok: true as const,
         predictions: parsed.predictions,
@@ -1108,7 +1149,11 @@ export async function startWorker() {
         }),
       };
       oracleEvidenceCache.set(oracleCacheKey, result);
-      return res.json({ ...result, eloData, evidence: oracleEvidence });
+      return res.json({
+        ...result,
+        eloData: normalizedEloData,
+        evidence: oracleEvidence,
+      });
     } catch (err) {
       logger.error("match-oracle failed", err);
       return res.status(500).json({ error: "Oracle failed" });
@@ -1151,7 +1196,7 @@ export async function startWorker() {
       });
       const userContent = `Clan: ${clan.name}\nCertified result: ${winners.includes(actor.persistentId) ? "victory" : "defeat"}\nCertificate: ${context.certificate.certificateId.slice(0, 16)}`;
       try {
-        if (!reserveRemoteAiCall("other").allowed)
+        if (!(await reserveRemoteAiCall("other")).allowed)
           return res.status(503).json({ error: "Dynasty service unavailable" });
         const msg = await executeRequestBoundAi(
           res,
@@ -1261,7 +1306,7 @@ export async function startWorker() {
       const cached = aiCacheGet(briefKey);
       if (cached) return res.json({ ...cached, cached: true });
       try {
-        if (!reserveRemoteAiCall("briefing").allowed) {
+        if (!(await reserveRemoteAiCall("briefing")).allowed) {
           return res.status(503).json({ error: "Brief service unavailable" });
         }
         const msg = await executeRequestBoundAi(
@@ -1345,7 +1390,7 @@ export async function startWorker() {
       if (cached)
         return res.json({ ok: true, ...cached, cached: true, evidence });
       try {
-        if (!reserveRemoteAiCall("debrief").allowed) {
+        if (!(await reserveRemoteAiCall("debrief")).allowed) {
           return res.status(503).json({ error: "Recap service unavailable" });
         }
         const msg = await executeRequestBoundAi(
@@ -2236,26 +2281,12 @@ export async function startWorker() {
   // Process-level error handlers
   process.on("uncaughtException", (err) => {
     log.error(`uncaught exception:`, err);
-    serverCrashStore.record({
-      process: "worker",
-      processId: process.pid,
-      kind: "uncaughtException",
-      message: truncateServerCrashMessage(err.message),
-      at: Date.now(),
-    });
+    void fatalProcess.handleFatal("uncaughtException", err);
   });
 
   process.on("unhandledRejection", (reason, promise) => {
     log.error(`unhandled rejection at:`, promise, "reason:", reason);
-    serverCrashStore.record({
-      process: "worker",
-      processId: process.pid,
-      kind: "unhandledRejection",
-      message: truncateServerCrashMessage(
-        reason instanceof Error ? reason.message : String(reason),
-      ),
-      at: Date.now(),
-    });
+    void fatalProcess.handleFatal("unhandledRejection", reason);
   });
 
   // ── Graceful shutdown ─────────────────────────────────────────────────────

@@ -3,6 +3,7 @@ import balanceEnvelope from "../../public/balance-envelope.json";
 import {
   getReplayIntegrityPosture,
   InMemoryReplayBackend,
+  PostgresReplayBackend,
   ReplayStore,
   verifyReplayBalanceCompatibility,
   verifyReplaySignature,
@@ -117,5 +118,37 @@ describe("ReplayStore verified consumption", () => {
     await expect(store.finishRecording("game0002")).rejects.toThrow(
       "REPLAY_SECRET is required",
     );
+  });
+
+  it("round-trips binary intents through the shared PostgreSQL representation", async () => {
+    let persisted: Record<string, unknown> | null = null;
+    const database = {
+      query: async (sql: string, parameters: unknown[]) => {
+        if (sql.includes("INSERT INTO replay_manifests")) {
+          persisted = JSON.parse(String(parameters[2]));
+          return { rows: [] };
+        }
+        if (sql.includes("SELECT manifest")) {
+          return { rows: persisted ? [{ manifest: persisted }] : [] };
+        }
+        if (sql.includes("DELETE FROM replay_manifests")) return { rows: [] };
+        return {
+          rows: [{ game_id: "shared-game", started_at_ms: "1000" }],
+        };
+      },
+    };
+    const writer = new ReplayStore(new PostgresReplayBackend(database as any));
+    writer.startRecording("shared-game", "World", 12, {});
+    writer.recordIntent("shared-game", 1, 3, Uint8Array.from([1, 2, 255]));
+    await writer.finishRecording("shared-game");
+
+    const reader = new ReplayStore(new PostgresReplayBackend(database as any));
+    const replay = await reader.getReplay("shared-game");
+    expect(Array.from(replay?.intents[0].serialized ?? [])).toEqual([
+      1, 2, 255,
+    ]);
+    expect(await reader.listReplays()).toEqual([
+      { gameId: "shared-game", startedAt: 1000 },
+    ]);
   });
 });

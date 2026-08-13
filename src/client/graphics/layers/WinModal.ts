@@ -1553,6 +1553,11 @@ export class WinModal extends LitElement implements Layer {
     this.recordRivalChallengePulse("rival_rematch_requested");
   };
 
+  public requestMasteryRematch(sourceGameId: string): void {
+    if (!sourceGameId || sourceGameId !== this.game?.gameID()) return;
+    void this._handleRematch();
+  }
+
   private _handleShareHighlight = async () => {
     const session = this.postMatchSessions.active();
     const gameId = this.game?.gameID();
@@ -1585,12 +1590,10 @@ export class WinModal extends LitElement implements Layer {
       ctx.fillStyle = isWin ? "#22c55e" : "#ef4444";
       ctx.fillRect(0, 0, 8, 240);
 
-      // Outcome
       ctx.font = "bold 36px sans-serif";
       ctx.fillStyle = isWin ? "#4ade80" : "#f87171";
       ctx.fillText(isWin ? "VICTORY" : "DEFEAT", 28, 60);
 
-      // Elo delta
       if (eloDelta !== null) {
         ctx.font = "bold 22px sans-serif";
         ctx.fillStyle = eloDelta >= 0 ? "#86efac" : "#fca5a5";
@@ -1601,12 +1604,10 @@ export class WinModal extends LitElement implements Layer {
         );
       }
 
-      // Top stat
       ctx.font = "16px sans-serif";
       ctx.fillStyle = "#e2e8f0";
       ctx.fillText(topStat, 28, 130);
 
-      // Brand
       ctx.font = "bold 14px sans-serif";
       ctx.fillStyle = "#60a5fa";
       ctx.fillText("VaultFront", 28, 220);

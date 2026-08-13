@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-07-22",
+  "generatedAt": "2026-08-13",
   "source": "vitest-v8 production-inclusive coverage/coverage-summary.json",
   "tolerance": 0.1,
   "observedModules": ["src/server/Worker.ts"],
@@ -70,6 +70,138 @@
       "statements": 97.91,
       "functions": 100,
       "branches": 92.45
+    },
+    "src/server/AchievementStore.ts": {
+      "lines": 67.69,
+      "statements": 66.82,
+      "functions": 73.52,
+      "branches": 47.1
+    },
+    "src/server/Archive.ts": {
+      "lines": 10,
+      "statements": 10,
+      "functions": 0,
+      "branches": 0
+    },
+    "src/server/CertifiedLoopEvidenceStore.ts": {
+      "lines": 95.08,
+      "statements": 92.7,
+      "functions": 92,
+      "branches": 80.39
+    },
+    "src/server/CertifiedOutcomeStore.ts": {
+      "lines": 85.71,
+      "statements": 82.22,
+      "functions": 86.66,
+      "branches": 53.84
+    },
+    "src/server/CertifiedSeasonContractStore.ts": {
+      "lines": 89.09,
+      "statements": 86.2,
+      "functions": 76.92,
+      "branches": 82.75
+    },
+    "src/server/ClanStore.ts": {
+      "lines": 20.98,
+      "statements": 20.55,
+      "functions": 20.68,
+      "branches": 15.38
+    },
+    "src/server/FatalProcessCoordinator.ts": {
+      "lines": 92.85,
+      "statements": 93.02,
+      "functions": 100,
+      "branches": 77.27
+    },
+    "src/server/ObeliskAuth.ts": {
+      "lines": 37.62,
+      "statements": 36.89,
+      "functions": 44.82,
+      "branches": 27.19
+    },
+    "src/server/PlayerStatsStore.ts": {
+      "lines": 42.69,
+      "statements": 40.81,
+      "functions": 41.46,
+      "branches": 30.89
+    },
+    "src/server/PlaytestEvidenceStore.ts": {
+      "lines": 92.18,
+      "statements": 90,
+      "functions": 78.57,
+      "branches": 87.09
+    },
+    "src/server/PredictionLeagueRouter.ts": {
+      "lines": 66.66,
+      "statements": 62.74,
+      "functions": 50,
+      "branches": 42.3
+    },
+    "src/server/PredictionLeagueStore.ts": {
+      "lines": 81.69,
+      "statements": 77.63,
+      "functions": 82.75,
+      "branches": 61.45
+    },
+    "src/server/ProgressionReceiptStore.ts": {
+      "lines": 73.21,
+      "statements": 71.42,
+      "functions": 100,
+      "branches": 47.5
+    },
+    "src/server/ReleaseEvidenceContract.ts": {
+      "lines": 100,
+      "statements": 100,
+      "functions": 100,
+      "branches": 100
+    },
+    "src/server/RematchRouter.ts": {
+      "lines": 58.82,
+      "statements": 52.5,
+      "functions": 40,
+      "branches": 40
+    },
+    "src/server/RemoteAiPolicy.ts": {
+      "lines": 96.55,
+      "statements": 93.75,
+      "functions": 100,
+      "branches": 93.87
+    },
+    "src/server/RoutePolicyManifest.ts": {
+      "lines": 68.29,
+      "statements": 66.66,
+      "functions": 100,
+      "branches": 50
+    },
+    "src/server/SeasonMilestoneStore.ts": {
+      "lines": 88.88,
+      "statements": 85.04,
+      "functions": 76.92,
+      "branches": 76.92
+    },
+    "src/server/ServerCrashStore.ts": {
+      "lines": 100,
+      "statements": 100,
+      "functions": 100,
+      "branches": 100
+    },
+    "src/server/TournamentStore.ts": {
+      "lines": 80.58,
+      "statements": 76.8,
+      "functions": 75.6,
+      "branches": 57.26
+    },
+    "src/server/Worker.ts": {
+      "lines": 0,
+      "statements": 0,
+      "functions": 0,
+      "branches": 0
+    },
+    "src/server/WorkerApiProxy.ts": {
+      "lines": 80.95,
+      "statements": 82.22,
+      "functions": 71.42,
+      "branches": 90.24
     }
   }
 }

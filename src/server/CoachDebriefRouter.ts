@@ -105,7 +105,7 @@ export function registerCoachDebriefRoute(
         });
       }
       try {
-        if (!reserveRemoteAiCall("debrief").allowed) {
+        if (!(await reserveRemoteAiCall("debrief")).allowed) {
           return res.json({
             ok: true,
             moments: localMoments,

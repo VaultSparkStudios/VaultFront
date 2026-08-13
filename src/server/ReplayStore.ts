@@ -18,6 +18,7 @@
  */
 
 import { createHash, createHmac, timingSafeEqual } from "crypto";
+import type { Pool } from "pg";
 import {
   vaultFrontBalanceIdentity,
   type VaultFrontBalanceIdentity,
@@ -214,6 +215,115 @@ export class InMemoryReplayBackend implements ReplayBackend {
   }
 }
 
+interface PersistedReplayManifest extends Omit<ReplayManifest, "intents"> {
+  intents: Array<Omit<ReplayIntent, "serialized"> & { serialized: number[] }>;
+}
+
+function persistableManifest(
+  manifest: ReplayManifest,
+): PersistedReplayManifest {
+  return {
+    ...manifest,
+    intents: manifest.intents.map((intent) => ({
+      ...intent,
+      serialized: Array.from(intent.serialized),
+    })),
+  };
+}
+
+function hydrateManifest(manifest: PersistedReplayManifest): ReplayManifest {
+  return {
+    ...manifest,
+    intents: manifest.intents.map((intent) => ({
+      ...intent,
+      serialized: Uint8Array.from(intent.serialized),
+    })),
+  };
+}
+
+/** PostgreSQL backend shared by every worker and restart. */
+export class PostgresReplayBackend implements ReplayBackend {
+  constructor(private readonly database: Pick<Pool, "query">) {}
+
+  async save(gameId: string, manifest: ReplayManifest): Promise<void> {
+    await this.database.query(
+      `INSERT INTO replay_manifests (game_id, started_at, manifest)
+       VALUES ($1, to_timestamp($2 / 1000.0), $3::jsonb)
+       ON CONFLICT (game_id) DO UPDATE SET
+         started_at = EXCLUDED.started_at,
+         manifest = EXCLUDED.manifest`,
+      [
+        gameId,
+        manifest.startedAt,
+        JSON.stringify(persistableManifest(manifest)),
+      ],
+    );
+    await this.database.query(
+      "DELETE FROM replay_manifests WHERE started_at < NOW() - INTERVAL '30 days'",
+    );
+  }
+
+  async load(gameId: string): Promise<ReplayManifest | null> {
+    const result = await this.database.query<{
+      manifest: PersistedReplayManifest;
+    }>("SELECT manifest FROM replay_manifests WHERE game_id = $1", [gameId]);
+    const manifest = result.rows[0]?.manifest;
+    return manifest ? hydrateManifest(manifest) : null;
+  }
+
+  async list(limit = 20): Promise<{ gameId: string; startedAt: number }[]> {
+    const result = await this.database.query<{
+      game_id: string;
+      started_at_ms: string;
+    }>(
+      `SELECT game_id, (extract(epoch FROM started_at) * 1000)::bigint AS started_at_ms
+       FROM replay_manifests
+       ORDER BY started_at DESC
+       LIMIT $1`,
+      [Math.max(1, Math.min(limit, 500))],
+    );
+    return result.rows.map((row) => ({
+      gameId: row.game_id,
+      startedAt: Number(row.started_at_ms),
+    }));
+  }
+}
+
+let replayDatabase: Pick<Pool, "query"> | null = null;
+
+export function configureReplayDatabase(
+  database: Pick<Pool, "query"> | null,
+): void {
+  replayDatabase = database;
+}
+
+/** Resolve storage after the shared pool finishes asynchronous bootstrap. */
+export class RuntimeReplayBackend implements ReplayBackend {
+  constructor(private readonly local = new InMemoryReplayBackend()) {}
+
+  private current(): ReplayBackend {
+    if (replayDatabase) return new PostgresReplayBackend(replayDatabase);
+    if (process.env.DATABASE_URL) {
+      throw new Error(
+        "Replay persistence unavailable while DATABASE_URL is configured",
+      );
+    }
+    return this.local;
+  }
+
+  save(gameId: string, manifest: ReplayManifest): Promise<void> {
+    return this.current().save(gameId, manifest);
+  }
+
+  load(gameId: string): Promise<ReplayManifest | null> {
+    return this.current().load(gameId);
+  }
+
+  list(limit?: number): Promise<{ gameId: string; startedAt: number }[]> {
+    return this.current().list(limit);
+  }
+}
+
 export class ReplayStore {
   private backend: ReplayBackend;
   private activeRecordings = new Map<string, ReplayManifest>();
@@ -327,4 +437,4 @@ export class ReplayStore {
 }
 
 /** Singleton — import and use in Worker.ts */
-export const replayStore = new ReplayStore();
+export const replayStore = new ReplayStore(new RuntimeReplayBackend());

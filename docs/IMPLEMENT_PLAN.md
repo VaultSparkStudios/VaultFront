@@ -1,11 +1,12 @@
-# Session 101 Implementation Plan
+# Session 102 Implementation Plan
 
-Source: `docs/AUDIT_2026-08-12.json`
+Source: `docs/AUDIT_2026-08-13.json`
 
-1. **Runtime foundation** — #196 same-origin worker API plane and #197 privacy-safe single-flight pulse. These share the Master/Worker boundary and land first.
-2. **Deterministic game services** — #198 reproducible playlist entropy, then #199 certified local coach baseline. Both strengthen the core loop without adding paid dependencies.
-3. **Player-facing polish** — #200 mobile action floor, with rendered desktop/mobile proof in every theme.
-4. **Release proof** — #201 product-contract smoke and hash-bound staging receipt, after the runtime behavior exists.
-5. **Saturation** — refresh the Unified Genius List, generate second-order candidates, implement every unblocked candidate, then run the full verification and closeout gates.
+1. **Request and process trust foundation** — #205 fatal-process drain, #208 pre-parse admission, and #210 bounded Match Oracle input. These share Master/Worker admission and land together.
+2. **Durable hosted authority** — #206 cross-worker replays and #207 fleet-wide remote-AI budget, using existing PostgreSQL infrastructure with explicit local-only memory fallbacks.
+3. **Player continuation and accessibility** — #204 one post-match continuation authority and #209 the shared accessible-dialog primitive, followed by rendered desktop/mobile/theme proof.
+4. **Rematch and regression durability** — #211 renderer disposal and #212 derived trust-critical coverage ownership.
+5. **Public trust and release proof** — #213 canonical `contact@vaultfront.io`, exact-revision provider/staging deployment, parity/Core Web Vitals, rollback, identity/mail, human/revenue, and production admission in dependency order.
+6. **Saturation** — regenerate the innovation pack, implement every new premise-verified candidate, then run full verification and closeout.
 
 Every core-loop change requires direct tests plus a loop-tightness measurement note in `context/DECISIONS.md`.

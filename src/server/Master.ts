@@ -2,7 +2,6 @@ import cluster from "cluster";
 import cors from "cors";
 import crypto from "crypto";
 import express from "express";
-import rateLimit from "express-rate-limit";
 import helmet from "helmet";
 import http from "http";
 import path from "path";
@@ -10,6 +9,7 @@ import { fileURLToPath } from "url";
 import { GameEnv } from "../core/configuration/Config";
 import { getServerConfigFromServer } from "../core/configuration/ConfigLoader";
 import { certifiedLoopEvidenceStore } from "./CertifiedLoopEvidenceStore";
+import { FatalProcessCoordinator } from "./FatalProcessCoordinator";
 import { logger } from "./Logger";
 import { MapPlaylist } from "./MapPlaylist";
 import { MasterLobbyService } from "./MasterLobbyService";
@@ -18,6 +18,7 @@ import { playtestEvidenceStore } from "./PlaytestEvidenceStore";
 import { PlaytestSummaryService } from "./PlaytestSummaryService";
 import { projectPublicPlaytestSummary } from "./PublicPlaytestSummary";
 import { renderHtml } from "./RenderHtml";
+import { installPreparseRequestAdmission } from "./RequestAdmission";
 import {
   serverCrashStore,
   truncateServerCrashMessage,
@@ -34,6 +35,32 @@ const app = express();
 const server = http.createServer(app);
 
 const log = logger.child({ comp: "m" });
+const fatalProcess = new FatalProcessCoordinator({
+  process: "master",
+  processId: process.pid,
+  record: (event) =>
+    serverCrashStore.record({
+      ...event,
+      message: truncateServerCrashMessage(event.message),
+    }),
+  stopAdmission: () => {
+    if (server.listening) server.close();
+  },
+  drain: async () => {
+    for (const worker of Object.values(cluster.workers ?? {})) {
+      worker?.process.kill("SIGTERM");
+    }
+  },
+  exportCrash: async () => {
+    const telemetry = await shutdownTelemetry(5_000);
+    if (telemetry.failures.length > 0) {
+      log.error("fatal telemetry export incomplete", telemetry);
+    }
+  },
+  exit: (code) => process.exit(code),
+  reportFailure: (phase, error) =>
+    log.error("fatal process drain failed", { phase, error: String(error) }),
+});
 const playtestSummaryService = new PlaytestSummaryService({
   loadPulse: () => playtestEvidenceStore.summary(),
   loadCertified: (observedAt) =>
@@ -44,8 +71,6 @@ const playtestSummaryService = new PlaytestSummaryService({
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-app.use(express.json({ limit: "5mb" }));
 
 // ── Security middleware ─────────────────────────────────────────────────────
 const masterAllowedOrigins = process.env.ALLOWED_ORIGINS?.split(",").map((s) =>
@@ -58,6 +83,8 @@ const masterAllowedOrigins = process.env.ALLOWED_ORIGINS?.split(",").map((s) =>
 ];
 app.use(cors({ origin: masterAllowedOrigins, credentials: true }));
 app.use(helmet({ contentSecurityPolicy: false }));
+app.use(fatalProcess.admissionMiddleware());
+installPreparseRequestAdmission(app);
 const obeliskConfig = readObeliskConfig();
 if (config.env() !== GameEnv.Dev && !obeliskConfig) {
   throw new Error(
@@ -95,14 +122,6 @@ app.use(
       }
       // Other file types use the default maxAge setting
     },
-  }),
-);
-
-app.set("trust proxy", 3);
-app.use(
-  rateLimit({
-    windowMs: 1000, // 1 second
-    max: 20, // 20 requests per IP per second
   }),
 );
 
@@ -229,26 +248,12 @@ export async function startMaster() {
   // record before the process died -- see ServerCrashStore.ts).
   process.on("uncaughtException", (err) => {
     log.error(`uncaught exception:`, err);
-    serverCrashStore.record({
-      process: "master",
-      processId: process.pid,
-      kind: "uncaughtException",
-      message: truncateServerCrashMessage(err.message),
-      at: Date.now(),
-    });
+    void fatalProcess.handleFatal("uncaughtException", err);
   });
 
   process.on("unhandledRejection", (reason, promise) => {
     log.error(`unhandled rejection at:`, promise, "reason:", reason);
-    serverCrashStore.record({
-      process: "master",
-      processId: process.pid,
-      kind: "unhandledRejection",
-      message: truncateServerCrashMessage(
-        reason instanceof Error ? reason.message : String(reason),
-      ),
-      at: Date.now(),
-    });
+    void fatalProcess.handleFatal("unhandledRejection", reason);
   });
   // ─────────────────────────────────────────────────────────────────────────
 }
@@ -270,7 +275,7 @@ app.get("/api/health", (_req, res) => {
 // Canonical infrastructure probe used by staging and release gates.
 app.get("/_health", (_req, res) => {
   const workerHealth = lobbyService?.healthSnapshot() ?? null;
-  const ready = workerHealth?.healthy ?? false;
+  const ready = fatalProcess.isAccepting() && (workerHealth?.healthy ?? false);
   if (ready) {
     res.json({ status: "ok", scope: "master", workerHealth });
   } else {
@@ -281,7 +286,9 @@ app.get("/_health", (_req, res) => {
 });
 
 app.get("/api/vaultfront/readiness", (_req, res) => {
-  const healthy = lobbyService?.healthSnapshot().healthy ?? false;
+  const healthy =
+    fatalProcess.isAccepting() &&
+    (lobbyService?.healthSnapshot().healthy ?? false);
   res.status(healthy ? 200 : 503).json(
     buildVaultFrontReadiness({
       healthy,

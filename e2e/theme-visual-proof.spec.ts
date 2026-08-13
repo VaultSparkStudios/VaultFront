@@ -404,6 +404,65 @@ test("three themes retain readable page, panel, and settings surfaces", async ({
       ),
       fullPage: true,
     });
+    const accessibleModalMetrics = await page.evaluate(async () => {
+      await import("/src/client/components/baseComponents/Modal.ts");
+      document.querySelector("[data-vf-visual-qa-modal]")?.remove();
+      const overlay = document.createElement("main");
+      overlay.dataset.vfVisualQaModal = "accessible";
+      overlay.style.cssText =
+        "position:fixed;inset:0;z-index:2147483647;background:var(--vf-bg,#07111f);color:var(--vf-text,#f8fafc);font-family:Overpass,sans-serif";
+      const modal = document.createElement("o-modal") as any;
+      modal.title = "Command briefing";
+      modal.maxWidth = "620px";
+      const content = document.createElement("article");
+      content.style.cssText = "padding:24px;display:grid;gap:16px";
+      content.innerHTML =
+        "<strong>Extraction corridor ready</strong><p>Confirm the route, then return to the live command map.</p><button style='min-height:44px;border-radius:8px;background:#fbbf24;color:#111827;font-weight:800'>Confirm route</button>";
+      modal.append(content);
+      overlay.append(modal);
+      document.body.append(overlay);
+      modal.open();
+      await modal.updateComplete;
+      const dialog =
+        modal.shadowRoot?.querySelector<HTMLElement>('[role="dialog"]');
+      const close = modal.shadowRoot?.querySelector<HTMLElement>(
+        'button[aria-label^="Close"]',
+      );
+      const dialogRect = dialog?.getBoundingClientRect();
+      const closeRect = close?.getBoundingClientRect();
+      return {
+        role: dialog?.getAttribute("role"),
+        ariaModal: dialog?.getAttribute("aria-modal"),
+        labelledBy: dialog?.getAttribute("aria-labelledby"),
+        dialogWithinViewport: Boolean(
+          dialogRect &&
+          dialogRect.left >= 0 &&
+          dialogRect.right <= innerWidth &&
+          dialogRect.top >= 0 &&
+          dialogRect.bottom <= innerHeight,
+        ),
+        closeWidth: closeRect?.width ?? 0,
+        closeHeight: closeRect?.height ?? 0,
+      };
+    });
+    expect(accessibleModalMetrics).toMatchObject({
+      role: "dialog",
+      ariaModal: "true",
+      dialogWithinViewport: true,
+    });
+    expect(accessibleModalMetrics.labelledBy).toBeTruthy();
+    expect(accessibleModalMetrics.closeWidth).toBeGreaterThanOrEqual(44);
+    expect(accessibleModalMetrics.closeHeight).toBeGreaterThanOrEqual(44);
+    await page.locator("[data-vf-visual-qa-modal]").screenshot({
+      path: path.join(
+        artifactDir,
+        `${testInfo.project.name}-${theme}-accessible-modal.png`,
+      ),
+    });
+    await page.locator("[data-vf-visual-qa-modal]").evaluate((overlay) => {
+      (overlay.querySelector("o-modal") as any)?.close();
+      overlay.remove();
+    });
     const postMatchMetrics = await page.evaluate(async () => {
       await Promise.all([
         customElements.whenDefined("certified-match-feedback"),

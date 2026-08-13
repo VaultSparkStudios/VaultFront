@@ -227,7 +227,7 @@ export class NarratorBus {
     persona: NarratorPersona,
     userContent: string,
   ): Promise<void> {
-    const reservation = reserveRemoteAiCall("narrator");
+    const reservation = await reserveRemoteAiCall("narrator");
     if (!reservation.allowed) {
       Logger.info("NarratorBus: remote AI cost firewall denied generation", {
         gameId,

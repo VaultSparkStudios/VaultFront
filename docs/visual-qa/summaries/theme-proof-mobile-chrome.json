@@ -1,9 +1,9 @@
 {
   "project": "mobile-chrome",
   "localOnly": true,
-  "capturedAt": "2026-08-12T20:47:07.513Z",
+  "capturedAt": "2026-08-13T20:45:47.385Z",
   "source": {
-    "digest": "sha256:509769cd48285d2c3f86d133df57bf69159e0fff1c8a457636bc85732cac1a84",
+    "digest": "sha256:eb0f3c4fc5b7d02794da0016db0ba0b11cbd886e4361b4d16f1b66466e97f524",
     "files": [
       {
         "path": "config/vaultfront-balance.v1.json",
@@ -12,8 +12,8 @@
       },
       {
         "path": "e2e/theme-visual-proof.spec.ts",
-        "bytes": 47144,
-        "digest": "sha256:1ed3c8f4d498ef387363b5227df82468c27507eeee8bf65f64cc56b4ed4b2aeb"
+        "bytes": 49845,
+        "digest": "sha256:eb291c55a1d430e95ae3c99b5e108327626a0ae72a6f831eb1b431435acc507c"
       },
       {
         "path": "src/client/AccountModal.ts",
@@ -172,8 +172,8 @@
       },
       {
         "path": "src/client/components/ProgressionDebrief.ts",
-        "bytes": 14033,
-        "digest": "sha256:c3585d5de15175f3f2eb1df37f50601dc44710e93a16c9854be78269d957a100"
+        "bytes": 14299,
+        "digest": "sha256:27590f8a53cb7d6c4effd6c6cadce39ac7a9046e05e45f4380370544418163fe"
       },
       {
         "path": "src/client/components/PublicStatsShowcase.ts",
@@ -202,8 +202,8 @@
       },
       {
         "path": "src/client/components/baseComponents/Modal.ts",
-        "bytes": 3801,
-        "digest": "sha256:9a4c33ddc083e8c78cf5dc0424df067c1ee9b3d224f7c3516f08a0ee3f3f0670"
+        "bytes": 8049,
+        "digest": "sha256:ee42dd2037b8c1ca4403fd400ba8337fba7536e51774795cacde859be4951fc3"
       },
       {
         "path": "src/client/components/baseComponents/ranking/GameInfoRanking.ts",
@@ -372,8 +372,8 @@
       },
       {
         "path": "src/client/graphics/layers/WinModal.ts",
-        "bytes": 77558,
-        "digest": "sha256:210dde48a52d598731d582b9134287eaf0089d8b1a04e306612eba90dbb53d79"
+        "bytes": 77658,
+        "digest": "sha256:0e0b29acd4134dfef0f5b72fd754559411e3f3beffe84b6bc3bff2cc25f88b57"
       },
       {
         "path": "src/client/styles.css",
@@ -458,7 +458,7 @@
       {
         "path": "static/index.html",
         "bytes": 17230,
-        "digest": "sha256:0995cf2963dd4b984e5cecbead8db4508e23f9c78c3465fadef63c268a713549"
+        "digest": "sha256:95cffdb466a80ccb3bc9e9488a06a977384754d571010e28008cb190fcbbef83"
       }
     ]
   },
@@ -495,6 +495,7 @@
         "stats-showcase",
         "agency-doctrine",
         "settings",
+        "accessible-modal",
         "postmatch",
         "account-handoff",
         "multi-tab-collision",
@@ -726,6 +727,7 @@
         "stats-showcase",
         "agency-doctrine",
         "settings",
+        "accessible-modal",
         "postmatch",
         "account-handoff",
         "multi-tab-collision",
@@ -957,6 +959,7 @@
         "stats-showcase",
         "agency-doctrine",
         "settings",
+        "accessible-modal",
         "postmatch",
         "account-handoff",
         "multi-tab-collision",

@@ -24,7 +24,7 @@ const contracts = [
     route: "/api/vaultfront/match-oracle",
     order: [
       "requireVaultFrontActor",
-      "uniquePlayerIds.length < 2",
+      "parseMatchOracleRequest",
       "oracleEvidenceCache.get",
       "reserveRemoteAiCall",
       "anthropic.messages.create",
