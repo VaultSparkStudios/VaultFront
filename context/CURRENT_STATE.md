@@ -277,3 +277,26 @@ Exact implementation revision `f938652c76095920b87c51c11ccd7a37df959ddd` passed 
 Verification passes 274 files / 1,434 tests with the coverage ratchet, TypeScript, lint, format, production build, contracts, and all 28,125 balance scenarios green. Playwright passes 30/30; rendered review covered 132 captures across three themes and desktop/mobile at source digest `sha256:eb0f3c4fc5b7d02794da0016db0ba0b11cbd886e4361b4d16f1b66466e97f524`, including direct inspection of the real modal surface.
 
 Production remains public-unlaunched / NO-GO and returns HTTP 503. The founder's direct commit/push/deploy authorization is captured, but it does not manufacture the independent evidence still required: project-domain Zoho delivery and reply identity, three distinct authenticated humans, a real revenue event, an observed digest rollback drill, and measured production parity/Core Web Vitals. The requested production outcome is therefore intentionally incomplete; exact-revision staging and the promotion corridor are ready for those observations.
+
+## Session 103 — live parity and observed rollback corridor (2026-08-13)
+
+The release continuation closed every remaining agent-executable production
+gate. The hidden-until-load shell was corrected, mobile navigation and footer
+controls meet the 44px floor, optional music no longer transfers 11.7 MB at
+startup, offscreen language choices are lazy, and replay integrity now receives
+a stable domain-separated HMAC key from gateway-managed material.
+
+Exact candidate `0a9149c8bc0e466b27954f7b789e4c83e93ffb1c` passed CI
+`31749815432`, E2E `31749815413`, and Release `31749815412`. Staging run
+`31750089197` is healthy with 2/2 workers and exact revision. The live 3-theme ×
+3-viewport matrix passes 9/9 with worst LCP 1.072s, INP 112ms, and CLS 0.0763;
+the canonical 390/768/1440 responsive audit has zero findings. Rollback drill
+`31750318879` switched to `0682e90f`, observed it healthy, restored `0a9149c8`,
+observed it healthy, and retained self-verifying digest
+`sha256:93f5b979edbe990b7fb7bed16d385264b9f242ad63506ed4bdfc29338e9562eb`.
+
+Production remains public-unlaunched / NO-GO and returns HTTP 503. Mandatory
+preflight proves the three remaining gates are external observations, not code:
+Zoho Mail Admin is missing all four credentials and vaultfront.io has no mail
+DNS; the live readiness plane has no three-human authenticated Alpha cohort and
+no real revenue event. Those proofs cannot be synthesized by an agent.

@@ -6,7 +6,16 @@ Public-safe roadmap only. Detailed backlog sequencing is maintained privately.
 
 - [ ] Verify `contact@vaultfront.io` end-to-end through the project-domain Zoho alias: receive, send, and reply-as the same address.
 - [ ] Collect at least three distinct authenticated human Alpha sessions and one real checkout/supporter revenue observation.
-- [ ] Execute and retain an observed digest rollback drill, then measure production parity and Core Web Vitals before live promotion.
+- [done] Executed and retained exact-digest rollback/restoration run `31750318879`; measured 9/9 staging theme/viewport cells plus 390/768/1440 responsive parity with green Core Web Vitals.
+
+## Completed (2026-08-13 — Session 103 release-corridor continuation)
+
+- [done] Fixed invisible-until-load startup behavior and 44px mobile navigation/footer controls; canonical responsive audit now passes at 390/768/1440.
+- [done] Deferred 11.7 MB of optional background music until requested, preserved first-play loading, and reduced live worst-case LCP to 1.072s and lab INP to 112ms.
+- [done] Added a run-bound staging rollback workflow and self-verifying 90-day receipt; observed prior-revision rollback and exact-candidate restoration twice.
+- [done] Configured production-grade replay HMAC posture through domain-separated gateway key derivation; live readiness now reports replay integrity `pass`.
+- [done] Pushed final candidate `0a9149c8` to `main`; exact provider checks and staging deploy `31750089197` are green.
+- [done] Preserved the release boundary: production remains 503 because Zoho identity, three real authenticated humans, and real revenue remain unobserved.
 
 ## Completed (2026-08-13 — Session 102 runtime and staging arc)
 
@@ -20,7 +29,7 @@ Public-safe roadmap only. Detailed backlog sequencing is maintained privately.
 
 - [ ] Verify `contact@vaultfront.io` end-to-end through the project-domain Zoho alias: receive, send, and reply-as the same address.
 - [ ] Collect at least three distinct authenticated human Alpha sessions and one real checkout/supporter revenue observation.
-- [ ] Execute and retain an observed digest rollback drill, then measure production parity and Core Web Vitals before live promotion.
+- [done] Executed and retained exact-digest rollback/restoration run `31750318879`; measured 9/9 staging theme/viewport cells plus 390/768/1440 responsive parity with green Core Web Vitals.
 
 ## Completed (2026-08-13 — Session 102 runtime and staging arc)
 
