@@ -126,6 +126,8 @@ describe("public launch foundation", () => {
   it("keeps optional audio and offscreen language choices out of startup work", () => {
     const sound = read("src/client/sound/SoundManager.ts");
     expect(sound.match(/preload: false/g)).toHaveLength(3);
+    expect(sound).toContain('track.state() === "unloaded"');
+    expect(sound).toContain("track.load()");
 
     const languages = read("src/client/LanguageModal.ts");
     expect(languages).toContain("content-visibility: auto");

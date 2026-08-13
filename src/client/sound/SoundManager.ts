@@ -43,11 +43,10 @@ class SoundManager {
   }
 
   public playBackgroundMusic(): void {
-    if (
-      this.backgroundMusic.length > 0 &&
-      !this.backgroundMusic[this.currentTrack].playing()
-    ) {
-      this.backgroundMusic[this.currentTrack].play();
+    const track = this.backgroundMusic[this.currentTrack];
+    if (track && !track.playing()) {
+      if (track.state() === "unloaded") track.load();
+      track.play();
     }
   }
 
