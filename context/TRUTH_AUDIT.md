@@ -10,7 +10,9 @@
 - Visual truth: 138 source- and artifact-hash-bound captures cover three themes across desktop/mobile at source digest `sha256:a916c97b37df96bc4a7bb7f83ab23b9d080df734b10faf02745dd2c5270dc401`; CANON-053 passes.
 - Security truth: settings sanitization is clean; staged scan reports zero secret findings; generated `context/SIGNALS.md` and `portfolio/compiled/FORECAST_LEDGER.json` are ignored and absent.
 - Agent-surface truth: `/agents.json` now declares the staging-observed Obelisk authorization-code/PKCE entrypoint; it does not claim production availability. Canonical runtime readiness still has no attached release-observation bundle, so workflow/docs receipts remain insufficient.
-- Release truth: prior exact-revision staging parity, rollback, replay integrity, and Core Web Vitals observations remain valid. The new revision is not called staged until provider attestation exists. Production remains 503 / NO-GO on Zoho reply identity, three authenticated humans, and real revenue.
+- Provider truth: exact implementation revision `78bbf1127424c7279a4f7a06a5922dfba06e35ad` passed CI `31772610008`, E2E `31772610001`, Release `31772609992`, and brief validation `31772609994`.
+- Staging truth: run `31772833502` deployed immutable image `sha256:3f7f07ae4d232d682fea6976580e2bda6397944b7a73501e31afe71bdf78b9f7`; live commit identity is exact, worker health is 2/2, product smoke is `sha256:b5f6a640c9b257dfbeb4f8652d19390cf2cd18247f20b9dcefc4e228c85e5f4a`, and the run-bound attestation is `sha256:27722fdd4d91e52bccf9e54e2ad9e11b5ccc7786d709620efb6aeaf15ae5692e`.
+- Release truth: production remains 503 / NO-GO. Live Alpha is 0/12 with zero human events, Zoho reply identity and revenue remain absent, and runtime canonical readiness has no attached observation bundle.
 
 ## 2026-08-13 — Session 102 exact-revision and production-boundary truth
 

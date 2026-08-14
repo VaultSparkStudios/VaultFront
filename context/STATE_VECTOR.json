@@ -1,9 +1,9 @@
 {
   "vectorVersion": "1.0",
   "generatedAt": "2026-08-14",
-  "generatedAtMs": 1786684136890,
+  "generatedAtMs": 1786685282580,
   "session": 103,
-  "vectorHash": "b46b76d900b7dab2",
+  "vectorHash": "7a2bb6e0af2a05b8",
   "silTotal": 996,
   "silAvg3": 997.3,
   "velocity": 6,
@@ -33,8 +33,8 @@
   "slug": "vaultfront",
   "type": "game",
   "lifecycle": "alpha",
-  "nextMilestone": "Attest the new revision on stable staging, then verify project-domain Zoho reply identity and collect three authenticated humans plus one real revenue event before production promotion.",
-  "currentFocus": "Session 103 shipped six game-loop, UX, secrets-authority, and public-boundary findings; full local verification is green and exact-revision stable staging is next.",
+  "nextMilestone": "Verify project-domain Zoho reply identity, collect three authenticated humans plus one real revenue event, and attach only verified observations to runtime readiness before production promotion.",
+  "currentFocus": "Session 103 shipped six game-loop, UX, secrets-authority, and public-boundary findings; exact revision 78bbf112 is healthy on stable staging and production remains evidence-gated.",
   "lastShipped": "see LATEST_HANDOFF.md",
   "blockers": [
     "Production is NO-GO until project-domain Zoho send/receive reply-as-alias delivery, three distinct authenticated human sessions, and real revenue are evidenced."

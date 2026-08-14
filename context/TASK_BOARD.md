@@ -16,6 +16,7 @@ Public-safe roadmap only. Detailed backlog sequencing is maintained privately.
 - [done] Root-fixed 14 startup-propagation regressions without weakening contracts; full suite passes 278 files / 1,454 tests and doctor 13/13.
 - [done] Refreshed and reviewed 138 hash-bound rendered artifacts across three themes and desktop/mobile; CANON-053 passes at source digest `sha256:a916c97b37df96bc4a7bb7f83ab23b9d080df734b10faf02745dd2c5270dc401`.
 - [done] Sanitized local settings and passed the staged public-repo secret scan with zero findings.
+- [done] Pushed implementation revision `78bbf112`; exact provider runs passed and stable-staging run `31772833502` deployed immutable image `sha256:3f7f07ae4d232d682fea6976580e2bda6397944b7a73501e31afe71bdf78b9f7` with 2/2 workers and run-bound attestation.
 - [done] Kept production fail-closed on Zoho reply identity, three authenticated humans, and real revenue; no synthetic fixture or CTA click was relabeled as release evidence.
 
 ## Completed (2026-08-13 — Session 103 release-corridor continuation)

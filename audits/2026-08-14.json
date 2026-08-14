@@ -59,13 +59,13 @@
     "playwright": "focused theme proof 2/2; 138 hash-bound artifacts across three themes and desktop/mobile",
     "visualSourceDigest": "sha256:a916c97b37df96bc4a7bb7f83ab23b9d080df734b10faf02745dd2c5270dc401",
     "stagedSecretScan": "zero findings",
-    "provider": "pending exact-revision push",
-    "staging": "pending exact-revision deployment"
+    "provider": "78bbf112 passed CI 31772610008, E2E 31772610001, Release 31772609992, and brief validation 31772609994",
+    "staging": "run 31772833502; image sha256:3f7f07ae4d232d682fea6976580e2bda6397944b7a73501e31afe71bdf78b9f7; health 2/2; exact revision; product smoke sha256:b5f6a640c9b257dfbeb4f8652d19390cf2cd18247f20b9dcefc4e228c85e5f4a; attestation sha256:27722fdd4d91e52bccf9e54e2ad9e11b5ccc7786d709620efb6aeaf15ae5692e"
   },
   "releaseGate": {
     "status": "no-go",
     "founderApproval": true,
-    "stagingAdmitted": false,
+    "stagingAdmitted": true,
     "productionPromoted": false,
     "fabricatedEvidence": false,
     "boundary": "Production requires project-domain Zoho reply identity, three authenticated human Alpha sessions, real revenue, and a verified release-observation bundle attached to runtime readiness.",
