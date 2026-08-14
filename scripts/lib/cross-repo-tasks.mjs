@@ -8,17 +8,32 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import { extractSection, parseUnifiedItems } from "./task-board.mjs";
+import { parseUnifiedItems } from "./task-board.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const STUDIO_ROOT = path.resolve(__dirname, "..", "..");
 
+function readText(p) {
+  try {
+    return fs.readFileSync(p, "utf8");
+  } catch {
+    return "";
+  }
+}
 function readJson(p, fb) {
   try {
     return JSON.parse(fs.readFileSync(p, "utf8"));
   } catch {
     return fb;
   }
+}
+
+function extractSection(content, heading) {
+  const parts = content.split(/^## /m);
+  const match = parts.find((p) => p.startsWith(heading));
+  if (!match) return "";
+  const nl = match.indexOf("\n");
+  return nl === -1 ? "" : match.slice(nl + 1);
 }
 
 function tierFromCell(cell) {
@@ -136,33 +151,9 @@ export function loadProjectTaskBoard(project) {
   if (!project?.localPath) return null;
   const tbPath = path.join(project.localPath, "context", "TASK_BOARD.md");
   if (!fs.existsSync(tbPath))
-    return {
-      slug: project.slug,
-      name: project.name,
-      present: false,
-      parseState: "missing",
-      parseErrors: [],
-    };
-  let content;
-  try {
-    content = fs.readFileSync(tbPath, "utf8");
-  } catch (error) {
-    return {
-      slug: project.slug,
-      name: project.name,
-      present: true,
-      parseState: "read-error",
-      parseErrors: [error.message],
-      remaining: 0,
-      unblocked: 0,
-      blocked: 0,
-      critical: 0,
-      high: 0,
-      items: [],
-    };
-  }
-  const parsed = parseTaskBoardResult(content);
-  const items = parsed.items.filter((i) => !i.done);
+    return { slug: project.slug, name: project.name, present: false };
+  const content = readText(tbPath);
+  const items = parseTaskBoard(content).filter((i) => !i.done);
   let unblocked = 0,
     blocked = 0,
     critical = 0,
@@ -182,8 +173,6 @@ export function loadProjectTaskBoard(project) {
     vaultStatus: project.vaultStatus || "forge",
     audience: project.audience,
     present: true,
-    parseState: parsed.state,
-    parseErrors: parsed.errors,
     remaining: items.length,
     unblocked,
     blocked,
@@ -210,8 +199,7 @@ export function loadPortfolioTaskBoards(options = {}) {
     totalHigh = 0;
   let projectsWithWork = 0,
     projectsScanned = 0,
-    projectsMissing = 0,
-    projectsErrored = 0;
+    projectsMissing = 0;
 
   for (const project of registry.projects ?? []) {
     if (!project.localPath) continue;
@@ -224,7 +212,6 @@ export function loadPortfolioTaskBoards(options = {}) {
       byProject.push(loaded);
       continue;
     }
-    if (loaded.parseState !== "ok") projectsErrored++;
     if (loaded.remaining > 0) projectsWithWork++;
     totalRemaining += loaded.remaining;
     totalUnblocked += loaded.unblocked;
@@ -246,7 +233,6 @@ export function loadPortfolioTaskBoards(options = {}) {
     generatedAt: new Date().toISOString(),
     projectsScanned,
     projectsMissing,
-    projectsErrored,
     projectsWithWork,
     totals: {
       remaining: totalRemaining,
@@ -271,7 +257,7 @@ if (
     process.exit(0);
   }
   console.log(
-    `Portfolio task-board scan — ${result.projectsScanned} repos (${result.projectsMissing} missing TASK_BOARD, ${result.projectsErrored} unsupported/unreadable, ${result.projectsWithWork} with open work)`,
+    `Portfolio task-board scan — ${result.projectsScanned} repos (${result.projectsMissing} missing TASK_BOARD, ${result.projectsWithWork} with open work)`,
   );
   console.log(
     `Totals: ${result.totals.remaining} remaining · ${result.totals.unblocked} unblocked · ${result.totals.blocked} blocked · 🔥 ${result.totals.critical} · ⚡ ${result.totals.high}`,

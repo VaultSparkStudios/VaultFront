@@ -148,15 +148,23 @@ export function computeHealth(status, { now = new Date() } = {}) {
 // ── IMPACT: ungated outcome score, per-medium, honest-zero by default ────────
 export function computeImpact(status, medium = "infrastructure") {
   const provided = status?.silImpactCategories || {};
+  // S246 (P4 start): the write invariant zero-fills missing categories, so a
+  // bare 0 no longer distinguishes "measured zero" from "never wired". When
+  // silImpactProvenance exists, it is the honesty source: a category with no
+  // provenance entry is still uninstrumented even if a 0 was stamped for it.
+  const prov = status?.silImpactProvenance || null;
   const signals = IMPACT_SIGNALS[medium] || IMPACT_SIGNALS.infrastructure;
   const categories = {};
   const needsInstrumentation = [];
   for (const k of IMPACT_CATS) {
     const v = Number(provided[k]);
-    if (Number.isFinite(v)) {
+    const instrumented = Number.isFinite(v) && (!prov || Boolean(prov[k]));
+    if (instrumented) {
       categories[k] = Math.min(IMPACT_MAX_PER_CATEGORY, Math.max(0, v));
     } else {
-      categories[k] = 0;
+      categories[k] = Number.isFinite(v)
+        ? Math.min(IMPACT_MAX_PER_CATEGORY, Math.max(0, v))
+        : 0;
       needsInstrumentation.push({ category: k, signal: signals[k] });
     }
   }
@@ -167,6 +175,7 @@ export function computeImpact(status, medium = "infrastructure") {
     categories,
     medium,
     needsInstrumentation,
+    provenance: prov,
   };
 }
 

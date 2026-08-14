@@ -29,7 +29,7 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { updateProjectStatus } from "./lib/write-project-status.mjs";
+import { writeProjectStatus } from "./lib/write-project-status.mjs";
 
 const ROOT = process.cwd();
 const args = process.argv.slice(2);
@@ -165,17 +165,12 @@ const result = {
 
 // Stamp status + lock
 try {
-  const checkedAt = new Date().toISOString();
-  updateProjectStatus(ROOT, (current) => ({
-    ...current,
-    planModeDetected: result.status,
-    planModeCheckedAt: checkedAt,
-    ...(active
-      ? {
-          planModeLastActivatedAt: current.planModeLastActivatedAt || checkedAt,
-        }
-      : {}),
-  }));
+  status.planModeDetected = result.status;
+  status.planModeCheckedAt = new Date().toISOString();
+  if (active)
+    status.planModeLastActivatedAt =
+      status.planModeLastActivatedAt || new Date().toISOString();
+  writeProjectStatus(ROOT, status, { touchLastUpdated: false });
 } catch {
   /* non-fatal */
 }

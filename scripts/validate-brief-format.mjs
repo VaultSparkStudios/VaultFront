@@ -151,8 +151,8 @@ export function validateStartupBrief(body) {
   };
 
   // A visually polished brief is still invalid when adjacent source-of-truth
-  // values contradict each other. Keep this local and deterministic: the
-  // validator recomputes claims from the values printed in the artifact.
+  // values contradict each other. Recompute claims from the printed values so
+  // validation stays deterministic and independent of renderer internals.
   const contextMatch = body.match(
     /([\d.]+)% used[\s\S]{0,220}?([\d,]+)\s*\/\s*([\d,]+) tok/,
   );
@@ -177,25 +177,21 @@ export function validateStartupBrief(body) {
       "SIL FORECAST reports 0/1000; refuse a numeric forecast without parsed SIL evidence.",
     );
   }
-
   if (/║\s*✓\s+Runway\s+unknown\b/i.test(body)) {
     findings.semanticContradictions.push(
       "Runway is unknown but rendered green; unknown evidence must remain explicitly unverified.",
     );
   }
-
   if (/LAST SESSION \(S\?\)/i.test(body)) {
     findings.semanticContradictions.push(
       "LAST SESSION contains S?; derive the session from source chronology before rendering.",
     );
   }
-
   if (/║\s*(?:Tests|Deploy)\s+-\s*║/i.test(body)) {
     findings.semanticContradictions.push(
       "LAST SESSION contains test/deploy placeholders instead of source-derived evidence.",
     );
   }
-
   if (
     /<!--\s*generated-at:\s*\d{4}-\d{2}-\d{2}\s*\(Session\s+\d+\s+closeout\)\s*-->/i.test(
       body,
@@ -205,7 +201,6 @@ export function validateStartupBrief(body) {
       "generated-at conflates render time with source closeout session; stamp them separately.",
     );
   }
-
   const lastActiveMatch = body.match(/Last active:\s*(\d+)d\b/i);
   if (lastActiveMatch && Number(lastActiveMatch[1]) > 3650) {
     findings.semanticContradictions.push(
@@ -449,14 +444,23 @@ if (IS_DIRECT_RUN) {
   } catch {}
   if (budgetStatus === "fail") fail = true;
   // S154 #4 — per-tile attribution: name the offending tile, don't just say "too big".
+  // S248 [audit #10] — tile-budget hard contract: the per-tile check existed since
+  // S154 but was advisory-only, so a tile could run over budget every render with
+  // nothing gating the bloat (SIGNALS sat at 102% for sessions). Contract: >110%
+  // of a tile's budget FAILS validation; 100–110% stays a warning. The sanctioned
+  // escape hatch is enforceTileBudgets' explicit '· trimmed (tile budget)' marker
+  // — trim the tile at the renderer, never widen the contract silently.
+  const TILE_HARD_FAIL_PCT = 110;
   const tileCheck = checkTileBudgets(body);
   if (!JSON_MODE && tileCheck.overBudget.length) {
     for (const t of tileCheck.overBudget.slice(0, 4)) {
+      const hard = t.pct > TILE_HARD_FAIL_PCT;
       console.log(
-        `  ⚠  tile over budget: ${t.title} ${t.bytes}B > ${t.budget}B (${t.pct}%)`,
+        `  ${hard ? "⛔" : "⚠"}  tile over budget: ${t.title} ${t.bytes}B > ${t.budget}B (${t.pct}%)${hard ? " — HARD FAIL (>110%) · trim the tile at the renderer" : ""}`,
       );
     }
   }
+  if (tileCheck.overBudget.some((t) => t.pct > TILE_HARD_FAIL_PCT)) fail = true;
   if (!JSON_MODE && budgetStatus !== "pass") {
     console.log(
       `  ${budgetStatus === "fail" ? "⛔" : "⚠"}  brief size ${sizeBytes}B ${budgetStatus === "fail" ? `> ${BUDGET_FAIL}B (HARD FAIL — trim tiles)` : `> ${BUDGET_WARN}B (warn — approaching budget)`}`,
@@ -503,7 +507,7 @@ if (IS_DIRECT_RUN) {
       console.log(`  ⛔  STALE BRIEF: ${result.staleBrief}`);
     }
     if (result.semanticContradictions.length > 0) {
-      console.log(`  ⛔  semantic contradictions:`);
+      console.log("  ⛔  semantic contradictions:");
       for (const contradiction of result.semanticContradictions) {
         console.log(`       - ${contradiction}`);
       }

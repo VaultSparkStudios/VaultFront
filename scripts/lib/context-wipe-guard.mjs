@@ -21,6 +21,7 @@
 import { existsSync, readFileSync } from "fs";
 import { join } from "path";
 import { spawnSync } from "./safe-spawn.mjs";
+import { STUDIO_STATE_DIRS } from "./studio-state-dirs.mjs";
 
 const WIPE_THRESHOLD = 0.5; // warn/abort if new content < 50% of existing
 
@@ -80,8 +81,15 @@ const APPEND_ONLY = [
   "logs/WORK_LOG.md",
 ];
 
-// Files allowed to shrink (compact-handoff trims it; TASK_BOARD.md items get struck)
-const SHRINK_ALLOWED = ["context/LATEST_HANDOFF.md", "context/TASK_BOARD.md"];
+// Files allowed to shrink (compact-handoff trims it; TASK_BOARD.md items get
+// struck; S246 — TASK_BOARD + CURRENT_STATE rotate shipped-session sections to
+// context/archive/ via rotate-context-files.mjs, so large legitimate shrinks
+// are now by-design; archives + git history hold the rotated content).
+const SHRINK_ALLOWED = [
+  "context/LATEST_HANDOFF.md",
+  "context/TASK_BOARD.md",
+  "context/CURRENT_STATE.md",
+];
 
 // Machine-GENERATED living-protocol artifacts. These are rewritten from scratch
 // every session by their generators (generate-genius-list.mjs etc.), so their
@@ -95,6 +103,22 @@ const GENERATED = [
   "docs/GENIUS_LIST.md",
   "docs/INNOVATION_PACK.md",
   "docs/AUDIT_",
+  // S244 — brief-v5 canonical flip: the startup brief is now the diff-rendered
+  // v5 surface (~63% smaller than v3 BY DESIGN), and SIGNALS.md is rewritten
+  // each render as bare rows (previously ║-framed). Both are regenerated from
+  // scratch every session; ratio tests false-positive on every legitimate
+  // render. The shape check still catches a true wipe (empty scaffold).
+  "docs/STARTUP_BRIEF.md",
+  "context/SIGNALS.md",
+  // S283 — a LIVE CENSUS: orchestrate.mjs rewrites this from the session locks
+  // that exist right now, so shrinking IS the measurement, not damage. It halved
+  // (19,273 → 8,665 bytes) purely because five sibling sessions ended between
+  // renders: identical schema, every key present, sessions 11 → 6 and collisions
+  // 17 → 4. Classified GENERATED rather than SHRINK_ALLOWED deliberately — the
+  // JSON branch of isGeneratedWiped still catches the true wipe (an empty object,
+  // or corrupt JSON), so this keeps the guard armed instead of blanket-exempting
+  // a file. Declaring a false positive beats weakening the detector (D-S282.3).
+  "portfolio/compiled/SESSION_ORCHESTRATOR.json",
 ];
 
 // Template-placeholder markers that signal an empty scaffold overwrote real
@@ -109,10 +133,28 @@ const PLACEHOLDER_RE = /(^|\n)\s*-\s*(active item:|Date:|systems:)\s*(\n|$)/i;
  */
 function isGeneratedWiped(content) {
   if (!content || !content.trim()) return true; // empty == wiped
+  // JSON sidecars (docs/AUDIT_<date>.json) match the GENERATED prefixes too, but
+  // the markdown-shape heuristics below can never match valid JSON (S219 false
+  // positive: a healthy 12-item sidecar read as "contentless"). Parseable JSON
+  // with real keys/items is content; an empty object/array is a wipe.
+  if (/^\s*[{[]/.test(content)) {
+    try {
+      const j = JSON.parse(content);
+      const size = Array.isArray(j) ? j.length : Object.keys(j ?? {}).length;
+      return size === 0;
+    } catch {
+      return true;
+    } // corrupt JSON == wiped
+  }
   if (PLACEHOLDER_RE.test(content)) return true; // template scaffold
-  const hasGenStamp = /generated\s*(by|:)/i.test(content);
+  // S244: also accept hyphenated stamps (`<!-- generated-by: ... -->`, the v5
+  // brief header) and status-row artifacts (context/SIGNALS.md is bare ✓/⚠/⛔
+  // rows — rows ARE the content; no headings or list markers exist by design).
+  const hasGenStamp = /generated[-\s]*(by|at|:)/i.test(content);
   const hasRealEntry =
-    /^##\s+\S/m.test(content) || /^\s*[-*]\s+\S/m.test(content);
+    /^##\s+\S/m.test(content) ||
+    /^\s*[-*]\s+\S/m.test(content) ||
+    /^[✓⚠⛔]\s+\S/mu.test(content);
   // Lost both its generator stamp AND any structured entry → contentless.
   return !hasGenStamp && !hasRealEntry;
 }
@@ -219,7 +261,15 @@ export function checkContextFiles(root, opts = {}) {
     return new Set(r.stdout.trim().split("\n").filter(Boolean));
   }
 
-  const CONTEXT_DIRS = ["context", "docs", "logs"];
+  // S263 — `portfolio/` was OUT of scope, so portfolio/SKILL_CATALOG.json was
+  // never protected by this gate at all. The nightly out-of-session lane
+  // overwrote it 27 skills -> 7 on four consecutive nights (29576e73, a92717a3,
+  // d6cb27b3) because its cloud environment cannot see ~/.claude/skills, and a
+  // local session restored it in between — a flip-flop nobody saw because
+  // nothing compared the artifact against its own prior size. Portfolio holds
+  // studio-wide source-of-truth indexes; it belongs under the same wipe rule as
+  // context/ and docs/. Shared with the context meter (see the lib's own note).
+  const CONTEXT_DIRS = STUDIO_STATE_DIRS;
   const changedFiles = getChangedFiles(CONTEXT_DIRS); // null = fallback
 
   // Check append-only files for prefix violation.

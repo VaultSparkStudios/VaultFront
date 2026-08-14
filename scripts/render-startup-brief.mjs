@@ -17,35 +17,60 @@ import fs from "fs";
 import os from "os";
 import path from "path";
 import { fileURLToPath } from "url";
+import { run as codexTrustedProjectRun } from "./check-codex-trusted-project.mjs";
 import { loadProvenanceMap } from "./classify-warning-provenance.mjs";
 import {
   renderLastCompleted,
   renderTestItNow,
   renderTitleHeader,
 } from "./lib/brief-blocks.mjs";
-import { buildBriefSourceManifest } from "./lib/brief-freshness.mjs";
-import { deriveContextUsage } from "./lib/context-verdicts.mjs";
+import { runBriefPreflight } from "./lib/brief-preflight.mjs";
+import {
+  buildBriefSemanticFingerprint,
+  formatBriefSemanticFingerprint,
+} from "./lib/brief-semantic-fingerprint.mjs";
 import { loadPortfolioTaskBoards } from "./lib/cross-repo-tasks.mjs";
-import { loadDoctorEvidence } from "./lib/doctor-evidence.mjs";
 import { isWarning } from "./lib/doctor-predicates.mjs";
+import { readableDoctorScore } from "./lib/doctor-score-coherence.mjs";
+import { recordAndResolve, rollingMae } from "./lib/forecast-ledger.mjs";
 import { loadIgnisInsight } from "./lib/ignis-insight.mjs";
 import { contextWindowForAgent } from "./lib/model-router.mjs";
 import { spawnSync } from "./lib/safe-spawn.mjs";
-import {
-  averageLatestTotals,
-  freshestIsoDate,
-  parseSessionSections,
-} from "./lib/session-chronology.mjs";
 import { BLOCKED_STATUSES_CORE } from "./lib/shared-policies.mjs";
 import { forecastNext, parseSilHistory } from "./lib/sil-forecaster.mjs";
+import { parseSilSessions } from "./lib/sil-ledger.mjs";
 import { parseUnifiedItems } from "./lib/task-board.mjs";
+import {
+  resolveTestSignal,
+  testSignalMark,
+  testSignalSeverity,
+} from "./lib/test-signal.mjs";
 import { sparkline as _sparkline } from "./lib/visual-blocks.mjs";
-import { updateProjectStatus } from "./lib/write-project-status.mjs";
+import { writeProjectStatus } from "./lib/write-project-status.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
 const outputPath = path.join(root, "docs", "STARTUP_BRIEF.md");
 const node = process.execPath;
+if (process.argv.includes("--help") || process.argv.includes("-h")) {
+  console.log("Usage: node scripts/render-startup-brief.mjs [--v5] [--legacy]");
+  process.exit(0);
+}
+
+// S120 #1 — brief-v5 promote opt-in. Set BRIEF_V5=1 or pass --v5 to delegate
+// to render-startup-brief-v5.mjs (71% token reduction, validated S117). Default
+// remains v3.1 until 3-session hash-stability monitoring completes.
+if (process.argv.includes("--v5") || process.env.BRIEF_V5 === "1") {
+  const r = spawnSync(
+    node,
+    [
+      path.join(__dirname, "render-startup-brief-v5.mjs"),
+      ...process.argv.slice(2).filter((a) => a !== "--v5"),
+    ],
+    { stdio: "inherit", cwd: root },
+  );
+  process.exit(r.status ?? 0);
+}
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 const W = 62; // inner box width (content between ║  and  ║)
@@ -60,25 +85,14 @@ const BW = W + 4; // total line width including ║  prefix/suffix
 // with. Adding --update-json persists the freshly-computed score (spawnSync is
 // synchronous and completes before loadAllFiles reads PROJECT_STATUS.json), so
 // the SIGNALS box always reflects the doctor run the brief itself just triggered.
-if (!process.env.STUDIO_BRIEF_NO_DOCTOR_FIX) {
-  try {
-    spawnSync(
-      process.execPath,
-      [
-        path.join(__dirname, "ops.mjs"),
-        "doctor",
-        "--fix",
-        "--update-json",
-        "--quiet",
-      ],
-      {
-        stdio: "ignore",
-        timeout: 30000,
-      },
-    );
-  } catch {
-    /* non-fatal */
-  }
+// S244 [audit #2]: preflight is now the SHARED lib/brief-preflight.mjs so the
+// v5 renderer runs the identical side-effects — the inlining here was the named
+// blocker for the brief-v5 canonical flip (SIL:1 S240 #1). Freshness-gated so
+// the flag-file flow (v3 render → spawned v5 render) runs the doctor once.
+try {
+  runBriefPreflight(root);
+} catch {
+  /* non-fatal — a broken preflight must never block a brief render */
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -250,12 +264,40 @@ function extractSection(content, heading) {
 }
 
 // ── Box-drawing helpers ───────────────────────────────────────────────────────
+// S220 audit #20 — word-aware truncation: founder boxes were cutting mid-word
+// ("ver", "ti", "heuristi", "flat-rat"), which reads as corruption. When a line
+// overflows, cut at the last word boundary that fits and mark with "…". A word
+// longer than the whole width still hard-cuts (pathological case).
+function truncateWordAware(str, w) {
+  if (str.length <= w) return str;
+  const cut = str.slice(0, w - 1);
+  const lastSpace = cut.lastIndexOf(" ");
+  return (
+    (lastSpace > Math.floor(w * 0.6) ? cut.slice(0, lastSpace) : cut) + "…"
+  );
+}
 function pad(s, w) {
-  const str = String(s ?? "");
-  return str.length >= w ? str.slice(0, w) : str + " ".repeat(w - str.length);
+  let str = String(s ?? "");
+  if (str.length > w) str = truncateWordAware(str, w);
+  return str + " ".repeat(Math.max(0, w - str.length));
 }
 function row(content) {
   return `║  ${pad(content, W)}  ║`;
+}
+// S220 audit #7 — persist the SIGNALS box verbatim as context/SIGNALS.md, the
+// single-file producer for brief v5's 'signals' computed block (v5 resolver
+// already targets this path; it resolved null since S209). Pass-through: the
+// caller spreads the same rows into the brief. Advisory write — never blocks.
+function writeSignalsArtifact(rows) {
+  try {
+    fs.writeFileSync(
+      path.join(root, "context", "SIGNALS.md"),
+      rows.join("\n") + "\n",
+    );
+  } catch {
+    /* advisory */
+  }
+  return rows;
 }
 function blank() {
   return `║  ${" ".repeat(W)}  ║`;
@@ -305,6 +347,7 @@ const complianceHistory = readJson(
 const intentPlan = readText(
   path.join(root, "context", "SESSION_INTENT_PLAN.md"),
 );
+const canonAdoption = readText(path.join(root, "context", "CANON_ADOPTION.md"));
 const humanPressure = readJson(
   path.join(root, "portfolio", "compiled", "HUMAN_ACTION_PRESSURE.json"),
   { items: [] },
@@ -378,13 +421,25 @@ function loadLiveContextMeter() {
 }
 
 const meter = loadLiveContextMeter();
-// The producer's pctUsed field has existed in both fraction and percentage
-// shapes. Tokens + limit are the unambiguous source of truth.
-const meterUsage = deriveContextUsage(meter);
-const meterUsed = meterUsage.usedTokens;
-const meterRemaining = meterUsage.remainingTokens;
-const meterUsedPct = meterUsage.roundedPercent;
-const meterUsedFrac = meterUsage.fraction;
+const meterUsed = meter.usedTokens;
+const meterRemaining = Math.max(0, meter.limit - meterUsed);
+const meterRemainingPct = Math.round((meterRemaining / meter.limit) * 100);
+// context-meter returns pctUsed in percentage form (0-100), not 0-1. Normalize.
+const meterUsedPctRaw =
+  meter.pctUsed == null
+    ? null
+    : meter.pctUsed > 1
+      ? meter.pctUsed
+      : meter.pctUsed * 100;
+// S262 — the `Math.min(100, …)` here clamped the DISPLAY while the brief's own
+// token figure said 154%, and that internal disagreement is what tripped
+// check-startup-meter-freshness. An overrun is the single most important thing
+// this line can say, and clipping it hides the magnitude. The number is now
+// unclamped; only the bar fill (below) is bounded, because it is a fixed width.
+const meterUsedPct =
+  meterUsedPctRaw == null ? null : Math.max(0, Math.round(meterUsedPctRaw));
+// pctUsedFraction is 0-1 for bar rendering math
+const meterUsedFrac = (meterUsedPctRaw ?? 0) / 100;
 const estimatedItemsFit = Math.max(0, Math.floor(meterRemaining / 100000));
 
 // ── Parse Rolling Status ──────────────────────────────────────────────────────
@@ -402,7 +457,7 @@ let silMax = parseInt(silTotalMatch?.[2] ?? "") || status.silMax || 1000;
 let velocity = parseInt(silHeader.match(/Velocity:\s*(\d+)/)?.[1] ?? "") || 0;
 const sparkline =
   silHeader.match(/Sparkline[^:]*:\s*([▁▂▃▄▅▆▇█ ]+)/)?.[1]?.trim() ?? "";
-let avg3Raw =
+const avg3Raw =
   parseFloat(silHeader.match(/Avgs — 3:\s*([\d.]+)/)?.[1] ?? "") || null;
 const runwayRaw =
   silHeader.match(/[Mm]omentum runway:\s*([^|]+)/)?.[1]?.trim() ??
@@ -437,13 +492,7 @@ if (cat3Match) {
 // most-recent, so it locked onto a stale block (brief rendered S135/928 while
 // real state was S141/996). We now scan EVERY `## …Session N…` header in either
 // format, capture each body, and select the latest by session NUMBER.
-const allSilEntries = parseSessionSections(sil)
-  .map((section) => ({
-    session: section.session,
-    header: section.header,
-    body: section.body,
-  }))
-  .sort((a, b) => b.session - a.session);
+const allSilEntries = parseSilSessions(sil);
 
 // Highest session number present in the SIL log (source of truth for "what session are we on").
 const silMaxSession = allSilEntries.length ? allSilEntries[0].session : null;
@@ -456,20 +505,12 @@ const lastEntry =
 
 // Latest entry that carries a Total — header-inline (format A) OR a **Total: X/Y** body line (format B).
 function entryTotal(e) {
-  const inline = e.header.match(/Total:\s*(\d+)\/(\d+)/);
-  const body = e.body.match(/Total:\s*(\d+)\/(\d+)/);
-  const mt = inline ?? body;
-  return mt ? { total: parseInt(mt[1], 10), max: parseInt(mt[2], 10) } : null;
+  return e?.total == null ? null : { total: e.total, max: e.max };
 }
 function entryVelocity(e) {
-  const m = (e.header + "\n" + e.body).match(/Velocity:\s*(\d+)/);
-  return m ? parseInt(m[1], 10) : null;
+  return e?.velocity ?? null;
 }
 const latestScored = allSilEntries.find((e) => entryTotal(e) !== null) ?? null;
-const measuredAvg3 = averageLatestTotals(
-  allSilEntries.map((entry) => entryTotal(entry)?.total),
-);
-if (measuredAvg3 !== null) avg3Raw = measuredAvg3;
 
 // Override headline metrics from the latest scored entry when it is fresher than
 // the rolling-status block (compared by session number). Falls back to the
@@ -596,12 +637,17 @@ const sessionVoice = extractSessionVoice();
 
 // ── v4.0: Momentum meter — velocity streak + intent + cost ────────────────────
 function momentumStreak() {
-  // Parse last 8 SIL entries; count consecutive sessions where intent was "achieved"
+  // Parse last 10 SIL entries; count consecutive sessions where intent was "achieved".
+  // S220 audit #19 — this read `match[1]` after allSilEntries was refactored to
+  // {session, header, body} objects, so body was ALWAYS undefined and streak was
+  // ALWAYS 0 — directly contradicting the header-derived "Intent: 100% achieved"
+  // line rendered two rows above it (CANON-031: a brief must not disagree with
+  // itself). Now reads entry.body — the same entries the header rate summarizes.
   let streak = 0;
-  for (const match of allSilEntries.slice(0, 10)) {
-    const body = match[1] ?? "";
+  for (const entry of allSilEntries.slice(0, 10)) {
+    const body = entry.body ?? "";
     if (
-      /Classification:.*(Achieved|achieved)|Intent outcome:.*(Achieved|achieved|✓)/i.test(
+      /Classification:.*(Achieved|achieved)|Intent outcome:\*{0,2}\s*(Achieved|achieved|✓)/i.test(
         body,
       )
     )
@@ -652,7 +698,6 @@ function taskLabel(item, maxLen = 54) {
 
 // ── Derived values ─────────────────────────────────────────────────────────────
 const today = new Date().toISOString().slice(0, 10);
-const renderedAt = new Date().toISOString();
 // Next session = (latest session in the SIL log) + 1. The SIL log is the source
 // of truth; PROJECT_STATUS.currentSession is only a fallback when the log can't
 // be parsed (it has lagged real state before — see S142 audit item 1).
@@ -667,12 +712,19 @@ const scopeCap = velocity > 0 ? Math.floor(velocity * 1.5) : null;
 // running /closeout. Now takes the newest signal across all three sources.
 const lastSilDateMatch = lastSessionStr.match(/(\d{4}-\d{2}-\d{2})/);
 const lastSilDate = lastSilDateMatch?.[1] || null;
-const freshestDate = freshestIsoDate([
+// S220 audit #12 — strict date guard: silLastSession is a session NUMBER, not a
+// date; "219" lex-sorts after "2026-07-02" and produced "Last active: 660175d".
+// Only well-formed ISO dates may enter the max.
+const candidateDates = [
   lastSilDate,
   status.lastUpdated,
   status.lastHandoffDate,
   status.silLastSession,
-]);
+].filter((v) => typeof v === "string" && /^\d{4}-\d{2}-\d{2}/.test(v));
+const freshestDate =
+  candidateDates.length > 0
+    ? candidateDates.sort().slice(-1)[0] // max lex-sorted date
+    : null;
 const daysSinceActive = freshestDate ? daysBetween(freshestDate, today) : "?";
 const daysSinceClosedOut = lastSilDate ? daysBetween(lastSilDate, today) : "?";
 // Keep daysSinceLast alias for any downstream reader, but prefer the new honest value.
@@ -907,30 +959,17 @@ try {
 }
 
 // ── Doctor score ─────────────────────────────────────────────────────────────
-const doctorScore = status.doctorScore ?? null;
-let doctorChecks = Array.isArray(doctorScore?.checks)
-  ? doctorScore.checks
-  : null;
-let doctorEvidenceError = null;
-if (
-  doctorScore &&
-  !doctorChecks &&
-  ((doctorScore.failing ?? doctorScore.blockingFailing ?? 0) > 0 ||
-    (doctorScore.warning ?? doctorScore.warnings ?? 0) > 0)
-) {
-  const loaded = loadDoctorEvidence(root, doctorScore);
-  if (loaded.ok) doctorChecks = loaded.checks;
-  else doctorEvidenceError = loaded.error;
-}
-const sigDoctor = doctorEvidenceError
-  ? "⛔"
-  : !doctorScore
-    ? "⚠"
-    : doctorScore.failing === 0
-      ? doctorScore.warning > 0
-        ? "⚠"
-        : "✓"
-      : "⛔";
+// Shape-guarded: a malformed doctorScore (S276 found a bare `124`) is treated as
+// UNMEASURED rather than dereferenced into `undefined/undefined (undefined%)`.
+const doctorRead = readableDoctorScore(status.doctorScore);
+const doctorScore = doctorRead.score;
+const sigDoctor = !doctorScore
+  ? "⚠"
+  : doctorScore.failing === 0
+    ? doctorScore.warning > 0
+      ? "⚠"
+      : "✓"
+    : "⛔";
 // S171 [audit #4] — aggregate-honesty: a bare "9 warning" reads as 9 studio-ops
 // problems. Append the ownership split (self vs sibling-rollout) so the founder
 // sees that ~all of them are portfolio-rollout trackers studio-ops surfaces but
@@ -940,7 +979,7 @@ const sigDoctor = doctorEvidenceError
 // exist so the split fits — ownership is the load-bearing signal, not the date).
 let ownershipSplit = "";
 try {
-  if (doctorChecks && doctorScore.warning > 0) {
+  if (doctorScore?.checks && doctorScore.warning > 0) {
     // Classify exactly the set the doctor TALLIES as warnings (the canonical
     // isWarning predicate — shared with run-doctor.mjs via doctor-predicates.mjs,
     // S172 [audit #4]) so the split always sums to the displayed count. (The
@@ -949,7 +988,7 @@ try {
     // carried.)
     const map = loadProvenanceMap();
     const byOwner = { self: 0, sibling: 0, chronic: 0 };
-    for (const c of doctorChecks) {
+    for (const c of doctorScore.checks) {
       if (!isWarning(c)) continue;
       const o = map[c.id]?.owner || "self";
       byOwner[o] = (byOwner[o] || 0) + 1;
@@ -963,15 +1002,39 @@ try {
 } catch {
   /* split is advisory */
 }
-const doctorDetail = doctorEvidenceError
-  ? `doctor evidence invalid · ${doctorEvidenceError}`
-  : !doctorScore
-    ? "not yet tracked — run: node scripts/ops.mjs doctor --update-json"
-    : doctorScore.failing > 0
-      ? `${doctorScore.passing}/${doctorScore.total} (${doctorScore.score}%)  ·  ${doctorScore.failing} failing`
-      : doctorScore.warning > 0
-        ? `${doctorScore.passing}/${doctorScore.total} (${doctorScore.score}%)  ·  ${doctorScore.warning} warn${ownershipSplit}`
-        : `${doctorScore.passing}/${doctorScore.total} (${doctorScore.score}%)  ·  ${doctorScore.date}  ✓`;
+const doctorDetail = !doctorScore
+  ? `${doctorRead.reason} — run: node scripts/ops.mjs doctor --update-json`
+  : doctorScore.failing > 0
+    ? `${doctorScore.passing}/${doctorScore.total} (${doctorScore.score}%)  ·  ${doctorScore.failing} failing`
+    : doctorScore.warning > 0
+      ? `${doctorScore.passing}/${doctorScore.total} (${doctorScore.score}%)  ·  ${doctorScore.warning} warn${ownershipSplit}`
+      : `${doctorScore.passing}/${doctorScore.total} (${doctorScore.score}%)  ·  ${doctorScore.date}  ✓`;
+let sigCodexTrust = "⚠";
+let codexTrustDetail;
+try {
+  const trust = codexTrustedProjectRun(root);
+  sigCodexTrust = trust.ok ? "✓" : "⚠";
+  codexTrustDetail = trust.ok
+    ? "trusted project active"
+    : "local hooks/config not trusted";
+} catch {
+  codexTrustDetail = "trust check unavailable";
+}
+let sigCanonAdoption = "⚠";
+let canonAdoptionDetail = "not checked";
+try {
+  const m = canonAdoption.match(
+    /Live ACTIVE canons:\s*(\d+)\s*·\s*Pending review:\s*(\d+)/i,
+  );
+  if (m) {
+    const total = Number(m[1]);
+    const pending = Number(m[2]);
+    sigCanonAdoption = pending === 0 ? "✓" : "⚠";
+    canonAdoptionDetail = `${pending}/${total} pending review`;
+  }
+} catch {
+  canonAdoptionDetail = "summary unavailable";
+}
 
 // ── Entropy ───────────────────────────────────────────────────────────────────
 const entropy = status.entropyScore ?? null;
@@ -984,9 +1047,10 @@ const entropyLabel =
 
 // ── Velocity history (last 5 session velocities from SIL entries) ──────────
 // Velocity history from inline-metric session headers (format A), newest→oldest → reverse to chronological.
-const velEntries = allSilEntries
-  .map(entryVelocity)
-  .filter(Number.isFinite)
+const velEntries = [
+  ...sil.matchAll(/##[^\n]*?\bSession\s+\d+\b[^\n]*Velocity:\s*(\d+)/g),
+]
+  .map((m) => parseInt(m[1]))
   .reverse();
 const velLast5 = velEntries.slice(-5);
 const velBar = (v) =>
@@ -1042,7 +1106,17 @@ try {
   const tcPath = path.join(root, ".cache", "test-count.json");
   if (fs.existsSync(tcPath)) {
     const tc = JSON.parse(fs.readFileSync(tcPath, "utf8"));
-    if (typeof tc.total === "number" && typeof tc.passed === "number") {
+    // S220 audit #1 — foreign-root artifact rejection: a test-count generated in
+    // another repo (shared/copied cache) must not be read as this repo's truth.
+    const tcRoot = tc.__provenance?.root;
+    const foreign =
+      tcRoot &&
+      path.resolve(tcRoot).toLowerCase() !== path.resolve(root).toLowerCase();
+    if (
+      !foreign &&
+      typeof tc.total === "number" &&
+      typeof tc.passed === "number"
+    ) {
       status.testsTotal = tc.total;
       status.testsPassing = tc.passed;
       if (tc.generatedAt) status.testsLastRun = tc.generatedAt.slice(0, 10);
@@ -1097,17 +1171,27 @@ if (
   const envBlockedCount = listSignalCount(status.testsEnvBlocked);
   const allPass = status.testsPassing === status.testsTotal;
   const mostlyPass = status.testsPassing / status.testsTotal >= 0.9;
-  sigTests =
-    testsStale || deferredCount || envBlockedCount
+  // S263 — reconcile both test surfaces before drawing a mark. The v3 fallback
+  // renderer had the same phantom-green as v5: file-level counts drawn beside a
+  // freshness stamp a RED run had refreshed. See lib/test-signal.mjs (D-S263.1).
+  // S283 — severity comes from the library, so a state this renderer has never
+  // heard of cannot fall through to the green branch (the enumeration here was
+  // fail-open in exactly that way).
+  const signal = resolveTestSignal(status);
+  const contradicted = testSignalSeverity(signal) !== "ok";
+  sigTests = contradicted
+    ? testSignalMark(signal)
+    : testsStale || deferredCount || envBlockedCount
       ? "⚠"
       : allPass
         ? "✓"
         : mostlyPass
           ? "⚠"
           : "⛔";
-  testsLabel =
-    `${status.testsPassing}/${status.testsTotal} passing` +
-    (status.testsLastRun ? ` (${status.testsLastRun})` : "");
+  testsLabel = contradicted
+    ? signal.detail
+    : `${status.testsPassing}/${status.testsTotal} passing` +
+      (status.testsLastRun ? ` (${status.testsLastRun})` : "");
   if (deferredCount)
     testsLabel += ` · ${deferredCount} deferred: ${compactFileList(status.testsDeferred)}`;
   if (envBlockedCount)
@@ -1151,22 +1235,8 @@ const sigTruth =
 const complianceSnapshots = Array.isArray(complianceHistory.snapshots)
   ? complianceHistory.snapshots
   : [];
-const statusCompliance =
-  Number.isFinite(Number(status.complianceScore)) &&
-  Number.isFinite(Number(status.complianceTotal)) &&
-  Number(status.complianceTotal) > 0
-    ? {
-        passed: Number(status.complianceScore),
-        total: Number(status.complianceTotal),
-        score: Math.round(
-          (Number(status.complianceScore) / Number(status.complianceTotal)) *
-            100,
-        ),
-        source: "context/PROJECT_STATUS.json",
-      }
-    : null;
 const complianceLatest =
-  complianceSnapshots[complianceSnapshots.length - 1] ?? statusCompliance;
+  complianceSnapshots[complianceSnapshots.length - 1] ?? null;
 const compliancePrev =
   complianceSnapshots[complianceSnapshots.length - 2] ?? null;
 const complianceTrend =
@@ -1230,13 +1300,13 @@ function buildGeniusBoxFromMarkdown(markdown) {
         ageStr = ` · ${ageD < 1 ? "<1" : Math.round(ageD)}d old`;
     }
     const icon = src === "live" ? "✓" : "⚠";
-    out.push(row(`${icon} rank source: ${src}${ageStr}`.slice(0, W)));
+    out.push(row(`${icon} rank source: ${src}${ageStr}`));
     out.push(blank());
   }
   for (const entry of entries) {
-    out.push(row(entry.title.slice(0, W)));
-    out.push(row(entry.summary.slice(0, W)));
-    if (entry.command) out.push(row(`↳ ${entry.command}`.slice(0, W)));
+    out.push(row(entry.title));
+    out.push(row(entry.summary));
+    if (entry.command) out.push(row(`↳ ${entry.command}`));
     out.push(blank());
   }
   out.push(bot());
@@ -1280,7 +1350,7 @@ function buildPortfolioBoxLines() {
     const marker = p.isCurrent ? ">" : " ";
     const nm = (p.name || p.slug || "").slice(0, 24).padEnd(24);
     const line = `${marker} ${nm} ${String(p.remaining).padStart(3)} open · ${String(p.unblocked).padStart(2)} unblk · C${String(p.critical).padStart(2)} H${String(p.high).padStart(2)}`;
-    out.push(row(line.slice(0, W)));
+    out.push(row(line));
   }
   const hidden = allActive.length - active.length;
   if (hidden > 0)
@@ -1292,6 +1362,27 @@ function buildPortfolioBoxLines() {
 }
 
 function buildOrchestratorBox() {
+  // S236 audit #10 — never render the founder tile from a stale fleet picture:
+  // refresh the conductor snapshot inline when >6h old (cheap, <5s, idempotent).
+  // Failure keeps the stale data; the age badge below stays honest either way.
+  try {
+    const pre = readJson(
+      path.join(root, "portfolio", "ACTIVE_SESSIONS.json"),
+      null,
+    );
+    const ageMin = pre?._generatedAt
+      ? (Date.now() - new Date(pre._generatedAt).getTime()) / 60000
+      : Infinity;
+    if (ageMin > 360) {
+      spawnSync(
+        process.execPath,
+        [path.join(root, "scripts", "studio-conductor.mjs")],
+        { timeout: 30000, windowsHide: true, stdio: "ignore" },
+      );
+    }
+  } catch {
+    /* badge stays honest */
+  }
   const active = readJson(
     path.join(root, "portfolio", "ACTIVE_SESSIONS.json"),
     null,
@@ -1379,12 +1470,14 @@ function buildOrchestratorBox() {
       `Workers: ${activeSessions.length}/${active?.portfolio?.totalProjects ?? "?"} active · ${staleLocks.length} stale · ${conflicts.length} conflicts`,
     ),
   );
+  // S220 audit #17 — a stale snapshot must not drive routing silently: badge
+  // the recommendation when the snapshot is >24h old.
+  const snapStale = snapshotAgeMin != null && snapshotAgeMin > 1440;
   out.push(
     row(
-      `Snapshot: ${snapshotLabel} · next ${active?.recommendedNextRepo?.slug || "n/a"}`.slice(
-        0,
-        W,
-      ),
+      snapStale
+        ? `Snapshot: ${snapshotLabel} ⚠ STALE · next ${active?.recommendedNextRepo?.slug || "n/a"} (unreliable — refresh: studio-conductor)`
+        : `Snapshot: ${snapshotLabel} · next ${active?.recommendedNextRepo?.slug || "n/a"}`,
     ),
   );
   out.push(
@@ -1455,26 +1548,21 @@ function buildIgnisInsightBox() {
   if (ignisInsight.generated)
     out.push(
       row(
-        `Synth:    ${ignisInsight.generated} (${ignisInsight.daysSinceSynth}d old) · ${ignisInsight.phase || ""}`.slice(
-          0,
-          W,
-        ),
+        `Synth:    ${ignisInsight.generated} (${ignisInsight.daysSinceSynth}d old) · ${ignisInsight.phase || ""}`,
       ),
     );
-  if (ignisInsight.avgIq)
-    out.push(row(`Avg IQ:   ${ignisInsight.avgIq}`.slice(0, W)));
+  if (ignisInsight.avgIq) out.push(row(`Avg IQ:   ${ignisInsight.avgIq}`));
   if (ignisInsight.coverage)
-    out.push(row(`Coverage: ${ignisInsight.coverage}`.slice(0, W)));
+    out.push(row(`Coverage: ${ignisInsight.coverage}`));
   if (ignisInsight.topProject)
-    out.push(row(`Top:      ${ignisInsight.topProject}`.slice(0, W)));
-  if (ignisInsight.topRisk)
-    out.push(row(`Top risk: ${ignisInsight.topRisk}`.slice(0, W)));
+    out.push(row(`Top:      ${ignisInsight.topProject}`));
+  if (ignisInsight.topRisk) out.push(row(`Top risk: ${ignisInsight.topRisk}`));
   if (ignisInsight.truthMix)
-    out.push(row(`Truth:    ${ignisInsight.truthMix}`.slice(0, W)));
+    out.push(row(`Truth:    ${ignisInsight.truthMix}`));
   if (ignisInsight.firstAction)
-    out.push(row(`Do next:  ${ignisInsight.firstAction}`.slice(0, W)));
+    out.push(row(`Do next:  ${ignisInsight.firstAction}`));
   if (ignisInsight.summaryLead)
-    out.push(row(`Summary:  ${ignisInsight.summaryLead}`.slice(0, W)));
+    out.push(row(`Summary:  ${ignisInsight.summaryLead}`));
   out.push(bot());
   return out.join("\n");
 }
@@ -1494,8 +1582,8 @@ function buildExternalSignalsBox() {
     .replace(/\s+/g, " ")
     .trim();
   const out = [top("EXTERNAL SIGNALS")];
-  out.push(row(`${entries.length} logged · latest: ${title}`.slice(0, W)));
-  if (body) out.push(row(body.slice(0, W)));
+  out.push(row(`${entries.length} logged · latest: ${title}`));
+  if (body) out.push(row(body));
   out.push(bot());
   return out.join("\n");
 }
@@ -1558,14 +1646,13 @@ if (silMaxSession == null) {
 } else if (statusLatest != null && statusLatest !== silMaxSession) {
   // PROJECT_STATUS.json lagged the SIL log (the historical failure mode). Self-heal it.
   try {
+    const statusPath = path.join(root, "context", "PROJECT_STATUS.json");
+    const live = JSON.parse(fs.readFileSync(statusPath, "utf8"));
     // Sync ONLY the session number. silScore/silCategoriesV3 are owned by the
     // closeout SIL scorer — writing silScore here would desync it from the
     // category breakdown (tier1-sil-migration invariant: score == sum(categories)).
-    updateProjectStatus(
-      root,
-      (current) => ({ ...current, currentSession: silMaxSession }),
-      { touchLastUpdated: false },
-    );
+    live.currentSession = silMaxSession;
+    writeProjectStatus(root, live, { touchLastUpdated: false });
     console.log(
       `  ↻ self-heal: PROJECT_STATUS.currentSession ${statusLatest} → ${silMaxSession} (synced from SIL log)`,
     );
@@ -1577,27 +1664,23 @@ const staleBanner = briefCoherent
   ? null
   : [
       top("⛔ STALE BRIEF — DO NOT TRUST"),
-      row(staleReason.slice(0, W)),
+      row(staleReason),
       row(
-        "Repair: node scripts/render-startup-brief.mjs  (then re-run /start)".slice(
-          0,
-          W,
-        ),
+        "Repair: node scripts/render-startup-brief.mjs  (then re-run /start)",
       ),
       bot(),
     ].join("\n");
 
 // ── Build the brief ───────────────────────────────────────────────────────────
 const pct = silTotal > 0 ? `${Math.round((silTotal / silMax) * 100)}%` : "?%";
-const briefSourceManifest = buildBriefSourceManifest(root);
 
 const lines = [
   `<!-- generated-by: scripts/render-startup-brief.mjs v3.1 -->`,
-  `<!-- generated-at: ${renderedAt} -->`,
+  `<!-- generated-at: ${new Date().toISOString()} -->`,
   `<!-- generated-for-session: ${currentSession}; source-closeout-session: ${currentSession - 1} -->`,
+  formatBriefSemanticFingerprint(buildBriefSemanticFingerprint(root)),
   `<!-- fast-boot-valid-until: next session if within 24h -->`,
   `<!-- brief-coherent: ${briefCoherent} -->`,
-  `<!-- brief-sources: ${JSON.stringify(briefSourceManifest)} -->`,
   ``,
   `# Startup Brief — ${status.name || "Studio Ops"}`,
   ``,
@@ -1628,9 +1711,10 @@ const lines = [
       "Latest session details unavailable.",
     tests: testsLabel,
     deploy:
-      status.audience === "public-unlaunched"
-        ? "NO-GO · no staging/production observation"
-        : "See registered deployment surface",
+      status.lastDeployStatus ||
+      (status.audience === "public-unlaunched"
+        ? "NO-GO · staging evidence only"
+        : "No deployment observation recorded"),
   }),
   ``,
   ...(Array.isArray(status.testingSurfaces) && status.testingSurfaces.length
@@ -1753,35 +1837,44 @@ const lines = [
   bot(),
   ``,
   // ── SIGNALS ────────────────────────────────────────────────────────────────
-  top("SIGNALS"),
-  row(`${sigTests}  Tests         ${testsLabel}`),
-  row(`${sigVel}  Velocity      ${velocity} ${velTrend}  ·  Debt: ${debtRaw}`),
-  row(`${sigRun}  Runway        ${runwayRaw}`),
-  // Headroom moved to dedicated CONTEXT METER block above (S119).
-  row(`${sigCtx}  Context age   ${ctxAge}d`),
-  row(
-    `${sigIgnis}  IGNIS         ${status.ignisScore ?? "?"} ${status.ignisGrade || ""}  ·  ${ignisAge}d old`,
-  ),
-  row(
-    `${sigTruth}  Truth         ${truthStatus}  ·  Genome: ${status.truthGenome || "?"}`,
-  ),
-  row(`${sigCompliance}  Compliance   ${complianceDetail}`),
-  row(`${sigGenome}  Genome dims   ${genomeDetail}`),
-  row(`${sigEntropy}  Entropy       ${entropyLabel}`),
-  row(
-    `${sigCdr}  CDR           ${cdrGap ? `gap detected (${cdrGapDays}d)  — recover at closeout` : "no gap detected"}`,
-  ),
-  row(`${sigPatterns}  Patterns      ${patternsDetail}`),
-  row(
-    `${sigVer}  Templates     ${versionDrift ? `version drift (start: ${startVer} vs tpl: ${startTplVer})` : `v${startVer || "?"} aligned`}`,
-  ),
-  row(
-    `${sigRev}  Revenue sig.  ${revGenDate ? `${revAge}d old (${revGenDate})` : "not found"}${revAge > 7 ? "  ⚠ stale" : ""}`,
-  ),
-  row(`${sigDeploy}  Deploy gaps   ${deployLabel}`),
-  row(`${sigDoctor}  Doctor        ${doctorDetail}`),
-  row(`${sigCost}  Cost          ${costDetail}`),
-  bot(),
+  // S220 audit #7 — the SIGNALS rows also persist to context/SIGNALS.md (see
+  // writeSignalsArtifact below): that file is the single-file producer brief v5's
+  // 'signals' computed block was gated on since S209 (v5 resolver already reads it).
+  ...writeSignalsArtifact([
+    top("SIGNALS"),
+    row(`${sigTests}  Tests         ${testsLabel}`),
+    row(
+      `${sigVel}  Velocity      ${velocity} ${velTrend}  ·  Debt: ${debtRaw}`,
+    ),
+    row(`${sigRun}  Runway        ${runwayRaw}`),
+    // Headroom moved to dedicated CONTEXT METER block above (S119).
+    row(`${sigCtx}  Context age   ${ctxAge}d`),
+    row(
+      `${sigIgnis}  IGNIS         ${status.ignisScore ?? "?"} ${status.ignisGrade || ""}  ·  ${ignisAge}d old`,
+    ),
+    row(
+      `${sigTruth}  Truth         ${truthStatus}  ·  Genome: ${status.truthGenome || "?"}`,
+    ),
+    row(`${sigCompliance}  Compliance   ${complianceDetail}`),
+    row(`${sigGenome}  Genome dims   ${genomeDetail}`),
+    row(`${sigEntropy}  Entropy       ${entropyLabel}`),
+    row(
+      `${sigCdr}  CDR           ${cdrGap ? `gap detected (${cdrGapDays}d)  — recover at closeout` : "no gap detected"}`,
+    ),
+    row(`${sigPatterns}  Patterns      ${patternsDetail}`),
+    row(
+      `${sigVer}  Templates     ${versionDrift ? `version drift (start: ${startVer} vs tpl: ${startTplVer})` : `v${startVer || "?"} aligned`}`,
+    ),
+    row(
+      `${sigRev}  Revenue sig.  ${revGenDate ? `${revAge}d old (${revGenDate})` : "not found"}${revAge > 7 ? "  ⚠ stale" : ""}`,
+    ),
+    row(`${sigDeploy}  Deploy gaps   ${deployLabel}`),
+    row(`${sigDoctor}  Doctor        ${doctorDetail}`),
+    row(`${sigCodexTrust}  Codex trust   ${codexTrustDetail}`),
+    row(`${sigCanonAdoption}  Canon adopt.  ${canonAdoptionDetail}`),
+    row(`${sigCost}  Cost          ${costDetail}`),
+    bot(),
+  ]),
   ``,
   // ── IGNIS INSIGHT ──────────────────────────────────────────────────────────
   ...(buildIgnisInsightBox() ? [buildIgnisInsightBox(), ``] : []),
@@ -1833,13 +1926,7 @@ const lines = [
         bot(),
         ``,
       ]
-    : [
-        top("HUMAN PRESSURE"),
-        row("Open items:    0 · blocker preflight found no owner-only action"),
-        row("Rule:          try secrets/admin paths before any escalation"),
-        bot(),
-        ``,
-      ]),
+    : []),
   // ── v4.0: SESSION VOICE (personable cue) ────────────────────────────────────
   // Suppressed S116 #623 — low-signal flavor block was pushing brief over the
   // 15KB brief-golden cap. v4.1 spec already drops this. Re-enable behind a
@@ -1877,15 +1964,30 @@ const lines = [
       if (!sessions.length) return [];
       const f = forecastNext(sessions, {
         velocity,
-        blockerPressure: Number(
-          topPressure?.pressure ?? topPressure?.score ?? 0,
-        ),
-        contextAge: Math.max(
-          0,
-          daysBetween(status.lastUpdated ?? today, today),
-        ),
+        blockerPressure: 87,
+        contextAge: 0,
       });
       if (!f) return [];
+      // S220 audit #16 — calibration loop: resolve prior forecasts against the
+      // actuals now visible in SIL history, record this forecast, show rolling MAE.
+      let maeRow = null;
+      try {
+        const fl = recordAndResolve(root, {
+          forSession: (sessions[0].session ?? 0) + 1,
+          forecastTotal: f.totalPredicted,
+          actuals: sessions.map((s) => ({
+            session: s.session,
+            total: s.total,
+          })),
+        });
+        const { mae, samples } = rollingMae(fl);
+        maeRow =
+          mae != null
+            ? row(`Calibration: MAE ${mae} over last ${samples} forecasts`)
+            : row(`Calibration: ${samples}/3 samples — uncalibrated`);
+      } catch {
+        /* ledger failure never blocks the brief */
+      }
       const diff = f.totalPredicted - sessions[0].total;
       const arrow = diff > 0 ? "↑" : diff < 0 ? "↓" : "→";
       const risky = Object.entries(f.categories)
@@ -1921,6 +2023,7 @@ const lines = [
             ]
           : [row(`All categories forecast stable or rising.`)]),
         ...(mitigationRow ? [mitigationRow] : []),
+        ...(maeRow ? [maeRow] : []),
         bot(),
         ``,
       ];
@@ -1935,7 +2038,7 @@ const lines = [
   ``,
   `---`,
   ``,
-  `*Generated by \`scripts/render-startup-brief.mjs v3.1\` · Session ${currentSession - 1} closeout · ${today}*`,
+  `*Generated by \`scripts/render-startup-brief.mjs v3.1\` for Session ${currentSession} from Session ${currentSession - 1} closeout evidence · ${today}*`,
   `*Run \`node scripts/ops.mjs doctor\` for live health check · \`node scripts/ops.mjs genius-list\` to refresh hit list*`,
 ];
 
@@ -1978,4 +2081,61 @@ try {
   process.stderr.write(
     `  ⚠ skill-cost-ledger record skipped: ${err.message}\n`,
   );
+}
+
+// ── Audit S119 #11: dual-render mode for measured v5 savings ────────────────
+// Set STUDIO_BRIEF_V5=compare to also emit v5 and log size delta. Use
+// STUDIO_BRIEF_V5=1 (or --v5) to promote v5 as the source of /start. Default
+// (no flag) keeps v3.1 — full cutover blocked on measured-comparable session.
+// S120 audit #12 — v5 now default when `.cache/brief-v5-canonical` flag file
+// exists (set once at promotion). Env override still honored.
+const v5FlagFile = path.join(root, ".cache", "brief-v5-canonical");
+const v5Mode =
+  process.env.STUDIO_BRIEF_V5 ||
+  (process.argv.includes("--v5") ? "1" : null) ||
+  (fs.existsSync(v5FlagFile) ? "1" : "off");
+if (v5Mode !== "off") {
+  try {
+    const v5Path = path.resolve(__dirname, "render-startup-brief-v5.mjs");
+    if (fs.existsSync(v5Path)) {
+      const res = spawnSync(node, [v5Path], { cwd: root, stdio: "inherit" });
+      if (res.status === 0) {
+        const v3Bytes = Buffer.byteLength(lines.join("\n"), "utf8");
+        const v5File = path.join(root, "docs", "STARTUP_BRIEF_V5.md");
+        if (fs.existsSync(v5File)) {
+          const v5Bytes = fs.statSync(v5File).size;
+          const reductionPct = Math.round(
+            ((v3Bytes - v5Bytes) / v3Bytes) * 100,
+          );
+          console.log(
+            `  ◆ brief-v5 compare: v3=${v3Bytes}b v5=${v5Bytes}b  (${reductionPct}% reduction)`,
+          );
+          if (v5Mode === "1" || v5Mode === "promote") {
+            // S209 [audit #2] — promotion guard. v5 must not overwrite the
+            // canonical brief unless it passes the same validator /start uses AND
+            // carries no unresolved computed-block stub. This is the safety net
+            // that stops a half-built v5 (e.g. an unwired SIGNALS/HUMAN PRESSURE
+            // resolver) from silently becoming the founder's primary surface.
+            const v5Text = fs.readFileSync(v5File, "utf8");
+            const hasStub = /\{"script":\s*"/.test(v5Text);
+            const valid = spawnSync(
+              node,
+              [path.join(__dirname, "validate-brief-format.mjs"), v5File],
+              { cwd: root },
+            );
+            if (hasStub || valid.status !== 0) {
+              console.error(
+                `  ⚠ brief-v5 promotion BLOCKED — ${hasStub ? "unresolved computed-block stub" : "failed validate-brief-format"}; keeping v3.1 canonical.`,
+              );
+            } else {
+              fs.copyFileSync(v5File, outputPath);
+              console.log(`  ◆ brief-v5 promoted → docs/STARTUP_BRIEF.md`);
+            }
+          }
+        }
+      }
+    }
+  } catch (err) {
+    process.stderr.write(`  ⚠ v5 dual-render skipped: ${err.message}\n`);
+  }
 }

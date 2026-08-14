@@ -25,6 +25,7 @@ import fs from "fs";
 import https from "https";
 import path from "path";
 import { fileURLToPath } from "url";
+import { archiveBeforeMutate } from "./lib/archive-then-compact.mjs";
 import {
   MODELS,
   callClaude,
@@ -91,6 +92,12 @@ if (trim) {
   });
 
   if (!dryRun) {
+    archiveBeforeMutate({
+      sourcePath: HANDOFF,
+      content: raw,
+      label: "handoff-trim",
+      suffix: ".full.md",
+    });
     // Append archived sessions to HANDOFF_ARCHIVE.md
     const archiveHeader = `\n\n---\n<!-- archived: ${new Date().toISOString().slice(0, 10)} -->\n\n`;
     fs.appendFileSync(ARCHIVE, archiveHeader + toArchive.join(""));

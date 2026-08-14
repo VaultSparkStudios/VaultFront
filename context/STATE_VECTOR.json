@@ -1,12 +1,12 @@
 {
   "vectorVersion": "1.0",
-  "generatedAt": "2026-08-13",
-  "generatedAtMs": 1786655223821,
-  "session": 102,
-  "vectorHash": "f7ae21c93070dde4",
-  "silTotal": 998,
-  "silAvg3": 997.7,
-  "velocity": 9,
+  "generatedAt": "2026-08-14",
+  "generatedAtMs": 1786684136890,
+  "session": 103,
+  "vectorHash": "b46b76d900b7dab2",
+  "silTotal": 996,
+  "silAvg3": 997.3,
+  "velocity": 6,
   "debt": "down",
   "runway": "unknown",
   "intentRate": "100%",
@@ -16,7 +16,7 @@
   "topNow": [
     "Verify `contact@vaultfront.io` end-to-end through the project-domain Zoho alias:",
     "Collect at least three distinct authenticated human Alpha sessions and one real ",
-    "Execute and retain an observed digest rollback drill, then measure production pa"
+    "Attach the verified release-observation bundle to runtime readiness before produ"
   ],
   "topNext": [
     "[release-evidence] Collect three distinct authenticated human Alpha sessions and",
@@ -28,15 +28,15 @@
   "genome": "24/25",
   "ignisScore": 43050,
   "ignisGrade": "FORGE",
-  "ignisAgeDays": 5,
+  "ignisAgeDays": 6,
   "name": "VaultFront",
   "slug": "vaultfront",
   "type": "game",
   "lifecycle": "alpha",
-  "nextMilestone": "Verify project-domain Zoho reply identity, collect three authenticated humans and real revenue, execute an observed rollback, then measure production parity/Core Web Vitals and promote through the validated corridor.",
-  "currentFocus": "Session 102 shipped 9/10 audit findings, corrected the repository-owned contact surface, passed exact-revision provider gates, and deployed the exact immutable candidate to healthy stable staging.",
+  "nextMilestone": "Attest the new revision on stable staging, then verify project-domain Zoho reply identity and collect three authenticated humans plus one real revenue event before production promotion.",
+  "currentFocus": "Session 103 shipped six game-loop, UX, secrets-authority, and public-boundary findings; full local verification is green and exact-revision stable staging is next.",
   "lastShipped": "see LATEST_HANDOFF.md",
   "blockers": [
-    "Production is NO-GO until project-domain Zoho send/receive reply-as-alias delivery, three distinct authenticated human sessions, real revenue, an observed rollback, and measured production parity/Core Web Vitals are evidenced."
+    "Production is NO-GO until project-domain Zoho send/receive reply-as-alias delivery, three distinct authenticated human sessions, and real revenue are evidenced."
   ]
 }

@@ -67,6 +67,7 @@ import {
 } from "../PlayStyleClassifier";
 import { Layer } from "./Layer";
 import { GoToPositionEvent } from "./Leaderboard";
+import { renderPostMatchSecondaryActions } from "./PostMatchSecondaryActions";
 void import("../../CertifiedMatchFeedback");
 void import("../../PostMatchContinuationCard");
 
@@ -256,9 +257,10 @@ export class WinModal extends LitElement implements Layer {
       selectPostMatchContinuationAction(continuationContext);
     return html`
       <div
+        data-vf-postmatch-surface
         class="${
           this.isVisible
-            ? "fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-800/70 p-6 shrink-0 rounded-lg z-9999 shadow-2xl backdrop-blur-xs text-white w-87.5 max-w-[90%] md:w-175"
+            ? "fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-800/70 p-6 shrink-0 rounded-lg z-9999 shadow-2xl backdrop-blur-xs text-white w-87.5 max-w-[90%] md:w-175 max-h-[calc(100dvh-2rem)] overflow-y-auto overscroll-contain"
             : "hidden"
         }"
       >
@@ -298,11 +300,6 @@ export class WinModal extends LitElement implements Layer {
               ></certified-match-feedback>`
             : null
         }
-        ${
-          this.showButtons && this.mutatorVoteCandidates.length > 0
-            ? this.renderMutatorVote()
-            : null
-        }
         <div class="${this.showButtons ? "flex flex-col gap-2" : "hidden"}">
           <div class="grid grid-cols-[minmax(0,2fr)_minmax(0,1fr)] gap-2.5">
             <post-match-continuation-card
@@ -321,76 +318,24 @@ export class WinModal extends LitElement implements Layer {
               Exit match
             </button>
           </div>
-          <div class="flex justify-between gap-2.5">
-            <button
-              @click=${this._handleShare}
-              class="min-h-11 flex-1 px-3 py-2 text-sm cursor-pointer bg-green-600/70 text-white border-0 rounded-sm transition-all duration-200 hover:bg-green-600/90 hover:-translate-y-px active:translate-y-px focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300"
-            >
-              ${this.shareCopied ? "Link copied!" : "Share Match"}
-            </button>
-            ${
-              continuationAction === "rematch"
-                ? null
-                : html`<button
-                    @click=${this._handleRematch}
-                    class="min-h-11 flex-1 px-3 py-2 text-sm cursor-pointer bg-orange-500/70 text-white border-0 rounded-sm transition-all duration-200 hover:bg-orange-500/90 hover:-translate-y-px active:translate-y-px disabled:cursor-wait disabled:opacity-60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300"
-                    ?disabled=${this.rematchPending}
-                  >
-                    ${
-                      this.rematchPending
-                        ? "Creating rematch…"
-                        : this.rematchResult
-                          ? "Open rematch lobby"
-                          : this.rematchError
-                            ? "Retry rematch"
-                            : "Rematch"
-                    }
-                  </button>`
-            }
-            <button
-              @click=${this._handleShareHighlight}
-              class="min-h-11 flex-1 px-3 py-2 text-sm cursor-pointer bg-indigo-600/70 text-white border-0 rounded-sm transition-all duration-200 hover:bg-indigo-600/90 hover:-translate-y-px active:translate-y-px focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300"
-            >
-              ${this.highlightCopied ? "Clip copied!" : "Share Clip"}
-            </button>
-            ${
-              this.replayHighlight
-                ? html`<a
-                    href=${this.replayHighlight.shareUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="min-h-11 flex-1 px-3 py-2 text-sm cursor-pointer bg-violet-600/70 text-white border-0 rounded-sm transition-all duration-200 hover:bg-violet-600/90 hover:-translate-y-px text-center no-underline flex items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300"
-                    title="${this.replayHighlight.ogTitle}"
-                  >
-                    ▶ Watch Highlight<br /><span
-                      class="text-[10px] text-violet-200/80"
-                      >${this.replayHighlight.topMoment}</span
-                    >
-                  </a>`
-                : ""
-            }
-          </div>
-          ${
-            this.rematchResult
-              ? html`<a
-                  href=${this.rematchResult.joinUrl}
-                  class="block text-xs text-center text-orange-200 underline underline-offset-2"
-                  >Rematch lobby ready · join before it expires</a
-                >`
-              : this.rematchError
-                ? html`<p class="text-xs text-center text-red-300" role="alert">
-                    ${this.rematchError}
-                  </p>`
-                : ""
-          }
-          <div class="flex justify-end">
-            <button
-              @click=${this._handleShareCard}
-              class="px-3 py-1.5 text-xs cursor-pointer bg-teal-600/60 text-white border-0 rounded-sm transition-all duration-200 hover:bg-teal-600/90"
-            >
-              ${this.shareCardCopied ? "Card saved!" : "Save Result Card"}
-            </button>
-          </div>
+          ${renderPostMatchSecondaryActions({
+            continuationAction,
+            mutatorVote:
+              this.mutatorVoteCandidates.length > 0
+                ? this.renderMutatorVote()
+                : null,
+            shareCopied: this.shareCopied,
+            rematchPending: this.rematchPending,
+            rematchResult: this.rematchResult,
+            rematchError: this.rematchError,
+            highlightCopied: this.highlightCopied,
+            replayHighlight: this.replayHighlight,
+            shareCardCopied: this.shareCardCopied,
+            onShare: this._handleShare,
+            onRematch: this._handleRematch,
+            onShareHighlight: this._handleShareHighlight,
+            onShareCard: this._handleShareCard,
+          })}
         </div>
       </div>
     `;

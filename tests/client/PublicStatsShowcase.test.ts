@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   isPublicStatsFeedStale,
   normalizePublicStatsFeed,
@@ -34,6 +34,11 @@ const feed = {
 };
 
 describe("PublicStatsShowcase", () => {
+  afterEach(() => {
+    document.body.replaceChildren();
+    vi.unstubAllGlobals();
+    delete window.showPage;
+  });
   it("admits one bounded homepage showcase from the Analytica feed", () => {
     expect(normalizePublicStatsFeed(feed)).toMatchObject({
       refreshSeconds: 86_400,
@@ -56,5 +61,68 @@ describe("PublicStatsShowcase", () => {
     expect(
       normalizePublicStatsFeed({ ...feed, showcase: ["players"] }),
     ).toBeNull();
+  });
+
+  it("routes a signed-out visitor through the Studio account boundary", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () =>
+        Promise.resolve(
+          new Response(JSON.stringify(feed), {
+            status: 200,
+            headers: { "content-type": "application/json" },
+          }),
+        ),
+      ),
+    );
+    window.showPage = vi.fn();
+    const showcase = document.createElement(
+      "public-stats-showcase",
+    ) as HTMLElement & { updateComplete: Promise<unknown> };
+    document.body.append(showcase);
+    await showcase.updateComplete;
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    await showcase.updateComplete;
+
+    const button = showcase.shadowRoot!.querySelector("button")!;
+    expect(button.textContent).toContain("Join the Alpha");
+    button.click();
+
+    expect(window.showPage).toHaveBeenCalledWith("page-account");
+  });
+
+  it("routes an authenticated contributor into existing matchmaking", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () =>
+        Promise.resolve(
+          new Response(JSON.stringify(feed), {
+            status: 200,
+            headers: { "content-type": "application/json" },
+          }),
+        ),
+      ),
+    );
+    const onMatchmaking = vi.fn();
+    document.addEventListener("open-matchmaking", onMatchmaking, {
+      once: true,
+    });
+    const showcase = document.createElement(
+      "public-stats-showcase",
+    ) as HTMLElement & { updateComplete: Promise<unknown> };
+    document.body.append(showcase);
+    document.dispatchEvent(
+      new CustomEvent("userMeResponse", {
+        detail: { player: { publicId: "human-alpha-1" } },
+      }),
+    );
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    await showcase.updateComplete;
+
+    const button = showcase.shadowRoot!.querySelector("button")!;
+    expect(button.textContent).toContain("Find an Alpha match");
+    button.click();
+
+    expect(onMatchmaking).toHaveBeenCalledOnce();
   });
 });

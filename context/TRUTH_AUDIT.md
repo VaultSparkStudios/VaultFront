@@ -2,6 +2,16 @@
 
 # Truth Audit
 
+## 2026-08-14 — Session 103 game-loop, protocol, and release truth
+
+- Work truth: `docs/AUDIT_2026-08-13.json` is exhausted at 16/16 cumulative items with 214–219 shipped; `docs/INNOVATION_PACK.json` is exhausted at 70/70.
+- Game truth: the executable Capture → Convoy → three Pressure deliveries → 90-second Breach → decisive fourth-delivery spine is documented. Human evidence is zero, so Loop Tightness is 90, Progression 82, Session Engagement 70, Retention Hooks 65, and Soul Fidelity remains unscored.
+- Verification truth: canonical `npm test` passes 278 files / 1,454 tests. TypeScript, lint, formatting, production build, 28,125 balance scenarios, contracts, bundle budgets, project doctor 13/13, and focused Playwright theme proof 2/2 pass directly.
+- Visual truth: 138 source- and artifact-hash-bound captures cover three themes across desktop/mobile at source digest `sha256:a916c97b37df96bc4a7bb7f83ab23b9d080df734b10faf02745dd2c5270dc401`; CANON-053 passes.
+- Security truth: settings sanitization is clean; staged scan reports zero secret findings; generated `context/SIGNALS.md` and `portfolio/compiled/FORECAST_LEDGER.json` are ignored and absent.
+- Agent-surface truth: `/agents.json` now declares the staging-observed Obelisk authorization-code/PKCE entrypoint; it does not claim production availability. Canonical runtime readiness still has no attached release-observation bundle, so workflow/docs receipts remain insufficient.
+- Release truth: prior exact-revision staging parity, rollback, replay integrity, and Core Web Vitals observations remain valid. The new revision is not called staged until provider attestation exists. Production remains 503 / NO-GO on Zoho reply identity, three authenticated humans, and real revenue.
+
 ## 2026-08-13 — Session 102 exact-revision and production-boundary truth
 
 - Work truth: `docs/AUDIT_2026-08-13.json` records nine shipped findings and one deferred external-mail observation; the canonical contact source correction is not conflated with provider delivery proof.

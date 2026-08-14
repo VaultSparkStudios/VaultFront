@@ -25,7 +25,6 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { extractCurrentSessionIntent } from "./lib/task-board.mjs";
 
 function readText(p) {
   try {
@@ -115,7 +114,9 @@ export function classifyIntent(rootDir = process.cwd()) {
   const taskboard = readText(path.join(rootDir, "context", "TASK_BOARD.md"));
   const handoff = readText(path.join(rootDir, "context", "LATEST_HANDOFF.md"));
   const nowBucket = extractNow(taskboard);
-  const intentBlock = extractCurrentSessionIntent(handoff);
+  const intentBlock = (handoff.match(
+    /## Session Intent[\s\S]*?(?=\n## |$)/i,
+  ) || [""])[0];
   const sample = [intentBlock, nowBucket].join("\n").toLowerCase();
   const score = (dict) =>
     dict.reduce((a, kw) => a + (sample.split(kw).length - 1), 0);

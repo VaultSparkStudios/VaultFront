@@ -6,7 +6,17 @@ Public-safe roadmap only. Detailed backlog sequencing is maintained privately.
 
 - [ ] Verify `contact@vaultfront.io` end-to-end through the project-domain Zoho alias: receive, send, and reply-as the same address.
 - [ ] Collect at least three distinct authenticated human Alpha sessions and one real checkout/supporter revenue observation.
+- [ ] Attach the verified release-observation bundle to runtime readiness before production promotion; workflow/docs receipts alone do not satisfy canonical runtime observations.
 - [done] Executed and retained exact-digest rollback/restoration run `31750318879`; measured 9/9 staging theme/viewport cells plus 390/768/1440 responsive parity with green Core Web Vitals.
+
+## Completed (2026-08-14 — Session 103 game-loop and protocol-integrity arc)
+
+- [done] Shipped audit items 214–219: authoritative secrets composition, generated-state quarantine, public-safe game-loop contract, authenticated Alpha contributor CTA, semantic Command Center/Fortune themes, and a progressive post-match reward ladder.
+- [done] Preserved the certified four-delivery climax and explicitly deferred balance changes until stage timing/drop-off is observed from at least three authenticated fresh players.
+- [done] Root-fixed 14 startup-propagation regressions without weakening contracts; full suite passes 278 files / 1,454 tests and doctor 13/13.
+- [done] Refreshed and reviewed 138 hash-bound rendered artifacts across three themes and desktop/mobile; CANON-053 passes at source digest `sha256:a916c97b37df96bc4a7bb7f83ab23b9d080df734b10faf02745dd2c5270dc401`.
+- [done] Sanitized local settings and passed the staged public-repo secret scan with zero findings.
+- [done] Kept production fail-closed on Zoho reply identity, three authenticated humans, and real revenue; no synthetic fixture or CTA click was relabeled as release evidence.
 
 ## Completed (2026-08-13 — Session 103 release-corridor continuation)
 
@@ -16,20 +26,6 @@ Public-safe roadmap only. Detailed backlog sequencing is maintained privately.
 - [done] Configured production-grade replay HMAC posture through domain-separated gateway key derivation; live readiness now reports replay integrity `pass`.
 - [done] Pushed final candidate `0a9149c8` to `main`; exact provider checks and staging deploy `31750089197` are green.
 - [done] Preserved the release boundary: production remains 503 because Zoho identity, three real authenticated humans, and real revenue remain unobserved.
-
-## Completed (2026-08-13 — Session 102 runtime and staging arc)
-
-- [done] Shipped audit items 204–212: participant-bound rematch continuation, fatal-drain coordination, durable replay authority, atomic fleet AI limits, pre-parser body admission, accessible modal ownership, normalized Oracle identity, duplicate-icon retirement, and derived coverage floors.
-- [done] Corrected the public contact surface to canonical `contact@vaultfront.io`; external Zoho delivery evidence remains explicitly deferred under item 213.
-- [done] Passed 274 files / 1,434 tests, Playwright 30/30, 132 rendered desktop/mobile/theme captures, build, contracts, balance, lint, format, and security gates.
-- [done] Pushed exact revision `f938652c` to `main`; all exact-revision provider workflows passed; staging run `31743202674` is healthy at the immutable image digest and promotion validation run `31743525021` passed dry-run.
-- [done] Preserved the release boundary: production still returns 503 and was not relabeled as deployed without the remaining independent observations.
-
-## Now — production evidence corridor
-
-- [ ] Verify `contact@vaultfront.io` end-to-end through the project-domain Zoho alias: receive, send, and reply-as the same address.
-- [ ] Collect at least three distinct authenticated human Alpha sessions and one real checkout/supporter revenue observation.
-- [done] Executed and retained exact-digest rollback/restoration run `31750318879`; measured 9/9 staging theme/viewport cells plus 390/768/1440 responsive parity with green Core Web Vitals.
 
 ## Completed (2026-08-13 — Session 102 runtime and staging arc)
 

@@ -6,7 +6,7 @@
  * bash `echo > file` silently fails for dotfiles on Windows — this doesn't.
  *
  * Usage:
- *   node scripts/write-session-lock.mjs [--agent <claude-code|codex|other>] [--note "..."]
+ *   node scripts/write-session-lock.mjs [--agent <claude-code|codex|other>] [--trigger <founder-mission|recovery|scheduled-routine|ad-hoc>] [--note "..."]
  *   node scripts/ops.mjs write-session-lock --agent claude-code
  */
 
@@ -22,10 +22,14 @@ import { fileURLToPath } from "url";
 // canonical label rather than hard-failing the import. Strips the 'claude-' API
 // prefix to keep a human label (not an API ID) and appends the 1M-context suffix.
 let DEFAULT_CLAUDE_LABEL = "opus-4-8-1m";
+let DEFAULT_CODEX_LABEL = "codex-272k";
+let DEFAULT_CODEX_CONTEXT_LIMIT = 272_000;
 try {
-  const { MODELS } = await import("./lib/model-router.mjs");
+  const { MODELS, CONTEXT_WINDOWS } = await import("./lib/model-router.mjs");
   if (MODELS?.opus)
     DEFAULT_CLAUDE_LABEL = MODELS.opus.replace(/^claude-/, "") + "-1m";
+  if (CONTEXT_WINDOWS?.["codex-272k"])
+    DEFAULT_CODEX_CONTEXT_LIMIT = CONTEXT_WINDOWS["codex-272k"];
 } catch {
   /* standalone copy — chokepoint unavailable, keep fallback */
 }
@@ -33,11 +37,43 @@ try {
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const args = process.argv.slice(2);
 
+function valueArg(name) {
+  const index = args.indexOf(name);
+  if (index < 0) return null;
+  const value = args[index + 1];
+  if (!value || value.startsWith("--")) {
+    console.error(`⛔ ${name} requires a value`);
+    process.exit(2);
+  }
+  return value;
+}
+
+function normalizeTrigger(value) {
+  const raw = String(value || "")
+    .trim()
+    .toLowerCase();
+  if (/^(cron|timer|schedule|scheduled|routine|scheduled-routine)$/.test(raw))
+    return "scheduled-routine";
+  if (/^(founder|founder-mission|goal)$/.test(raw)) return "founder-mission";
+  if (/^(manual|ad-hoc|adhoc)$/.test(raw)) return "ad-hoc";
+  if (raw === "recovery") return raw;
+  return null;
+}
+
 const agentArg =
   args.find((_, i) => args[i - 1] === "--agent") ?? "claude-code";
 const noteArg =
   args.find((_, i) => args[i - 1] === "--note") ??
   "Session start via /start protocol v1.3";
+const triggerInput =
+  valueArg("--trigger") ?? process.env.STUDIO_SESSION_TRIGGER ?? "ad-hoc";
+const triggerArg = normalizeTrigger(triggerInput);
+if (!triggerArg) {
+  console.error(
+    `⛔ invalid session trigger "${triggerInput}" (expected founder-mission, recovery, scheduled-routine, or ad-hoc)`,
+  );
+  process.exit(2);
+}
 // Model can be pinned for accurate context-meter calibration. Precedence:
 //   --model <id>  >  $CLAUDE_MODEL_ID  >  $CLAUDE_MODEL  >  auto (by agent)
 const modelArg =
@@ -49,21 +85,25 @@ const modelArg =
   (agentArg === "claude-code"
     ? DEFAULT_CLAUDE_LABEL
     : agentArg === "codex"
-      ? "codex-1m"
+      ? DEFAULT_CODEX_LABEL
       : "unknown");
 // Context window in tokens. Precedence:
-//   --context-limit <n>  >  $CLAUDE_CONTEXT_LIMIT  >  inferred from model
+//   --context-limit <n>  >  provider-specific env override  >  inferred model
 function inferCtxLimit(modelId) {
   if (/1m/i.test(modelId)) return 1_000_000;
+  if (/272k/i.test(modelId)) return DEFAULT_CODEX_CONTEXT_LIMIT;
   if (/opus|sonnet/i.test(modelId)) return 200_000;
-  if (modelId === "codex-1m") return 1_000_000;
   return 200_000;
 }
 const ctxLimitArg = args.find((_, i) => args[i - 1] === "--context-limit");
+const providerContextOverride =
+  agentArg === "codex"
+    ? process.env.CODEX_CONTEXT_LIMIT
+    : process.env.CLAUDE_CONTEXT_LIMIT;
 const ctxLimit = ctxLimitArg
   ? parseInt(ctxLimitArg, 10)
-  : process.env.CLAUDE_CONTEXT_LIMIT
-    ? parseInt(process.env.CLAUDE_CONTEXT_LIMIT, 10)
+  : providerContextOverride
+    ? parseInt(providerContextOverride, 10)
     : inferCtxLimit(modelArg);
 
 const projectName = path.basename(ROOT);
@@ -88,6 +128,7 @@ const content = [
   `locked_by: agent-session`,
   `session_start: ${sessionStart}`,
   `agent: ${agentArg}`,
+  `trigger: ${triggerArg}`,
   `model: ${modelArg}`,
   `context_limit: ${ctxLimit}`,
   `project: ${projectName}`,

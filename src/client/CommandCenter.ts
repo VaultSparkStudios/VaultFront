@@ -120,8 +120,10 @@ export class CommandCenter extends LitElement {
     );
     return html`
       <section
-        class="h-full overflow-y-auto custom-scrollbar bg-[radial-gradient(circle_at_top,rgba(245,158,11,0.12),transparent_42%),linear-gradient(180deg,rgba(2,6,23,0.98),rgba(15,23,42,0.98))] text-white"
+        class="h-full overflow-y-auto custom-scrollbar"
         aria-labelledby="command-center-title"
+        data-vf-command-center
+        style="background:radial-gradient(circle at top,color-mix(in srgb,var(--vf-warm) 12%,transparent),transparent 42%),linear-gradient(180deg,var(--vf-bg-deep),var(--vf-bg-mid));color:var(--vf-panel-text)"
       >
         <div class="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6 lg:py-10">
           <header
@@ -129,7 +131,8 @@ export class CommandCenter extends LitElement {
           >
             <div>
               <p
-                class="mb-2 text-xs font-bold uppercase tracking-[0.24em] text-amber-300"
+                class="mb-2 text-xs font-bold uppercase tracking-[0.24em]"
+                style="color:var(--vf-warm)"
               >
                 Live progression surface
               </p>
@@ -139,7 +142,10 @@ export class CommandCenter extends LitElement {
               >
                 Command Center
               </h1>
-              <p class="mt-2 max-w-2xl text-sm leading-relaxed text-slate-300">
+              <p
+                class="mt-2 max-w-2xl text-sm leading-relaxed"
+                style="color:var(--vf-panel-muted)"
+              >
                 One operational view for achievements, season momentum, clan
                 coordination, and tournament play.
               </p>
@@ -148,7 +154,8 @@ export class CommandCenter extends LitElement {
               ${
                 this.persistentId
                   ? html`<span
-                      class="rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1.5 text-xs font-semibold text-emerald-200"
+                      class="rounded-full border px-3 py-1.5 text-xs font-semibold"
+                      style="border-color:var(--vf-border-soft);background:color-mix(in srgb,var(--vf-accent) 12%,transparent);color:var(--vf-accent)"
                     >
                       Synced${
                         this.lastHydratedAt
@@ -157,7 +164,8 @@ export class CommandCenter extends LitElement {
                       }
                     </span>`
                   : html`<button
-                      class="rounded-lg border border-amber-300/40 bg-amber-300/10 px-4 py-2 text-sm font-bold text-amber-200 transition hover:bg-amber-300/20"
+                      class="min-h-11 rounded-lg border px-4 py-2 text-sm font-bold transition"
+                      style="border-color:var(--vf-border-strong);background:color-mix(in srgb,var(--vf-warm) 12%,transparent);color:var(--vf-warm)"
                       @click=${() => window.showPage?.("page-account")}
                     >
                       Sign in to synchronize
@@ -168,32 +176,40 @@ export class CommandCenter extends LitElement {
 
           <div class="mb-6 grid gap-3 sm:grid-cols-2">
             <button
-              class="group rounded-2xl border border-blue-400/25 bg-blue-400/10 p-5 text-left transition hover:-translate-y-0.5 hover:border-blue-300/50 hover:bg-blue-400/15 disabled:cursor-not-allowed disabled:opacity-50"
+              class="group rounded-2xl border p-5 text-left transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50"
+              style="border-color:var(--vf-border-soft);background:color-mix(in srgb,var(--vf-accent) 10%,var(--vf-glass));color:var(--vf-panel-text)"
               ?disabled=${!this.persistentId}
               @click=${this.openClans}
             >
               <span
-                class="text-xs font-bold uppercase tracking-widest text-blue-300"
+                class="text-xs font-bold uppercase tracking-widest"
+                style="color:var(--vf-accent)"
                 >Squad network</span
               >
               <span class="mt-2 block text-xl font-black">Open Clans</span>
-              <span class="mt-1 block text-sm text-slate-300"
+              <span
+                class="mt-1 block text-sm"
+                style="color:var(--vf-panel-muted)"
                 >Create, join, and compare coordinated crews.</span
               >
             </button>
             <button
-              class="group rounded-2xl border border-fuchsia-400/25 bg-fuchsia-400/10 p-5 text-left transition hover:-translate-y-0.5 hover:border-fuchsia-300/50 hover:bg-fuchsia-400/15 disabled:cursor-not-allowed disabled:opacity-50"
+              class="group rounded-2xl border p-5 text-left transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50"
+              style="border-color:var(--vf-border-soft);background:color-mix(in srgb,var(--vf-warm) 10%,var(--vf-glass));color:var(--vf-panel-text)"
               ?disabled=${!this.persistentId}
               @click=${this.openTournaments}
             >
               <span
-                class="text-xs font-bold uppercase tracking-widest text-fuchsia-300"
+                class="text-xs font-bold uppercase tracking-widest"
+                style="color:var(--vf-warm)"
                 >Competitive operations</span
               >
               <span class="mt-2 block text-xl font-black"
                 >Open Tournaments</span
               >
-              <span class="mt-1 block text-sm text-slate-300"
+              <span
+                class="mt-1 block text-sm"
+                style="color:var(--vf-panel-muted)"
                 >Register, seed, and follow the live bracket.</span
               >
             </button>
@@ -203,26 +219,33 @@ export class CommandCenter extends LitElement {
             class="grid gap-6 xl:grid-cols-[minmax(0,1.15fr)_minmax(20rem,0.85fr)]"
           >
             <article
-              class="rounded-2xl border border-white/10 bg-black/20 p-4 sm:p-6"
+              class="rounded-2xl border p-4 sm:p-6"
+              style="border-color:var(--vf-border-soft);background:var(--vf-glass)"
             >
               <achievements-panel></achievements-panel>
             </article>
             <article
-              class="rounded-2xl border border-white/10 bg-black/20 p-4 sm:p-6"
+              class="rounded-2xl border p-4 sm:p-6"
+              style="border-color:var(--vf-border-soft);background:var(--vf-glass)"
             >
               <season-pass-track></season-pass-track>
             </article>
             <article
-              class="rounded-2xl border border-white/10 bg-black/20 p-4 sm:p-6 xl:col-span-2"
+              class="rounded-2xl border p-4 sm:p-6 xl:col-span-2"
+              style="border-color:var(--vf-border-soft);background:var(--vf-glass)"
             >
               <fortune-collection-panel></fortune-collection-panel>
             </article>
           </div>
 
           <details
-            class="mt-6 rounded-2xl border border-white/10 bg-white/[0.03] p-4"
+            class="mt-6 rounded-2xl border p-4"
+            style="border-color:var(--vf-border-soft);background:color-mix(in srgb,var(--vf-glass) 86%,transparent)"
           >
-            <summary class="cursor-pointer text-sm font-bold text-slate-200">
+            <summary
+              class="cursor-pointer text-sm font-bold"
+              style="color:var(--vf-panel-text)"
+            >
               Feature liveness evidence
             </summary>
             <div class="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
@@ -231,12 +254,19 @@ export class CommandCenter extends LitElement {
                 .map(
                   (node) =>
                     html`<div
-                      class="rounded-lg border border-white/10 bg-black/20 p-3"
+                      class="rounded-lg border p-3"
+                      style="border-color:var(--vf-border-soft);background:color-mix(in srgb,var(--vf-bg-mid) 65%,transparent)"
                     >
-                      <div class="text-sm font-bold text-white">
+                      <div
+                        class="text-sm font-bold"
+                        style="color:var(--vf-panel-text)"
+                      >
                         ${node.label}
                       </div>
-                      <div class="mt-1 text-xs leading-relaxed text-slate-400">
+                      <div
+                        class="mt-1 text-xs leading-relaxed"
+                        style="color:var(--vf-panel-muted)"
+                      >
                         ${node.journey}
                       </div>
                     </div>`,

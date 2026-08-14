@@ -1,10 +1,13 @@
 // sil-forecaster.mjs
-// Forecast next-session SIL scores from structured evidence in the append-only
-// Markdown ledger. Pure functions stay side-effect free for renderer/tests.
+// Audit item #3 (S114). Forecast next session's SIL category scores from
+// last-3 session deltas + current TASK_BOARD pressure + velocity signals.
+//
+// Read by: scripts/render-startup-brief.mjs (new SIL FORECAST block)
+// Pure function — no I/O side-effects.
 
 import fs from "node:fs";
 import path from "node:path";
-import { parseSessionSections } from "./session-chronology.mjs";
+import { parseSilSessions } from "./sil-ledger.mjs";
 
 const CATEGORIES = [
   "Dev Health",
@@ -26,130 +29,76 @@ const CATEGORY_ALIASES = {
   "Engagement (infra)": "Engagement",
 };
 
-function cleanCell(value) {
-  return String(value ?? "")
-    .replace(/\*\*/gu, "")
-    .replace(/`/gu, "")
-    .trim();
-}
-
-function scoreFromHeading(remainder) {
-  const match = String(remainder).match(
-    /(?:Total|SIL(?:[^:|()]*)?):\s*(\d+)\/1000/iu,
-  );
-  return match ? Number(match[1]) : null;
-}
-
-function parseCategoryRows(block) {
-  const categories = {};
-  let total = null;
-
-  for (const line of String(block).split(/\r?\n/u)) {
-    if (!/^\s*\|/u.test(line)) continue;
-    const cells = line.split("|").slice(1, -1).map(cleanCell);
-    if (cells.length < 2) continue;
-
-    const indexed = /^\d+$/u.test(cells[0]);
-    const category = indexed ? cells[1] : cells[0];
-    const scoreCell = indexed ? cells[2] : cells[1];
-    if (!category || !scoreCell) continue;
-
-    if (/^Total$/iu.test(category)) {
-      const totalMatch = scoreCell.match(/^(\d+)\/1000$/u);
-      if (totalMatch) total = Number(totalMatch[1]);
-      continue;
-    }
-
-    const scoreMatch = scoreCell.match(/^(\d{1,3})$/u);
-    if (!scoreMatch) continue;
-    const canonical = CATEGORY_ALIASES[category] || category;
-    if (!CATEGORIES.includes(canonical)) continue;
-    categories[canonical] = Number(scoreMatch[1]);
-  }
-
-  return { categories, total };
-}
-
 export function parseSilHistory(silText, maxSessions = 5) {
-  const physical = parseSessionSections(silText).map((section) => {
-    const parsed = parseCategoryRows(section.body);
-    return {
-      date: section.date ?? "",
-      session: section.session,
-      total: scoreFromHeading(section.title) ?? parsed.total,
-      idx: section.start,
-      categories: parsed.categories,
-    };
-  });
-
-  const ordered = physical
-    .filter((session) => Number.isFinite(session.total))
-    .sort(
-      (a, b) =>
-        b.session - a.session || b.date.localeCompare(a.date) || b.idx - a.idx,
-    );
-  const seen = new Set();
-  return ordered
-    .filter((entry) => {
-      if (seen.has(entry.session)) return false;
-      seen.add(entry.session);
-      return true;
-    })
-    .slice(0, Math.max(0, maxSessions));
+  return parseSilSessions(silText)
+    .filter((entry) => entry.total != null)
+    .slice(0, maxSessions)
+    .map((entry) => ({
+      date: entry.date,
+      session: entry.session,
+      total: entry.totalNormalized,
+      categories: Object.fromEntries(
+        Object.entries(entry.categories).map(([raw, value]) => [
+          CATEGORY_ALIASES[raw] || raw,
+          value,
+        ]),
+      ),
+    }));
 }
 
 export function forecastNext(sessions, signals = {}) {
+  // signals: { velocity, blockerPressure, contextAge, unblocked }
   if (!sessions.length) return null;
   const forecast = {};
-
-  for (const category of CATEGORIES) {
+  for (const cat of CATEGORIES) {
     const series = sessions
-      .map((session) => session.categories?.[category])
-      .filter((score) => typeof score === "number");
+      .map((s) => s.categories[cat])
+      .filter((n) => typeof n === "number");
     if (!series.length) {
-      forecast[category] = { predicted: null, confidence: "none" };
+      forecast[cat] = { predicted: null, confidence: "none" };
       continue;
     }
-
+    // Simple AR(1): predict = last + alpha * (last - last-1), clamped 0..100
     const last = series[0];
-    const previous = series[1] ?? last;
-    let delta = last - previous;
-    if (category === "Momentum" && signals.velocity != null) {
+    const last2 = series[1] ?? last;
+    let delta = last - last2;
+    // Apply external-signal nudges
+    if (cat === "Momentum" && signals.velocity != null) {
       delta += signals.velocity >= 10 ? 2 : signals.velocity <= 2 ? -5 : 0;
     }
-    if (category === "Security Posture" && signals.blockerPressure >= 80) {
-      delta -= 2;
+    if (cat === "Security Posture" && signals.blockerPressure >= 80) {
+      delta -= 2; // aging credentials drag security
     }
-    if (category === "Capital Efficiency" && signals.contextAge >= 7) {
+    if (cat === "Capital Efficiency" && signals.contextAge >= 7) {
       delta -= 1;
     }
-
     const predicted = Math.max(0, Math.min(100, last + 0.6 * delta));
-    forecast[category] = {
+    forecast[cat] = {
       predicted: Math.round(predicted),
       delta: Math.round(predicted - last),
       confidence: series.length >= 3 ? "medium" : "low",
     };
   }
-
+  // Aggregate total
   const predicted = Object.values(forecast).filter(
     (entry) => entry.predicted != null,
   );
   if (!predicted.length) return null;
-
+  const totalPred = predicted.reduce((sum, entry) => sum + entry.predicted, 0);
   return {
     categories: forecast,
-    totalPredicted: predicted.reduce((sum, entry) => sum + entry.predicted, 0),
+    totalPredicted: totalPred,
     basis: sessions.length,
   };
 }
 
 export function renderForecastBlock(forecast, currentTotal = null) {
   if (!forecast) return "";
-  const lines = [
+  const lines = [];
+  lines.push(
     "╔══ SIL FORECAST (next session) ═════════════════════════════════╗",
-  ];
-  const arrow = (delta) => (delta > 0 ? "↑" : delta < 0 ? "↓" : "→");
+  );
+  const arrow = (d) => (d > 0 ? "↑" : d < 0 ? "↓" : "→");
   if (currentTotal != null) {
     const diff = forecast.totalPredicted - currentTotal;
     lines.push(
@@ -163,17 +112,16 @@ export function renderForecastBlock(forecast, currentTotal = null) {
     );
   }
   const risky = Object.entries(forecast.categories)
-    .filter(([, entry]) => entry.delta != null && entry.delta <= -3)
+    .filter(([, f]) => f.delta != null && f.delta <= -3)
     .sort((a, b) => a[1].delta - b[1].delta)
     .slice(0, 3);
   if (risky.length) {
     lines.push("║".padEnd(67) + "║");
     lines.push("║  At-risk categories (forecast drop ≥3):".padEnd(67) + "║");
-    for (const [category, entry] of risky) {
+    for (const [cat, f] of risky) {
       lines.push(
-        `║    ↓ ${category.padEnd(22)} ${entry.predicted} (Δ${entry.delta})`.padEnd(
-          67,
-        ) + "║",
+        `║    ↓ ${cat.padEnd(22)} ${f.predicted} (Δ${f.delta})`.padEnd(67) +
+          "║",
       );
     }
   } else {
@@ -185,12 +133,11 @@ export function renderForecastBlock(forecast, currentTotal = null) {
   return lines.join("\n");
 }
 
-const isDirect =
-  process.argv[1] &&
-  (import.meta.url === `file://${process.argv[1].replace(/\\/g, "/")}` ||
-    process.argv[1].endsWith("sil-forecaster.mjs"));
-
-if (isDirect) {
+// CLI entry
+if (
+  import.meta.url === `file://${process.argv[1].replace(/\\/g, "/")}` ||
+  process.argv[1].endsWith("sil-forecaster.mjs")
+) {
   const root = process.cwd();
   const silPath = path.join(root, "context", "SELF_IMPROVEMENT_LOOP.md");
   const sil = fs.readFileSync(silPath, "utf8");
@@ -205,10 +152,7 @@ if (isDirect) {
     console.log(
       JSON.stringify(
         {
-          basis: sessions.map((session) => ({
-            session: session.session,
-            total: session.total,
-          })),
+          basis: sessions.map((s) => ({ session: s.session, total: s.total })),
           forecast,
         },
         null,

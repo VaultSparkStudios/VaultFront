@@ -1,7 +1,8 @@
 /**
  * secrets.mjs — Studio Ops secrets gateway (v3.1)
  *
- * Single API for agents to read secrets from `secrets/*.env`.
+ * Single API for agents to read secrets from `secrets/*.env` plus a narrowly
+ * allowlisted set of legacy single-value files normalized into canonical keys.
  * Every access is audited to `secrets/.access.log` (gitignored).
  * Raw values are scrubbable from any downstream log via `redact()`.
  *
@@ -24,11 +25,14 @@ import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, "..", "..");
+export function resolveSecretsRoot(repoRoot = REPO_ROOT, env = process.env) {
+  return path.resolve(
+    env.VAULTSPARK_SECRETS_DIR_OVERRIDE || path.join(repoRoot, "secrets"),
+  );
+}
 // Tests can redirect lookups with VAULTSPARK_SECRETS_DIR_OVERRIDE (see
 // scripts/test/lib/credential-mocks.mjs). Production code never sets this.
-const SECRETS_DIR =
-  process.env.VAULTSPARK_SECRETS_DIR_OVERRIDE ||
-  path.join(REPO_ROOT, "secrets");
+const SECRETS_DIR = resolveSecretsRoot();
 // Sibling Studio Ops secrets dir — per AGENTS.md, all Studio credentials live here.
 // Walk parents (up to 6 levels) so this script works whether it's running in
 // studio-ops itself, a sibling project repo, or a worktree.
@@ -58,6 +62,13 @@ let _cacheStamp = 0;
 let _capMap = null;
 let _redactList = new Set();
 
+// CANON-012/019/040: legacy single-value credentials are normalized HERE, never
+// read by project call sites. Keep this list explicit: arbitrary *.txt loading
+// would turn every note/file in secrets/ into ambient credential state.
+export const LEGACY_SINGLE_VALUE_SOURCES = Object.freeze({
+  "supabase-pat.txt": "SUPABASE_ACCESS_TOKEN",
+});
+
 /**
  * Load and merge every `secrets/*.env` file into a flat key→value map.
  * Cached for 60s to avoid repeated disk reads across a single session.
@@ -82,6 +93,22 @@ function loadEnv() {
   }
 
   for (const dir of dirSet) {
+    // Low precedence inside a directory: a canonical .env value wins over its
+    // legacy adapter. The allowlisted raw file remains untouched on disk.
+    for (const [file, key] of Object.entries(LEGACY_SINGLE_VALUE_SOURCES)) {
+      const source = path.join(dir, file);
+      if (!fs.existsSync(source)) continue;
+      const value = fs.readFileSync(source, "utf8").trim();
+      if (
+        !value ||
+        /[\r\n]/.test(value) ||
+        value === "REPLACE_ME" ||
+        value.startsWith("REPLACE_ME")
+      )
+        continue;
+      merged[key] = value;
+      if (value.length >= 8) _redactList.add(value);
+    }
     const files = fs
       .readdirSync(dir)
       .filter((f) => f.endsWith(".env") && !f.startsWith("."));
@@ -144,9 +171,9 @@ function readCapabilityMapLayer(filePath, layer) {
 }
 
 /**
- * Load the canonical Studio Ops capability catalog, then overlay project-local
- * definitions by capability. This is intentionally read-only composition:
- * project repos consume the sibling authority without copying or mutating it.
+ * Compose the canonical Studio capability catalog with an optional project
+ * override. Definitions merge by capability; a project never has to copy the
+ * Studio catalog merely to add one local capability.
  */
 export function loadCapabilityMapLayers({
   basePath = STUDIO_OPS_CAP_MAP_PATH,
@@ -314,7 +341,7 @@ export function resolveCapability(capability) {
  */
 export function listCapabilities() {
   const map = loadCapMap();
-  const caps = Object.keys(map.capabilities || {}).sort();
+  const caps = Object.keys(map.capabilities || {});
   return caps.map((c) => ({ capability: c, ...resolveCapability(c) }));
 }
 

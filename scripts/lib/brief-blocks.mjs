@@ -32,31 +32,6 @@ function bottom() {
   return "╚" + "═".repeat(W + 2) + "╝";
 }
 
-function wrapWords(value, width = W, maxLines = 2) {
-  const words = String(value ?? "")
-    .trim()
-    .split(/\s+/u)
-    .filter(Boolean);
-  const lines = [];
-  let current = "";
-  while (words.length && lines.length < maxLines) {
-    const word = words.shift();
-    const candidate = current ? `${current} ${word}` : word;
-    if (candidate.length <= width) {
-      current = candidate;
-      continue;
-    }
-    if (current) lines.push(current);
-    current = word.length <= width ? word : word.slice(0, width - 1) + "…";
-  }
-  if (current && lines.length < maxLines) lines.push(current);
-  if (words.length && lines.length) {
-    const last = lines.length - 1;
-    lines[last] = lines[last].slice(0, width - 1).trimEnd() + "…";
-  }
-  return lines;
-}
-
 /**
  * Render the project title header block.
  * Emoji based on type; mode from sessionMode.
@@ -115,10 +90,9 @@ export function renderLastCompleted(summary, opts = {}) {
         bottom(),
       ].join("\n");
     }
-    const summaryLines = wrapWords(summary, W, 2);
     return [
       top(`LAST SESSION (S${session}) - WHAT SHIPPED`),
-      ...summaryLines.map((line) => row(line)),
+      row(summary.slice(0, W)),
       row(`Tests  ${opts.tests || "No direct suite count recorded"}`),
       row(`Deploy ${opts.deploy || "No deployment observation recorded"}`),
       bottom(),

@@ -55,7 +55,11 @@ describe("public launch foundation", () => {
           path: "/stats.json",
         }),
       ]),
-      authentication: { status: "not-wired" },
+      authentication: {
+        status: "staging-observed-production-unavailable",
+        flow: "authorization-code-pkce",
+        entrypoint: "/auth/login",
+      },
       availability: { publicRuntime: "unavailable" },
     });
     expect(

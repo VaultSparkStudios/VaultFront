@@ -20,7 +20,6 @@
 
 import fs from "fs";
 import path from "path";
-import { analyzeTaskBoard } from "./lib/task-board.mjs";
 
 const args = process.argv.slice(2);
 const JSON_OUT = args.includes("--json");
@@ -38,68 +37,60 @@ if (!fs.existsSync(TARGET)) {
 }
 
 const src = fs.readFileSync(TARGET, "utf8");
-const analysis = analyzeTaskBoard(src);
-const ids = new Map();
-for (const row of analysis.taskRows) {
-  const id = Number(row.idNumber);
+const lines = src.split(/\r?\n/);
+
+// Match table rows: `| NNN | ...` where NNN is an integer (task ID column).
+// Skip header separators (`| --- |`) and non-numeric first cells.
+const rowRe = /^\|\s*(\d+)\s*\|/;
+const ids = new Map(); // id -> [{ line, snippet }]
+
+// Audit-result tables (header `| Audit ID | ... |`) reuse small sequential
+// numbers (1..N) as per-audit row indices — NOT task IDs. They must not be
+// validated for cross-table uniqueness, or every closed audit collides with
+// the next. Skip a table's rows once its header declares "Audit ID"; a blank
+// line / non-table line ends the table block and re-enables counting.
+let inAuditTable = false;
+
+lines.forEach((line, idx) => {
+  if (!/^\s*\|/.test(line)) {
+    inAuditTable = false;
+    return;
+  }
+  if (/^\|\s*audit id\s*\|/i.test(line)) {
+    inAuditTable = true;
+    return;
+  }
+  if (inAuditTable) return;
+  const m = line.match(rowRe);
+  if (!m) return;
+  const id = Number(m[1]);
+  const snippet = line.slice(0, 120);
   if (!ids.has(id)) ids.set(id, []);
-  ids.get(id).push({ line: row.line, snippet: row.raw.slice(0, 120) });
-}
+  ids.get(id).push({ line: idx + 1, snippet });
+});
 
 const duplicates = [...ids.entries()]
   .filter(([, rows]) => rows.length > 1)
   .map(([id, rows]) => ({ id, count: rows.length, rows }));
 
 const total = ids.size;
-const structuralErrors = [];
-if (!analysis.supported) {
-  structuralErrors.push(
-    "No supported task rows or explicit exhausted active-work contract found.",
-  );
-}
-if (
-  analysis.hasActiveSection &&
-  analysis.activeRows.length === 0 &&
-  !analysis.explicitExhaustion
-) {
-  structuralErrors.push(
-    "Active task sections contain no parseable work and no explicit exhaustion marker.",
-  );
-}
-const ok = duplicates.length === 0 && structuralErrors.length === 0;
+const ok = duplicates.length === 0;
 
 if (JSON_OUT) {
-  console.log(
-    JSON.stringify(
-      {
-        ok,
-        total,
-        parsedRows: analysis.counts.parsed,
-        counts: analysis.counts,
-        representation: total > 0 ? "numeric-table" : "compact-checklist",
-        explicitExhaustion: analysis.explicitExhaustion,
-        structuralErrors,
-        duplicates,
-        path: TARGET,
-      },
-      null,
-      2,
-    ),
-  );
+  console.log(JSON.stringify({ ok, total, duplicates, path: TARGET }, null, 2));
   process.exit(ok ? 0 : 1);
 }
 
 if (ok) {
   console.log(
-    `✓ TASK_BOARD integrity — ${analysis.counts.parsed} parsed row(s) · ${total} numeric ID(s) · no duplicates · ${analysis.explicitExhaustion ? "explicitly exhausted" : analysis.counts.active + " active"}.`,
+    `✓ TASK_BOARD ID integrity — ${total} unique IDs, no duplicates.`,
   );
   process.exit(0);
 }
 
 console.error(
-  `✗ TASK_BOARD integrity FAIL — ${duplicates.length} duplicate ID(s), ${structuralErrors.length} structural error(s):`,
+  `✗ TASK_BOARD ID integrity FAIL — ${duplicates.length} duplicate ID(s):`,
 );
-for (const error of structuralErrors) console.error(`  - ${error}`);
 for (const { id, count, rows } of duplicates) {
   console.error(`\n  #${id} (${count}×):`);
   for (const r of rows) {

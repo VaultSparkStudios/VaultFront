@@ -100,5 +100,40 @@ describe("FortuneCollectionPanel", () => {
 
     expect(equipFortuneTitle).toHaveBeenCalledWith("title_operator");
     expect(panel.equippedTitle).toBe("The Operator");
+    expect(panel.equipStatus).toEqual({
+      kind: "success",
+      message:
+        "The Operator equipped. Your title will appear in the next match.",
+    });
+  });
+
+  test("surfaces a failed equip response without claiming the title changed", async () => {
+    vi.mocked(fetchFortuneCollection).mockResolvedValue({
+      items: [
+        {
+          itemId: "title_operator",
+          name: "The Operator",
+          rarity: "common",
+          type: "title",
+          value: "The Operator",
+          drawnAt: 1700000000000,
+        },
+      ],
+      equippedTitle: null,
+    });
+    vi.mocked(equipFortuneTitle).mockResolvedValue({
+      ok: false,
+      error: "Title could not be equipped.",
+    });
+
+    const panel = new FortuneCollectionPanel() as any;
+    await panel.loadForPlayer("player-123");
+    await panel.equip(panel.items[0]);
+
+    expect(panel.equippedTitle).toBeNull();
+    expect(panel.equipStatus).toEqual({
+      kind: "error",
+      message: "Title could not be equipped.",
+    });
   });
 });

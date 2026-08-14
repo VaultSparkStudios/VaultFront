@@ -1,13 +1,13 @@
 <!-- generated-by: scripts/render-startup-brief.mjs v3.1 -->
-<!-- generated-at: 2026-08-13T21:09:46.891Z -->
-<!-- generated-for-session: 103; source-closeout-session: 102 -->
+<!-- generated-at: 2026-08-14T05:09:30.065Z -->
+<!-- generated-for-session: 104; source-closeout-session: 103 -->
+<!-- semantic-freshness: hash=162657809661b5b7 next=104 silSession=103 silScore=996 handoff=- tests=- -->
 <!-- fast-boot-valid-until: next session if within 24h -->
 <!-- brief-coherent: true -->
-<!-- brief-sources: {"schema":2,"session":102,"sources":{"context/PROJECT_STATUS.json":"663bdbf6a13962cbac91044b73bf5018d5b84996a796435b4a8679c6386cd7aa","context/TASK_BOARD.md":"e5ca3cf3c6134f1539a911550e276a46d2708a983c13b944bc77e0bf685a2f31","context/LATEST_HANDOFF.md":"724e621026e53d275d22d0524732b6547047df25fd5276973084891308439d4e","context/SELF_IMPROVEMENT_LOOP.md":"b8e75acbb166800bf7d3936c816d76cef5cb85d53ccf1dfbfb54495244f7d293","context/TRUTH_AUDIT.md":"2a97a3361f5ef49f2759c6593d5edd6b8741bb495f79295bdadcf02266bd9a24","context/CURRENT_STATE.md":"d9967efd93b9d9e0dbf93dae077e4e12524fa090e1f4a0547a674f12a85749a8","docs/GENIUS_LIST.md":"1c56e41032e53da7c40239ed62ad7c2b259ca7dff7214d13a81145cccac1ec70","docs/SESSION_PLAN.md":"b3bf49e5e8d173eac49219b9021300838b88c80b0b19912520288e66e0870943","docs/CREATIVE_DIRECTION_RECORD.md":"982b260d1292079a5ca2854d63a6742f4cc0149c364af26b18f53e0ae3f906b9"}} -->
 
 # Startup Brief — VaultFront
 
-> **Fast-boot brief** — rendered for Session 103 from Session 102 closeout evidence · 2026-08-13.
+> **Fast-boot brief** — rendered for Session 104 from Session 103 closeout evidence · 2026-08-14.
 > Valid for next session if started within 24h. For sessions >24h later, load context files fresh (start.md §3).
 
 ---
@@ -16,23 +16,22 @@
 ╔════════════════════════════════════════════════════════════════╗
 ║  🎮 VAULTFRONT                                                   ║
 ║  game · alpha/public-unlaunched · FORGE                          ║
-║  Session 103 · 2026-08-13 · FOUNDER MODE                         ║
+║  Session 104 · 2026-08-14 · FOUNDER MODE                         ║
 ║  Owner: VaultSpark Studios                                       ║
 ╚════════════════════════════════════════════════════════════════╝
 
-╔══ LAST SESSION (S102) - WHAT SHIPPED ══════════════════════════╗
-║  Session 102 shipped nine audit findings, proved 132 rendered    ║
-║  artifacts and 1,434 tests, pushed f938652c directly to main,…   ║
-║  Tests  1434/1434 passing (2026-08-13)                           ║
-║  Deploy NO-GO · no staging/production observation                ║
+╔══ LAST SESSION (S103) - WHAT SHIPPED ══════════════════════════╗
+║  Session 103 shipped six audit findings, repaired 14 propagated  ║
+║  Tests  1454/1454 passing (2026-08-14)                           ║
+║  Deploy NO-GO · staging evidence only                            ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ WHERE TO TEST · VaultFront ══════════════════════════════════╗
 ║  Unit tests    → npm run test:coverage ✓                         ║
 ║  Unit tests    → npm run build-prod && npm run verify:contra ✓   ║
 ║  Unit tests    → npm run e2e ✓                                   ║
-║  Staging       → GitHub Actions Deploy staging run 317432026 ✓   ║
-║  release      → GitHub Actions production dry-run 3174352502 ✓   ║
+║  Staging       → GitHub Actions Deploy staging run 317500891 ✓   ║
+║  release      → GitHub Actions rollback drill 31750318879 ✓      ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ PROJECT PROFILE ═════════════════════════════════════════════╗
@@ -41,17 +40,17 @@
 
 ╔══ SCORE ═══════════════════════════════════════════════════════╗
 ║                                                                  ║
-║    998/1000   ███████████████████████░   100%                    ║
-║    SIL v3.0  ·  Avg3: 997.7  ·  Velocity 9↑                      ║
-║    Last active: 0d  ·  Last closeout: 0d  ·  (active = newest o  ║
-║    Trend  ▄█▄▆▇  ↑  (last 5 sessions)                            ║
+║    996/1000   ███████████████████████░   100%                    ║
+║    SIL v3.0  ·  Avg3: 997.3  ·  Velocity 6↓                      ║
+║    Last active: 0d  ·  Last closeout: 0d  ·  (active = newest…   ║
+║    Trend  █▄▆▇▆  ↓  (last 5 sessions)                            ║
 ║                                                                  ║
 ║    Category         Score  Bar        Spark   Δ                  ║
 ║    ─────────────── ────── ────────── ──────── ─                  ║
 ║    Dev Health       100    ██████████  ████████ →                ║
-║    Alignment        100    ██████████  ████████ →                ║
+║    Alignment         99    ██████████  ███████▇ →                ║
 ║    Momentum         100    ██████████  ████████ →                ║
-║    Engagement        99    ██████████  ▇▇▇▇▇▇▇▇ →                ║
+║    Engagement        98    ██████████  ▇▇▇▇▇▇▇▇ →                ║
 ║    Process Qual     100    ██████████  ████████ →                ║
 ║    Coherence         99    ██████████  ········ →                ║
 ║    Security         100    ██████████  ········ →                ║
@@ -61,26 +60,26 @@
 ║                                                                  ║
 ╚════════════════════════════════════════════════════════════════╝
 
-╔══ WHERE WE LEFT OFF  ·  Session 102 ═══════════════════════════╗
+╔══ WHERE WE LEFT OFF  ·  Session 103 ═══════════════════════════╗
 ║  Shipped:  see LATEST_HANDOFF.md                                 ║
-║  Tests:    1434/1434 passing  ·  Deploy: N/A                     ║
+║  Tests:    1454/1454 passing  ·  Deploy: N/A                     ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ CONTEXT METER ═══════════════════════════════════════════════╗
-║  ✓  █░░░░░░░░░░░░░░░░░░░░░░░    4% used                          ║
-║     44,123 / 1,000,000 tok  ·  codex/codex-1m  ·  measured+heur  ║
-║     ~22,062 tok/turn  ·  cache 50%  ·  39 turns to compact       ║
+║  ✓  █░░░░░░░░░░░░░░░░░░░░░░░    5% used                          ║
+║     45,116 / 1,000,000 tok  ·  codex/codex-1m  · …               ║
+║     ~22,558 tok/turn  ·  cache 50%  ·  38 turns to compact       ║
 ║     Verdict: CONTINUE                                            ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ SIGNALS ═════════════════════════════════════════════════════╗
-║  ✓  Tests         1434/1434 passing (2026-08-13)                 ║
-║  ✓  Velocity      9 ↑  ·  Debt: ↓                                ║
+║  ✓  Tests         1454/1454 passing (2026-08-14)                 ║
+║  ✓  Velocity      6 ↓  ·  Debt: ↓                                ║
 ║  ⚠  Runway        unknown                                        ║
 ║  ⛔  Context age   ?d                                             ║
-║  ✓  IGNIS         43050 FORGE  ·  5d old                         ║
-║  ⛔  Truth         local green; external launch NO-GO.  ·  Genom  ║
-║  ✓  Compliance   49/49 (100%) → —                                ║
+║  ✓  IGNIS         43050 FORGE  ·  6d old                         ║
+║  ⛔  Truth         local green; external launch NO-GO.  · …       ║
+║  ⚠  Compliance   not tracked — run: node scripts/ops.mjs…        ║
 ║  ✓  Genome dims   all stable  (24/25)                            ║
 ║  ✓  Entropy       0.055  (healthy)                               ║
 ║  ✓  CDR           no gap detected                                ║
@@ -88,8 +87,10 @@
 ║  ✓  Templates     v3.3 aligned                                   ║
 ║  ⛔  Revenue sig.  not found  ⚠ stale                             ║
 ║  ✓  Deploy gaps   no gaps (run: ops deploy-gaps)                 ║
-║  ✓  Doctor        13/13 (100%)  ·  2026-08-13  ✓                 ║
-║  ✓  Cost          real $0.25/7d · 7d notional $4.00 (flat-rate   ║
+║  ✓  Doctor        13/13 (100%)  ·  2026-08-14  ✓                 ║
+║  ✓  Codex trust   trusted project active                         ║
+║  ⚠  Canon adopt.  39/54 pending review                           ║
+║  ✓  Cost          real $0.25/7d · 7d notional $1.52…             ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ ORCHESTRATOR ════════════════════════════════════════════════╗
@@ -100,20 +101,16 @@
 ║  Untracked: 0 project-like · 0 scratch                           ║
 ╚════════════════════════════════════════════════════════════════╝
 
-╔══ HUMAN PRESSURE ══════════════════════════════════════════════╗
-║  Open items:    0 · blocker preflight found no owner-only actio  ║
-║  Rule:          try secrets/admin paths before any escalation    ║
-╚════════════════════════════════════════════════════════════════╝
-
 ╔══ MOMENTUM METER ══════════════════════════════════════════════╗
-║  Velocity:   ▄█▄▆▇  9↑  (last 5 sessions)                        ║
+║  Velocity:   █▄▆▇▆  6↓  (last 5 sessions)                        ║
 ║  Intent:     100% achieved last 5                                ║
 ║  Streak:     — (last intent not achieved)                        ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ SIL FORECAST (next session) ═════════════════════════════════╗
-║  Projected:  998/1000  (→0 vs current 998)                       ║
+║  Projected:  993/1000  (↓3 vs current 996)                       ║
 ║  All categories forecast stable or rising.                       ║
+║  Calibration: 1/3 samples — uncalibrated                         ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ GENIUS HIT LIST ═════════════════════════════════════════════╗
@@ -126,5 +123,5 @@
 
 ---
 
-_Generated by `scripts/render-startup-brief.mjs v3.1` · Session 102 closeout · 2026-08-13_
+_Generated by `scripts/render-startup-brief.mjs v3.1` for Session 104 from Session 103 closeout evidence · 2026-08-14_
 _Run `node scripts/ops.mjs doctor` for live health check · `node scripts/ops.mjs genius-list` to refresh hit list_

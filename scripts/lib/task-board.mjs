@@ -1,6 +1,7 @@
 /**
+ * task-board.mjs
+ *
  * Shared TASK_BOARD parsing helpers used by startup, blocker, and queue flows.
- * Supports both the private table schema and this public repo's compact bullets.
  */
 
 export function extractSection(markdown, heading) {
@@ -96,7 +97,6 @@ export function parseUnifiedItems(markdown) {
       });
       continue;
     }
-
     const bullet = parseBulletItem(line, items.length);
     if (bullet) items.push(bullet);
   }
@@ -104,6 +104,12 @@ export function parseUnifiedItems(markdown) {
   return items;
 }
 
+/**
+ * Parse every numeric task row in every historical/current Markdown table.
+ * Unlike parseUnifiedItems(), this is intentionally not scoped to the first
+ * Unified Genius section: ops task --id must find an old committed ID without
+ * loading the whole board into an agent's context.
+ */
 export function parseTaskRows(markdown) {
   const rows = [];
   let section = "(root)";
@@ -116,7 +122,6 @@ export function parseTaskRows(markdown) {
       section = heading[1].trim();
       tableKind = null;
     }
-
     if (!/^\s*\|/.test(line)) tableKind = null;
     if (/^\|\s*audit id\s*\|/i.test(line)) {
       tableKind = "audit";
@@ -126,47 +131,49 @@ export function parseTaskRows(markdown) {
       tableKind = "task";
       continue;
     }
-
-    if (/^\|\s*\d+(?:\.\d+)?\s*\|/.test(line)) {
-      const cells = line
-        .split("|")
-        .slice(1, -1)
-        .map((cell) => cell.trim());
-      if (cells.length < 6) continue;
-      const [id, tier, category, status, effort, ...itemCells] = cells;
-      const rawItem = itemCells.join(" | ").trim();
-      rows.push({
-        id,
-        idNumber: Number(id),
-        tier,
-        category,
-        status,
-        effort,
-        item: cleanTitle(rawItem),
-        rawItem,
-        title: cleanTitle(rawItem.match(/\*\*(.+?)\*\*/)?.[1] ?? rawItem),
-        section,
-        tableKind: tableKind ?? "table",
-        line: index + 1,
-        raw: line,
-      });
+    if (!/^\|\s*\d+(?:\.\d+)?\s*\|/.test(line)) {
+      const bullet =
+        parseBulletItem(line, rows.length) ??
+        parseChecklistItem(line, rows.length);
+      if (bullet) {
+        rows.push({
+          ...bullet,
+          id: `bullet:${index + 1}`,
+          idNumber: null,
+          section,
+          tableKind: "checklist",
+          line: index + 1,
+          raw: line,
+        });
+      }
       continue;
     }
-
-    const bullet =
-      parseBulletItem(line, rows.length) ??
-      parseChecklistItem(line, rows.length);
-    if (bullet) {
-      rows.push({
-        ...bullet,
-        id: `bullet:${index + 1}`,
-        idNumber: null,
-        section,
-        tableKind: "checklist",
-        line: index + 1,
-        raw: line,
-      });
-    }
+    const cells = line
+      .split("|")
+      .slice(1, -1)
+      .map((cell) => cell.trim());
+    if (cells.length < 6) continue;
+    const [id, tier, category, status, effort, ...itemCells] = cells;
+    const rawItem = itemCells.join(" | ").trim();
+    const titleMatch = rawItem.match(/\*\*(.+?)\*\*/);
+    rows.push({
+      id,
+      idNumber: Number(id),
+      tier,
+      category,
+      status,
+      effort,
+      item: cleanTitle(rawItem),
+      rawItem,
+      title: (titleMatch?.[1] || rawItem)
+        .replace(/\*\*/g, "")
+        .replace(/\s+/g, " ")
+        .trim(),
+      section,
+      tableKind: tableKind ?? "table",
+      line: index + 1,
+      raw: line,
+    });
   }
   return rows;
 }
@@ -190,9 +197,8 @@ export function analyzeTaskBoard(markdown) {
     /(?:zero|0)\s+(?:pending\s+)?unblocked|complete-all[^\n]*(?:green|pass)|work exhaustion[^\n]*(?:green|pass)/i.test(
       source,
     );
-  const supported = rows.length > 0 || (hasActiveSection && explicitExhaustion);
   return {
-    supported,
+    supported: rows.length > 0 || (hasActiveSection && explicitExhaustion),
     rows,
     taskRows,
     checklistRows,
@@ -225,11 +231,6 @@ function humanItemFromRow(row) {
   };
 }
 
-/**
- * Parse Human Action Required without treating an unsupported representation
- * as an empty queue. Durable-state callers must inspect `status` so parser
- * drift cannot erase first-seen evidence.
- */
 export function parseHumanItemsResult(markdown) {
   const section = extractSection(markdown, "Human Action Required");
   const explicit = section
@@ -251,19 +252,16 @@ export function parseHumanItemsResult(markdown) {
           : null,
       };
     });
-
-  const tableItems = parseTaskRows(markdown)
-    .filter((row) => /human-blocked/i.test(row.status))
+  const unified = parseTaskRows(markdown)
+    .filter((item) => /human-blocked/i.test(item.status))
     .map(humanItemFromRow);
   const byTitle = new Map();
-  for (const item of [...explicit, ...tableItems]) {
+  for (const item of [...explicit, ...unified]) {
     if (!byTitle.has(item.title)) byTitle.set(item.title, item);
   }
   const items = [...byTitle.values()];
   if (items.length) return { status: "parsed", items };
-
   if (!section) return { status: "absent", items: [] };
-
   const meaningfulLines = section
     .split(/\r?\n/)
     .map((line) => line.trim())
@@ -293,12 +291,10 @@ export function extractCurrentSessionIntent(markdown) {
     /## Current Session Intent: Session \d+\r?\n([\s\S]*?)(?=\r?\n## |\r?\n---|$)/,
   );
   if (current) return current[1].trim().replace(/\r?\n+/g, " ");
-
   const labeled = source.match(
     /(?:^|\r?\n)\*\*Session Intent:\*\*\s*([^\r\n]+)/i,
   );
   if (labeled) return labeled[1].trim();
-
   const heading = source.match(
     /## Session \d+[^\r\n]*\r?\n([\s\S]*?)(?=\r?\n## |$)/i,
   );

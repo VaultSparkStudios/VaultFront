@@ -8,6 +8,10 @@ const forbiddenControlPlaneTokens = [
   "portfolio/obelisk-policy.json",
   "portfolio/ops/obelisk-receipts.ndjson",
 ];
+const privateGeneratedPaths = [
+  "context/SIGNALS.md",
+  "portfolio/compiled/FORECAST_LEDGER.json",
+];
 
 function sourceFiles(directory: string): string[] {
   if (!fs.existsSync(directory)) return [];
@@ -34,5 +38,13 @@ describe("public repository boundary", () => {
       });
 
     expect(violations).toEqual([]);
+  });
+
+  it("quarantines generated Studio intelligence from the public repository", () => {
+    const ignore = fs.readFileSync(path.join(root, ".gitignore"), "utf8");
+
+    for (const relativePath of privateGeneratedPaths) {
+      expect(ignore).toContain(relativePath);
+    }
   });
 });

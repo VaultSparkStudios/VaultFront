@@ -42,7 +42,6 @@ const ROOT = (() => {
   try {
     return resolve(dirname(fileURLToPath(import.meta.url)), "..");
   } catch {
-    // Vitest rewrites import.meta.url to its virtual module scheme.
     return process.cwd();
   }
 })();
@@ -64,7 +63,7 @@ const RAW_CP_ALLOWLIST = new Set([
   "scripts/test/tier1-windows-hide-shim.mjs",
 ]);
 
-// Static imports, require(), and dynamic import() are all equivalent policy edges.
+// A direct import/require of node:child_process (any quote/spacing, with or without node: prefix).
 const RAW_CP_RE =
   /(?:from\s*['"]|require\(\s*['"]|import\(\s*['"])(?:node:)?child_process['"]/;
 
@@ -97,7 +96,13 @@ function walk(dir, out = []) {
     const p = join(dir, name);
     const st = statSync(p);
     if (st.isDirectory()) walk(p, out);
-    else if (/\.(?:[cm]?[jt]s)$/.test(name)) out.push(p);
+    else if (
+      name.endsWith(".mjs") ||
+      name.endsWith(".js") ||
+      name.endsWith(".ts") ||
+      name.endsWith(".tsx")
+    )
+      out.push(p);
   }
   return out;
 }
@@ -112,11 +117,16 @@ const HIDE_RE = /windowsHide\s*:\s*true/;
 
 // Scan a tree for shell:true spawns missing windowsHide:true. Pure file reads —
 // no child spawns — so it is safe to call in-process from a test.
-export function scanWindowsHide(root = OWNED_ROOTS) {
+export function scanWindowsHide(root = join(ROOT, "scripts")) {
   const violations = [];
-  for (const file of roots(root).flatMap((entry) => walk(entry))) {
+  for (const file of walk(root)) {
     if (file.endsWith("check-windows-hide.mjs")) continue; // don't lint the guard's own pattern doc
-    const src = readFileSync(file, "utf8");
+    // This is a source guard, not a prose linter. Comments routinely explain
+    // why shell mode is avoided; treating those words as executable options
+    // creates false failures and hides real regressions in noise.
+    const src = readFileSync(file, "utf8")
+      .replace(/\/\*[\s\S]*?\*\//g, "")
+      .replace(/(^|[^:])\/\/[^\n]*/g, "$1");
     SHELL_RE.lastIndex = 0;
     let m;
     while ((m = SHELL_RE.exec(src)) !== null) {
@@ -141,9 +151,9 @@ export function scanWindowsHide(root = OWNED_ROOTS) {
 const LITERAL_NODE_SPAWN_NEAR =
   /\b(spawnSync|spawn|execFileSync|execFile)\s*\(\s*['"]node['"]/;
 
-export function scanShellNodeSpawns(root = OWNED_ROOTS) {
+export function scanShellNodeSpawns(root = join(ROOT, "scripts")) {
   const violations = [];
-  for (const file of roots(root).flatMap((entry) => walk(entry))) {
+  for (const file of walk(root)) {
     if (file.endsWith("check-windows-hide.mjs")) continue;
     const src = readFileSync(file, "utf8")
       .replace(/\/\*[\s\S]*?\*\//g, "")

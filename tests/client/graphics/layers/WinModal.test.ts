@@ -293,6 +293,16 @@ describe("VaultFront recap coaching", () => {
       isAlive: true,
     });
     expect(container.textContent).not.toContain("Keep Playing");
+    const secondary = container.querySelector(
+      "details[data-post-match-secondary]",
+    ) as HTMLDetailsElement;
+    expect(secondary).not.toBeNull();
+    expect(secondary.open).toBe(false);
+    expect(secondary.querySelector("summary")?.textContent).toContain(
+      "More rewards & sharing",
+    );
+    expect(secondary.textContent).toContain("Share Match");
+    expect(secondary.textContent).toContain("Save Result Card");
   });
 });
 

@@ -207,10 +207,12 @@ export function box(title, lines, opts = {}) {
   return out;
 }
 
-const ANSI_ESCAPE = new RegExp(String.fromCharCode(27) + "\\[[0-9;]*m", "g");
-
 function stripAnsi(s) {
-  return String(s).replace(ANSI_ESCAPE, "");
+  const escapeSequence = new RegExp(
+    `${String.fromCharCode(27)}\\[[0-9;]*m`,
+    "g",
+  );
+  return String(s).replace(escapeSequence, "");
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

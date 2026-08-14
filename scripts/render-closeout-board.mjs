@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * render-closeout-board.mjs (v1.0)
+ * render-closeout-board.mjs (v1.1)
  *
  * Renders docs/CLOSEOUT_STATUS_BOARD.md — the canonical end-of-session board
  * checked by validate-closeout-board-format.mjs. Composed from live state:
@@ -27,8 +27,13 @@ import {
   readGeniusCache,
   selectFirstPendingUnblocked,
 } from "./lib/genius-cache.mjs";
+import { formatTruthGenome } from "./lib/project-status-contract.mjs";
 import { spawnSync } from "./lib/safe-spawn.mjs";
-import { selectLatestSessionSection } from "./lib/session-chronology.mjs";
+import {
+  resolveTestSignal,
+  testSignalMark,
+  testSignalSeverity,
+} from "./lib/test-signal.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const STUDIO_ROOT = path.resolve(__dirname, "..");
@@ -193,10 +198,10 @@ function deploymentRows() {
 function parseShippedFromHandoff() {
   const body = readText(HANDOFF_PATH);
   if (!body) return [];
-  const latest = selectLatestSessionSection(body, {
-    titlePrefix: "Where We Left Off",
-  });
-  const segment = latest ? `${latest.header}\n${latest.body}` : "";
+  const match =
+    body.match(/^##\s+Where We Left Off[\s\S]*?(?=^##\s|\Z)/m) ||
+    body.match(/^#\s+(?:S\d+\s+|Session\s+\d+\s+).*?\n([\s\S]*?)(?=^#\s|\Z)/m);
+  const segment = match ? match[0] : body.slice(0, 4000);
   const bullets = segment
     .split("\n")
     .filter((l) => /^[-*•]\s+/.test(l))
@@ -274,38 +279,12 @@ function gitChangeSummary() {
 }
 
 function agentMemoryRecentlyTouched() {
-  const cutoff = Date.now() - 24 * 3600_000;
-  const projectMemory = path.join(ROOT, "context", "BRAIN.md");
-  try {
-    if (
-      fs.existsSync(projectMemory) &&
-      fs.statSync(projectMemory).mtimeMs > cutoff
-    )
-      return true;
-  } catch {
-    /* best-effort */
-  }
-  // Check whether agent-neutral memory has files modified within the last 24h.
-  // Best-effort — cross-platform path resolution varies; absence is reported as
-  // "·" rather than failing.
+  // Check whether agent memory (~/.claude/projects/<slug>/memory) has files
+  // modified within the last 24h. Best-effort — cross-platform path resolution
+  // varies; absence is reported as "·" rather than failing.
   const home = os?.homedir?.() || process.env.HOME || process.env.USERPROFILE;
   if (!home) return false;
   const slug = path.basename(ROOT);
-  const codexMemoryDirs = [
-    path.join(home, ".codex", "memories", slug),
-    path.join(home, ".codex", "memories", slug.toLowerCase()),
-  ];
-  try {
-    for (const memoryDir of new Set(codexMemoryDirs)) {
-      if (!fs.existsSync(memoryDir)) continue;
-      for (const file of fs.readdirSync(memoryDir)) {
-        const stat = fs.statSync(path.join(memoryDir, file));
-        if (stat.isFile() && stat.mtimeMs > cutoff) return true;
-      }
-    }
-  } catch {
-    /* best-effort */
-  }
   // Project memory dirs use a prefix-encoded form; fall back to a glob scan.
   const projectsDir = path.join(home, ".claude", "projects");
   if (!fs.existsSync(projectsDir)) return false;
@@ -348,19 +327,10 @@ function writeBackCoverage() {
       if (file.endsWith(t)) touched.add(t);
     }
   }
-  const cutoff = Date.now() - 24 * 3600_000;
-  for (const target of TARGETS) {
-    try {
-      if (fs.statSync(path.join(ROOT, target)).mtimeMs > cutoff)
-        touched.add(target);
-    } catch {
-      /* missing files remain visibly incomplete */
-    }
-  }
   const result = TARGETS.map((t) => ({ file: t, touched: touched.has(t) }));
-  // 10th item (per closeout spec): agent-neutral memory in the project or agent home.
+  // 10th item (per closeout spec): agent memory at ~/.claude/projects/<slug>/memory/
   result.push({
-    file: "agent memory (context/BRAIN.md or agent home)",
+    file: "agent memory (~/.claude/projects/<slug>/memory/)",
     touched: agentMemoryRecentlyTouched(),
   });
   return result;
@@ -373,21 +343,92 @@ function daysSinceISO(iso) {
   return Math.max(0, Math.round((Date.now() - t) / 86400000));
 }
 
+function validationBadge(status) {
+  const mode = String(status?.testsLastRunMode || "");
+  if (status?.testsShardProofDir) {
+    const rel = `${status.testsShardProofDir}/aggregate.json`;
+    const aggregate = readJson(path.join(ROOT, rel));
+    const shardCount =
+      aggregate?.shardCount || Number(String(mode).split(":")[1]) || "?";
+    const clean =
+      aggregate &&
+      aggregate.failures === 0 &&
+      !aggregate.childParseFailed &&
+      !aggregate.budgetExhausted &&
+      !(aggregate.deferred || []).length &&
+      !(aggregate.envBlocked || []).length;
+    const executed = new Set([
+      ...(aggregate?.executedShards || []),
+      ...(aggregate?.resumedShards || []),
+    ]).size;
+    return clean
+      ? `shard-clean ${shardCount}/${shardCount}`
+      : `shard-partial ${executed || "?"}/${shardCount}`;
+  }
+  if (/changed/i.test(mode)) return "changed-fresh";
+  if ((status?.testsDeferred || []).length || status?.testsBudgetExhausted)
+    return "full-deferred";
+  if (status?.testsLastRun) return "full-fresh";
+  return "unknown";
+}
+
+// S240 [audit #11] · SIL S235 #1 — quiet-host defer/resume receipt state:
+// distinguishes "broad proof PENDING until the host is quiet" from "aggregate
+// proof completed" on the founder-facing board.
+function quietHostReceiptBadge() {
+  try {
+    // Lazy import keeps the board render resilient if the lib is absent in a
+    // propagated repo that predates S240.
+    const receiptsPath = path.join(
+      ROOT,
+      ".cache",
+      "quiet-host-proof-receipts.json",
+    );
+    const rows = readJson(receiptsPath);
+    const last = Array.isArray(rows) ? rows[rows.length - 1] : null;
+    if (!last) return null;
+    if (last.kind === "deferred")
+      return `pending-quiet (deferred ${String(last.at || "").slice(0, 16)})`;
+    if (last.kind === "resumed")
+      return last.ok
+        ? `proven (resumed ${String(last.resumedAt || "").slice(0, 16)})`
+        : "resume-FAILED";
+    return null;
+  } catch {
+    return null;
+  }
+}
+
 function postSessionSignals(status) {
   const doctor =
     status?.doctorScore && typeof status.doctorScore === "object"
       ? `${status.doctorScore.passing ?? "?"}/${status.doctorScore.total ?? "?"}`
       : typeof status?.doctorScore === "number"
-        ? String(status.doctorScore)
+        ? String(status?.doctorScore)
         : "—";
+  // S263 — the closeout board is the LAST surface a session sees, so a phantom
+  // green here is the most expensive one. Reconcile both test surfaces
+  // (D-S263.1); a contradicted signal reports the contradiction, not the count.
+  // S283 — the enumeration named only 'contradicted', so a bounded (budget-
+  // deferred) run printed a bare count on the closeout board as if it were a
+  // full pass. Any non-ok severity now reports itself.
+  const testSignal = resolveTestSignal(status || {});
   const tests =
-    status?.testsPassing != null && status?.testsTotal != null
-      ? `${status.testsPassing}/${status.testsTotal}`
-      : "—";
+    testSignal.state === "contradicted"
+      ? `⛔ CONTRADICTED — ${status.testsPassing}/${status.testsTotal} files vs ${status.testsAssertionsPassing}/${status.testsAssertionsTotal} assertions`
+      : testSignalSeverity(testSignal) !== "ok"
+        ? `${testSignalMark(testSignal)} ${testSignal.detail}`
+        : status?.testsPassing != null && status?.testsTotal != null
+          ? `${status.testsPassing}/${status.testsTotal}`
+          : "—";
+  const shardProof = status?.testsShardProofDir
+    ? `${status.testsLastRunMode || "sharded"} · ${status.testsShardProofDir}/aggregate.json`
+    : null;
+  const quietHostReceipt = quietHostReceiptBadge();
   const ignisDays = daysSinceISO(status?.ignisLastComputed);
   const ignisLabel = ignisDays == null ? "—" : `${ignisDays}d ago`;
-  const truth = status?.truthAuditStatus || status?.truthGenome?.status || "—";
-  const shellRunning = status?.sessionShellHygiene?.running;
+  const truth =
+    status?.truthAuditStatus || formatTruthGenome(status?.truthGenome);
   return {
     doctor,
     compliance:
@@ -395,16 +436,39 @@ function postSessionSignals(status) {
         ? `${status.complianceScore}/${status.complianceTotal ?? 27}`
         : "—",
     tests,
+    validationBadge: validationBadge(status),
+    shardProof,
+    quietHostReceipt,
     ignis: ignisLabel,
     truth,
-    shellHygiene: shellRunning == null ? "—" : `${shellRunning} running`,
     sanitization: status?.sanitizationLastCleared
       ? `${daysSinceISO(status.sanitizationLastCleared) ?? "—"}d ago`
       : "—",
   };
 }
 
+/**
+ * CANON-031 shell hygiene: only a session-scoped, internally coherent
+ * enumeration may render numeric counts. Missing, stale, negative, or
+ * arithmetically inconsistent evidence stays explicitly unknown; the board
+ * must never manufacture a comforting zero.
+ */
+export function sessionShellHygiene(status, session) {
+  const evidence = status?.sessionShellHygiene;
+  const counts = ["started", "closed", "running"].map((key) => evidence?.[key]);
+  const validCounts = counts.every(
+    (value) => Number.isInteger(value) && value >= 0,
+  );
+  const sameSession = Number(evidence?.session) === Number(session);
+  const coherent = validCounts && counts[0] === counts[1] + counts[2];
+  if (!sameSession || !coherent || !evidence?.enumeratedAt) {
+    return "unknown · missing/stale enumeration";
+  }
+  return `${counts[0]} started · ${counts[1]} closed · ${counts[2]} running`;
+}
+
 function nextSessionHint() {
+  if (!fs.existsSync(GENIUS_CACHE)) return null;
   try {
     const cache = readGeniusCache(GENIUS_CACHE);
     const top = selectFirstPendingUnblocked(cache);
@@ -418,7 +482,7 @@ function nextSessionHint() {
     return {
       title: top.title || top.id,
       rationale: top.rationale || top.summary || top.why || top.recipe || "",
-      cmd: top.command || top.cmd || null,
+      cmd: top.command || null,
     };
   } catch {
     return null;
@@ -450,10 +514,10 @@ function render() {
   // 1. SESSION CLOSEOUT header (S114 — adds live URL one-click line per founder directive)
   lines.push(top(`SESSION CLOSEOUT · ${name} · S${session}`));
   const vel = status.silVelocity ?? status.velocity;
-  const velLabel = vel != null ? String(vel) : "—";
-  const debtLabel = status.silDebt ? `  ·  Debt: ${status.silDebt}` : "";
+  const velLabel =
+    vel != null ? `${vel}${status.silDebt ? " " + status.silDebt : ""}` : "—";
   lines.push(
-    row(`Date: ${date} · SIL: ${sil}/${silMax} · V:${velLabel}${debtLabel}`),
+    row(`Date: ${date}  ·  SIL: ${sil}/${silMax}  ·  Velocity: ${velLabel}`),
   );
   lines.push(
     row(
@@ -519,10 +583,15 @@ function render() {
   lines.push(row(`Doctor:        ${sig.doctor}`));
   lines.push(row(`Compliance:    ${sig.compliance}`));
   lines.push(row(`Tests:         ${sig.tests}`));
+  lines.push(row(`Validation:    ${sig.validationBadge}`));
+  if (sig.shardProof)
+    lines.push(row(`Shard proof:   ${sig.shardProof.slice(0, W - 15)}`));
+  if (sig.quietHostReceipt)
+    lines.push(row(`Broad proof:   ${sig.quietHostReceipt.slice(0, W - 15)}`));
   lines.push(row(`IGNIS:         ${sig.ignis}`));
   lines.push(row(`Truth:         ${sig.truth}`));
-  lines.push(row(`Shell hygiene: ${sig.shellHygiene}`));
   lines.push(row(`Sanitization:  ${sig.sanitization}`));
+  lines.push(row(`Shell hygiene: ${sessionShellHygiene(status, session)}`));
   lines.push(bottom());
 
   // 7. NEXT SESSION
@@ -534,16 +603,14 @@ function render() {
     if (next.cmd) lines.push(row(`    ↳ ${next.cmd.slice(0, W - 6)}`));
   } else {
     lines.push(
-      row(
-        "(no readable genius cache — run `node scripts/cache-genius-list.mjs --write`)",
-      ),
+      row("(no genius cache — run `node scripts/cache-genius-list.mjs`)"),
     );
   }
   lines.push(bottom());
 
-  const header = `<!-- generated-by: scripts/render-closeout-board.mjs v1.0 -->\n<!-- generated-at: ${date} (Session ${session} closeout) -->\n\n# Closeout Status Board — ${name}\n\n\`\`\`\n`;
+  const header = `<!-- generated-by: scripts/render-closeout-board.mjs v1.1 -->\n<!-- generated-at: ${date} (Session ${session} closeout) -->\n\n# Closeout Status Board — ${name}\n\n\`\`\`\n`;
   const footer =
-    "\n```\n\n*Generated by `scripts/render-closeout-board.mjs v1.0`*\n";
+    "\n```\n\n*Generated by `scripts/render-closeout-board.mjs v1.1`*\n";
 
   return header + lines.join("\n") + footer;
 }

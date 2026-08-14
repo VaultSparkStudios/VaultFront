@@ -18,6 +18,7 @@
  *   node scripts/paste-credential.mjs <capability> --source <path>
  *   node scripts/paste-credential.mjs <capability> --json
  *   node scripts/paste-credential.mjs <capability> --dry-run     # parse + report, do not write
+ *   printf 'KEY=value' | node scripts/paste-credential.mjs <capability> --stdin
  *   node scripts/paste-credential.mjs --list                     # list capabilities not yet READY
  *
  * CANON S63d: NEVER ask the founder to edit `.env` by hand. This is the canonical
@@ -28,19 +29,31 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { resolveSecretsRoot } from "./lib/secrets.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
-const SECRETS_DIR = path.join(ROOT, "secrets");
+// Test fixtures use the same explicit override as the secrets gateway. Keeping
+// intake on a separate hard-coded path lets a supposedly isolated test overwrite
+// the real ignored credential store.
+const SECRETS_DIR = resolveSecretsRoot(ROOT);
 const CAP_MAP = path.join(SECRETS_DIR, "CAPABILITY_MAP.json");
 
 const args = process.argv.slice(2);
 const JSON_MODE = args.includes("--json");
 const DRY_RUN = args.includes("--dry-run");
 const LIST = args.includes("--list");
+const STDIN_MODE = args.includes("--stdin");
 const sourceIdx = args.indexOf("--source");
 const SOURCE_OVERRIDE = sourceIdx >= 0 ? args[sourceIdx + 1] : null;
 const CAP = args.find((a) => !a.startsWith("--") && a !== SOURCE_OVERRIDE);
+
+if (args.includes("--help") || args.includes("-h")) {
+  console.log(
+    "Usage: node scripts/paste-credential.mjs <capability> [--source <path>|--stdin] [--dry-run] [--json]  |  --list",
+  );
+  process.exit(0);
+}
 
 function readJson(p, fb) {
   try {
@@ -94,7 +107,7 @@ if (!CAP)
     {
       ok: false,
       message:
-        "usage: paste-credential <capability> [--source <path>] [--dry-run] [--json]  |  --list",
+        "usage: paste-credential <capability> [--source <path>|--stdin] [--dry-run] [--json]  |  --list",
     },
     1,
   );
@@ -127,7 +140,9 @@ const candidateSources = SOURCE_OVERRIDE
       path.join(SECRETS_DIR, `${CAP.replace(/\./g, "-")}-paste.txt`),
       path.join(SECRETS_DIR, `${CAP.replace(/\./g, "-")}.txt`),
     ];
-const source = candidateSources.find((p) => fs.existsSync(p));
+const source = STDIN_MODE
+  ? "<stdin>"
+  : candidateSources.find((p) => fs.existsSync(p));
 if (!source) {
   exitWith(
     {
@@ -138,7 +153,9 @@ if (!source) {
   );
 }
 
-const raw = fs.readFileSync(source, "utf8").trim();
+const raw = (
+  STDIN_MODE ? fs.readFileSync(0, "utf8") : fs.readFileSync(source, "utf8")
+).trim();
 if (!raw) exitWith({ ok: false, message: `${source} is empty` }, 1);
 
 const extracted = extractKeys(raw, required, CAP);
@@ -158,9 +175,14 @@ if (missing.length) {
   );
 }
 
-// Target env file: derive family from capability (prefix before first dot).
+// Target env file: honor a single explicit sourceFile when declared; otherwise
+// derive the historical family name from the capability prefix.
 const family = CAP.split(".")[0];
-const envTarget = path.join(SECRETS_DIR, `${family}.env`);
+const declaredTarget =
+  typeof def.sourceFile === "string"
+    ? def.sourceFile.match(/^secrets\/([A-Za-z0-9._-]+\.env)$/)?.[1]
+    : null;
+const envTarget = path.join(SECRETS_DIR, declaredTarget || `${family}.env`);
 
 // Merge with existing values (preserve unrelated keys).
 const existing = fs.existsSync(envTarget)
@@ -211,7 +233,7 @@ try {
 } catch {
   /* windows no-op */
 }
-fs.writeFileSync(source, receipt);
+if (!STDIN_MODE) fs.writeFileSync(source, receipt);
 
 // Stamp CAPABILITY_MAP with lastIntakeAt.
 try {
@@ -273,20 +295,24 @@ function quoteIfNeeded(v) {
 }
 
 // Known provider aliases: if a paste uses provider-vocabulary instead of our env names.
-const ALIAS_MAP = {
-  "stripe.checkout": {
-    sk_live: "STRIPE_SECRET_KEY",
-    sk_test: "STRIPE_SECRET_KEY",
-    pk_live: "STRIPE_PUBLISHABLE_KEY",
-    pk_test: "STRIPE_PUBLISHABLE_KEY",
-    whsec_: "STRIPE_WEBHOOK_SECRET",
-    "Secret key": "STRIPE_SECRET_KEY",
-    "Publishable key": "STRIPE_PUBLISHABLE_KEY",
-    "Signing secret": "STRIPE_WEBHOOK_SECRET",
-  },
-  "resend.email": { re_: "RESEND_API_KEY", "API key": "RESEND_API_KEY" },
-  "claude.api": { "sk-ant-": "ANTHROPIC_API_KEY" },
-};
+function aliasesFor(cap) {
+  return (
+    {
+      "stripe.checkout": {
+        sk_live: "STRIPE_SECRET_KEY",
+        sk_test: "STRIPE_SECRET_KEY",
+        pk_live: "STRIPE_PUBLISHABLE_KEY",
+        pk_test: "STRIPE_PUBLISHABLE_KEY",
+        whsec_: "STRIPE_WEBHOOK_SECRET",
+        "Secret key": "STRIPE_SECRET_KEY",
+        "Publishable key": "STRIPE_PUBLISHABLE_KEY",
+        "Signing secret": "STRIPE_WEBHOOK_SECRET",
+      },
+      "resend.email": { re_: "RESEND_API_KEY", "API key": "RESEND_API_KEY" },
+      "claude.api": { "sk-ant-": "ANTHROPIC_API_KEY" },
+    }[cap] || {}
+  );
+}
 
 function extractKeys(raw, required, cap) {
   const out = {};
@@ -322,7 +348,7 @@ function extractKeys(raw, required, cap) {
   }
 
   // 3. Provider-label lines (e.g. "Secret key: sk_live_...")
-  const aliases = ALIAS_MAP[cap] || {};
+  const aliases = aliasesFor(cap);
   for (const rawLine of raw.split(/\r?\n/)) {
     const line = rawLine.trim();
     if (!line) continue;

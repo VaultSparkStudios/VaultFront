@@ -34,6 +34,9 @@ generated/WorldMapData.json.compressed
 .ops-cache/
 docs/cache-ledger.ndjson
 ignis/output/
+# Private/generated Studio intelligence — local inputs only in public repos.
+context/SIGNALS.md
+portfolio/compiled/FORECAST_LEDGER.json
 
 # Playwright test artifacts
 test-results/

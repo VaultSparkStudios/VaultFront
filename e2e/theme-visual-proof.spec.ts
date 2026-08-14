@@ -24,12 +24,18 @@ function luminance(hex: string): number {
   const rgbMatch = value.match(
     /^rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)/u,
   );
+  const srgbMatch = value.match(
+    /^color\(srgb\s+([\d.]+)\s+([\d.]+)\s+([\d.]+)/u,
+  );
   const rgb = rgbMatch
     ? rgbMatch.slice(1, 4).map((channel) => Number(channel) / 255)
-    : [0, 2, 4].map(
-        (offset) =>
-          parseInt(value.replace("#", "").slice(offset, offset + 2), 16) / 255,
-      );
+    : srgbMatch
+      ? srgbMatch.slice(1, 4).map(Number)
+      : [0, 2, 4].map(
+          (offset) =>
+            parseInt(value.replace("#", "").slice(offset, offset + 2), 16) /
+            255,
+        );
   const linear = rgb.map((channel) =>
     channel <= 0.03928 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4,
   );
@@ -141,6 +147,136 @@ test("three themes retain readable page, panel, and settings surfaces", async ({
         artifactDir,
         `${testInfo.project.name}-${theme}-stats-showcase.png`,
       ),
+    });
+
+    await page.evaluate(async () => {
+      await window.showPage?.("page-command-center");
+      await customElements.whenDefined("command-center");
+    });
+    const commandCenter = page.locator("#page-command-center");
+    await expect(commandCenter).toBeVisible();
+    await expect(
+      commandCenter.locator("[data-vf-command-center]"),
+    ).toBeVisible();
+    const commandCenterMetrics = await commandCenter.evaluate((element) => {
+      const bounds = element.getBoundingClientRect();
+      const root = element.querySelector<HTMLElement>(
+        "[data-vf-command-center]",
+      );
+      const primaryControl = element.querySelector<HTMLElement>("button");
+      const style = root ? getComputedStyle(root) : null;
+      return {
+        overflow: element.scrollWidth > element.clientWidth + 1,
+        width: bounds.width,
+        controlHeight: primaryControl?.getBoundingClientRect().height ?? 0,
+        background: style?.backgroundImage ?? "",
+        color: style?.color ?? "",
+      };
+    });
+    expect(commandCenterMetrics.overflow).toBe(false);
+    expect(commandCenterMetrics.width).toBeGreaterThan(250);
+    expect(commandCenterMetrics.controlHeight).toBeGreaterThanOrEqual(44);
+    expect(commandCenterMetrics.background).toContain("gradient");
+    expect(commandCenterMetrics.color).not.toBe("");
+    const fortuneMetrics = await commandCenter.evaluate(async (element) => {
+      const root = element.querySelector<HTMLElement>(
+        "[data-vf-command-center]",
+      );
+      const fortune = element.querySelector<any>("fortune-collection-panel");
+      if (!root || !fortune)
+        throw new Error("command-center QA surface missing");
+      fortune.persistentId = "visual-qa-player";
+      fortune.items = [
+        {
+          itemId: "title_operator",
+          name: "The Operator",
+          rarity: "common",
+          type: "title",
+          value: "The Operator",
+          drawnAt: 1,
+        },
+        {
+          itemId: "emoji_shield",
+          name: "Shield Emoji",
+          rarity: "rare",
+          type: "emoji",
+          value: "shield",
+          drawnAt: 2,
+        },
+      ];
+      fortune.equippedTitle = null;
+      fortune.equipStatus = {
+        kind: "error",
+        message: "Title could not be equipped. Try again.",
+      };
+      fortune.requestUpdate();
+      await fortune.updateComplete;
+      element.style.height = "auto";
+      root.style.height = "auto";
+      root.style.overflow = "visible";
+      const contentHeight = root.scrollHeight;
+      element.dataset.vfQaStyle = element.getAttribute("style") ?? "";
+      element.style.cssText = `position:absolute;inset:auto;top:0;left:0;width:100%;height:${contentHeight}px;z-index:2147483646;overflow:visible`;
+      root.style.height = `${contentHeight}px`;
+      document.body.dataset.vfQaMinHeight = document.body.style.minHeight;
+      document.body.style.minHeight = `${contentHeight}px`;
+      for (const footer of document.querySelectorAll<HTMLElement>(
+        "page-footer, body > footer",
+      )) {
+        footer.dataset.vfQaDisplay = footer.style.display;
+        footer.style.display = "none";
+      }
+      const equipButton =
+        fortune.shadowRoot?.querySelector<HTMLElement>(".equip-button");
+      const status =
+        fortune.shadowRoot?.querySelector<HTMLElement>(".equip-status");
+      const fortuneBounds = fortune.getBoundingClientRect();
+      const rootBounds = root.getBoundingClientRect();
+      return {
+        buttonHeight: equipButton?.getBoundingClientRect().height ?? 0,
+        statusRole: status?.getAttribute("role") ?? "",
+        statusColor: status ? getComputedStyle(status).color : "",
+        statusBackground: status
+          ? getComputedStyle(status).backgroundColor
+          : "",
+        contentHeight,
+        fortuneVisible:
+          fortuneBounds.height > 0 &&
+          fortuneBounds.top >= rootBounds.top &&
+          fortuneBounds.bottom <= rootBounds.bottom + 1,
+      };
+    });
+    expect(fortuneMetrics.buttonHeight).toBeGreaterThanOrEqual(44);
+    expect(fortuneMetrics.statusRole).toBe("alert");
+    expect(fortuneMetrics.statusColor).not.toBe("");
+    expect(
+      contrast(fortuneMetrics.statusColor, fortuneMetrics.statusBackground),
+    ).toBeGreaterThanOrEqual(4.5);
+    expect(fortuneMetrics.contentHeight).toBeGreaterThan(700);
+    expect(fortuneMetrics.fortuneVisible).toBe(true);
+    await commandCenter.locator("[data-vf-command-center]").screenshot({
+      path: path.join(
+        artifactDir,
+        `${testInfo.project.name}-${theme}-command-center.png`,
+      ),
+    });
+    await page.evaluate(async () => {
+      for (const footer of document.querySelectorAll<HTMLElement>(
+        "page-footer, body > footer",
+      )) {
+        footer.style.display = footer.dataset.vfQaDisplay ?? "";
+        delete footer.dataset.vfQaDisplay;
+      }
+      const element = document.querySelector<HTMLElement>(
+        "#page-command-center",
+      );
+      if (element) {
+        element.setAttribute("style", element.dataset.vfQaStyle ?? "");
+        delete element.dataset.vfQaStyle;
+      }
+      document.body.style.minHeight = document.body.dataset.vfQaMinHeight ?? "";
+      delete document.body.dataset.vfQaMinHeight;
+      await window.showPage?.("page-play");
     });
 
     const agencyDoctrine = await page.evaluate(async () => {
@@ -464,7 +600,9 @@ test("three themes retain readable page, panel, and settings surfaces", async ({
       overlay.remove();
     });
     const postMatchMetrics = await page.evaluate(async () => {
+      await import("/src/client/graphics/layers/WinModal.ts");
       await Promise.all([
+        customElements.whenDefined("win-modal"),
         customElements.whenDefined("certified-match-feedback"),
         customElements.whenDefined("post-match-continuation-card"),
       ]);
@@ -473,86 +611,108 @@ test("three themes retain readable page, panel, and settings surfaces", async ({
       const overlay = document.createElement("main");
       overlay.dataset.vfVisualQa = "postmatch";
       overlay.style.cssText =
-        "box-sizing:border-box;position:fixed;inset:0;z-index:2147483647;overflow:auto;padding:40px 20px;background:var(--vf-bg,#07111f);color:var(--vf-text,#f8fafc);font-family:Overpass,sans-serif";
-      const surface = document.createElement("section");
-      surface.style.cssText =
-        "box-sizing:border-box;width:100%;max-width:700px;margin:0 auto;padding:20px;border:1px solid rgba(255,255,255,.15);border-radius:16px;background:rgba(15,23,42,.94);box-shadow:0 24px 60px rgba(0,0,0,.45)";
-      const title = document.createElement("h1");
-      title.textContent = "Post-match command";
-      const subtitle = document.createElement("p");
-      subtitle.textContent =
-        "One next move, then a certified reflection receipt.";
-      const continuation = document.createElement(
-        "post-match-continuation-card",
-      ) as HTMLElement & {
-        context: {
-          isRanked: boolean;
-          rivalryRevengeDelta: number;
-          nextGoalSaved: boolean;
-          isAlive: boolean;
-        };
+        "box-sizing:border-box;position:absolute;top:0;left:0;width:100%;min-height:100vh;z-index:2147483647;overflow:visible;padding:40px 20px;background:var(--vf-bg,#07111f);color:var(--vf-text,#f8fafc);font-family:Overpass,sans-serif";
+      const modal = document.createElement("win-modal") as any;
+      modal.innerHtml = () => "";
+      modal.renderRecapSection = () => null;
+      modal.game = {
+        gameID: () => "visual-proof-game",
+        myPlayer: () => ({ isAlive: () => true }),
       };
-      continuation.context = {
-        isRanked: true,
-        rivalryRevengeDelta: 0,
-        nextGoalSaved: false,
-        isAlive: true,
-      };
-      const feedback = document.createElement(
-        "certified-match-feedback",
-      ) as HTMLElement & { gameId: string };
-      feedback.gameId = "visual-proof-game";
-      surface.append(title, subtitle, continuation, feedback);
-      overlay.append(surface);
+      modal.isVisible = true;
+      modal.showButtons = true;
+      modal.isRankedGame = true;
+      modal._title = "Certified match result";
+      overlay.append(modal);
       document.body.append(overlay);
-      return { mounted: true };
+      modal.requestUpdate();
+      await modal.updateComplete;
+      const surface = modal.querySelector<HTMLElement>(
+        "[data-vf-postmatch-surface]",
+      );
+      if (!surface) throw new Error("WinModal proof surface did not render");
+      const runtimeRect = surface.getBoundingClientRect();
+      const runtimeWithinViewport =
+        runtimeRect.left >= 0 && runtimeRect.right <= innerWidth;
+      surface.style.cssText +=
+        ";box-sizing:border-box;position:fixed;top:0;right:auto;bottom:auto;left:0;translate:none;transform:none;width:min(700px,calc(100vw - 40px));max-width:none;max-height:none;overflow:visible;margin:0";
+      return { mounted: true, actualWinModal: true, runtimeWithinViewport };
     });
-    expect(postMatchMetrics.mounted).toBe(true);
-    await page.getByRole("button", { name: "Match rating 4 out of 5" }).click();
-    await page.getByRole("button", { name: "Map rating 2 out of 5" }).click();
+    expect(postMatchMetrics).toEqual({
+      mounted: true,
+      actualWinModal: true,
+      runtimeWithinViewport: true,
+    });
+    await page
+      .getByRole("button", { name: "Match rating 4 out of 5" })
+      .evaluate((button: HTMLButtonElement) => button.click());
+    await page
+      .getByRole("button", { name: "Map rating 2 out of 5" })
+      .evaluate((button: HTMLButtonElement) => button.click());
     await expect(
       page.getByRole("button", { name: "Submit both ratings" }),
     ).toBeEnabled();
     const renderedPostMatch = await page
       .locator("[data-vf-visual-qa]")
       .evaluate((overlay) => {
-        const surface = overlay.querySelector("section") as HTMLElement;
+        const surface = overlay.querySelector<HTMLElement>(
+          "[data-vf-postmatch-surface]",
+        )!;
+        const details = surface.querySelector<HTMLDetailsElement>(
+          "details[data-post-match-secondary]",
+        );
+        const summary = details?.querySelector<HTMLElement>("summary");
         const buttons = [...overlay.querySelectorAll("button")];
         const groups = [...overlay.querySelectorAll('[role="group"]')];
         const surfaceRect = surface.getBoundingClientRect();
         const buttonRects = buttons.map((button) =>
           button.getBoundingClientRect(),
         );
+        const visibleButtonRects = buttonRects.filter(
+          (rect) => rect.width > 0 && rect.height > 0,
+        );
         return {
           overlayOverflow: overlay.scrollWidth > overlay.clientWidth,
           surfaceOverflow: surface.scrollWidth > surface.clientWidth,
-          surfaceWithinViewport:
-            surfaceRect.left >= 0 && surfaceRect.right <= innerWidth,
+          surfaceWidth: surfaceRect.width,
+          secondaryDisclosurePresent: Boolean(details),
+          secondaryDisclosureOpen: details?.open ?? true,
+          secondarySummaryHeight: summary?.getBoundingClientRect().height ?? 0,
+          secondaryActionCount:
+            details?.querySelectorAll("button, a").length ?? 0,
           groupOverflow: groups.some(
             (group) => group.scrollWidth > group.clientWidth,
           ),
           minimumButtonWidth: Math.min(
-            ...buttonRects.map((rect) => rect.width),
+            ...visibleButtonRects.map((rect) => rect.width),
           ),
           minimumButtonHeight: Math.min(
-            ...buttonRects.map((rect) => rect.height),
+            ...visibleButtonRects.map((rect) => rect.height),
           ),
         };
       });
     expect(renderedPostMatch).toMatchObject({
       overlayOverflow: false,
       surfaceOverflow: false,
-      surfaceWithinViewport: true,
       groupOverflow: false,
+      secondaryDisclosurePresent: true,
+      secondaryDisclosureOpen: false,
     });
+    expect(renderedPostMatch.surfaceWidth).toBeLessThanOrEqual(
+      await page.evaluate(() => innerWidth),
+    );
+    expect(renderedPostMatch.secondarySummaryHeight).toBeGreaterThanOrEqual(44);
+    expect(renderedPostMatch.secondaryActionCount).toBeGreaterThanOrEqual(3);
     expect(renderedPostMatch.minimumButtonWidth).toBeGreaterThanOrEqual(44);
     expect(renderedPostMatch.minimumButtonHeight).toBeGreaterThanOrEqual(44);
-    await page.locator("[data-vf-visual-qa]").screenshot({
-      path: path.join(
-        artifactDir,
-        `${testInfo.project.name}-${theme}-postmatch.png`,
-      ),
-    });
+    await page
+      .locator("[data-vf-visual-qa] [data-vf-postmatch-surface]")
+      .screenshot({
+        path: path.join(
+          artifactDir,
+          `${testInfo.project.name}-${theme}-postmatch.png`,
+        ),
+      });
     results.push({
       theme,
       tokens,

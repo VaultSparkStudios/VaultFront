@@ -677,3 +677,9 @@ Public-safe decisions only. Detailed internal decision history is maintained pri
 **Decision:** The founder's explicit direct-push and deploy authorization satisfies the launch-approval gate. Production promotion still fails closed until project-domain Zoho reply identity, three authenticated humans, real revenue, an observed digest rollback, and production parity/Core Web Vitals are directly evidenced.
 
 **Why:** Consent authorizes the operation; it does not turn staging health or local tests into mail, human, revenue, rollback, or production-performance observations.
+
+### Core-loop tuning follows authenticated observed evidence
+
+**Decision:** The shipped Capture → convoy → three Pressure deliveries → 90-second Breach → decisive delivery timing remains unchanged until authenticated human runs provide stage timestamps and drop-off evidence. Post-match hierarchy is measured through the existing retentionAction and matchFeedback telemetry; local browser fixtures and synthetic events never count as engagement or retention evidence.
+
+**Why:** The loop is coherent in code but live staging currently has zero qualifying human actors and 0/12 Alpha checks. Tuning from synthetic proof would replace the missing learning loop with invented confidence.

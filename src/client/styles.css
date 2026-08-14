@@ -18,6 +18,8 @@
   --vf-border-strong: rgba(186, 230, 253, 0.48);
   --vf-accent: #7dd3fc;
   --vf-warm: #fbbf24;
+  --vf-success: #6ee7b7;
+  --vf-danger: #fecaca;
   --vf-shadow: 0 16px 34px rgba(2, 8, 20, 0.42);
   --vf-modal-bg: rgba(7, 17, 27, 0.9);
   --vf-panel-text: #f8fafc;
@@ -41,6 +43,8 @@
   --vf-border-strong: rgba(30, 64, 96, 0.42);
   --vf-accent: #0369a1;
   --vf-warm: #a16207;
+  --vf-success: #047857;
+  --vf-danger: #991b1b;
   --vf-shadow: 0 16px 34px rgba(30, 64, 96, 0.18);
   --vf-modal-bg: rgba(247, 250, 255, 0.96);
   --vf-panel-text: #102235;
@@ -64,6 +68,8 @@
   --vf-border-strong: rgba(244, 114, 182, 0.55);
   --vf-accent: #c084fc;
   --vf-warm: #fb7185;
+  --vf-success: #6ee7b7;
+  --vf-danger: #fda4af;
   --vf-shadow: 0 18px 40px rgba(126, 34, 206, 0.3);
   --vf-modal-bg: rgba(18, 0, 30, 0.94);
   --vf-panel-text: #f8f0ff;

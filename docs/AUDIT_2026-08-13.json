@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
-  "session": 102,
+  "session": 103,
   "generatedBy": "codex",
-  "generatedAt": "2026-08-13T03:18:00-04:00",
+  "generatedAt": "2026-08-13T22:45:00-04:00",
   "project": {
     "slug": "vaultfront",
     "name": "VaultFront",
@@ -12,7 +12,7 @@
     "stage": "FORGE",
     "stagingType": "stable-owned-subdomain"
   },
-  "summary": "Fresh source, game-loop, canon, and live-release audit after the clean S101 boundary; every admitted premise was verified against current code or live release evidence.",
+  "summary": "Session 103 merge audit after signed canon propagation: six new premises were verified against current source, the rendered-surface manifest, and live staging. Staging is healthy at 0a9149c8, but authenticated Alpha evidence remains 0/12 with zero human actors; no external observation was converted into a code-shaped green.",
   "axes": {
     "featureDepth": 1.5,
     "innovation": 1.5,
@@ -27,20 +27,20 @@
   "specialtyReviews": {
     "gameLoop": {
       "scores100": {
-        "loopTightness": 82,
-        "progression": 76,
-        "sessionEngagement": 74,
-        "retention": 61,
-        "soulFidelity": 65
+        "loopTightness": 90,
+        "progression": 82,
+        "sessionEngagement": 70,
+        "retention": 65,
+        "soulFidelity": null
       },
-      "result": "The certified core loop is coherent, but empirical human evidence is absent and one mastery-rematch event is dead."
+      "result": "The certified Capture to decisive-delivery spine is coherent and server-authoritative. Human evidence is still absent, post-match choice density is unvalidated, and Soul fidelity is intentionally unscored because no public-safe pillars exist."
     },
     "release": {
       "verdict": "no-go",
       "red": [
-        "production returns 503 and current HEAD is not staged",
-        "parity/Core Web Vitals and rollback are unobserved",
-        "Zoho reply identity, three-human Alpha, revenue, and admitted founder approval are absent"
+        "production returns 503 by design",
+        "live staging Alpha Gate is 0/12 with zero authenticated human actors",
+        "project-domain Zoho reply identity and live revenue remain unobserved"
       ]
     }
   },
@@ -262,6 +262,138 @@
           "at": "2026-08-13T16:46:00-04:00",
           "status": "deferred",
           "note": "All public surfaces now use only contact@vaultfront.io and leakage tests pass. Live Zoho send/receive/reply-as proof remains a separate release gate pending the missing zoho.mail.admin capability."
+        }
+      ]
+    },
+    {
+      "id": 214,
+      "slug": "layered-secrets-authority-after-propagation",
+      "tier": "hot",
+      "axis": "security / reliability / organization",
+      "effortHours": 2,
+      "impact": 10,
+      "innovation": 9,
+      "priority": 135,
+      "status": "shipped",
+      "title": "Restore the canonical capability map after signed propagation",
+      "why": "The propagated scripts/lib/secrets.mjs now reads only secrets/CAPABILITY_MAP.json, which does not exist in VaultFront, so project call sites see zero of the 72 Studio capabilities and corruption degrades silently instead of failing closed.",
+      "coreLoopStep": "admission to uninterrupted match and release operations",
+      "recipe": "Retain legacy single-value normalization while restoring Studio-Ops-base plus project-override capability composition, loud typed corruption failure, and isolated regression tests for absent, corrupt, deduplicated, and layered maps.",
+      "executionLog": [
+        {
+          "at": "2026-08-13T22:48:45-04:00",
+          "status": "shipped",
+          "note": "Studio-base plus project-override capability composition and typed corruption failure are restored alongside the legacy adapter; 4/4 tests pass and the live gateway resolves 72 capabilities."
+        }
+      ]
+    },
+    {
+      "id": 215,
+      "slug": "progressive-postmatch-reward-ladder",
+      "tier": "hot",
+      "axis": "gamification / retention / ux",
+      "effortHours": 5,
+      "impact": 9,
+      "innovation": 8,
+      "priority": 64,
+      "status": "shipped",
+      "title": "Give the post-match decision one visual primary and one secondary reveal",
+      "why": "WinModal correctly recommends one continuation but simultaneously renders feedback, mutator voting, exit, share, rematch, clip, highlight, and result-card actions; live human evidence is zero, so the choice density is unvalidated.",
+      "coreLoopStep": "reward to deliberate progression and next match",
+      "recipe": "Keep the policy-selected continuation and exit visible, move optional sharing, mutator, clip, and result-card actions behind an accessible progressive disclosure, preserve telemetry, and add DOM plus rendered theme/mobile proof.",
+      "executionLog": [
+        {
+          "at": "2026-08-13T23:46:25-04:00",
+          "status": "shipped",
+          "note": "The actual WinModal now keeps one recommended continuation plus Exit visible, collapses optional reward/social actions behind a 44px disclosure, and gains bounded mobile scrolling. Real-component desktop/mobile three-theme proof and 16/16 focused tests pass."
+        }
+      ]
+    },
+    {
+      "id": 216,
+      "slug": "command-center-semantic-themes",
+      "tier": "hot",
+      "axis": "ux / accessibility / progression",
+      "effortHours": 4,
+      "impact": 9,
+      "innovation": 7,
+      "priority": 49,
+      "status": "shipped",
+      "title": "Make the progression hub a first-class three-theme surface",
+      "why": "CommandCenter and FortuneCollectionPanel hardcode dark colors, Fortune equip has no 44px action floor or announced error outcome, and command-center is absent from the 132-capture theme receipt.",
+      "coreLoopStep": "earned reward to visible progression choice",
+      "recipe": "Move the hub to VaultFront semantic tokens, add accessible equip busy/success/error feedback and 44px actions, then add Command Center desktop/mobile captures and contrast assertions for dark, light, and competitive themes.",
+      "executionLog": [
+        {
+          "at": "2026-08-13T23:46:25-04:00",
+          "status": "shipped",
+          "note": "Command Center now receives reachable global styles and semantic theme tokens; Fortune states use theme-safe rarity/success/danger colors, announced equip outcomes, and 44px controls. The final CANON-053 receipt binds 138 reviewed captures and passes the visual checker."
+        }
+      ]
+    },
+    {
+      "id": 217,
+      "slug": "alpha-pulse-contributor-corridor",
+      "tier": "hot",
+      "axis": "feedback loop / engagement / release",
+      "effortHours": 4,
+      "impact": 9,
+      "innovation": 8,
+      "priority": 70,
+      "status": "shipped",
+      "title": "Turn the truthful Alpha Pulse into a contribution path",
+      "why": "The visible pulse truthfully says Unmeasured and links to evidence, but live staging has zero events and offers no direct path from an interested visitor to Obelisk sign-in and a certified First Extraction run.",
+      "coreLoopStep": "public interest to authenticated first match to feedback",
+      "recipe": "Add a privacy-safe Join the Alpha action with explicit sign-in/play states, preserve unmeasured truth, route through the existing Obelisk account boundary and Play page, and instrument only the existing authenticated pulse after real participation.",
+      "executionLog": [
+        {
+          "at": "2026-08-13T22:52:05-04:00",
+          "status": "shipped",
+          "note": "The public Alpha Pulse now routes signed-out visitors through the Studio account boundary and authenticated players into existing matchmaking; only real match telemetry can advance evidence. Tests pass 5/5."
+        }
+      ]
+    },
+    {
+      "id": 218,
+      "slug": "public-safe-game-loop-contract",
+      "tier": "fast",
+      "axis": "coherence / design / organization",
+      "effortHours": 2,
+      "impact": 8,
+      "innovation": 7,
+      "priority": 84,
+      "status": "shipped",
+      "title": "Document the shipped loop without fabricating Soul fidelity",
+      "why": "context/GAME_LOOP.md and docs/PLAYTESTS are absent, while the public SOUL intentionally contains no creative pillars; a numeric Soul-fidelity score therefore has no evidence authority.",
+      "coreLoopStep": "input through certified fantasy, reward, and progression",
+      "recipe": "Create a public-safe code-derived GAME_LOOP contract with authoritative sources, timing, reward fan-out, known evidence gaps, and an explicit N/A Soul boundary; do not invent founder-owned pillars or synthetic playtests.",
+      "executionLog": [
+        {
+          "at": "2026-08-13T22:50:00-04:00",
+          "status": "shipped",
+          "note": "A public-safe source-bound GAME_LOOP contract now documents all six stages, authority boundaries, live 0/12 evidence, and an explicit Soul N/A boundary; 2/2 contract tests pass."
+        }
+      ]
+    },
+    {
+      "id": 219,
+      "slug": "public-repo-generated-state-quarantine",
+      "tier": "hot",
+      "axis": "security / privacy / process",
+      "effortHours": 1,
+      "impact": 8,
+      "innovation": 6,
+      "priority": 91,
+      "status": "shipped",
+      "title": "Keep startup intelligence artifacts out of the public repository",
+      "why": "Startup created untracked context/SIGNALS.md and portfolio/compiled/FORECAST_LEDGER.json even though AGENTS.md keeps internal planning and detailed Studio process surfaces in the private control plane.",
+      "coreLoopStep": "release preparation to public trust",
+      "recipe": "Ignore the generated intelligence paths, remove only the untracked copies from this public worktree, and add a sanitization regression proving they cannot enter a commit while runtime/public evidence remains intact.",
+      "executionLog": [
+        {
+          "at": "2026-08-13T22:47:20-04:00",
+          "status": "shipped",
+          "note": "Generated SIGNALS/forecast state is gitignored, the untracked project-local Obelisk broker is removed, and PublicRepoBoundary passes 2/2."
         }
       ]
     }

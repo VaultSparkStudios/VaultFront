@@ -14,6 +14,7 @@ export const THEME_PROOF_THEMES = Object.freeze([
 export const THEME_PROOF_SURFACES = Object.freeze([
   "play",
   "stats-showcase",
+  "command-center",
   "agency-doctrine",
   "settings",
   "accessible-modal",
@@ -58,6 +59,8 @@ export function collectThemeProofSourceFiles(root) {
     "e2e/theme-visual-proof.spec.ts",
     "static/index.html",
     "src/client/BrandTheme.ts",
+    "src/client/CommandCenter.ts",
+    "src/client/FortuneCollectionPanel.ts",
     "src/client/Api.ts",
     "src/client/FirstExtractionQuest.ts",
     "src/client/GameStartingModal.ts",

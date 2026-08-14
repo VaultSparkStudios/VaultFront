@@ -1,9 +1,9 @@
 {
   "project": "chromium",
   "localOnly": true,
-  "capturedAt": "2026-08-13T22:09:30.743Z",
+  "capturedAt": "2026-08-14T04:43:38.353Z",
   "source": {
-    "digest": "sha256:8ef64e1521f5b118c0735cc1c4eb2950bc4051f79577fea2749a65f2524e3262",
+    "digest": "sha256:a916c97b37df96bc4a7bb7f83ab23b9d080df734b10faf02745dd2c5270dc401",
     "files": [
       {
         "path": "config/vaultfront-balance.v1.json",
@@ -12,8 +12,8 @@
       },
       {
         "path": "e2e/theme-visual-proof.spec.ts",
-        "bytes": 49845,
-        "digest": "sha256:eb291c55a1d430e95ae3c99b5e108327626a0ae72a6f831eb1b431435acc507c"
+        "bytes": 56511,
+        "digest": "sha256:e9e640297bd56873cd8024db9742f0ffea866fb175cd1e35b8f04f75810ccd47"
       },
       {
         "path": "src/client/AccountModal.ts",
@@ -36,6 +36,11 @@
         "digest": "sha256:b948575be5f2f73fa42472349e0bcfac8e270b07082d7c76f5d08c13781541f9"
       },
       {
+        "path": "src/client/CommandCenter.ts",
+        "bytes": 11010,
+        "digest": "sha256:6c0ca3f148c881e1599477902c7fdd7209f37e66c56f2401e55c22c7a3e995df"
+      },
+      {
         "path": "src/client/ConnectionRecoveryPresenter.ts",
         "bytes": 5927,
         "digest": "sha256:6678d300daa3c282522f62e7c6d1eb441bf6d9075ccfd9790f30f0cdc5c72780"
@@ -44,6 +49,11 @@
         "path": "src/client/FirstExtractionQuest.ts",
         "bytes": 6364,
         "digest": "sha256:c0c43a339b522c008a4a1494ac4ad3344c270b9fd27d3471419c432467bca90e"
+      },
+      {
+        "path": "src/client/FortuneCollectionPanel.ts",
+        "bytes": 7834,
+        "digest": "sha256:7150dd4b730158450183398e5392839c4a84f55a3b22263c60c1aab05d499d55"
       },
       {
         "path": "src/client/GameStartingModal.ts",
@@ -177,8 +187,8 @@
       },
       {
         "path": "src/client/components/PublicStatsShowcase.ts",
-        "bytes": 6037,
-        "digest": "sha256:8b8ec135e997f6fafd93fda858824e95ed57fd4fd2afbcac90410aad6d25cd19"
+        "bytes": 8550,
+        "digest": "sha256:b6c3a2c6146d04ec64e3cd425adda74739b9c445bd8a6ecec2f6a1517a6fa0f2"
       },
       {
         "path": "src/client/components/RankedModal.ts",
@@ -372,13 +382,13 @@
       },
       {
         "path": "src/client/graphics/layers/WinModal.ts",
-        "bytes": 77658,
-        "digest": "sha256:0e0b29acd4134dfef0f5b72fd754559411e3f3beffe84b6bc3bff2cc25f88b57"
+        "bytes": 74561,
+        "digest": "sha256:ba6c84a3cb35cb74db9d5f9de17f6f23b518f2c77c88377eea9a9c6b2b7b3e20"
       },
       {
         "path": "src/client/styles.css",
-        "bytes": 20723,
-        "digest": "sha256:728fa77f6ffd25b500521b1f0936eafc4a59387ff6e1711864d7ba5c5095fd59"
+        "bytes": 20870,
+        "digest": "sha256:c8c3f69672f51ed87bff1371f1f004927d9062c9e4e6452060dd2661ca3a6d12"
       },
       {
         "path": "src/client/styles/components/button.css",
@@ -458,7 +468,7 @@
       {
         "path": "static/index.html",
         "bytes": 17426,
-        "digest": "sha256:19bc4e42cba9f6e04421fbfdf393c497a966daa3cafff43988149798b0114d16"
+        "digest": "sha256:30bbdef63edcc25fb828b648929ff58f157301275e70da6e42a34543963edf8d"
       }
     ]
   },
@@ -485,7 +495,11 @@
       "postMatch": {
         "overlayOverflow": false,
         "surfaceOverflow": false,
-        "surfaceWithinViewport": true,
+        "surfaceWidth": 700,
+        "secondaryDisclosurePresent": true,
+        "secondaryDisclosureOpen": false,
+        "secondarySummaryHeight": 44,
+        "secondaryActionCount": 4,
         "groupOverflow": false,
         "minimumButtonWidth": 44,
         "minimumButtonHeight": 44
@@ -493,6 +507,7 @@
       "surfaces": [
         "play",
         "stats-showcase",
+        "command-center",
         "agency-doctrine",
         "settings",
         "accessible-modal",
@@ -717,7 +732,11 @@
       "postMatch": {
         "overlayOverflow": false,
         "surfaceOverflow": false,
-        "surfaceWithinViewport": true,
+        "surfaceWidth": 700,
+        "secondaryDisclosurePresent": true,
+        "secondaryDisclosureOpen": false,
+        "secondarySummaryHeight": 44,
+        "secondaryActionCount": 4,
         "groupOverflow": false,
         "minimumButtonWidth": 44,
         "minimumButtonHeight": 44
@@ -725,6 +744,7 @@
       "surfaces": [
         "play",
         "stats-showcase",
+        "command-center",
         "agency-doctrine",
         "settings",
         "accessible-modal",
@@ -949,7 +969,11 @@
       "postMatch": {
         "overlayOverflow": false,
         "surfaceOverflow": false,
-        "surfaceWithinViewport": true,
+        "surfaceWidth": 700,
+        "secondaryDisclosurePresent": true,
+        "secondaryDisclosureOpen": false,
+        "secondarySummaryHeight": 44,
+        "secondaryActionCount": 4,
         "groupOverflow": false,
         "minimumButtonWidth": 44,
         "minimumButtonHeight": 44
@@ -957,6 +981,7 @@
       "surfaces": [
         "play",
         "stats-showcase",
+        "command-center",
         "agency-doctrine",
         "settings",
         "accessible-modal",

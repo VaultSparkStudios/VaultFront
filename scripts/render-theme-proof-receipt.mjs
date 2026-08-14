@@ -11,6 +11,7 @@ import {
   sha256Bytes,
   THEME_PROOF_CLAIM_BOUNDARY,
   THEME_PROOF_PROJECTS,
+  THEME_PROOF_SURFACES,
   THEME_PROOF_THEMES,
 } from "./lib/theme-proof.mjs";
 
@@ -138,10 +139,10 @@ export async function renderThemeProofReceipt(
       renderedPixelsReviewed: true,
       reviewer: "codex/image-capable-render-review",
       findings: [
-        "The current 21-surface desktop/mobile matrix was reviewed across VaultFront, Light, and Competitive themes after the Session 101 privacy-safe pulse, live public-stats showcase, certified coach, postmatch action-floor, and prediction-state changes.",
+        `The current ${THEME_PROOF_SURFACES.length}-surface desktop/mobile matrix was reviewed across VaultFront, Light, and Competitive themes after the Session 103 Alpha contributor corridor, Command Center semantic-theme repair, and postmatch decision-hierarchy changes.`,
       ],
       fixesApplied: [
-        "Raised touched postmatch and prediction actions to a 44px minimum target, added keyboard-visible focus treatment, and added a live prediction-league state; the full matrix has no open overflow, contrast, clipping, or layout defect.",
+        "Restored global style reachability for Command Center, moved its progression and Fortune surfaces to semantic tokens, added announced Fortune equip outcomes and 44px controls, and collapsed optional postmatch actions under one accessible disclosure; the full matrix has no open overflow, contrast, clipping, or layout defect.",
       ],
       blockingDefectsOpen: 0,
     },

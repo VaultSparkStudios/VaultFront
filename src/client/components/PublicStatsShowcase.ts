@@ -66,7 +66,11 @@ export function isPublicStatsFeedStale(
 export class PublicStatsShowcase extends LitElement {
   @state() private feed: PublicStatsFeed | null = null;
   @state() private unavailable = false;
+  @state() private signedIn = false;
   private pollTimer: ReturnType<typeof setInterval> | null = null;
+  private readonly onUserMe = (event: Event) => {
+    this.signedIn = (event as CustomEvent<unknown | false>).detail !== false;
+  };
 
   static styles = css`
     :host {
@@ -129,6 +133,49 @@ export class PublicStatsShowcase extends LitElement {
     .stale {
       color: var(--vf-accent-orange);
     }
+    .alpha-corridor {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-top: 0.55rem;
+      padding-top: 0.55rem;
+      border-top: 1px solid var(--vf-border);
+    }
+    .alpha-corridor span {
+      margin: 0;
+      font-size: 0.7rem;
+      line-height: 1.35;
+    }
+    .alpha-action {
+      min-height: 44px;
+      flex: 0 0 auto;
+      border: 1px solid
+        color-mix(in srgb, var(--vf-accent-orange) 55%, var(--vf-border));
+      border-radius: 0.55rem;
+      padding: 0.45rem 0.75rem;
+      background: color-mix(
+        in srgb,
+        var(--vf-accent-orange) 16%,
+        var(--vf-surface)
+      );
+      color: var(--vf-text);
+      font: inherit;
+      font-size: 0.72rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .alpha-action:hover {
+      background: color-mix(
+        in srgb,
+        var(--vf-accent-orange) 25%,
+        var(--vf-surface)
+      );
+    }
+    .alpha-action:focus-visible {
+      outline: 2px solid var(--vf-accent-blue);
+      outline-offset: 2px;
+    }
     @media (max-width: 600px) {
       section {
         border-radius: 0;
@@ -145,15 +192,24 @@ export class PublicStatsShowcase extends LitElement {
       article span {
         font-size: 0.6rem;
       }
+      .alpha-corridor {
+        align-items: stretch;
+        flex-direction: column;
+      }
+      .alpha-action {
+        width: 100%;
+      }
     }
   `;
 
   connectedCallback(): void {
     super.connectedCallback();
+    document.addEventListener("userMeResponse", this.onUserMe);
     void this.refresh();
   }
 
   disconnectedCallback(): void {
+    document.removeEventListener("userMeResponse", this.onUserMe);
     if (this.pollTimer) clearInterval(this.pollTimer);
     this.pollTimer = null;
     super.disconnectedCallback();
@@ -178,6 +234,19 @@ export class PublicStatsShowcase extends LitElement {
     } catch {
       this.unavailable = true;
     }
+  }
+
+  private contributeToAlpha(): void {
+    if (!this.signedIn) {
+      window.showPage?.("page-account");
+      return;
+    }
+    document.dispatchEvent(
+      new CustomEvent("open-matchmaking", {
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
   render() {
@@ -217,7 +286,23 @@ export class PublicStatsShowcase extends LitElement {
                 <span class=${stale ? "stale" : ""}>
                   ${stale ? "Feed is stale · " : ""}as of
                   ${new Date(feed!.generatedAt).toLocaleDateString()}
-                </span>`
+                </span>
+                <div class="alpha-corridor">
+                  <span>
+                    ${
+                      this.signedIn
+                        ? "Complete a certified First Extraction and share feedback to move the real Alpha pulse."
+                        : "Use one Studio account, then complete a certified First Extraction to contribute real Alpha evidence."
+                    }
+                  </span>
+                  <button
+                    class="alpha-action"
+                    type="button"
+                    @click=${this.contributeToAlpha}
+                  >
+                    ${this.signedIn ? "Find an Alpha match" : "Join the Alpha"}
+                  </button>
+                </div>`
             : nothing
         }
       </section>

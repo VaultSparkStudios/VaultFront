@@ -19,6 +19,7 @@
     "statsMachine": "/stats.json",
     "contact": "mailto:contact@vaultfront.io?subject=VaultFront%20alpha%20interest",
     "source": "https://github.com/VaultSparkStudios/VaultFront",
+    "auth": "/auth/login",
     "capabilityManifest": "/capability-reachability.json",
     "balanceEnvelope": "/balance-envelope.json"
   },
@@ -41,7 +42,9 @@
   ],
   "authentication": {
     "provider": "Obelisk",
-    "status": "not-wired"
+    "status": "staging-observed-production-unavailable",
+    "flow": "authorization-code-pkce",
+    "entrypoint": "/auth/login"
   },
   "rights": {
     "code": "GNU AGPL-3.0; see LICENSE and LICENSING.md",
