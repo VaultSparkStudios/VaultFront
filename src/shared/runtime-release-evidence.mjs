@@ -59,7 +59,7 @@ function validateClaim(claim, policy, runtime, now) {
   if (authority?.origin !== claim?.origin)
     errors.push("authority-origin-mismatch");
   if (claim?.project !== "vaultfront") errors.push("project-mismatch");
-  if (claim?.repository !== "VaultSparkStudios/VaultFront")
+  if (claim?.repository !== "VaultSparkStudios/vaultfront")
     errors.push("repository-mismatch");
   if (claim?.environment !== runtime.environment)
     errors.push("runtime-environment-mismatch");

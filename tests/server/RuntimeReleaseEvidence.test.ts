@@ -44,7 +44,7 @@ function claim(gate = "staging") {
       keyId: "staging-v1",
       gate,
       project: "vaultfront",
-      repository: "VaultSparkStudios/VaultFront",
+      repository: "VaultSparkStudios/vaultfront",
       ...runtime,
       source: {
         workflow: ".github/workflows/deploy.yml",
