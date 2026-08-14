@@ -52,5 +52,5 @@ REMOTE_TEMP="/home/${REMOTE_USER}/${DEPLOYMENT_KEY}-evidence-${RANDOM}.json"
 
 scp -i "$SSH_KEY" "$BUNDLE" "${REMOTE_USER}@${SERVER_HOST}:${REMOTE_TEMP}"
 ssh -i "$SSH_KEY" "${REMOTE_USER}@${SERVER_HOST}" \
-    "mkdir -p '${REMOTE_DIR}' && chmod 700 '${REMOTE_DIR}' && chmod 600 '${REMOTE_TEMP}' && mv '${REMOTE_TEMP}' '${REMOTE_DIR}/bundle.json'"
+    "mkdir -p '${REMOTE_DIR}' && chmod 755 '${REMOTE_DIR}' && chmod 644 '${REMOTE_TEMP}' && mv '${REMOTE_TEMP}' '${REMOTE_DIR}/bundle.json'"
 echo "Installed signed release evidence atomically for ${DEPLOYMENT_KEY}."

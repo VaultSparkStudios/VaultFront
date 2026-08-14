@@ -441,9 +441,19 @@ requireText(
   "runtime evidence is not mounted read-only",
 );
 requireText(
+  update,
+  /chmod 755 "\$EVIDENCE_STATE_DIR"/u,
+  "runtime evidence directory is unreadable to the container's non-root node UID",
+);
+requireText(
   installReleaseEvidence,
   /runtime-release-evidence\.mjs verify/u,
   "runtime evidence installer does not verify before transport",
+);
+requireText(
+  installReleaseEvidence,
+  /chmod 644 '\$\{REMOTE_TEMP\}'/u,
+  "signed public evidence bundle is unreadable to the container's non-root node UID",
 );
 requireText(
   installReleaseEvidence,

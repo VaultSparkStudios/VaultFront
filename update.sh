@@ -44,7 +44,10 @@ EVIDENCE_STATE_DIR="${ROUTER_STATE_DIR}/release-evidence"
     exit 2
 }
 mkdir -p "$EVIDENCE_STATE_DIR"
-chmod 700 "$EVIDENCE_STATE_DIR"
+# The bundle contains signed public observations, never signing material. The
+# container's non-root node UID differs from the project host UID, so the
+# read-only bind mount must remain traversable across that boundary.
+chmod 755 "$EVIDENCE_STATE_DIR"
 IMAGE_REPO="${GHCR_IMAGE%@sha256:*}"
 RETENTION="${DEPLOY_IMAGE_RETENTION:-5}"
 DEPLOY_DRAIN_TIMEOUT_SECONDS="${DEPLOY_DRAIN_TIMEOUT_SECONDS:-900}"
