@@ -590,3 +590,15 @@ CREATE TABLE IF NOT EXISTS remote_ai_hourly_usage (
   by_feature  JSONB NOT NULL DEFAULT '{}',
   updated_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+CREATE TABLE IF NOT EXISTS supporter_payment_receipts (
+    event_id       TEXT PRIMARY KEY,
+    session_id     TEXT NOT NULL,
+    amount_cents   INTEGER NOT NULL CHECK (amount_cents > 0),
+    currency       TEXT NOT NULL,
+    live_mode      BOOLEAN NOT NULL,
+    observed_at    TIMESTAMPTZ NOT NULL,
+    receipt_digest TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS supporter_payment_receipts_live_observed_idx
+    ON supporter_payment_receipts (live_mode, observed_at DESC);

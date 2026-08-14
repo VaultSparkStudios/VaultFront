@@ -109,6 +109,8 @@ jobs:
           OBELISK_ISSUER: ${{ vars.OBELISK_ISSUER }}
           OBELISK_REDIRECT_URI: ${{ vars.OBELISK_REDIRECT_URI }}
           SSH_KEY: ~/.ssh/id_rsa
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+          STRIPE_WEBHOOK_SECRET: ${{ secrets.STRIPE_WEBHOOK_SECRET }}
           TURNSTILE_SECRET_KEY: ${{ secrets.TURNSTILE_SECRET_KEY }}
         run: ./build-deploy.sh staging "${{ inputs.target_host }}" "$SUBDOMAIN"
 
@@ -151,6 +153,28 @@ jobs:
           --product-smoke staging-product-smoke.json
           --output staging-attestation.json
 
+      - name: Sign authorized runtime release claims
+        if: ${{ !inputs.dry_run }}
+        env:
+          RELEASE_EVIDENCE_PRIVATE_KEY: ${{ secrets.RELEASE_EVIDENCE_PRIVATE_KEY }}
+        run: >-
+          node scripts/runtime-release-evidence.mjs create-staging
+          --attestation staging-attestation.json
+          --product-smoke staging-product-smoke.json
+          --output runtime-release-evidence.json
+
+      - name: Install signed runtime release claims
+        if: ${{ !inputs.dry_run }}
+        env:
+          APP_NAME: vaultfront
+          DEPLOY_REMOTE_USER: ${{ vars.DEPLOY_REMOTE_USER || 'vaultfront' }}
+          DEPLOY_SERVER_HOST: ${{ secrets.DEPLOY_SERVER_HOST }}
+          SSH_KEY: ~/.ssh/id_rsa
+        run: >-
+          bash ./install-release-evidence.sh staging "${{ inputs.target_host }}"
+          "$SUBDOMAIN" runtime-release-evidence.json "$GITHUB_SHA"
+          "${{ steps.staging_deploy.outputs.image_digest }}"
+
       - name: Upload run-bound staging attestation
         if: ${{ !inputs.dry_run }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -159,4 +183,5 @@ jobs:
           path: |
             staging-attestation.json
             staging-product-smoke.json
+            runtime-release-evidence.json
           retention-days: 30

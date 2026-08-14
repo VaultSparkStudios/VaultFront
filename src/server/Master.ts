@@ -9,6 +9,7 @@ import { fileURLToPath } from "url";
 import { GameEnv } from "../core/configuration/Config";
 import { getServerConfigFromServer } from "../core/configuration/ConfigLoader";
 import { certifiedLoopEvidenceStore } from "./CertifiedLoopEvidenceStore";
+import { databaseReady, pool } from "./db/pool";
 import { FatalProcessCoordinator } from "./FatalProcessCoordinator";
 import { logger } from "./Logger";
 import { MapPlaylist } from "./MapPlaylist";
@@ -19,10 +20,16 @@ import { PlaytestSummaryService } from "./PlaytestSummaryService";
 import { projectPublicPlaytestSummary } from "./PublicPlaytestSummary";
 import { renderHtml } from "./RenderHtml";
 import { installPreparseRequestAdmission } from "./RequestAdmission";
+import { loadRuntimeReleaseEvidence } from "./RuntimeReleaseEvidence";
 import {
   serverCrashStore,
   truncateServerCrashMessage,
 } from "./ServerCrashStore";
+import {
+  installStripeSupportBodyParsers,
+  loadRevenueObservation,
+  registerStripeSupportRoutes,
+} from "./StripeSupport";
 import { shutdownTelemetry } from "./TelemetryLifecycle";
 import { buildVaultFrontReadiness } from "./VaultFrontReadiness";
 import { createWorkerApiProxy } from "./WorkerApiProxy";
@@ -84,6 +91,7 @@ const masterAllowedOrigins = process.env.ALLOWED_ORIGINS?.split(",").map((s) =>
 app.use(cors({ origin: masterAllowedOrigins, credentials: true }));
 app.use(helmet({ contentSecurityPolicy: false }));
 app.use(fatalProcess.admissionMiddleware());
+installStripeSupportBodyParsers(app);
 installPreparseRequestAdmission(app);
 const obeliskConfig = readObeliskConfig();
 if (config.env() !== GameEnv.Dev && !obeliskConfig) {
@@ -92,6 +100,11 @@ if (config.env() !== GameEnv.Dev && !obeliskConfig) {
   );
 }
 if (obeliskConfig) registerObeliskAuthRoutes(app, log);
+registerStripeSupportRoutes(app, {
+  pool: () => pool,
+  reportError: (error) =>
+    log.error("Stripe support route failed", { error: String(error) }),
+});
 // ─────────────────────────────────────────────────────────────────────────
 
 // Middleware to handle HTML files with EJS templating
@@ -134,6 +147,7 @@ export async function startMaster() {
   }
 
   log.info(`Primary ${process.pid} is running`);
+  await databaseReady;
   log.info(`Setting up ${config.numWorkers()} workers...`);
 
   lobbyService = new MasterLobbyService(config, playlist, log);
@@ -285,21 +299,50 @@ app.get("/_health", (_req, res) => {
   }
 });
 
-app.get("/api/vaultfront/readiness", (_req, res) => {
+app.get("/api/vaultfront/readiness", async (_req, res) => {
   const healthy =
     fatalProcess.isAccepting() &&
     (lobbyService?.healthSnapshot().healthy ?? false);
+  const runtimeReleaseEvidence = loadRuntimeReleaseEvidence();
+  const revenueObservation = await loadRevenueObservation(pool).catch(
+    (error) => {
+      log.error("master revenue evidence unavailable", {
+        error: String(error),
+      });
+      return undefined;
+    },
+  );
+  const releaseEvidence = {
+    ...runtimeReleaseEvidence.releaseEvidence,
+    observations: {
+      ...runtimeReleaseEvidence.releaseEvidence.observations,
+      ...(revenueObservation ? { revenueObservation } : {}),
+    },
+  };
+  let playtestPulse;
+  try {
+    playtestPulse = projectPublicPlaytestSummary(
+      await playtestSummaryService.summary(),
+    );
+  } catch (error) {
+    // Runtime health and evidence readiness are separate authorities. Keep the
+    // process response available while the absent Alpha summary fails closed.
+    log.error("master readiness playtest evidence unavailable", {
+      error: String(error),
+    });
+  }
   res.status(healthy ? 200 : 503).json(
     buildVaultFrontReadiness({
       healthy,
       processRole: "master",
-      revenueSignal:
-        process.env.VAULTFRONT_REVENUE_OBSERVED === "1"
-          ? {
-              status: "observed",
-              observedAt: process.env.VAULTFRONT_REVENUE_OBSERVED_AT,
-            }
-          : { status: "unverified" },
+      playtestPulse,
+      releaseEvidence,
+      revenueSignal: revenueObservation
+        ? {
+            status: "observed",
+            observedAt: revenueObservation.observedAt,
+          }
+        : { status: "unverified" },
     }),
   );
 });

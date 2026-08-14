@@ -159,9 +159,13 @@ function evaluateObservation(definition, observation, now, maxAgeMs) {
   const verified = observation?.status === "verified";
   const provenancePass =
     verified && freshnessState === "fresh" && sourceComplete && digestComplete;
-  const semanticDigestPass =
-    !["rollback", "revenue"].includes(definition.semantic) ||
-    verifyCanonicalReleaseObservation(definition.id, observation);
+  // A digest-shaped string is not provenance. Recompute every observation's
+  // canonical payload so generic, health, rollback, and revenue gates all fail
+  // closed when any semantic field is changed after collection.
+  const semanticDigestPass = verifyCanonicalReleaseObservation(
+    definition.id,
+    observation,
+  );
   const semanticPass =
     definition.semantic === "health"
       ? observation?.httpStatus === 200 && observation?.healthy === true

@@ -49,6 +49,7 @@ const deploy = read("deploy.sh");
 const build = read("build.sh");
 const update = read("update.sh");
 const buildDeploy = read("build-deploy.sh");
+const installReleaseEvidence = read("install-release-evidence.sh");
 const deployWorkflow = read(".github/workflows/deploy.yml");
 const e2eWorkflow = read(".github/workflows/e2e.yml");
 const promoteWorkflow = read(".github/workflows/promote.yml");
@@ -68,6 +69,8 @@ const releaseGateAuthority = read("src/shared/release-gate-catalog.mjs");
 const releaseEvidenceGenerator = read("scripts/generate-release-evidence.mjs");
 const promotionReceipt = read("scripts/lib/promotion-receipt.mjs");
 const promotionReceiptCli = read("scripts/promotion-receipt.mjs");
+const runtimeReleaseEvidence = read("src/shared/runtime-release-evidence.mjs");
+const releaseEvidencePolicy = read("config/release-evidence-trust.json");
 
 check(
   !fs.existsSync(path.join(ROOT, ".github/workflows/release.yml")),
@@ -427,6 +430,79 @@ requireText(
   /write_env REPLAY_SECRET/u,
   "deploy transport does not pass replay integrity to runtime",
 );
+requireText(
+  deploy,
+  /write_env VAULTFRONT_RELEASE_EVIDENCE_PATH/u,
+  "deploy transport does not declare the runtime evidence mount path",
+);
+requireText(
+  update,
+  /vaultfront-release-evidence:ro/u,
+  "runtime evidence is not mounted read-only",
+);
+requireText(
+  installReleaseEvidence,
+  /runtime-release-evidence\.mjs verify/u,
+  "runtime evidence installer does not verify before transport",
+);
+requireText(
+  installReleaseEvidence,
+  /mv '\$\{REMOTE_TEMP\}' '\$\{REMOTE_DIR\}\/bundle\.json'/u,
+  "runtime evidence installer is not atomic",
+);
+requireText(
+  deployWorkflow,
+  /RELEASE_EVIDENCE_PRIVATE_KEY: \$\{\{ secrets\.RELEASE_EVIDENCE_PRIVATE_KEY \}\}/u,
+  "staging workflow does not use a protected evidence signing key",
+);
+check(
+  deployWorkflow.indexOf("Create hash-bound staging attestation") <
+    deployWorkflow.indexOf("Sign authorized runtime release claims") &&
+    deployWorkflow.indexOf("Sign authorized runtime release claims") <
+      deployWorkflow.indexOf("Install signed runtime release claims"),
+  "runtime claims are not signed and installed after exact staging attestation",
+);
+requireText(
+  runtimeReleaseEvidence,
+  /gate-authority-escalation/u,
+  "runtime evidence verifier does not enforce per-gate authority",
+);
+requireText(
+  runtimeReleaseEvidence,
+  /runtime-image-mismatch/u,
+  "runtime evidence verifier does not bind the immutable image digest",
+);
+check(
+  !/alphaHumanEvidence/u.test(releaseEvidencePolicy.split('"gates"')[1] ?? ""),
+  "staging evidence authority can assert authenticated human evidence",
+);
+requireText(
+  build,
+  /Build rejected: source must be a clean exact Git revision/u,
+  "container build does not reject dirty or unknown source",
+);
+requireText(
+  build,
+  /--build-arg SOURCE_DIRTY=0/u,
+  "container build does not bind its clean-source assertion",
+);
+for (const secret of ["STRIPE_SECRET_KEY", "STRIPE_WEBHOOK_SECRET"]) {
+  requireText(
+    deploy,
+    new RegExp(`write_env ${secret}`, "u"),
+    `${secret} is not transported to runtime`,
+  );
+  requireText(
+    deployWorkflow,
+    new RegExp(`${secret}: \\$\\{\\{ secrets\\.${secret}`, "u"),
+    `${secret} is absent from staging deployment`,
+  );
+  requireText(
+    promoteWorkflow,
+    new RegExp(`${secret}: \\$\\{\\{ secrets\\.${secret}`, "u"),
+    `${secret} is absent from production promotion`,
+  );
+}
 requireText(
   update,
   /apply-schema\.ts/u,

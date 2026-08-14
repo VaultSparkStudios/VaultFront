@@ -26,6 +26,7 @@ import https from "https";
 import path from "path";
 import { fileURLToPath } from "url";
 import { archiveBeforeMutate } from "./lib/archive-then-compact.mjs";
+import { selectLatestSessionHandoff } from "./lib/handoff-current.mjs";
 import {
   MODELS,
   callClaude,
@@ -121,6 +122,7 @@ if (!handoff) {
   console.error("No LATEST_HANDOFF.md found.");
   process.exit(1);
 }
+const currentHandoff = selectLatestSessionHandoff(handoff);
 
 const hash = crypto.createHash("sha256").update(handoff).digest("hex");
 let cached = null;
@@ -140,14 +142,16 @@ if (stillFresh && !force) {
 
 const apiKey = getSecret("ANTHROPIC_API_KEY", "claude.api");
 if (!apiKey) {
-  // Fallback: crude first-1500-chars truncation
-  const truncated = handoff.split(/\n/).slice(0, 40).join("\n");
+  // Keep the numerically latest session even when historical sections were
+  // appended out of order. First-line truncation repeatedly resurrected stale
+  // deploy receipts whenever the optional model credential was unavailable.
+  const truncated = currentHandoff.split(/\n/).slice(0, 80).join("\n");
   fs.writeFileSync(
     OUT,
     `<!-- fallback truncation (no API key) -->\n\n${truncated}`,
   );
   console.log(
-    `⚠ No ANTHROPIC_API_KEY — wrote truncated handoff (first 40 lines).`,
+    `⚠ No ANTHROPIC_API_KEY — wrote the latest session handoff deterministically.`,
   );
   process.exit(0);
 }
@@ -163,7 +167,7 @@ const resp = await callClaude(
     model: MODELS.haiku,
     maxTokens: 1200,
     system: [systemStable],
-    messages: [{ role: "user", content: handoff.slice(0, 40000) }],
+    messages: [{ role: "user", content: currentHandoff.slice(0, 40000) }],
   },
   https,
 );

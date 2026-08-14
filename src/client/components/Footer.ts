@@ -1,7 +1,9 @@
 import { LitElement, html, nothing } from "lit";
-import { customElement } from "lit/decorators.js";
+import { customElement, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import routeGraphJson from "../../shared/PublicRouteGraph.json";
+import { isLoggedIn, obeliskLogin } from "../Auth";
+import { createSupporterCheckoutSession } from "../SupporterApi";
 
 interface PublicLink {
   href: string;
@@ -20,8 +22,27 @@ const routeGraph = routeGraphJson as {
 
 @customElement("page-footer")
 export class Footer extends LitElement {
+  @state() private supportPending = false;
+
   createRenderRoot() {
     return this;
+  }
+
+  private async openSupporterCheckout() {
+    if (this.supportPending) return;
+    this.supportPending = true;
+    if (!(await isLoggedIn())) {
+      this.supportPending = false;
+      obeliskLogin();
+      return;
+    }
+    const url = await createSupporterCheckoutSession();
+    this.supportPending = false;
+    if (!url) {
+      window.alert("Supporter checkout is temporarily unavailable.");
+      return;
+    }
+    window.location.assign(url);
   }
 
   render() {
@@ -66,6 +87,15 @@ export class Footer extends LitElement {
               >
             `,
           )}
+          <button
+            type="button"
+            ?disabled=${this.supportPending}
+            aria-label="Support VaultFront with a five dollar contribution"
+            class="inline-flex min-h-11 min-w-11 items-center justify-center rounded-md border border-cyan-400/35 px-3 text-cyan-200 hover:border-cyan-300 hover:text-white disabled:opacity-60 transition-colors"
+            @click=${this.openSupporterCheckout}
+          >
+            ${this.supportPending ? "Opening…" : "Support $5"}
+          </button>
         </nav>
         <p class="max-w-3xl text-[11px] leading-relaxed text-white/55">
           ${routeGraph.upstreamNotice}

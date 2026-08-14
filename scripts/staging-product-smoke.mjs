@@ -118,6 +118,22 @@ export async function runProductSmoke({ origin, expectedRevision }) {
     },
   );
 
+  const checkoutContract = await request(
+    normalizedOrigin,
+    "/stripe/create-checkout-session",
+  );
+  const checkoutBody = await checkoutContract.json().catch(() => null);
+  add(
+    "checkout-json-not-spa",
+    checkoutContract.status === 405 &&
+      contentType(checkoutContract) === "application/json" &&
+      checkoutBody?.error === "Method not allowed",
+    {
+      status: checkoutContract.status,
+      contentType: contentType(checkoutContract),
+    },
+  );
+
   for (const path of ["/agents.json", "/.well-known/llms.txt"]) {
     const response = await request(normalizedOrigin, path, { accept: "*/*" });
     const body = await response.text();

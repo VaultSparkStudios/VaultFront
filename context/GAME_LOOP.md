@@ -59,5 +59,5 @@ shipped loop or human playtests to those criteria.
 - At least three distinct authenticated humans complete fresh sessions.
 - Stage timing and dropout are captured for Capture → Convoy → Pressure →
   Breach → decisive delivery.
-- Post-match feedback and continuation behavior are observed after the new
-  progressive decision hierarchy ships.
+- Post-match feedback and continuation behavior are observed with the shipped
+  progressive decision hierarchy.

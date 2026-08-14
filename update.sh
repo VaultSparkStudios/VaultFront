@@ -38,10 +38,13 @@ NETWORK_NAME="${DEPLOYMENT_KEY}-private"
 ROUTER_NAME="${DEPLOYMENT_KEY}-router"
 ROUTER_STATE_DIR="${HOME}/.${APP_NAME}/${DEPLOYMENT_KEY}"
 ROUTER_CONFIG="${ROUTER_STATE_DIR}/router.conf"
+EVIDENCE_STATE_DIR="${ROUTER_STATE_DIR}/release-evidence"
 [[ "$ROUTER_STATE_DIR" == "$HOME/.$APP_NAME/$DEPLOYMENT_KEY" ]] || {
     echo "Router state escaped the project-owned directory" >&2
     exit 2
 }
+mkdir -p "$EVIDENCE_STATE_DIR"
+chmod 700 "$EVIDENCE_STATE_DIR"
 IMAGE_REPO="${GHCR_IMAGE%@sha256:*}"
 RETENTION="${DEPLOY_IMAGE_RETENTION:-5}"
 DEPLOY_DRAIN_TIMEOUT_SECONDS="${DEPLOY_DRAIN_TIMEOUT_SECONDS:-900}"
@@ -160,6 +163,7 @@ run_container() {
         --env-file "$RUNTIME_ENV_FILE" \
         --name "$name" \
         --network "$NETWORK_NAME" \
+        --volume "${EVIDENCE_STATE_DIR}:/run/vaultfront-release-evidence:ro" \
         --label "com.vaultfront.deployment=${DEPLOYMENT_KEY}" \
         --label "com.vaultfront.role=app" \
         --label "com.vaultfront.generation=${generation}" \

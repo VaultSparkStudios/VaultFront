@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "authorities": {
+    "staging-v1": {
+      "environment": "staging",
+      "origin": "https://staging.vaultfront.io",
+      "publicKey": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAUxExVDuEtuI5U02CIc3AQveubk8x29/eg7ztNazwbWg=\n-----END PUBLIC KEY-----\n",
+      "gates": [
+        "staging",
+        "healthObservation",
+        "stagingParity",
+        "obeliskIdentity",
+        "themeReadability",
+        "footerManifest",
+        "rollbackObservation"
+      ]
+    }
+  }
+}

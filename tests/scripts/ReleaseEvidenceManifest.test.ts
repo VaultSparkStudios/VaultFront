@@ -174,7 +174,7 @@ describe("Release Evidence Manifest", () => {
   it("becomes ready only with every fresh sourced gate and a healthy observed runtime", () => {
     const generatedAt = "2026-07-17T12:00:00.000Z";
     const releaseObservations = Object.fromEntries(
-      canonicalReleaseGateDefinitions.map(([gate], index) => {
+      canonicalReleaseGateDefinitions.map(([gate]) => {
         const observation = {
           status: "verified",
           observedAt: "2026-07-17T11:30:00.000Z",
@@ -193,15 +193,7 @@ describe("Release Evidence Manifest", () => {
             ? { live: true, eventType: "checkout", amountCents: 500 }
             : {}),
         };
-        return [
-          gate,
-          ["rollbackObservation", "revenueObservation"].includes(gate)
-            ? buildCanonicalReleaseObservation(gate, observation)
-            : {
-                ...observation,
-                digest: `sha256:${index.toString(16).padStart(64, "0")}`,
-              },
-        ];
+        return [gate, buildCanonicalReleaseObservation(gate, observation)];
       }),
     );
     const evidence = buildReleaseEvidence({
@@ -504,14 +496,16 @@ describe("Release Evidence Manifest", () => {
     const now = Date.parse("2026-07-17T12:00:00.000Z");
     const evaluated = evaluateCanonicalReleaseGates(
       {
-        healthObservation: {
-          status: "verified",
-          observedAt: "2026-07-17T11:59:00.000Z",
-          source: "staging:/_health",
-          digest: `sha256:${"e".repeat(64)}`,
-          httpStatus: 503,
-          healthy: false,
-        },
+        healthObservation: buildCanonicalReleaseObservation(
+          "healthObservation",
+          {
+            status: "verified",
+            observedAt: "2026-07-17T11:59:00.000Z",
+            source: "staging:/_health",
+            httpStatus: 503,
+            healthy: false,
+          },
+        ),
       },
       { now },
     );

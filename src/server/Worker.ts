@@ -134,6 +134,7 @@ import {
   type RoutePolicyId,
 } from "./RoutePolicyManifest";
 import { buildRuntimeIntegrityPassport } from "./RuntimeIntegrityPassport";
+import { loadRuntimeReleaseEvidence } from "./RuntimeReleaseEvidence";
 import { registerSeasonCommunityRoutes } from "./SeasonCommunityRouter";
 import { registerSeasonContractRoutes } from "./SeasonContractRouter";
 import {
@@ -147,6 +148,7 @@ import {
 } from "./SpectatorBus";
 import { buildStateScopeLedger } from "./StateScopeLedger";
 import { streamingBus } from "./StreamingBus";
+import { loadRevenueObservation } from "./StripeSupport";
 import { shutdownTelemetry } from "./TelemetryLifecycle";
 import { tournamentStore } from "./TournamentStore";
 import { verifyTurnstileToken } from "./Turnstile";
@@ -484,6 +486,22 @@ export async function startWorker() {
       database.state !== "connecting" &&
       database.state !== "failed";
     const playtestPulse = await buildAuthenticatedPlaytestSummary();
+    const runtimeReleaseEvidence = loadRuntimeReleaseEvidence();
+    const revenueObservation = await loadRevenueObservation(pool).catch(
+      (error) => {
+        log.error("worker revenue evidence unavailable", {
+          error: String(error),
+        });
+        return undefined;
+      },
+    );
+    const releaseEvidence = {
+      ...runtimeReleaseEvidence.releaseEvidence,
+      observations: {
+        ...runtimeReleaseEvidence.releaseEvidence.observations,
+        ...(revenueObservation ? { revenueObservation } : {}),
+      },
+    };
     const payload = buildVaultFrontReadiness({
       healthy,
       processRole: "worker",
@@ -495,14 +513,14 @@ export async function startWorker() {
         ipcWatermark: ipc,
         gameLoop,
       },
-      revenueSignal:
-        process.env.VAULTFRONT_REVENUE_OBSERVED === "1"
-          ? {
-              status: "observed",
-              observedAt: process.env.VAULTFRONT_REVENUE_OBSERVED_AT,
-            }
-          : { status: "unverified" },
+      revenueSignal: revenueObservation
+        ? {
+            status: "observed",
+            observedAt: revenueObservation.observedAt,
+          }
+        : { status: "unverified" },
       playtestPulse,
+      releaseEvidence,
       replayIntegrity: getReplayIntegrityPosture(),
       persistence,
       rightsEvidence: {

@@ -683,3 +683,23 @@ Public-safe decisions only. Detailed internal decision history is maintained pri
 **Decision:** The shipped Capture → convoy → three Pressure deliveries → 90-second Breach → decisive delivery timing remains unchanged until authenticated human runs provide stage timestamps and drop-off evidence. Post-match hierarchy is measured through the existing retentionAction and matchFeedback telemetry; local browser fixtures and synthetic events never count as engagement or retention evidence.
 
 **Why:** The loop is coherent in code but live staging currently has zero qualifying human actors and 0/12 Alpha checks. Tuning from synthetic proof would replace the missing learning loop with invented confidence.
+
+## 2026-08-14 — Portable release evidence and supporter authority
+
+### Runtime release evidence is independently signed per gate
+
+**Decision:** Portable release claims use a purpose-scoped Ed25519 authority, exact repository/revision/image/environment/origin binding, bounded expiry, and a per-key gate allowlist. The staging signer may attest only observed staging, health, identity, footer, parity, theme, and rollback gates; it cannot mint contact-email, founder, human-Alpha, or revenue evidence. Runtime admits each claim independently and omits invalid or conflicting claims.
+
+**Why:** An unsigned observation file or unkeyed digest is integrity metadata, not authority. Per-gate asymmetric claims preserve workflow admission without placing signing capability on the deploy host or application runtime, and a compromised staging authority cannot escalate into unrelated launch facts.
+
+### Revenue readiness derives only from a live durable payment receipt
+
+**Decision:** VaultFront offers one server-owned five-dollar supporter checkout to an authenticated Obelisk actor. Creation retries bind Stripe idempotency to the actor and a client request UUID; signed webhook events are stored idempotently, and canonical revenue readiness is projected only from a positive live-mode receipt. Environment flags never satisfy the revenue gate.
+
+**Why:** A client-only route and claimed boolean cannot demonstrate payment. Fixed pricing, origin control, authenticated ownership, signed ingress, and durable receipt projection make the supporter path useful without changing the certified game loop or fabricating launch evidence.
+
+### Core-loop timing remains unchanged in Session 104
+
+**Decision:** The release-evidence, Alpha-projection, post-match footer, and supporter work does not alter Capture, Convoy, Pressure, Breach, or decisive-delivery timing. The existing playtest pulse remains the measurement hook, and game-loop tuning still waits for three authenticated human sessions.
+
+**Why:** Browser fixtures prove reachability and presentation, not engagement. Preserving the shipped timing prevents infrastructure work from being mislabeled as a design experiment.

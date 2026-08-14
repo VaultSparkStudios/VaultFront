@@ -1,5 +1,5 @@
 <!-- generated-by: scripts/render-startup-brief.mjs v3.1 -->
-<!-- generated-at: 2026-08-14T05:09:30.065Z -->
+<!-- generated-at: 2026-08-14T06:54:36.504Z -->
 <!-- generated-for-session: 104; source-closeout-session: 103 -->
 <!-- semantic-freshness: hash=162657809661b5b7 next=104 silSession=103 silScore=996 handoff=- tests=- -->
 <!-- fast-boot-valid-until: next session if within 24h -->
@@ -22,16 +22,16 @@
 
 ╔══ LAST SESSION (S103) - WHAT SHIPPED ══════════════════════════╗
 ║  Session 103 shipped six audit findings, repaired 14 propagated  ║
-║  Tests  1454/1454 passing (2026-08-14)                           ║
-║  Deploy NO-GO · staging evidence only                            ║
+║  Tests  1473/1473 passing (2026-08-14)                           ║
+║  Deploy stable staging run 31772833502 healthy at exact 78bbf11  ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ WHERE TO TEST · VaultFront ══════════════════════════════════╗
 ║  Unit tests    → npm run test:coverage ✓                         ║
 ║  Unit tests    → npm run build-prod && npm run verify:contra ✓   ║
 ║  Unit tests    → npm run e2e ✓                                   ║
-║  Staging       → GitHub Actions Deploy staging run 317500891 ✓   ║
-║  release      → GitHub Actions rollback drill 31750318879 ✓      ║
+║  Staging       → GitHub Actions Deploy staging run 317728335 ✓   ║
+║  release      → GitHub Actions rollback drill 31750318879 ·      ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ PROJECT PROFILE ═════════════════════════════════════════════╗
@@ -62,18 +62,18 @@
 
 ╔══ WHERE WE LEFT OFF  ·  Session 103 ═══════════════════════════╗
 ║  Shipped:  see LATEST_HANDOFF.md                                 ║
-║  Tests:    1454/1454 passing  ·  Deploy: N/A                     ║
+║  Tests:    1473/1473 passing  ·  Deploy: stable staging run…     ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ CONTEXT METER ═══════════════════════════════════════════════╗
-║  ✓  █░░░░░░░░░░░░░░░░░░░░░░░    5% used                          ║
-║     45,116 / 1,000,000 tok  ·  codex/codex-1m  · …               ║
-║     ~22,558 tok/turn  ·  cache 50%  ·  38 turns to compact       ║
+║  ✓  ███░░░░░░░░░░░░░░░░░░░░░   14% used                          ║
+║     38,056 / 272,000 tok  ·  codex/codex-272k  · …               ║
+║     ~19,028 tok/turn  ·  cache 50%  ·  11 turns to compact       ║
 ║     Verdict: CONTINUE                                            ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ SIGNALS ═════════════════════════════════════════════════════╗
-║  ✓  Tests         1454/1454 passing (2026-08-14)                 ║
+║  ✓  Tests         1473/1473 passing (2026-08-14)                 ║
 ║  ✓  Velocity      6 ↓  ·  Debt: ↓                                ║
 ║  ⚠  Runway        unknown                                        ║
 ║  ⛔  Context age   ?d                                             ║
@@ -116,7 +116,7 @@
 ╔══ GENIUS HIT LIST ═════════════════════════════════════════════╗
 ║  ⏸ No actionable local items · 0 blocked · 1 deferred            ║
 ║  Next: reclassify live blockers, then innovation-pack            ║
-║  Audit: docs/AUDIT_2026-08-13.json                               ║
+║  Audit: docs/AUDIT_2026-08-14.json                               ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ```

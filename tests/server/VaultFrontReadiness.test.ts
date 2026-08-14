@@ -261,11 +261,10 @@ describe("buildVaultFrontReadiness", () => {
                         amountCents: 500,
                       }
                     : base;
-            const observation = ["rollback", "revenue"].includes(
-              definition.semantic,
-            )
-              ? buildCanonicalReleaseObservation(definition.id, semantic)
-              : { ...semantic, digest: `sha256:${"a".repeat(64)}` };
+            const observation = buildCanonicalReleaseObservation(
+              definition.id,
+              semantic,
+            );
             return [definition.id, observation];
           }),
         ),

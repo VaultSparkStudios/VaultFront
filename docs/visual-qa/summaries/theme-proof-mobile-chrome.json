@@ -1,9 +1,9 @@
 {
   "project": "mobile-chrome",
   "localOnly": true,
-  "capturedAt": "2026-08-14T04:43:34.045Z",
+  "capturedAt": "2026-08-14T06:46:25.327Z",
   "source": {
-    "digest": "sha256:a916c97b37df96bc4a7bb7f83ab23b9d080df734b10faf02745dd2c5270dc401",
+    "digest": "sha256:f3401684879369d7a0d931feb5c16e0b6759c65a2fb35dc79bf92d0b5f7b5347",
     "files": [
       {
         "path": "config/vaultfront-balance.v1.json",
@@ -132,8 +132,8 @@
       },
       {
         "path": "src/client/components/Footer.ts",
-        "bytes": 2553,
-        "digest": "sha256:40efd039441b958db1dc0ea1b5e35ddaa3c8bcfe7e47834ee5b32087f91c00a1"
+        "bytes": 3698,
+        "digest": "sha256:c16bddbaedbbe8e2fc6b94883be98e3d5adf3ed44840e25be1251fd5f98cb4ff"
       },
       {
         "path": "src/client/components/GameConfigSettings.ts",
@@ -468,7 +468,7 @@
       {
         "path": "static/index.html",
         "bytes": 17426,
-        "digest": "sha256:30bbdef63edcc25fb828b648929ff58f157301275e70da6e42a34543963edf8d"
+        "digest": "sha256:bbe185ef14273b1a83c17363685a94adb2c7888de0cf4360680175eddf28bb08"
       }
     ]
   },

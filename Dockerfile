@@ -26,6 +26,8 @@ COPY src ./src
 
 ARG GIT_COMMIT=unknown
 ENV GIT_COMMIT="$GIT_COMMIT"
+ARG SOURCE_DIRTY=1
+ENV SOURCE_DIRTY="$SOURCE_DIRTY"
 RUN npm run build-prod
 
 # Production dependencies stage - separate from build.

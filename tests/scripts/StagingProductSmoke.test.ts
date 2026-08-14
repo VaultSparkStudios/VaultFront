@@ -41,6 +41,8 @@ describe("staging product smoke", () => {
         });
         return res.end();
       }
+      if (req.url === "/stripe/create-checkout-session")
+        return json(405, { error: "Method not allowed" });
       if (req.url === "/agents.json")
         return json(200, { name: "VaultFront", capabilities: ["play"] });
       if (req.url === "/.well-known/llms.txt")
@@ -56,7 +58,7 @@ describe("staging product smoke", () => {
       expectedRevision: "abc123",
     });
     expect(receipt.pass).toBe(true);
-    expect(receipt.checks).toHaveLength(8);
+    expect(receipt.checks).toHaveLength(9);
     expect(receipt.receiptDigest).toMatch(/^sha256:[a-f0-9]{64}$/u);
   });
 });

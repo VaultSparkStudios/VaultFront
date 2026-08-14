@@ -104,6 +104,8 @@ describe("public launch foundation", () => {
     expect(footer).toContain("routeGraph.copyright");
     expect(footer).toContain("routeGraph.upstreamNotice");
     expect(footer).toContain("inline-flex min-h-11 min-w-11");
+    expect(footer).toContain("createSupporterCheckoutSession");
+    expect(footer).toContain("Support $5");
   });
 
   it("keeps primary mobile navigation controls at the 44px touch floor", () => {

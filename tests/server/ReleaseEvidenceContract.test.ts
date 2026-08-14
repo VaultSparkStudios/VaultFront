@@ -40,9 +40,10 @@ function verifiedObservations(observedAt: string) {
                   amountCents: 500,
                 }
               : base;
-      const observation = ["rollback", "revenue"].includes(definition.semantic)
-        ? buildCanonicalReleaseObservation(definition.id, semantic)
-        : { ...semantic, digest: `sha256:${"a".repeat(64)}` };
+      const observation = buildCanonicalReleaseObservation(
+        definition.id,
+        semantic,
+      );
       return [definition.id, observation];
     }),
   );
@@ -92,6 +93,24 @@ describe("canonical release evidence", () => {
         observations,
       }),
     ).toMatchObject({ status: "ready", blockers: [] });
+  });
+
+  it("rejects a digest-shaped generic observation that was not canonically built", () => {
+    const observations = verifiedObservations("2026-07-16T11:30:00.000Z");
+    observations.footerManifest = {
+      ...observations.footerManifest,
+      digest: `sha256:${"a".repeat(64)}`,
+    };
+
+    const evidence = evaluateCanonicalReleaseEvidence({
+      now,
+      alphaGateStatus: "ready",
+      observations,
+    });
+    expect(
+      evidence.gates.find((gate) => gate.gate === "footerManifest")?.detail,
+    ).toContain("does not match the canonical semantic");
+    expect(evidence.status).toBe("blocked");
   });
 
   it("never lets a generic alpha observation override authenticated live readiness", () => {

@@ -276,15 +276,17 @@ export function buildLocalSurfaceEvidence(projectRoot, observedAt) {
       "public/footer-manifest.json",
       ...(manifest.pages ?? []).map((page) => page.source),
     ];
-    footerManifest = {
+    const footerObservation = {
       status: result.ok ? "verified" : "failed",
       source: "scripts/check-footer-manifest.mjs + public/footer-manifest.json",
       observedAt,
-      digest: digestFiles(projectRoot, files),
       detail: result.ok
         ? `${result.pageCount} manifest pages passed the executable footer contract.`
         : result.errors.join("; "),
     };
+    footerManifest = result.ok
+      ? buildCanonicalReleaseObservation("footerManifest", footerObservation)
+      : { ...footerObservation, digest: digestFiles(projectRoot, files) };
   } catch (error) {
     footerManifest = {
       status: "failed",
@@ -680,7 +682,20 @@ function git(args, cwd = root) {
 
 export function generateReleaseEvidence(projectRoot = root) {
   const generatedAt = new Date().toISOString();
-  const gitSha = git(["rev-parse", "HEAD"], projectRoot);
+  const gitRevision = git(["rev-parse", "HEAD"], projectRoot);
+  const environmentRevision = String(process.env.GIT_COMMIT ?? "").trim();
+  const gitSha = /^[0-9a-f]{40}$/u.test(gitRevision)
+    ? gitRevision
+    : /^[0-9a-f]{40}$/u.test(environmentRevision)
+      ? environmentRevision
+      : "unknown";
+  const gitStatus = git(["status", "--porcelain"], projectRoot);
+  const dirty =
+    gitStatus !== "unknown"
+      ? gitStatus.length > 0
+      : process.env.SOURCE_DIRTY === "0"
+        ? false
+        : true;
   const staticRoot = path.join(projectRoot, "static");
   const config = JSON.parse(
     fs.readFileSync(path.join(projectRoot, ".bundlewatch.json"), "utf8"),
@@ -791,7 +806,7 @@ export function generateReleaseEvidence(projectRoot = root) {
   const evidence = buildReleaseEvidence({
     generatedAt,
     gitSha,
-    dirty: git(["status", "--porcelain"], projectRoot).length > 0,
+    dirty,
     auditSource: latestAudit ? `docs/AUDIT_${latestAudit.date}.json` : null,
     auditItems: latestAudit?.audit?.items ?? [],
     innovationItems: innovations,

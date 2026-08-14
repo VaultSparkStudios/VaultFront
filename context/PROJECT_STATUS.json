@@ -6,7 +6,7 @@
   "health": "green",
   "currentSession": 103,
   "lastAgent": "codex",
-  "currentFocus": "Session 103 shipped six game-loop, UX, secrets-authority, and public-boundary findings; exact revision 78bbf112 is healthy on stable staging and production remains evidence-gated.",
+  "currentFocus": "Session 104 implemented signed runtime release evidence, durable Alpha projection, current staging receipts, and a real supporter checkout/webhook authority; final provider and staging verification is in progress.",
   "nextMilestone": "Verify project-domain Zoho reply identity, collect three authenticated humans plus one real revenue event, and attach only verified observations to runtime readiness before production promotion.",
   "blockers": [
     "Production is NO-GO until project-domain Zoho send/receive reply-as-alias delivery, three distinct authenticated human sessions, and real revenue are evidenced."
@@ -27,7 +27,7 @@
       "status": "green",
       "label": "Canonical coverage regression",
       "command": "npm run test:coverage",
-      "purpose": "All 274 test files and 1,434 tests pass with 24 derived coverage owners and 32 measured floors."
+      "purpose": "All 282 test files and 1,473 tests pass with 24 derived coverage owners and 32 measured floors."
     },
     {
       "type": "tests",
@@ -47,15 +47,15 @@
       "type": "staging",
       "status": "green",
       "label": "Exact-revision product staging",
-      "command": "GitHub Actions Deploy staging run 31750089197",
-      "purpose": "Revision 0a9149c8 is healthy with 2/2 workers, exact commit, replay integrity, agent surfaces, and Obelisk PKCE redirect."
+      "command": "GitHub Actions Deploy staging run 31772833502",
+      "purpose": "Revision 78bbf112 is healthy with 2/2 workers, exact commit, product smoke, agent surfaces, and Obelisk PKCE redirect."
     },
     {
       "type": "release",
-      "status": "green",
-      "label": "Observed rollback and live parity",
+      "status": "warn",
+      "label": "Prior-revision rollback and live parity",
       "command": "GitHub Actions rollback drill 31750318879",
-      "purpose": "Exact rollback/restoration is retained; 9/9 live theme/viewport cells and Core Web Vitals pass on staging."
+      "purpose": "The retained rollback/parity receipt covers predecessor 0a9149c8; a fresh exact-candidate receipt is required."
     }
   ],
   "freeTierCostStatus": "cost-neutral",
@@ -68,8 +68,8 @@
   "silMax": 1000,
   "silScoreLegacy500": null,
   "silScore": 996,
-  "testsPassing": 1454,
-  "testsTotal": 1454,
+  "testsPassing": 1473,
+  "testsTotal": 1473,
   "silCategoriesV3": {
     "devHealth": 100,
     "creativeAlignment": 99,
@@ -115,10 +115,10 @@
     "failing": 0,
     "blockingFailing": 0,
     "date": "2026-08-14",
-    "observedAt": "2026-08-14T05:28:14.410Z",
+    "observedAt": "2026-08-14T06:52:30.210Z",
     "source": "scripts/project-doctor.mjs",
     "evidencePath": "audits/doctor-latest.json",
-    "evidenceDigest": "sha256:8aa686e32894c79b559a1e5086786de1223956b1b53538f83bbe12908fdb8be4",
+    "evidenceDigest": "sha256:a671218dbbde21f00c38e290fcfffe6df57c9f70bffaa65730cf5eaa4c611597",
     "evidenceSchemaVersion": 1,
     "checkCount": 13
   },
@@ -154,7 +154,7 @@
     "scope": "Session 103 used synchronous project commands only; PowerShell Get-Job returned no session-owned background jobs. Shared Codex processes are outside this session scope."
   },
   "testsLastRun": "2026-08-14",
-  "testsLastRunMode": "Session 103 full 278/278 files and 1,454/1,454 tests; focused Playwright theme proof 2/2; build/contracts/balance/doctor green.",
+  "testsLastRunMode": "Session 104 full 282/282 files and 1,473/1,473 tests; focused Playwright theme proof 2/2 with 138 captures; build/contracts/balance/doctor green.",
   "testsDeferred": [],
   "testsBudgetExhausted": false,
   "lastSessionSummary": "Session 103 shipped six audit findings, repaired 14 propagated protocol regressions, proved 138 rendered artifacts and 1,454 tests, deployed exact revision 78bbf112 to stable staging, and retained production NO-GO.",
@@ -187,5 +187,6 @@
   "testsEnvBlocked": [],
   "stagingUrl": "https://staging.vaultfront.io",
   "stagingType": "stable-owned-subdomain",
-  "runtimeUrl": "https://vaultfront.io"
+  "runtimeUrl": "https://vaultfront.io",
+  "lastDeployStatus": "stable staging run 31772833502 healthy at exact 78bbf112; production NO-GO"
 }

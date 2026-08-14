@@ -246,6 +246,8 @@ jobs:
           OBELISK_ISSUER: ${{ vars.OBELISK_ISSUER }}
           OBELISK_REDIRECT_URI: ${{ vars.OBELISK_REDIRECT_URI }}
           SSH_KEY: ~/.ssh/id_rsa
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+          STRIPE_WEBHOOK_SECRET: ${{ secrets.STRIPE_WEBHOOK_SECRET }}
           TURNSTILE_SECRET_KEY: ${{ secrets.TURNSTILE_SECRET_KEY }}
         run: |
           echo "PROMOTION_STARTED_AT=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_ENV"

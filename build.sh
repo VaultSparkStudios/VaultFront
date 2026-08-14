@@ -78,6 +78,10 @@ echo "Metadata file: $METADATA_FILE"
 # Get Git commit for build info
 GIT_COMMIT=$(git rev-parse HEAD 2> /dev/null || echo "unknown")
 echo "Git commit: $GIT_COMMIT"
+if [ "$GIT_COMMIT" = "unknown" ] || [ -n "$(git status --porcelain)" ]; then
+    echo "Build rejected: source must be a clean exact Git revision" >&2
+    exit 1
+fi
 
 if [ -n "$CHANGELOG_MD" ]; then
     echo "$CHANGELOG_MD" > resources/changelog.md
@@ -107,6 +111,7 @@ docker buildx build \
     --platform linux/amd64 \
     --metadata-file $METADATA_FILE \
     --build-arg GIT_COMMIT=$GIT_COMMIT \
+    --build-arg SOURCE_DIRTY=0 \
     --cache-from type=registry,ref=$BUILDCACHE_IMAGE \
     --cache-to type=registry,ref=$BUILDCACHE_IMAGE,mode=max \
     --tag $GHCR_IMAGE \
