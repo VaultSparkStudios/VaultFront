@@ -1,5 +1,5 @@
 <!-- generated-by: scripts/render-startup-brief.mjs v3.1 -->
-<!-- generated-at: 2026-08-14T22:44:18.230Z -->
+<!-- generated-at: 2026-08-14T22:47:47.938Z -->
 <!-- generated-for-session: 105; source-closeout-session: 104 -->
 <!-- semantic-freshness: hash=280343cb8af67adb next=105 silSession=104 silScore=994 handoff=- tests=- -->
 <!-- fast-boot-valid-until: next session if within 24h -->
@@ -66,9 +66,8 @@
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ CONTEXT METER ═══════════════════════════════════════════════╗
-║  ✓  ████░░░░░░░░░░░░░░░░░░░░   19% used                          ║
-║     50,576 / 272,000 tok  ·  codex/codex-272k  · …               ║
-║     ~25,288 tok/turn  ·  cache 50%  ·  7 turns to compact        ║
+║  ✓  ████████████████░░░░░░░░   67% used                          ║
+║     133,133 / 200,000 tok  ·  unknown  ·  heuristic-stale        ║
 ║     Verdict: CONTINUE                                            ║
 ╚════════════════════════════════════════════════════════════════╝
 

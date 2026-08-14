@@ -24,4 +24,12 @@ describe("selectLatestSessionHandoff", () => {
     );
     expect(source).toContain("content: currentHandoff.slice(0, 40000)");
   });
+
+  it("feeds the selected session to the closeout board", () => {
+    const source = fs.readFileSync("scripts/render-closeout-board.mjs", "utf8");
+    expect(source).toContain(
+      "const currentHandoff = selectLatestSessionHandoff(body)",
+    );
+    expect(source).toContain("currentHandoff.match(/^##\\s+Where We Left Off");
+  });
 });

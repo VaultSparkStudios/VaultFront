@@ -115,10 +115,10 @@
     "failing": 0,
     "blockingFailing": 0,
     "date": "2026-08-14",
-    "observedAt": "2026-08-14T22:44:17.459Z",
+    "observedAt": "2026-08-14T22:47:47.371Z",
     "source": "scripts/project-doctor.mjs",
     "evidencePath": "audits/doctor-latest.json",
-    "evidenceDigest": "sha256:be02797bbf1fdf07293af0fde8cdfaaca41d84cebb7bea7ab1659115a5ce7ccb",
+    "evidenceDigest": "sha256:7df1d16fadddd1b4be6c16af81841092cb56b6948073dad8265632bbf6060a90",
     "evidenceSchemaVersion": 1,
     "checkCount": 13
   },

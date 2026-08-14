@@ -27,6 +27,7 @@ import {
   readGeniusCache,
   selectFirstPendingUnblocked,
 } from "./lib/genius-cache.mjs";
+import { selectLatestSessionHandoff } from "./lib/handoff-current.mjs";
 import { formatTruthGenome } from "./lib/project-status-contract.mjs";
 import { spawnSync } from "./lib/safe-spawn.mjs";
 import {
@@ -198,10 +199,13 @@ function deploymentRows() {
 function parseShippedFromHandoff() {
   const body = readText(HANDOFF_PATH);
   if (!body) return [];
+  const currentHandoff = selectLatestSessionHandoff(body);
   const match =
-    body.match(/^##\s+Where We Left Off[\s\S]*?(?=^##\s|\Z)/m) ||
-    body.match(/^#\s+(?:S\d+\s+|Session\s+\d+\s+).*?\n([\s\S]*?)(?=^#\s|\Z)/m);
-  const segment = match ? match[0] : body.slice(0, 4000);
+    currentHandoff.match(/^##\s+Where We Left Off[\s\S]*?(?=^##\s|\Z)/m) ||
+    currentHandoff.match(
+      /^#\s+(?:S\d+\s+|Session\s+\d+\s+).*?\n([\s\S]*?)(?=^#\s|\Z)/m,
+    );
+  const segment = match ? match[0] : currentHandoff.slice(0, 4000);
   const bullets = segment
     .split("\n")
     .filter((l) => /^[-*•]\s+/.test(l))

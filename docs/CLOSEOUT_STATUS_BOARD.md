@@ -10,7 +10,11 @@
 ║  Live:  preview  →  https://vaultfront.io                        ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ WHAT SHIPPED ════════════════════════════════════════════════╗
-║  ✓ Implementation: audit items 204–212 are shipped. Item 213's   ║
+║  ✓ Implementation: audit items 220–223 are shipped. Runtime rel  ║
+║  ✓ Verification: 282 files / 1,473 tests with coverage; typeche  ║
+║  ✓ Provider: exact commit 715a223ddb9620cd370614b676705a2c39762  ║
+║  ✓ Staging: deploy 31783247576 is healthy at immutable image sh  ║
+║  ✓ Rollback: dry-run validation 31787165044 and observed drill   ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ SCORES · SIL 994/1000 ═══════════════════════════════════════╗
 ║    Dev Health         100  ██████████                            ║
@@ -37,7 +41,7 @@
 ║  · agent memory (~/.claude/projects/<slug>/memory/)              ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ GIT STATUS ══════════════════════════════════════════════════╗
-║  Changes: 0 files  ·  M:0 A:0 D:0 ?:0                            ║
+║  Changes: 2 files  ·  M:2 A:0 D:0 ?:0                            ║
 ║  Ahead: 0  ·  Behind: 0                                          ║
 ║  Branch: main                                                    ║
 ╚════════════════════════════════════════════════════════════════╝
