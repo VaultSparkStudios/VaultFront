@@ -170,3 +170,11 @@ Append chronological entries.
 - Files or systems touched: Server routes and health services, client auth callers, metrics/experiment/AI policy, Vite/nginx/Docker/promotion workflow, audit/Genius/innovation/doctor scripts, public surfaces, tests, and public-safe Studio ledgers.
 - Risks created or removed: Removed unauthenticated mutation paths, assignment spoofing/double counting, unbounded socket pressure, phantom-green readiness, stale audit ranking, high-cardinality labels, reservation-before-validation waste, and unverifiable release claims. Remaining live-only launch gates are explicit and unclaimed.
 - Recommended next move: Provision a real staging origin and collect the external evidence corridor in order; keep FORGE/public-unlaunched until every live gate and founder approval exists.
+
+### 2026-08-14 — Session 104 signed-evidence and real-revenue staging arc
+
+- Goal: complete /arc, push the exact candidate, deploy stable staging, and preserve independent production gates.
+- What changed: shipped signed exact-runtime evidence, durable Alpha readiness, current receipt selection, and real server-owned Stripe checkout/webhook revenue authority.
+- External proof: exact 715a223d passed CI/E2E/Release; staging run 31783247576 is exact and healthy; public readiness admitted signed staging/health/Obelisk claims; rollback drill 31787212414 restored the candidate in 30.14 seconds.
+- Risks removed: unsigned/forgeable observation trust, runtime evidence dead-end, master/worker Alpha drift, fake revenue environment signal, SPA checkout fallback, and cross-UID evidence unreadability.
+- Remaining release gates: Zoho/DNS, three authenticated humans, one positive live payment, and exact-live parity. Production remains HTTP 503 and was not promoted.

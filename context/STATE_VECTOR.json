@@ -1,12 +1,12 @@
 {
   "vectorVersion": "1.0",
   "generatedAt": "2026-08-14",
-  "generatedAtMs": 1786685282580,
-  "session": 103,
-  "vectorHash": "7a2bb6e0af2a05b8",
-  "silTotal": 996,
-  "silAvg3": 997.3,
-  "velocity": 6,
+  "generatedAtMs": 1786747405019,
+  "session": 104,
+  "vectorHash": "26f290c890f01029",
+  "silTotal": 994,
+  "silAvg3": 996,
+  "velocity": 4,
   "debt": "down",
   "runway": "unknown",
   "intentRate": "100%",
@@ -14,9 +14,9 @@
   "openNext": 6,
   "openBlocked": 0,
   "topNow": [
+    "Re-run the exact-live three-theme parity/Core Web Vitals matrix; Session 104's b",
     "Verify `contact@vaultfront.io` end-to-end through the project-domain Zoho alias:",
-    "Collect at least three distinct authenticated human Alpha sessions and one real ",
-    "Attach the verified release-observation bundle to runtime readiness before produ"
+    "Collect at least three distinct authenticated human Alpha sessions and one real "
   ],
   "topNext": [
     "[release-evidence] Collect three distinct authenticated human Alpha sessions and",
@@ -33,10 +33,10 @@
   "slug": "vaultfront",
   "type": "game",
   "lifecycle": "alpha",
-  "nextMilestone": "Verify project-domain Zoho reply identity, collect three authenticated humans plus one real revenue event, and attach only verified observations to runtime readiness before production promotion.",
-  "currentFocus": "Session 103 shipped six game-loop, UX, secrets-authority, and public-boundary findings; exact revision 78bbf112 is healthy on stable staging and production remains evidence-gated.",
+  "nextMilestone": "Verify project-domain Zoho reply identity, collect three authenticated humans plus one real revenue event, rerun exact-live parity, and promote only after every release gate passes.",
+  "currentFocus": "Session 104 shipped signed runtime release evidence, durable Alpha projection, current provider receipts, and a real supporter checkout/webhook authority; exact staging and rollback are verified.",
   "lastShipped": "see LATEST_HANDOFF.md",
   "blockers": [
-    "Production is NO-GO until project-domain Zoho send/receive reply-as-alias delivery, three distinct authenticated human sessions, and real revenue are evidenced."
+    "Production is NO-GO until project-domain Zoho send/receive reply-as-alias delivery and DNS, three distinct authenticated human sessions, one positive live payment, and exact-live parity are evidenced."
   ]
 }

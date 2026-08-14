@@ -1,39 +1,43 @@
 <!-- generated-by: scripts/compact-handoff.mjs v3.1 -->
-<!-- source-hash: 0cb13e6cc0ac -->
-<!-- generated-at: 2026-08-14T06:03:27.892Z -->
+<!-- source-hash: f0c20ff09149 -->
+<!-- generated-at: 2026-08-14T22:43:24.683Z -->
 
 # LATEST_HANDOFF (compact)
 
-SESSION
-Session 102 (2026-08-13); agent-neutral /arc from clean S101 boundary.
+SESSION HANDOFF — Session 104 (2026-08-14)
 
-SHIPPED
+Shipped
 
-- Audit items 204-212 complete; item 213 repo-owned contact correction shipped.
-- Exact revision f938652 passed CI 31742793799, E2E 31742793815, DB migration 31742793818, Release 31742793774, brief validation 31742793786.
-- Staging run 31743202674 healthy at staging.vaultfront.io, digest sha256:19f0f95..., 2/2 workers, correct Obelisk PKCE redirect; promotion validation 31743525021 passed dry-run.
-- Verification: 274 files / 1,434 tests; Playwright 30/30; 132 hash-bound captures (3 themes x desktop/mobile); build, contracts, lint, format, balance, coverage, security green.
+- Audit items 220-223: runtime release evidence is signed, exact-image-bound, purpose-scoped, read-only, fail-closed.
+- Master uses durable Alpha evidence; startup selects latest provider receipt; Stripe checkout/webhook owns live-revenue truth.
+- Ark artifacts signed/shipped: pattern 01K016ULS7547918A200625630, secrets question 01K016USKRF62838C6C7A202B0, impact summary 01K016V3KTF9B1523FBB3251A8.
 
-CURRENT INTENT
+Verification (green)
 
-- Satisfy five external release observations in order, rerun mandatory release gate, then promote production via already-validated exact-revision corridor. Remain evidence-honest; never fabricate external observations.
+- 282 files / 1,473 tests with coverage; typecheck, lint, format, prod build pass.
+- 28,125 balance scenarios, bundle/contracts, deploy contract 166 checks, E2E 30/30, CANON-053 138-capture source validation pass.
+- Provider commit 715a223ddb9620cd370614b676705a2c39762359: CI 31782855756, E2E 31782855605, Release 31782855608 all passed.
 
-NOW BUCKET
+Current State
 
-- Satisfy Zoho reply identity observation.
-- Obtain three authenticated distinct humans.
-- Confirm real revenue event.
+- Staging deploy 31783247576 healthy, image sha256:7b74f276...1fd585fc. Public readiness admitted signed staging/health/Obelisk claims.
+- Rollback drill 31787212414 verified: rolled back to f78385cb, restored 715a223d, receipt sha256:50cae6b7...186327c8.
+- Production: HTTP 503 / NO-GO. Not promoted.
 
-BLOCKERS
+Now Bucket (top 3)
 
-- Production not promoted; vaultfront.io returns 503; NO-GO.
-- Item 213 Zoho delivery/reply-as proof externally deferred.
-- Remaining release gates all require external observation (identity, humans, revenue, rollback, parity/CWV).
+- Collect Zoho/DNS, human, payment, and parity observations.
+- Rerun /app-release-gate.
+- Promote immutable digest only if all gates green.
 
-HUMAN-BLOCKED
+Blockers (top 3)
 
-- Zoho reply-as delivery proof: pending since S102, prior contact corrections span multiple sessions.
-- Three authenticated humans / real revenue / observed rollback / measured production parity+Core Web Vitals: outstanding external observations, founder launch approval already satisfied.
+- Exact-live parity red; parity capture hung, produced no report (prior metrics not reused).
+- Real positive payment not yet observed.
+- Zoho/DNS red.
 
-NEXT
-Collect the five external observations in gate order, then run release gate and execute validated production promotion.
+Human-Blocked
+
+- Three authenticated humans required for release gate (unfilled as of S104).
+
+Next session: gather the four missing observations, rerun /app-release-gate, promote digest only on all-green.

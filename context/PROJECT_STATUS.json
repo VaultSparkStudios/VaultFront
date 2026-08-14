@@ -4,12 +4,12 @@
   "name": "VaultFront",
   "status": "active",
   "health": "green",
-  "currentSession": 103,
+  "currentSession": 104,
   "lastAgent": "codex",
-  "currentFocus": "Session 104 implemented signed runtime release evidence, durable Alpha projection, current staging receipts, and a real supporter checkout/webhook authority; final provider and staging verification is in progress.",
-  "nextMilestone": "Verify project-domain Zoho reply identity, collect three authenticated humans plus one real revenue event, and attach only verified observations to runtime readiness before production promotion.",
+  "currentFocus": "Session 104 shipped signed runtime release evidence, durable Alpha projection, current provider receipts, and a real supporter checkout/webhook authority; exact staging and rollback are verified.",
+  "nextMilestone": "Verify project-domain Zoho reply identity, collect three authenticated humans plus one real revenue event, rerun exact-live parity, and promote only after every release gate passes.",
   "blockers": [
-    "Production is NO-GO until project-domain Zoho send/receive reply-as-alias delivery, three distinct authenticated human sessions, and real revenue are evidenced."
+    "Production is NO-GO until project-domain Zoho send/receive reply-as-alias delivery and DNS, three distinct authenticated human sessions, one positive live payment, and exact-live parity are evidenced."
   ],
   "lastUpdated": "2026-08-14",
   "lifecycle": "alpha",
@@ -47,15 +47,15 @@
       "type": "staging",
       "status": "green",
       "label": "Exact-revision product staging",
-      "command": "GitHub Actions Deploy staging run 31772833502",
-      "purpose": "Revision 78bbf112 is healthy with 2/2 workers, exact commit, product smoke, agent surfaces, and Obelisk PKCE redirect."
+      "command": "GitHub Actions Deploy staging run 31783247576",
+      "purpose": "Revision 715a223d is healthy with 2/2 workers, exact commit, nine-check product smoke, signed runtime staging/health/Obelisk claims, and Obelisk PKCE redirect."
     },
     {
       "type": "release",
       "status": "warn",
-      "label": "Prior-revision rollback and live parity",
-      "command": "GitHub Actions rollback drill 31750318879",
-      "purpose": "The retained rollback/parity receipt covers predecessor 0a9149c8; a fresh exact-candidate receipt is required."
+      "label": "Exact rollback; live parity pending",
+      "command": "GitHub Actions rollback drill 31787212414",
+      "purpose": "Exact-candidate rollback/restoration is observed in 30.14 seconds; the exact-live theme/Core Web Vitals capture produced no receipt and remains required."
     }
   ],
   "freeTierCostStatus": "cost-neutral",
@@ -67,7 +67,7 @@
   "silRubricVersion": "3.0",
   "silMax": 1000,
   "silScoreLegacy500": null,
-  "silScore": 996,
+  "silScore": 994,
   "testsPassing": 1473,
   "testsTotal": 1473,
   "silCategoriesV3": {
@@ -75,12 +75,12 @@
     "creativeAlignment": 99,
     "momentum": 100,
     "engagement": 98,
-    "processQuality": 100,
+    "processQuality": 99,
     "crossRepoCoherence": 99,
     "securityPosture": 100,
     "ecosystemIntegration": 100,
     "capitalEfficiency": 100,
-    "automationCoverage": 100
+    "automationCoverage": 99
   },
   "silScoreV3MigratedAt": "2026-04-21",
   "modelTier": "T1_sonnet",
@@ -93,16 +93,16 @@
   "ignisLastComputed": "2026-08-08",
   "sessionMode": "founder",
   "sessionModeAutoShiftedAt": "2026-07-28T04:43:27.874Z",
-  "silAvg3": 997.3,
-  "silVelocity": 6,
+  "silAvg3": 996,
+  "silVelocity": 4,
   "silDebt": "down",
-  "silLastSession": "103",
-  "auditStatus": "session-103-game-loop-ux-protocol-integrity; 16-of-16-audit-green; zoho-human-revenue-red; production-no-go",
+  "silLastSession": "104",
+  "auditStatus": "session-104-signed-runtime-evidence; audit-220-223-shipped; staging-and-rollback-green; zoho-human-revenue-parity-red; production-no-go",
   "releaseGates": [
     "project-domain Zoho send/receive reply-as-alias delivery verification",
     "authenticated evidence from at least three distinct human alpha sessions",
     "real checkout/supporter revenue observation",
-    "measured production parity and Core Web Vitals evidence after promotion"
+    "exact-live staging parity and Core Web Vitals before promotion, then production parity after promotion"
   ],
   "entropyLastComputed": "2026-08-08",
   "truthGenome": "24/25",
@@ -115,17 +115,17 @@
     "failing": 0,
     "blockingFailing": 0,
     "date": "2026-08-14",
-    "observedAt": "2026-08-14T06:52:30.210Z",
+    "observedAt": "2026-08-14T22:44:17.459Z",
     "source": "scripts/project-doctor.mjs",
     "evidencePath": "audits/doctor-latest.json",
-    "evidenceDigest": "sha256:a671218dbbde21f00c38e290fcfffe6df57c9f70bffaa65730cf5eaa4c611597",
+    "evidenceDigest": "sha256:be02797bbf1fdf07293af0fde8cdfaaca41d84cebb7bea7ab1659115a5ce7ccb",
     "evidenceSchemaVersion": 1,
     "checkCount": 13
   },
   "complianceScore": 49,
   "complianceTotal": 49,
   "sanitizationLastCleared": "2026-08-14",
-  "lastSession": 103,
+  "lastSession": 104,
   "bootAmortization": {
     "ratio": 0.09,
     "verdict": "wasted",
@@ -146,35 +146,37 @@
     }
   ],
   "sessionShellHygiene": {
-    "session": 103,
+    "session": 104,
     "started": 0,
     "closed": 0,
     "running": 0,
     "enumeratedAt": "2026-08-14T04:56:00.000Z",
-    "scope": "Session 103 used synchronous project commands only; PowerShell Get-Job returned no session-owned background jobs. Shared Codex processes are outside this session scope."
+    "scope": "Session 104 used synchronous project commands only; no session-owned background job remains. Shared Codex/browser processes are outside this session scope."
   },
   "testsLastRun": "2026-08-14",
   "testsLastRunMode": "Session 104 full 282/282 files and 1,473/1,473 tests; focused Playwright theme proof 2/2 with 138 captures; build/contracts/balance/doctor green.",
   "testsDeferred": [],
   "testsBudgetExhausted": false,
-  "lastSessionSummary": "Session 103 shipped six audit findings, repaired 14 propagated protocol regressions, proved 138 rendered artifacts and 1,454 tests, deployed exact revision 78bbf112 to stable staging, and retained production NO-GO.",
+  "lastSessionSummary": "Session 104 shipped audit items 220–223, passed 1,473 tests, transferred signed exact-runtime claims into public readiness, deployed 715a223d to stable staging, observed rollback/restoration, and retained production NO-GO.",
   "providerCiStatus": {
     "status": "green",
-    "revision": "78bbf1127424c7279a4f7a06a5922dfba06e35ad",
-    "ciRunId": 31772610008,
-    "e2eRunId": 31772610001,
+    "revision": "715a223ddb9620cd370614b676705a2c39762359",
+    "ciRunId": 31782855756,
+    "e2eRunId": 31782855605,
     "databaseMigrationRunId": null,
-    "releasePlannerRunId": 31772609992,
-    "briefValidationRunId": 31772609994,
-    "stagingRunId": 31772833502,
-    "promotionValidationRunId": null,
-    "observedAt": "2026-08-14T05:26:12.000Z",
-    "source": "Exact-revision GitHub Actions conclusions plus run-bound staging attestation, live commit/health/agent/readiness/pulse checks, and immutable image digest",
+    "releasePlannerRunId": 31782855608,
+    "briefValidationRunId": null,
+    "stagingRunId": 31783247576,
+    "promotionValidationRunId": 31787165044,
+    "rollbackRunId": 31787212414,
+    "observedAt": "2026-08-14T09:15:17.140Z",
+    "source": "Exact-revision GitHub Actions conclusions, signed runtime claims, run-bound staging attestation, live commit/health/readiness/pulse checks, and observed rollback/restoration",
     "currentRevisionVerified": false,
-    "imageDigest": "sha256:3f7f07ae4d232d682fea6976580e2bda6397944b7a73501e31afe71bdf78b9f7",
-    "productSmokeDigest": "sha256:b5f6a640c9b257dfbeb4f8652d19390cf2cd18247f20b9dcefc4e228c85e5f4a",
-    "stagingAttestationDigest": "sha256:27722fdd4d91e52bccf9e54e2ad9e11b5ccc7786d709620efb6aeaf15ae5692e",
-    "note": "The implementation revision is exact on stable staging. This evidence-only successor is intentionally not relabeled as the deployed SHA; production was not promoted."
+    "imageDigest": "sha256:7b74f276479500fcecf168e297426b3380b08d27043019fe70e846d01fd585fc",
+    "productSmokeDigest": "sha256:0d28e601612c52191bcf6b09c23d4e0274f591846799694b9ba06218df2d00ff",
+    "stagingAttestationDigest": "sha256:4b28de65cacc55988ea5b5439eb44e10c96d70fb71717df183b46936459dd9cd",
+    "rollbackReceiptDigest": "sha256:50cae6b736c7bc48b830801ef3079aae33ce1d3bc0c62b515b40c2a0186327c8",
+    "note": "The exact implementation revision is live on stable staging and restored after an observed rollback. The closeout successor is evidence-only and intentionally not relabeled as the deployed SHA; production was not promoted."
   },
   "dependencyAudit": {
     "production": 0,
@@ -188,5 +190,5 @@
   "stagingUrl": "https://staging.vaultfront.io",
   "stagingType": "stable-owned-subdomain",
   "runtimeUrl": "https://vaultfront.io",
-  "lastDeployStatus": "stable staging run 31772833502 healthy at exact 78bbf112; production NO-GO"
+  "lastDeployStatus": "stable staging run 31783247576 healthy at exact 715a223d; rollback 31787212414 restored exact candidate; production NO-GO"
 }

@@ -2,77 +2,77 @@
   "schemaVersion": "1.3",
   "project": "vaultfront",
   "date": "2026-08-14",
-  "session": 103,
+  "session": 104,
   "agent": "codex",
-  "kind": "game-loop-ux-protocol-integrity-arc",
-  "mission": "Run the complete arc, exhaust premise-verified product and protocol findings, prove the exact candidate on stable staging, and keep production fail-closed without independent evidence",
+  "kind": "signed-runtime-evidence-and-revenue-authority-arc",
+  "mission": "Ship every premise-verified finding, prove the exact candidate on stable staging, and promote production only when every independent observation is green",
   "sil": {
-    "score": 996,
+    "score": 994,
     "max": 1000,
-    "velocity": 6,
+    "velocity": 4,
     "categories": {
       "devHealth": 100,
       "creativeAlignment": 99,
       "momentum": 100,
       "engagement": 98,
-      "processQuality": 100,
+      "processQuality": 99,
       "crossRepoCoherence": 99,
       "securityPosture": 100,
       "ecosystemIntegration": 100,
       "capitalEfficiency": 100,
-      "automationCoverage": 100
+      "automationCoverage": 99
     },
     "gameRubric": {
-      "loopTightness": 90,
-      "progressionCurve": 82,
-      "sessionEngagement": 70,
-      "retentionHooks": 65,
+      "loopTightness": 92,
+      "progressionCurve": 85,
+      "sessionEngagement": 72,
+      "retentionHooks": 68,
       "soulFidelity": null,
-      "soulFidelityStatus": "unscored-no-authoritative-pillars-or-human-trace"
+      "soulFidelityStatus": "unscored-no-founder-owned-public-pillars"
     }
   },
   "work": {
     "audit": {
-      "total": 6,
-      "shipped": 6,
+      "total": 4,
+      "shipped": 4,
       "deferred": 0,
       "pendingUnblocked": 0,
-      "sessionItems": [214, 215, 216, 217, 218, 219]
+      "sessionItems": [220, 221, 222, 223]
     },
-    "innovation": {
-      "total": 70,
-      "shipped": 70,
-      "pendingUnblocked": 0
-    },
-    "protocolRegressionsRootFixed": 14
+    "implementationCommits": [
+      "743e5f6c08f159669e059df8a1b4434442045094",
+      "f78385cb78baeef72ac92721a4fa4543506c49ab",
+      "715a223ddb9620cd370614b676705a2c39762359"
+    ]
   },
   "verification": {
-    "vitest": "278/278 files and 1454/1454 tests with coverage",
+    "vitest": "282/282 files and 1473/1473 tests with coverage",
     "lint": "pass",
     "formatRatchet": "pass",
     "typecheck": "pass",
-    "contracts": "pass",
+    "contracts": "pass; deploy contract 166 checks",
     "productionBuild": "pass",
     "balance": "28125 scenarios; zero counterexamples",
-    "bundleBudget": "pass",
-    "doctor": "13/13; blockingFailing 0",
-    "playwright": "focused theme proof 2/2; 138 hash-bound artifacts across three themes and desktop/mobile",
-    "visualSourceDigest": "sha256:a916c97b37df96bc4a7bb7f83ab23b9d080df734b10faf02745dd2c5270dc401",
+    "e2e": "30/30 exact-revision provider run",
+    "visual": "CANON-053 138 source-bound captures; no post-receipt UI change",
+    "exactLiveParity": "unmeasured; capture exceeded expected bound and produced no report",
     "stagedSecretScan": "zero findings",
-    "provider": "78bbf112 passed CI 31772610008, E2E 31772610001, Release 31772609992, and brief validation 31772609994",
-    "staging": "run 31772833502; image sha256:3f7f07ae4d232d682fea6976580e2bda6397944b7a73501e31afe71bdf78b9f7; health 2/2; exact revision; product smoke sha256:b5f6a640c9b257dfbeb4f8652d19390cf2cd18247f20b9dcefc4e228c85e5f4a; attestation sha256:27722fdd4d91e52bccf9e54e2ad9e11b5ccc7786d709620efb6aeaf15ae5692e"
+    "provider": "715a223d passed CI 31782855756, E2E 31782855605, and Release 31782855608",
+    "staging": "run 31783247576; image sha256:7b74f276479500fcecf168e297426b3380b08d27043019fe70e846d01fd585fc; health 2/2; exact revision; product smoke sha256:0d28e601612c52191bcf6b09c23d4e0274f591846799694b9ba06218df2d00ff; attestation sha256:4b28de65cacc55988ea5b5439eb44e10c96d70fb71717df183b46936459dd9cd",
+    "rollback": "validation 31787165044; observed drill 31787212414; 30140 ms; receipt sha256:50cae6b736c7bc48b830801ef3079aae33ce1d3bc0c62b515b40c2a0186327c8"
   },
   "releaseGate": {
     "status": "no-go",
     "founderApproval": true,
     "stagingAdmitted": true,
+    "runtimeClaimsObserved": [
+      "staging",
+      "healthObservation",
+      "obeliskIdentity"
+    ],
     "productionPromoted": false,
     "fabricatedEvidence": false,
-    "boundary": "Production requires project-domain Zoho reply identity, three authenticated human Alpha sessions, real revenue, and a verified release-observation bundle attached to runtime readiness.",
-    "retainedPredecessorEvidence": {
-      "stagingRevision": "0a9149c8bc0e466b27954f7b789e4c83e93ffb1c",
-      "stagingRunId": 31750089197,
-      "rollbackRunId": 31750318879
-    }
+    "productionRouteStatuses": [503, 503, 503, 503, 503, 503],
+    "boundary": "Production requires project-domain Zoho reply identity and DNS, three authenticated human Alpha sessions, one positive live payment receipt, and exact-live parity/Core Web Vitals."
   }
 }

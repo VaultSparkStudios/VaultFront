@@ -1,13 +1,13 @@
 <!-- generated-by: scripts/render-startup-brief.mjs v3.1 -->
-<!-- generated-at: 2026-08-14T06:54:36.504Z -->
-<!-- generated-for-session: 104; source-closeout-session: 103 -->
-<!-- semantic-freshness: hash=162657809661b5b7 next=104 silSession=103 silScore=996 handoff=- tests=- -->
+<!-- generated-at: 2026-08-14T22:44:18.230Z -->
+<!-- generated-for-session: 105; source-closeout-session: 104 -->
+<!-- semantic-freshness: hash=280343cb8af67adb next=105 silSession=104 silScore=994 handoff=- tests=- -->
 <!-- fast-boot-valid-until: next session if within 24h -->
 <!-- brief-coherent: true -->
 
 # Startup Brief — VaultFront
 
-> **Fast-boot brief** — rendered for Session 104 from Session 103 closeout evidence · 2026-08-14.
+> **Fast-boot brief** — rendered for Session 105 from Session 104 closeout evidence · 2026-08-14.
 > Valid for next session if started within 24h. For sessions >24h later, load context files fresh (start.md §3).
 
 ---
@@ -16,22 +16,22 @@
 ╔════════════════════════════════════════════════════════════════╗
 ║  🎮 VAULTFRONT                                                   ║
 ║  game · alpha/public-unlaunched · FORGE                          ║
-║  Session 104 · 2026-08-14 · FOUNDER MODE                         ║
+║  Session 105 · 2026-08-14 · FOUNDER MODE                         ║
 ║  Owner: VaultSpark Studios                                       ║
 ╚════════════════════════════════════════════════════════════════╝
 
-╔══ LAST SESSION (S103) - WHAT SHIPPED ══════════════════════════╗
-║  Session 103 shipped six audit findings, repaired 14 propagated  ║
+╔══ LAST SESSION (S104) - WHAT SHIPPED ══════════════════════════╗
+║  Session 104 shipped audit items 220–223, passed 1,473 tests, t  ║
 ║  Tests  1473/1473 passing (2026-08-14)                           ║
-║  Deploy stable staging run 31772833502 healthy at exact 78bbf11  ║
+║  Deploy stable staging run 31783247576 healthy at exact 715a223  ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ WHERE TO TEST · VaultFront ══════════════════════════════════╗
 ║  Unit tests    → npm run test:coverage ✓                         ║
 ║  Unit tests    → npm run build-prod && npm run verify:contra ✓   ║
 ║  Unit tests    → npm run e2e ✓                                   ║
-║  Staging       → GitHub Actions Deploy staging run 317728335 ✓   ║
-║  release      → GitHub Actions rollback drill 31750318879 ·      ║
+║  Staging       → GitHub Actions Deploy staging run 317832475 ✓   ║
+║  release      → GitHub Actions rollback drill 31787212414 ·      ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ PROJECT PROFILE ═════════════════════════════════════════════╗
@@ -40,41 +40,41 @@
 
 ╔══ SCORE ═══════════════════════════════════════════════════════╗
 ║                                                                  ║
-║    996/1000   ███████████████████████░   100%                    ║
-║    SIL v3.0  ·  Avg3: 997.3  ·  Velocity 6↓                      ║
+║    994/1000   ███████████████████████░   99%                     ║
+║    SIL v3.0  ·  Avg3: 996  ·  Velocity 4↓                        ║
 ║    Last active: 0d  ·  Last closeout: 0d  ·  (active = newest…   ║
-║    Trend  █▄▆▇▆  ↓  (last 5 sessions)                            ║
+║    Trend  ▄▆▇▆▄  ↓  (last 5 sessions)                            ║
 ║                                                                  ║
 ║    Category         Score  Bar        Spark   Δ                  ║
 ║    ─────────────── ────── ────────── ──────── ─                  ║
 ║    Dev Health       100    ██████████  ████████ →                ║
-║    Alignment         99    ██████████  ███████▇ →                ║
+║    Alignment         99    ██████████  ██████▇▇ →                ║
 ║    Momentum         100    ██████████  ████████ →                ║
 ║    Engagement        98    ██████████  ▇▇▇▇▇▇▇▇ →                ║
-║    Process Qual     100    ██████████  ████████ →                ║
+║    Process Qual      99    ██████████  ███████▇ →                ║
 ║    Coherence         99    ██████████  ········ →                ║
 ║    Security         100    ██████████  ········ →                ║
 ║    Ecosystem        100    ██████████  ········ →                ║
 ║    Capital          100    ██████████  ········ →                ║
-║    Automation       100    ██████████  ········ →                ║
+║    Automation        99    ██████████  ········ →                ║
 ║                                                                  ║
 ╚════════════════════════════════════════════════════════════════╝
 
-╔══ WHERE WE LEFT OFF  ·  Session 103 ═══════════════════════════╗
+╔══ WHERE WE LEFT OFF  ·  Session 104 ═══════════════════════════╗
 ║  Shipped:  see LATEST_HANDOFF.md                                 ║
 ║  Tests:    1473/1473 passing  ·  Deploy: stable staging run…     ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ CONTEXT METER ═══════════════════════════════════════════════╗
-║  ✓  ███░░░░░░░░░░░░░░░░░░░░░   14% used                          ║
-║     38,056 / 272,000 tok  ·  codex/codex-272k  · …               ║
-║     ~19,028 tok/turn  ·  cache 50%  ·  11 turns to compact       ║
+║  ✓  ████░░░░░░░░░░░░░░░░░░░░   19% used                          ║
+║     50,576 / 272,000 tok  ·  codex/codex-272k  · …               ║
+║     ~25,288 tok/turn  ·  cache 50%  ·  7 turns to compact        ║
 ║     Verdict: CONTINUE                                            ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ SIGNALS ═════════════════════════════════════════════════════╗
 ║  ✓  Tests         1473/1473 passing (2026-08-14)                 ║
-║  ✓  Velocity      6 ↓  ·  Debt: ↓                                ║
+║  ✓  Velocity      4 ↓  ·  Debt: ↓                                ║
 ║  ⚠  Runway        unknown                                        ║
 ║  ⛔  Context age   ?d                                             ║
 ║  ✓  IGNIS         43050 FORGE  ·  6d old                         ║
@@ -102,15 +102,15 @@
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ MOMENTUM METER ══════════════════════════════════════════════╗
-║  Velocity:   █▄▆▇▆  6↓  (last 5 sessions)                        ║
+║  Velocity:   ▄▆▇▆▄  4↓  (last 5 sessions)                        ║
 ║  Intent:     100% achieved last 5                                ║
 ║  Streak:     — (last intent not achieved)                        ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ SIL FORECAST (next session) ═════════════════════════════════╗
-║  Projected:  993/1000  (↓3 vs current 996)                       ║
+║  Projected:  991/1000  (↓3 vs current 994)                       ║
 ║  All categories forecast stable or rising.                       ║
-║  Calibration: 1/3 samples — uncalibrated                         ║
+║  Calibration: 2/3 samples — uncalibrated                         ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ GENIUS HIT LIST ═════════════════════════════════════════════╗
@@ -123,5 +123,5 @@
 
 ---
 
-_Generated by `scripts/render-startup-brief.mjs v3.1` for Session 104 from Session 103 closeout evidence · 2026-08-14_
+_Generated by `scripts/render-startup-brief.mjs v3.1` for Session 105 from Session 104 closeout evidence · 2026-08-14_
 _Run `node scripts/ops.mjs doctor` for live health check · `node scripts/ops.mjs genius-list` to refresh hit list_

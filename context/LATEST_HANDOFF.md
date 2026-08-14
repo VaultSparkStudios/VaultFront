@@ -331,3 +331,19 @@ Run the complete fresh `/start → /audit → /implement → /closeout` arc, sco
 - Provider/staging: exact implementation revision `78bbf1127424c7279a4f7a06a5922dfba06e35ad` passed CI `31772610008`, E2E `31772610001`, Release `31772609992`, and brief validation `31772609994`. Stable-staging run `31772833502` is healthy at immutable image `sha256:3f7f07ae4d232d682fea6976580e2bda6397944b7a73501e31afe71bdf78b9f7`; live `/commit.txt` is exact, worker health is 2/2, product smoke is `sha256:b5f6a640c9b257dfbeb4f8652d19390cf2cd18247f20b9dcefc4e228c85e5f4a`, and the run-bound attestation is `sha256:27722fdd4d91e52bccf9e54e2ad9e11b5ccc7786d709620efb6aeaf15ae5692e`.
 - Release: production remains 503 / NO-GO. Live Alpha is 0/12 with zero human events, Zoho send/receive/reply-as and real revenue are absent, and runtime readiness has no attached canonical release-observation bundle. Founder authorization does not substitute for those observations.
 - Next move: collect the three authenticated fresh-player traces, establish the project-domain Zoho identity and real revenue evidence, attach only verified observations to runtime readiness, then rerun the release gate. Do not promote production while any independent gate is red.
+
+## Session Intent — Session 104 (2026-08-14)
+
+Run the complete /arc, implement every premise-verified finding, commit and push directly to main, deploy the exact candidate, and promote production only if every independent gate is green.
+
+## Where We Left Off — Session 104 closeout (2026-08-14)
+
+- Implementation: audit items 220–223 are shipped. Runtime release evidence is signed, exact-image-bound, purpose-scoped, read-only, and fail-closed; Master uses durable Alpha evidence; startup chooses the latest provider receipt; Stripe checkout/webhook owns durable live-revenue truth.
+- Verification: 282 files / 1,473 tests with coverage; typecheck, lint, format, production build, 28,125 balance scenarios, bundle/contracts, deploy contract 166 checks, E2E 30/30, and CANON-053 138-capture source validation pass.
+- Provider: exact commit 715a223ddb9620cd370614b676705a2c39762359 passed CI 31782855756, E2E 31782855605, and Release 31782855608.
+- Staging: deploy 31783247576 is healthy at immutable image sha256:7b74f276479500fcecf168e297426b3380b08d27043019fe70e846d01fd585fc; public readiness admitted exact signed staging, health, and Obelisk claims. Product smoke is sha256:0d28e601612c52191bcf6b09c23d4e0274f591846799694b9ba06218df2d00ff; attestation is sha256:4b28de65cacc55988ea5b5439eb44e10c96d70fb71717df183b46936459dd9cd.
+- Rollback: dry-run validation 31787165044 and observed drill 31787212414 rolled back to f78385cb, restored 715a223d, and retained receipt sha256:50cae6b736c7bc48b830801ef3079aae33ce1d3bc0c62b515b40c2a0186327c8.
+- Game review: Loop Tightness 92, Progression 85, Session Engagement 72, Retention Hooks 68, Soul Fidelity N/A. No loop timing was tuned without human evidence.
+- Release: production remains HTTP 503 / NO-GO. Zoho/DNS, three authenticated humans, a real positive payment, and exact-live parity remain red. The parity capture hung and produced no report; prior-revision metrics were not reused.
+- Ark: pattern 01K016ULS7547918A200625630, secrets question 01K016USKRF62838C6C7A202B0, and impact summary 01K016V3KTF9B1523FBB3251A8 are signed and shipped.
+- Next move: collect the Zoho, human, payment, and parity observations, rerun /app-release-gate, and promote the immutable digest only if all gates pass.

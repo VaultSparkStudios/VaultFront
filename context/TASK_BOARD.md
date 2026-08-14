@@ -4,10 +4,22 @@ Public-safe roadmap only. Detailed backlog sequencing is maintained privately.
 
 ## Now — production evidence corridor
 
+- [ ] Re-run the exact-live three-theme parity/Core Web Vitals matrix; Session 104's bounded attempt produced no receipt.
+- [done] Attach independently signed exact-runtime staging, health, and Obelisk observations to public readiness.
+- [done] Execute and retain exact-candidate rollback/restoration run 31787212414.
+
 - [ ] Verify `contact@vaultfront.io` end-to-end through the project-domain Zoho alias: receive, send, and reply-as the same address.
 - [ ] Collect at least three distinct authenticated human Alpha sessions and one real checkout/supporter revenue observation.
-- [ ] Attach the verified release-observation bundle to runtime readiness before production promotion; workflow/docs receipts alone do not satisfy canonical runtime observations.
-- [done] Executed and retained exact-digest rollback/restoration run `31750318879`; measured 9/9 staging theme/viewport cells plus 390/768/1440 responsive parity with green Core Web Vitals.
+
+## Completed (2026-08-14 — Session 104 signed-evidence and revenue-authority arc)
+
+- [done] Shipped audit items 220–223: signed runtime release-observation transfer, durable Alpha readiness authority, current provider-receipt selection, and server-owned Stripe checkout/webhook revenue evidence.
+- [done] Hardened canonical observation digests and enforced purpose-scoped gate authority, exact SHA/image/origin binding, strict schema, freshness, conflict rejection, read-only transport, and fail-closed runtime loading.
+- [done] Fixed deployment/runtime UID readability for the public signed bundle without exposing private keys or making the mount writable.
+- [done] Passed 282 files / 1,473 tests, coverage, typecheck, lint, formatting, production build, 28,125 balance scenarios, bundle/contracts, deploy contract 166 checks, E2E 30/30, and CANON-053 138-capture source validation.
+- [done] Pushed exact candidate 715a223d; CI 31782855756, E2E 31782855605, Release 31782855608, and stable-staging deploy 31783247576 are green.
+- [done] Proved public readiness admits exact signed staging/health/Obelisk claims; observed rollback 31787212414 restored 715a223d healthy with 2/2 workers in 30.14 seconds.
+- [done] Preserved production NO-GO on Zoho identity/DNS, three real humans, real payment, and exact-live parity; all six production probes remain HTTP 503.
 
 ## Completed (2026-08-14 — Session 103 game-loop and protocol-integrity arc)
 

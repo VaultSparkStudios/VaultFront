@@ -479,3 +479,13 @@ Session 89 closeout tooling incident: invoking the Studio Ops closeout-board ren
 - Release review: corrected `/agents.json` to report the staging-observed Obelisk authorization-code/PKCE corridor instead of `not-wired`. Runtime readiness still lacks the canonical release-observation bundle; workflow/docs receipts are not relabeled as runtime evidence.
 - Provider/staging: exact revision `78bbf1127424c7279a4f7a06a5922dfba06e35ad` passed CI `31772610008`, E2E `31772610001`, Release `31772609992`, and brief validation `31772609994`. Stable-staging run `31772833502` deployed immutable image `sha256:3f7f07ae4d232d682fea6976580e2bda6397944b7a73501e31afe71bdf78b9f7`; live health is 2/2, commit identity is exact, and attestation `sha256:27722fdd4d91e52bccf9e54e2ad9e11b5ccc7786d709620efb6aeaf15ae5692e` is retained.
 - Release boundary: production remains HTTP 503 / NO-GO because Zoho send/receive/reply-as identity, three authenticated humans, real revenue, and runtime attachment of verified release observations are absent.
+
+## 2026-08-14 — Session 104 signed-evidence and real-revenue staging closeout
+
+- Intent: execute the complete /arc, push directly to main, deploy the exact candidate, and promote production only if every independent gate passes.
+- Shipped: audit items 220–223. Added signed exact-runtime release claims, durable Alpha projection, current handoff receipt selection, and server-owned fixed-$5 Stripe checkout plus durable signed-webhook revenue receipts.
+- Verification: 282 files / 1,473 tests with coverage; type, lint, format, build, balance, contracts, E2E 30/30, deploy contract 166 checks, and CANON-053 138-capture source validation pass.
+- Provider/staging: exact 715a223d passed CI 31782855756, E2E 31782855605, and Release 31782855608. Deploy 31783247576 is exact and healthy at immutable image sha256:7b74f276479500fcecf168e297426b3380b08d27043019fe70e846d01fd585fc; public readiness admitted staging, health, and Obelisk claims.
+- Rollback: validation 31787165044 and drill 31787212414 observed f78385cb and restored 715a223d healthy with 2/2 workers in 30.14 seconds.
+- Release boundary: production remains NO-GO/503 because Zoho identity/DNS, three authenticated humans, a real payment, and exact-live parity remain absent. The parity attempt produced no report and was not relabeled as passing.
+- Ark: broadcast signed-runtime evidence pattern 01K016ULS7547918A200625630, sent central secrets adoption question 01K016USKRF62838C6C7A202B0, and published impact summary 01K016V3KTF9B1523FBB3251A8.

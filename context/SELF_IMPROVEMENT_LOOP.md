@@ -4,12 +4,40 @@ Detailed internal scoring, audit trends, and brainstorming are maintained privat
 
 <!-- rolling-status-start -->
 
-Total: 996/1000 | Velocity: 6 | Debt: ↓ | Velocity trend: ↓
-Avgs — 3: 997.3 | 5: 997.2 | 10: 997.0 | 25: 993.1 | all: 993.1 | Last 5: 997 → 997 → 998 → 998 → 996 | Intent rate: 100%
-Categories: Dev 100 | Align 99 | Momentum 100 | Engage 98 | Process 100 | Coherence 99 | Security 100 | Ecosystem 100 | Capital 100 | Automation 100
-Last session: 2026-08-14 Session 103 truthful game-loop UX and protocol integrity
+Total: 994/1000 | Velocity: 4 | Debt: ↓ | Velocity trend: ↓
+Avgs — 3: 996.0 | 5: 996.6 | 10: 996.8 | 25: 993.0 | all: 993.1 | Last 5: 997 → 998 → 998 → 996 → 994 | Intent rate: 100%
+Categories: Dev 100 | Align 99 | Momentum 100 | Engage 98 | Process 99 | Coherence 99 | Security 100 | Ecosystem 100 | Capital 100 | Automation 99
+Last session: 2026-08-14 Session 104 signed runtime evidence and truthful staging
 
 <!-- rolling-status-end -->
+
+## 2026-08-14 — Session 104 | Total: 994/1000 | Velocity: 4
+
+Shipped all four premise-verified audit items, proved signed runtime observations and real checkout authority on exact staging, observed a full rollback/restoration, and preserved production NO-GO where independent evidence remains absent.
+
+| Category              |        Score | Evidence                                                                                                                                                 |
+| --------------------- | -----------: | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Dev Health            |          100 | 282 files / 1,473 tests, coverage, typecheck, lint, format, build, balance, contracts, E2E 30/30, and provider CI are green.                             |
+| Creative Alignment    |           99 | The game loop remains source-bound and unchanged pending human timing evidence; founder-owned Soul pillars remain absent.                                |
+| Momentum              |          100 | Audit items 220–223 shipped, three implementation commits reached main, exact staging is live, and rollback is observed.                                 |
+| Engagement            |           98 | The supporter corridor and durable Alpha authority are reachable; no human retention or payment outcome is inferred.                                     |
+| Process Quality       |           99 | Exact claims, rollback, secret scans, and fail-closed release review are auditable; exact-live parity produced no receipt.                               |
+| Cross-Repo Coherence  |           99 | Studio gates, Obelisk, Ark boundaries, and central secrets usage were respected; Zoho remains unresolved.                                                |
+| Security Posture      |          100 | Purpose-scoped signatures, strict runtime binding, domain separation, idempotent webhooks, and zero leaked secrets are green.                            |
+| Ecosystem Integration |          100 | GitHub Actions, GHCR, stable staging, Obelisk, PostgreSQL, Stripe, public agents, and runtime readiness converge.                                        |
+| Capital Efficiency    |          100 | No dependency or paid mandatory path was added; free gameplay remains cost-neutral and the supporter offer is optional.                                  |
+| Automation Coverage   |           99 | 1,473 tests, 166 deploy checks, 30 browser tests, 138 visual captures, signed claims, and rollback execute; parity capture still needs a reliable bound. |
+| **Total**             | **994/1000** | Exact sum; Process and Automation are capped by the incomplete parity receipt, while human/Soul/mail evidence caps experience categories.                |
+
+**Game rubric:** Loop Tightness 92 · Progression Curve 85 · Session Engagement 72 · Retention Hooks 68 · Soul Fidelity N/A (unscored). These are design/evidence scores, not observed fun or retention.
+
+**Top win:** Workflow-verified staging facts now survive as cryptographically admitted runtime truth without allowing staging authority to mint mail, human, founder, or revenue evidence.
+
+**Top gap:** Zero authenticated humans, no Zoho identity/DNS, no positive live payment, and no exact-live parity receipt prevent production promotion.
+
+**Commitments:** collect the three-human certified loop study before balance tuning; establish Zoho receive/send/reply-as; record one genuine payment; make the parity capture reliably bounded and rerun it.
+
+**Honest refusal:** The session did not promote production, fabricate revenue/humans/mail/parity, reuse stale Core Web Vitals, weaken signature policy, or expose private keys.
 
 ## 2026-08-14 — Session 103 | Total: 996/1000 | Velocity: 6
 

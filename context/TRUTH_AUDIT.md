@@ -2,6 +2,17 @@
 
 # Truth Audit
 
+## 2026-08-14 — Session 104 signed runtime and release-boundary truth
+
+- Work truth: docs/AUDIT_2026-08-14.json records items 220–223 shipped; no remaining local code premise is conflated with external release observations.
+- Verification truth: 282/282 files and 1,473/1,473 tests pass with coverage; type, lint, format, build, contracts, 28,125 balance scenarios, E2E 30/30, deploy contract 166 checks, and CANON-053 source validation are green.
+- Evidence truth: runtime admits independently signed exact-current claims and rejects caller-authored status/digest trust. Public readiness directly showed verified staging, health, and Obelisk claims from run 31783247576.
+- Revenue truth: the checkout route and signed webhook are real and durable; readiness requires a positive live payment receipt. No environment flag, route probe, fixture, or session creation is labeled revenue.
+- Provider truth: 715a223d passed CI 31782855756, E2E 31782855605, and Release 31782855608; staging run 31783247576 deployed immutable image sha256:7b74f276479500fcecf168e297426b3380b08d27043019fe70e846d01fd585fc.
+- Rollback truth: validation 31787165044 and drill 31787212414 observed known-good f78385cb and exact restoration to 715a223d in 30,140 ms; public health after restoration is 2/2.
+- Parity truth: the exact-live capture exceeded its expected bound and emitted no report. Historical 0a9149c8 Core Web Vitals are not carried forward.
+- Release truth: Zoho capability/DNS, three-human Alpha, real payment, and parity remain red; six production routes return 503. Production was correctly not promoted.
+
 ## 2026-08-14 — Session 103 game-loop, protocol, and release truth
 
 - Work truth: `docs/AUDIT_2026-08-13.json` is exhausted at 16/16 cumulative items with 214–219 shipped; `docs/INNOVATION_PACK.json` is exhausted at 70/70.

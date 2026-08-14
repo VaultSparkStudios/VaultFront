@@ -703,3 +703,29 @@ Public-safe decisions only. Detailed internal decision history is maintained pri
 **Decision:** The release-evidence, Alpha-projection, post-match footer, and supporter work does not alter Capture, Convoy, Pressure, Breach, or decisive-delivery timing. The existing playtest pulse remains the measurement hook, and game-loop tuning still waits for three authenticated human sessions.
 
 **Why:** Browser fixtures prove reachability and presentation, not engagement. Preserving the shipped timing prevents infrastructure work from being mislabeled as a design experiment.
+
+## 2026-08-14 — Session 104 signed-evidence and production-boundary decisions
+
+### Release observations are per-gate signed claims, not a trusted blob
+
+**Decision:** Runtime accepts only purpose-scoped Ed25519 claims whose explicit payload binds gate semantics, authority, repository/workflow/run, exact Git SHA, image digest, environment, origin, artifact digest, observation time, and expiry. The deploy host receives only a public signed bundle through a read-only mount.
+
+**Why:** The former unsigned cache and SHA-shaped digests could be authored locally and runtime had no observation loader. Per-authority gate allowlists prevent the staging workflow from asserting Zoho, Alpha, founder, or revenue evidence.
+
+### Revenue means a durable positive live webhook receipt
+
+**Decision:** Remove the declarative revenue environment shortcut. Offer one server-owned fixed $5 supporter product; require authenticated checkout, safe return paths, idempotency, Stripe signature verification, and a durable positive-live receipt before readiness can pass.
+
+**Why:** Route presence and configuration are implementation facts, not proof that anyone paid.
+
+### Public signed evidence is readable across container UIDs
+
+**Decision:** The project-owned host evidence directory/file use 0755/0644 while remaining mounted read-only; private signing material never reaches the host or runtime.
+
+**Why:** Host UID 1002 and the non-root container UID differed, causing a valid bundle to fail closed. The bundle contains public signed claims, so read permission is required for runtime verification and does not grant minting authority.
+
+### Incomplete parity produces no pass
+
+**Decision:** Record the Session 104 exact-live parity matrix as unmeasured after the browser capture exceeded its bound and produced no receipt.
+
+**Why:** Prior-revision green metrics cannot prove current or production pixels.
