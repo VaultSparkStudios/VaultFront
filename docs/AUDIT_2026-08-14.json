@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
-  "session": 104,
+  "session": 105,
   "generatedBy": "codex",
-  "generatedAt": "2026-08-14T01:44:00-04:00",
+  "generatedAt": "2026-08-14T23:05:00-04:00",
   "project": {
     "slug": "vaultfront",
     "name": "VaultFront",
@@ -12,7 +12,7 @@
     "stage": "FORGE",
     "stagingType": "stable-owned-subdomain"
   },
-  "summary": "Session 104 merge audit: the shipped loop and progressive post-match hierarchy have no new code-addressable design gap, while live staging remains healthy and exact but runtime readiness cannot consume the verified release observations. Three local truth-integrity findings are ranked below; Alpha, Zoho reply identity, and revenue remain external evidence gates and are not converted into code-shaped greens.",
+  "summary": "Session 105 release-evidence refresh: the exact staging candidate is healthy and its nine-cell parity report completed, but four measured Core Web Vitals findings block promotion. The remaining new local item is bounded diagnosis and repair of one first-navigation LCP failure and a repeatable 768 px CLS failure; Alpha, Zoho reply identity, and revenue remain external evidence gates and are not converted into code-shaped greens.",
   "axes": {
     "featureDepth": 1.5,
     "innovation": 1.5,
@@ -540,6 +540,36 @@
           "note": "Authenticated fixed-price checkout, actor/request-bound Stripe idempotency, raw signed webhook validation, durable positive live receipt storage, and canonical revenue projection replace the missing SPA route and declarative environment shortcut. Live staging and production webhook endpoints are configured."
         }
       ]
+    },
+    {
+      "id": 224,
+      "slug": "bounded-live-parity-stability",
+      "tier": "hot",
+      "axis": "performance / ux / release",
+      "effortHours": 4,
+      "impact": 10,
+      "innovation": 6,
+      "priority": 60,
+      "status": "pending",
+      "title": "Make exact-live parity cold-start-aware and layout-stable",
+      "why": "The complete exact-revision nine-cell report is a real failure: the first 390 px navigation records 10,724 ms LCP while the other eight cells are 596–1,072 ms, and all three themes record 0.1012–0.1023 CLS at the 768 px breakpoint. The report currently records totals but not the LCP element or layout-shift sources, preventing evidence-backed repair.",
+      "coreLoopStep": "public entry to visible Alpha corridor and playable mode selection",
+      "recipe": "Preserve the existing pass thresholds, add bounded LCP-element and layout-shift-source diagnostics to the parity receipt, reproduce the first-navigation and 768 px failures, fix their actual runtime causes, and obtain a fresh nine-cell exact-staging pass rather than waiving cold start or rounding CLS.",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Correct the false no-report release docs and retain the complete failed receipt as release truth."
+        },
+        "L2": {
+          "effortHours": 4,
+          "recipe": "Capture element-level diagnostics, repair the measured causes, and prove the local capture contract plus rendered desktop/mobile/theme surfaces."
+        },
+        "L3": {
+          "effortHours": 7,
+          "recipe": "Run the repaired exact-live matrix with repeatable cold/warm samples and admit a passing revision-bound parity claim into runtime readiness."
+        }
+      },
+      "executionLog": []
     }
   ]
 }

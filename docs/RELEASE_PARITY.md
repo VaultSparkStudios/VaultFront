@@ -18,10 +18,22 @@ Obelisk remained admitted.
 
 ## Theme, responsive, and Core Web Vitals status
 
-**UNMEASURED FOR THIS REVISION.** The exact-candidate Playwright parity matrix
-was started for all three themes at 390, 768, and 1440 CSS pixels, but the
-capture exceeded its expected bound and produced no report. It was terminated
-without retaining a partial pass. The prior green matrix for revision
+**FAIL.** The exact-candidate Playwright parity matrix completed all nine cells
+for the three themes at 390, 768, and 1440 CSS pixels. Its report was observed
+at \`2026-08-14T09:12:58.075Z\` and is bound by digest
+\`sha256:c1f36f8aa99643308bf1d54155ff6fd07ed1ccb05205b8bdfcfdfd4d584b372e\`.
+Four findings block parity:
+
+- \`vaultfront\` at 390 px: Largest Contentful Paint (LCP) 10,724 ms
+- \`vaultfront\` at 768 px: Cumulative Layout Shift (CLS) 0.1012
+- \`light\` at 768 px: CLS 0.1012
+- \`competitive\` at 768 px: CLS 0.1023
+
+The other eight cells recorded LCP from 596–1,072 ms; Interaction to Next Paint
+(INP) remained at or below 184 ms across the matrix. The isolated first-cell
+LCP suggests a cold-start hypothesis, while the repeated 768 px result suggests
+a breakpoint-specific shift. Neither is waived: both require bounded diagnosis
+and a fresh exact-revision passing receipt. The prior green matrix for revision
 \`0a9149c8\` remains historical evidence only and is not reused for \`715a223d\`.
 
 CANON-053 source-change validation still passes: the current hash-bound visual

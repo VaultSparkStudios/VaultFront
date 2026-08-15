@@ -95,8 +95,28 @@ export class GameModeSelector extends LitElement {
           ${this.renderSoloButton()}
         </div>
         <div
-          class="grid grid-cols-1 lg:grid-cols-[3fr_2fr] lg:grid-rows-2 gap-4 lg:h-[28rem]"
+          class="grid min-h-44 grid-cols-1 lg:min-h-0 lg:grid-cols-[3fr_2fr] lg:grid-rows-2 gap-4 lg:h-[28rem]"
         >
+          ${
+            this.lobbies === null
+              ? html`<div
+                  class="vf-mode-card flex h-44 w-full items-center justify-center rounded-2xl bg-[linear-gradient(150deg,rgba(7,20,31,0.86),rgba(16,38,56,0.93))] text-center text-white lg:row-span-2 lg:h-full"
+                  role="status"
+                >
+                  <div class="flex flex-col items-center gap-2 px-4">
+                    <span
+                      class="text-xs font-bold uppercase tracking-[0.16em] text-cyan-100"
+                      >Loading battlefronts…</span
+                    >
+                    <span
+                      class="text-[10px] uppercase tracking-wider text-white/60"
+                      >Live queues remain unmeasured until the server
+                      responds.</span
+                    >
+                  </div>
+                </div>`
+              : nothing
+          }
           ${
             ffa
               ? html`<div class="lg:row-span-2">

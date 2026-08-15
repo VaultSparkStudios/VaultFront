@@ -1,9 +1,9 @@
 {
   "project": "mobile-chrome",
   "localOnly": true,
-  "capturedAt": "2026-08-14T07:07:38.403Z",
+  "capturedAt": "2026-08-15T23:04:28.631Z",
   "source": {
-    "digest": "sha256:f3401684879369d7a0d931feb5c16e0b6759c65a2fb35dc79bf92d0b5f7b5347",
+    "digest": "sha256:dc4dad6982667fdd5cd363553d3e59f6369e0c9516f619ac8bec00e37db99151",
     "files": [
       {
         "path": "config/vaultfront-balance.v1.json",
@@ -12,8 +12,8 @@
       },
       {
         "path": "e2e/theme-visual-proof.spec.ts",
-        "bytes": 56511,
-        "digest": "sha256:e9e640297bd56873cd8024db9742f0ffea866fb175cd1e35b8f04f75810ccd47"
+        "bytes": 56565,
+        "digest": "sha256:097df4f96d738e7337837131bb0f08a18f2264a04a15a15d84267ab60756d2f8"
       },
       {
         "path": "src/client/AccountModal.ts",
@@ -187,8 +187,8 @@
       },
       {
         "path": "src/client/components/PublicStatsShowcase.ts",
-        "bytes": 8550,
-        "digest": "sha256:b6c3a2c6146d04ec64e3cd425adda74739b9c445bd8a6ecec2f6a1517a6fa0f2"
+        "bytes": 8823,
+        "digest": "sha256:25b16b94c0dbd21ddb543f2c68f64ee2bc2054cfe59453c0c5f8149b043359b4"
       },
       {
         "path": "src/client/components/RankedModal.ts",

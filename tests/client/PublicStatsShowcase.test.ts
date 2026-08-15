@@ -63,6 +63,43 @@ describe("PublicStatsShowcase", () => {
     ).toBeNull();
   });
 
+  it("reserves the full Alpha corridor before the signed feed resolves", async () => {
+    let resolveFeed!: (response: Response) => void;
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(
+        () =>
+          new Promise<Response>((resolve) => {
+            resolveFeed = resolve;
+          }),
+      ),
+    );
+    const showcase = document.createElement(
+      "public-stats-showcase",
+    ) as HTMLElement & { updateComplete: Promise<unknown> };
+    document.body.append(showcase);
+    await showcase.updateComplete;
+
+    const section = showcase.shadowRoot!.querySelector("section")!;
+    expect(section.getAttribute("aria-busy")).toBe("true");
+    expect(section.querySelectorAll("article")).toHaveLength(3);
+    expect(section.querySelector(".alpha-corridor")).not.toBeNull();
+    expect(section.querySelector("button")?.textContent).toContain(
+      "Join the Alpha",
+    );
+
+    resolveFeed(
+      new Response(JSON.stringify(feed), {
+        status: 200,
+        headers: { "content-type": "application/json" },
+      }),
+    );
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    await showcase.updateComplete;
+    expect(section.getAttribute("aria-busy")).toBe("false");
+    expect(section.querySelectorAll("article")).toHaveLength(3);
+  });
+
   it("routes a signed-out visitor through the Studio account boundary", async () => {
     vi.stubGlobal(
       "fetch",

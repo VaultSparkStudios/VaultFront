@@ -541,7 +541,9 @@ test("three themes retain readable page, panel, and settings surfaces", async ({
       fullPage: true,
     });
     const accessibleModalMetrics = await page.evaluate(async () => {
-      await import("/src/client/components/baseComponents/Modal.ts");
+      if (!customElements.get("o-modal")) {
+        await import("/src/client/components/baseComponents/Modal.ts");
+      }
       document.querySelector("[data-vf-visual-qa-modal]")?.remove();
       const overlay = document.createElement("main");
       overlay.dataset.vfVisualQaModal = "accessible";

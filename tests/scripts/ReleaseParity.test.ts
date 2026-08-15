@@ -1,3 +1,4 @@
+import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
@@ -20,6 +21,16 @@ const healthyCell = {
 };
 
 describe("release parity assessment", () => {
+  it("keeps the executable capture script syntactically valid", () => {
+    const result = spawnSync(
+      process.execPath,
+      ["--check", path.resolve("scripts/capture-release-parity.mjs")],
+      { encoding: "utf8" },
+    );
+    expect(result.stderr).toBe("");
+    expect(result.status).toBe(0);
+  });
+
   it("pins both public-shell and game-settings theme authorities", () => {
     const capture = fs.readFileSync(
       path.resolve("scripts/capture-release-parity.mjs"),
@@ -31,6 +42,20 @@ describe("release parity assessment", () => {
     expect(capture).toContain(
       'localStorage.setItem("settings.brandTheme", selectedTheme)',
     );
+  });
+
+  it("retains bounded element-level diagnostics without changing thresholds", () => {
+    const capture = fs.readFileSync(
+      path.resolve("scripts/capture-release-parity.mjs"),
+      "utf8",
+    );
+    expect(capture).toContain("lcpEntries");
+    expect(capture).toContain("layoutShifts");
+    expect(capture).toContain(".slice(-20)");
+    expect(capture).toContain(".slice(0, 10)");
+    expect(capture).toContain("responseStartMs");
+    expect(capture).toContain("allowedWidths.includes(width)");
+    expect(capture).toContain("allowedThemes.includes(requestedTheme)");
   });
 
   it("passes measured CWV, responsive, and security-header evidence", () => {

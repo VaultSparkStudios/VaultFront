@@ -19,7 +19,7 @@ const flag = (name, fallback = null) => {
 const url = flag("--url");
 if (!url) {
   console.error(
-    "usage: node scripts/capture-release-parity.mjs --url <origin> [--output <json>] [--screenshots <dir>]",
+    "usage: node scripts/capture-release-parity.mjs --url <origin> [--output <json>] [--screenshots <dir>] [--width <390|768|1440>] [--theme <vaultfront|light|competitive>]",
   );
   process.exit(2);
 }
@@ -31,8 +31,21 @@ const screenshots = path.resolve(
   root,
   flag("--screenshots", "output/playwright/release-parity"),
 );
-const widths = [390, 768, 1440];
-const themes = ["vaultfront", "light", "competitive"];
+const allowedWidths = [390, 768, 1440];
+const allowedThemes = ["vaultfront", "light", "competitive"];
+const requestedWidth = flag("--width");
+const requestedTheme = flag("--theme");
+const width = requestedWidth === null ? null : Number(requestedWidth);
+if (width !== null && !allowedWidths.includes(width)) {
+  console.error(`unsupported release-parity width: ${requestedWidth}`);
+  process.exit(2);
+}
+if (requestedTheme !== null && !allowedThemes.includes(requestedTheme)) {
+  console.error(`unsupported release-parity theme: ${requestedTheme}`);
+  process.exit(2);
+}
+const widths = width === null ? allowedWidths : [width];
+const themes = requestedTheme === null ? allowedThemes : [requestedTheme];
 const observedAt = new Date().toISOString();
 const sha256 = (value) =>
   `sha256:${createHash("sha256").update(value).digest("hex")}`;
@@ -54,22 +67,69 @@ try {
       });
       const page = await context.newPage();
       await page.addInitScript((selectedTheme) => {
+        const describeNode = (node) => {
+          if (!(node instanceof Element)) return null;
+          const className =
+            typeof node.className === "string"
+              ? node.className.trim().replace(/\s+/g, ".").slice(0, 120)
+              : "";
+          return [
+            node.tagName.toLowerCase(),
+            node.id ? `#${node.id}` : "",
+            className ? `.${className}` : "",
+          ].join("");
+        };
+        const describeRect = (rect) =>
+          rect
+            ? {
+                x: Math.round(rect.x),
+                y: Math.round(rect.y),
+                width: Math.round(rect.width),
+                height: Math.round(rect.height),
+              }
+            : null;
         localStorage.setItem("vf-theme", selectedTheme);
         localStorage.setItem("settings.brandTheme", selectedTheme);
         window.__vfReleaseVitals = {
           lcp: [],
+          lcpEntries: [],
           cls: 0,
+          layoutShifts: [],
           interactions: {},
         };
         new PerformanceObserver((list) => {
-          window.__vfReleaseVitals.lcp.push(
-            ...list.getEntries().map((entry) => entry.startTime),
-          );
+          for (const entry of list.getEntries()) {
+            window.__vfReleaseVitals.lcp.push(entry.startTime);
+            window.__vfReleaseVitals.lcpEntries.push({
+              startTimeMs: Math.round(entry.startTime),
+              size: Math.round(entry.size ?? 0),
+              element: describeNode(entry.element),
+              url: entry.url
+                ? new URL(entry.url, location.href).pathname
+                : null,
+            });
+            window.__vfReleaseVitals.lcpEntries =
+              window.__vfReleaseVitals.lcpEntries.slice(-20);
+          }
         }).observe({ type: "largest-contentful-paint", buffered: true });
         new PerformanceObserver((list) => {
           for (const entry of list.getEntries()) {
-            if (!entry.hadRecentInput)
+            if (!entry.hadRecentInput) {
               window.__vfReleaseVitals.cls += entry.value;
+              window.__vfReleaseVitals.layoutShifts.push({
+                value: Number(entry.value.toFixed(6)),
+                startTimeMs: Math.round(entry.startTime),
+                sources: [...(entry.sources ?? [])]
+                  .slice(0, 5)
+                  .map((source) => ({
+                    node: describeNode(source.node),
+                    previousRect: describeRect(source.previousRect),
+                    currentRect: describeRect(source.currentRect),
+                  })),
+              });
+              window.__vfReleaseVitals.layoutShifts =
+                window.__vfReleaseVitals.layoutShifts.slice(-20);
+            }
           }
         }).observe({ type: "layout-shift", buffered: true });
         new PerformanceObserver((list) => {
@@ -167,6 +227,24 @@ try {
           window.__vfReleaseVitals.interactions,
         );
         const navigation = performance.getEntriesByType("navigation")[0];
+        const resourceTimings = performance
+          .getEntriesByType("resource")
+          .map((entry) => ({
+            path: (() => {
+              try {
+                const resourceUrl = new URL(entry.name, location.href);
+                return resourceUrl.origin === location.origin
+                  ? resourceUrl.pathname
+                  : resourceUrl.origin;
+              } catch {
+                return "unparseable";
+              }
+            })(),
+            durationMs: Math.round(entry.duration),
+            transferSize: Math.round(entry.transferSize ?? 0),
+          }))
+          .sort((left, right) => right.durationMs - left.durationMs)
+          .slice(0, 10);
         return {
           theme: document.documentElement.getAttribute("data-vaultfront-theme"),
           vitals: {
@@ -175,10 +253,19 @@ try {
             cls: Number(window.__vfReleaseVitals.cls.toFixed(4)),
           },
           navigation: {
+            type: navigation?.type ?? null,
+            responseStartMs: Math.round(navigation?.responseStart ?? 0),
+            responseEndMs: Math.round(navigation?.responseEnd ?? 0),
             domContentLoadedMs: Math.round(
               navigation?.domContentLoadedEventEnd ?? 0,
             ),
             loadMs: Math.round(navigation?.loadEventEnd ?? 0),
+            transferSize: Math.round(navigation?.transferSize ?? 0),
+          },
+          diagnostics: {
+            lcpEntries: window.__vfReleaseVitals.lcpEntries,
+            layoutShifts: window.__vfReleaseVitals.layoutShifts,
+            slowResources: resourceTimings,
           },
           dom: {
             horizontalOverflowPx: Math.max(0, body.scrollWidth - innerWidth),

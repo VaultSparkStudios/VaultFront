@@ -1,4 +1,4 @@
-import { LitElement, css, html, nothing } from "lit";
+import { LitElement, css, html } from "lit";
 import { customElement, state } from "lit/decorators.js";
 
 interface PublicMetric {
@@ -257,54 +257,69 @@ export class PublicStatsShowcase extends LitElement {
           .map((id) => feed.metrics.find((metric) => metric.id === id))
           .filter((metric): metric is PublicMetric => metric !== undefined)
       : [];
+    const visibleMetrics =
+      metrics.length > 0
+        ? metrics
+        : ["players", "loops", "outcomes"].map((id) => ({
+            id,
+            label: "Awaiting signed metric",
+            value: null,
+            computedAt: "",
+            available: false,
+          }));
+    const loading = !feed && !this.unavailable;
     return html`
-      <section aria-labelledby="public-stats-title">
+      <section
+        aria-labelledby="public-stats-title"
+        aria-busy=${loading ? "true" : "false"}
+      >
         <header>
           <h2 id="public-stats-title">Verified Alpha Pulse</h2>
           <a href="/stats/">Full evidence →</a>
         </header>
-        ${
-          this.unavailable && !feed
-            ? html`<span role="status"
-                >Stats feed unavailable—no value inferred.</span
-              >`
-            : nothing
-        }
-        ${
-          metrics.length
-            ? html`<div class="grid">
-                  ${metrics.map(
-                    (metric) =>
-                      html`<article>
-                        <strong
-                          >${metric.available ? metric.value : "Unmeasured"}</strong
-                        >
-                        <span>${metric.label}</span>
-                      </article>`,
-                  )}
-                </div>
-                <span class=${stale ? "stale" : ""}>
-                  ${stale ? "Feed is stale · " : ""}as of
-                  ${new Date(feed!.generatedAt).toLocaleDateString()}
-                </span>
-                <div class="alpha-corridor">
-                  <span>
-                    ${
-                      this.signedIn
-                        ? "Complete a certified First Extraction and share feedback to move the real Alpha pulse."
-                        : "Use one Studio account, then complete a certified First Extraction to contribute real Alpha evidence."
-                    }
-                  </span>
-                  <button
-                    class="alpha-action"
-                    type="button"
-                    @click=${this.contributeToAlpha}
-                  >
-                    ${this.signedIn ? "Find an Alpha match" : "Join the Alpha"}
-                  </button>
-                </div>`
-            : nothing
-        }
+        <div class="grid">
+          ${visibleMetrics.map(
+            (metric) =>
+              html`<article>
+                <strong
+                  >${
+                    feed
+                      ? metric.available
+                        ? metric.value
+                        : "Unmeasured"
+                      : "Loading…"
+                  }</strong
+                >
+                <span>${metric.label}</span>
+              </article>`,
+          )}
+        </div>
+        <span class=${stale ? "stale" : ""} role=${feed ? undefined : "status"}>
+          ${
+            feed
+              ? html`${stale ? "Feed is stale · " : ""}as of
+                ${new Date(feed.generatedAt).toLocaleDateString()}`
+              : this.unavailable
+                ? "Stats feed unavailable—no value inferred."
+                : "Loading signed Alpha evidence…"
+          }
+        </span>
+        <div class="alpha-corridor">
+          <span>
+            ${
+              this.signedIn
+                ? "Complete a certified First Extraction and share feedback to move the real Alpha pulse."
+                : "Use one Studio account, then complete a certified First Extraction to contribute real Alpha evidence."
+            }
+          </span>
+          <button
+            class="alpha-action"
+            type="button"
+            @click=${this.contributeToAlpha}
+          >
+            ${this.signedIn ? "Find an Alpha match" : "Join the Alpha"}
+          </button>
+        </div>
       </section>
     `;
   }

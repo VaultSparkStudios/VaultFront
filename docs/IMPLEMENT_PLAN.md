@@ -1,12 +1,28 @@
-# Session 104 Implementation Plan
+# Session 105 Implementation Plan
 
-Source: `docs/AUDIT_2026-08-14.json`
+Source: \`docs/AUDIT_2026-08-14.json\`
 
-1. **Canonical observation integrity** — #220 L1 first: require recomputed semantic digests for every gate, remove duplicated deployment secret derivation/transport, and prove forged generic provenance is rejected.
-2. **Durable Alpha readiness authority** — #221 L2: feed the existing durable, privacy-safe playtest summary into Master readiness; preserve fail-closed behavior and add contract coverage.
-3. **Checkout and receipt authority** — #223 L2: replace the SPA fallthrough and declarative revenue flag with a server-owned allowlisted checkout route plus signed, idempotent, durable payment receipts.
-4. **Runtime evidence corridor** — #220 L2: add per-gate Ed25519 claims bound to authority, catalog, revision, image, origin, workflow lineage, and expiry; transport only verified staging claims through a read-only hot mount. The staging signer can never assert Alpha, Zoho, revenue, or founder approval.
-5. **Receipt currency** — #222 L2: make the current exact staging run explicit in project status/handoff and harden startup receipt selection against stale predecessor runs.
-6. **Verification and release rerun** — run focused tests after each item, then full type/lint/format/contracts/build/test/coverage/security gates, direct-main commit/push, exact staging deployment, release gate, and production promotion only if every non-waivable external gate is observed.
+1. **Preserve release truth** — #224 L1: replace the false no-report wording
+   with the complete exact-candidate failure, including receipt digest and all
+   four measured findings.
+2. **Instrument without weakening the gate** — #224 L2: retain the existing
+   LCP/INP/CLS thresholds while adding bounded LCP-element, navigation, and
+   layout-shift-source diagnostics to the receipt.
+3. **Repair measured causes** — reproduce the first-navigation 390 px delay
+   and the theme-independent 768 px shift in a real browser, then change only
+   the runtime or layout sources supported by those diagnostics.
+4. **Verify rendered behavior** — run focused parity contract tests, local
+   browser diagnostics, the required desktop/mobile/three-theme rendered-pixel
+   workflow, and the changed-file visual receipt checker.
+5. **Prove exact staging** — commit and push the bounded fix, wait for provider
+   CI, deploy the immutable candidate to stable staging, and rerun the complete
+   nine-cell matrix. A passing exact-revision receipt is required; cold start,
+   near-threshold CLS, and rounded values are not waivers.
+6. **Attach authorized evidence** — only after the live pass, install the
+   parity/theme/footer/rollback/renewed-health claims through purpose-scoped
+   signed authorities. No code path may synthesize Alpha, Zoho, revenue, or
+   founder evidence.
 
-The release-readiness path is a measurement surface for the public-interest → authenticated First Extraction → certified feedback loop. No code path may synthesize human participation, mail identity, or revenue evidence.
+This item touches the public-entry corridor into the game loop. Its loop
+measurement is the exact-live LCP/CLS/INP matrix and the preserved Alpha action
+reachability contract; no synthetic player event is emitted.
