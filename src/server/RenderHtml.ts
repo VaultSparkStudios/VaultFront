@@ -21,11 +21,32 @@ export function setHtmlNoCacheHeaders(res: Response): void {
   res.setHeader("Content-Type", "text/html");
 }
 
+export function sendRenderedHtml(res: Response, rendered: string): void {
+  setHtmlNoCacheHeaders(res);
+  res.send(rendered);
+}
+
+export function createRenderedHtmlDocument(
+  htmlPath: string,
+  load: (path: string) => Promise<string> = renderHtmlContent,
+) {
+  let rendered: Promise<string> | null = null;
+  const warm = () => {
+    rendered ??= load(htmlPath);
+    return rendered;
+  };
+  return {
+    warm,
+    async send(res: Response): Promise<void> {
+      sendRenderedHtml(res, await warm());
+    },
+  };
+}
+
 export async function renderHtml(
   res: Response,
   htmlPath: string,
 ): Promise<void> {
   const rendered = await renderHtmlContent(htmlPath);
-  setHtmlNoCacheHeaders(res);
-  res.send(rendered);
+  sendRenderedHtml(res, rendered);
 }

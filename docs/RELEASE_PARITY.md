@@ -1,55 +1,53 @@
-# VaultFront release parity — 2026-08-14
+# VaultFront release parity — 2026-08-15
 
 ## Exact staging candidate
 
-- Origin: \`https://staging.vaultfront.io\`
-- Runtime revision: \`715a223ddb9620cd370614b676705a2c39762359\`
-- Staging workflow: \`31783247576\`
-- Immutable image: \`sha256:7b74f276479500fcecf168e297426b3380b08d27043019fe70e846d01fd585fc\`
-- Product smoke receipt: \`sha256:0d28e601612c52191bcf6b09c23d4e0274f591846799694b9ba06218df2d00ff\`
-- Staging attestation: \`sha256:4b28de65cacc55988ea5b5439eb44e10c96d70fb71717df183b46936459dd9cd\`
-- Health at deployment: \`ok\`, master scope, 2/2 fresh workers
+- Origin: `https://staging.vaultfront.io`
+- Runtime revision: `10c831f46d878ff7c099f104fecac7cbf9f753be`
+- Provider CI: `31914372704`; E2E: `31914372741`; Release: `31914372698`
+- Staging workflow: `31914559095`
+- Immutable image: `sha256:e0542ed665dbc62127f793b9550e74e7cb27ce92b1a9be759618ac28892013dd`
+- Product smoke receipt: `sha256:9c4fe1a097819c76e6a97efb506daa20af99cff32d2452780a5416a38648080f`
+- Staging attestation: `sha256:cfa256c518522f4a8cfad52610fe798d0f0c211c1f4c448222848623143170aa`
+- Health at deployment: `ok`, master scope, 2/2 fresh workers
 
-The deployment observed nine product contracts and installed independently
-signed, exact-runtime claims. Public readiness admitted \`staging\`,
-\`healthObservation\`, and \`obeliskIdentity\` as verified immediately after
-deployment. The 15-minute health claim later expired as designed; staging and
-Obelisk remained admitted.
+The deployment passed nine product contracts and installed independently
+signed, exact-runtime `staging`, `healthObservation`, and `obeliskIdentity`
+claims. The public readiness route admitted all three immediately after the
+deployment.
 
 ## Theme, responsive, and Core Web Vitals status
 
-**FAIL.** The exact-candidate Playwright parity matrix completed all nine cells
-for the three themes at 390, 768, and 1440 CSS pixels. Its report was observed
-at \`2026-08-14T09:12:58.075Z\` and is bound by digest
-\`sha256:c1f36f8aa99643308bf1d54155ff6fd07ed1ccb05205b8bdfcfdfd4d584b372e\`.
-Four findings block parity:
+**FAIL — one cold-path finding.** The exact-candidate Playwright parity matrix
+completed all nine cells for the three themes at 390, 768, and 1440 CSS
+pixels. Its report was observed at `2026-08-15T23:37:58.012Z` and is bound by
+digest
+`sha256:a311c3da8930c47cbdbebd653d5d042b42896dc05e6070cf13f76f75b631ee22`.
 
-- \`vaultfront\` at 390 px: Largest Contentful Paint (LCP) 10,724 ms
-- \`vaultfront\` at 768 px: Cumulative Layout Shift (CLS) 0.1012
-- \`light\` at 768 px: CLS 0.1012
-- \`competitive\` at 768 px: CLS 0.1023
+The landing-layout repair is measured green: worst Cumulative Layout Shift
+(CLS) fell from 0.1023 to 0.0066. Interaction to Next Paint (INP) remained at
+or below 160 ms. Eight cells recorded Largest Contentful Paint (LCP) from
+584–1,040 ms.
 
-The other eight cells recorded LCP from 596–1,072 ms; Interaction to Next Paint
-(INP) remained at or below 184 ms across the matrix. The isolated first-cell
-LCP suggests a cold-start hypothesis, while the repeated 768 px result suggests
-a breakpoint-specific shift. Neither is waived: both require bounded diagnosis
-and a fresh exact-revision passing receipt. The prior green matrix for revision
-\`0a9149c8\` remains historical evidence only and is not reused for \`715a223d\`.
+The first `vaultfront` 390 px navigation still recorded LCP 10,636 ms. Its
+navigation trace places 9,831 ms before the first HTML byte; page rendering
+then completed in about 805 ms. The master currently defers filesystem read
+and Embedded JavaScript (EJS) rendering of the immutable shell until the first
+visitor. A local candidate now coalesces and completes that render before
+`server.listen`; this remains unverified until provider CI and a fresh
+exact-revision staging matrix pass.
 
-CANON-053 source-change validation still passes: the current hash-bound visual
-receipt covers 138 captures across three themes and desktop/mobile, and no UI
-file changed after that receipt. This does not substitute for exact-live parity
-or production Core Web Vitals.
+CANON-053 source-change validation passes with 138 hash-bound captures across
+three themes and desktop/mobile. Receipt digest:
+`sha256:4ad5376f8e7cba1f41d282f133f9fd84a3dfb61aeb34bbbcfab4f7a27726763f`.
+This local rendered-pixel evidence does not substitute for exact-live parity.
 
 ## Rollback observation
 
-Workflow \`31787212414\` admitted the previous and current staging attestations,
-used validation workflow \`31787165044\`, switched stable staging from
-\`715a223d\` to known-good \`f78385cb\`, observed the target healthy, restored
-\`715a223d\`, and observed it healthy again. The drill took 30,140 ms and retained
-self-verifying receipt
-\`sha256:50cae6b736c7bc48b830801ef3079aae33ce1d3bc0c62b515b40c2a0186327c8\`.
-The restored public origin reports exact revision \`715a223d\` and 2/2 healthy
-workers.
+Workflow `31787212414` remains valid historical evidence for revision
+`715a223d`, with a 30,140 ms observed rollback/restoration and receipt
+`sha256:50cae6b736c7bc48b830801ef3079aae33ce1d3bc0c62b515b40c2a0186327c8`.
+It does not bind the current `10c831f4` image. A fresh drill is required after
+the final candidate passes exact-live parity.
 
 This evidence is staging-only. It does not authorize production promotion.

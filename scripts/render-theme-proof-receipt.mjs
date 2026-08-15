@@ -142,7 +142,7 @@ export async function renderThemeProofReceipt(
         `The current ${THEME_PROOF_SURFACES.length}-surface desktop/mobile matrix passed across VaultFront, Light, and Competitive themes. The Session 105 Play and Alpha Pulse cells were pixel-reviewed in all six theme/viewport combinations after the asynchronous landing-layout stabilization; the intentional lobby loading card, contributor corridor, controls, and text remain unclipped and readable.`,
       ],
       fixesApplied: [
-        "Reserved the complete three-metric Alpha corridor before its signed feed resolves, replaced the zero-height lobby grid with a same-footprint truthful loading card, and prevented the visual harness from redefining an already-registered modal; the full matrix has no open overflow, contrast, clipping, or layout defect.",
+        "Reserved the complete three-metric Alpha corridor before its signed feed resolves, replaced the zero-height lobby grid with a same-footprint truthful loading card, warmed the immutable instance-bound HTML shell before the public listener opens, and prevented the visual harness from redefining an already-registered modal; the full matrix has no open overflow, contrast, clipping, or layout defect.",
       ],
       blockingDefectsOpen: 0,
     },

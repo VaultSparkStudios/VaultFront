@@ -18,7 +18,7 @@ import { readObeliskConfig, registerObeliskAuthRoutes } from "./ObeliskAuth";
 import { playtestEvidenceStore } from "./PlaytestEvidenceStore";
 import { PlaytestSummaryService } from "./PlaytestSummaryService";
 import { projectPublicPlaytestSummary } from "./PublicPlaytestSummary";
-import { renderHtml } from "./RenderHtml";
+import { createRenderedHtmlDocument } from "./RenderHtml";
 import { installPreparseRequestAdmission } from "./RequestAdmission";
 import { loadRuntimeReleaseEvidence } from "./RuntimeReleaseEvidence";
 import {
@@ -78,6 +78,9 @@ const playtestSummaryService = new PlaytestSummaryService({
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const indexDocument = createRenderedHtmlDocument(
+  path.join(__dirname, "../../static/index.html"),
+);
 
 // ── Security middleware ─────────────────────────────────────────────────────
 const masterAllowedOrigins = process.env.ALLOWED_ORIGINS?.split(",").map((s) =>
@@ -111,7 +114,7 @@ registerStripeSupportRoutes(app, {
 app.use(async (req, res, next) => {
   if (req.path === "/") {
     try {
-      await renderHtml(res, path.join(__dirname, "../../static/index.html"));
+      await indexDocument.send(res);
     } catch (error) {
       log.error("Error rendering index.html:", error);
       res.status(500).send("Internal Server Error");
@@ -164,6 +167,10 @@ export async function startMaster() {
   process.env.INSTANCE_ID = INSTANCE_ID;
 
   log.info(`Instance ID: ${INSTANCE_ID}`);
+  // Render the immutable shell before opening the listener. The first public
+  // visitor must not pay filesystem and EJS initialization costs, and every
+  // concurrent request shares this instance-bound result.
+  await indexDocument.warm();
 
   // Fork workers
   for (let i = 0; i < config.numWorkers(); i++) {
@@ -381,8 +388,7 @@ app.use(
 // SPA fallback route
 app.get("*", async function (_req, res) {
   try {
-    const htmlPath = path.join(__dirname, "../../static/index.html");
-    await renderHtml(res, htmlPath);
+    await indexDocument.send(res);
   } catch (error) {
     log.error("Error rendering SPA fallback:", error);
     res.status(500).send("Internal Server Error");
