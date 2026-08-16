@@ -22,6 +22,7 @@ const policy = {
       environment: "staging",
       origin: runtime.origin,
       publicKey: publicKeyPem,
+      workflows: [".github/workflows/deploy.yml"],
       gates: ["staging", "healthObservation"],
     },
   },
@@ -77,6 +78,11 @@ describe("runtime release evidence", () => {
       (value: any) => (value.imageDigest = `sha256:${"d".repeat(64)}`),
     ],
     ["gate escalation", (value: any) => (value.gate = "revenueObservation")],
+    [
+      "workflow escalation",
+      (value: any) =>
+        (value.source.workflow = ".github/workflows/untrusted.yml"),
+    ],
     [
       "expired claim",
       (value: any) => (value.expiresAt = "2026-08-14T04:59:00.000Z"),

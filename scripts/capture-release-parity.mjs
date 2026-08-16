@@ -254,6 +254,14 @@ try {
           },
           navigation: {
             type: navigation?.type ?? null,
+            domainLookupStartMs: Math.round(navigation?.domainLookupStart ?? 0),
+            domainLookupEndMs: Math.round(navigation?.domainLookupEnd ?? 0),
+            connectStartMs: Math.round(navigation?.connectStart ?? 0),
+            secureConnectionStartMs: Math.round(
+              navigation?.secureConnectionStart ?? 0,
+            ),
+            connectEndMs: Math.round(navigation?.connectEnd ?? 0),
+            requestStartMs: Math.round(navigation?.requestStart ?? 0),
             responseStartMs: Math.round(navigation?.responseStart ?? 0),
             responseEndMs: Math.round(navigation?.responseEnd ?? 0),
             domContentLoadedMs: Math.round(

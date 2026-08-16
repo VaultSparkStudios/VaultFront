@@ -54,6 +54,9 @@ describe("release parity assessment", () => {
     expect(capture).toContain(".slice(-20)");
     expect(capture).toContain(".slice(0, 10)");
     expect(capture).toContain("responseStartMs");
+    expect(capture).toContain("domainLookupStartMs");
+    expect(capture).toContain("secureConnectionStartMs");
+    expect(capture).toContain("requestStartMs");
     expect(capture).toContain("allowedWidths.includes(width)");
     expect(capture).toContain("allowedThemes.includes(requestedTheme)");
   });

@@ -210,6 +210,11 @@ curl https://vaultfront.io/commit.txt
 # Staging observation bundle
 # Record the staging URL, image digest, observed time, health response digest,
 # parity evidence, and workflow run URL before production promotion.
+# After a successful Deploy staging run, dispatch "Observe staging release
+# evidence" with that run ID. It re-admits the provider run, captures the full
+# 3-theme x 3-width live matrix, verifies the rendered theme receipt, checks
+# every declared footer route live, refreshes health, signs only staging-scoped
+# claims, and installs the exact-runtime bundle atomically.
 
 # WebSocket connectivity (use wscat or browser dev tools)
 wscat -c wss://vaultfront.io/lobbies
@@ -221,6 +226,7 @@ curl https://vaultfront.io/api/env
 Before promotion, verify:
 
 - the staging run is successful, same-repository, fresh, and its artifact digest verifies
+- the observation run is successful for that exact staging run and public readiness admits its signed parity, theme, footer, and refreshed-health claims
 - staging health, parity, Zoho project-domain send/receive reply-as-alias, Obelisk, theme/web, and Alpha observations are fresh
 - `/commit.txt` matches the immutable image revision
 - `static/release-evidence.json` remains blocked until every external gate and founder approval is recorded

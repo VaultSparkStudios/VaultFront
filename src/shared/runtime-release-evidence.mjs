@@ -54,6 +54,8 @@ function validateClaim(claim, policy, runtime, now) {
   if (!authority) errors.push("unknown-authority");
   if (!authority?.gates?.includes(claim?.gate))
     errors.push("gate-authority-escalation");
+  if (!authority?.workflows?.includes(claim?.source?.workflow))
+    errors.push("workflow-authority-escalation");
   if (authority?.environment !== claim?.environment)
     errors.push("authority-environment-mismatch");
   if (authority?.origin !== claim?.origin)

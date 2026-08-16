@@ -1,0 +1,133 @@
+name: Observe staging release evidence
+
+on:
+  workflow_dispatch:
+    inputs:
+      staging_run_id:
+        description: Successful exact-revision Deploy staging run ID
+        required: true
+        type: string
+      target_host:
+        description: CANON-038 host label
+        required: true
+        default: staging
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: vaultfront-staging-observation
+  cancel-in-progress: false
+
+jobs:
+  observe:
+    environment: staging
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      DOMAIN: ${{ vars.DOMAIN || 'vaultfront.io' }}
+      ORIGIN: https://staging.${{ vars.DOMAIN || 'vaultfront.io' }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Admit exact successful staging deployment
+        env:
+          GH_TOKEN: ${{ github.token }}
+          STAGING_RUN_ID: ${{ inputs.staging_run_id }}
+        run: |
+          set -euo pipefail
+          [[ "$STAGING_RUN_ID" =~ ^[1-9][0-9]*$ ]]
+          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${STAGING_RUN_ID}" > staging-run.json
+          mkdir -p .staging-attestation
+          gh run download "$STAGING_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "staging-attestation-${STAGING_RUN_ID}" --dir .staging-attestation
+          node scripts/staging-attestation.mjs verify --attestation .staging-attestation/staging-attestation.json --run-metadata staging-run.json --repository "$GITHUB_REPOSITORY"
+          test "$(node -p "require('./.staging-attestation/staging-attestation.json').gitSha")" = "$GITHUB_SHA"
+
+      - name: Install exact browser toolchain
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Capture fresh health and exact revision
+        id: live
+        run: |
+          set -euo pipefail
+          curl -fsS --max-time 10 "$ORIGIN/_health" -o staging-health.json
+          curl -fsS --max-time 10 "$ORIGIN/commit.txt" -o staging-revision.txt
+          test "$(cat staging-revision.txt)" = "$GITHUB_SHA"
+          observed_at="$(date -u +%Y-%m-%dT%H:%M:%S.000Z)"
+          echo "observed_at=$observed_at" >> "$GITHUB_OUTPUT"
+
+      - name: Capture full exact-live parity
+        run: >-
+          node scripts/capture-release-parity.mjs
+          --url "$ORIGIN"
+          --output release-parity.json
+          --screenshots release-parity-screenshots
+
+      - name: Verify theme proof and live footer manifest
+        run: |
+          node scripts/check-theme-proof-receipt.mjs > theme-proof-check.json
+          node scripts/observe-live-footer-manifest.mjs --origin "$ORIGIN" --revision "$GITHUB_SHA" --output live-footer-observation.json
+
+      - name: Sign authorized exact-runtime observations
+        env:
+          RELEASE_EVIDENCE_PRIVATE_KEY: ${{ secrets.RELEASE_EVIDENCE_PRIVATE_KEY }}
+        run: >-
+          node scripts/runtime-release-evidence.mjs create-staging-observations
+          --attestation .staging-attestation/staging-attestation.json
+          --product-smoke .staging-attestation/staging-product-smoke.json
+          --health-response staging-health.json
+          --revision-response staging-revision.txt
+          --release-parity release-parity.json
+          --theme-proof docs/THEME_LOCAL_PROOF.json
+          --theme-check theme-proof-check.json
+          --footer-observation live-footer-observation.json
+          --workflow .github/workflows/observe-staging.yml
+          --run-id "$GITHUB_RUN_ID"
+          --run-attempt "$GITHUB_RUN_ATTEMPT"
+          --observed-at "${{ steps.live.outputs.observed_at }}"
+          --output runtime-release-evidence.json
+
+      - name: Create SSH private key
+        env:
+          DEPLOY_SERVER_HOST: ${{ secrets.DEPLOY_SERVER_HOST }}
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          test -n "$DEPLOY_SERVER_HOST"
+          mkdir -p ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keygen -y -f ~/.ssh/id_rsa > /dev/null
+          node scripts/prepare-deploy-ssh.mjs ~/.ssh/known_hosts
+
+      - name: Install signed observation bundle
+        env:
+          APP_NAME: vaultfront
+          DEPLOY_REMOTE_USER: ${{ vars.DEPLOY_REMOTE_USER || 'vaultfront' }}
+          DEPLOY_SERVER_HOST: ${{ secrets.DEPLOY_SERVER_HOST }}
+          SSH_KEY: ~/.ssh/id_rsa
+        run: >-
+          bash ./install-release-evidence.sh staging "${{ inputs.target_host }}"
+          staging runtime-release-evidence.json "$GITHUB_SHA"
+          "$(node -p "require('./.staging-attestation/staging-attestation.json').imageDigest")"
+
+      - name: Upload signed observation receipt
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: staging-observation-${{ github.run_id }}
+          path: |
+            release-parity.json
+            release-parity-screenshots/
+            theme-proof-check.json
+            live-footer-observation.json
+            runtime-release-evidence.json
+          retention-days: 30
