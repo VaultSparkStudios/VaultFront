@@ -550,7 +550,7 @@
       "impact": 10,
       "innovation": 6,
       "priority": 60,
-      "status": "pending",
+      "status": "shipped",
       "title": "Make exact-live parity cold-start-aware and layout-stable",
       "why": "The complete exact-revision nine-cell report is a real failure: the first 390 px navigation records 10,724 ms LCP while the other eight cells are 596–1,072 ms, and all three themes record 0.1012–0.1023 CLS at the 768 px breakpoint. The report currently records totals but not the LCP element or layout-shift sources, preventing evidence-backed repair.",
       "coreLoopStep": "public entry to visible Alpha corridor and playable mode selection",
@@ -569,7 +569,13 @@
           "recipe": "Run the repaired exact-live matrix with repeatable cold/warm samples and admit a passing revision-bound parity claim into runtime readiness."
         }
       },
-      "executionLog": []
+      "executionLog": [
+        {
+          "at": "2026-08-16T03:21:20Z",
+          "status": "shipped",
+          "note": "Reproduced and instrumented the real exact-live failures, repaired the 768 px layout shift and first-request shell latency, then qualified immutable revision a1c861b0. Observation 31922854694 passed all nine theme/viewport cells with zero findings (worst LCP 1424 ms, INP 152 ms, CLS 0.0066), admitted parity/theme/footer claims, and rollback drill 31923970973 restored the exact image in 31,561 ms while installing the seventh signed runtime claim."
+        }
+      ]
     }
   ]
 }
