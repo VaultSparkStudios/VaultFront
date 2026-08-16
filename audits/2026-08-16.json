@@ -1,0 +1,87 @@
+{
+  "schemaVersion": "1.3",
+  "project": "vaultfront",
+  "date": "2026-08-16",
+  "session": 105,
+  "agent": "codex",
+  "kind": "exact-live-parity-recovery-closeout",
+  "mission": "Recover the interrupted S105 record, verify its exact staging evidence, and preserve fail-closed production truth",
+  "sil": {
+    "score": 996,
+    "max": 1000,
+    "velocity": 1,
+    "categories": {
+      "devHealth": 100,
+      "creativeAlignment": 99,
+      "momentum": 100,
+      "engagement": 98,
+      "processQuality": 100,
+      "crossRepoCoherence": 99,
+      "securityPosture": 100,
+      "ecosystemIntegration": 100,
+      "capitalEfficiency": 100,
+      "automationCoverage": 100
+    },
+    "gameRubric": {
+      "loopTightness": 92,
+      "progressionCurve": 85,
+      "sessionEngagement": 72,
+      "retentionHooks": 68,
+      "soulFidelity": null,
+      "soulFidelityStatus": "unscored-no-founder-owned-public-pillars"
+    }
+  },
+  "work": {
+    "audit": {
+      "total": 1,
+      "shipped": 1,
+      "deferred": 0,
+      "pendingUnblocked": 0,
+      "sessionItems": [224]
+    },
+    "implementationCommits": [
+      "10c831f46d878ff7c099f104fecac7cbf9f753be",
+      "eca7d1e75485b2d7949a0ebac7275319bf1a47af",
+      "bd0b64667de9b6eef50b30fb0b9e0690e56ba4de",
+      "a1c861b0fb872d56859a67c3da7a8aa82f5f60ca"
+    ],
+    "evidenceCommits": [
+      "d9fc6c1be30d3d3925b1c564d86865c316a15f3d",
+      "ca31e811aa9b0f5d8d942a5460da66ae75243f82",
+      "c744a7f9dc8005f63284074144f8e51c9ed26f90",
+      "6dec1d3b3b885df2fba4fe152731579fdb55da19"
+    ]
+  },
+  "verification": {
+    "vitestFocused": "21/21 files and 93/93 assertions; spawn regression 3/3 files and 18/18 assertions",
+    "vitestAggregate": "attempted locally but not counted green after wrapper termination left verified Vitest descendants; exact trees stopped",
+    "providerCi": "exact revision a1c861b0 passed CI 31922598710 and E2E 31922598682",
+    "formatRatchet": "pass",
+    "contracts": "pass; immutable deploy contract 166 checks",
+    "productionBuild": "pass",
+    "balance": "28125 scenarios; zero counterexamples",
+    "doctor": "13/13; blockingFailing 0",
+    "visual": "138 source-bound captures admitted from a clean checkout",
+    "exactLiveParity": "observation 31922854694; 9/9 cells; worst LCP 1424 ms, INP 152 ms, CLS 0.0066",
+    "staging": "run 31922760549; exact a1c861b0; image sha256:b4aefb23f84e5d4b6bf3245224a1f54bdef4e4ac9ac15bada4c339afe1b224d6; health 2/2",
+    "rollback": "run 31923970973; exact restoration in 31561 ms; receipt sha256:55662561d907a8b6b9ad7a886c828465fb8b9bfe5db55c3a6656183036571381"
+  },
+  "releaseGate": {
+    "status": "no-go",
+    "founderSessionAuthorization": true,
+    "portableFounderApproval": false,
+    "stagingAdmitted": true,
+    "runtimeClaimsObserved": [
+      "staging",
+      "healthObservation",
+      "stagingParity",
+      "obeliskIdentity",
+      "themeReadability",
+      "footerManifest",
+      "rollbackObservation"
+    ],
+    "productionPromoted": false,
+    "fabricatedEvidence": false,
+    "boundary": "Production requires project-domain Zoho reply identity, three authenticated human Alpha sessions, one positive live payment receipt, and a purpose-scoped portable founder approval claim."
+  }
+}

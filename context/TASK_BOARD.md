@@ -4,12 +4,22 @@ Public-safe roadmap only. Detailed backlog sequencing is maintained privately.
 
 ## Now — production evidence corridor
 
-- [ ] Re-run the exact-live three-theme parity/Core Web Vitals matrix; Session 104's bounded attempt produced no receipt.
+- [ ] [SIL:1] Make bounded Vitest execution own and reap its verified descendant process tree when a wrapper is terminated; add a regression that proves no VaultFront worker survives the bound.
+- [done] Re-ran the exact-live three-theme parity/Core Web Vitals matrix; observation 31922854694 passed all nine cells with zero findings.
 - [done] Attach independently signed exact-runtime staging, health, and Obelisk observations to public readiness.
 - [done] Execute and retain exact-candidate rollback/restoration run 31787212414.
 
 - [ ] Verify `contact@vaultfront.io` end-to-end through the project-domain Zoho alias: receive, send, and reply-as the same address.
 - [ ] Collect at least three distinct authenticated human Alpha sessions and one real checkout/supporter revenue observation.
+
+## Completed (2026-08-16 — Session 105 exact-live parity recovery)
+
+- [done] Shipped audit item 224: bounded diagnostic capture, stable asynchronous landing geometry, and first-request shell warming without weakening Core Web Vitals thresholds.
+- [done] Passed exact staging observation 31922854694 across three themes at 390/768/1440 pixels; worst LCP 1,424 ms, INP 152 ms, CLS 0.0066, zero findings.
+- [done] Admitted source-bound 138-capture theme evidence and a live footer manifest covering all 11 public routes.
+- [done] Observed rollback/restoration run 31923970973 in 31,561 ms and installed the exact-image rollback claim.
+- [done] Root-fixed the recovery-discovered direct child-process import; Windows spawn hygiene and project doctor now pass 13/13.
+- [done] Preserved production NO-GO on Zoho reply identity, three authenticated humans, positive live revenue, and portable founder approval.
 
 ## Completed (2026-08-14 — Session 104 signed-evidence and revenue-authority arc)
 

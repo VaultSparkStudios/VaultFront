@@ -1,4 +1,3 @@
-import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
@@ -6,6 +5,7 @@ import {
   assessReleaseParityCell,
   summarizeReleaseParity,
 } from "../../scripts/lib/release-parity.mjs";
+import { spawnSync } from "../../scripts/lib/safe-spawn.mjs";
 
 const healthyCell = {
   vitals: { lcpMs: 1200, inpMs: 80, cls: 0.01 },

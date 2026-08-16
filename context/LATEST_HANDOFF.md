@@ -1,3 +1,17 @@
+## Session Intent — Session 105 (recovered 2026-08-16)
+
+Complete the live-parity finding left by Session 104, push the exact candidate directly to `main`, deploy and observe stable staging, attach only genuine exact-runtime claims, and promote production only if every independent release gate passes.
+
+## Where We Left Off — Session 105 recovery closeout (2026-08-16)
+
+- Recovery: S105 ended after nine substantive commits reached `origin/main` but before write-back. The recovery did not reimplement or rewrite the already-pushed product work.
+- Implementation: audit item 224 is shipped; landing geometry is stable, cold-shell latency is warmed, and parity receipts retain element/network/layout diagnostics.
+- Exact staging: `a1c861b0fb872d56859a67c3da7a8aa82f5f60ca` passed CI `31922598710`, E2E `31922598682`, Release `31922598764`, and deploy `31922760549`; immutable image `sha256:b4aefb23f84e5d4b6bf3245224a1f54bdef4e4ac9ac15bada4c339afe1b224d6` is healthy with 2/2 workers.
+- Live evidence: observation `31922854694` passed nine theme/viewport cells with worst LCP 1,424 ms, INP 152 ms, CLS 0.0066; 138-capture theme and 11-route footer claims are admitted. Rollback `31923970973` restored the exact image in 31,561 ms.
+- Recovery verification: S105-focused 21 files / 93 assertions, spawn regression, contracts, production build, balance, formatting, and doctor 13/13 pass. The local aggregate was bounded after orphan process trees were identified and stopped; it is not claimed green locally. Provider exact-SHA CI is green.
+- Release: production remains unavailable. Zoho send/receive/reply-as, three authenticated human Alpha sessions, positive live revenue, and portable purpose-scoped founder approval are still required.
+- Next: begin S106, run a fresh audit against live code and external gate state, mint founder approval only through the project authority, and promote only if the remaining observations are genuine.
+
 ## Session Intent — Session 102 (2026-08-13)
 
 Run the complete `/arc` from the clean Session 101 boundary: perform a fresh live-code, game-loop, and public-release audit; implement every premise-verified primary and second-order item at the highest quality bar; satisfy rendered-pixel desktop/mobile/theme verification; prove the required local/stable staging corridor; then use the founder's explicit authorization to commit and push directly to `main` and fully deploy production. Production promotion must remain evidence-honest: repair every agent-addressable red gate and never fabricate external human, revenue, mail, identity, rollback, or performance observations.

@@ -2,6 +2,16 @@
 
 # Truth Audit
 
+## 2026-08-16 — Session 105 exact-live and recovery truth
+
+- Chronology truth: nine substantive VaultFront commits followed the Session 104 SIL anchor and were already on synchronized `origin/main`; S105 ended after implementation/evidence capture but before canonical write-back.
+- Work truth: audit item 224 is shipped. The landing shell and exact-live capture changed; the certified game-loop timing did not.
+- Provider truth: implementation `a1c861b0` passed CI `31922598710`, E2E `31922598682`, Release `31922598764`, and staging deploy `31922760549` at immutable image `sha256:b4aefb23f84e5d4b6bf3245224a1f54bdef4e4ac9ac15bada4c339afe1b224d6`.
+- Pixel truth: observation `31922854694` measured all nine cells with zero findings; worst LCP 1,424 ms, INP 152 ms, CLS 0.0066. It admitted a clean-checkout 138-capture theme receipt and the footer on all 11 public routes.
+- Rollback truth: run `31923970973` rolled back and exactly restored the implementation image in 31,561 ms; the receipt is canonically verified and freshness-bounded.
+- Verification truth: 21 focused files / 93 assertions, spawn regression, contracts, build, balance, format, and doctor 13/13 pass. A local aggregate attempt left orphan descendants after wrapper termination; those exact trees were stopped and the aggregate is not counted green.
+- Release truth: production remains unavailable. Zoho reply identity, three authenticated humans, positive live revenue, and portable founder approval remain red; none is inferred from passing staging evidence.
+
 ## 2026-08-14 — Session 104 signed runtime and release-boundary truth
 
 - Work truth: docs/AUDIT_2026-08-14.json records items 220–223 shipped; no remaining local code premise is conflated with external release observations.

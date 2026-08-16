@@ -489,3 +489,13 @@ Session 89 closeout tooling incident: invoking the Studio Ops closeout-board ren
 - Rollback: validation 31787165044 and drill 31787212414 observed f78385cb and restored 715a223d healthy with 2/2 workers in 30.14 seconds.
 - Release boundary: production remains NO-GO/503 because Zoho identity/DNS, three authenticated humans, a real payment, and exact-live parity remain absent. The parity attempt produced no report and was not relabeled as passing.
 - Ark: broadcast signed-runtime evidence pattern 01K016ULS7547918A200625630, sent central secrets adoption question 01K016USKRF62838C6C7A202B0, and published impact summary 01K016V3KTF9B1523FBB3251A8.
+
+## 2026-08-16 — Session 105 exact-live parity recovery closeout
+
+- Recovery: found nine substantive commits after the S104 SIL anchor, all already synchronized to `origin/main`; recovered the skipped record rather than reimplementing pushed work.
+- Shipped: audit item 224 repaired measured cold first-navigation latency and 768 px layout shift with diagnostic capture, stable landing geometry, and shell warming; no thresholds were weakened.
+- Provider/staging: exact implementation `a1c861b0` passed CI `31922598710`, E2E `31922598682`, Release `31922598764`, and deploy `31922760549`; immutable image `sha256:b4aefb23f84e5d4b6bf3245224a1f54bdef4e4ac9ac15bada4c339afe1b224d6` is healthy.
+- Observations: parity run `31922854694` passed 9/9 cells with worst LCP 1,424 ms, INP 152 ms, CLS 0.0066; theme proof covers 138 captures; footer covers 11 routes; rollback `31923970973` restored the exact image in 31,561 ms.
+- Recovery fix: replaced the parity test's direct child-process import with the safe-spawn authority; Windows spawn hygiene and doctor pass 13/13.
+- Verification: 21 files / 93 assertions, focused spawn regression, contracts, production build, 28,125 balance scenarios, formatting, and doctor pass. The local aggregate was bounded after wrapper termination left verified VaultFront descendants; those processes were stopped and no aggregate green is claimed.
+- Release: production remains fail-closed on Zoho reply identity, three authenticated humans, positive live payment, and portable founder approval.

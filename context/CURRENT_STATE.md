@@ -1,3 +1,15 @@
+## Session 105 recovery — exact-live parity and rollback admission (2026-08-16)
+
+Session 105 completed its implementation and staging-observation work on `main` but ended before canonical closeout. Recovery found nine substantive commits after the Session 104 Self-Improvement Loop anchor, with local `main` exactly synchronized to `origin/main`; no uncommitted product implementation was recovered or re-created.
+
+Audit item 224 is shipped. The exact-live capture now records bounded LCP-element, network-timing, and layout-shift diagnostics; the landing shell reserves stable geometry while live lobbies resolve; and the first public request is warmed without weakening the published Core Web Vitals thresholds. Exact implementation revision `a1c861b0fb872d56859a67c3da7a8aa82f5f60ca` passed provider CI `31922598710`, E2E `31922598682`, Release `31922598764`, and stable-staging deploy `31922760549` at immutable image `sha256:b4aefb23f84e5d4b6bf3245224a1f54bdef4e4ac9ac15bada4c339afe1b224d6`.
+
+Observation workflow `31922854694` passed all nine theme/viewport cells with zero findings: worst LCP 1,424 ms, INP 152 ms, and CLS 0.0066. It also admitted the clean-checkout 138-capture theme receipt and all 11 live footer routes. Rollback workflow `31923970973` observed rollback and exact restoration in 31,561 ms and installed a seventh signed runtime claim. The S105 recovery root-fixed one direct `node:child_process` test import so every spawn again routes through the project safe-spawn authority.
+
+Recovery verification passes the 21-file / 93-assertion S105 surface, the focused spawn regression, immutable deploy contracts, production build, 28,125 balance scenarios, formatting, and project doctor 13/13 with `blockingFailing: 0`. The canonical aggregate was attempted but left orphan Vitest descendants after its wrapper was terminated under host contention; those exact process trees were identified by command line and stopped, and the aggregate is not claimed green locally. Provider exact-revision CI remains green.
+
+Production remains fail-closed. Exact staging, health, parity, Obelisk, theme, footer, and rollback evidence are admitted, while project-domain Zoho reply identity, three authenticated humans, one positive live payment, and portable purpose-scoped founder approval remain unobserved.
+
 ## Session 100 recovery — authoritative identity, live staging, and release-truth closure (2026-08-12)
 
 Session 100 was cut off during implementation/deployment after 22 substantive commits had already reached `main`, but before audit reconciliation or canonical closeout. Recovery preserved that work, read the full remaining diff, validated integrity, and directly re-ran the product gates instead of treating pushed commits as proof of completion.

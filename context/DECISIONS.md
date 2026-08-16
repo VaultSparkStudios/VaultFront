@@ -729,3 +729,23 @@ Public-safe decisions only. Detailed internal decision history is maintained pri
 **Decision:** Record the Session 104 exact-live parity matrix as unmeasured after the browser capture exceeded its bound and produced no receipt.
 
 **Why:** Prior-revision green metrics cannot prove current or production pixels.
+
+## 2026-08-16 — Session 105 exact-live evidence decisions
+
+### Exact-live parity is admitted only for the measured immutable image
+
+**Decision:** Treat observation `31922854694` as a passing parity/theme/footer authority only for revision `a1c861b0` and its immutable image. Preserve the published LCP, INP, and Cumulative Layout Shift thresholds; cold-start warming and stable geometry repair the measured causes rather than waiving or rounding the failures.
+
+**Why:** The first S105 matrix contained a real 10,724 ms first-navigation LCP and repeatable 768 px layout shift. Element/network/layout diagnostics made those causes repairable and the second exact-image matrix passed all nine cells with zero findings.
+
+### Rollback evidence is fresh, exact-image, and time-bounded
+
+**Decision:** A rollback claim must canonically verify the receipt, bind the rolled-back and restored revisions/images, and expire on a bounded evidence lifetime. Run `31923970973` satisfies this for the S105 staging image; it does not prove future production rollback indefinitely.
+
+**Why:** A syntactically present or permanently reusable rollback receipt would turn one historic drill into an unfalsifiable launch green.
+
+### Test subprocesses use the project safe-spawn authority
+
+**Decision:** Tests are not exempt from the Windows spawn rule. Any test that creates a child process imports the project safe-spawn wrapper so `windowsHide: true` and the Git window guard remain enforced.
+
+**Why:** Recovery doctor found one direct `node:child_process` import in the S105 parity regression. Routing it through the shared authority restores the same no-window invariant as production scripts.
