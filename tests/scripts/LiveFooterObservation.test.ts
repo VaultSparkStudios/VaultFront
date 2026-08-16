@@ -95,6 +95,8 @@ describe("staging observation workflow contract", () => {
     );
     expect(signer).not.toContain('deployClaim("obeliskIdentity")');
     expect(signer).not.toContain('["obeliskIdentity", {}, 24 * 60]');
+    expect(signer).toContain("const verificationNow = Math.max(");
+    expect(signer).toContain("now: verificationNow");
     expect(signer).toContain("verifyRollbackDrillReceipt(receipt).ok");
     expect(signer).not.toContain("reportDigest(receipt)");
     expect(signer).toMatch(

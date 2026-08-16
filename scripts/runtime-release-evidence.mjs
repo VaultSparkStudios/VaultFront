@@ -296,6 +296,13 @@ function createStagingObservationsBundle() {
     ),
     makeClaim("footerManifest", footer.observedAt, footer.digest),
   ];
+  const verificationNow = Math.max(
+    observedMs,
+    Date.parse(parity.observedAt),
+    Date.parse(footer.observedAt),
+  );
+  if (!Number.isFinite(verificationNow))
+    throw new Error("Observation timestamps are invalid");
   const bundle = { schemaVersion: 1, claims };
   const verified = verifyRuntimeReleaseEvidenceBundle(bundle, {
     policy,
@@ -305,7 +312,7 @@ function createStagingObservationsBundle() {
       gitSha: attestation.gitSha,
       imageDigest: attestation.imageDigest,
     },
-    now: observedMs,
+    now: verificationNow,
   });
   if (!verified.ok)
     throw new Error(`Self-verification failed: ${verified.errors.join(",")}`);
