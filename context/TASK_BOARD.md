@@ -9,7 +9,7 @@ Public-safe roadmap only. Detailed backlog sequencing is maintained privately.
 - [done] Attach independently signed exact-runtime staging, health, and Obelisk observations to public readiness.
 - [done] Execute and retain exact-candidate rollback/restoration run 31787212414.
 
-- [ ] Verify `contact@vaultfront.io` end-to-end through the project-domain Zoho alias: receive, send, and reply-as the same address.
+- [ ] Verify `contact@vaultfront.io` end-to-end through the project-domain human mailbox: receive, send, and reply-as the same address. Session 107 authenticated `vaultfront.io` in Brevo, activated the transactional sender, and observed provider delivery to the founder mailbox (DNS apply run `31971429976`; message-ID SHA-256 `f82213b1e24c61ceb757c2c4d725b702bedced82e204cb6bb2ad5df75cb26f79`); this proves outbound transport only and does not satisfy inbound or human reply identity.
 - [ ] Collect at least three distinct authenticated human Alpha sessions and one real checkout/supporter revenue observation.
 - [ ] Complete and retain an authenticated Obelisk callback/session/identity/logout journey.
 - [ ] Install a trusted purpose-scoped founder approval writer for the exact SHA and image.
