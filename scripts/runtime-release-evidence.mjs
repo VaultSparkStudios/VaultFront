@@ -11,6 +11,7 @@ import {
 import { verifyRollbackDrillReceipt } from "./lib/rollback-drill-receipt.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const ROLLBACK_EVIDENCE_LIFETIME_MINUTES = 24 * 60;
 const policy = JSON.parse(
   fs.readFileSync(
     path.join(root, "config/release-evidence-trust.json"),
@@ -405,8 +406,10 @@ function addRollbackObservation() {
     semantic,
     lifetimeMinutes,
     artifactDigest = receipt.evidenceDigest,
-  ) =>
-    signRuntimeReleaseClaim(
+  ) => {
+    if (!Number.isFinite(lifetimeMinutes) || lifetimeMinutes <= 0)
+      throw new Error(`Invalid evidence lifetime for ${gate}`);
+    return signRuntimeReleaseClaim(
       {
         ...common,
         gate,
@@ -424,6 +427,7 @@ function addRollbackObservation() {
       },
       privateKey(),
     );
+  };
   claims.push(
     signed(
       "healthObservation",
@@ -431,11 +435,15 @@ function addRollbackObservation() {
       15,
       fileDigest(healthPath),
     ),
-    signed("rollbackObservation", {
-      drillCompleted: true,
-      imageDigest: attestation.imageDigest,
-      restoredHealth: true,
-    }),
+    signed(
+      "rollbackObservation",
+      {
+        drillCompleted: true,
+        imageDigest: attestation.imageDigest,
+        restoredHealth: true,
+      },
+      ROLLBACK_EVIDENCE_LIFETIME_MINUTES,
+    ),
   );
   const nextBundle = { schemaVersion: 1, claims };
   const verified = verifyRuntimeReleaseEvidenceBundle(nextBundle, {

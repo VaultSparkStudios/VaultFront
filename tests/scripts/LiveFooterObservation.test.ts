@@ -95,5 +95,9 @@ describe("staging observation workflow contract", () => {
     );
     expect(signer).toContain("verifyRollbackDrillReceipt(receipt).ok");
     expect(signer).not.toContain("reportDigest(receipt)");
+    expect(signer).toMatch(
+      /signed\(\s*"rollbackObservation",[\s\S]*?ROLLBACK_EVIDENCE_LIFETIME_MINUTES,/u,
+    );
+    expect(signer).toContain("Invalid evidence lifetime for ${gate}");
   });
 });
