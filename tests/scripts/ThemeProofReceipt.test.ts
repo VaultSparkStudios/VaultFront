@@ -4,6 +4,7 @@ import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
 import { checkThemeProofReceipt } from "../../scripts/check-theme-proof-receipt.mjs";
 import {
+  collectThemeProofSourceFiles,
   computeThemeProofSourceEvidence,
   THEME_PROOF_PROJECTS,
   THEME_PROOF_SURFACES,
@@ -71,6 +72,12 @@ async function fixture(now: number) {
 }
 
 describe("local theme proof receipt", () => {
+  it("binds the tracked shell source instead of a generated build artifact", () => {
+    const sources = collectThemeProofSourceFiles(process.cwd());
+    expect(sources).toContain("index.html");
+    expect(sources).not.toContain("static/index.html");
+  });
+
   it(
     "accepts a complete source- and artifact-bound matrix",
     async () => {

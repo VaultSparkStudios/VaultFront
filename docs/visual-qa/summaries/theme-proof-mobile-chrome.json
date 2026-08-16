@@ -1,9 +1,9 @@
 {
   "project": "mobile-chrome",
   "localOnly": true,
-  "capturedAt": "2026-08-16T02:27:49.486Z",
+  "capturedAt": "2026-08-16T02:41:59.213Z",
   "source": {
-    "digest": "sha256:69d5bb2065f3ec87a0873938d8ef4015fea6315f7885de706f821f5112a57754",
+    "digest": "sha256:cb4326c2dc0f58f895a92fac31fce83733965da93a67fe5b6a60294940eb8413",
     "files": [
       {
         "path": "config/vaultfront-balance.v1.json",
@@ -14,6 +14,11 @@
         "path": "e2e/theme-visual-proof.spec.ts",
         "bytes": 56565,
         "digest": "sha256:097df4f96d738e7337837131bb0f08a18f2264a04a15a15d84267ab60756d2f8"
+      },
+      {
+        "path": "index.html",
+        "bytes": 17198,
+        "digest": "sha256:000bbb61ed082bd7de9f824089235b03a25a2ee1077df2d1341373e6d7123e60"
       },
       {
         "path": "src/client/AccountModal.ts",
@@ -464,11 +469,6 @@
         "path": "src/shared/PublicRouteGraph.json",
         "bytes": 2249,
         "digest": "sha256:860dc84197ac023b89f1fb9f7a78f58a0379aa6bba4a3ea63c7c2f2f51db6ba7"
-      },
-      {
-        "path": "static/index.html",
-        "bytes": 17426,
-        "digest": "sha256:0e26f69487e9fa595e529436ff131289a898549b6c426330ca9ab587c5ebcf80"
       }
     ]
   },

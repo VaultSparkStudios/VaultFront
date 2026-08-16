@@ -57,7 +57,7 @@ function walkFiles(root, relativeDirectory) {
 export function collectThemeProofSourceFiles(root) {
   const fixed = [
     "e2e/theme-visual-proof.spec.ts",
-    "static/index.html",
+    "index.html",
     "src/client/BrandTheme.ts",
     "src/client/CommandCenter.ts",
     "src/client/FortuneCollectionPanel.ts",
