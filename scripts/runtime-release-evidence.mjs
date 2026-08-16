@@ -8,6 +8,7 @@ import {
   signRuntimeReleaseClaim,
   verifyRuntimeReleaseEvidenceBundle,
 } from "../src/shared/runtime-release-evidence.mjs";
+import { verifyRollbackDrillReceipt } from "./lib/rollback-drill-receipt.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const policy = JSON.parse(
@@ -375,7 +376,7 @@ function addRollbackObservation() {
     receipt.restorationObservation?.health?.status !== "ok" ||
     receipt.restorationObservation?.health?.responseDigest !==
       fileDigest(healthPath) ||
-    receipt.evidenceDigest !== reportDigest(receipt) ||
+    verifyRollbackDrillReceipt(receipt).ok !== true ||
     health.status !== "ok"
   )
     throw new Error("Rollback receipt/runtime binding is invalid");

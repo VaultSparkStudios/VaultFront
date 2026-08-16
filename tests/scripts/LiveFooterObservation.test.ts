@@ -89,5 +89,11 @@ describe("staging observation workflow contract", () => {
     expect(workflow).toContain("add-rollback-observation");
     expect(workflow).toContain("runtime-release-evidence.json");
     expect(workflow).toContain("install-release-evidence.sh");
+    const signer = fs.readFileSync(
+      path.resolve("scripts/runtime-release-evidence.mjs"),
+      "utf8",
+    );
+    expect(signer).toContain("verifyRollbackDrillReceipt(receipt).ok");
+    expect(signer).not.toContain("reportDigest(receipt)");
   });
 });
