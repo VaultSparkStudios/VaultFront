@@ -1,20 +1,20 @@
 <!-- generated-by: scripts/render-closeout-board.mjs v1.1 -->
-<!-- generated-at: 2026-08-16 (Session 105 closeout) -->
+<!-- generated-at: 2026-08-16 (Session 106 closeout) -->
 
 # Closeout Status Board — VaultFront
 
 ```
-╔══ SESSION CLOSEOUT · VaultFront · S105 ════════════════════════╗
-║  Date: 2026-08-16  ·  SIL: 996/1000  ·  Velocity: 1 down         ║
+╔══ SESSION CLOSEOUT · VaultFront · S106 ════════════════════════╗
+║  Date: 2026-08-16  ·  SIL: 996/1000  ·  Velocity: 8 down         ║
 ║  Mode: FOUNDER  ·  Agent: codex                                  ║
 ║  Live:  preview  →  https://vaultfront.io                        ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ WHAT SHIPPED ════════════════════════════════════════════════╗
-║  ✓ Recovery: S105 ended after nine substantive commits reached   ║
-║  ✓ Implementation: audit item 224 is shipped; landing geometry   ║
-║  ✓ Exact staging: `a1c861b0fb872d56859a67c3da7a8aa82f5f60ca` pa  ║
-║  ✓ Live evidence: observation `31922854694` passed nine theme/v  ║
-║  ✓ Recovery verification: S105-focused 21 files / 93 assertions  ║
+║  ✓ Implementation: audit items 225–232 are shipped. Certified F  ║
+║  ✓ Exact revision: `6398ff2abce57deced8ddd78e0b4e784514518a9` p  ║
+║  ✓ Staging: run `31932526593` deployed immutable image `sha256:  ║
+║  ✓ Verification: four canonical shards pass 288 files / 1,501 a  ║
+║  ✓ Release: canonical release admission is NO-GO on five gates—  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ SCORES · SIL 996/1000 ═══════════════════════════════════════╗
 ║    Dev Health         100  ██████████                            ║
@@ -52,12 +52,12 @@
 ╔══ POST-SESSION SIGNALS ════════════════════════════════════════╗
 ║  Doctor:        13/13                                            ║
 ║  Compliance:    49/49                                            ║
-║  Tests:         ⚠ 1473/1473 files — BOUNDED run, not a full gre  ║
-║  Validation:    full-deferred                                    ║
+║  Tests:         1501/1501                                        ║
+║  Validation:    full-fresh                                       ║
 ║  IGNIS:         8d ago                                           ║
 ║  Truth:         green                                            ║
 ║  Sanitization:  2d ago                                           ║
-║  Shell hygiene: 3 started · 3 closed · 0 running                 ║
+║  Shell hygiene: 4 started · 4 closed · 0 running                 ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ NEXT SESSION ════════════════════════════════════════════════╗
 ║  #1: Unified Genius List exhausted                               ║
