@@ -1,4 +1,5 @@
 import { createHash, timingSafeEqual } from "node:crypto";
+import { resolvePredictionLeagueOutcome } from "../shared/PredictionLeagueContract";
 import { achievementStore, type AchievementEvent } from "./AchievementStore";
 import {
   certifiedDailyMasteryStore,
@@ -213,7 +214,7 @@ export function derivePredictionOutcome(
   );
   // A tie resolves toward delivery: the convoy survived at least as often as
   // it was stopped. This stable rule also makes empty telemetry deterministic.
-  return deliveries >= intercepts ? "delivery" : "intercept";
+  return resolvePredictionLeagueOutcome(deliveries, intercepts);
 }
 
 function digestProgressionReceipt(

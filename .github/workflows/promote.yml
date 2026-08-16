@@ -184,6 +184,22 @@ jobs:
           fi
           node scripts/promotion-receipt.mjs "${args[@]}"
 
+      - name: Require exact canonical release admission
+        if: ${{ !inputs.dry_run }}
+        env:
+          STAGING_ORIGIN: ${{ steps.attestation.outputs.origin }}
+        run: |
+          set -euo pipefail
+          curl -fsS --max-time 10 "$STAGING_ORIGIN/api/vaultfront/readiness" -o release-readiness.json
+          curl -fsS --max-time 10 "$STAGING_ORIGIN/commit.txt" -o release-revision.txt
+          node scripts/release-admission.mjs \
+            --readiness release-readiness.json \
+            --revision release-revision.txt \
+            --attestation .staging-attestation/staging-attestation.json \
+            --repository "$GITHUB_REPOSITORY" \
+            --origin "$STAGING_ORIGIN" \
+            --output release-admission.json
+
       - name: Log in to GitHub Container Registry
         if: ${{ !inputs.dry_run }}
         uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3
@@ -310,5 +326,7 @@ jobs:
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: promotion-outcome-${{ github.run_id }}
-          path: promotion-outcome.json
+          path: |
+            promotion-outcome.json
+            release-admission.json
           retention-days: 90

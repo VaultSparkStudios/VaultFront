@@ -7,6 +7,8 @@
  * the same item (idempotent). Unlocks are persisted in-memory + Postgres.
  */
 
+import { createHash } from "node:crypto";
+import type { FortuneAwardReceipt } from "../shared/FortuneAwardContract";
 import { pool } from "./db/pool";
 import { logger } from "./Logger";
 
@@ -226,7 +228,88 @@ export interface FortuneCollectionEntry {
   drawnAt: number | null;
 }
 
+function awardReceipt(
+  persistentId: string,
+  matchId: string,
+  certificateId: string,
+  itemId: string,
+): FortuneAwardReceipt {
+  const payload = {
+    schemaVersion: 1 as const,
+    kind: "vaultfront-certified-fortune-award" as const,
+    persistentId,
+    matchId,
+    certificateId,
+    itemId,
+  };
+  return {
+    ...payload,
+    digest: `sha256:${createHash("sha256")
+      .update(JSON.stringify(payload))
+      .digest("hex")}`,
+  };
+}
+
 export const fortuneDeck = {
+  async awardCertifiedWin(
+    persistentId: string,
+    matchId: string,
+    certificateId: string,
+  ): Promise<{
+    item: FortuneItem;
+    alreadyOwned: boolean;
+    receipt: FortuneAwardReceipt;
+  }> {
+    const item = drawItem(persistentId, matchId);
+    const receipt = awardReceipt(persistentId, matchId, certificateId, item.id);
+    if (pool) {
+      const result = await pool.query(
+        `INSERT INTO player_fortune
+           (persistent_id, match_id, item_id, rarity, item_name, certificate_id, receipt_digest)
+         VALUES ($1, $2, $3, $4, $5, $6, $7)
+         ON CONFLICT (persistent_id, match_id) DO NOTHING
+         RETURNING match_id`,
+        [
+          persistentId,
+          matchId,
+          item.id,
+          item.rarity,
+          item.name,
+          certificateId,
+          receipt.digest,
+        ],
+      );
+      const alreadyOwned = result.rowCount === 0;
+      if (alreadyOwned) {
+        const existing = await pool.query<{
+          item_id: string;
+          certificate_id: string | null;
+          receipt_digest: string | null;
+        }>(
+          `SELECT item_id, certificate_id, receipt_digest
+           FROM player_fortune
+           WHERE persistent_id = $1 AND match_id = $2`,
+          [persistentId, matchId],
+        );
+        const row = existing.rows[0];
+        if (
+          row?.item_id !== item.id ||
+          row?.certificate_id !== certificateId ||
+          row?.receipt_digest !== receipt.digest
+        ) {
+          throw new Error("fortune-existing-receipt-mismatch");
+        }
+      }
+      return { item, alreadyOwned, receipt };
+    }
+
+    const owned = drawnKeys.get(persistentId) ?? new Set<string>();
+    const alreadyOwned = owned.has(matchId);
+    owned.add(matchId);
+    drawnKeys.set(persistentId, owned);
+    return { item, alreadyOwned, receipt };
+  },
+
   draw(
     persistentId: string,
     matchId: string,
@@ -239,19 +322,6 @@ export const fortuneDeck = {
     const item = drawItem(persistentId, matchId);
     owned.add(matchId);
     drawnKeys.set(persistentId, owned);
-
-    // Persist to Postgres (fire-and-forget)
-    if (pool) {
-      pool
-        .query(
-          `INSERT INTO player_fortune (persistent_id, match_id, item_id, rarity, item_name)
-         VALUES ($1, $2, $3, $4, $5) ON CONFLICT DO NOTHING`,
-          [persistentId, matchId, item.id, item.rarity, item.name],
-        )
-        .catch((err) =>
-          logger.error("fortune persist failed", { err: String(err) }),
-        );
-    }
 
     return { item, alreadyOwned: false };
   },

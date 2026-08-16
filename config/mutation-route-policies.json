@@ -150,8 +150,8 @@
       "path": "/api/vaultfront/win-fortune",
       "auth": "verified-actor",
       "rateLimit": "fortuneRateLimit",
-      "evidence": "authenticated-event",
-      "binding": "requireVaultFrontActor"
+      "evidence": "result-certificate",
+      "binding": "authorizeCertifiedFortuneAward"
     },
     {
       "method": "POST",

@@ -11,6 +11,7 @@ import {
 import { verifyRollbackDrillReceipt } from "./lib/rollback-drill-receipt.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const HEALTH_EVIDENCE_LIFETIME_MINUTES = 24 * 60;
 const ROLLBACK_EVIDENCE_LIFETIME_MINUTES = 24 * 60;
 const policy = JSON.parse(
   fs.readFileSync(
@@ -105,8 +106,11 @@ function createStagingBundle() {
   };
   const claims = [
     ["staging", {}, 24 * 60],
-    ["healthObservation", { httpStatus: 200, healthy: true }, 15],
-    ["obeliskIdentity", {}, 24 * 60],
+    [
+      "healthObservation",
+      { httpStatus: 200, healthy: true },
+      HEALTH_EVIDENCE_LIFETIME_MINUTES,
+    ],
   ].map(([gate, semantic, lifetimeMinutes]) => {
     const observation = buildCanonicalReleaseObservation(gate, {
       status: "verified",
@@ -277,13 +281,12 @@ function createStagingObservationsBundle() {
     );
   const claims = [
     deployClaim("staging"),
-    deployClaim("obeliskIdentity"),
     makeClaim(
       "healthObservation",
       observedAt,
       fileDigest(healthPath),
       { httpStatus: 200, healthy: true },
-      15,
+      HEALTH_EVIDENCE_LIFETIME_MINUTES,
     ),
     makeClaim("stagingParity", parity.observedAt, parity.digest),
     makeClaim(
@@ -346,7 +349,6 @@ function addRollbackObservation() {
   for (const gate of [
     "staging",
     "stagingParity",
-    "obeliskIdentity",
     "themeReadability",
     "footerManifest",
   ]) {
@@ -432,7 +434,7 @@ function addRollbackObservation() {
     signed(
       "healthObservation",
       { httpStatus: 200, healthy: true },
-      15,
+      HEALTH_EVIDENCE_LIFETIME_MINUTES,
       fileDigest(healthPath),
     ),
     signed(

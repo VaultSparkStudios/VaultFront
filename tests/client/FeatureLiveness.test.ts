@@ -12,6 +12,7 @@ describe("Feature Liveness Graph", () => {
     expect(featureLivenessGraph.map((node) => node.id)).toEqual([
       "achievements",
       "season-pass",
+      "fortune",
       "clans",
       "tournaments",
       "achievement-toast",
@@ -68,6 +69,13 @@ describe("Feature Liveness Graph", () => {
           "POST /api/vaultfront/season-progress/claim",
         ],
       ],
+      [
+        "fortune",
+        [
+          "GET /api/vaultfront/fortune-collection/:persistentId",
+          "POST /api/vaultfront/fortune-collection/equip",
+        ],
+      ],
     ]);
 
     for (const [id, contracts] of expected) {
@@ -78,5 +86,15 @@ describe("Feature Liveness Graph", () => {
     expect(compactApi).toContain("/api/vaultfront/achievements/");
     expect(compactApi).toContain("/api/vaultfront/season-progress/");
     expect(compactApi).toContain("/api/vaultfront/season-progress/claim");
+    expect(compactApi).toContain("/api/vaultfront/fortune-collection/");
+    expect(compactApi).toContain("/api/vaultfront/fortune-collection/equip");
+  });
+
+  it("rejects a shipped progression surface omitted from the graph", () => {
+    expect(
+      validateFeatureLivenessGraph(
+        featureLivenessGraph.filter((node) => node.id !== "fortune"),
+      ),
+    ).toContain("shipped feature missing from graph: fortune");
   });
 });

@@ -11,6 +11,7 @@ import {
 } from "../core/ApiSchemas";
 import { appUrl, isLoopbackHostname } from "../core/RuntimeUrls";
 import { AnalyticsRecord, AnalyticsRecordSchema } from "../core/Schemas";
+import type { CertifiedFortuneAwardResponse } from "../shared/FortuneAwardContract";
 import { getAuthHeader, getPlayToken, logOut, userAuth } from "./Auth";
 
 export async function fetchPlayerById(
@@ -1567,7 +1568,7 @@ export async function fetchStyleHistory(persistentId: string): Promise<{
 export async function fetchWinFortune(
   persistentId: string,
   matchId: string,
-): Promise<{ item: FortuneItem; alreadyOwned: boolean } | null> {
+): Promise<CertifiedFortuneAwardResponse<FortuneItem> | null> {
   try {
     const res = await fetch(`${getApiBase()}/api/vaultfront/win-fortune`, {
       method: "POST",
@@ -1578,7 +1579,7 @@ export async function fetchWinFortune(
       body: JSON.stringify({ persistentId, matchId }),
     });
     if (!res.ok) return null;
-    return (await res.json()) as { item: FortuneItem; alreadyOwned: boolean };
+    return await res.json();
   } catch {
     return null;
   }

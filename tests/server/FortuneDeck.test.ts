@@ -13,6 +13,28 @@ vi.mock("../../src/server/Logger", () => {
 });
 
 describe("FortuneDeck reward-to-progression closure (S99 audit #180)", () => {
+  test("certified awards are durable-shaped and idempotent", async () => {
+    const first = await fortuneDeck.awardCertifiedWin(
+      "player-certified-1",
+      "match-certified-1",
+      "certificate-1",
+    );
+    const replay = await fortuneDeck.awardCertifiedWin(
+      "player-certified-1",
+      "match-certified-1",
+      "certificate-1",
+    );
+    expect(first.alreadyOwned).toBe(false);
+    expect(replay.alreadyOwned).toBe(true);
+    expect(replay.receipt).toEqual(first.receipt);
+    expect(first.receipt).toMatchObject({
+      kind: "vaultfront-certified-fortune-award",
+      certificateId: "certificate-1",
+      itemId: first.item.id,
+      digest: expect.stringMatching(/^sha256:[0-9a-f]{64}$/),
+    });
+  });
+
   test("draw is deterministic and idempotent per persistentId+matchId", () => {
     const first = fortuneDeck.draw("player-collection-1", "match-a");
     const second = fortuneDeck.draw("player-collection-1", "match-a");
@@ -99,5 +121,7 @@ describe("player_fortune schema (S99 audit #180 root-fix)", () => {
     );
     expect(schema).toContain("CREATE TABLE IF NOT EXISTS player_fortune");
     expect(schema).toContain("ADD COLUMN IF NOT EXISTS equipped_fortune_title");
+    expect(schema).toContain("ADD COLUMN IF NOT EXISTS certificate_id");
+    expect(schema).toContain("ADD COLUMN IF NOT EXISTS receipt_digest");
   });
 });

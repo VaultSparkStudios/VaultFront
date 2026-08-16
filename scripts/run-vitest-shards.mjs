@@ -103,7 +103,13 @@ export function runVitestShards({
     );
     const result = spawn(
       process.execPath,
-      [vitest, "run", ...shard.files, "--maxWorkers=" + effectiveWorkers],
+      [
+        vitest,
+        "run",
+        ...shard.files,
+        "--exclude=.cache/**",
+        "--maxWorkers=" + effectiveWorkers,
+      ],
       { cwd: root, stdio: "inherit" },
     );
     if (result.error) throw result.error;

@@ -332,6 +332,23 @@ describe("WinModal post-match session lifecycle", () => {
       }),
     }) as any;
 
+  it("requests Fortune only for a certified local victory", async () => {
+    apiMock.getUserMe.mockResolvedValue({
+      player: { publicId: "player-a" },
+    } as any);
+    const defeated = new WinModal() as any;
+    defeated.game = game();
+    defeated.isWin = false;
+    await defeated.hydrateFortuneAndRecap(defeated.postMatchSessions.begin());
+    expect(apiMock.fetchWinFortune).not.toHaveBeenCalled();
+
+    const winner = new WinModal() as any;
+    winner.game = game();
+    winner.isWin = true;
+    await winner.hydrateFortuneAndRecap(winner.postMatchSessions.begin());
+    expect(apiMock.fetchWinFortune).toHaveBeenCalledWith("player-a", "game-1");
+  });
+
   it("reveals the shell synchronously and rejects hydration after hide", async () => {
     let resolveAssignment!: (value: {
       experimentId: "recap_cta_v1";

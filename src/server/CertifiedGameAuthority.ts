@@ -82,3 +82,27 @@ export function certificateBindsPersistentIds(
     persistentIds.every((id) => bound.has(id))
   );
 }
+
+export type CertifiedFortuneAwardAuthority =
+  | { ok: true; certificateId: string }
+  | {
+      ok: false;
+      reason: "uncertified-game" | "nonparticipant" | "not-winner";
+    };
+
+/** Bind a Fortune award to one verified archived winning outcome. */
+export function authorizeCertifiedFortuneAward(
+  gameId: string,
+  actorPersistentId: string,
+  record: GameRecord | null,
+): CertifiedFortuneAwardAuthority {
+  const certified = certifyArchivedGame(gameId, record);
+  if ("error" in certified) return { ok: false, reason: "uncertified-game" };
+  if (!certificateBindsPersistentIds(certified, [actorPersistentId])) {
+    return { ok: false, reason: "nonparticipant" };
+  }
+  if (!certifiedWinnerPersistentIds(certified).includes(actorPersistentId)) {
+    return { ok: false, reason: "not-winner" };
+  }
+  return { ok: true, certificateId: certified.certificate.certificateId };
+}

@@ -1,3 +1,4 @@
+import { render } from "lit";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 
 const {
@@ -16,6 +17,7 @@ vi.mock("../../../src/client/Api", () => ({
 }));
 
 import { PredictionLeaguePanel } from "../../../src/client/components/PredictionLeaguePanel";
+import { predictionLeagueContract } from "../../../src/shared/PredictionLeagueContract";
 
 describe("PredictionLeaguePanel", () => {
   beforeEach(() => {
@@ -60,5 +62,16 @@ describe("PredictionLeaguePanel", () => {
     expect(panel.selected).toBe("intercept");
     expect(panel.consensus.interceptPct).toBe(75);
     expect(panel.notice).toBe("Prediction locked in");
+  });
+
+  test("describes the authoritative whole-match rule and delivery tie break", () => {
+    const panel = new PredictionLeaguePanel() as any;
+    panel.visible = true;
+    const container = document.createElement("div");
+    render(panel.render(), container);
+    expect(container.textContent).toContain(predictionLeagueContract.question);
+    expect(container.textContent).toContain(predictionLeagueContract.rule);
+    expect(container.textContent).toContain("ties included");
+    expect(container.textContent).not.toContain("next decisive outcome");
   });
 });

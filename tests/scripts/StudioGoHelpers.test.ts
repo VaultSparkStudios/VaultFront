@@ -66,4 +66,21 @@ describe("Studio /go helper scripts", () => {
     },
     PROCESS_INTEGRATION_TIMEOUT_MS,
   );
+
+  it(
+    "normalizes audit blockers into the public externally-blocked status",
+    () => {
+      const result = runNode(["scripts/generate-genius-list.mjs", "--json"]);
+      const payload = JSON.parse(result.stdout);
+      const blockedItems = payload.items.filter(
+        (item: { auditSlug: string }) =>
+          item.auditSlug === "authenticated-human-alpha-observation",
+      );
+
+      expect(blockedItems).toMatchObject([
+        { status: "externally-blocked", blocked: true },
+      ]);
+    },
+    PROCESS_INTEGRATION_TIMEOUT_MS,
+  );
 });

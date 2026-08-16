@@ -12,6 +12,7 @@ import {
   canonicalReleaseGateDefinitions,
   evaluateCanonicalReleaseGates,
   generateReleaseEvidence,
+  loadReleaseGateObservations,
   verifyCiRevisionEvidence,
   verifyReleaseEvidenceLineage,
 } from "../../scripts/generate-release-evidence.mjs";
@@ -490,6 +491,36 @@ describe("Release Evidence Manifest", () => {
         evidenceStatus: "missing",
       }),
     );
+  });
+
+  it("does not admit unsigned caller-authored static gate observations", () => {
+    const fixture = fs.mkdtempSync(
+      path.join(os.tmpdir(), "vaultfront-static-gates-"),
+    );
+    try {
+      fs.mkdirSync(path.join(fixture, ".cache"), { recursive: true });
+      fs.writeFileSync(
+        path.join(fixture, ".cache", "release-gate-observations.json"),
+        JSON.stringify({
+          schemaVersion: 1,
+          observations: {
+            staging: buildCanonicalReleaseObservation("staging", {
+              status: "verified",
+              observedAt: "2026-07-17T11:59:00.000Z",
+              source: "caller-authored",
+            }),
+          },
+        }),
+      );
+      const loaded = loadReleaseGateObservations(fixture);
+      expect(loaded).toMatchObject({
+        state: "untrusted-static-input",
+        observations: {},
+      });
+      expect(loaded.detail).toContain("cannot satisfy authoritative runtime");
+    } finally {
+      fs.rmSync(fixture, { recursive: true, force: true });
+    }
   });
 
   it("rejects a fresh provenance-backed HTTP 503 health observation", () => {

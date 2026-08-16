@@ -46,6 +46,9 @@ describe("bounded Vitest shard runner", () => {
     expect(calls[0]).toContain("tests/AiAttackBehavior.test.ts");
     expect(calls[1]).toContain("tests/client/CertifiedMatchFeedback.test.ts");
     expect(calls[2]).toContain("tests/scripts/AuditRenderer.test.ts");
+    expect(calls.every((args) => args.includes("--exclude=.cache/**"))).toBe(
+      true,
+    );
   });
 
   it("allows a bounded worker cap for resource-constrained hosts", () => {

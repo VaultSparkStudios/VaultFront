@@ -41,6 +41,7 @@ import {
 } from "./CanonicalAiEvidence";
 import { certifiedDailyMasteryStore } from "./CertifiedDailyMasteryStore";
 import {
+  authorizeCertifiedFortuneAward,
   certificateBindsPersistentIds,
   certifiedWinnerPersistentIds,
   certifyArchivedGame,
@@ -110,6 +111,10 @@ import {
   PROPHECY_SYSTEM_PROMPT,
   RECAP_SYSTEM_PROMPT,
 } from "./RemoteAiPrompts";
+import {
+  RemoteAiSingleflight,
+  RemoteAiWaiterDisconnectedError,
+} from "./RemoteAiSingleflight";
 import { replayHighlightStore } from "./ReplayHighlightStore";
 import {
   createReplayShareProjection,
@@ -1372,6 +1377,7 @@ export async function startWorker() {
     maxEntries: 500,
     ttlMs: 24 * 60 * 60 * 1_000,
   });
+  const matchRecapFlights = new RemoteAiSingleflight();
 
   assertRoutePolicyBinding(
     "match-recap",
@@ -1402,19 +1408,20 @@ export async function startWorker() {
         feature: "recap",
         certificate: context.certificate,
         canonicalInputs,
-        requester: actor.persistentId,
+        requester: null,
       });
       const cached = matchRecapCache.get(evidence.cacheKey);
       if (cached)
         return res.json({ ok: true, ...cached, cached: true, evidence });
       try {
-        if (!(await reserveRemoteAiCall("debrief")).allowed) {
-          return res.status(503).json({ error: "Recap service unavailable" });
-        }
-        const msg = await executeRequestBoundAi(
+        const generated = await matchRecapFlights.run(
+          evidence.cacheKey,
           res,
-          (signal) =>
-            anthropic.messages.create(
+          async (signal) => {
+            if (!(await reserveRemoteAiCall("debrief")).allowed) {
+              throw new Error("recap-reservation-denied");
+            }
+            const msg = await anthropic.messages.create(
               {
                 model: "claude-haiku-4-5-20251001",
                 max_tokens: 160,
@@ -1433,22 +1440,34 @@ export async function startWorker() {
                 ],
               },
               { signal },
-            ),
+            );
+            const raw =
+              (msg.content[0] as { type: string; text: string }).text?.trim() ??
+              "";
+            const { recap } = parseRecapProviderOutput(raw);
+            const receipt = buildCanonicalAiResponseReceipt({
+              evidence,
+              output: { recap },
+              provider: "anthropic",
+              model: "claude-haiku-4-5-20251001",
+            });
+            matchRecapCache.set(evidence.cacheKey, { recap, receipt });
+            return { recap, receipt };
+          },
           8_000,
         );
-        const raw =
-          (msg.content[0] as { type: string; text: string }).text?.trim() ?? "";
-        const { recap } = parseRecapProviderOutput(raw);
-        const receipt = buildCanonicalAiResponseReceipt({
+        return res.json({
+          ok: true,
+          ...generated.value,
           evidence,
-          output: { recap },
-          provider: "anthropic",
-          model: "claude-haiku-4-5-20251001",
+          coalesced: generated.joined,
         });
-        matchRecapCache.set(evidence.cacheKey, { recap, receipt });
-        return res.json({ ok: true, recap, evidence, receipt });
       } catch (err) {
+        if (err instanceof RemoteAiWaiterDisconnectedError) return;
         logger.error("match-recap failed", err);
+        if (String(err).includes("recap-reservation-denied")) {
+          return res.status(503).json({ error: "Recap service unavailable" });
+        }
         return res.status(500).json({ error: "Recap generation failed" });
       }
     },
@@ -1522,11 +1541,28 @@ export async function startWorker() {
       const actor = await requireVaultFrontActor(req, res);
       if (!actor || !acceptActorClaim(actor, parsed.data.persistentId, res))
         return;
-      const { item, alreadyOwned } = fortuneDeck.draw(
-        actor.persistentId,
+      const authority = authorizeCertifiedFortuneAward(
         parsed.data.matchId,
+        actor.persistentId,
+        await readGameRecord(parsed.data.matchId as GameID),
       );
-      return res.json({ ok: true, item, alreadyOwned });
+      if (!authority.ok) {
+        return res
+          .status(authority.reason === "uncertified-game" ? 404 : 403)
+          .json({ error: "Certified winning outcome required" });
+      }
+      try {
+        const { item, alreadyOwned, receipt } =
+          await fortuneDeck.awardCertifiedWin(
+            actor.persistentId,
+            parsed.data.matchId,
+            authority.certificateId,
+          );
+        return res.json({ ok: true, item, alreadyOwned, receipt });
+      } catch (error) {
+        log.error("certified fortune award failed", { error: String(error) });
+        return res.status(503).json({ error: "Fortune award unavailable" });
+      }
     },
   );
   registerFortuneRoutes(app, {

@@ -392,12 +392,12 @@ export function loadReleaseGateObservations(projectRoot) {
       throw new Error("expected schemaVersion 1 with an observations object");
     }
     return {
-      state: "loaded",
+      state: "untrusted-static-input",
       path: relativePath,
       digest: sha256(body),
-      observations: parsed.observations,
+      observations: {},
       detail:
-        "Observation bundle loaded; each gate is independently revalidated.",
+        "Unsigned static observations are retained only as a source digest and cannot satisfy authoritative runtime gates.",
     };
   } catch (error) {
     return {

@@ -55,6 +55,24 @@ function certificate() {
 }
 
 describe("canonical AI evidence", () => {
+  it("uses one requester-neutral recap identity after authorization", () => {
+    const certified = certificate();
+    const canonicalInputs = { result: certified.result };
+    const explicit = buildCanonicalAiEvidence({
+      feature: "recap",
+      certificate: certified,
+      canonicalInputs,
+      requester: null,
+    });
+    const omitted = buildCanonicalAiEvidence({
+      feature: "recap",
+      certificate: certified,
+      canonicalInputs,
+    });
+    expect(explicit.requester).toBeNull();
+    expect(explicit.cacheKey).toBe(omitted.cacheKey);
+  });
+
   it("refuses tampered certificates before producing evidence", () => {
     const tampered = structuredClone(certificate());
     tampered.result.allPlayersStats.client01 = {

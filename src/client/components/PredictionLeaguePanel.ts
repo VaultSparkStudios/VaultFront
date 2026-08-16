@@ -1,6 +1,7 @@
 import { html, LitElement } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import type { GameView } from "../../core/game/GameView";
+import { predictionLeagueContract } from "../../shared/PredictionLeagueContract";
 import {
   fetchPredictionConsensus,
   fetchPredictionLeagueStats,
@@ -18,7 +19,7 @@ export class PredictionLeaguePanel extends LitElement implements Layer {
   @state() private visible = false;
   @state() private pending = false;
   @state() private selected: PredictionOutcome | null = null;
-  @state() private notice = "Call the next convoy outcome";
+  @state() private notice: string = predictionLeagueContract.notice;
   @state() private accuracy: number | null = null;
   @state() private consensus: PredictionConsensus | null = null;
 
@@ -197,7 +198,7 @@ export class PredictionLeaguePanel extends LitElement implements Layer {
           <div>
             <div class="prediction-kicker">Prediction League</div>
             <div class="prediction-title">
-              Will the next decisive outcome be a delivery or interception?
+              ${predictionLeagueContract.question}
             </div>
           </div>
           ${
@@ -218,7 +219,11 @@ export class PredictionLeaguePanel extends LitElement implements Layer {
                 aria-pressed=${this.selected === outcome}
                 @click=${() => this.submit(outcome)}
               >
-                ${outcome === "delivery" ? "Convoy delivers" : "Convoy intercepted"}
+                ${
+                  outcome === "delivery"
+                    ? predictionLeagueContract.deliveryChoice
+                    : predictionLeagueContract.interceptChoice
+                }
               </button>
             `,
           )}
@@ -251,6 +256,7 @@ export class PredictionLeaguePanel extends LitElement implements Layer {
         <div class="prediction-notice" role="status" aria-live="polite">
           ${this.notice}
         </div>
+        <p class="prediction-notice">${predictionLeagueContract.rule}</p>
       </section>
     `;
   }

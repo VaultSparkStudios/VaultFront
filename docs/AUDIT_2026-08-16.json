@@ -1,0 +1,293 @@
+{
+  "schemaVersion": "1.0",
+  "session": 106,
+  "generatedBy": "codex",
+  "generatedAt": "2026-08-16T01:20:57-04:00",
+  "project": {
+    "slug": "vaultfront",
+    "name": "VaultFront",
+    "type": "game",
+    "registryType": "app",
+    "audience": "public-unlaunched",
+    "stage": "FORGE",
+    "stagingType": "stable-owned-subdomain"
+  },
+  "summary": "Session 106 found a strong core game with a security-critical uncertified Fortune claim path, duplicate match-recap provider work, two public contract/liveness gaps, and a production workflow able to bypass canonical launch readiness. Local fixes are implemented in ranked order. Production remains a truthful no-go until five independent observations exist: Zoho send/receive/reply-as, authenticated human Alpha, positive live revenue, a real authenticated Obelisk relying-party journey, and portable exact-artifact founder approval.",
+  "axes": {
+    "featureDepth": 1.5,
+    "innovation": 1.5,
+    "ux": 2,
+    "feedbackLoop": 2,
+    "gamification": 3,
+    "aiIntegration": 1.5,
+    "security": 3,
+    "speedOrganization": 3,
+    "tokenApiReduction": 2
+  },
+  "specialtyReviews": {
+    "gameLoop": {
+      "loopTightness": 92,
+      "progressionCurve": 85,
+      "sessionEngagement": 72,
+      "retentionHooks": 68,
+      "soulFidelity": null
+    },
+    "release": {
+      "decision": "NO-GO",
+      "reason": "Canonical production observations are incomplete; staging health is not permission to launch."
+    }
+  },
+  "items": [
+    {
+      "id": 225,
+      "slug": "certified-fortune-award-spine",
+      "tier": "hot",
+      "axis": "security / gamification / feature depth",
+      "effortHours": 6,
+      "impact": 10,
+      "innovation": 7,
+      "priority": 84,
+      "status": "shipped",
+      "title": "Bind Fortune rewards to certified winning outcomes and durable receipts",
+      "why": "The authenticated endpoint accepted caller-supplied match IDs without proving participation or victory and returned before PostgreSQL persistence completed.",
+      "coreLoopStep": "certified outcome to victory fantasy to persistent cosmetic reward",
+      "recipe": "Reuse CertifiedGameAuthority, require a certificate-bound winning identity, await the unique database write, fail closed on persistence or legacy-row mismatch, and return an idempotent certificate-bound receipt.",
+      "executionLog": [
+        {
+          "at": "2026-08-16T01:18:00-04:00",
+          "status": "shipped",
+          "note": "Winner, loser, outsider, invented-match, replay, database-failure, and legacy-row paths are covered; the client requests Fortune only after a local victory."
+        }
+      ]
+    },
+    {
+      "id": 226,
+      "slug": "exact-canonical-promotion-admission",
+      "tier": "hot",
+      "axis": "security / release / observability",
+      "effortHours": 4,
+      "impact": 10,
+      "innovation": 8,
+      "priority": 80,
+      "status": "shipped",
+      "title": "Make production cutover require exact all-green canonical readiness",
+      "why": "The promotion workflow could deploy after attestation and dry-run checks without admitting the canonical launch gates.",
+      "coreLoopStep": "verified staging candidate to safe public availability",
+      "recipe": "Before cutover, fetch a fresh master readiness snapshot and exact revision, require the complete canonical gate set plus authenticated Alpha, bind it to repository, origin, SHA, image digest, and staging attestation, and retain a digest receipt.",
+      "executionLog": [
+        {
+          "at": "2026-08-16T01:18:00-04:00",
+          "status": "shipped",
+          "note": "promote.yml now fails closed before registry login or production mutation and retains release-admission.json with the outcome."
+        }
+      ]
+    },
+    {
+      "id": 227,
+      "slug": "obelisk-authenticated-evidence-truth",
+      "tier": "hot",
+      "axis": "security / ecosystem integration",
+      "effortHours": 2,
+      "impact": 10,
+      "innovation": 5,
+      "priority": 50,
+      "status": "shipped",
+      "title": "Stop treating an unauthenticated Obelisk corridor as verified identity",
+      "why": "A JSON 401 and PKCE redirect proved configuration but were sufficient to mint the canonical Obelisk identity pass.",
+      "coreLoopStep": "account entry to trusted persistent player identity",
+      "recipe": "Keep corridor smoke checks, but remove automatic obeliskIdentity claim issuance; only an authenticated callback, session, identity/trust, and logout journey may satisfy the release gate.",
+      "executionLog": [
+        {
+          "at": "2026-08-16T01:18:00-04:00",
+          "status": "shipped",
+          "note": "Deploy and observation bundle producers no longer mint obeliskIdentity from unauthenticated smoke."
+        }
+      ]
+    },
+    {
+      "id": 228,
+      "slug": "game-global-recap-identity-and-singleflight",
+      "tier": "hot",
+      "axis": "artificial intelligence / cost / speed",
+      "effortHours": 4,
+      "impact": 8,
+      "innovation": 6,
+      "priority": 48,
+      "status": "shipped",
+      "title": "Authorize recaps per participant but cache and coalesce them per certified match",
+      "why": "Requester identity entered the recap cache key and simultaneous participants could each reserve and call the provider for identical match-global content.",
+      "coreLoopStep": "certified match to shared sports story to social or rematch continuation",
+      "recipe": "Separate participant authorization from content identity, use requester-null evidence after authorization, and coalesce one canonical recap generation with waiter-aware cancellation.",
+      "executionLog": [
+        {
+          "at": "2026-08-16T01:29:00-04:00",
+          "status": "shipped",
+          "note": "Requester-neutral recap identity and a waiter-aware singleflight now coalesce one reservation/provider call while aborting only after the final client detaches."
+        }
+      ]
+    },
+    {
+      "id": 229,
+      "slug": "prediction-contract-copy-parity",
+      "tier": "fast",
+      "axis": "user experience / feedback / gamification",
+      "effortHours": 1,
+      "impact": 7,
+      "innovation": 3,
+      "priority": 21,
+      "status": "shipped",
+      "title": "Describe the Prediction League's actual whole-match wager",
+      "why": "The panel promised a next-convoy outcome while the authoritative resolver compares whole-match deliveries and interceptions, with ties awarded to delivery.",
+      "coreLoopStep": "spectator pick to trustworthy result to league reputation",
+      "recipe": "Publish typed shared copy for the whole-match rule and tie behavior, consume it in the panel, and assert copy/resolver parity.",
+      "executionLog": [
+        {
+          "at": "2026-08-16T01:29:00-04:00",
+          "status": "shipped",
+          "note": "The client and server consume one shared whole-match contract, including the delivery tie rule, with rendered-copy and resolver coverage."
+        }
+      ]
+    },
+    {
+      "id": 230,
+      "slug": "bidirectional-feature-liveness-completeness",
+      "tier": "fast",
+      "axis": "organization / ecosystem integration / feature depth",
+      "effortHours": 2,
+      "impact": 6,
+      "innovation": 4,
+      "priority": 24,
+      "status": "shipped",
+      "title": "Make Fortune visible in bidirectional feature-liveness proof",
+      "why": "Command Center ships the Fortune API and mount, but the liveness manifest omitted it and only checked declared nodes.",
+      "coreLoopStep": "earned reward to collection/equip surface to proven next-match identity",
+      "recipe": "Declare the Fortune route, API, mount, and journey and reject both missing declarations and declarations without executable composition.",
+      "executionLog": [
+        {
+          "at": "2026-08-16T01:29:00-04:00",
+          "status": "shipped",
+          "note": "Fortune now has route/API/mount/journey liveness and omission regression coverage."
+        }
+      ]
+    },
+    {
+      "id": 231,
+      "slug": "health-evidence-release-window",
+      "tier": "fast",
+      "axis": "release / observability",
+      "effortHours": 1,
+      "impact": 7,
+      "innovation": 3,
+      "priority": 21,
+      "status": "shipped",
+      "title": "Align signed health evidence with the bounded release window",
+      "why": "The runtime health claim expired after 15 minutes while canonical readiness allows a 24-hour evidence window, producing a false missing state despite healthy exact staging.",
+      "coreLoopStep": "healthy staging runtime to timely release decision",
+      "recipe": "Use the declared 24-hour evidence window for signed health observations while independently probing exact staging immediately before cutover and production immediately after.",
+      "executionLog": [
+        {
+          "at": "2026-08-16T01:18:00-04:00",
+          "status": "shipped",
+          "note": "All staging, observation, and rollback health producers use the same bounded 24-hour lifetime; promotion performs fresh network probes."
+        }
+      ]
+    },
+    {
+      "id": 232,
+      "slug": "static-release-evidence-authority-boundary",
+      "tier": "fast",
+      "axis": "security / observability",
+      "effortHours": 1,
+      "impact": 7,
+      "innovation": 4,
+      "priority": 28,
+      "status": "shipped",
+      "title": "Prevent unsigned static observations from appearing authoritative",
+      "why": "A caller-authored cache JSON could make the generated static artifact appear release-ready even though runtime verification correctly requires signatures.",
+      "coreLoopStep": "build evidence to honest launch decision",
+      "recipe": "Retain unsigned static input only as a diagnostic source digest and never pass its observations into canonical gate evaluation.",
+      "executionLog": [
+        {
+          "at": "2026-08-16T01:18:00-04:00",
+          "status": "shipped",
+          "note": "Static input is labeled untrusted-static-input and contributes zero authoritative observations."
+        }
+      ]
+    },
+    {
+      "id": 233,
+      "slug": "authenticated-human-alpha-observation",
+      "tier": "hot",
+      "axis": "game loop / feedback / release",
+      "effortHours": 3,
+      "impact": 10,
+      "innovation": 5,
+      "priority": 50,
+      "status": "blocked",
+      "title": "Observe the certified loop with three authenticated humans",
+      "why": "Live staging has zero accepted human events, sessions, or actors and the Alpha gate is 0/12.",
+      "coreLoopStep": "Capture to Convoy to Pressure to Breach to decisive delivery to continuation",
+      "recipe": "Run one three-human cohort inside a 24-hour window, complete the certified loop, submit feedback, and record a continuation; do not synthesize human evidence."
+    },
+    {
+      "id": 234,
+      "slug": "zoho-project-alias-e2e-proof",
+      "tier": "hot",
+      "axis": "release / communications",
+      "effortHours": 2,
+      "impact": 10,
+      "innovation": 2,
+      "priority": 20,
+      "status": "blocked",
+      "title": "Prove VaultFront-domain send, receive, and reply-as in Zoho",
+      "why": "The required zoho.mail.admin capability is missing and provider setup is signup-UI-only; no signed reply-identity evidence exists.",
+      "coreLoopStep": "public trust to reachable project support",
+      "recipe": "Attach the project-domain alias to the founder mailbox, configure MX/SPF/DKIM/DMARC, and prove delivery plus reply-as identity through a purpose-scoped receipt."
+    },
+    {
+      "id": 235,
+      "slug": "positive-live-revenue-observation",
+      "tier": "fast",
+      "axis": "revenue / release",
+      "effortHours": 1,
+      "impact": 9,
+      "innovation": 2,
+      "priority": 18,
+      "status": "blocked",
+      "title": "Observe one genuine positive live checkout or supporter receipt",
+      "why": "The server-owned Stripe path is ready, but no positive live webhook-derived receipt exists.",
+      "coreLoopStep": "supporter intent to sustainable live operation",
+      "recipe": "Complete a real live payment through the existing checkout path and admit only the signed, idempotent positive webhook receipt; do not self-pay without explicit spend authorization."
+    },
+    {
+      "id": 236,
+      "slug": "authenticated-obelisk-rp-observation",
+      "tier": "hot",
+      "axis": "identity / release",
+      "effortHours": 2,
+      "impact": 10,
+      "innovation": 4,
+      "priority": 40,
+      "status": "blocked",
+      "title": "Observe the complete authenticated Obelisk relying-party journey",
+      "why": "The corridor is configured, but callback, session, identity/trust, and logout have not been observed with a real account.",
+      "coreLoopStep": "account entry to trusted persistent progression",
+      "recipe": "Complete and retain a purpose-scoped authenticated staging journey, then repeat against production after a safely reversible cutover; corridor smoke alone cannot pass."
+    },
+    {
+      "id": 237,
+      "slug": "portable-founder-launch-approval",
+      "tier": "fast",
+      "axis": "governance / release",
+      "effortHours": 1,
+      "impact": 10,
+      "innovation": 3,
+      "priority": 30,
+      "status": "blocked",
+      "title": "Bind founder launch approval to the exact promoted artifact",
+      "why": "The founder authorized this session's deployment, but no purpose-scoped trusted writer can convert that intent into the exact-SHA/image runtime claim required by canonical readiness.",
+      "coreLoopStep": "founder decision to auditable production cutover",
+      "recipe": "Use a non-self-approving trusted authority to bind founder identity, repository, SHA, image digest, environment, purpose, and bounded expiry; workflow dispatch alone is insufficient."
+    }
+  ]
+}

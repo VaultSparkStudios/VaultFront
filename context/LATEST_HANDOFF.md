@@ -1,3 +1,9 @@
+## Session Intent — Session 106 (2026-08-16)
+
+Run the complete fresh `/arc` from the independently recovered S105 boundary: audit live code and all current production gates; implement every premise-verified local and agent-addressable improvement at the highest quality bar; preserve rendered-pixel, security, and exact-runtime evidence; commit and push directly to `main`; and promote/verify production only when the release gate is genuinely green. The founder explicitly authorizes direct commit, push, deployment, and production promotion, but that authorization must not be used to fabricate Zoho, human, payment, or portable runtime evidence.
+
+CANON-055 exemption: S105 recovery and generated closeout metadata had no user-facing surface; S106 separately performs rendered-pixel proof for its prediction-copy change.
+
 ## Session Intent — Session 105 (recovered 2026-08-16)
 
 Complete the live-parity finding left by Session 104, push the exact candidate directly to `main`, deploy and observe stable staging, attach only genuine exact-runtime claims, and promote production only if every independent release gate passes.

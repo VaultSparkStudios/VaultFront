@@ -9,6 +9,7 @@ vi.mock("../../src/server/MatchResultCertificate", () => ({
 }));
 
 import {
+  authorizeCertifiedFortuneAward,
   certificateBindsPersistentIds,
   certifiedWinnerPersistentIds,
   certifyArchivedGame,
@@ -38,6 +39,21 @@ function record(gameID = "game-1") {
 }
 
 describe("CertifiedGameAuthority", () => {
+  it("authorizes only a certified winning participant for Fortune", () => {
+    expect(
+      authorizeCertifiedFortuneAward("game-1", "player-a", record()),
+    ).toEqual({ ok: true, certificateId: "cert-1" });
+    expect(
+      authorizeCertifiedFortuneAward("game-1", "player-b", record()),
+    ).toEqual({ ok: false, reason: "not-winner" });
+    expect(
+      authorizeCertifiedFortuneAward("game-1", "outsider", record()),
+    ).toEqual({ ok: false, reason: "nonparticipant" });
+    expect(
+      authorizeCertifiedFortuneAward("invented", "player-a", record()),
+    ).toEqual({ ok: false, reason: "uncertified-game" });
+  });
+
   it("binds the verified winner and both persistent participants", () => {
     const result = certifyArchivedGame("game-1", record());
     expect("error" in result).toBe(false);

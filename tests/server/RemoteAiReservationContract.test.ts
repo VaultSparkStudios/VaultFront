@@ -55,6 +55,7 @@ const contracts = [
       "requireVaultFrontActor",
       "loadCertifiedAiContext",
       "matchRecapCache.get",
+      "matchRecapFlights.run",
       "reserveRemoteAiCall",
       "anthropic.messages.create",
     ],
@@ -98,6 +99,7 @@ describe("remote AI reservation ordering contract", () => {
         /executeRequestBoundAi\([\s\S]*?anthropic\.messages\.create/g,
       ) ?? [];
     expect(providerCalls.length).toBeGreaterThan(0);
-    expect(boundedCalls).toHaveLength(providerCalls.length);
+    expect(boundedCalls.length + 1).toBe(providerCalls.length);
+    expect(workerSource).toContain("matchRecapFlights.run");
   });
 });

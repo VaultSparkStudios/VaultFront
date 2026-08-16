@@ -1,9 +1,9 @@
 {
   "project": "mobile-chrome",
   "localOnly": true,
-  "capturedAt": "2026-08-16T02:41:59.213Z",
+  "capturedAt": "2026-08-16T05:38:13.598Z",
   "source": {
-    "digest": "sha256:cb4326c2dc0f58f895a92fac31fce83733965da93a67fe5b6a60294940eb8413",
+    "digest": "sha256:62810b38c7403b097e4f9a25845fd9e29d0689e84bbb8b6363f469083cd31b2f",
     "files": [
       {
         "path": "config/vaultfront-balance.v1.json",
@@ -27,8 +27,8 @@
       },
       {
         "path": "src/client/Api.ts",
-        "bytes": 56255,
-        "digest": "sha256:4185ce516d4ddb6416b1ceb0a7ec07ead1969758ac8e5cde439c4e8f8e219c9c"
+        "bytes": 56288,
+        "digest": "sha256:62f743aab6122706b30bacc0df8176972b892cf7bf67bfb1145b8cd84cf26da8"
       },
       {
         "path": "src/client/BrandTheme.ts",
@@ -182,8 +182,8 @@
       },
       {
         "path": "src/client/components/PredictionLeaguePanel.ts",
-        "bytes": 8058,
-        "digest": "sha256:f57db9721500ee51f5530d4aa2d6ce8396575880692ef80b2e059dec4f87a7de"
+        "bytes": 8316,
+        "digest": "sha256:2afb6843b7be68e8728a2b6a1d85c5d4af56375dd13a996546e98d9dd0bf3ffc"
       },
       {
         "path": "src/client/components/ProgressionDebrief.ts",
@@ -387,8 +387,8 @@
       },
       {
         "path": "src/client/graphics/layers/WinModal.ts",
-        "bytes": 74561,
-        "digest": "sha256:ba6c84a3cb35cb74db9d5f9de17f6f23b518f2c77c88377eea9a9c6b2b7b3e20"
+        "bytes": 74771,
+        "digest": "sha256:ccf6143d7120976065a55123bf23c2f0ba9afa7569825e955f1c76fe023177f1"
       },
       {
         "path": "src/client/styles.css",

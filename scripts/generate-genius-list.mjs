@@ -77,7 +77,9 @@ function item({
     score,
     finalScore: score,
     status,
-    blocked: ["blocked", "human-blocked"].includes(status),
+    blocked: ["blocked", "human-blocked", "externally-blocked"].includes(
+      status,
+    ),
     blockedReason,
     recommendedModel,
     command,
@@ -104,7 +106,9 @@ const auditCandidates = (latestAuditInfo?.audit?.items ?? []).map(
         ? "done"
         : rawStatus === "pending"
           ? "unblocked"
-          : rawStatus;
+          : rawStatus === "blocked" || rawStatus === "human-blocked"
+            ? "externally-blocked"
+            : rawStatus;
     return item({
       title: auditItem.title ?? auditItem.slug ?? "Untitled audit item",
       summary: auditItem.why ?? auditItem.summary ?? "Audit-ranked work item.",

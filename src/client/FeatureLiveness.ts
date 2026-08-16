@@ -36,6 +36,20 @@ export const featureLivenessGraph: readonly FeatureLivenessNode[] = [
     journey: "Sign in → Command Center → Season track → claim milestone",
   },
   {
+    id: "fortune",
+    label: "Fortune collection",
+    audience: "player",
+    route: "page-command-center",
+    apis: [
+      "GET /api/vaultfront/fortune-collection/:persistentId",
+      "POST /api/vaultfront/fortune-collection/equip",
+    ],
+    customElement: "fortune-collection-panel",
+    mountSelector: "#page-command-center fortune-collection-panel",
+    journey:
+      "Certified win → Command Center → Fortune collection → equip title",
+  },
+  {
     id: "clans",
     label: "Clans",
     audience: "player",
@@ -77,6 +91,16 @@ export const featureLivenessGraph: readonly FeatureLivenessNode[] = [
   },
 ] as const;
 
+export const shippedFeatureLivenessIds = Object.freeze([
+  "achievements",
+  "season-pass",
+  "fortune",
+  "clans",
+  "tournaments",
+  "achievement-toast",
+  "experiments",
+]);
+
 export function validateFeatureLivenessGraph(
   graph: readonly FeatureLivenessNode[] = featureLivenessGraph,
 ): string[] {
@@ -92,6 +116,9 @@ export function validateFeatureLivenessGraph(
     if (!node.mountSelector.includes(node.customElement))
       errors.push(`${node.id}: mount selector does not name custom element`);
     if (!node.journey.includes("→")) errors.push(`${node.id}: missing journey`);
+  }
+  for (const id of shippedFeatureLivenessIds) {
+    if (!ids.has(id)) errors.push(`shipped feature missing from graph: ${id}`);
   }
   return errors;
 }

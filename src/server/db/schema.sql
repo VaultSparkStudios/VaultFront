@@ -560,9 +560,15 @@ CREATE TABLE IF NOT EXISTS player_fortune (
   item_id       VARCHAR(64)  NOT NULL,
   rarity        VARCHAR(16)  NOT NULL CHECK (rarity IN ('common', 'rare', 'legendary')),
   item_name     VARCHAR(64)  NOT NULL,
+  certificate_id VARCHAR(64),
+  receipt_digest VARCHAR(71),
   drawn_at      TIMESTAMPTZ  NOT NULL DEFAULT NOW(),
   PRIMARY KEY (persistent_id, match_id)
 );
+
+ALTER TABLE player_fortune
+  ADD COLUMN IF NOT EXISTS certificate_id VARCHAR(64),
+  ADD COLUMN IF NOT EXISTS receipt_digest VARCHAR(71);
 
 CREATE INDEX IF NOT EXISTS idx_player_fortune_persistent
   ON player_fortune (persistent_id, drawn_at DESC);

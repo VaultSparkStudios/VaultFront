@@ -1341,24 +1341,31 @@ export class WinModal extends LitElement implements Layer {
   ): Promise<void> {
     const gameId = this.game?.gameID();
     if (!gameId) return;
-    const me = await session.settle(getUserMe(), 2_000, "identity");
-    const persistentId =
-      me && typeof me === "object" && "player" in me
-        ? ((me as { player?: { publicId?: string } }).player?.publicId ?? "")
-        : "";
-    const [fortune, recap] = await Promise.all([
-      session.settle(fetchWinFortune(persistentId, gameId), 4_000, "fortune"),
-      session.settle(
-        fetchMatchRecap(
-          gameId,
-          "unknown",
-          "intercept,convoy,surge",
-          this.matchLengthSeconds,
-        ),
-        4_000,
-        "match-recap",
+    const recapPromise = session.settle(
+      fetchMatchRecap(
+        gameId,
+        "unknown",
+        "intercept,convoy,surge",
+        this.matchLengthSeconds,
       ),
-    ]);
+      4_000,
+      "match-recap",
+    );
+    const fortunePromise = this.isWin
+      ? session.settle(getUserMe(), 2_000, "identity").then((me) => {
+          const persistentId =
+            me && typeof me === "object" && "player" in me
+              ? ((me as { player?: { publicId?: string } }).player?.publicId ??
+                "")
+              : "";
+          return session.settle(
+            fetchWinFortune(persistentId, gameId),
+            4_000,
+            "fortune",
+          );
+        })
+      : Promise.resolve(undefined);
+    const [fortune, recap] = await Promise.all([fortunePromise, recapPromise]);
     session.commit(() => {
       if (fortune) this.fortuneItem = fortune.item;
       if (recap) this.matchRecap = recap;

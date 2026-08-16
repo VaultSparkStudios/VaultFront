@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "capturedAt": "2026-08-16T02:42:00.000Z",
-  "generatedAt": "2026-08-16T02:42:00.000Z",
+  "capturedAt": "2026-08-16T05:38:39.637Z",
+  "generatedAt": "2026-08-16T05:38:39.637Z",
   "scope": "local-only",
   "claimBoundary": "This is local browser evidence, not live staging parity or founder approval.",
   "themes": ["dark", "light", "competitive"],
   "captures": [
     {
       "file": "artifacts/chromium-vaultfront-play.png",
-      "sha256": "fb875f89a2ca11884697e5d9617da70ed055c90cb432fc24ad9be12cb64564e5",
+      "sha256": "265d196ae8050f10a298c5cedd0272bcb989781ef2889d765981d79a77edebc6",
       "page": "play",
       "state": "play",
       "theme": "dark",
@@ -17,7 +17,7 @@
     },
     {
       "file": "artifacts/chromium-vaultfront-stats-showcase.png",
-      "sha256": "56f59ad940634a68c2d411e60acc80d50351957ceac56f497ed98f0ccae53fee",
+      "sha256": "4e4e69f2f93596b2d5c28b6a0f1e4d8dca1bfe5256f5dbf8af1bf44fc29db078",
       "page": "stats-showcase",
       "state": "stats-showcase",
       "theme": "dark",
@@ -44,7 +44,7 @@
     },
     {
       "file": "artifacts/chromium-vaultfront-settings.png",
-      "sha256": "dc09055d89b6d42543e2255c5e70f65a382044f776907c9d25e65741bc399eb3",
+      "sha256": "b6f166a63e82ceafedb1505c6a3950ff4785578423532e551b5417f0aa51562f",
       "page": "settings",
       "state": "settings",
       "theme": "dark",
@@ -62,7 +62,7 @@
     },
     {
       "file": "artifacts/chromium-vaultfront-postmatch.png",
-      "sha256": "7dd62097a57b67f0e7c697ae010749dba279d4bacb10977cfaa4248ec48bb689",
+      "sha256": "f694be0bda1db6bfa0b5483d7993e8675da135891a930a41584a71ea31f98e9e",
       "page": "postmatch",
       "state": "postmatch",
       "theme": "dark",
@@ -98,7 +98,7 @@
     },
     {
       "file": "artifacts/chromium-vaultfront-prediction-league.png",
-      "sha256": "a8871749c24c0b8eea8e7c2562fc5519e0b595f56bbed6017c87e46039570323",
+      "sha256": "3a6e48bb1e330c59590311b349aa45ac0d2175bf919af0c07a460d06f74173eb",
       "page": "prediction-league",
       "state": "prediction-league",
       "theme": "dark",
@@ -179,7 +179,7 @@
     },
     {
       "file": "artifacts/chromium-vaultfront-narrator-certified.png",
-      "sha256": "94a5f3a2f2ad2c606acd3e5d8015259325742f18bba7738ec3d18816c34c3092",
+      "sha256": "a77a95e24cedc52217d48cfea68aa7da8805356b937a4719fd5fc63b86adbbba",
       "page": "narrator-certified",
       "state": "narrator-certified",
       "theme": "dark",
@@ -215,7 +215,7 @@
     },
     {
       "file": "artifacts/chromium-light-play.png",
-      "sha256": "12fa39167864679a2fa3043a9cbe56abe680ea0de758ec6aaaee9ce040d5979c",
+      "sha256": "1388062e5769669c5515134d677ad6294e33dc7511c89e7276e8983191dd4f48",
       "page": "play",
       "state": "play",
       "theme": "light",
@@ -251,7 +251,7 @@
     },
     {
       "file": "artifacts/chromium-light-settings.png",
-      "sha256": "f34ca090edff71fd1a50d37eea2e3b8ad90a42fe6e0dfb72de5461a4713557ce",
+      "sha256": "1ee021b591c2ec76065ba5a236dbaaa6b3a1d57349a864550c9fd7fcd377b1ae",
       "page": "settings",
       "state": "settings",
       "theme": "light",
@@ -305,7 +305,7 @@
     },
     {
       "file": "artifacts/chromium-light-prediction-league.png",
-      "sha256": "f2992058d87dbbbbc9e3f4e7a5a8d7b979457a1f6395fccd78a4d21b7a2cc725",
+      "sha256": "5c0c917ee7c7e585679b16d1df8961f2a53884fd534165eb78856b9f05773fcf",
       "page": "prediction-league",
       "state": "prediction-league",
       "theme": "light",
@@ -386,7 +386,7 @@
     },
     {
       "file": "artifacts/chromium-light-narrator-certified.png",
-      "sha256": "e7542c8f536f5b521ee4bddc373badc7b088420d05db70c9fa6beadf16947642",
+      "sha256": "293d4f2ef6d2f71ae170fe705f105da92faa14b77c16d31a1a5dbd4689084aef",
       "page": "narrator-certified",
       "state": "narrator-certified",
       "theme": "light",
@@ -422,7 +422,7 @@
     },
     {
       "file": "artifacts/chromium-competitive-play.png",
-      "sha256": "f0267eb5ae5d9dc42a7614b00d2068726bd38e719ded661e66d7186057dd80d8",
+      "sha256": "45c075c8045d17947bbaebe48faa259e7652d4248c9120e18d10a7491389868f",
       "page": "play",
       "state": "play",
       "theme": "competitive",
@@ -458,7 +458,7 @@
     },
     {
       "file": "artifacts/chromium-competitive-settings.png",
-      "sha256": "4006fae1b0186cc26f417d721881812b21fc0f37942ce0065d97802102b5437b",
+      "sha256": "2dcc5b526fda166030ba280ff05be6635f9514fcc663ec2cca4be4fc69b1da7c",
       "page": "settings",
       "state": "settings",
       "theme": "competitive",
@@ -512,7 +512,7 @@
     },
     {
       "file": "artifacts/chromium-competitive-prediction-league.png",
-      "sha256": "1a703c1af6d8b7f7b000fe91b7b5fad6b3ffdba878b73ae52d164b828dd46cfc",
+      "sha256": "9edf109c7fe3e8b6817128b69dab65b7d483974cb96cc66fef18b223e8921868",
       "page": "prediction-league",
       "state": "prediction-league",
       "theme": "competitive",
@@ -593,7 +593,7 @@
     },
     {
       "file": "artifacts/chromium-competitive-narrator-certified.png",
-      "sha256": "92ebbaf451b93b43b48aa672a76f1cfc363862bfe916de5f170a929320a15614",
+      "sha256": "c2712707f139e8bd66d5a445900d387ac14273e7b404655a837fb060f0307b43",
       "page": "narrator-certified",
       "state": "narrator-certified",
       "theme": "competitive",
@@ -629,7 +629,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-vaultfront-play.png",
-      "sha256": "9bc467302e84e84402d97871c486759713c7a8c6e17680309c795e292194327f",
+      "sha256": "854d3a3a8d2c4cf23ed3ee4d70a68a1f18457eeb33a01a94d1853b0e18d706f4",
       "page": "play",
       "state": "play",
       "theme": "dark",
@@ -638,7 +638,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-vaultfront-stats-showcase.png",
-      "sha256": "e9399726ade71f6f75e3e5d6571de5b695a629c19362e7a3cc07dccb00207b3b",
+      "sha256": "eb30b1a0dc7bec2232cbae2dbccfb91bb329e025d3865407ad63f5f29461a21c",
       "page": "stats-showcase",
       "state": "stats-showcase",
       "theme": "dark",
@@ -683,7 +683,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-vaultfront-postmatch.png",
-      "sha256": "5ddbeaf501c43e18c373ffeba3285793bf1aeaf566cb4c9b2dc497580724cc71",
+      "sha256": "8bcec88b23ca154ee8c19553769098f09400ece2ea1c6fcc1b617b89c2fc844b",
       "page": "postmatch",
       "state": "postmatch",
       "theme": "dark",
@@ -719,7 +719,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-vaultfront-prediction-league.png",
-      "sha256": "6c5095521a0218de0047657d6ae5ceda2e1f6505b3a38b6c1464070e5445b631",
+      "sha256": "73c831630d65494d45a01fb58dbbd8e08543449ff18f616858de2bf3edd6ba09",
       "page": "prediction-league",
       "state": "prediction-league",
       "theme": "dark",
@@ -836,7 +836,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-light-play.png",
-      "sha256": "760c461d96dac70026885646b719405db12638886dc94ad9f2e32a9aac03c75f",
+      "sha256": "909d0f289b1851aa65f41e709b27cb5dbc395d8e37878d50d8da7fe4ce1ebbbb",
       "page": "play",
       "state": "play",
       "theme": "light",
@@ -845,7 +845,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-light-stats-showcase.png",
-      "sha256": "7d7a5659c3d2095959dbfe473c4495f97c7f9e61dab93cf1788aae3bc3a909a3",
+      "sha256": "ce3e9499c7b2e94705c7c91d7566c784d6aff4456b152ab9fc8b1daecb7542f2",
       "page": "stats-showcase",
       "state": "stats-showcase",
       "theme": "light",
@@ -926,7 +926,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-light-prediction-league.png",
-      "sha256": "94c7214a2bc83652ae8bf4b556874f5acdd69bcdb2c81cedd9ad5b76d4f584df",
+      "sha256": "5249b0b3c9394b3054b588288e5c5b28aa73ba3ff584680612e97d889117dad7",
       "page": "prediction-league",
       "state": "prediction-league",
       "theme": "light",
@@ -1043,7 +1043,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-competitive-play.png",
-      "sha256": "355aa095d2b7593573d780f27403d44083a3a9cbd198585fec3546694ec83bc7",
+      "sha256": "7a2ab96d8d7126e4d5b5fc937770948e893182df0a50c004a292a65bca3b2327",
       "page": "play",
       "state": "play",
       "theme": "competitive",
@@ -1133,7 +1133,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-competitive-prediction-league.png",
-      "sha256": "db85f0fd64bc32a5966192739d316419c4a69630450a2e54728a8be7f264598a",
+      "sha256": "7589d579b589fb31fff0828c122f7b46e8fe59b60d1c3d20c6760e7bdd2f2094",
       "page": "prediction-league",
       "state": "prediction-league",
       "theme": "competitive",
@@ -1262,14 +1262,14 @@
   },
   "comparisonBase": {
     "source": "git:HEAD:docs/visual-qa/LATEST.json",
-    "gitRevision": "eca7d1e75485b2d7949a0ebac7275319bf1a47af",
-    "capturedAt": "2026-08-16T02:27:50.413Z",
-    "sourceDigest": "sha256:69d5bb2065f3ec87a0873938d8ef4015fea6315f7885de706f821f5112a57754"
+    "gitRevision": "bd0b64667de9b6eef50b30fb0b9e0690e56ba4de",
+    "capturedAt": "2026-08-16T02:42:00.000Z",
+    "sourceDigest": "sha256:cb4326c2dc0f58f895a92fac31fce83733965da93a67fe5b6a60294940eb8413"
   },
   "source": {
-    "gitRevision": "bd0b64667de9b6eef50b30fb0b9e0690e56ba4de",
+    "gitRevision": "e055cc3121d3024bb423cf102d2f1588fed5a74f",
     "dirty": true,
-    "digest": "sha256:cb4326c2dc0f58f895a92fac31fce83733965da93a67fe5b6a60294940eb8413",
+    "digest": "sha256:62810b38c7403b097e4f9a25845fd9e29d0689e84bbb8b6363f469083cd31b2f",
     "files": [
       {
         "path": "config/vaultfront-balance.v1.json",
@@ -1293,8 +1293,8 @@
       },
       {
         "path": "src/client/Api.ts",
-        "bytes": 56255,
-        "digest": "sha256:4185ce516d4ddb6416b1ceb0a7ec07ead1969758ac8e5cde439c4e8f8e219c9c"
+        "bytes": 56288,
+        "digest": "sha256:62f743aab6122706b30bacc0df8176972b892cf7bf67bfb1145b8cd84cf26da8"
       },
       {
         "path": "src/client/BrandTheme.ts",
@@ -1448,8 +1448,8 @@
       },
       {
         "path": "src/client/components/PredictionLeaguePanel.ts",
-        "bytes": 8058,
-        "digest": "sha256:f57db9721500ee51f5530d4aa2d6ce8396575880692ef80b2e059dec4f87a7de"
+        "bytes": 8316,
+        "digest": "sha256:2afb6843b7be68e8728a2b6a1d85c5d4af56375dd13a996546e98d9dd0bf3ffc"
       },
       {
         "path": "src/client/components/ProgressionDebrief.ts",
@@ -1653,8 +1653,8 @@
       },
       {
         "path": "src/client/graphics/layers/WinModal.ts",
-        "bytes": 74561,
-        "digest": "sha256:ba6c84a3cb35cb74db9d5f9de17f6f23b518f2c77c88377eea9a9c6b2b7b3e20"
+        "bytes": 74771,
+        "digest": "sha256:ccf6143d7120976065a55123bf23c2f0ba9afa7569825e955f1c76fe023177f1"
       },
       {
         "path": "src/client/styles.css",
@@ -1743,12 +1743,12 @@
       {
         "path": "docs/visual-qa/summaries/theme-proof-chromium.json",
         "bytes": 48861,
-        "digest": "sha256:074434de4d208d418bf15864e946cc34cc6ea5401ede79e9620709d26b9aeca5"
+        "digest": "sha256:4776115e423a4424e35af9813c5c5be23174b2334d2a86c8178efd9e6378342e"
       },
       {
         "path": "docs/visual-qa/summaries/theme-proof-mobile-chrome.json",
         "bytes": 48857,
-        "digest": "sha256:5deaf76c24708c2d130b1fa008dde90e91b3e32041b4fce380483ff9066eff11"
+        "digest": "sha256:5a432524cc23b31cfb22c0cd73b63dbf1d4368c377ed90c32b8df20f91110b31"
       }
     ],
     "artifacts": [
@@ -1757,8 +1757,8 @@
         "theme": "vaultfront",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-play.png",
-        "bytes": 536499,
-        "digest": "sha256:fb875f89a2ca11884697e5d9617da70ed055c90cb432fc24ad9be12cb64564e5"
+        "bytes": 536201,
+        "digest": "sha256:265d196ae8050f10a298c5cedd0272bcb989781ef2889d765981d79a77edebc6"
       },
       {
         "project": "chromium",
@@ -1766,7 +1766,7 @@
         "surface": "stats-showcase",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-stats-showcase.png",
         "bytes": 85602,
-        "digest": "sha256:56f59ad940634a68c2d411e60acc80d50351957ceac56f497ed98f0ccae53fee"
+        "digest": "sha256:4e4e69f2f93596b2d5c28b6a0f1e4d8dca1bfe5256f5dbf8af1bf44fc29db078"
       },
       {
         "project": "chromium",
@@ -1789,8 +1789,8 @@
         "theme": "vaultfront",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-settings.png",
-        "bytes": 360259,
-        "digest": "sha256:dc09055d89b6d42543e2255c5e70f65a382044f776907c9d25e65741bc399eb3"
+        "bytes": 360268,
+        "digest": "sha256:b6f166a63e82ceafedb1505c6a3950ff4785578423532e551b5417f0aa51562f"
       },
       {
         "project": "chromium",
@@ -1805,8 +1805,8 @@
         "theme": "vaultfront",
         "surface": "postmatch",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-postmatch.png",
-        "bytes": 59160,
-        "digest": "sha256:7dd62097a57b67f0e7c697ae010749dba279d4bacb10977cfaa4248ec48bb689"
+        "bytes": 59186,
+        "digest": "sha256:f694be0bda1db6bfa0b5483d7993e8675da135891a930a41584a71ea31f98e9e"
       },
       {
         "project": "chromium",
@@ -1837,8 +1837,8 @@
         "theme": "vaultfront",
         "surface": "prediction-league",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-prediction-league.png",
-        "bytes": 50291,
-        "digest": "sha256:a8871749c24c0b8eea8e7c2562fc5519e0b595f56bbed6017c87e46039570323"
+        "bytes": 63749,
+        "digest": "sha256:3a6e48bb1e330c59590311b349aa45ac0d2175bf919af0c07a460d06f74173eb"
       },
       {
         "project": "chromium",
@@ -1909,8 +1909,8 @@
         "theme": "vaultfront",
         "surface": "narrator-certified",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-narrator-certified.png",
-        "bytes": 73684,
-        "digest": "sha256:94a5f3a2f2ad2c606acd3e5d8015259325742f18bba7738ec3d18816c34c3092"
+        "bytes": 73512,
+        "digest": "sha256:a77a95e24cedc52217d48cfea68aa7da8805356b937a4719fd5fc63b86adbbba"
       },
       {
         "project": "chromium",
@@ -1941,8 +1941,8 @@
         "theme": "light",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/chromium-light-play.png",
-        "bytes": 504549,
-        "digest": "sha256:12fa39167864679a2fa3043a9cbe56abe680ea0de758ec6aaaee9ce040d5979c"
+        "bytes": 504417,
+        "digest": "sha256:1388062e5769669c5515134d677ad6294e33dc7511c89e7276e8983191dd4f48"
       },
       {
         "project": "chromium",
@@ -1973,8 +1973,8 @@
         "theme": "light",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/chromium-light-settings.png",
-        "bytes": 297780,
-        "digest": "sha256:f34ca090edff71fd1a50d37eea2e3b8ad90a42fe6e0dfb72de5461a4713557ce"
+        "bytes": 297742,
+        "digest": "sha256:1ee021b591c2ec76065ba5a236dbaaa6b3a1d57349a864550c9fd7fcd377b1ae"
       },
       {
         "project": "chromium",
@@ -2021,8 +2021,8 @@
         "theme": "light",
         "surface": "prediction-league",
         "path": "docs/visual-qa/artifacts/chromium-light-prediction-league.png",
-        "bytes": 58704,
-        "digest": "sha256:f2992058d87dbbbbc9e3f4e7a5a8d7b979457a1f6395fccd78a4d21b7a2cc725"
+        "bytes": 73071,
+        "digest": "sha256:5c0c917ee7c7e585679b16d1df8961f2a53884fd534165eb78856b9f05773fcf"
       },
       {
         "project": "chromium",
@@ -2093,8 +2093,8 @@
         "theme": "light",
         "surface": "narrator-certified",
         "path": "docs/visual-qa/artifacts/chromium-light-narrator-certified.png",
-        "bytes": 70755,
-        "digest": "sha256:e7542c8f536f5b521ee4bddc373badc7b088420d05db70c9fa6beadf16947642"
+        "bytes": 70888,
+        "digest": "sha256:293d4f2ef6d2f71ae170fe705f105da92faa14b77c16d31a1a5dbd4689084aef"
       },
       {
         "project": "chromium",
@@ -2125,8 +2125,8 @@
         "theme": "competitive",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/chromium-competitive-play.png",
-        "bytes": 536274,
-        "digest": "sha256:f0267eb5ae5d9dc42a7614b00d2068726bd38e719ded661e66d7186057dd80d8"
+        "bytes": 536295,
+        "digest": "sha256:45c075c8045d17947bbaebe48faa259e7652d4248c9120e18d10a7491389868f"
       },
       {
         "project": "chromium",
@@ -2157,8 +2157,8 @@
         "theme": "competitive",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/chromium-competitive-settings.png",
-        "bytes": 337105,
-        "digest": "sha256:4006fae1b0186cc26f417d721881812b21fc0f37942ce0065d97802102b5437b"
+        "bytes": 336864,
+        "digest": "sha256:2dcc5b526fda166030ba280ff05be6635f9514fcc663ec2cca4be4fc69b1da7c"
       },
       {
         "project": "chromium",
@@ -2205,8 +2205,8 @@
         "theme": "competitive",
         "surface": "prediction-league",
         "path": "docs/visual-qa/artifacts/chromium-competitive-prediction-league.png",
-        "bytes": 50576,
-        "digest": "sha256:1a703c1af6d8b7f7b000fe91b7b5fad6b3ffdba878b73ae52d164b828dd46cfc"
+        "bytes": 63999,
+        "digest": "sha256:9edf109c7fe3e8b6817128b69dab65b7d483974cb96cc66fef18b223e8921868"
       },
       {
         "project": "chromium",
@@ -2277,8 +2277,8 @@
         "theme": "competitive",
         "surface": "narrator-certified",
         "path": "docs/visual-qa/artifacts/chromium-competitive-narrator-certified.png",
-        "bytes": 74942,
-        "digest": "sha256:92ebbaf451b93b43b48aa672a76f1cfc363862bfe916de5f170a929320a15614"
+        "bytes": 75025,
+        "digest": "sha256:c2712707f139e8bd66d5a445900d387ac14273e7b404655a837fb060f0307b43"
       },
       {
         "project": "chromium",
@@ -2309,16 +2309,16 @@
         "theme": "vaultfront",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-play.png",
-        "bytes": 722526,
-        "digest": "sha256:9bc467302e84e84402d97871c486759713c7a8c6e17680309c795e292194327f"
+        "bytes": 731169,
+        "digest": "sha256:854d3a3a8d2c4cf23ed3ee4d70a68a1f18457eeb33a01a94d1853b0e18d706f4"
       },
       {
         "project": "mobile-chrome",
         "theme": "vaultfront",
         "surface": "stats-showcase",
         "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-stats-showcase.png",
-        "bytes": 259284,
-        "digest": "sha256:e9399726ade71f6f75e3e5d6571de5b695a629c19362e7a3cc07dccb00207b3b"
+        "bytes": 259113,
+        "digest": "sha256:eb30b1a0dc7bec2232cbae2dbccfb91bb329e025d3865407ad63f5f29461a21c"
       },
       {
         "project": "mobile-chrome",
@@ -2357,8 +2357,8 @@
         "theme": "vaultfront",
         "surface": "postmatch",
         "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-postmatch.png",
-        "bytes": 263983,
-        "digest": "sha256:5ddbeaf501c43e18c373ffeba3285793bf1aeaf566cb4c9b2dc497580724cc71"
+        "bytes": 263957,
+        "digest": "sha256:8bcec88b23ca154ee8c19553769098f09400ece2ea1c6fcc1b617b89c2fc844b"
       },
       {
         "project": "mobile-chrome",
@@ -2389,8 +2389,8 @@
         "theme": "vaultfront",
         "surface": "prediction-league",
         "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-prediction-league.png",
-        "bytes": 210170,
-        "digest": "sha256:6c5095521a0218de0047657d6ae5ceda2e1f6505b3a38b6c1464070e5445b631"
+        "bytes": 247551,
+        "digest": "sha256:73c831630d65494d45a01fb58dbbd8e08543449ff18f616858de2bf3edd6ba09"
       },
       {
         "project": "mobile-chrome",
@@ -2493,16 +2493,16 @@
         "theme": "light",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/mobile-chrome-light-play.png",
-        "bytes": 690949,
-        "digest": "sha256:760c461d96dac70026885646b719405db12638886dc94ad9f2e32a9aac03c75f"
+        "bytes": 691283,
+        "digest": "sha256:909d0f289b1851aa65f41e709b27cb5dbc395d8e37878d50d8da7fe4ce1ebbbb"
       },
       {
         "project": "mobile-chrome",
         "theme": "light",
         "surface": "stats-showcase",
         "path": "docs/visual-qa/artifacts/mobile-chrome-light-stats-showcase.png",
-        "bytes": 244419,
-        "digest": "sha256:7d7a5659c3d2095959dbfe473c4495f97c7f9e61dab93cf1788aae3bc3a909a3"
+        "bytes": 244440,
+        "digest": "sha256:ce3e9499c7b2e94705c7c91d7566c784d6aff4456b152ab9fc8b1daecb7542f2"
       },
       {
         "project": "mobile-chrome",
@@ -2573,8 +2573,8 @@
         "theme": "light",
         "surface": "prediction-league",
         "path": "docs/visual-qa/artifacts/mobile-chrome-light-prediction-league.png",
-        "bytes": 238286,
-        "digest": "sha256:94c7214a2bc83652ae8bf4b556874f5acdd69bcdb2c81cedd9ad5b76d4f584df"
+        "bytes": 278004,
+        "digest": "sha256:5249b0b3c9394b3054b588288e5c5b28aa73ba3ff584680612e97d889117dad7"
       },
       {
         "project": "mobile-chrome",
@@ -2677,8 +2677,8 @@
         "theme": "competitive",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-play.png",
-        "bytes": 700084,
-        "digest": "sha256:355aa095d2b7593573d780f27403d44083a3a9cbd198585fec3546694ec83bc7"
+        "bytes": 722612,
+        "digest": "sha256:7a2ab96d8d7126e4d5b5fc937770948e893182df0a50c004a292a65bca3b2327"
       },
       {
         "project": "mobile-chrome",
@@ -2757,8 +2757,8 @@
         "theme": "competitive",
         "surface": "prediction-league",
         "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-prediction-league.png",
-        "bytes": 212259,
-        "digest": "sha256:db85f0fd64bc32a5966192739d316419c4a69630450a2e54728a8be7f264598a"
+        "bytes": 250619,
+        "digest": "sha256:7589d579b589fb31fff0828c122f7b46e8fe59b60d1c3d20c6760e7bdd2f2094"
       },
       {
         "project": "mobile-chrome",
@@ -2862,9 +2862,9 @@
     {
       "project": "chromium",
       "localOnly": true,
-      "capturedAt": "2026-08-16T02:41:45.799Z",
+      "capturedAt": "2026-08-16T05:38:08.151Z",
       "source": {
-        "digest": "sha256:cb4326c2dc0f58f895a92fac31fce83733965da93a67fe5b6a60294940eb8413",
+        "digest": "sha256:62810b38c7403b097e4f9a25845fd9e29d0689e84bbb8b6363f469083cd31b2f",
         "files": [
           {
             "path": "config/vaultfront-balance.v1.json",
@@ -2888,8 +2888,8 @@
           },
           {
             "path": "src/client/Api.ts",
-            "bytes": 56255,
-            "digest": "sha256:4185ce516d4ddb6416b1ceb0a7ec07ead1969758ac8e5cde439c4e8f8e219c9c"
+            "bytes": 56288,
+            "digest": "sha256:62f743aab6122706b30bacc0df8176972b892cf7bf67bfb1145b8cd84cf26da8"
           },
           {
             "path": "src/client/BrandTheme.ts",
@@ -3043,8 +3043,8 @@
           },
           {
             "path": "src/client/components/PredictionLeaguePanel.ts",
-            "bytes": 8058,
-            "digest": "sha256:f57db9721500ee51f5530d4aa2d6ce8396575880692ef80b2e059dec4f87a7de"
+            "bytes": 8316,
+            "digest": "sha256:2afb6843b7be68e8728a2b6a1d85c5d4af56375dd13a996546e98d9dd0bf3ffc"
           },
           {
             "path": "src/client/components/ProgressionDebrief.ts",
@@ -3248,8 +3248,8 @@
           },
           {
             "path": "src/client/graphics/layers/WinModal.ts",
-            "bytes": 74561,
-            "digest": "sha256:ba6c84a3cb35cb74db9d5f9de17f6f23b518f2c77c88377eea9a9c6b2b7b3e20"
+            "bytes": 74771,
+            "digest": "sha256:ccf6143d7120976065a55123bf23c2f0ba9afa7569825e955f1c76fe023177f1"
           },
           {
             "path": "src/client/styles.css",
@@ -4023,9 +4023,9 @@
     {
       "project": "mobile-chrome",
       "localOnly": true,
-      "capturedAt": "2026-08-16T02:41:59.213Z",
+      "capturedAt": "2026-08-16T05:38:13.598Z",
       "source": {
-        "digest": "sha256:cb4326c2dc0f58f895a92fac31fce83733965da93a67fe5b6a60294940eb8413",
+        "digest": "sha256:62810b38c7403b097e4f9a25845fd9e29d0689e84bbb8b6363f469083cd31b2f",
         "files": [
           {
             "path": "config/vaultfront-balance.v1.json",
@@ -4049,8 +4049,8 @@
           },
           {
             "path": "src/client/Api.ts",
-            "bytes": 56255,
-            "digest": "sha256:4185ce516d4ddb6416b1ceb0a7ec07ead1969758ac8e5cde439c4e8f8e219c9c"
+            "bytes": 56288,
+            "digest": "sha256:62f743aab6122706b30bacc0df8176972b892cf7bf67bfb1145b8cd84cf26da8"
           },
           {
             "path": "src/client/BrandTheme.ts",
@@ -4204,8 +4204,8 @@
           },
           {
             "path": "src/client/components/PredictionLeaguePanel.ts",
-            "bytes": 8058,
-            "digest": "sha256:f57db9721500ee51f5530d4aa2d6ce8396575880692ef80b2e059dec4f87a7de"
+            "bytes": 8316,
+            "digest": "sha256:2afb6843b7be68e8728a2b6a1d85c5d4af56375dd13a996546e98d9dd0bf3ffc"
           },
           {
             "path": "src/client/components/ProgressionDebrief.ts",
@@ -4409,8 +4409,8 @@
           },
           {
             "path": "src/client/graphics/layers/WinModal.ts",
-            "bytes": 74561,
-            "digest": "sha256:ba6c84a3cb35cb74db9d5f9de17f6f23b518f2c77c88377eea9a9c6b2b7b3e20"
+            "bytes": 74771,
+            "digest": "sha256:ccf6143d7120976065a55123bf23c2f0ba9afa7569825e955f1c76fe023177f1"
           },
           {
             "path": "src/client/styles.css",

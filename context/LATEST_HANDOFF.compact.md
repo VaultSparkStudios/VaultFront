@@ -1,54 +1,46 @@
 <!-- generated-by: scripts/compact-handoff.mjs v3.1 -->
-<!-- source-hash: f8c66f3a75c4 -->
-<!-- generated-at: 2026-08-14T22:54:40.567Z -->
+<!-- source-hash: 3403c38d593a -->
+<!-- generated-at: 2026-08-16T04:52:03.463Z -->
 
 # LATEST_HANDOFF (compact)
 
-SESSION HANDOFF — Session 104 (2026-08-14)
+SESSION 105 RECOVERY CLOSEOUT
 
-Shipped
+Session: 105 (recovered 2026-08-16)
+Intent: Complete live-parity finding, push candidate to main, deploy to staging, verify stable, promote production only if all release gates pass.
 
-- Audit items 220–223: runtime release evidence signed, exact-image-bound, purpose-scoped, read-only, fail-closed. Master uses durable Alpha evidence; startup selects latest provider receipt; Stripe owns live-revenue truth.
-- Ark: pattern, secrets question, impact summary signed and shipped.
+SHIPPED
 
-Verification (green)
+- Audit item 224 complete
+- Landing geometry stable, cold-shell latency warmed
+- Parity receipts retain element/network/layout diagnostics
+- Nine commits on origin/main
 
-- 282 files / 1,473 tests with coverage; typecheck, lint, format, prod build.
-- 28,125 balance scenarios, bundle/contracts, deploy contract 166 checks, E2E 30/30, CANON-053 138-capture validation.
-- Provider commit 715a223d passed CI/E2E/Release.
+EXACT STAGING CANDIDATE
 
-Deploy state
+- Commit: a1c861b0fb872d56859a67c3da7a8aa82f5f60ca
+- Image: sha256:b4aefb23f84e5d4b6bf3245224a1f54bdef4e4ac9ac15bada4c339afe1b224d6
+- CI pass 31922598710, E2E 31922598682, Release 31922598764, Deploy 31922760549
+- Live observation 31922854694: 9 theme/viewport cells, worst LCP 1,424ms, INP 152ms, CLS 0.0066
+- Rollback 31923970973 verified in 31,561ms
+- 2/2 workers healthy
 
-- Staging deploy 31783247576 healthy, image sha256:7b74f276...585fc; readiness admitted signed staging/health/Obelisk claims.
-- Product smoke sha256:0d28e601...d00ff; attestation sha256:4b28de65...9dd3cd.
-- Rollback drills validated (31787165044 dry-run, 31787212414 observed); restored 715a223d, receipt sha256:50cae6b7...327c8.
+VERIFICATION
 
-Current intent
+- 21 files / 93 assertions all pass (regression, contracts, build, balance, format, doctor)
+- Provider CI green
+- Local aggregate not claimed green; orphan process trees identified and stopped
 
-- Complete /arc, implement verified findings, commit/push to main, deploy exact candidate, promote production only if all independent gates green.
+NOW BUCKET (TOP 3)
 
-Now (top 3)
+- Mint founder approval through project authority only
+- Run fresh audit against live code and external gate state
+- Promote production only after observations verified genuine
 
-- Collect Zoho/DNS observation to clear red gate.
-- Verify three authenticated humans and a real positive payment.
-- Establish exact-live parity (capture previously hung, no report).
+BLOCKERS (TOP 3)
 
-Blockers (top 3)
+- Production unavailable; Zoho send/receive/reply-as integration required
+- Three authenticated human Alpha sessions required
+- Portable purpose-scoped founder approval required
 
-- Production HTTP 503 / NO-GO.
-- Parity capture hung, produced no report; prior-revision metrics not reusable.
-- Live-revenue and human-auth gates unproven.
-
-Human-blocked (age: current session)
-
-- Zoho/DNS configuration.
-- Three authenticated human sign-ins.
-- One real positive payment.
-
-Game review
-
-- Loop Tightness 92, Progression 85, Session Engagement 72, Retention Hooks 68, Soul Fidelity N/A. No loop timing tuned without human evidence.
-
-Next session
-
-- Gather Zoho, human, payment, parity observations; rerun /app-release-gate; promote immutable digest only if all gates pass.
+Next session: S106 — begin fresh audit and gate verification before production promotion.
