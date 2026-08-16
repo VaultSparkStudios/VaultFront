@@ -306,6 +306,70 @@ describe("ServerAuthoritativeProgressionSpine", () => {
     expect(recordMatch).not.toHaveBeenCalled();
   });
 
+  test("uses a zero delta when progression storage returns no snapshots", async () => {
+    const getPlayerStats = vi.fn().mockResolvedValue(null);
+    const spine = new ServerAuthoritativeProgressionSpine({
+      recordMatch: vi.fn().mockResolvedValue(undefined),
+      getPlayerStats,
+      checkAndUnlock: vi.fn().mockResolvedValue([]),
+      recordSeasonPass: vi.fn().mockResolvedValue(null),
+      resolvePrediction: vi.fn().mockResolvedValue({
+        gameId: "missing-stats",
+        actualOutcome: "delivery",
+        resolvedPredictions: 0,
+        durability: "process-local",
+      }),
+      recordDailyMastery: vi.fn().mockResolvedValue(null),
+      recordSeasonContracts: vi.fn().mockResolvedValue(null),
+      recordLoopEvidence: vi.fn().mockResolvedValue(null),
+      recordCertifiedOutcomes: vi.fn().mockResolvedValue(null),
+      loadReceipt: vi.fn().mockResolvedValue(null),
+      persistReceipt: vi.fn().mockResolvedValue(undefined),
+      receiptDurability: () => "process-local",
+    });
+
+    const receipt = await spine.record({
+      gameId: "missing-stats",
+      durationSeconds: 120,
+      mapName: "plains",
+      seasonId: "week-30",
+      onMutator: false,
+      turnIntervalMs: 100,
+      intentFunnel: { early: {}, mid: {}, late: {} },
+      players: [
+        {
+          persistentId: "p1",
+          displayName: "Player",
+          won: true,
+          vaultCaptures: 0,
+          convoyDeliveries: 0,
+          convoyIntercepts: 0,
+          convoysLost: 0,
+          executionChains: 0,
+          surgeActivations: 0,
+        },
+      ],
+    });
+
+    expect(getPlayerStats).toHaveBeenCalledTimes(2);
+    expect(receipt.players).toEqual([
+      expect.objectContaining({
+        persistentId: "p1",
+        before: null,
+        after: null,
+        delta: {
+          eloRating: 0,
+          matchesPlayed: 0,
+          wins: 0,
+          losses: 0,
+          vaultCaptures: 0,
+          convoyDeliveries: 0,
+          executionChains: 0,
+        },
+      }),
+    ]);
+  });
+
   test("coalesces concurrent envelopes and releases a failed fan-out for retry", async () => {
     let releaseFirst!: () => void;
     const firstGate = new Promise<void>((resolve) => {
