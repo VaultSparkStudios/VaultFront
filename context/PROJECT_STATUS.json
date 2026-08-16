@@ -177,7 +177,7 @@
     "imageDigest": "sha256:6c0cd340a8f9ee464b09a1326826c55b0b7d8c897e610a89898a3891985fa937",
     "productSmokeDigest": "sha256:fa863aea6429c5ac945d82a26690b94ac67ddd183f1d39d15ada0171576dcc16",
     "stagingAttestationDigest": "sha256:562f3a4c10f98a218362cd1825de582db0986c3cc634a89e4485cede08e6a4f0",
-    "rollbackReceiptDigest": "sha256:b0db86daa646b1b8c2114002d9219a15b25dcc7eb2ceb9017424b41921502d79",
+    "rollbackReceiptDigest": "sha256:30c9f542bf088927fe9972f213f26f2f568d7bbe04fbbcd44d2997b8e3cd7f1b",
     "note": "The exact implementation image is live on stable staging and restored after an observed rollback. Later main commits are evidence/closeout-only and are not mislabeled as the deployed SHA."
   },
   "dependencyAudit": {

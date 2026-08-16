@@ -6,7 +6,7 @@
 
 - Work truth: `docs/AUDIT_2026-08-16.json` records eight shipped local findings (225–232) and five independent externally observed gates (233–237); blocked evidence is not converted into code-shaped green.
 - Verification truth: four bounded canonical shards pass 288 files / 1,501 assertions. TypeScript, lint, format, production build, 28,125 balance scenarios, 166 deploy checks, and project doctor pass.
-- Pixel truth: 138 hash-bound captures cover three themes and desktop/mobile at source digest `sha256:62810b38d44d2afe413eaf40accdb7ea47c341301c0565471378dfe9927f1b2f`; the touched prediction states were directly inspected.
+- Pixel truth: 138 hash-bound captures cover three themes and desktop/mobile at source digest `sha256:62810b38c7403b097e4f9a25845fd9e29d0689e84bbb8b6363f469083cd31b2f`; the touched prediction states were directly inspected.
 - Provider truth: exact revision `6398ff2abce57deced8ddd78e0b4e784514518a9` passed CI `31932241126`, E2E `31932241144`, Release `31932241143`, and staging deploy `31932526593` at image `sha256:6c0cd340a8f9ee464b09a1326826c55b0b7d8c897e610a89898a3891985fa937`.
 - Observation truth: run `31932651393` admitted exact staging parity plus live theme/footer evidence. Rollback run `31932798320` observed rollback and restored the exact candidate healthy with 2/2 workers.
 - Identity truth: unauthenticated Obelisk corridor smoke no longer mints a pass. No complete authenticated relying-party journey is observed.
