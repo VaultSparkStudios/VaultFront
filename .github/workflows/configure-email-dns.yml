@@ -1,0 +1,49 @@
+name: Configure email DNS
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "Plan or apply the bounded VaultFront Brevo DNS records"
+        required: true
+        default: plan
+        type: choice
+        options:
+          - plan
+          - apply
+
+permissions:
+  contents: read
+
+jobs:
+  email-dns:
+    name: ${{ inputs.mode == 'apply' && 'Apply email DNS' || 'Plan email DNS' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    environment: production
+    env:
+      BREVO_DOMAIN_CODE: ${{ vars.BREVO_DOMAIN_CODE }}
+      CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+      DOMAIN: ${{ vars.DOMAIN || 'vaultfront.io' }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Configure bounded email DNS
+        env:
+          APPLY: ${{ inputs.mode == 'apply' && '1' || '0' }}
+        run: |
+          set -euo pipefail
+          if [[ "$APPLY" == "1" ]]; then
+            node scripts/configure-email-dns.mjs --apply
+          else
+            node scripts/configure-email-dns.mjs
+          fi
+
+      - name: Upload email DNS receipt
+        if: ${{ always() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: email-dns-${{ github.run_id }}
+          path: .cache/release-evidence/email-dns-receipt.json
+          if-no-files-found: error
+          retention-days: 90
