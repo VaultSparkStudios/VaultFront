@@ -1,3 +1,13 @@
+## Session 106 closeout — certified rewards and release admission (2026-08-16)
+
+Session 106 shipped all eight agent-addressable audit findings. Fortune rewards now require an authoritative certified victory, await an idempotent durable write, and return a certificate-bound receipt. Match recaps authorize per participant but cache and coalesce per certified match. Prediction League copy and resolution share one whole-match contract, Fortune is present in bidirectional liveness proof, health evidence follows the bounded 24-hour release window, and unsigned static observations remain diagnostic only.
+
+Production promotion now performs exact canonical release admission before any registry login or runtime mutation. The unauthenticated Obelisk redirect/401 corridor no longer mints identity evidence. Exact revision `6398ff2abce57deced8ddd78e0b4e784514518a9` passed CI `31932241126`, E2E `31932241144`, Release `31932241143`, database migration `31930912548`, and staging deploy `31932526593` at immutable image `sha256:6c0cd340a8f9ee464b09a1326826c55b0b7d8c897e610a89898a3891985fa937`. Observation `31932651393` passed nine live theme/viewport cells, theme/footer admission, and exact staging parity; rollback drill `31932798320` restored the candidate healthy with 2/2 workers.
+
+Verification passes 288 files / 1,501 assertions across four bounded canonical shards, TypeScript, ESLint, formatting, production build, 28,125 balance scenarios, 166 deploy-contract checks, and project doctor with `blockingFailing: 0`. Rendered-pixel proof covers 138 hash-bound artifacts across three themes and desktop/mobile at source digest `sha256:62810b38d44d2afe413eaf40accdb7ea47c341301c0565471378dfe9927f1b2f`.
+
+Production remains HTTP 503 / NO-GO. Canonical admission rejects contactEmail, obeliskIdentity, revenueObservation, founderApproval, and alphaHumanEvidence; none is inferred from the founder's session authorization or healthy staging.
+
 ## Session 105 recovery — exact-live parity and rollback admission (2026-08-16)
 
 Session 105 completed its implementation and staging-observation work on `main` but ended before canonical closeout. Recovery found nine substantive commits after the Session 104 Self-Improvement Loop anchor, with local `main` exactly synchronized to `origin/main`; no uncommitted product implementation was recovered or re-created.

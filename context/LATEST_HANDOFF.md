@@ -4,6 +4,15 @@ Run the complete fresh `/arc` from the independently recovered S105 boundary: au
 
 CANON-055 exemption: S105 recovery and generated closeout metadata had no user-facing surface; S106 separately performs rendered-pixel proof for its prediction-copy change.
 
+## Where We Left Off — Session 106 closeout (2026-08-16)
+
+- Implementation: audit items 225–232 are shipped. Certified Fortune rewards, canonical pre-mutation promotion admission, truthful Obelisk evidence, requester-neutral recap singleflight, shared prediction rules, Fortune liveness, health freshness, and static-evidence authority boundaries are complete.
+- Exact revision: `6398ff2abce57deced8ddd78e0b4e784514518a9` passed CI `31932241126`, E2E `31932241144`, Release `31932241143`, and the applicable database migration `31930912548`.
+- Staging: run `31932526593` deployed immutable image `sha256:6c0cd340a8f9ee464b09a1326826c55b0b7d8c897e610a89898a3891985fa937`; `/commit.txt` is exact and health is 2/2. Observation `31932651393` and rollback `31932798320` are green.
+- Verification: four canonical shards pass 288 files / 1,501 assertions; typecheck, lint, format, build, balance, 166 deploy checks, doctor, and security scans pass. Visual proof covers 138 source-bound captures across three themes and desktop/mobile.
+- Release: canonical release admission is NO-GO on five gates—Zoho reply identity, authenticated Obelisk journey, genuine human Alpha evidence, positive live revenue, and portable exact-artifact founder approval. Production was not mutated and remains HTTP 503.
+- Next: satisfy those five external observations through their trusted authorities, refresh exact evidence if it expires, rerun release admission, and promote only when the canonical result is all green.
+
 ## Session Intent — Session 105 (recovered 2026-08-16)
 
 Complete the live-parity finding left by Session 104, push the exact candidate directly to `main`, deploy and observe stable staging, attach only genuine exact-runtime claims, and promote production only if every independent release gate passes.

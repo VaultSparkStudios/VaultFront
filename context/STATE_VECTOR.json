@@ -1,22 +1,22 @@
 {
   "vectorVersion": "1.0",
   "generatedAt": "2026-08-16",
-  "generatedAtMs": 1786855488414,
-  "session": 105,
-  "vectorHash": "cda9d48158adfda6",
+  "generatedAtMs": 1786867583664,
+  "session": 106,
+  "vectorHash": "1648d3066b76b589",
   "silTotal": 996,
   "silAvg3": 995.3,
-  "velocity": 1,
+  "velocity": 8,
   "debt": "down",
   "runway": "unknown",
   "intentRate": "100%",
-  "openNow": 3,
+  "openNow": 4,
   "openNext": 6,
   "openBlocked": 0,
   "topNow": [
-    "[SIL:1] Make bounded Vitest execution own and reap its verified descendant proce",
     "Verify `contact@vaultfront.io` end-to-end through the project-domain Zoho alias:",
-    "Collect at least three distinct authenticated human Alpha sessions and one real "
+    "Collect at least three distinct authenticated human Alpha sessions and one real ",
+    "Complete and retain an authenticated Obelisk callback/session/identity/logout jo"
   ],
   "topNext": [
     "[release-evidence] Collect three distinct authenticated human Alpha sessions and",
@@ -33,10 +33,10 @@
   "slug": "vaultfront",
   "type": "game",
   "lifecycle": "alpha",
-  "nextMilestone": "Establish project-domain Zoho reply identity, collect three authenticated human Alpha sessions plus one positive live payment, install portable founder approval, then rerun the production release gate.",
-  "currentFocus": "Session 105 repaired exact-live parity, admitted current-image theme/footer/rollback evidence, and recovered the skipped closeout; stable staging is exact and healthy.",
+  "nextMilestone": "Establish Zoho reply identity, authenticated Obelisk relying-party proof, genuine human Alpha plus positive live revenue, and portable exact-artifact founder approval; then rerun production admission.",
+  "currentFocus": "Session 106 certified Fortune rewards, installed exact pre-mutation release admission, and deployed/observed/rolled back the exact candidate on stable staging.",
   "lastShipped": "see LATEST_HANDOFF.md",
   "blockers": [
-    "Production is NO-GO until project-domain Zoho send/receive/reply-as, three distinct authenticated human sessions, one positive live payment, and a purpose-scoped portable founder approval claim are observed."
+    "Production is NO-GO until project-domain Zoho send/receive/reply-as, a complete authenticated Obelisk journey, genuine authenticated human Alpha evidence, one positive live payment, and a purpose-scoped portable founder approval claim are observed."
   ]
 }

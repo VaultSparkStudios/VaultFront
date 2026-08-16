@@ -4,58 +4,58 @@
   "name": "VaultFront",
   "status": "active",
   "health": "green",
-  "currentSession": 105,
+  "currentSession": 106,
   "lastAgent": "codex",
-  "currentFocus": "Session 105 repaired exact-live parity, admitted current-image theme/footer/rollback evidence, and recovered the skipped closeout; stable staging is exact and healthy.",
-  "nextMilestone": "Establish project-domain Zoho reply identity, collect three authenticated human Alpha sessions plus one positive live payment, install portable founder approval, then rerun the production release gate.",
+  "currentFocus": "Session 106 certified Fortune rewards, installed exact pre-mutation release admission, and deployed/observed/rolled back the exact candidate on stable staging.",
+  "nextMilestone": "Establish Zoho reply identity, authenticated Obelisk relying-party proof, genuine human Alpha plus positive live revenue, and portable exact-artifact founder approval; then rerun production admission.",
   "blockers": [
-    "Production is NO-GO until project-domain Zoho send/receive/reply-as, three distinct authenticated human sessions, one positive live payment, and a purpose-scoped portable founder approval claim are observed."
+    "Production is NO-GO until project-domain Zoho send/receive/reply-as, a complete authenticated Obelisk journey, genuine authenticated human Alpha evidence, one positive live payment, and a purpose-scoped portable founder approval claim are observed."
   ],
   "lastUpdated": "2026-08-16",
   "lifecycle": "alpha",
   "audience": "public-unlaunched",
   "type": "game",
   "obeliskArchitecture": "external",
-  "obeliskAuthStatus": "staging-rp-observed-production-unverified",
-  "entropyScore": 0.055,
+  "obeliskAuthStatus": "corridor-observed-authenticated-rp-unverified",
+  "entropyScore": 0.093,
   "entropyStatus": "healthy",
-  "entropyComputedAt": "2026-08-04",
+  "entropyComputedAt": "2026-08-16",
   "entropyMethod": "Studio protocol entropy: context freshness, truth/IGNIS age, SIL skip pressure, stale human-action labels, and task-bucket pressure.",
   "testingSurfaces": [
     {
       "type": "tests",
       "status": "green",
-      "label": "S105 focused recovery authority",
-      "command": "vitest S105 changed surfaces",
-      "purpose": "21 files and 93 assertions pass, including parity, theme, shell, footer, rollback, and runtime evidence."
+      "label": "S106 canonical bounded test authority",
+      "command": "npm test",
+      "purpose": "Four bounded shards pass 288 files and 1,501 assertions with coverage, including certified rewards, recap singleflight, liveness, and release admission."
     },
     {
       "type": "tests",
       "status": "green",
       "label": "Production build and contracts",
       "command": "npm run build-prod && npm run verify:contracts",
-      "purpose": "TypeScript, production build, 28,125 balance scenarios, immutable deploy contracts, route/composition contracts, formatting, and doctor are green."
+      "purpose": "TypeScript, production build, 28,125 balance scenarios, 166 immutable deploy checks, route/composition contracts, formatting, and doctor are green."
     },
     {
       "type": "tests",
-      "status": "warn",
-      "label": "Canonical local aggregate",
-      "command": "npm test",
-      "purpose": "Attempted locally; wrapper termination left verified Vitest descendants under host contention. Exact trees were stopped and no aggregate green is claimed; provider exact-revision CI is green."
+      "status": "green",
+      "label": "Rendered-pixel proof",
+      "command": "npm run test:theme-proof",
+      "purpose": "138 hash-bound artifacts cover three themes and desktop/mobile; touched prediction states were directly inspected and CANON-053 passes."
     },
     {
       "type": "staging",
       "status": "green",
       "label": "Exact-revision stable staging",
-      "command": "GitHub Actions staging 31922760549",
-      "purpose": "Revision a1c861b0 is healthy with exact commit, 2/2 workers, immutable image, nine-check smoke, and signed runtime claims."
+      "command": "GitHub Actions staging 31932526593",
+      "purpose": "Revision 6398ff2a is healthy with exact commit, 2/2 workers, immutable image, product smoke, and signed runtime claims."
     },
     {
       "type": "release",
       "status": "warn",
-      "label": "Parity and rollback green; four independent gates red",
-      "command": "Observation 31922854694; rollback 31923970973",
-      "purpose": "Nine live cells and exact restoration pass; Zoho, human Alpha, payment, and portable founder approval remain absent."
+      "label": "Observation and rollback green; five independent gates red",
+      "command": "Observation 31932651393; rollback 31932798320",
+      "purpose": "Nine live cells and exact restoration pass; Zoho, authenticated Obelisk, human Alpha, payment, and portable founder approval remain absent."
     }
   ],
   "freeTierCostStatus": "cost-neutral",
@@ -63,13 +63,13 @@
   "readinessEndpoint": "/api/vaultfront/readiness",
   "playtestPulseEndpoint": "/api/vaultfront/playtest-pulse/summary",
   "truthAuditStatus": "green",
-  "truthAuditLastRun": "2026-08-14",
+  "truthAuditLastRun": "2026-08-16",
   "silRubricVersion": "3.0",
   "silMax": 1000,
   "silScoreLegacy500": null,
   "silScore": 996,
-  "testsPassing": 1473,
-  "testsTotal": 1473,
+  "testsPassing": 1501,
+  "testsTotal": 1501,
   "silCategoriesV3": {
     "devHealth": 100,
     "creativeAlignment": 99,
@@ -94,17 +94,18 @@
   "sessionMode": "founder",
   "sessionModeAutoShiftedAt": "2026-07-28T04:43:27.874Z",
   "silAvg3": 995.3,
-  "silVelocity": 1,
+  "silVelocity": 8,
   "silDebt": "down",
-  "silLastSession": "105",
-  "auditStatus": "session-105-exact-live-parity-shipped; exact-staging-theme-footer-rollback-green; zoho-human-revenue-founder-red; production-no-go",
+  "silLastSession": "106",
+  "auditStatus": "session-106-items-225-232-shipped; exact-staging-observation-rollback-green; zoho-obelisk-human-revenue-founder-red; production-no-go",
   "releaseGates": [
     "project-domain Zoho receive/send/reply-as verification",
+    "complete authenticated Obelisk callback/session/identity/logout verification",
     "authenticated evidence from at least three distinct human alpha sessions",
     "positive live Stripe payment receipt",
     "purpose-scoped portable founder approval claim"
   ],
-  "entropyLastComputed": "2026-08-08",
+  "entropyLastComputed": "2026-08-16",
   "truthGenome": "24/25",
   "doctorScore": {
     "passing": 13,
@@ -115,10 +116,10 @@
     "failing": 0,
     "blockingFailing": 0,
     "date": "2026-08-16",
-    "observedAt": "2026-08-16T04:48:45.668Z",
+    "observedAt": "2026-08-16T08:15:44.226Z",
     "source": "scripts/project-doctor.mjs",
     "evidencePath": "audits/doctor-latest.json",
-    "evidenceDigest": "sha256:6d5767630f151efcb8dcf9db8a8bcff9d0d812c0fe204cb63a7f4eb79a999dbc",
+    "evidenceDigest": "sha256:5fda03c29194068cd87583399d0774fc71d8f36be6677c5fdd60d824f2965d6c",
     "evidenceSchemaVersion": 1,
     "checkCount": 13
   },
@@ -146,39 +147,37 @@
     }
   ],
   "sessionShellHygiene": {
-    "session": 105,
-    "started": 3,
-    "closed": 3,
+    "session": 106,
+    "started": 4,
+    "closed": 4,
     "running": 0,
-    "enumeratedAt": "2026-08-16T04:44:23.993Z",
-    "scope": "Three recovery Vitest process trees were command-line verified and closed; no session-owned test worker remains. Shared Codex/browser processes are outside this session scope."
+    "enumeratedAt": "2026-08-16T16:00:00.000Z",
+    "scope": "Four canonical Vitest shards completed under the bounded runner; no session-owned test worker remains. Shared Codex/browser processes are outside this session scope."
   },
   "testsLastRun": "2026-08-16",
-  "testsLastRunMode": "Session 105 recovery: 21 focused files / 93 assertions, spawn regression, production build, contracts, balance, format, and doctor green; canonical local aggregate attempted but not counted green after verified descendant-process leakage; provider exact-SHA CI green.",
-  "testsDeferred": [
-    "canonical local npm test aggregate: wrapper termination left command-line-verified VaultFront Vitest descendants under host contention; exact descendants were stopped and the aggregate is not counted green"
-  ],
+  "testsLastRunMode": "Session 106: the complete canonical four-shard aggregate passes 288 files / 1,501 assertions; typecheck, lint, format, production build, balance, deploy contracts, provider exact-SHA CI/E2E, rendered proof, and doctor are green.",
+  "testsDeferred": [],
   "testsBudgetExhausted": false,
-  "lastSessionSummary": "Session 105 shipped audit item 224, passed nine exact-live parity cells, admitted theme/footer/rollback evidence for a1c861b0, repaired safe-spawn hygiene during recovery, and retained production NO-GO on four independent observations.",
+  "lastSessionSummary": "Session 106 shipped audit items 225–232, certified Fortune rewards, enforced exact pre-mutation release admission, passed exact staging/observation/rollback for 6398ff2a, and retained production NO-GO on five independent observations.",
   "providerCiStatus": {
     "status": "green",
-    "revision": "a1c861b0fb872d56859a67c3da7a8aa82f5f60ca",
-    "ciRunId": 31922598710,
-    "e2eRunId": 31922598682,
-    "databaseMigrationRunId": null,
-    "releasePlannerRunId": 31922598764,
+    "revision": "6398ff2abce57deced8ddd78e0b4e784514518a9",
+    "ciRunId": 31932241126,
+    "e2eRunId": 31932241144,
+    "databaseMigrationRunId": 31930912548,
+    "releasePlannerRunId": 31932241143,
     "briefValidationRunId": null,
-    "stagingRunId": 31922760549,
+    "stagingRunId": 31932526593,
     "promotionValidationRunId": null,
-    "rollbackRunId": 31923970973,
-    "observationRunId": 31922854694,
-    "observedAt": "2026-08-16T03:21:20.000Z",
-    "source": "Exact-revision GitHub Actions, immutable staging deploy, signed runtime claims, nine-cell live parity, footer/theme observation, and exact rollback/restoration",
+    "rollbackRunId": 31932798320,
+    "observationRunId": 31932651393,
+    "observedAt": "2026-08-16T16:00:00.000Z",
+    "source": "Exact-revision GitHub Actions, immutable staging deploy, signed runtime claims, nine-cell live parity, footer/theme observation, exact rollback/restoration, and canonical pre-mutation release admission",
     "currentRevisionVerified": false,
-    "imageDigest": "sha256:b4aefb23f84e5d4b6bf3245224a1f54bdef4e4ac9ac15bada4c339afe1b224d6",
-    "productSmokeDigest": "sha256:800a9e83640acc4cca812316423617d670a24a06913a2152ffe02bb37c6624cf",
-    "stagingAttestationDigest": "sha256:9b0ce97990bf619bb9bcdba77d3e8b630ed8f660e429ef55c2d90d8f296dc4bf",
-    "rollbackReceiptDigest": "sha256:55662561d907a8b6b9ad7a886c828465fb8b9bfe5db55c3a6656183036571381",
+    "imageDigest": "sha256:6c0cd340a8f9ee464b09a1326826c55b0b7d8c897e610a89898a3891985fa937",
+    "productSmokeDigest": "sha256:fa863aea6429c5ac945d82a26690b94ac67ddd183f1d39d15ada0171576dcc16",
+    "stagingAttestationDigest": "sha256:562f3a4c10f98a218362cd1825de582db0986c3cc634a89e4485cede08e6a4f0",
+    "rollbackReceiptDigest": "sha256:b0db86daa646b1b8c2114002d9219a15b25dcc7eb2ceb9017424b41921502d79",
     "note": "The exact implementation image is live on stable staging and restored after an observed rollback. Later main commits are evidence/closeout-only and are not mislabeled as the deployed SHA."
   },
   "dependencyAudit": {
@@ -193,5 +192,5 @@
   "stagingUrl": "https://staging.vaultfront.io",
   "stagingType": "stable-owned-subdomain",
   "runtimeUrl": "https://vaultfront.io",
-  "lastDeployStatus": "stable staging 31922760549 healthy at exact a1c861b0; parity 31922854694 and rollback 31923970973 pass; production NO-GO"
+  "lastDeployStatus": "stable staging 31932526593 healthy at exact 6398ff2a; observation 31932651393 and rollback 31932798320 pass; production NO-GO/HTTP 503"
 }

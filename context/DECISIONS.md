@@ -749,3 +749,23 @@ Public-safe decisions only. Detailed internal decision history is maintained pri
 **Decision:** Tests are not exempt from the Windows spawn rule. Any test that creates a child process imports the project safe-spawn wrapper so `windowsHide: true` and the Git window guard remain enforced.
 
 **Why:** Recovery doctor found one direct `node:child_process` import in the S105 parity regression. Routing it through the shared authority restores the same no-window invariant as production scripts.
+
+## 2026-08-16 — Session 106 certification and promotion decisions
+
+### Reward persistence follows certified victory authority
+
+**Decision:** Fortune awards require the authoritative match certificate to name the authenticated player as participant and winner. Persistence is awaited, idempotent, and receipt-bound; legacy or conflicting rows fail closed.
+
+**Why:** A caller-supplied match identifier and a fire-and-forget database write could award persistent cosmetics without a certified win or report success before durability.
+
+### Production admission precedes every mutating promotion step
+
+**Decision:** Production promotion must fetch fresh canonical readiness, bind it to repository, SHA, image, origin, and staging attestation, require every mandatory gate plus authenticated Alpha, and fail before registry login or deployment when any gate is red.
+
+**Why:** A healthy exact staging image proves software readiness, not mail identity, authenticated identity, human use, revenue, or launch approval.
+
+### Obelisk corridor smoke is configuration evidence, not identity evidence
+
+**Decision:** A redirect, Proof Key for Code Exchange state, or unauthenticated 401 may remain a smoke check but cannot mint `obeliskIdentity`. Only a complete authenticated callback/session/identity/logout journey satisfies that gate.
+
+**Why:** Reachability does not establish that a real relying-party identity lifecycle works end to end.

@@ -499,3 +499,12 @@ Session 89 closeout tooling incident: invoking the Studio Ops closeout-board ren
 - Recovery fix: replaced the parity test's direct child-process import with the safe-spawn authority; Windows spawn hygiene and doctor pass 13/13.
 - Verification: 21 files / 93 assertions, focused spawn regression, contracts, production build, 28,125 balance scenarios, formatting, and doctor pass. The local aggregate was bounded after wrapper termination left verified VaultFront descendants; those processes were stopped and no aggregate green is claimed.
 - Release: production remains fail-closed on Zoho reply identity, three authenticated humans, positive live payment, and portable founder approval.
+
+## 2026-08-16 — Session 106 certified rewards and release-admission closeout
+
+- Intent: run the complete fresh `/arc`, implement every premise-verified local improvement, push directly to `main`, deploy the exact candidate, and promote only if canonical readiness is genuinely green.
+- Shipped: audit items 225–232. Fortune rewards are certified and durable; production mutation is guarded by exact canonical admission; unauthenticated Obelisk smoke is no longer identity evidence; match recaps coalesce per certified match; Prediction League rules, Fortune liveness, health freshness, and static authority boundaries are executable.
+- Verification: 288 files / 1,501 assertions across four canonical shards; TypeScript, ESLint, formatting, production build, 28,125 balance scenarios, 166 deploy checks, doctor, security, and 138-capture rendered proof are green.
+- Provider/staging: exact `6398ff2a` passed CI `31932241126`, E2E `31932241144`, Release `31932241143`, staging `31932526593`, observation `31932651393`, and rollback `31932798320`; image `sha256:6c0cd340a8f9ee464b09a1326826c55b0b7d8c897e610a89898a3891985fa937` is healthy with 2/2 workers.
+- Release: canonical admission failed before mutation on Zoho, authenticated Obelisk, human Alpha, revenue, and portable founder approval. Production remains HTTP 503; no external observation was fabricated.
+- CDR reviewed — no new creative direction this session.

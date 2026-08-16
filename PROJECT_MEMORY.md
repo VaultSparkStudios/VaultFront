@@ -121,3 +121,11 @@ All session-state files live under `context/`:
 
 When canonical state changes, update this file and the latest handoff so a new
 session can resume from repo state without relying on prior chat.
+
+## 2026-08-16 — Session 106 certified rewards and exact release admission
+
+- Fortune collection now requires a certificate-bound authoritative victory and returns an awaited durable idempotent receipt; never reintroduce caller-authored match authority or fire-and-forget persistence.
+- Production promotion calls the exact canonical release-admission authority before any mutating step. Healthy staging is insufficient when a mandatory observation is red.
+- Obelisk redirects and unauthenticated 401 responses are configuration smoke only; identity readiness requires a real callback/session/identity/logout journey.
+- Exact candidate `6398ff2a` is healthy on stable staging at image `sha256:6c0cd340a8f9ee464b09a1326826c55b0b7d8c897e610a89898a3891985fa937`; observation `31932651393` and rollback `31932798320` pass.
+- Production remains fail-closed on Zoho reply identity, authenticated Obelisk, genuine human Alpha, positive live revenue, and portable exact-artifact founder approval.

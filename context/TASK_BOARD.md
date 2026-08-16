@@ -4,13 +4,24 @@ Public-safe roadmap only. Detailed backlog sequencing is maintained privately.
 
 ## Now — production evidence corridor
 
-- [ ] [SIL:1] Make bounded Vitest execution own and reap its verified descendant process tree when a wrapper is terminated; add a regression that proves no VaultFront worker survives the bound.
+- [done] [SIL:1] Canonical Vitest execution is four bounded shards and excludes `.cache/**`; all 288 files / 1,501 assertions pass without the prior host storm.
 - [done] Re-ran the exact-live three-theme parity/Core Web Vitals matrix; observation 31922854694 passed all nine cells with zero findings.
 - [done] Attach independently signed exact-runtime staging, health, and Obelisk observations to public readiness.
 - [done] Execute and retain exact-candidate rollback/restoration run 31787212414.
 
 - [ ] Verify `contact@vaultfront.io` end-to-end through the project-domain Zoho alias: receive, send, and reply-as the same address.
 - [ ] Collect at least three distinct authenticated human Alpha sessions and one real checkout/supporter revenue observation.
+- [ ] Complete and retain an authenticated Obelisk callback/session/identity/logout journey.
+- [ ] Install a trusted purpose-scoped founder approval writer for the exact SHA and image.
+
+## Completed (2026-08-16 — Session 106 certified rewards and release admission)
+
+- [done] Shipped audit items 225–232: certified durable Fortune awards, pre-mutation canonical promotion admission, truthful Obelisk evidence, requester-neutral recap singleflight, shared Prediction League rules, bidirectional Fortune liveness, aligned health freshness, and diagnostic-only unsigned evidence.
+- [done] Passed 288 canonical test files / 1,501 assertions, TypeScript, ESLint, formatting, production build, 28,125 balance scenarios, and 166 deploy-contract checks.
+- [done] Captured and inspected 138 source-bound rendered artifacts across VaultFront, Light, and Competitive themes at desktop/mobile; CANON-053 passes.
+- [done] Pushed exact candidate `6398ff2a`; CI `31932241126`, E2E `31932241144`, Release `31932241143`, and staging `31932526593` are green.
+- [done] Passed exact-live observation `31932651393` and rollback/restoration `31932798320`; stable staging is exact and healthy with 2/2 workers.
+- [done] Proved production promotion fails before mutation while contact, authenticated Obelisk, human Alpha, revenue, and portable founder approval remain absent.
 
 ## Completed (2026-08-16 — Session 105 exact-live parity recovery)
 
