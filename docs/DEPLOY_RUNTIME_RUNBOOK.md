@@ -292,7 +292,11 @@ mechanism on stable staging without claiming a production observation:
    verifies both attestations and the dry-run receipt, switches stable staging
    to the previous immutable digest, observes health and revision, restores the
    current digest, observes health and revision again, and retains
-   `staging-rollback-drill-<run-id>` for 90 days.
+   `staging-rollback-drill-<run-id>` for 90 days. Supply the successful exact-
+   runtime staging observation run ID as well; after restoration the workflow
+   verifies that signed bundle, renews health from the restoration probe, adds
+   the exact-image rollback claim, self-verifies all claims, and atomically
+   installs the extended bundle.
 5. Treat a failed restoration as a real incident: the known-good rollback
    remains serving, and production stays blocked until current staging is
    restored and a complete receipt exists.

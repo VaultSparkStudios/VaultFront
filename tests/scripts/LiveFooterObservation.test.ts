@@ -79,4 +79,15 @@ describe("staging observation workflow contract", () => {
       expect(workflow).toContain(required);
     expect(workflow).not.toMatch(/revenueObservation|alphaHumanEvidence/u);
   });
+
+  it("extends an admitted observation bundle after exact rollback restoration", () => {
+    const workflow = fs.readFileSync(
+      path.resolve(".github/workflows/staging-rollback-drill.yml"),
+      "utf8",
+    );
+    expect(workflow).toContain("observation_run_id");
+    expect(workflow).toContain("add-rollback-observation");
+    expect(workflow).toContain("runtime-release-evidence.json");
+    expect(workflow).toContain("install-release-evidence.sh");
+  });
 });

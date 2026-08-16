@@ -15,6 +15,10 @@ on:
         description: "Successful rollback dry-run from Promote verified digest"
         required: true
         type: string
+      observation_run_id:
+        description: "Successful exact-runtime staging observation run to extend"
+        required: true
+        type: string
       rollback_reason:
         description: "Durable reason bound into validation and outcome"
         required: true
@@ -96,6 +100,27 @@ jobs:
             --replaced-staging-run-id "${{ inputs.replaced_staging_run_id }}" \
             --replaced-attestation-digest "${{ steps.attestations.outputs.restored_attestation_digest }}" \
             --rollback-reason "${{ inputs.rollback_reason }}"
+
+      - name: Admit exact-runtime observation bundle
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OBSERVATION_RUN_ID: ${{ inputs.observation_run_id }}
+        run: |
+          set -euo pipefail
+          [[ "$OBSERVATION_RUN_ID" =~ ^[1-9][0-9]*$ ]]
+          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${OBSERVATION_RUN_ID}" > observation-run.json
+          node --input-type=module <<'NODE'
+          import fs from "node:fs";
+          const run = JSON.parse(fs.readFileSync("observation-run.json", "utf8"));
+          const restored = JSON.parse(fs.readFileSync(".restored-attestation/staging-attestation.json", "utf8"));
+          if (run.repository?.full_name !== process.env.GITHUB_REPOSITORY ||
+              run.path !== ".github/workflows/observe-staging.yml" ||
+              run.event !== "workflow_dispatch" ||
+              run.status !== "completed" || run.conclusion !== "success" ||
+              run.head_sha !== restored.gitSha) throw new Error("Observation run metadata is invalid");
+          NODE
+          mkdir -p .staging-observation
+          gh run download "$OBSERVATION_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "staging-observation-${OBSERVATION_RUN_ID}" --dir .staging-observation
 
       - name: Require CANON-038 live allocation
         env:
@@ -227,9 +252,32 @@ jobs:
             --output staging-rollback-drill.json
           node scripts/rollback-drill-receipt.mjs verify --receipt staging-rollback-drill.json
 
+      - name: Sign and install restored-runtime rollback evidence
+        env:
+          APP_NAME: vaultfront
+          DEPLOY_REMOTE_USER: ${{ vars.DEPLOY_REMOTE_USER || 'vaultfront' }}
+          DEPLOY_SERVER_HOST: ${{ secrets.DEPLOY_SERVER_HOST }}
+          RELEASE_EVIDENCE_PRIVATE_KEY: ${{ secrets.RELEASE_EVIDENCE_PRIVATE_KEY }}
+          SSH_KEY: ~/.ssh/id_rsa
+        run: |
+          set -euo pipefail
+          node scripts/runtime-release-evidence.mjs add-rollback-observation \
+            --bundle .staging-observation/runtime-release-evidence.json \
+            --receipt staging-rollback-drill.json \
+            --attestation .restored-attestation/staging-attestation.json \
+            --health-response restore-health.json \
+            --observation-run-id "${{ inputs.observation_run_id }}" \
+            --output runtime-release-evidence.json
+          bash ./install-release-evidence.sh staging staging staging \
+            runtime-release-evidence.json \
+            "${{ steps.attestations.outputs.restored_git_sha }}" \
+            "${{ steps.attestations.outputs.restored_image_digest }}"
+
       - name: Retain observed rollback drill
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: staging-rollback-drill-${{ github.run_id }}
-          path: staging-rollback-drill.json
+          path: |
+            staging-rollback-drill.json
+            runtime-release-evidence.json
           retention-days: 90

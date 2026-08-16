@@ -310,6 +310,148 @@ function createStagingObservationsBundle() {
   );
 }
 
+function addRollbackObservation() {
+  const bundle = readJson(value("--bundle"));
+  const receipt = readJson(value("--receipt"));
+  const attestation = readJson(value("--attestation"));
+  const healthPath = value("--health-response");
+  const health = readJson(healthPath);
+  const observationRunId = Number(value("--observation-run-id"));
+  const output = value("--output");
+  const runtime = {
+    environment: "staging",
+    origin: attestation.origin,
+    gitSha: attestation.gitSha,
+    imageDigest: attestation.imageDigest,
+  };
+  const claims = (bundle.claims ?? []).filter(
+    (claim) =>
+      !["healthObservation", "rollbackObservation"].includes(claim.gate),
+  );
+  const issuanceNow =
+    Math.min(
+      ...(bundle.claims ?? []).map((claim) => Date.parse(claim.expiresAt)),
+    ) - 1;
+  const prior = verifyRuntimeReleaseEvidenceBundle(bundle, {
+    policy,
+    runtime,
+    now: issuanceNow,
+  });
+  if (!prior.ok)
+    throw new Error(
+      `Prior observation bundle is invalid: ${prior.errors.join(",")}`,
+    );
+  for (const gate of [
+    "staging",
+    "stagingParity",
+    "obeliskIdentity",
+    "themeReadability",
+    "footerManifest",
+  ]) {
+    if (!prior.observations[gate])
+      throw new Error(`Prior observation bundle is missing ${gate}`);
+  }
+  const parityClaim = bundle.claims.find(
+    (claim) => claim.gate === "stagingParity",
+  );
+  if (
+    !Number.isInteger(observationRunId) ||
+    parityClaim?.source?.runId !== observationRunId ||
+    parityClaim?.source?.workflow !== ".github/workflows/observe-staging.yml"
+  )
+    throw new Error("Observation run lineage is invalid");
+  if (
+    receipt.schemaVersion !== 1 ||
+    receipt.kind !== "vaultfront-staging-rollback-drill" ||
+    receipt.repository !== attestation.repository ||
+    receipt.workflowPath !== ".github/workflows/staging-rollback-drill.yml" ||
+    receipt.origin !== attestation.origin ||
+    receipt.drillCompleted !== true ||
+    receipt.restoredHealth !== true ||
+    receipt.restored?.gitSha !== attestation.gitSha ||
+    receipt.restored?.imageDigest !== attestation.imageDigest ||
+    receipt.restored?.attestationDigest !== attestation.attestationDigest ||
+    receipt.restorationObservation?.revision?.value !== attestation.gitSha ||
+    receipt.restorationObservation?.health?.status !== "ok" ||
+    receipt.restorationObservation?.health?.responseDigest !==
+      fileDigest(healthPath) ||
+    receipt.evidenceDigest !== reportDigest(receipt) ||
+    health.status !== "ok"
+  )
+    throw new Error("Rollback receipt/runtime binding is invalid");
+  const observedAt = receipt.completedAt;
+  const observedMs = Date.parse(observedAt);
+  if (!Number.isFinite(observedMs))
+    throw new Error("Rollback completion time is invalid");
+  const common = {
+    keyId: "staging-v1",
+    project: "vaultfront",
+    repository: attestation.repository,
+    environment: "staging",
+    origin: attestation.origin,
+    gitSha: attestation.gitSha,
+    imageDigest: attestation.imageDigest,
+    source: {
+      workflow: receipt.workflowPath,
+      runId: receipt.workflowRunId,
+      runAttempt: receipt.workflowRunAttempt,
+      artifactDigest: receipt.evidenceDigest,
+    },
+  };
+  const sourceText = `github-actions:rollback-drill:${receipt.workflowRunId}:${receipt.workflowRunAttempt}`;
+  const signed = (
+    gate,
+    semantic,
+    lifetimeMinutes,
+    artifactDigest = receipt.evidenceDigest,
+  ) =>
+    signRuntimeReleaseClaim(
+      {
+        ...common,
+        gate,
+        source: { ...common.source, artifactDigest },
+        observedAt,
+        expiresAt: new Date(
+          observedMs + lifetimeMinutes * 60_000,
+        ).toISOString(),
+        observation: buildCanonicalReleaseObservation(gate, {
+          status: "verified",
+          observedAt,
+          source: sourceText,
+          ...semantic,
+        }),
+      },
+      privateKey(),
+    );
+  claims.push(
+    signed(
+      "healthObservation",
+      { httpStatus: 200, healthy: true },
+      15,
+      fileDigest(healthPath),
+    ),
+    signed("rollbackObservation", {
+      drillCompleted: true,
+      imageDigest: attestation.imageDigest,
+      restoredHealth: true,
+    }),
+  );
+  const nextBundle = { schemaVersion: 1, claims };
+  const verified = verifyRuntimeReleaseEvidenceBundle(nextBundle, {
+    policy,
+    runtime,
+    now: Date.now(),
+  });
+  if (!verified.ok)
+    throw new Error(
+      `Rollback bundle self-verification failed: ${verified.errors.join(",")}`,
+    );
+  fs.writeFileSync(output, `${JSON.stringify(nextBundle, null, 2)}\n`);
+  console.log(
+    `Added exact rollback and renewed health claims for run ${receipt.workflowRunId}.`,
+  );
+}
+
 function verifyBundle() {
   const bundle = readJson(value("--bundle"));
   const result = verifyRuntimeReleaseEvidenceBundle(bundle, {
@@ -331,8 +473,9 @@ const command = process.argv[2];
 if (command === "create-staging") createStagingBundle();
 else if (command === "create-staging-observations")
   createStagingObservationsBundle();
+else if (command === "add-rollback-observation") addRollbackObservation();
 else if (command === "verify") verifyBundle();
 else
   throw new Error(
-    "Usage: runtime-release-evidence.mjs <create-staging|create-staging-observations|verify> ...",
+    "Usage: runtime-release-evidence.mjs <create-staging|create-staging-observations|add-rollback-observation|verify> ...",
   );
