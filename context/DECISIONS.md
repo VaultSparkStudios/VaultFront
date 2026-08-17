@@ -769,3 +769,17 @@ Public-safe decisions only. Detailed internal decision history is maintained pri
 **Decision:** A redirect, Proof Key for Code Exchange state, or unauthenticated 401 may remain a smoke check but cannot mint `obeliskIdentity`. Only a complete authenticated callback/session/identity/logout journey satisfies that gate.
 
 **Why:** Reachability does not establish that a real relying-party identity lifecycle works end to end.
+
+## 2026-08-17 — VaultFront contact-mail architecture
+
+### Cloudflare inbound and Brevo SMTP are a project-approved transport split
+
+**Decision:** For VaultFront, route the exact public address `contact@vaultfront.io` through Cloudflare Email Routing to the founder's existing Zoho mailbox. Keep Brevo as the authenticated transactional sender and use Brevo SMTP for Zoho's External From entry so human replies originate as `contact@vaultfront.io`. The founder approved this project-specific architecture; it does not amend Studio Canon. Ark question `01K0727C6507498BE8FC927A64` asks Studio Ops whether the pattern should become a fleet-wide refinement.
+
+**Why:** This preserves one human mailbox while separating inbound routing, transactional delivery, and reply identity along provider-native boundaries. It avoids another paid mailbox and retains the required project-domain identity.
+
+### Provider delivery proves transport, not human reply identity
+
+**Decision:** Treat Cloudflare apply run `31993840009` and the matching `forward`/`delivered` analytics event as proof that project-domain inbound mail reaches the founder destination server. Treat Brevo authentication and its prior provider-delivered probe as proof of outbound transactional transport. Keep the human email gate red until Zoho External From is configured with Brevo SMTP and an observed reply carries `From: contact@vaultfront.io` without an on-behalf-of identity.
+
+**Why:** SMTP acceptance and provider forwarding are strong transport evidence, but neither demonstrates the identity a person will use when replying from Zoho.

@@ -9,7 +9,7 @@ Public-safe roadmap only. Detailed backlog sequencing is maintained privately.
 - [done] Attach independently signed exact-runtime staging, health, and Obelisk observations to public readiness.
 - [done] Execute and retain exact-candidate rollback/restoration run 31787212414.
 
-- [ ] Verify `contact@vaultfront.io` end-to-end through the project-domain human mailbox: receive, send, and reply-as the same address. Session 107 authenticated `vaultfront.io` in Brevo, activated the transactional sender, and observed provider delivery to the founder mailbox (DNS apply run `31971429976`; message-ID SHA-256 `f82213b1e24c61ceb757c2c4d725b702bedced82e204cb6bb2ad5df75cb26f79`); this proves outbound transport only and does not satisfy inbound or human reply identity.
+- [ ] Finish `contact@vaultfront.io` human reply identity. Brevo domain authentication and outbound provider delivery are green (DNS apply `31971429976`; message-ID SHA-256 `f82213b1e24c61ceb757c2c4d725b702bedced82e204cb6bb2ad5df75cb26f79`). Cloudflare inbound apply `31993840009` created the exact route to the founder mailbox, and the tagged probe was independently observed as `forward` + `delivered` with SPF/DKIM pass. Remaining: configure Zoho External From with Brevo SMTP and prove a real reply carries the project address without on-behalf-of identity. Project approval is recorded; fleet Canon remains unchanged pending Ark question `01K0727C6507498BE8FC927A64`.
 - [ ] Collect at least three distinct authenticated human Alpha sessions and one real checkout/supporter revenue observation.
 - [ ] Complete and retain an authenticated Obelisk callback/session/identity/logout journey.
 - [ ] Install a trusted purpose-scoped founder approval writer for the exact SHA and image.

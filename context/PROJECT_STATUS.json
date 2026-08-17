@@ -6,12 +6,12 @@
   "health": "green",
   "currentSession": 106,
   "lastAgent": "codex",
-  "currentFocus": "Session 107 authenticated VaultFront's Brevo transactional domain, activated contact@vaultfront.io, and observed provider delivery while preserving the independent human reply-identity gate.",
-  "nextMilestone": "Establish compliant project-domain human inbound and reply identity, authenticated Obelisk relying-party proof, genuine human Alpha plus positive live revenue, and portable exact-artifact founder approval; then rerun production admission.",
+  "currentFocus": "Session 107 authenticated Brevo outbound and applied Cloudflare inbound for contact@vaultfront.io with an independently observed forward/delivered event; Zoho External From reply identity remains unverified.",
+  "nextMilestone": "Configure contact@vaultfront.io as a Zoho External From address through Brevo SMTP and prove reply-as identity, then complete authenticated Obelisk, genuine human Alpha, live revenue, and portable exact-artifact founder approval before production admission.",
   "blockers": [
-    "Production is NO-GO until project-domain human send/receive/reply-as (Brevo transactional delivery is green but insufficient), a complete authenticated Obelisk journey, genuine authenticated human Alpha evidence, one positive live payment, and a purpose-scoped portable founder approval claim are observed."
+    "Production is NO-GO until project-domain human reply-as is observed (Brevo outbound and Cloudflare inbound delivery are green), a complete authenticated Obelisk journey, genuine authenticated human Alpha evidence, one positive live payment, and a purpose-scoped portable founder approval claim are observed."
   ],
-  "lastUpdated": "2026-08-16",
+  "lastUpdated": "2026-08-17",
   "lifecycle": "alpha",
   "audience": "public-unlaunched",
   "type": "game",
@@ -97,9 +97,9 @@
   "silVelocity": 8,
   "silDebt": "down",
   "silLastSession": "106",
-  "auditStatus": "session-107-brevo-transactional-auth-and-delivery-green; human-reply-obelisk-alpha-revenue-founder-red; production-no-go",
+  "auditStatus": "session-107-brevo-outbound-and-cloudflare-inbound-green; zoho-external-from-obelisk-alpha-revenue-founder-red; production-no-go",
   "releaseGates": [
-    "project-domain human receive/send/reply-as verification (Brevo transactional transport verified; human reply identity unverified)",
+    "project-domain human reply-as verification (Brevo outbound and Cloudflare inbound verified; Zoho External From unverified)",
     "complete authenticated Obelisk callback/session/identity/logout verification",
     "authenticated evidence from at least three distinct human alpha sessions",
     "positive live Stripe payment receipt",
