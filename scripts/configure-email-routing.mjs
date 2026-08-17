@@ -85,17 +85,19 @@ function redactProviderError(body) {
 
 async function run() {
   const apply = process.argv.includes("--apply");
-  const token = process.env.CF_API_TOKEN;
+  const zoneToken = process.env.CF_API_TOKEN;
+  const routingToken = process.env.CF_EMAIL_ROUTING_TOKEN;
   const accountId = process.env.CF_ACCOUNT_ID;
   const configuredDomain = String(process.env.DOMAIN || DOMAIN).toLowerCase();
   if (configuredDomain !== DOMAIN)
     throw new Error(
       `refusing unexpected email-routing domain: ${configuredDomain}`,
     );
-  if (!token) throw new Error("CF_API_TOKEN is required");
+  if (!zoneToken) throw new Error("CF_API_TOKEN is required");
+  if (!routingToken) throw new Error("CF_EMAIL_ROUTING_TOKEN is required");
   if (!accountId) throw new Error("CF_ACCOUNT_ID is required");
 
-  async function cloudflare(route, init = {}) {
+  async function cloudflare(token, route, init = {}) {
     const response = await fetch(`${CLOUDFLARE_API}${route}`, {
       ...init,
       headers: {
@@ -116,6 +118,7 @@ async function run() {
   }
 
   const zones = await cloudflare(
+    zoneToken,
     `/zones?name=${encodeURIComponent(DOMAIN)}&per_page=5`,
   );
   const zone = zones.find(
@@ -125,10 +128,17 @@ async function run() {
 
   async function readState() {
     const [destinations, settings, rules, mx] = await Promise.all([
-      cloudflare(`/accounts/${accountId}/email/routing/addresses?per_page=100`),
-      cloudflare(`/zones/${zone.id}/email/routing`),
-      cloudflare(`/zones/${zone.id}/email/routing/rules?per_page=100`),
       cloudflare(
+        routingToken,
+        `/accounts/${accountId}/email/routing/addresses?per_page=100`,
+      ),
+      cloudflare(zoneToken, `/zones/${zone.id}/email/routing/dns`),
+      cloudflare(
+        routingToken,
+        `/zones/${zone.id}/email/routing/rules?per_page=100`,
+      ),
+      cloudflare(
+        zoneToken,
         `/zones/${zone.id}/dns_records?type=MX&name=${encodeURIComponent(DOMAIN)}&per_page=100`,
       ),
     ]);
@@ -165,24 +175,29 @@ async function run() {
     }
     if (apply) {
       if (!classification.routingReady) {
-        await cloudflare(`/zones/${zone.id}/email/routing/enable`, {
+        await cloudflare(zoneToken, `/zones/${zone.id}/email/routing/dns`, {
           method: "POST",
+          body: JSON.stringify({ name: DOMAIN }),
         });
         receipt.changes.push({ kind: "routing-enabled" });
         receipt.rollback.push({ kind: "routing-disable" });
       }
       if (!classification.correctRuleId) {
-        const rule = await cloudflare(`/zones/${zone.id}/email/routing/rules`, {
-          method: "POST",
-          body: JSON.stringify({
-            name: "VaultFront contact route to founder mailbox",
-            enabled: true,
-            priority: 0,
-            actions: [{ type: "forward", value: [DESTINATION] }],
-            matchers: [{ field: "to", type: "literal", value: ADDRESS }],
-            source: "api",
-          }),
-        });
+        const rule = await cloudflare(
+          routingToken,
+          `/zones/${zone.id}/email/routing/rules`,
+          {
+            method: "POST",
+            body: JSON.stringify({
+              name: "VaultFront contact route to founder mailbox",
+              enabled: true,
+              priority: 0,
+              actions: [{ type: "forward", value: [DESTINATION] }],
+              matchers: [{ field: "to", type: "literal", value: ADDRESS }],
+              source: "api",
+            }),
+          },
+        );
         if (!rule?.id)
           throw new Error("Cloudflare created a routing rule without an id");
         receipt.changes.push({ kind: "rule-created", id: rule.id });
@@ -206,13 +221,14 @@ async function run() {
       for (const change of [...receipt.rollback].reverse()) {
         if (change.kind === "rule-delete") {
           await cloudflare(
+            routingToken,
             `/zones/${zone.id}/email/routing/rules/${change.id}`,
             { method: "DELETE" },
           ).catch(() => null);
         }
         if (change.kind === "routing-disable") {
-          await cloudflare(`/zones/${zone.id}/email/routing/disable`, {
-            method: "POST",
+          await cloudflare(zoneToken, `/zones/${zone.id}/email/routing/dns`, {
+            method: "DELETE",
           }).catch(() => null);
         }
       }
