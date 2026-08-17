@@ -177,7 +177,6 @@ async function run() {
       if (!classification.routingReady) {
         await cloudflare(zoneToken, `/zones/${zone.id}/email/routing/dns`, {
           method: "POST",
-          body: JSON.stringify({ name: DOMAIN }),
         });
         receipt.changes.push({ kind: "routing-enabled" });
         receipt.rollback.push({ kind: "routing-disable" });
