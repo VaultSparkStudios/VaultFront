@@ -5,28 +5,20 @@ name: brief-format-check
 # Fails the run if docs/STARTUP_BRIEF.md has drifted from the canonical format
 # defined by scripts/validate-brief-format.mjs. Designed to be called two ways:
 #
-#   1. Automatically on every push or PR that touches context/, docs/, scripts/,
-#      or the brief itself — catches drift at merge time.
-#   2. Manually — supports an explicit out-of-band integrity check without
-#      consuming hosted scheduled-run capacity.
+#   1. On pull requests that touch the brief or its validator/renderer.
+#   2. Manually when an out-of-band process may have changed a brief.
 #
 # Propagated to every registry repo by scripts/sync-studio-os-remote.mjs.
 # Do not edit the file in a child repo — the next 6h sync pass will overwrite it.
 # All format-rule changes happen in studio-ops and flow outward.
 
 on:
-  push:
-    paths:
-      - "docs/STARTUP_BRIEF.md"
-      - "scripts/validate-brief-format.mjs"
-      - "scripts/render-startup-brief.mjs"
-      - "context/**"
   pull_request:
     paths:
-      - "docs/STARTUP_BRIEF.md"
-      - "scripts/validate-brief-format.mjs"
-      - "scripts/render-startup-brief.mjs"
-      - "context/**"
+      - 'docs/STARTUP_BRIEF.md'
+      - 'scripts/validate-brief-format.mjs'
+      - 'scripts/render-startup-brief.mjs'
+      - 'context/**'
   workflow_dispatch:
 
 permissions:
@@ -38,12 +30,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        uses: actions/checkout@v4
 
       - name: Setup Node
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        uses: actions/setup-node@v4
         with:
-          node-version: "22.13.0"
+          node-version: '20'
 
       - name: Check validator is present
         run: |

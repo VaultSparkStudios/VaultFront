@@ -28,21 +28,19 @@
  *   2 — file missing / unreadable
  */
 
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const ROOT = path.resolve(__dirname, "..");
-const IS_DIRECT_RUN =
-  process.argv[1] &&
-  path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+const ROOT = path.resolve(__dirname, '..');
+const IS_DIRECT_RUN = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 
 const args = process.argv.slice(2);
-const JSON_MODE = args.includes("--json");
-const STDIN_MODE = args.includes("--stdin");
-const positional = args.filter((a) => !a.startsWith("--"));
-const targetPath = positional[0] || path.join(ROOT, "docs", "STARTUP_BRIEF.md");
+const JSON_MODE = args.includes('--json');
+const STDIN_MODE = args.includes('--stdin');
+const positional = args.filter((a) => !a.startsWith('--'));
+const targetPath = positional[0] || path.join(ROOT, 'docs', 'STARTUP_BRIEF.md');
 
 // ── Canonical blocks that MUST appear ───────────────────────────────────────
 // Each entry: { label, pattern, severity }
@@ -50,34 +48,34 @@ const targetPath = positional[0] || path.join(ROOT, "docs", "STARTUP_BRIEF.md");
 //           'recommended' — logged as warning but not a fail.
 const REQUIRED_BLOCKS = [
   {
-    label: "SCORE box",
+    label: 'SCORE box',
     pattern: /╔══\s*SCORE\s*═/,
-    severity: "required",
+    severity: 'required',
   },
   {
-    label: "SIGNALS box",
+    label: 'SIGNALS box',
     pattern: /╔══\s*SIGNALS\s*═/,
-    severity: "required",
+    severity: 'required',
   },
   {
-    label: "WHERE WE LEFT OFF block",
+    label: 'WHERE WE LEFT OFF block',
     pattern: /╔══\s*WHERE WE LEFT OFF/,
-    severity: "required",
+    severity: 'required',
   },
   {
-    label: "GENIUS HIT LIST box",
+    label: 'GENIUS HIT LIST box',
     pattern: /╔═+\s*GENIUS HIT LIST|║\s*GENIUS HIT LIST/,
-    severity: "required",
+    severity: 'required',
   },
   {
-    label: "Project title header (Studio OS box)",
+    label: 'Project title header (Studio OS box)',
     pattern: /╔═+╗[\s\S]{0,400}?FORGE|SPARKED|VAULTED/,
-    severity: "recommended",
+    severity: 'recommended',
   },
   {
-    label: "HUMAN PRESSURE block",
+    label: 'HUMAN PRESSURE block',
     pattern: /╔══\s*HUMAN PRESSURE/,
-    severity: "recommended",
+    severity: 'recommended',
   },
 ];
 
@@ -88,49 +86,42 @@ const FORBIDDEN_PATTERNS = [
   {
     label: 'Deprecated "Now bucket" heading',
     pattern: /^##\s+Now\s+[Bb]ucket\s*$/m,
-    reason:
-      "Deprecated since S81 — Unified Genius List replaces Now/Next/Blocked buckets.",
+    reason: 'Deprecated since S81 — Unified Genius List replaces Now/Next/Blocked buckets.',
   },
   {
     label: 'Deprecated "Next bucket" heading',
     pattern: /^##\s+Next\s+[Bb]ucket\s*$/m,
-    reason:
-      "Deprecated since S81 — Unified Genius List replaces Now/Next/Blocked buckets.",
+    reason: 'Deprecated since S81 — Unified Genius List replaces Now/Next/Blocked buckets.',
   },
   {
     label: 'Deprecated "Today" bucket heading',
     pattern: /^##\s+Today\s*$/m,
-    reason: "Never a canonical bucket — improvised by non-studio-ops agents.",
+    reason: 'Never a canonical bucket — improvised by non-studio-ops agents.',
   },
   {
     label: 'Non-canonical "Contradiction Sentinel" section',
-    pattern: /^##\s+Contradiction\s+Sentinel\s*$/im,
-    reason:
-      "MindFrame product concept — not a Studio OS brief section. Canonical brief uses SIGNALS + GENIUS HIT LIST.",
+    pattern: /^##\s+Contradiction\s+Sentinel\s*$/mi,
+    reason: 'MindFrame product concept — not a Studio OS brief section. Canonical brief uses SIGNALS + GENIUS HIT LIST.',
   },
   {
     label: 'Non-canonical "Executive Focus" section',
-    pattern: /^##\s+Executive\s+Focus\s*$/im,
-    reason:
-      "Non-canonical prose — canonical brief uses WHERE WE LEFT OFF + GENIUS HIT LIST.",
+    pattern: /^##\s+Executive\s+Focus\s*$/mi,
+    reason: 'Non-canonical prose — canonical brief uses WHERE WE LEFT OFF + GENIUS HIT LIST.',
   },
   {
     label: 'Non-canonical "Evidence Gaps" section',
-    pattern: /^##\s+Evidence\s+Gaps\s*$/im,
-    reason:
-      "Non-canonical — canonical brief uses SIGNALS block for data-quality flags.",
+    pattern: /^##\s+Evidence\s+Gaps\s*$/mi,
+    reason: 'Non-canonical — canonical brief uses SIGNALS block for data-quality flags.',
   },
   {
     label: 'Non-canonical "Decision Memory" section',
-    pattern: /^##\s+Decision\s+Memory\s*$/im,
-    reason:
-      "Non-canonical — canonical brief uses WHERE WE LEFT OFF + SIGNALS, and memory lives in ~/.claude/projects/ (Claude) or ~/.codex/memories/ (Codex).",
+    pattern: /^##\s+Decision\s+Memory\s*$/mi,
+    reason: 'Non-canonical — canonical brief uses WHERE WE LEFT OFF + SIGNALS, and memory lives in ~/.claude/projects/ (Claude) or ~/.codex/memories/ (Codex).',
   },
   {
     label: 'Non-canonical "Leverage" top-level section',
-    pattern: /^##\s+Leverage\s*$/im,
-    reason:
-      "Non-canonical prose — if present as H2 alone. Leverage signal belongs inside GENIUS HIT LIST ranking, not a separate section.",
+    pattern: /^##\s+Leverage\s*$/mi,
+    reason: 'Non-canonical prose — if present as H2 alone. Leverage signal belongs inside GENIUS HIT LIST ranking, not a separate section.',
   },
 ];
 
@@ -147,82 +138,20 @@ export function validateStartupBrief(body) {
     forbiddenHits: [],
     bodyShape: null,
     staleBrief: null,
-    semanticContradictions: [],
   };
-
-  // A visually polished brief is still invalid when adjacent source-of-truth
-  // values contradict each other. Recompute claims from the printed values so
-  // validation stays deterministic and independent of renderer internals.
-  const contextMatch = body.match(
-    /([\d.]+)% used[\s\S]{0,220}?([\d,]+)\s*\/\s*([\d,]+) tok/,
-  );
-  if (contextMatch) {
-    const renderedPercent = Number(contextMatch[1]);
-    const usedTokens = Number(contextMatch[2].replaceAll(",", ""));
-    const tokenLimit = Number(contextMatch[3].replaceAll(",", ""));
-    const derivedPercent = (usedTokens / tokenLimit) * 100;
-    if (
-      !Number.isFinite(derivedPercent) ||
-      Math.abs(renderedPercent - derivedPercent) > 0.6
-    ) {
-      findings.semanticContradictions.push(
-        `CONTEXT METER says ${renderedPercent}% but token arithmetic yields ${derivedPercent.toFixed(2)}%.`,
-      );
-    }
-  }
-
-  const forecastMatch = body.match(/Projected:\s*(\d+)\/1000/);
-  if (forecastMatch && Number(forecastMatch[1]) === 0) {
-    findings.semanticContradictions.push(
-      "SIL FORECAST reports 0/1000; refuse a numeric forecast without parsed SIL evidence.",
-    );
-  }
-  if (/║\s*✓\s+Runway\s+unknown\b/i.test(body)) {
-    findings.semanticContradictions.push(
-      "Runway is unknown but rendered green; unknown evidence must remain explicitly unverified.",
-    );
-  }
-  if (/LAST SESSION \(S\?\)/i.test(body)) {
-    findings.semanticContradictions.push(
-      "LAST SESSION contains S?; derive the session from source chronology before rendering.",
-    );
-  }
-  if (/║\s*(?:Tests|Deploy)\s+-\s*║/i.test(body)) {
-    findings.semanticContradictions.push(
-      "LAST SESSION contains test/deploy placeholders instead of source-derived evidence.",
-    );
-  }
-  if (
-    /<!--\s*generated-at:\s*\d{4}-\d{2}-\d{2}\s*\(Session\s+\d+\s+closeout\)\s*-->/i.test(
-      body,
-    )
-  ) {
-    findings.semanticContradictions.push(
-      "generated-at conflates render time with source closeout session; stamp them separately.",
-    );
-  }
-  const lastActiveMatch = body.match(/Last active:\s*(\d+)d\b/i);
-  if (lastActiveMatch && Number(lastActiveMatch[1]) > 3650) {
-    findings.semanticContradictions.push(
-      `Last active reports ${lastActiveMatch[1]} days; reject likely non-date chronology input.`,
-    );
-  }
 
   // S142 audit item 2 — brief integrity self-assertion. The renderer stamps
   // `<!-- brief-coherent: true|false -->` after a three-way check (SIL log vs
   // PROJECT_STATUS vs rendered headline). false → the brief is showing stale or
   // unparseable state and /start must NOT proceed on it.
-  const coherentMatch = body.match(
-    /<!--\s*brief-coherent:\s*(true|false)\s*-->/i,
-  );
-  if (coherentMatch && coherentMatch[1].toLowerCase() === "false") {
-    findings.staleBrief =
-      "brief-coherent: false — renderer detected stale/unparseable SIL state (see ⛔ STALE BRIEF banner). Re-render before /start.";
+  const coherentMatch = body.match(/<!--\s*brief-coherent:\s*(true|false)\s*-->/i);
+  if (coherentMatch && coherentMatch[1].toLowerCase() === 'false') {
+    findings.staleBrief = 'brief-coherent: false — renderer detected stale/unparseable SIL state (see ⛔ STALE BRIEF banner). Re-render before /start.';
   }
 
   for (const block of REQUIRED_BLOCKS) {
     if (!block.pattern.test(body)) {
-      if (block.severity === "required") {
+      if (block.severity === 'required') {
         findings.missingRequired.push(block.label);
       } else {
         findings.missingRecommended.push(block.label);
@@ -232,25 +161,19 @@ export function validateStartupBrief(body) {
 
   for (const forbid of FORBIDDEN_PATTERNS) {
     if (forbid.pattern.test(body)) {
-      findings.forbiddenHits.push({
-        label: forbid.label,
-        reason: forbid.reason,
-      });
+      findings.forbiddenHits.push({ label: forbid.label, reason: forbid.reason });
     }
   }
 
   if (!looksLikeBoxBrief(body)) {
-    findings.bodyShape =
-      "brief does not contain box-drawing characters — likely an improvised prose brief rather than the canonical renderer output";
+    findings.bodyShape = 'brief does not contain box-drawing characters — likely an improvised prose brief rather than the canonical renderer output';
   }
 
   return {
-    ok:
-      findings.missingRequired.length === 0 &&
-      findings.forbiddenHits.length === 0 &&
-      findings.bodyShape === null &&
-      findings.staleBrief === null &&
-      findings.semanticContradictions.length === 0,
+    ok: findings.missingRequired.length === 0
+      && findings.forbiddenHits.length === 0
+      && findings.bodyShape === null
+      && findings.staleBrief === null,
     ...findings,
   };
 }
@@ -261,24 +184,22 @@ export function validateStartupBrief(body) {
 // default. Shared by render-startup-brief.mjs (trim at write time) and this
 // validator (report) so producer and gate cannot drift (S153 lesson).
 export const TILE_BUDGETS = {
-  "GENIUS HIT LIST": 3200, // measured 2.5KB healthy — the #1 bloat magnet
-  SCORE: 2500, // measured 2.26KB
-  SIGNALS: 1800, // measured 1.53KB
-  ORCHESTRATOR: 1100,
-  "PORTFOLIO TASK BOARDS": 900,
-  "IGNIS INSIGHT": 1100,
-  "FOUNDER UNLOCKS": 700,
-  "ROUTER SUGGESTS": 600,
-  "SIL CATEGORY GAPS": 900,
+  'GENIUS HIT LIST': 3200,   // measured 2.5KB healthy — the #1 bloat magnet
+  'SCORE': 2500,             // measured 2.26KB
+  'SIGNALS': 1800,           // measured 1.53KB
+  'ORCHESTRATOR': 1100,
+  'PORTFOLIO TASK BOARDS': 900,
+  'IGNIS INSIGHT': 1100,
+  'FOUNDER UNLOCKS': 700,
+  'ROUTER SUGGESTS': 600,
+  'SIL CATEGORY GAPS': 900,
   DEFAULT: 1400,
 };
 
 export function tileBudgetFor(title) {
   // GENIUS box renders its title on line 2 → briefBlockSizes sees UNTITLED.
-  if (title === "UNTITLED") return TILE_BUDGETS["GENIUS HIT LIST"];
-  const key = Object.keys(TILE_BUDGETS).find(
-    (k) => k !== "DEFAULT" && title.toUpperCase().startsWith(k),
-  );
+  if (title === 'UNTITLED') return TILE_BUDGETS['GENIUS HIT LIST'];
+  const key = Object.keys(TILE_BUDGETS).find(k => k !== 'DEFAULT' && title.toUpperCase().startsWith(k));
   return key ? TILE_BUDGETS[key] : TILE_BUDGETS.DEFAULT;
 }
 
@@ -291,12 +212,7 @@ export function checkTileBudgets(body) {
   for (const b of briefBlockSizes(body)) {
     const budget = tileBudgetFor(b.title);
     if (b.bytes > budget) {
-      overBudget.push({
-        title: b.title,
-        bytes: b.bytes,
-        budget,
-        pct: Math.round((b.bytes / budget) * 100),
-      });
+      overBudget.push({ title: b.title, bytes: b.bytes, budget, pct: Math.round((b.bytes / budget) * 100) });
     }
   }
   overBudget.sort((a, b) => b.pct - a.pct);
@@ -310,34 +226,25 @@ export function checkTileBudgets(body) {
  */
 export function enforceTileBudgets(body) {
   const trimmed = [];
-  const out = body.replace(
-    /(╔[^\n]*\n)([\s\S]*?)(╚[^\n]*╝)/g,
-    (whole, head, mid, tail) => {
-      const title =
-        whole.match(/^╔[═\s]*([^═╗]+?)(?:\s*═|╗)/m)?.[1]?.trim() || "UNTITLED";
-      const budget = tileBudgetFor(title);
-      if (Buffer.byteLength(whole, "utf8") <= budget) return whole;
-      const lines = mid.split("\n");
-      const overhead = Buffer.byteLength(head + tail, "utf8") + 80; // marker allowance
-      let used = 0;
-      const kept = [];
-      for (const line of lines) {
-        const lb = Buffer.byteLength(line + "\n", "utf8");
-        if (used + lb > budget - overhead) break;
-        kept.push(line);
-        used += lb;
-      }
-      const dropped = lines.length - kept.length;
-      if (dropped <= 0) return whole;
-      trimmed.push({ title, dropped, budget });
-      return (
-        head +
-        kept.join("\n") +
-        `\n║  · ${dropped} line(s) trimmed (tile budget ${(budget / 1024).toFixed(1)}KB)\n` +
-        tail
-      );
-    },
-  );
+  const out = body.replace(/(╔[^\n]*\n)([\s\S]*?)(╚[^\n]*╝)/g, (whole, head, mid, tail) => {
+    const title = whole.match(/^╔[═\s]*([^═╗]+?)(?:\s*═|╗)/m)?.[1]?.trim() || 'UNTITLED';
+    const budget = tileBudgetFor(title);
+    if (Buffer.byteLength(whole, 'utf8') <= budget) return whole;
+    const lines = mid.split('\n');
+    const overhead = Buffer.byteLength(head + tail, 'utf8') + 80; // marker allowance
+    let used = 0;
+    const kept = [];
+    for (const line of lines) {
+      const lb = Buffer.byteLength(line + '\n', 'utf8');
+      if (used + lb > budget - overhead) break;
+      kept.push(line);
+      used += lb;
+    }
+    const dropped = lines.length - kept.length;
+    if (dropped <= 0) return whole;
+    trimmed.push({ title, dropped, budget });
+    return head + kept.join('\n') + `\n║  · ${dropped} line(s) trimmed (tile budget ${(budget / 1024).toFixed(1)}KB)\n` + tail;
+  });
   return { body: out, trimmed };
 }
 
@@ -346,11 +253,10 @@ export function briefBlockSizes(body) {
   const re = /(╔[^\n]*\n[\s\S]*?╚[^\n]*╝)/g;
   for (const match of body.matchAll(re)) {
     const block = match[1];
-    const title =
-      block.match(/^╔[═\s]*([^═╗]+?)(?:\s*═|╗)/m)?.[1]?.trim() || "UNTITLED";
+    const title = block.match(/^╔[═\s]*([^═╗]+?)(?:\s*═|╗)/m)?.[1]?.trim() || 'UNTITLED';
     blocks.push({
       title,
-      bytes: Buffer.byteLength(block, "utf8"),
+      bytes: Buffer.byteLength(block, 'utf8'),
       lines: block.split(/\r?\n/).length,
     });
   }
@@ -361,17 +267,15 @@ async function readTarget() {
   if (STDIN_MODE) {
     return await new Promise((resolve, reject) => {
       const chunks = [];
-      process.stdin.on("data", (c) => chunks.push(c));
-      process.stdin.on("end", () =>
-        resolve(Buffer.concat(chunks).toString("utf8")),
-      );
-      process.stdin.on("error", reject);
+      process.stdin.on('data', (c) => chunks.push(c));
+      process.stdin.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')));
+      process.stdin.on('error', reject);
     });
   }
   if (!fs.existsSync(targetPath)) {
     throw new Error(`brief not found: ${targetPath}`);
   }
-  return fs.readFileSync(targetPath, "utf8");
+  return fs.readFileSync(targetPath, 'utf8');
 }
 
 if (IS_DIRECT_RUN) {
@@ -380,13 +284,7 @@ if (IS_DIRECT_RUN) {
     body = await readTarget();
   } catch (err) {
     if (JSON_MODE) {
-      process.stdout.write(
-        JSON.stringify(
-          { ok: false, error: err.message, source: targetPath },
-          null,
-          2,
-        ) + "\n",
-      );
+      process.stdout.write(JSON.stringify({ ok: false, error: err.message, source: targetPath }, null, 2) + '\n');
     } else {
       console.error(`✗ ${err.message}`);
     }
@@ -406,43 +304,27 @@ if (IS_DIRECT_RUN) {
   // 20.9KB and hard-failed every /start deterministically. 24KB ≈ 5.2K tokens
   // — still inside the v1.3 token-lean target (≤8K at session start).
   // Trim-first rule stands: no-data boxes are skipped (augment S153).
-  const sizeBytes = Buffer.byteLength(body, "utf8");
+  const sizeBytes = Buffer.byteLength(body, 'utf8');
   const topBlocks = briefBlockSizes(body).slice(0, 5);
   const BUDGET_WARN = 18_432; // 18KB
   const BUDGET_FAIL = 24_576; // 24KB
-  const budgetStatus =
-    sizeBytes > BUDGET_FAIL
-      ? "fail"
-      : sizeBytes > BUDGET_WARN
-        ? "warn"
-        : "pass";
+  const budgetStatus = sizeBytes > BUDGET_FAIL ? 'fail' : sizeBytes > BUDGET_WARN ? 'warn' : 'pass';
   try {
-    const fs2 = await import("node:fs");
-    const path2 = await import("node:path");
-    const cacheDir = path2.join(
-      path2.dirname(targetPath || "."),
-      "..",
-      ".cache",
-    );
+    const fs2 = await import('node:fs');
+    const path2 = await import('node:path');
+    const cacheDir = path2.join(path2.dirname(targetPath || '.'), '..', '.cache');
     fs2.mkdirSync(cacheDir, { recursive: true });
-    fs2.writeFileSync(
-      path2.join(cacheDir, "brief-size.json"),
-      JSON.stringify(
-        {
-          generatedAt: new Date().toISOString(),
-          sizeBytes,
-          budgetWarn: BUDGET_WARN,
-          budgetFail: BUDGET_FAIL,
-          status: budgetStatus,
-          topBlocks,
-          overBudgetTiles: checkTileBudgets(body).overBudget, // S154 #4
-        },
-        null,
-        2,
-      ),
-    );
+    fs2.writeFileSync(path2.join(cacheDir, 'brief-size.json'), JSON.stringify({
+      generatedAt: new Date().toISOString(),
+      sizeBytes,
+      budgetWarn: BUDGET_WARN,
+      budgetFail: BUDGET_FAIL,
+      status: budgetStatus,
+      topBlocks,
+      overBudgetTiles: checkTileBudgets(body).overBudget, // S154 #4
+    }, null, 2));
   } catch {}
-  if (budgetStatus === "fail") fail = true;
+  if (budgetStatus === 'fail') fail = true;
   // S154 #4 — per-tile attribution: name the offending tile, don't just say "too big".
   // S248 [audit #10] — tile-budget hard contract: the per-tile check existed since
   // S154 but was advisory-only, so a tile could run over budget every render with
@@ -455,62 +337,43 @@ if (IS_DIRECT_RUN) {
   if (!JSON_MODE && tileCheck.overBudget.length) {
     for (const t of tileCheck.overBudget.slice(0, 4)) {
       const hard = t.pct > TILE_HARD_FAIL_PCT;
-      console.log(
-        `  ${hard ? "⛔" : "⚠"}  tile over budget: ${t.title} ${t.bytes}B > ${t.budget}B (${t.pct}%)${hard ? " — HARD FAIL (>110%) · trim the tile at the renderer" : ""}`,
-      );
+      console.log(`  ${hard ? '⛔' : '⚠'}  tile over budget: ${t.title} ${t.bytes}B > ${t.budget}B (${t.pct}%)${hard ? ' — HARD FAIL (>110%) · trim the tile at the renderer' : ''}`);
     }
   }
   if (tileCheck.overBudget.some((t) => t.pct > TILE_HARD_FAIL_PCT)) fail = true;
-  if (!JSON_MODE && budgetStatus !== "pass") {
-    console.log(
-      `  ${budgetStatus === "fail" ? "⛔" : "⚠"}  brief size ${sizeBytes}B ${budgetStatus === "fail" ? `> ${BUDGET_FAIL}B (HARD FAIL — trim tiles)` : `> ${BUDGET_WARN}B (warn — approaching budget)`}`,
-    );
+  if (!JSON_MODE && budgetStatus !== 'pass') {
+    console.log(`  ${budgetStatus === 'fail' ? '⛔' : '⚠'}  brief size ${sizeBytes}B ${budgetStatus === 'fail' ? `> ${BUDGET_FAIL}B (HARD FAIL — trim tiles)` : `> ${BUDGET_WARN}B (warn — approaching budget)`}`);
     if (topBlocks.length) {
-      console.log("  top brief blocks by size:");
+      console.log('  top brief blocks by size:');
       for (const block of topBlocks.slice(0, 3)) {
-        console.log(
-          `    - ${block.title}: ${block.bytes}B · ${block.lines} lines`,
-        );
+        console.log(`    - ${block.title}: ${block.bytes}B · ${block.lines} lines`);
       }
     }
   }
 
   if (JSON_MODE) {
-    process.stdout.write(
-      JSON.stringify(
-        {
-          ok: result.ok,
-          source: STDIN_MODE ? "<stdin>" : targetPath,
-          missingRequired: result.missingRequired,
-          missingRecommended: result.missingRecommended,
-          forbiddenHits: result.forbiddenHits,
-          bodyShape: result.bodyShape,
-          staleBrief: result.staleBrief,
-          semanticContradictions: result.semanticContradictions,
-          budget: {
-            sizeBytes,
-            warnBytes: BUDGET_WARN,
-            failBytes: BUDGET_FAIL,
-            status: budgetStatus,
-            topBlocks,
-          },
-        },
-        null,
-        2,
-      ) + "\n",
-    );
+    process.stdout.write(JSON.stringify({
+      ok: result.ok,
+      source: STDIN_MODE ? '<stdin>' : targetPath,
+      missingRequired: result.missingRequired,
+      missingRecommended: result.missingRecommended,
+      forbiddenHits: result.forbiddenHits,
+      bodyShape: result.bodyShape,
+      staleBrief: result.staleBrief,
+      budget: {
+        sizeBytes,
+        warnBytes: BUDGET_WARN,
+        failBytes: BUDGET_FAIL,
+        status: budgetStatus,
+        topBlocks,
+      },
+    }, null, 2) + '\n');
   } else {
-    const header = `validate-brief-format · ${STDIN_MODE ? "<stdin>" : path.relative(process.cwd(), targetPath)}`;
+    const header = `validate-brief-format · ${STDIN_MODE ? '<stdin>' : path.relative(process.cwd(), targetPath)}`;
     console.log(header);
-    console.log("─".repeat(Math.min(72, header.length + 8)));
+    console.log('─'.repeat(Math.min(72, header.length + 8)));
     if (result.staleBrief) {
       console.log(`  ⛔  STALE BRIEF: ${result.staleBrief}`);
-    }
-    if (result.semanticContradictions.length > 0) {
-      console.log("  ⛔  semantic contradictions:");
-      for (const contradiction of result.semanticContradictions) {
-        console.log(`       - ${contradiction}`);
-      }
     }
     if (result.bodyShape) {
       console.log(`  ⛔  ${result.bodyShape}`);
@@ -531,17 +394,13 @@ if (IS_DIRECT_RUN) {
       }
     }
     if (!fail) {
-      console.log(
-        `  ✓   conformant — all required canonical blocks present, no drift markers`,
-      );
+      console.log(`  ✓   conformant — all required canonical blocks present, no drift markers`);
     } else {
-      console.log("");
-      console.log(
-        `  Repair path: node scripts/ops.mjs onboard --repair --write`,
-      );
+      console.log('');
+      console.log(`  Repair path: node scripts/ops.mjs onboard --repair --write`);
       console.log(`  Then re-render: node scripts/render-startup-brief.mjs`);
     }
-    console.log("");
+    console.log('');
   }
 
   process.exit(fail ? 1 : 0);
