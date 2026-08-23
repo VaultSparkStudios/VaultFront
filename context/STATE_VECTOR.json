@@ -1,20 +1,20 @@
 {
   "vectorVersion": "1.0",
-  "generatedAt": "2026-08-16",
-  "generatedAtMs": 1786867583664,
-  "session": 106,
-  "vectorHash": "1648d3066b76b589",
+  "generatedAt": "2026-08-23",
+  "generatedAtMs": 1787469952388,
+  "session": 108,
+  "vectorHash": "0c99c04c89904fac",
   "silTotal": 996,
   "silAvg3": 995.3,
-  "velocity": 8,
+  "velocity": 5,
   "debt": "down",
   "runway": "unknown",
   "intentRate": "100%",
-  "openNow": 4,
+  "openNow": 7,
   "openNext": 6,
   "openBlocked": 0,
   "topNow": [
-    "Verify `contact@vaultfront.io` end-to-end through the project-domain Zoho alias:",
+    "Finish `contact@vaultfront.io` human reply identity. Brevo outbound and Cloudfla",
     "Collect at least three distinct authenticated human Alpha sessions and one real ",
     "Complete and retain an authenticated Obelisk callback/session/identity/logout jo"
   ],
@@ -28,15 +28,15 @@
   "genome": "24/25",
   "ignisScore": 43050,
   "ignisGrade": "FORGE",
-  "ignisAgeDays": 8,
+  "ignisAgeDays": 15,
   "name": "VaultFront",
   "slug": "vaultfront",
   "type": "game",
   "lifecycle": "alpha",
-  "nextMilestone": "Establish Zoho reply identity, authenticated Obelisk relying-party proof, genuine human Alpha plus positive live revenue, and portable exact-artifact founder approval; then rerun production admission.",
-  "currentFocus": "Session 106 certified Fortune rewards, installed exact pre-mutation release admission, and deployed/observed/rolled back the exact candidate on stable staging.",
+  "nextMilestone": "Obtain Zoho reply-as, authenticated Obelisk, three genuine authenticated human Alpha sessions, positive live revenue, and portable exact-artifact founder approval, then refresh exact staging evidence and promote through canonical admission.",
+  "currentFocus": "Session 108 exhausted every agent-addressable release task and restored an exact, fully observed staging candidate after a real rollback drill; production remains fail-closed on five authority-owned proofs.",
   "lastShipped": "see LATEST_HANDOFF.md",
   "blockers": [
-    "Production is NO-GO until project-domain Zoho send/receive/reply-as, a complete authenticated Obelisk journey, genuine authenticated human Alpha evidence, one positive live payment, and a purpose-scoped portable founder approval claim are observed."
+    "Production is NO-GO until project-domain human reply-as is observed (Brevo outbound and Cloudflare inbound delivery are green), a complete authenticated Obelisk journey, genuine authenticated human Alpha evidence, one positive live payment, and a purpose-scoped portable founder approval claim are observed."
   ]
 }

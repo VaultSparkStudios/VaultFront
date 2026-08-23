@@ -4,15 +4,23 @@ Public-safe roadmap only. Detailed backlog sequencing is maintained privately.
 
 ## Now — production evidence corridor
 
-- [done] [SIL:1] Canonical Vitest execution is four bounded shards and excludes `.cache/**`; all 288 files / 1,501 assertions pass without the prior host storm.
-- [done] Re-ran the exact-live three-theme parity/Core Web Vitals matrix; observation 31922854694 passed all nine cells with zero findings.
-- [done] Attach independently signed exact-runtime staging, health, and Obelisk observations to public readiness.
-- [done] Execute and retain exact-candidate rollback/restoration run 31787212414.
+- [done] [SIL:1] Preserve chronological, shard-aware test evidence and classify worker-start failures separately from assertion failures.
+- [done] Exact revision `1a89688c` passed provider CI `32624397469`, E2E `32624397463` (30/30), stable-staging deploy `32624581625`, and the apex promotion dry-run `32624982318`.
+- [done] Live observation `32624675990` passed all nine theme/viewport cells with zero findings; worst LCP 1,556 ms, INP 184 ms, and CLS 0.0066.
+- [done] Rollback/restoration drill `32624833208` admitted both exact images, rolled staging back to `2ae27fec`, restored `1a89688c`, and observed a healthy 2/2-worker quorum.
 
-- [ ] Finish `contact@vaultfront.io` human reply identity. Brevo domain authentication and outbound provider delivery are green (DNS apply `31971429976`; message-ID SHA-256 `f82213b1e24c61ceb757c2c4d725b702bedced82e204cb6bb2ad5df75cb26f79`). Cloudflare inbound apply `31993840009` created the exact route to the founder mailbox, and the tagged probe was independently observed as `forward` + `delivered` with SPF/DKIM pass. Remaining: configure Zoho External From with Brevo SMTP and prove a real reply carries the project address without on-behalf-of identity. Project approval is recorded; fleet Canon remains unchanged pending Ark question `01K0727C6507498BE8FC927A64`.
+- [ ] Finish `contact@vaultfront.io` human reply identity. Brevo outbound and Cloudflare inbound transport are green; Zoho send/receive reply-as proof remains absent and `zoho.mail.admin` is missing its four required credentials.
 - [ ] Collect at least three distinct authenticated human Alpha sessions and one real checkout/supporter revenue observation.
-- [ ] Complete and retain an authenticated Obelisk callback/session/identity/logout journey.
+- [ ] Complete and retain an authenticated Obelisk callback/session/identity/logout journey; the required relying-party identity values remain unavailable.
 - [ ] Install a trusted purpose-scoped founder approval writer for the exact SHA and image.
+
+## Completed (2026-08-23 — Session 108 release-evidence arc)
+
+- [done] Shipped audit items 238–242: chronological test evidence, bounded Vitest startup resilience, release-pressure brief parity, provider-protocol regression closure, and immutable workflow inputs.
+- [done] Shipped innovations 69–70: a semantic startup-brief sentinel and a supported Node runtime floor; the innovation ledger is exhausted at 70/70.
+- [done] Root-fixed the live observer dialog teardown race and the measured 232 ms language-selector interaction; thresholds were not weakened.
+- [done] Passed exact provider CI, 30/30 browser journeys, nine-cell rendered-pixel observation, immutable staging deployment, promotion validation, and observed rollback/restoration.
+- [deferred] Production promotion remains fail-closed on Zoho reply identity, authenticated Obelisk, genuine human Alpha evidence, positive live revenue, and portable exact-artifact founder approval.
 
 ## Completed (2026-08-17 — Session 107 contact transport)
 

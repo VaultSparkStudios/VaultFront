@@ -516,3 +516,10 @@ Session 89 closeout tooling incident: invoking the Studio Ops closeout-board ren
 - Verification: `node --check` passes both mail configurators; project doctor passes 13/13 with `blockingFailing: 0`. The broad Vitest attempt passed 32 files / 231 assertions but could not start eight workers under host saturation; a serial isolation also stalled at worker startup, so no fresh aggregate green is claimed.
 - Release: Zoho External From reply identity, authenticated Obelisk, three authenticated humans, positive live payment, and portable founder approval remain red. Production remains HTTP 503 / NO-GO.
 - CDR reviewed — no new creative direction this session.
+
+## 2026-08-23 — Session 108 release-evidence arc closeout
+
+- Shipped audit 238–242 and innovations 69–70; root-fixed the exact-live dialog teardown race and language-selector INP defect without weakening thresholds.
+- Exact `1a89688c` passed CI `32624397469`, E2E `32624397463`, staging `32624581625`, observation `32624675990`, rollback `32624833208`, and promotion dry-run `32624982318`.
+- Stable staging is healthy and exact; production remains fail-closed on Zoho reply identity, authenticated Obelisk, genuine human Alpha, positive live revenue, and portable exact-artifact approval.
+- CDR reviewed — no new creative direction; the session authorization was operational and did not redefine creative canon or evidence authority.

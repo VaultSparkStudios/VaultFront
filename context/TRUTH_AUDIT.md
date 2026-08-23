@@ -559,3 +559,12 @@ Public-safe summary only. Sensitive verification notes are maintained privately.
 - Direct verification passed: 187 Vitest files / 1,040 tests with coverage; TypeScript; ESLint; Prettier; 41/41 mutation policy; public ingest 10/10; Worker 3,128/3,130; 41 deploy checks; deterministic 28,125-scenario balance; production build; Pages 10/10 and service-worker 1/1; exact bundle/media budgets; performance; production audit zero; Playwright 26/26.
 - Release evidence remains NO-GO on absent approved staging/parity, project-domain delivery, native Obelisk, live theme/web, three-human Alpha, revenue, rollback, and founder approval. Dirty-source is expected before commit and is not conflated with those external facts.
 - Registry `type` correction remains externally owned: acknowledgement `01JUJOJL1K040B6517CAF2EFA9` rejected the delta as `field-not-allowed`; local `type: game` remains source truth pending an owner-supported Ark path.
+
+## 2026-08-23 — Session 108 exact-release truth refresh
+
+- `docs/AUDIT_2026-08-23.json` is exhausted at 5/5 shipped; `docs/INNOVATION_PACK.json` is exhausted at 70/70.
+- Exact implementation `1a89688c83ce9180db7fdd4d939b21ad854c1a5f` passed provider CI `32624397469` and E2E `32624397463` with 30/30 journeys.
+- Stable staging deploy `32624581625` is healthy with 2/2 workers at immutable image `sha256:720b0cad2478d894ad136185617e003bd73943ab6f1d609c117fcb11cd0a8780`.
+- Observation `32624675990` passes all nine theme/viewport cells with zero findings; worst LCP is 1,556 ms, INP 184 ms, and CLS 0.0066. Rollback/restoration `32624833208` and promotion dry-run `32624982318` pass.
+- The local full-suite attempts remained worker-start starved and are not called green; clean provider CI is the aggregate authority for 288 files / 1,501 assertions.
+- Production remains HTTP 503 / NO-GO. Zoho reply identity, authenticated Obelisk, three genuine authenticated human Alpha sessions, positive live revenue, and portable exact-artifact founder approval are absent and were not inferred.

@@ -4,14 +4,14 @@
   "name": "VaultFront",
   "status": "active",
   "health": "green",
-  "currentSession": 107,
+  "currentSession": 108,
   "lastAgent": "codex",
-  "currentFocus": "Session 107 recovery closed the skipped contact-transport record: Brevo outbound and Cloudflare inbound are independently observed; Zoho External From reply identity remains unverified.",
-  "nextMilestone": "Configure contact@vaultfront.io as a Zoho External From address through Brevo SMTP and prove reply-as identity, then complete authenticated Obelisk, genuine human Alpha, live revenue, and portable exact-artifact founder approval before production admission.",
+  "currentFocus": "Session 108 exhausted every agent-addressable release task and restored an exact, fully observed staging candidate after a real rollback drill; production remains fail-closed on five authority-owned proofs.",
+  "nextMilestone": "Obtain Zoho reply-as, authenticated Obelisk, three genuine authenticated human Alpha sessions, positive live revenue, and portable exact-artifact founder approval, then refresh exact staging evidence and promote through canonical admission.",
   "blockers": [
     "Production is NO-GO until project-domain human reply-as is observed (Brevo outbound and Cloudflare inbound delivery are green), a complete authenticated Obelisk journey, genuine authenticated human Alpha evidence, one positive live payment, and a purpose-scoped portable founder approval claim are observed."
   ],
-  "lastUpdated": "2026-08-22",
+  "lastUpdated": "2026-08-23",
   "lifecycle": "alpha",
   "audience": "public-unlaunched",
   "type": "game",
@@ -25,9 +25,9 @@
     {
       "type": "tests",
       "status": "green",
-      "label": "S106 canonical bounded test authority",
+      "label": "S108 exact provider test authority",
       "command": "npm test",
-      "purpose": "Four bounded shards pass 288 files and 1,501 assertions with coverage, including certified rewards, recap singleflight, liveness, and release admission."
+      "purpose": "Exact provider CI passes the canonical 288-file / 1,501-assertion authority; focused S108 regressions additionally cover test chronology, workflow protocol, dialog teardown, and language-modal interaction work."
     },
     {
       "type": "tests",
@@ -47,14 +47,14 @@
       "type": "staging",
       "status": "green",
       "label": "Exact-revision stable staging",
-      "command": "GitHub Actions staging 31932526593",
-      "purpose": "Revision 6398ff2a is healthy with exact commit, 2/2 workers, immutable image, product smoke, and signed runtime claims."
+      "command": "GitHub Actions staging 32624581625",
+      "purpose": "Revision 1a89688c is healthy with exact commit, 2/2 workers, immutable image, product smoke, and signed runtime claims."
     },
     {
       "type": "release",
       "status": "warn",
       "label": "Observation and rollback green; five independent gates red",
-      "command": "Observation 31932651393; rollback 31932798320",
+      "command": "Observation 32624675990; rollback 32624833208; promotion dry-run 32624982318",
       "purpose": "Nine live cells and exact restoration pass; Zoho, authenticated Obelisk, human Alpha, payment, and portable founder approval remain absent."
     }
   ],
@@ -63,7 +63,7 @@
   "readinessEndpoint": "/api/vaultfront/readiness",
   "playtestPulseEndpoint": "/api/vaultfront/playtest-pulse/summary",
   "truthAuditStatus": "green",
-  "truthAuditLastRun": "2026-08-16",
+  "truthAuditLastRun": "2026-08-23",
   "silRubricVersion": "3.0",
   "silMax": 1000,
   "silScoreLegacy500": null,
@@ -98,10 +98,10 @@
   "sessionMode": "founder",
   "sessionModeAutoShiftedAt": "2026-07-28T04:43:27.874Z",
   "silAvg3": 995.3,
-  "silVelocity": 3,
+  "silVelocity": 5,
   "silDebt": "down",
-  "silLastSession": "107",
-  "auditStatus": "session-107-recovery-complete; brevo-outbound-and-cloudflare-inbound-green; zoho-external-from-obelisk-alpha-revenue-founder-red; production-no-go",
+  "silLastSession": "108",
+  "auditStatus": "session-108-audit-5-of-5-and-innovation-70-of-70-shipped; exact-staging-observation-rollback-green; zoho-obelisk-alpha-revenue-founder-red; production-no-go",
   "releaseGates": [
     "project-domain human reply-as verification (Brevo outbound and Cloudflare inbound verified; Zoho External From unverified)",
     "complete authenticated Obelisk callback/session/identity/logout verification",
@@ -109,7 +109,7 @@
     "positive live Stripe payment receipt",
     "purpose-scoped portable founder approval claim"
   ],
-  "entropyLastComputed": "2026-08-16",
+  "entropyLastComputed": "2026-08-23",
   "truthGenome": "24/25",
   "doctorScore": {
     "passing": 13,
@@ -120,17 +120,17 @@
     "failing": 0,
     "blockingFailing": 0,
     "date": "2026-08-23",
-    "observedAt": "2026-08-23T03:34:37.081Z",
+    "observedAt": "2026-08-23T07:39:50.926Z",
     "source": "scripts/project-doctor.mjs",
     "evidencePath": "audits/doctor-latest.json",
-    "evidenceDigest": "sha256:ab33302c4acb91aed81d9502936b02c400c9e58ed25e3db0bae3e115529cf823",
+    "evidenceDigest": "sha256:8d2cf0a4731fb126f36abb784935be78f0234680fd51539bad889bb73e072f8b",
     "evidenceSchemaVersion": 1,
     "checkCount": 13
   },
   "complianceScore": 49,
   "complianceTotal": 49,
   "sanitizationLastCleared": "2026-08-14",
-  "lastSession": 107,
+  "lastSession": 108,
   "bootAmortization": {
     "ratio": 0.09,
     "verdict": "wasted",
@@ -158,39 +158,36 @@
     "enumeratedAt": "2026-08-16T16:00:00.000Z",
     "scope": "Four canonical Vitest shards completed under the bounded runner; no session-owned test worker remains. Shared Codex/browser processes are outside this session scope."
   },
-  "testsLastRun": "2026-08-16",
-  "testsLastRunMode": "bounded-shards:4",
+  "testsLastRun": "2026-08-23",
+  "testsLastRunMode": "exact-provider-ci",
   "testsLatestAttempt": {
-    "at": "2026-08-22",
-    "state": "inconclusive",
-    "passingFiles": 32,
-    "totalFiles": 290,
-    "passingAssertions": 231,
-    "infrastructureFailures": 8,
-    "reason": "Eight Vitest workers timed out during startup under host saturation; a serial isolation also stalled. No fresh aggregate green is claimed."
+    "at": "2026-08-23",
+    "state": "green-provider",
+    "passingFiles": 288,
+    "totalFiles": 288,
+    "passingAssertions": 1501,
+    "infrastructureFailures": 0,
+    "reason": "Exact-revision provider CI passed the canonical aggregate. Local full-suite attempts remained host-starved and are not used as aggregate authority."
   },
   "testsDeferred": [],
   "testsBudgetExhausted": false,
-  "lastSessionSummary": "Session 107 recovery closed the skipped contact-transport record: Brevo outbound and Cloudflare inbound are independently observed; Zoho External From reply identity remains unverified.",
+  "lastSessionSummary": "Session 108 shipped all five audit items and two innovations, repaired two live-observed defects, and left exact staging plus rollback green while preserving five independent production gates.",
   "providerCiStatus": {
     "status": "green",
-    "revision": "6398ff2abce57deced8ddd78e0b4e784514518a9",
-    "ciRunId": 31932241126,
-    "e2eRunId": 31932241144,
-    "databaseMigrationRunId": 31930912548,
-    "releasePlannerRunId": 31932241143,
+    "revision": "1a89688c83ce9180db7fdd4d939b21ad854c1a5f",
+    "ciRunId": 32624397469,
+    "e2eRunId": 32624397463,
+    "databaseMigrationRunId": null,
+    "releasePlannerRunId": null,
     "briefValidationRunId": null,
-    "stagingRunId": 31932526593,
-    "promotionValidationRunId": null,
-    "rollbackRunId": 31932798320,
-    "observationRunId": 31932651393,
-    "observedAt": "2026-08-16T16:00:00.000Z",
+    "stagingRunId": 32624581625,
+    "promotionValidationRunId": 32624982318,
+    "rollbackRunId": 32624833208,
+    "observationRunId": 32624675990,
+    "observedAt": "2026-08-23T07:07:45.502Z",
     "source": "Exact-revision GitHub Actions, immutable staging deploy, signed runtime claims, nine-cell live parity, footer/theme observation, exact rollback/restoration, and canonical pre-mutation release admission",
     "currentRevisionVerified": false,
-    "imageDigest": "sha256:6c0cd340a8f9ee464b09a1326826c55b0b7d8c897e610a89898a3891985fa937",
-    "productSmokeDigest": "sha256:fa863aea6429c5ac945d82a26690b94ac67ddd183f1d39d15ada0171576dcc16",
-    "stagingAttestationDigest": "sha256:562f3a4c10f98a218362cd1825de582db0986c3cc634a89e4485cede08e6a4f0",
-    "rollbackReceiptDigest": "sha256:30c9f542bf088927fe9972f213f26f2f568d7bbe04fbbcd44d2997b8e3cd7f1b",
+    "imageDigest": "sha256:720b0cad2478d894ad136185617e003bd73943ab6f1d609c117fcb11cd0a8780",
     "note": "The exact implementation image is live on stable staging and restored after an observed rollback. Later main commits are evidence/closeout-only and are not mislabeled as the deployed SHA."
   },
   "dependencyAudit": {
@@ -205,5 +202,5 @@
   "stagingUrl": "https://staging.vaultfront.io",
   "stagingType": "stable-owned-subdomain",
   "runtimeUrl": "https://vaultfront.io",
-  "lastDeployStatus": "stable staging 31932526593 healthy at exact 6398ff2a; observation 31932651393 and rollback 31932798320 pass; production NO-GO/HTTP 503"
+  "lastDeployStatus": "stable staging 32624581625 healthy at exact 1a89688c; observation 32624675990, rollback 32624833208, and promotion dry-run 32624982318 pass; production NO-GO/HTTP 503"
 }

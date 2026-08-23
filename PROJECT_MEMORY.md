@@ -129,3 +129,10 @@ session can resume from repo state without relying on prior chat.
 - Obelisk redirects and unauthenticated 401 responses are configuration smoke only; identity readiness requires a real callback/session/identity/logout journey.
 - Exact candidate `6398ff2a` is healthy on stable staging at image `sha256:6c0cd340a8f9ee464b09a1326826c55b0b7d8c897e610a89898a3891985fa937`; observation `31932651393` and rollback `31932798320` pass.
 - Production remains fail-closed on Zoho reply identity, authenticated Obelisk, genuine human Alpha, positive live revenue, and portable exact-artifact founder approval.
+
+## 2026-08-23 — Session 108 release-evidence arc
+
+- Release evidence must remain chronological and exact-artifact-bound. Provider run IDs for the current implementation are CI `32624397469`, E2E `32624397463`, deploy `32624581625`, observation `32624675990`, rollback `32624833208`, and promotion dry-run `32624982318`.
+- Hidden language-modal options are precomputed during selector initialization and synchronized only on state changes; avoid rebuilding all options in the interaction handler because live INP regressed above the 200 ms bar.
+- Stable staging is exact at `1a89688c` / image `sha256:720b0cad2478d894ad136185617e003bd73943ab6f1d609c117fcb11cd0a8780` and healthy after an observed rollback/restoration.
+- Production remains fail-closed until Zoho reply identity, authenticated Obelisk, genuine human Alpha, positive live revenue, and portable exact-artifact founder approval are independently observed.

@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "1.3",
+  "project": "vaultfront",
+  "date": "2026-08-23",
+  "session": 108,
+  "agent": "codex",
+  "kind": "full-arc-release-evidence-closeout",
+  "mission": "Run a fresh audit, ship every premise-verified local improvement and second-order innovation, verify the exact artifact on stable staging, and promote production only if every canonical gate is genuinely green",
+  "sil": {
+    "score": 996,
+    "max": 1000,
+    "velocity": 5,
+    "categories": {
+      "devHealth": 100,
+      "creativeAlignment": 99,
+      "momentum": 100,
+      "engagement": 98,
+      "processQuality": 100,
+      "crossRepoCoherence": 99,
+      "securityPosture": 100,
+      "ecosystemIntegration": 100,
+      "capitalEfficiency": 100,
+      "automationCoverage": 100
+    }
+  },
+  "implementation": {
+    "auditItemsShipped": [238, 239, 240, 241, 242],
+    "auditItemsTotal": 5,
+    "innovationLedger": "70/70",
+    "liveDefectsRootFixed": [
+      "observer-dialog-teardown",
+      "language-selector-inp"
+    ]
+  },
+  "verification": {
+    "revision": "1a89688c83ce9180db7fdd4d939b21ad854c1a5f",
+    "providerCiRunId": 32624397469,
+    "e2eRunId": 32624397463,
+    "e2ePassed": 30,
+    "stagingRunId": 32624581625,
+    "observationRunId": 32624675990,
+    "rollbackRunId": 32624833208,
+    "promotionDryRunId": 32624982318,
+    "imageDigest": "sha256:720b0cad2478d894ad136185617e003bd73943ab6f1d609c117fcb11cd0a8780",
+    "liveParity": {
+      "cells": 9,
+      "findings": 0,
+      "worstLcpMs": 1556,
+      "worstInpMs": 184,
+      "worstCls": 0.0066
+    },
+    "aggregateAuthority": "exact-revision provider CI; local aggregate not claimed green under host worker starvation",
+    "secretScan": "zero findings"
+  },
+  "releaseGate": {
+    "status": "no-go",
+    "productionPromoted": false,
+    "productionStatus": "HTTP 503",
+    "passingGates": [
+      "staging",
+      "healthObservation",
+      "stagingParity",
+      "themeReadability",
+      "footerManifest",
+      "rollbackObservation"
+    ],
+    "blockedGates": [
+      "contactEmail",
+      "obeliskIdentity",
+      "alphaHumanEvidence",
+      "revenueObservation",
+      "founderApproval"
+    ]
+  }
+}
