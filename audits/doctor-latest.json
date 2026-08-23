@@ -58,9 +58,7 @@
       "detail": "{\n  \"ok\": true,\n  \"entrypoints\": [\n    \"src/client/Main.ts\"\n  ],\n  \"reachableModules\": 200,\n  \"clientModules\": 200,\n  \"unreachable\": [],\n  \"missingImports\": []\n}",
       "data": {
         "ok": true,
-        "entrypoints": [
-          "src/client/Main.ts"
-        ],
+        "entrypoints": ["src/client/Main.ts"],
         "reachableModules": 200,
         "clientModules": 200,
         "unreachable": [],
