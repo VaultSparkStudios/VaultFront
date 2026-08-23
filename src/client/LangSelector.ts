@@ -97,6 +97,7 @@ export class LangSelector extends LitElement {
     this.currentLang = userLang;
 
     await this.loadLanguageList();
+    this.syncLanguageModal();
     this.applyTranslation();
   }
 
@@ -137,17 +138,19 @@ export class LangSelector extends LitElement {
       let list: any[] = [];
 
       const browserLang = new Intl.Locale(navigator.language).language;
+      const shouldIncludeDebug =
+        this.debugKeyPressed || this.currentLang === "debug";
 
       let debugLang: any = null;
-      if (this.debugKeyPressed || this.currentLang === "debug") {
+      if (shouldIncludeDebug) {
         debugLang = {
           code: "debug",
           native: "Debug",
           en: "Debug",
           svg: "xx",
         };
-        this.debugMode = true;
       }
+      this.debugMode = shouldIncludeDebug;
 
       for (const langData of this.languageMetadata) {
         if (langData.code === "debug" && !debugLang) continue;
@@ -196,6 +199,8 @@ export class LangSelector extends LitElement {
     localStorage.setItem("lang", lang);
     this.translations = await this.loadLanguage(lang);
     this.currentLang = lang;
+    await this.loadLanguageList();
+    this.syncLanguageModal();
     this.applyTranslation();
   }
 
@@ -304,20 +309,30 @@ export class LangSelector extends LitElement {
     return text;
   }
 
-  private async openModal() {
-    this.debugMode = this.debugKeyPressed;
-    await this.loadLanguageList();
-
+  private syncLanguageModal() {
     const languageModal = document.getElementById(
       "page-language",
     ) as LanguageModal;
 
     if (languageModal) {
-      languageModal.languageList = [...this.languageList];
-      languageModal.currentLang = this.currentLang;
-      // Use the navigation system
-      window.showPage?.("page-language");
+      if (languageModal.languageList !== this.languageList) {
+        languageModal.languageList = this.languageList;
+      }
+      if (languageModal.currentLang !== this.currentLang) {
+        languageModal.currentLang = this.currentLang;
+      }
     }
+  }
+
+  private async openModal() {
+    const shouldIncludeDebug =
+      this.debugKeyPressed || this.currentLang === "debug";
+    if (this.debugMode !== shouldIncludeDebug) {
+      await this.loadLanguageList();
+    }
+    this.syncLanguageModal();
+    // Use the navigation system after the hidden modal has been pre-populated.
+    window.showPage?.("page-language");
   }
 
   public close() {

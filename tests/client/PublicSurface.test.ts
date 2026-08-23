@@ -140,4 +140,14 @@ describe("public launch foundation", () => {
     expect(languages).toContain('loading="lazy"');
     expect(languages).toContain('decoding="async"');
   });
+
+  it("pre-populates the language modal outside the common click interaction", () => {
+    const selector = read("src/client/LangSelector.ts");
+    expect(selector).toContain("this.syncLanguageModal();");
+    expect(selector).toContain(
+      "languageModal.languageList !== this.languageList",
+    );
+    expect(selector).toContain("this.debugMode !== shouldIncludeDebug");
+    expect(selector).toContain("after the hidden modal has been pre-populated");
+  });
 });
