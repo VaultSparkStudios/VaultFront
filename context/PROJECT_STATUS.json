@@ -4,14 +4,14 @@
   "name": "VaultFront",
   "status": "active",
   "health": "green",
-  "currentSession": 106,
+  "currentSession": 107,
   "lastAgent": "codex",
-  "currentFocus": "Session 107 authenticated Brevo outbound and applied Cloudflare inbound for contact@vaultfront.io with an independently observed forward/delivered event; Zoho External From reply identity remains unverified.",
+  "currentFocus": "Session 107 recovery closed the skipped contact-transport record: Brevo outbound and Cloudflare inbound are independently observed; Zoho External From reply identity remains unverified.",
   "nextMilestone": "Configure contact@vaultfront.io as a Zoho External From address through Brevo SMTP and prove reply-as identity, then complete authenticated Obelisk, genuine human Alpha, live revenue, and portable exact-artifact founder approval before production admission.",
   "blockers": [
     "Production is NO-GO until project-domain human reply-as is observed (Brevo outbound and Cloudflare inbound delivery are green), a complete authenticated Obelisk journey, genuine authenticated human Alpha evidence, one positive live payment, and a purpose-scoped portable founder approval claim are observed."
   ],
-  "lastUpdated": "2026-08-17",
+  "lastUpdated": "2026-08-22",
   "lifecycle": "alpha",
   "audience": "public-unlaunched",
   "type": "game",
@@ -94,10 +94,10 @@
   "sessionMode": "founder",
   "sessionModeAutoShiftedAt": "2026-07-28T04:43:27.874Z",
   "silAvg3": 995.3,
-  "silVelocity": 8,
+  "silVelocity": 3,
   "silDebt": "down",
-  "silLastSession": "106",
-  "auditStatus": "session-107-brevo-outbound-and-cloudflare-inbound-green; zoho-external-from-obelisk-alpha-revenue-founder-red; production-no-go",
+  "silLastSession": "107",
+  "auditStatus": "session-107-recovery-complete; brevo-outbound-and-cloudflare-inbound-green; zoho-external-from-obelisk-alpha-revenue-founder-red; production-no-go",
   "releaseGates": [
     "project-domain human reply-as verification (Brevo outbound and Cloudflare inbound verified; Zoho External From unverified)",
     "complete authenticated Obelisk callback/session/identity/logout verification",
@@ -126,7 +126,7 @@
   "complianceScore": 49,
   "complianceTotal": 49,
   "sanitizationLastCleared": "2026-08-14",
-  "lastSession": 105,
+  "lastSession": 107,
   "bootAmortization": {
     "ratio": 0.09,
     "verdict": "wasted",
@@ -154,9 +154,11 @@
     "enumeratedAt": "2026-08-16T16:00:00.000Z",
     "scope": "Four canonical Vitest shards completed under the bounded runner; no session-owned test worker remains. Shared Codex/browser processes are outside this session scope."
   },
-  "testsLastRun": "2026-08-16",
-  "testsLastRunMode": "Session 106: the complete canonical four-shard aggregate passes 288 files / 1,501 assertions; typecheck, lint, format, production build, balance, deploy contracts, provider exact-SHA CI/E2E, rendered proof, and doctor are green.",
-  "testsDeferred": [],
+  "testsLastRun": "2026-08-22",
+  "testsLastRunMode": "Session 107 recovery: both mail configurators pass syntax checks and doctor is 13/13. The local aggregate passed 32 files / 231 assertions but eight workers timed out during startup under host saturation; serial isolation also stalled, so no fresh aggregate green is claimed. Session 106 exact provider/full-suite receipt remains the latest complete authority.",
+  "testsDeferred": [
+    "Fresh local aggregate verification is inconclusive under host process saturation; rerun the canonical bounded suite when worker capacity is available."
+  ],
   "testsBudgetExhausted": false,
   "lastSessionSummary": "Session 106 shipped audit items 225–232, certified Fortune rewards, enforced exact pre-mutation release admission, passed exact staging/observation/rollback for 6398ff2a, and retained production NO-GO on five independent observations.",
   "providerCiStatus": {

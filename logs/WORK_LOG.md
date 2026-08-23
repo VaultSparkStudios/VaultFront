@@ -508,3 +508,11 @@ Session 89 closeout tooling incident: invoking the Studio Ops closeout-board ren
 - Provider/staging: exact `6398ff2a` passed CI `31932241126`, E2E `31932241144`, Release `31932241143`, staging `31932526593`, observation `31932651393`, and rollback `31932798320`; image `sha256:6c0cd340a8f9ee464b09a1326826c55b0b7d8c897e610a89898a3891985fa937` is healthy with 2/2 workers.
 - Release: canonical admission failed before mutation on Zoho, authenticated Obelisk, human Alpha, revenue, and portable founder approval. Production remains HTTP 503; no external observation was fabricated.
 - CDR reviewed — no new creative direction this session.
+
+## 2026-08-22 — Session 107 contact-transport recovery closeout
+
+- Recovery: found ten substantive commits after the S106 SIL anchor. Nine captured the contact-mail continuation and one later synchronized canonical Studio OS assets; all were already committed and synchronized, so recovery repaired the record rather than recreating code.
+- Shipped: Brevo outbound authentication/delivery proof, least-privilege Cloudflare DNS/routing workflows, exact inbound routing to the verified founder mailbox, and independently observed `forward` + `delivered` evidence with SPF/DKIM pass.
+- Verification: `node --check` passes both mail configurators; project doctor passes 13/13 with `blockingFailing: 0`. The broad Vitest attempt passed 32 files / 231 assertions but could not start eight workers under host saturation; a serial isolation also stalled at worker startup, so no fresh aggregate green is claimed.
+- Release: Zoho External From reply identity, authenticated Obelisk, three authenticated humans, positive live payment, and portable founder approval remain red. Production remains HTTP 503 / NO-GO.
+- CDR reviewed — no new creative direction this session.

@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "1.3",
+  "project": "vaultfront",
+  "date": "2026-08-22",
+  "session": 107,
+  "agent": "codex",
+  "kind": "contact-transport-recovery-closeout",
+  "mission": "Recover the skipped Session 107 write-back for project-domain inbound and outbound mail transport without relabeling transport as human reply identity",
+  "sil": {
+    "score": 996,
+    "max": 1000,
+    "velocity": 3,
+    "categories": {
+      "devHealth": 100,
+      "creativeAlignment": 99,
+      "momentum": 100,
+      "engagement": 98,
+      "processQuality": 100,
+      "crossRepoCoherence": 99,
+      "securityPosture": 100,
+      "ecosystemIntegration": 100,
+      "capitalEfficiency": 100,
+      "automationCoverage": 100
+    }
+  },
+  "recovery": {
+    "anchor": "7841b939",
+    "substantiveCommitsAfterAnchor": 10,
+    "productCommits": 9,
+    "protocolSyncCommits": 1,
+    "reimplemented": false
+  },
+  "verification": {
+    "mailScriptSyntax": "pass",
+    "doctor": "13/13; blockingFailing 0",
+    "vitest": "inconclusive under host saturation: 32 files and 231 assertions passed; eight workers failed to start; serial isolation stalled before assertions",
+    "aggregateGreenClaimed": false
+  },
+  "releaseGate": {
+    "status": "no-go",
+    "productionPromoted": false,
+    "productionStatus": "HTTP 503",
+    "blockedGates": [
+      "contactReplyIdentity",
+      "obeliskIdentity",
+      "alphaHumanEvidence",
+      "revenueObservation",
+      "founderApproval"
+    ]
+  }
+}

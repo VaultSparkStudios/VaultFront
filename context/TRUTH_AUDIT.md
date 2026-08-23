@@ -2,6 +2,14 @@
 
 # Truth Audit
 
+## 2026-08-22 — Session 107 contact-transport recovery truth
+
+- Chronology truth: ten substantive commits followed the Session 106 SIL anchor. Nine are the un-written-back contact-mail continuation; commit `8006d7b8` is a later canonical Studio OS asset synchronization. The clean tree and synchronized remote did not prove closeout currency.
+- Transport truth: Brevo authenticated outbound delivery and Cloudflare inbound routing are independently evidenced. Cloudflare apply `31993840009` created the exact route, and the tagged probe was observed as `forward` and `delivered` with SPF/DKIM pass.
+- Identity truth: no Zoho External From configuration or real human reply-as observation exists. Transport delivery is not human reply identity.
+- Verification truth: both mail automation scripts pass syntax checks and project doctor passes 13/13 with `blockingFailing: 0`. The local aggregate passed 32 files / 231 assertions but eight workers timed out during startup; serial isolation remained process-starved, so a fresh full-suite green is not claimed.
+- Release truth: authenticated Obelisk, three distinct authenticated humans, positive live revenue, portable founder approval, and project-domain reply identity remain red. Production remains unavailable.
+
 ## 2026-08-16 — Session 106 exact-admission and staging truth
 
 - Work truth: `docs/AUDIT_2026-08-16.json` records eight shipped local findings (225–232) and five independent externally observed gates (233–237); blocked evidence is not converted into code-shaped green.

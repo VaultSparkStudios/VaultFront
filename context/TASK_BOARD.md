@@ -14,6 +14,13 @@ Public-safe roadmap only. Detailed backlog sequencing is maintained privately.
 - [ ] Complete and retain an authenticated Obelisk callback/session/identity/logout journey.
 - [ ] Install a trusted purpose-scoped founder approval writer for the exact SHA and image.
 
+## Completed (2026-08-17 — Session 107 contact transport)
+
+- [done] Authenticated the VaultFront Brevo sending domain and retained an independently provider-delivered outbound probe.
+- [done] Added tested, least-privilege Cloudflare email DNS and routing automation; applied the exact `contact@vaultfront.io` route to the verified founder mailbox.
+- [done] Observed the tagged inbound probe as `forward` and `delivered` with SPF and DKIM passing, then revoked the temporary analytics token used for evidence.
+- [deferred] Zoho External From reply identity remains unobserved; transport evidence is not relabeled as human reply-as proof.
+
 ## Completed (2026-08-16 — Session 106 certified rewards and release admission)
 
 - [done] Shipped audit items 225–232: certified durable Fortune awards, pre-mutation canonical promotion admission, truthful Obelisk evidence, requester-neutral recap singleflight, shared Prediction League rules, bidirectional Fortune liveness, aligned health freshness, and diagnostic-only unsigned evidence.

@@ -1,3 +1,16 @@
+## Session Intent — Session 107 (recovered 2026-08-22)
+
+Complete the project-domain contact-mail corridor without fabricating reply identity: authenticate Brevo outbound delivery, automate Cloudflare inbound routing to the founder mailbox, retain independently observed delivery evidence, and keep production fail-closed until Zoho reply-as, authenticated Obelisk, human Alpha, revenue, and portable founder approval are genuinely observed.
+
+## Where We Left Off — Session 107 recovery closeout (2026-08-22)
+
+- Recovery: ten substantive commits followed the Session 106 Self-Improvement Loop anchor; nine belong to the contact-mail continuation and one is a later Studio OS protocol synchronization. All were already committed and synchronized before recovery, so no product work was reimplemented.
+- Contact transport: Brevo domain authentication and provider-delivered outbound proof are green. Cloudflare plan `31993805142` and apply `31993840009` created the exact `contact@vaultfront.io` inbound route; the tagged probe was independently observed as `forward` and `delivered` with SPF/DKIM pass.
+- Remaining mail gate: Zoho External From is not configured because `zoho.mail.admin` is missing its four required credentials and no signed-in browser session was available. No real reply has yet proven the correct project-domain From identity.
+- Verification: both mail automation scripts pass `node --check`; project doctor passes 13/13 with `blockingFailing: 0`. The canonical local Vitest attempt passed 32 files / 231 assertions but failed to start eight workers under host saturation; a one-worker isolation also stalled before assertions and was stopped, so no fresh aggregate green is claimed.
+- Release: production remains HTTP 503 / NO-GO on Zoho reply identity, authenticated Obelisk, three distinct authenticated humans, one positive live payment, and portable exact-artifact founder approval.
+- Next: begin Session 108 with a fresh `/start`, audit current code and live gate state, satisfy every agent-addressable requirement, deploy and verify exact staging first, and promote production only if canonical release admission is all green.
+
 ## Session Intent — Session 106 (2026-08-16)
 
 Run the complete fresh `/arc` from the independently recovered S105 boundary: audit live code and all current production gates; implement every premise-verified local and agent-addressable improvement at the highest quality bar; preserve rendered-pixel, security, and exact-runtime evidence; commit and push directly to `main`; and promote/verify production only when the release gate is genuinely green. The founder explicitly authorizes direct commit, push, deployment, and production promotion, but that authorization must not be used to fabricate Zoho, human, payment, or portable runtime evidence.
