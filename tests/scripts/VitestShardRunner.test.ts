@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
+  classifyVitestFailure,
   createShardPlan,
   discoverTestFiles,
   runVitestShards,
@@ -64,6 +65,49 @@ describe("bounded Vitest shard runner", () => {
     expect(status).toBe(0);
     expect(calls).toHaveLength(4);
     expect(calls.every((args) => args.includes("--maxWorkers=1"))).toBe(true);
+  });
+
+  it("retries one recognized worker-start failure at a lower worker bound", () => {
+    const calls: string[][] = [];
+    const status = runVitestShards({
+      spawn: (_command, args) => {
+        calls.push(args as string[]);
+        if (calls.length === 1) {
+          return {
+            status: 1,
+            stderr: "Error: Timeout starting worker after 10000ms",
+          } as never;
+        }
+        return { status: 0, stdout: "" } as never;
+      },
+    });
+
+    expect(status).toBe(0);
+    expect(calls).toHaveLength(5);
+    expect(calls[0]).toContain("--maxWorkers=4");
+    expect(calls[1]).toContain("--maxWorkers=2");
+  });
+
+  it("never retries an assertion failure", () => {
+    const calls: string[][] = [];
+    const status = runVitestShards({
+      spawn: (_command, args) => {
+        calls.push(args as string[]);
+        return {
+          status: 1,
+          stderr: "AssertionError: expected 1 to be 2",
+        } as never;
+      },
+    });
+
+    expect(status).toBe(1);
+    expect(calls).toHaveLength(1);
+    expect(
+      classifyVitestFailure({
+        status: 1,
+        stderr: "AssertionError: expected 1 to be 2",
+      }),
+    ).toBe("test-failure");
   });
 
   it("owns the canonical package test command", () => {

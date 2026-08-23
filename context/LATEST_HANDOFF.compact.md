@@ -1,46 +1,41 @@
 <!-- generated-by: scripts/compact-handoff.mjs v3.1 -->
-<!-- source-hash: 3403c38d593a -->
-<!-- generated-at: 2026-08-16T04:52:03.463Z -->
+<!-- source-hash: cc5b5cff3562 -->
+<!-- generated-at: 2026-08-23T03:33:58.268Z -->
 
 # LATEST_HANDOFF (compact)
 
-SESSION 105 RECOVERY CLOSEOUT
+Session 107 (recovery closeout 2026-08-22)
 
-Session: 105 (recovered 2026-08-16)
-Intent: Complete live-parity finding, push candidate to main, deploy to staging, verify stable, promote production only if all release gates pass.
+Intent
+- Complete project-domain contact-mail corridor without fabricated reply identity: authenticate Brevo outbound, automate Cloudflare inbound to founder mailbox, retain delivery evidence, keep production fail-closed until Zoho reply-as, authenticated Obelisk, human Alpha, revenue, portable founder approval are genuinely observed.
 
-SHIPPED
+Shipped
+- Brevo domain auth + provider-delivered outbound proof: green.
+- Cloudflare plan 31993805142 / apply 31993840009 created exact contact@vaultfront.io inbound route; tagged probe independently observed forward + delivered, SPF/DKIM pass.
+- Recovery confirmed 10 post-Session-106 commits already committed/synced; no rework.
 
-- Audit item 224 complete
-- Landing geometry stable, cold-shell latency warmed
-- Parity receipts retain element/network/layout diagnostics
-- Nine commits on origin/main
+Now (top 3)
+- Configure Zoho External From to prove correct project-domain reply identity.
+- Obtain fresh canonical aggregate green Vitest (worker startup stalled under host saturation).
+- Session 108: fresh /start, audit code + live gate, satisfy agent-addressable requirements.
 
-EXACT STAGING CANDIDATE
+Blockers (top 3)
+- Zoho External From unconfigured; no real reply has proven correct From identity.
+- zoho.mail.admin missing four required credentials; no signed-in browser session.
+- Vitest cannot start 8 workers (host saturation); one-worker isolation also stalled; no fresh aggregate green claimed.
 
-- Commit: a1c861b0fb872d56859a67c3da7a8aa82f5f60ca
-- Image: sha256:b4aefb23f84e5d4b6bf3245224a1f54bdef4e4ac9ac15bada4c339afe1b224d6
-- CI pass 31922598710, E2E 31922598682, Release 31922598764, Deploy 31922760549
-- Live observation 31922854694: 9 theme/viewport cells, worst LCP 1,424ms, INP 152ms, CLS 0.0066
-- Rollback 31923970973 verified in 31,561ms
-- 2/2 workers healthy
+Human-blocked
+- Zoho reply-as credentials/browser session (unresolved this session).
+- Three distinct authenticated humans for release admission (pending).
+- One positive live payment (pending).
+- Portable exact-artifact founder approval (pending).
 
-VERIFICATION
+Verification
+- Both mail scripts pass node --check; doctor 13/13, blockingFailing 0.
+- Prior partial run: 32 files / 231 assertions passed before worker failure.
 
-- 21 files / 93 assertions all pass (regression, contracts, build, balance, format, doctor)
-- Provider CI green
-- Local aggregate not claimed green; orphan process trees identified and stopped
+Release
+- Production HTTP 503 / NO-GO pending: Zoho reply identity, authenticated Obelisk, three authenticated humans, one live payment, portable founder approval.
 
-NOW BUCKET (TOP 3)
-
-- Mint founder approval through project authority only
-- Run fresh audit against live code and external gate state
-- Promote production only after observations verified genuine
-
-BLOCKERS (TOP 3)
-
-- Production unavailable; Zoho send/receive/reply-as integration required
-- Three authenticated human Alpha sessions required
-- Portable purpose-scoped founder approval required
-
-Next session: S106 — begin fresh audit and gate verification before production promotion.
+Next session
+- Start Session 108 with /start; audit gate state, satisfy agent-addressable items, verify exact staging, promote production only if canonical admission all green.

@@ -136,6 +136,10 @@ export function resolveTestSignal(status = {}) {
   const aPass = status.testsAssertionsPassing;
   const aTotal = status.testsAssertionsTotal;
   const aLastRun = status.testsAssertionsLastRun || null;
+  const latestAttempt =
+    status.testsLatestAttempt && typeof status.testsLatestAttempt === "object"
+      ? status.testsLatestAttempt
+      : null;
 
   const base = {
     passing,
@@ -145,12 +149,59 @@ export function resolveTestSignal(status = {}) {
     assertionsPassing: aPass,
     assertionsTotal: aTotal,
     assertionsLastRun: aLastRun,
+    latestAttempt,
   };
 
   const fileLevelKnown =
     typeof passing === "number" && typeof total === "number" && total > 0;
   const assertionsKnown =
     typeof aPass === "number" && typeof aTotal === "number" && aTotal > 0;
+
+  // A newer incomplete or red attempt does not erase the latest complete
+  // authority, but it must control the current signal. Keeping both timestamps
+  // prevents an infrastructure-starved attempt from either minting a phantom
+  // green or destroying the last known complete result.
+  const completeTimes = [stamp(lastRun), stamp(aLastRun)].filter(
+    Number.isFinite,
+  );
+  const completeMs = completeTimes.length ? Math.max(...completeTimes) : NaN;
+  const attemptMs = stamp(latestAttempt?.at || latestAttempt?.date);
+  const attemptState = String(latestAttempt?.state || "").toLowerCase();
+  const attemptIsCurrent =
+    latestAttempt &&
+    ["inconclusive", "bounded", "red", "failed"].includes(attemptState) &&
+    (!Number.isFinite(completeMs) ||
+      !Number.isFinite(attemptMs) ||
+      attemptMs >= completeMs);
+
+  if (attemptIsCurrent) {
+    const complete = fileLevelKnown
+      ? `latest complete: ${passing}/${total} files${assertionsKnown ? ` · ${aPass}/${aTotal} assertions` : ""}${lastRun ? ` (${lastRun})` : ""}`
+      : assertionsKnown
+        ? `latest complete: ${aPass}/${aTotal} assertions${aLastRun ? ` (${aLastRun})` : ""}`
+        : "no complete suite recorded";
+    const attemptCounts = [
+      typeof latestAttempt.passingFiles === "number"
+        ? `${latestAttempt.passingFiles}/${latestAttempt.totalFiles ?? "?"} files`
+        : null,
+      typeof latestAttempt.passingAssertions === "number"
+        ? `${latestAttempt.passingAssertions} assertions passed before stop`
+        : null,
+    ]
+      .filter(Boolean)
+      .join(" · ");
+    const reason = String(latestAttempt.reason || "no reason recorded");
+    const red = ["red", "failed"].includes(attemptState);
+    return {
+      ...base,
+      state: red ? "red" : "bounded",
+      ok: false,
+      bounded: !red,
+      detail:
+        `${complete}; newer attempt ${latestAttempt.at || latestAttempt.date || "undated"} ${red ? "RED" : "INCONCLUSIVE"}` +
+        `${attemptCounts ? ` — ${attemptCounts}` : ""}: ${reason}`,
+    };
+  }
 
   if (!fileLevelKnown && !assertionsKnown) {
     return {

@@ -56,4 +56,31 @@ describe("canonical startup brief epistemic integrity", () => {
       /stamp them separately/i,
     );
   });
+
+  it("accepts project release pressure when no human-pressure feed is available", () => {
+    const body = [
+      "<!-- generated-at: 2026-08-23 (Session 108 closeout) -->",
+      "<!-- brief-coherent: true -->",
+      "╔══ SCORE ═══════════════════════════════════════════════════════╗",
+      "║ ok                                                           ║",
+      "╚═══════════════════════════════════════════════════════════════╝",
+      "╔══ SIGNALS ═════════════════════════════════════════════════════╗",
+      "║ ok                                                           ║",
+      "╚═══════════════════════════════════════════════════════════════╝",
+      "╔══ WHERE WE LEFT OFF ═══════════════════════════════════════════╗",
+      "║ ok                                                           ║",
+      "╚═══════════════════════════════════════════════════════════════╝",
+      "╔══ GENIUS HIT LIST ═════════════════════════════════════════════╗",
+      "║ ok                                                           ║",
+      "╚═══════════════════════════════════════════════════════════════╝",
+      "╔══ RELEASE PRESSURE ════════════════════════════════════════════╗",
+      "║ Open gates: 5                                                ║",
+      "╚═══════════════════════════════════════════════════════════════╝",
+    ].join("\n");
+
+    const result = validateStartupBrief(body);
+    expect(result.missingRecommended).not.toContain(
+      "HUMAN or RELEASE PRESSURE block",
+    );
+  });
 });

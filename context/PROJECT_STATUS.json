@@ -68,8 +68,12 @@
   "silMax": 1000,
   "silScoreLegacy500": null,
   "silScore": 996,
-  "testsPassing": 1501,
-  "testsTotal": 1501,
+  "testsPassing": 288,
+  "testsTotal": 288,
+  "testsAssertionsPassing": 1501,
+  "testsAssertionsTotal": 1501,
+  "testsAssertionsFiles": 288,
+  "testsAssertionsLastRun": "2026-08-16",
   "silCategoriesV3": {
     "devHealth": 100,
     "creativeAlignment": 99,
@@ -115,11 +119,11 @@
     "warnings": 0,
     "failing": 0,
     "blockingFailing": 0,
-    "date": "2026-08-16",
-    "observedAt": "2026-08-16T08:15:44.226Z",
+    "date": "2026-08-23",
+    "observedAt": "2026-08-23T03:34:37.081Z",
     "source": "scripts/project-doctor.mjs",
     "evidencePath": "audits/doctor-latest.json",
-    "evidenceDigest": "sha256:5fda03c29194068cd87583399d0774fc71d8f36be6677c5fdd60d824f2965d6c",
+    "evidenceDigest": "sha256:ab33302c4acb91aed81d9502936b02c400c9e58ed25e3db0bae3e115529cf823",
     "evidenceSchemaVersion": 1,
     "checkCount": 13
   },
@@ -154,13 +158,20 @@
     "enumeratedAt": "2026-08-16T16:00:00.000Z",
     "scope": "Four canonical Vitest shards completed under the bounded runner; no session-owned test worker remains. Shared Codex/browser processes are outside this session scope."
   },
-  "testsLastRun": "2026-08-22",
-  "testsLastRunMode": "Session 107 recovery: both mail configurators pass syntax checks and doctor is 13/13. The local aggregate passed 32 files / 231 assertions but eight workers timed out during startup under host saturation; serial isolation also stalled, so no fresh aggregate green is claimed. Session 106 exact provider/full-suite receipt remains the latest complete authority.",
-  "testsDeferred": [
-    "Fresh local aggregate verification is inconclusive under host process saturation; rerun the canonical bounded suite when worker capacity is available."
-  ],
+  "testsLastRun": "2026-08-16",
+  "testsLastRunMode": "bounded-shards:4",
+  "testsLatestAttempt": {
+    "at": "2026-08-22",
+    "state": "inconclusive",
+    "passingFiles": 32,
+    "totalFiles": 290,
+    "passingAssertions": 231,
+    "infrastructureFailures": 8,
+    "reason": "Eight Vitest workers timed out during startup under host saturation; a serial isolation also stalled. No fresh aggregate green is claimed."
+  },
+  "testsDeferred": [],
   "testsBudgetExhausted": false,
-  "lastSessionSummary": "Session 106 shipped audit items 225–232, certified Fortune rewards, enforced exact pre-mutation release admission, passed exact staging/observation/rollback for 6398ff2a, and retained production NO-GO on five independent observations.",
+  "lastSessionSummary": "Session 107 recovery closed the skipped contact-transport record: Brevo outbound and Cloudflare inbound are independently observed; Zoho External From reply identity remains unverified.",
   "providerCiStatus": {
     "status": "green",
     "revision": "6398ff2abce57deced8ddd78e0b4e784514518a9",

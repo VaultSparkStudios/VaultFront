@@ -1,6 +1,12 @@
 #!/usr/bin/env node
 
-import { existsSync, readdirSync, statSync } from "node:fs";
+import {
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  statSync,
+  writeFileSync,
+} from "node:fs";
 import { dirname, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawnSync } from "./lib/safe-spawn.mjs";
@@ -19,6 +25,33 @@ export const SHARD_POLICY = Object.freeze([
   { name: "scripts", roots: ["tests/scripts"], maxWorkers: 1 },
   { name: "server", roots: ["tests/server"], maxWorkers: 4 },
 ]);
+
+const WORKER_START_FAILURE =
+  /(?:timeout|timed out|failed|unable)\s+(?:while\s+)?(?:to\s+)?start(?:ing)?\s+(?:a\s+)?worker|worker[^\n]{0,80}(?:startup|start)[^\n]{0,80}(?:timeout|timed out)|tinypool[^\n]{0,80}(?:timeout|timed out)/i;
+
+export function classifyVitestFailure(result = {}) {
+  if ((result.status ?? 1) === 0 && !result.error) return "passed";
+  const output = [result.stdout, result.stderr, result.error?.message]
+    .filter(Boolean)
+    .join("\n");
+  return WORKER_START_FAILURE.test(output)
+    ? "worker-start-exhaustion"
+    : "test-failure";
+}
+
+function printCaptured(result) {
+  if (result.stdout) process.stdout.write(String(result.stdout));
+  if (result.stderr) process.stderr.write(String(result.stderr));
+}
+
+function writeAttemptSummary(root, summary) {
+  const directory = join(root, ".cache", "vitest-shards");
+  mkdirSync(directory, { recursive: true });
+  writeFileSync(
+    join(directory, "latest.json"),
+    JSON.stringify(summary, null, 2) + "\n",
+  );
+}
 
 function toPosix(value) {
   return value.split(sep).join("/");
@@ -81,6 +114,7 @@ export function runVitestShards({
   root = ROOT,
   spawn = spawnSync,
   maxWorkers = Number(process.env.VITEST_MAX_WORKERS) || Infinity,
+  writeSummary = false,
 } = {}) {
   if (
     maxWorkers !== Infinity &&
@@ -91,42 +125,104 @@ export function runVitestShards({
   const plan = createShardPlan();
   const summary = validateShardPlan(plan);
   const vitest = join(root, "node_modules", "vitest", "vitest.mjs");
+  const attempts = [];
+  let exitCode = 0;
   for (const shard of plan) {
     const effectiveWorkers = Math.min(shard.maxWorkers, maxWorkers);
-    console.log(
-      "\n[vitest-shard] " +
-        shard.name +
-        ": " +
-        shard.files.length +
-        " files, maxWorkers=" +
-        effectiveWorkers,
-    );
-    const result = spawn(
-      process.execPath,
-      [
-        vitest,
-        "run",
-        ...shard.files,
-        "--exclude=.cache/**",
-        "--maxWorkers=" + effectiveWorkers,
-      ],
-      { cwd: root, stdio: "inherit" },
-    );
-    if (result.error) throw result.error;
-    if (result.status !== 0) return result.status ?? 1;
+    const workerPlan = [
+      effectiveWorkers,
+      Math.max(1, Math.floor(effectiveWorkers / 2)),
+    ].filter((workers, index, values) => values.indexOf(workers) === index);
+    for (let attempt = 0; attempt < workerPlan.length; attempt += 1) {
+      const workers = workerPlan[attempt];
+      console.log(
+        "\n[vitest-shard] " +
+          shard.name +
+          ": " +
+          shard.files.length +
+          " files, maxWorkers=" +
+          workers +
+          (attempt ? " (infrastructure retry)" : ""),
+      );
+      const result = spawn(
+        process.execPath,
+        [
+          vitest,
+          "run",
+          ...shard.files,
+          "--exclude=.cache/**",
+          "--maxWorkers=" + workers,
+        ],
+        {
+          cwd: root,
+          encoding: "utf8",
+          maxBuffer: 64 * 1024 * 1024,
+          stdio: "pipe",
+        },
+      );
+      printCaptured(result);
+      const classification = classifyVitestFailure(result);
+      attempts.push({
+        shard: shard.name,
+        attempt: attempt + 1,
+        workers,
+        status: result.status ?? 1,
+        classification,
+      });
+      if (result.error && classification !== "worker-start-exhaustion") {
+        if (writeSummary) {
+          writeAttemptSummary(root, {
+            schemaVersion: 1,
+            state: "failed",
+            fileCount: summary.fileCount,
+            shardCount: summary.shardCount,
+            attempts,
+          });
+        }
+        throw result.error;
+      }
+      if (classification === "passed") break;
+      const canRetry =
+        classification === "worker-start-exhaustion" &&
+        attempt + 1 < workerPlan.length;
+      if (canRetry) {
+        console.warn(
+          "[vitest-shard] worker-start exhaustion detected; retrying " +
+            shard.name +
+            " once at maxWorkers=" +
+            workerPlan[attempt + 1],
+        );
+        continue;
+      }
+      exitCode = result.status ?? 1;
+      break;
+    }
+    if (exitCode !== 0) break;
   }
-  console.log(
-    "\n[vitest-shard] complete: " +
-      summary.fileCount +
-      " files across " +
-      summary.shardCount +
-      " shards",
-  );
-  return 0;
+  const state = exitCode === 0 ? "passed" : "failed";
+  if (writeSummary) {
+    writeAttemptSummary(root, {
+      schemaVersion: 1,
+      state,
+      fileCount: summary.fileCount,
+      shardCount: summary.shardCount,
+      attempts,
+    });
+  }
+  if (exitCode === 0) {
+    console.log(
+      "\n[vitest-shard] complete: " +
+        summary.fileCount +
+        " files across " +
+        summary.shardCount +
+        " shards",
+    );
+  }
+  return exitCode;
 }
 
 const isMain =
   process.argv[1] &&
   resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 
-if (isMain) process.exitCode = runVitestShards();
+if (isMain) process.exitCode = runVitestShards({ writeSummary: true });

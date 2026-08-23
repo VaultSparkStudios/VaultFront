@@ -1,13 +1,11 @@
 # IGNIS Batch Genius Summary — VaultFront
+Generated: 2026-08-17T05:56:32.156Z
 
-Generated: 2026-08-01T07:41:45.767Z
-
-**Summary:** VaultFront's internal engineering is fully green and certified through Session 89, but public launch remains blocked entirely on externally-owned registry/staging/identity/revenue evidence rather than code.
+**Summary:** VaultFront's engineering pipeline is fully certified and staging-proven at exact SHA 6398ff2a, but production stays hard-blocked on four unresolved human/identity evidence gaps that pure engineering effort cannot close.
 
 ## Top 5 Items
-
-1. **Escalate or timebox the Studio Ops registry dependency** — Ark question 01JUNMMD1162DB95DA5B58A7AB has stalled since acknowledgement 01JUJOJL1K040B6517CAF2EFA9 rejected the type field; this single external blocker gates registry correction and should get a hard follow-up date or an alternate owner-supported path proposed proactively.
-2. **Stand up real external staging with exact-digest parity** — This is the first domino in the NO-GO chain (staging → domain delivery → Obelisk → live-web → Alpha → revenue → rollback → founder evidence); without it, all seven downstream release gates stay permanently unactionable regardless of how green internal verification is.
-3. **Convert the release-evidence checklist into a tracked sequential gate list** — Eight distinct external proofs (staging/parity, domain, Obelisk, live-web, Alpha, revenue, rollback, founder) are currently narrative-only in session notes; formalizing them as an ordered, owned checklist prevents rediscovery cost each session and clarifies what's actually next.
-4. **Package the certified-evidence architecture (admissibility receipts, routed GameID witnesses, fail-closed startup brief) as a reusable trust-layer doc** — Session 89 shipped four independently valuable integrity primitives; documenting them as a coherent trust architecture (not just changelog items) makes them legible to founders/investors as a differentiator during the pending evidence-gathering phase.
-5. **Freeze non-essential feature work until the external corridor moves** — With 1,040 tests, 26/26 Playwright, and audits fully exhausted, further internal hardening has diminishing returns versus risk; redirect the next session's premise-verification cycle toward unblocking or de-risking the external release corridor itself.
+1. **Close the Zoho contact@vaultfront.io end-to-end identity loop** — This is the longest-standing unresolved gate (referenced since Session 102) and blocks canonical release admission; a single verified receive/send/reply cycle unblocks one of five hard production dependencies.
+2. **Recruit three distinct authenticated human Alpha sessions plus one real checkout/revenue event** — Highest-effort, highest-impact gap: it requires actual external users, not more engineering, and is the most likely long-pole item to keep production at 503 if not started immediately.
+3. **Run and retain the authenticated Obelisk callback/session/identity/logout journey** — The unauthenticated Obelisk corridor is already fixed and certified; converting it into one real authenticated end-to-end journey is a small, self-contained task that removes a named blocking evidence item.
+4. **Install the trusted purpose-scoped founder-approval writer for the exact SHA/image** — Canonical admission explicitly rejects inferred founder approval; this is a pure engineering/process task (no external dependency) and can likely be shipped fastest of the four remaining gates, unlocking partial admission progress.
+5. **Package the four remaining gates into a single go-live checklist with owners and target dates** — Six sessions of green engineering work have accumulated behind an unmoved production gate; without explicit ownership and sequencing of the human-evidence items, the pattern of certifying more code while production stays NO-GO will continue indefinitely.

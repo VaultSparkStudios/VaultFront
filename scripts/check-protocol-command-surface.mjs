@@ -22,6 +22,23 @@ const documentedScripts = new Set(
 const OPTIONAL_STANDALONE = new Set([
   "studio-pulse.mjs",
   "render-founder-queue.mjs",
+  // Canonical Studio Ops control-plane helpers. Project repos consume these
+  // through the sibling studio-ops checkout; copying them into this public
+  // deployable repo would create a second, drifting authority.
+  "start-recovery-preflight.mjs",
+  "start-canon-sync.mjs",
+  "start-stalled-remediation-resume.mjs",
+  "frontier-capability-radar.mjs",
+  "run-doctor.mjs",
+  "compact-memory-index.mjs",
+  "record-skill-cost.mjs",
+  "task-slice.mjs",
+  "studio-oracle.mjs",
+  "render-closeout-checklist.mjs",
+  "ignis-rescore-touched.mjs",
+  "render-closeout-brief.mjs",
+  "propagate-agents-sections.mjs",
+  "sync-agent-skills.mjs",
 ]);
 const missingOps = [...documentedOps].filter(
   (command) =>

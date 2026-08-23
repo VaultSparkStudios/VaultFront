@@ -1,13 +1,13 @@
 <!-- generated-by: scripts/render-startup-brief.mjs v3.1 -->
-<!-- generated-at: 2026-08-16T08:15:45.416Z -->
-<!-- generated-for-session: 107; source-closeout-session: 106 -->
-<!-- semantic-freshness: hash=f9b6b6175c9fd8ea next=107 silSession=106 silScore=996 handoff=- tests=- -->
+<!-- generated-at: 2026-08-23T05:22:39.576Z -->
+<!-- generated-for-session: 108; source-closeout-session: 107 -->
+<!-- semantic-freshness: hash=2f532870ed0ac354 next=108 silSession=107 silScore=996 handoff=- tests=- -->
 <!-- fast-boot-valid-until: next session if within 24h -->
 <!-- brief-coherent: true -->
 
 # Startup Brief — VaultFront
 
-> **Fast-boot brief** — rendered for Session 107 from Session 106 closeout evidence · 2026-08-16.
+> **Fast-boot brief** — rendered for Session 108 from Session 107 closeout evidence · 2026-08-23.
 > Valid for next session if started within 24h. For sessions >24h later, load context files fresh (start.md §3).
 
 ---
@@ -16,13 +16,13 @@
 ╔════════════════════════════════════════════════════════════════╗
 ║  🎮 VAULTFRONT                                                   ║
 ║  game · alpha/public-unlaunched · FORGE                          ║
-║  Session 107 · 2026-08-16 · FOUNDER MODE                         ║
+║  Session 108 · 2026-08-23 · FOUNDER MODE                         ║
 ║  Owner: VaultSpark Studios                                       ║
 ╚════════════════════════════════════════════════════════════════╝
 
-╔══ LAST SESSION (S106) - WHAT SHIPPED ══════════════════════════╗
-║  Session 106 shipped audit items 225–232, certified Fortune rew  ║
-║  Tests  1501/1501 passing (2026-08-16)                           ║
+╔══ LAST SESSION (S107) - WHAT SHIPPED ══════════════════════════╗
+║  Session 107 recovery closed the skipped contact-transport reco  ║
+║  Tests  latest complete: 288/288 files · 1501/1501 assertions (  ║
 ║  Deploy stable staging 31932526593 healthy at exact 6398ff2a; o  ║
 ╚════════════════════════════════════════════════════════════════╝
 
@@ -41,17 +41,17 @@
 ╔══ SCORE ═══════════════════════════════════════════════════════╗
 ║                                                                  ║
 ║    996/1000   ███████████████████████░   100%                    ║
-║    SIL v3.0  ·  Avg3: 995.3  ·  Velocity 8↑                      ║
-║    Last active: 0d  ·  Last closeout: 0d  ·  (active = newest…   ║
-║    Trend  ▇▆▄▂▆  ↑  (last 5 sessions)                            ║
+║    SIL v3.0  ·  Avg3: 996  ·  Velocity 3→                        ║
+║    Last active: 1d  ·  Last closeout: 1d  ·  (active = newest…   ║
+║    Trend  ▆▄▂▆▄  →  (last 5 sessions)                            ║
 ║                                                                  ║
 ║    Category         Score  Bar        Spark   Δ                  ║
 ║    ─────────────── ────── ────────── ──────── ─                  ║
 ║    Dev Health       100    ██████████  ████████ →                ║
-║    Alignment         99    ██████████  ████▇▇▇▇ →                ║
+║    Alignment         99    ██████████  ███▇▇▇▇▇ →                ║
 ║    Momentum         100    ██████████  ████████ →                ║
 ║    Engagement        98    ██████████  ▇▇▇▇▇▇▇▇ →                ║
-║    Process Qual     100    ██████████  █████▇██ →                ║
+║    Process Qual     100    ██████████  ████▇███ →                ║
 ║    Coherence         99    ██████████  ········ →                ║
 ║    Security         100    ██████████  ········ →                ║
 ║    Ecosystem        100    ██████████  ········ →                ║
@@ -60,24 +60,24 @@
 ║                                                                  ║
 ╚════════════════════════════════════════════════════════════════╝
 
-╔══ WHERE WE LEFT OFF  ·  Session 106 ═══════════════════════════╗
+╔══ WHERE WE LEFT OFF  ·  Session 107 ═══════════════════════════╗
 ║  Shipped:  see LATEST_HANDOFF.md                                 ║
-║  Tests:    1501/1501 passing  ·  Deploy: stable staging…         ║
+║  Tests:    latest complete: 288/288 files · 1501/1501…           ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ CONTEXT METER ═══════════════════════════════════════════════╗
-║  ✓  ████░░░░░░░░░░░░░░░░░░░░   17% used                          ║
-║     44,976 / 272,000 tok  ·  codex/codex-272k  · …               ║
-║     ~22,488 tok/turn  ·  cache 50%  ·  9 turns to compact        ║
+║  ✓  ██░░░░░░░░░░░░░░░░░░░░░░    9% used                          ║
+║     25,483 / 272,000 tok  ·  codex/codex-272k  · …               ║
+║     ~12,742 tok/turn  ·  cache 50%  ·  17 turns to compact       ║
 ║     Verdict: CONTINUE                                            ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ SIGNALS ═════════════════════════════════════════════════════╗
-║  ✓  Tests         1501/1501 passing (2026-08-16)                 ║
-║  ✓  Velocity      8 ↑  ·  Debt: ↓                                ║
+║  ⚠  Tests         latest complete: 288/288 files · 1501/1501…    ║
+║  ✓  Velocity      3 →  ·  Debt: ↓                                ║
 ║  ⚠  Runway        unknown                                        ║
 ║  ⛔  Context age   ?d                                             ║
-║  ⚠  IGNIS         43050 FORGE  ·  8d old                         ║
+║  ⛔  IGNIS         43050 FORGE  ·  15d old                        ║
 ║  ⛔  Truth         local green; external launch NO-GO.  · …       ║
 ║  ⚠  Compliance   not tracked — run: node scripts/ops.mjs…        ║
 ║  ✓  Genome dims   all stable  (24/25)                            ║
@@ -87,10 +87,10 @@
 ║  ✓  Templates     v3.3 aligned                                   ║
 ║  ⛔  Revenue sig.  not found  ⚠ stale                             ║
 ║  ✓  Deploy gaps   no gaps (run: ops deploy-gaps)                 ║
-║  ✓  Doctor        13/13 (100%)  ·  2026-08-16  ✓                 ║
+║  ✓  Doctor        13/13 (100%)  ·  2026-08-23  ✓                 ║
 ║  ✓  Codex trust   trusted project active                         ║
 ║  ⚠  Canon adopt.  39/54 pending review                           ║
-║  ✓  Cost          real $0.21/7d · 7d notional $1.24…             ║
+║  ✓  Cost          real $0.00/7d · real metered total $0.9267…    ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ ORCHESTRATOR ════════════════════════════════════════════════╗
@@ -101,27 +101,38 @@
 ║  Untracked: 0 project-like · 0 scratch                           ║
 ╚════════════════════════════════════════════════════════════════╝
 
+╔══ RELEASE PRESSURE ════════════════════════════════════════════╗
+║  Open gates:    5                                                ║
+║  Lead gate:     project-domain human reply-as verification (Bre  ║
+║  Ownership:    verify capability path before escalation          ║
+╚════════════════════════════════════════════════════════════════╝
+
 ╔══ MOMENTUM METER ══════════════════════════════════════════════╗
-║  Velocity:   ▇▆▄▂▆  8↑  (last 5 sessions)                        ║
+║  Velocity:   ▆▄▂▆▄  3→  (last 5 sessions)                        ║
 ║  Intent:     100% achieved last 5                                ║
 ║  Streak:     — (last intent not achieved)                        ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ SIL FORECAST (next session) ═════════════════════════════════╗
 ║  Projected:  995/1000  (↓1 vs current 996)                       ║
+║  Evidence:   5 parsed SIL sessions                               ║
 ║  All categories forecast stable or rising.                       ║
-║  Calibration: MAE 2.8 over last 4 forecasts                      ║
+║  Calibration: MAE 2.4 over last 5 forecasts                      ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ GENIUS HIT LIST ═════════════════════════════════════════════╗
-║  ⏸ No actionable local items · 5 blocked · 0 deferred            ║
-║  Next: reclassify live blockers, then innovation-pack            ║
-║  Audit: docs/AUDIT_2026-08-16.json                               ║
+║  → #1 hot Retry only infrastructure-class Vitest worker startup  ║
+║     4h · organization / developer experience · sonnet            ║
+║  → #2 hot Separate the latest complete suite from the latest at  ║
+║     3h · observability / organization · sonnet                   ║
+║  → #3 fast Keep release pressure visible without calling every   ║
+║     2h · user experience / governance / feedback · sonnet        ║
+║  Audit: docs/AUDIT_2026-08-23.json                               ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ```
 
 ---
 
-_Generated by `scripts/render-startup-brief.mjs v3.1` for Session 107 from Session 106 closeout evidence · 2026-08-16_
-_Run `node scripts/ops.mjs doctor` for live health check · `node scripts/ops.mjs genius-list` to refresh hit list_
+*Generated by `scripts/render-startup-brief.mjs v3.1` for Session 108 from Session 107 closeout evidence · 2026-08-23*
+*Run `node scripts/ops.mjs doctor` for live health check · `node scripts/ops.mjs genius-list` to refresh hit list*

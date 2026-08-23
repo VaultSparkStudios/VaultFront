@@ -758,6 +758,15 @@ const topPressure =
   Array.isArray(humanPressure.items) && humanPressure.items.length > 0
     ? humanPressure.items[0]
     : null;
+const releasePressure =
+  !topPressure &&
+  Array.isArray(status.releaseGates) &&
+  status.releaseGates.length > 0
+    ? {
+        title: String(status.releaseGates[0]),
+        count: status.releaseGates.length,
+      }
+    : null;
 
 // ── CDR gap detection ─────────────────────────────────────────────────────────
 const cdrEntryDates = [...cdr.matchAll(/\*\*(2\d{3}-\d{2}-\d{2})\*\*/g)].map(
@@ -1162,6 +1171,7 @@ const testsExempt =
     status.type === "internal-ops") &&
   !status.testsPassing;
 let sigTests, testsLabel;
+const resolvedTestSignal = resolveTestSignal(status);
 if (
   typeof status.testsPassing === "number" &&
   typeof status.testsTotal === "number" &&
@@ -1177,7 +1187,7 @@ if (
   // S283 — severity comes from the library, so a state this renderer has never
   // heard of cannot fall through to the green branch (the enumeration here was
   // fail-open in exactly that way).
-  const signal = resolveTestSignal(status);
+  const signal = resolvedTestSignal;
   const contradicted = testSignalSeverity(signal) !== "ok";
   sigTests = contradicted
     ? testSignalMark(signal)
@@ -1188,10 +1198,9 @@ if (
         : mostlyPass
           ? "⚠"
           : "⛔";
-  testsLabel = contradicted
-    ? signal.detail
-    : `${status.testsPassing}/${status.testsTotal} passing` +
-      (status.testsLastRun ? ` (${status.testsLastRun})` : "");
+  testsLabel =
+    signal.detail +
+    (signal.ok && status.testsLastRun ? ` (${status.testsLastRun})` : "");
   if (deferredCount)
     testsLabel += ` · ${deferredCount} deferred: ${compactFileList(status.testsDeferred)}`;
   if (envBlockedCount)
@@ -1787,7 +1796,7 @@ const lines = [
   // PASSING (179 "passing" while 10 failed) — a CANON-031 lying surface that
   // contradicted the SIGNALS block. Show passing/total, matching testsLabel.
   row(
-    `Tests:    ${typeof status.testsPassing === "number" ? `${status.testsPassing}/${status.testsTotal ?? "?"}` : (status.testsTotal ?? "?")} passing  ·  Deploy: ${status.lastDeployStatus || "N/A"}`,
+    `Tests:    ${testsLabel}  ·  Deploy: ${status.lastDeployStatus || "N/A"}`,
   ),
   bot(),
   ``,
@@ -1927,6 +1936,16 @@ const lines = [
         ``,
       ]
     : []),
+  ...(releasePressure
+    ? [
+        top("RELEASE PRESSURE"),
+        row(`Open gates:    ${releasePressure.count}`),
+        row(`Lead gate:     ${releasePressure.title.slice(0, W - 15)}`),
+        row("Ownership:    verify capability path before escalation"),
+        bot(),
+        ``,
+      ]
+    : []),
   // ── v4.0: SESSION VOICE (personable cue) ────────────────────────────────────
   // Suppressed S116 #623 — low-signal flavor block was pushing brief over the
   // 15KB brief-golden cap. v4.1 spec already drops this. Re-enable behind a
@@ -2015,6 +2034,7 @@ const lines = [
         row(
           `Projected:  ${f.totalPredicted}/1000  (${arrow}${Math.abs(diff)} vs current ${sessions[0].total})`,
         ),
+        row(`Evidence:   ${sessions.length} parsed SIL sessions`),
         ...(risky.length
           ? [
               row(

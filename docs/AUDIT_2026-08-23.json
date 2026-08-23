@@ -1,0 +1,376 @@
+{
+  "schemaVersion": "1.0",
+  "session": 108,
+  "generatedBy": "codex",
+  "generatedAt": "2026-08-23T00:08:00-04:00",
+  "project": {
+    "slug": "vaultfront",
+    "name": "VaultFront",
+    "type": "game",
+    "registryType": "app",
+    "audience": "public-unlaunched",
+    "stage": "FORGE",
+    "stagingType": "stable-owned-subdomain"
+  },
+  "summary": "The fresh audit admits three local items: chronological test evidence, infrastructure-only Vitest worker-start recovery, and release-pressure brief parity. Game expansion is rejected until genuine human evidence exists. Production remains NO-GO behind five independent observations.",
+  "axes": {
+    "featureDepth": 1.5,
+    "innovation": 1.5,
+    "ux": 2,
+    "feedbackLoop": 2,
+    "gamification": 3,
+    "aiIntegration": 1.5,
+    "security": 3,
+    "speedOrganization": 3,
+    "tokenApiReduction": 2
+  },
+  "specialtyReviews": {
+    "gameLoop": {
+      "loopTightness": 92,
+      "progressionCurve": 85,
+      "sessionEngagement": 72,
+      "retentionHooks": 68,
+      "soulFidelity": null,
+      "reason": "No public-safe SOUL pillars and zero accepted human staging events."
+    },
+    "release": {
+      "decision": "NO-GO",
+      "reason": "Zoho reply identity, authenticated Obelisk, three-human Alpha, positive live revenue, and portable exact-artifact founder approval remain unobserved."
+    }
+  },
+  "candidateReview": {
+    "sampledFiles": 642,
+    "selectedFiles": 11,
+    "preverification": "CertifiedLoopEvidenceStore and PlaytestSummaryService already provide stage timing, conversion, and merged pulse evidence. Progression, Prediction, Fortune, recap, and AI systems are broad; no duplicate gameplay surface is admitted.",
+    "rejectedCandidates": [
+      {
+        "axis": "feature depth",
+        "candidate": "Another post-match reward track",
+        "reason": "Progression breadth is already strong; no human evidence identifies a depth gap."
+      },
+      {
+        "axis": "feature depth",
+        "candidate": "A second Breach objective",
+        "reason": "Would alter the certified loop before current pacing is measured."
+      },
+      {
+        "axis": "innovation",
+        "candidate": "Adaptive Breach director",
+        "reason": "Premature without human stage-friction evidence."
+      },
+      {
+        "axis": "innovation",
+        "candidate": "Certified rivalry graph",
+        "reason": "Current continuation behavior is unobserved."
+      },
+      {
+        "axis": "user experience",
+        "candidate": "Command Center recomposition",
+        "reason": "No rendered or human evidence shows a current navigation failure."
+      },
+      {
+        "axis": "user experience",
+        "candidate": "More tutorial overlays",
+        "reason": "Could increase cognitive load; measure first-session stalls first."
+      },
+      {
+        "axis": "feedback loop",
+        "candidate": "New stage-timing export",
+        "reason": "Duplicates CertifiedLoopEvidenceStore and PlaytestSummaryService."
+      },
+      {
+        "axis": "feedback loop",
+        "candidate": "AI playtest summaries",
+        "reason": "There is no qualitative human corpus to summarize."
+      },
+      {
+        "axis": "gamification",
+        "candidate": "Tune match rewards",
+        "reason": "Calibration is unproven; unmeasured tuning would be arbitrary."
+      },
+      {
+        "axis": "gamification",
+        "candidate": "Daily streak rewards",
+        "reason": "Retention effect and free-tier cost are unproven."
+      },
+      {
+        "axis": "artificial intelligence",
+        "candidate": "Second recap provider",
+        "reason": "Existing provider work is coalesced and no availability defect is observed."
+      },
+      {
+        "axis": "artificial intelligence",
+        "candidate": "Personalized AI coaching",
+        "reason": "Requires player evidence and privacy design first."
+      },
+      {
+        "axis": "security",
+        "candidate": "Project-local authentication",
+        "reason": "Violates the canonical Obelisk identity architecture."
+      },
+      {
+        "axis": "security",
+        "candidate": "Unsigned release claims",
+        "reason": "Already rejected by the authoritative evidence boundary."
+      },
+      {
+        "axis": "speed and organization",
+        "candidate": "Duplicate optional Studio helper tools locally",
+        "reason": "Documented fallbacks exist; duplication would create protocol drift."
+      },
+      {
+        "axis": "speed and organization",
+        "candidate": "Increase Vitest workers",
+        "reason": "Live host saturation makes that direction unsafe."
+      },
+      {
+        "axis": "token and API reduction",
+        "candidate": "Compress gameplay telemetry",
+        "reason": "No cost hotspot is evidenced in the certified loop."
+      },
+      {
+        "axis": "token and API reduction",
+        "candidate": "Cache every AI response per player",
+        "reason": "Match-global coalescing exists; broader caching risks incorrect identity."
+      }
+    ]
+  },
+  "items": [
+    {
+      "id": 238,
+      "slug": "chronological-test-evidence",
+      "tier": "hot",
+      "axis": "observability / organization",
+      "effortHours": 3,
+      "impact": 10,
+      "innovation": 7,
+      "priority": 70,
+      "status": "shipped",
+      "title": "Separate the latest complete suite from the latest attempted suite everywhere",
+      "why": "PROJECT_STATUS labels 1,501 assertions as files and the startup brief first warns that the latest attempt was bounded, then prints 1501/1501 passing.",
+      "coreLoopStep": "trusted build evidence to safe staging to available certified play",
+      "recipe": "Record file and assertion counts under correct units, add a structured latest-attempt record beside latest-complete authority, resolve one test signal, and reuse it in every startup block.",
+      "selectedDepth": "L2",
+      "ladder": {
+        "L1": {
+          "recipe": "Reuse the resolved signal in WHERE WE LEFT OFF and correct the file count."
+        },
+        "L2": {
+          "recipe": "Add a structured latest-attempt contract, distinct latest-complete evidence, and bounded chronology tests."
+        },
+        "L3": {
+          "recipe": "Derive all status surfaces from an append-only signed test ledger."
+        }
+      },
+      "executionLog": [
+        {
+          "at": "2026-08-23T01:10:00-04:00",
+          "status": "shipped",
+          "note": "Structured latest-complete and latest-attempt evidence now keeps 288 files distinct from 1,501 assertions; every startup test surface reuses the bounded chronological signal."
+        }
+      ]
+    },
+    {
+      "id": 239,
+      "slug": "vitest-worker-start-resilience",
+      "tier": "hot",
+      "axis": "organization / developer experience",
+      "effortHours": 4,
+      "impact": 9,
+      "innovation": 8,
+      "priority": 72,
+      "status": "shipped",
+      "title": "Retry only infrastructure-class Vitest worker startup failures at a safer bound",
+      "why": "The canonical suite passed 32 files and 231 assertions, then eight workers timed out during startup under host saturation; the runner treats that like an assertion red.",
+      "coreLoopStep": "code change to trustworthy build proof to safe player access",
+      "recipe": "Capture each shard result, classify only known worker-start timeout signatures, retry once at lower concurrency, never retry assertion failures, and emit a machine-readable summary.",
+      "selectedDepth": "L2",
+      "ladder": {
+        "L1": {
+          "recipe": "Document VITEST_MAX_WORKERS=1."
+        },
+        "L2": {
+          "recipe": "One classified lower-worker retry plus explicit attempt evidence."
+        },
+        "L3": {
+          "recipe": "Host-capacity leases and durable shard resume receipts."
+        }
+      },
+      "executionLog": [
+        {
+          "at": "2026-08-23T01:10:00-04:00",
+          "status": "shipped",
+          "note": "Known worker-start exhaustion retries exactly once at a lower worker ceiling, assertion failures remain fail-fast, and CLI runs retain .cache/vitest-shards/latest.json."
+        }
+      ]
+    },
+    {
+      "id": 240,
+      "slug": "release-pressure-brief-parity",
+      "tier": "fast",
+      "axis": "user experience / governance / feedback",
+      "effortHours": 2,
+      "impact": 8,
+      "innovation": 6,
+      "priority": 48,
+      "status": "shipped",
+      "title": "Keep release pressure visible without calling every gate founder work",
+      "why": "The startup brief omits pressure because the private portfolio feed is absent although PROJECT_STATUS has five release gates.",
+      "coreLoopStep": "release evidence gap to correctly owned next action to safe public availability",
+      "recipe": "Render a RELEASE PRESSURE fallback from structured gates, preserve HUMAN PRESSURE for classified human work, and validate either truthful surface.",
+      "selectedDepth": "L2",
+      "ladder": {
+        "L1": {
+          "recipe": "Show an open-gate count."
+        },
+        "L2": {
+          "recipe": "Show leading gate and remaining count with ownership-neutral language."
+        },
+        "L3": {
+          "recipe": "Compile typed owner, capability, expiry, and next action portfolio-wide."
+        }
+      },
+      "executionLog": [
+        {
+          "at": "2026-08-23T01:10:00-04:00",
+          "status": "shipped",
+          "note": "Startup rendering falls back to five structured release gates with ownership-neutral guidance, and validation accepts truthful HUMAN or RELEASE pressure."
+        }
+      ]
+    },
+    {
+      "id": 241,
+      "slug": "provider-protocol-regression-closure",
+      "tier": "hot",
+      "axis": "organization / observability / release",
+      "effortHours": 3,
+      "impact": 9,
+      "innovation": 6,
+      "priority": 54,
+      "status": "shipped",
+      "title": "Close the five protocol regressions already red on main",
+      "why": "Provider CI for the recovered main commit had 285/290 files green but failed semantic brief, chronology, runtime-floor, and shared-control-plane command-surface contracts.",
+      "coreLoopStep": "trusted provider verification to safe staging to available certified play",
+      "recipe": "Implement the latent semantic validator contract, reject implausible activity chronology, align Node floors, and treat named Studio Ops helpers as shared control-plane tools rather than copying them into the public repo.",
+      "executionLog": [
+        {
+          "at": "2026-08-23T02:00:00-04:00",
+          "status": "shipped",
+          "note": "All five failing provider contracts now have direct local probes; command-surface reports ok with zero errors, and semantic/chronology adversarial probes pass."
+        }
+      ]
+    },
+    {
+      "id": 242,
+      "slug": "immutable-brief-workflow-inputs",
+      "tier": "fast",
+      "axis": "security / release",
+      "effortHours": 1,
+      "impact": 9,
+      "innovation": 4,
+      "priority": 36,
+      "status": "shipped",
+      "title": "Pin the propagated brief workflow to trusted immutable actions",
+      "why": "Release-input trust rejected mutable actions/checkout@v4 and actions/setup-node@v4 references in brief-format-check.yml.",
+      "coreLoopStep": "trusted workflow input to exact build evidence to safe public availability",
+      "recipe": "Use the same exact action SHAs already admitted by main CI, keep Node 22.13.0, and ship the upstream correction through Ark.",
+      "executionLog": [
+        {
+          "at": "2026-08-23T02:05:00-04:00",
+          "status": "shipped",
+          "note": "Release input trust is green and Ark cargo 01K0MJPK7K82478F173D7758AB carries the bounded propagation fix."
+        }
+      ]
+    },
+    {
+      "id": 233,
+      "slug": "authenticated-human-alpha-observation",
+      "tier": "hot",
+      "axis": "game loop / feedback / release",
+      "effortHours": 3,
+      "impact": 10,
+      "innovation": 5,
+      "priority": 50,
+      "status": "blocked",
+      "title": "Observe the certified loop with three authenticated humans",
+      "why": "Staging has zero accepted human events, sessions, or actors.",
+      "coreLoopStep": "Capture to Convoy to Pressure to Breach to decisive delivery to continuation",
+      "recipe": "Run one genuine three-human cohort; never synthesize evidence."
+    },
+    {
+      "id": 234,
+      "slug": "zoho-project-alias-e2e-proof",
+      "tier": "hot",
+      "axis": "release / communications",
+      "effortHours": 2,
+      "impact": 10,
+      "innovation": 2,
+      "priority": 20,
+      "status": "blocked",
+      "title": "Prove VaultFront-domain send, receive, and reply-as in Zoho",
+      "why": "zoho.mail.admin is missing and no signed reply-identity evidence exists.",
+      "coreLoopStep": "public trust to reachable project support",
+      "recipe": "Configure the alias and mail authentication, then prove delivery and reply identity."
+    },
+    {
+      "id": 236,
+      "slug": "authenticated-obelisk-rp-observation",
+      "tier": "hot",
+      "axis": "identity / release",
+      "effortHours": 2,
+      "impact": 10,
+      "innovation": 4,
+      "priority": 40,
+      "status": "blocked",
+      "title": "Observe the complete authenticated Obelisk relying-party journey",
+      "why": "The corridor is configured but the authenticated journey is unobserved.",
+      "coreLoopStep": "account entry to trusted persistent progression",
+      "recipe": "Complete and retain a purpose-scoped authenticated staging journey."
+    },
+    {
+      "id": 237,
+      "slug": "portable-founder-launch-approval",
+      "tier": "fast",
+      "axis": "governance / release",
+      "effortHours": 1,
+      "impact": 10,
+      "innovation": 3,
+      "priority": 30,
+      "status": "blocked",
+      "title": "Bind founder approval to the exact promoted artifact",
+      "why": "Session authorization is real but no portable claim binds exact SHA and image.",
+      "coreLoopStep": "founder decision to auditable production cutover",
+      "recipe": "Use a non-self-approving trusted authority for the bounded exact-artifact claim."
+    },
+    {
+      "id": 235,
+      "slug": "positive-live-revenue-observation",
+      "tier": "fast",
+      "axis": "revenue / release",
+      "effortHours": 1,
+      "impact": 9,
+      "innovation": 2,
+      "priority": 18,
+      "status": "blocked",
+      "title": "Observe one genuine positive live receipt",
+      "why": "The Stripe path is ready but no positive live webhook receipt exists.",
+      "coreLoopStep": "supporter intent to sustainable live operation",
+      "recipe": "Admit only a genuine signed webhook receipt; do not self-pay without explicit spend approval."
+    }
+  ],
+  "innovationPack": {
+    "status": "exhausted",
+    "shipped": 70,
+    "total": 70,
+    "itemsShippedThisSession": [
+      "startup-brief-semantic-sentinel",
+      "supported-node-runtime-floor"
+    ],
+    "evidence": [
+      "scripts/validate-brief-format.mjs rejects token arithmetic and evidence-free SIL forecasts",
+      "rendered startup brief names five parsed SIL sessions",
+      "brief-format-check.yml uses Node 22.13.0",
+      "node scripts/innovation-pack.mjs reports 70/70 shipped"
+    ]
+  }
+}

@@ -1,3 +1,7 @@
+## Session Intent — Session 108 (2026-08-23)
+
+Run the complete fresh `/arc` from the recovered S107 boundary: execute a live-code and game-loop audit, implement every premise-verified local and agent-addressable improvement plus second-order innovations at the highest quality bar, verify rendered desktop/mobile/theme surfaces for any UI change, deploy and verify the exact candidate on stable staging, commit and push directly to `main`, and promote production only if every canonical release gate is genuinely green. The founder explicitly authorizes direct commit, push, deployment, and production promotion; that authorization does not fabricate Zoho reply identity, authenticated Obelisk, distinct-human Alpha, live revenue, or portable runtime approval evidence.
+
 ## Session Intent — Session 107 (recovered 2026-08-22)
 
 Complete the project-domain contact-mail corridor without fabricating reply identity: authenticate Brevo outbound delivery, automate Cloudflare inbound routing to the founder mailbox, retain independently observed delivery evidence, and keep production fail-closed until Zoho reply-as, authenticated Obelisk, human Alpha, revenue, and portable founder approval are genuinely observed.
