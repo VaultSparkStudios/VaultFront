@@ -66,6 +66,17 @@ try {
         colorScheme: theme === "light" ? "light" : "dark",
       });
       const page = await context.newPage();
+      let closingContext = false;
+      const pendingDialogDismissals = new Set();
+      page.on("dialog", (dialog) => {
+        const dismissal = dialog
+          .dismiss()
+          .catch((error) => {
+            if (!closingContext && !page.isClosed()) throw error;
+          })
+          .finally(() => pendingDialogDismissals.delete(dismissal));
+        pendingDialogDismissals.add(dismissal);
+      });
       await page.addInitScript((selectedTheme) => {
         const describeNode = (node) => {
           if (!(node instanceof Element)) return null;
@@ -304,6 +315,8 @@ try {
       };
       cell.assessment = assessReleaseParityCell(cell);
       cells.push(cell);
+      closingContext = true;
+      await Promise.allSettled([...pendingDialogDismissals]);
       await context.close();
     }
   }

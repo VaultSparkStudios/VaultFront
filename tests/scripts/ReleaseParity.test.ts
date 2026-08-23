@@ -44,6 +44,18 @@ describe("release parity assessment", () => {
     );
   });
 
+  it("owns unexpected dialog dismissal so browser teardown cannot reject it", () => {
+    const capture = fs.readFileSync(
+      path.resolve("scripts/capture-release-parity.mjs"),
+      "utf8",
+    );
+    expect(capture).toContain('page.on("dialog"');
+    expect(capture).toContain("pendingDialogDismissals");
+    expect(capture).toContain("Promise.allSettled");
+    expect(capture).toContain("closingContext");
+    expect(capture).toContain("page.isClosed()");
+  });
+
   it("retains bounded element-level diagnostics without changing thresholds", () => {
     const capture = fs.readFileSync(
       path.resolve("scripts/capture-release-parity.mjs"),
