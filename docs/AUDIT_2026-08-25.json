@@ -1,0 +1,292 @@
+{
+  "schemaVersion": "1.0",
+  "session": 109,
+  "generatedBy": "codex",
+  "generatedAt": "2026-08-25T14:40:00-04:00",
+  "project": {
+    "slug": "vaultfront",
+    "name": "VaultFront",
+    "type": "game",
+    "registryType": "app",
+    "audience": "public-unlaunched",
+    "stage": "FORGE",
+    "stagingType": "stable-owned-subdomain"
+  },
+  "summary": "The fresh audit admits two agent-addressable release items: repair a verified Studio propagation regression and deploy the exact repaired revision through stable staging. Gameplay expansion and balance changes are rejected until genuine human evidence exists. Production remains NO-GO behind five independent observations that automation must not synthesize.",
+  "axes": {
+    "featureDepth": 1.5,
+    "innovation": 1.5,
+    "ux": 2,
+    "feedbackLoop": 2,
+    "gamification": 3,
+    "aiIntegration": 1.5,
+    "security": 3,
+    "speedOrganization": 3,
+    "tokenApiReduction": 2
+  },
+  "specialtyReviews": {
+    "gameLoop": {
+      "loopTightness": 92,
+      "progressionCurve": 85,
+      "sessionEngagement": 72,
+      "retentionHooks": 68,
+      "soulFidelity": null,
+      "reason": "The implemented Capture-to-Breach loop is unchanged; no public-safe Soul pillars or genuine human play traces exist to justify tuning."
+    },
+    "release": {
+      "decision": "NO-GO",
+      "reason": "The repaired revision is not yet deployed to stable staging, and Zoho reply identity, authenticated Obelisk, three-human Alpha, positive live revenue, and portable exact-artifact founder approval remain unobserved."
+    }
+  },
+  "candidateReview": {
+    "sampledFiles": 642,
+    "selectedFiles": 14,
+    "preverification": "The exact main revision 03887080 passes CI, E2E, formatting, security, build, bundle, and exact-revision evidence. The previous green S108 candidate proves the deployment corridor, while current source and runtime records prove that gameplay measurement and five external release observations remain absent.",
+    "rejectedCandidates": [
+      {
+        "axis": "feature depth",
+        "candidate": "Add another post-match progression surface",
+        "reason": "The current progression fan-out is broad and no human evidence identifies a depth gap."
+      },
+      {
+        "axis": "feature depth",
+        "candidate": "Add a second Breach objective",
+        "reason": "It would change the certified loop before current stage timing and dropout are measured."
+      },
+      {
+        "axis": "innovation",
+        "candidate": "Adaptive Breach director",
+        "reason": "There is no authenticated human friction corpus from which to adapt safely."
+      },
+      {
+        "axis": "innovation",
+        "candidate": "Synthetic Alpha cohort",
+        "reason": "Synthetic actors are explicitly excluded from human Alpha evidence."
+      },
+      {
+        "axis": "user experience",
+        "candidate": "Recompose the Command Center again",
+        "reason": "No new rendered or human evidence shows a navigation defect after the S108 parity pass."
+      },
+      {
+        "axis": "user experience",
+        "candidate": "Add more tutorial overlays",
+        "reason": "More overlays could increase cognitive load; first-session stalls are unmeasured."
+      },
+      {
+        "axis": "feedback loop",
+        "candidate": "Add another stage-timing store",
+        "reason": "CertifiedLoopEvidenceStore and PlaytestSummaryService already own this evidence."
+      },
+      {
+        "axis": "feedback loop",
+        "candidate": "Generate AI playtest summaries",
+        "reason": "There is no genuine qualitative human corpus to summarize."
+      },
+      {
+        "axis": "gamification",
+        "candidate": "Retune match rewards",
+        "reason": "Reward calibration without retention evidence would be arbitrary."
+      },
+      {
+        "axis": "gamification",
+        "candidate": "Add a daily streak",
+        "reason": "The retention effect is unproven and would add pressure before core-loop observation."
+      },
+      {
+        "axis": "artificial intelligence",
+        "candidate": "Add a second recap provider",
+        "reason": "Existing provider work is bounded and coalesced; no availability defect is observed."
+      },
+      {
+        "axis": "artificial intelligence",
+        "candidate": "Personalize coaching from synthetic profiles",
+        "reason": "It requires real-player evidence and a privacy design first."
+      },
+      {
+        "axis": "security",
+        "candidate": "Replace Obelisk with project-local authentication",
+        "reason": "It violates the canonical external Obelisk identity architecture."
+      },
+      {
+        "axis": "security",
+        "candidate": "Relax signed release admission",
+        "reason": "That would erase the evidence boundary protecting production."
+      },
+      {
+        "axis": "speed and organization",
+        "candidate": "Copy Studio Ops control-plane tools into VaultFront",
+        "reason": "It would create a second drifting authority; the recurrence was shipped through Ark instead."
+      },
+      {
+        "axis": "speed and organization",
+        "candidate": "Bypass the manual staging workflow",
+        "reason": "The existing workflow provides immutable-image, exact-SHA, smoke, and signed-attestation guarantees."
+      },
+      {
+        "axis": "token and API reduction",
+        "candidate": "Compress certified gameplay telemetry",
+        "reason": "No storage or API cost hotspot is evidenced."
+      },
+      {
+        "axis": "token and API reduction",
+        "candidate": "Broaden per-player AI response caching",
+        "reason": "Match-global coalescing already exists and broader caching risks identity leakage."
+      }
+    ]
+  },
+  "items": [
+    {
+      "id": 243,
+      "slug": "propagation-verification-recovery",
+      "tier": "hot",
+      "axis": "security / organization / release",
+      "effortHours": 2,
+      "impact": 10,
+      "innovation": 6,
+      "priority": 60,
+      "status": "shipped",
+      "title": "Restore project-proven release verification after Studio propagation drift",
+      "why": "Automated commit fe9f552c replaced immutable workflow actions, the supported Node floor, semantic brief validation, and project formatting, causing five test failures plus a Prettier gate failure on main.",
+      "coreLoopStep": "trusted build proof to safe staging to available certified play",
+      "recipe": "Restore only the seven proven surfaces from the last green revision, retain the new maintenance protocol entry, classify its owner as Studio Ops, push atomically, and require independent CI plus Ark escalation.",
+      "selectedDepth": "L2",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Restore the workflow and semantic validator files from the last green revision."
+        },
+        "L2": {
+          "effortHours": 2,
+          "recipe": "Preserve new protocol content, update project command-surface ownership, verify the full provider matrix, and ship signed Ark evidence upstream."
+        },
+        "L3": {
+          "effortHours": 5,
+          "recipe": "Add a canonical propagation admission court that runs every child repository's project-specific ratchets before fleet updates."
+        }
+      },
+      "executionLog": [
+        {
+          "at": "2026-08-25T14:26:45-04:00",
+          "status": "shipped",
+          "note": "Commit 03887080 restored the seven surfaces; CI 32883787037, E2E 32883787049, build, security, formatting, bundle, and exact-revision evidence pass. Ark cargo 01K0T3GVM10BD95A96A37F3A18 carries the recurrence upstream."
+        }
+      ]
+    },
+    {
+      "id": 244,
+      "slug": "exact-revision-staging-and-observation",
+      "tier": "hot",
+      "axis": "release / feedback / user experience",
+      "effortHours": 2,
+      "impact": 10,
+      "innovation": 5,
+      "priority": 50,
+      "status": "pending",
+      "title": "Deploy and observe the exact repaired revision on stable staging",
+      "why": "The current staging runtime still serves the S108 implementation revision rather than 03887080, so production admission cannot bind the repaired main artifact.",
+      "coreLoopStep": "trusted build proof to exact staging experience to safe player access",
+      "recipe": "Dispatch Deploy staging with dry_run=false at main, verify exact commit and product smoke, run the nine-cell observation, then perform the matching promotion dry-run and rollback/restoration drill.",
+      "selectedDepth": "L2",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Deploy exact main and verify health plus commit.txt."
+        },
+        "L2": {
+          "effortHours": 2,
+          "recipe": "Deploy, capture signed nine-cell parity, validate promotion, and observe rollback/restoration."
+        },
+        "L3": {
+          "effortHours": 4,
+          "recipe": "Add automated freshness binding so a post-candidate documentation commit cannot make release state ambiguous."
+        }
+      }
+    },
+    {
+      "id": 233,
+      "slug": "authenticated-human-alpha-observation",
+      "tier": "hot",
+      "axis": "game loop / feedback / release",
+      "effortHours": 3,
+      "impact": 10,
+      "innovation": 5,
+      "priority": 50,
+      "status": "blocked",
+      "title": "Observe the certified loop with three authenticated humans",
+      "why": "No accepted evidence proves three distinct genuine authenticated human sessions.",
+      "coreLoopStep": "Capture to Convoy to Pressure to Breach to decisive delivery to continuation",
+      "recipe": "Run one genuine three-human cohort and admit only signed, privacy-minimal runtime evidence."
+    },
+    {
+      "id": 234,
+      "slug": "zoho-project-alias-e2e-proof",
+      "tier": "hot",
+      "axis": "release / communications",
+      "effortHours": 2,
+      "impact": 10,
+      "innovation": 2,
+      "priority": 20,
+      "status": "blocked",
+      "title": "Prove VaultFront-domain send, receive, and reply-as in Zoho",
+      "why": "zoho.mail.admin still lacks four required credentials and no signed human reply-identity evidence exists.",
+      "coreLoopStep": "public trust to reachable project support",
+      "recipe": "Configure the Zoho alias and prove delivery plus reply identity from contact@vaultfront.io."
+    },
+    {
+      "id": 236,
+      "slug": "authenticated-obelisk-rp-observation",
+      "tier": "hot",
+      "axis": "identity / release",
+      "effortHours": 2,
+      "impact": 10,
+      "innovation": 4,
+      "priority": 40,
+      "status": "blocked",
+      "title": "Observe the complete authenticated Obelisk relying-party journey",
+      "why": "The redirect corridor is configured, but callback, session identity, and logout remain unobserved with an authenticated authority.",
+      "coreLoopStep": "account entry to trusted persistent progression",
+      "recipe": "Complete and retain a purpose-scoped authenticated staging journey."
+    },
+    {
+      "id": 235,
+      "slug": "positive-live-revenue-observation",
+      "tier": "fast",
+      "axis": "revenue / release",
+      "effortHours": 1,
+      "impact": 9,
+      "innovation": 2,
+      "priority": 18,
+      "status": "blocked",
+      "title": "Observe one genuine positive live receipt",
+      "why": "The Stripe path is ready, but no genuine signed positive payment webhook receipt exists.",
+      "coreLoopStep": "supporter intent to sustainable live operation",
+      "recipe": "Admit only a genuine signed webhook receipt; never self-pay or synthesize revenue."
+    },
+    {
+      "id": 237,
+      "slug": "portable-founder-launch-approval",
+      "tier": "fast",
+      "axis": "governance / release",
+      "effortHours": 1,
+      "impact": 10,
+      "innovation": 3,
+      "priority": 30,
+      "status": "blocked",
+      "title": "Bind founder approval to the exact promoted artifact",
+      "why": "The thread authorizes commit, push, and full deployment, but no portable trusted claim yet binds the final exact SHA and image digest.",
+      "coreLoopStep": "founder decision to auditable production cutover",
+      "recipe": "Capture approval through the non-self-approving release authority after the final staging attestation identifies the exact SHA and digest."
+    }
+  ],
+  "innovationPack": {
+    "status": "exhausted",
+    "shipped": 70,
+    "total": 70,
+    "itemsShippedThisSession": [],
+    "evidence": [
+      "node scripts/innovation-pack.mjs reports the existing ledger exhausted",
+      "No game mechanic or balance change is admitted without genuine human evidence"
+    ]
+  }
+}
