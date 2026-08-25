@@ -29,6 +29,7 @@ const OPTIONAL_STANDALONE = new Set([
   "start-canon-sync.mjs",
   "start-stalled-remediation-resume.mjs",
   "frontier-capability-radar.mjs",
+  "run-maintenance.mjs",
   "run-doctor.mjs",
   "compact-memory-index.mjs",
   "record-skill-cost.mjs",
