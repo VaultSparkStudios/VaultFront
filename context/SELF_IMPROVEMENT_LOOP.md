@@ -4,12 +4,40 @@ Detailed internal scoring, audit trends, and brainstorming are maintained privat
 
 <!-- rolling-status-start -->
 
-Total: 996/1000 | Velocity: 5 | Debt: ↓ | Velocity trend: ↑
-Avgs — 3: 995.3 | 5: 995.6 | 10: 996.4 | 25: 993.4 | all: 993.4 | Last 5: 996 → 996 → 994 → 996 → 996 | Intent rate: 100%
+Total: 996/1000 | Velocity: 2 | Debt: ↓ | Velocity trend: →
+Avgs — 3: 996.0 | 5: 995.6 | 10: 996.3 | 25: 993.5 | all: 993.5 | Last 5: 996 → 994 → 996 → 996 → 996 | Intent rate: 100%
 Categories: Dev 100 | Align 99 | Momentum 100 | Engage 98 | Process 100 | Coherence 99 | Security 100 | Ecosystem 100 | Capital 100 | Automation 100
-Last session: 2026-08-23 Session 108 release-evidence arc
+Last session: 2026-08-25 Session 109 propagation recovery and release requalification
 
 <!-- rolling-status-end -->
+
+## 2026-08-25 — Session 109 | Total: 996/1000 | Velocity: 2
+
+Recovered a propagation-caused release-verification regression, requalified the exact staging corridor, and established two fresh main-sourced images for an immutable closeout rollback drill while preserving every independent production gate.
+
+| Category              |        Score | Evidence                                                                                                                                                 |
+| --------------------- | -----------: | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Dev Health            |          100 | Repair and implementation-record revisions pass provider CI/E2E; formatting, security, build, exact staging, and the primary nine-cell observation pass. |
+| Creative Alignment    |           99 | The certified loop and competitive identity were preserved; no balance or founder-owned Soul claim was invented without human evidence.                  |
+| Momentum              |          100 | Two audit items shipped, seven verification surfaces recovered, exact staging requalified, and a fresh rollback anchor deployed.                         |
+| Engagement            |           98 | Live interaction evidence is preserved, including one 232 ms repeat outlier; no human retention or delight is inferred.                                  |
+| Process Quality       |          100 | Stale/non-main rollback evidence failed closed, contradictory measurements remain visible, and final proof is bound to immutable closeout chronology.    |
+| Cross-Repo Coherence  |           99 | The propagation recurrence traveled through signed Ark cargo; no sibling repository or canonical owner file was edited.                                  |
+| Security Posture      |          100 | Immutable actions, supported runtimes, gateway checks, clean staged scans, exact provenance, and pre-mutation production admission remain enforced.      |
+| Ecosystem Integration |          100 | GitHub Actions, stable staging, signed observation, promotion validation, and rollback share one exact-main lineage.                                     |
+| Capital Efficiency    |          100 | Existing cost-neutral provider infrastructure was reused; no dependency, paid mailbox, synthetic payment, or artificial cohort was added.                |
+| Automation Coverage   |          100 | Provider regression, semantic brief, release workflow, staging smoke, observation, promotion, and rollback admission are all executable.                 |
+| **Total**             | **996/1000** | Exact category sum; the score measures execution quality and does not claim production launch completion.                                                |
+
+**Game rubric:** Loop Tightness 92 · Progression Curve 85 · Session Engagement 72 · Retention Hook 68 · Soul Fidelity N/A · Velocity 2. No gameplay tuning was justified without genuine human evidence.
+
+**Top win:** VaultFront recovered from fleet propagation drift without discarding incoming protocol changes, then re-established exact staging and a fresh main-sourced rollback lineage.
+
+**Top gap:** Zoho reply identity, authenticated Obelisk, genuine human Alpha, positive live revenue, and portable exact-artifact founder approval remain independent production gates.
+
+**Commitments:** [SIL:1] require project-specific verification before accepting propagated release surfaces; [SIL:2] preserve every measured live outcome and recapture the immutable closeout SHA rather than weakening thresholds.
+
+**Honest refusal:** The session did not synthesize mail identity, authenticated identity, human participation, revenue, or portable approval, and did not use stale or non-main evidence to manufacture rollback readiness.
 
 ## 2026-08-23 — Session 108 | Total: 996/1000 | Velocity: 5
 

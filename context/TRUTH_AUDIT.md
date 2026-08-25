@@ -2,6 +2,14 @@
 
 # Truth Audit
 
+## 2026-08-25 — Session 109 propagation and release-requalification truth
+
+- Chronology truth: Session 108 had closed product work, but later Studio propagation replaced seven project-proven verification surfaces. Repair commit `03887080` restores those surfaces and preserves the incoming maintenance protocol; it is independently green in CI `32883787037` and E2E `32883787049`.
+- Work truth: audit items 243–244 are shipped; innovation remains honestly exhausted at 70/70. No game mechanic or balance change was admitted without real human evidence.
+- Staging truth: repaired staging `32886877642`, nine-cell observation `32887206185`, and promotion dry-run `32887551349` pass. A second observation `32889128703` recorded one 232 ms INP cell; the earlier success is not erased and the later outlier is not hidden.
+- Rollback truth: non-main and stale-attestation attempts were rejected before mutation. Revision `1149d78b` passed CI `32890831350`, E2E `32890831315`, Release `32890831316`, and deploy `32891518865`, creating a fresh main-sourced known-good target for the post-closeout rollback drill.
+- Release truth: production remains HTTP 503. Zoho reply identity, authenticated Obelisk, three genuine authenticated human Alpha sessions, positive live revenue, and portable exact-artifact founder approval remain red; thread-level operational authorization is not relabeled as a portable release claim.
+
 ## 2026-08-22 — Session 107 contact-transport recovery truth
 
 - Chronology truth: ten substantive commits followed the Session 106 SIL anchor. Nine are the un-written-back contact-mail continuation; commit `8006d7b8` is a later canonical Studio OS asset synchronization. The clean tree and synchronized remote did not prove closeout currency.

@@ -136,3 +136,11 @@ session can resume from repo state without relying on prior chat.
 - Hidden language-modal options are precomputed during selector initialization and synchronized only on state changes; avoid rebuilding all options in the interaction handler because live INP regressed above the 200 ms bar.
 - Stable staging is exact at `1a89688c` / image `sha256:720b0cad2478d894ad136185617e003bd73943ab6f1d609c117fcb11cd0a8780` and healthy after an observed rollback/restoration.
 - Production remains fail-closed until Zoho reply identity, authenticated Obelisk, genuine human Alpha, positive live revenue, and portable exact-artifact founder approval are independently observed.
+
+## 2026-08-25 — Session 109 propagation recovery and release requalification
+
+- Studio propagation can replace project-specific release verification while leaving generic protocol content valid; preserve the incoming protocol and restore only the proven project surfaces, then ship the recurrence through Ark.
+- Repair commit `03887080` passed CI `32883787037`, E2E `32883787049`, staging `32886877642`, observation `32887206185`, and promotion dry-run `32887551349`.
+- Implementation-record revision `1149d78b` passed CI `32890831350`, E2E `32890831315`, Release `32890831316`, and staging `32891518865`; it is the fresh main-sourced known-good image for the final closeout rollback drill.
+- Keep both performance observations: the primary nine-cell run passed, while repeat `32889128703` recorded one 232 ms INP cell. Do not weaken the 200 ms threshold; recapture the immutable closeout SHA.
+- Production remains HTTP 503 / NO-GO until Zoho reply identity, authenticated Obelisk, three genuine authenticated humans, positive live revenue, and portable exact-artifact founder approval are independently observed.

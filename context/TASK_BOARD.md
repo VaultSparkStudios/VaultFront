@@ -4,6 +4,11 @@ Public-safe roadmap only. Detailed backlog sequencing is maintained privately.
 
 ## Now — production evidence corridor
 
+- [done] Recovered Studio propagation drift in direct-main commit `03887080`; CI `32883787037`, E2E `32883787049`, and signed Ark recurrence cargo are green.
+- [done] Requalified the repaired release corridor with staging `32886877642`, nine-cell observation `32887206185`, and promotion dry-run `32887551349`.
+- [done] Established main-sourced rollback target `1149d78b` through CI `32890831350`, E2E `32890831315`, Release `32890831316`, and stable-staging deploy `32891518865`.
+- [ ] Post-commit gate: deploy and observe the immutable Session 109 closeout SHA, validate promotion, then prove rollback to `1149d78b` and exact restoration before any production decision.
+
 - [done] [SIL:1] Preserve chronological, shard-aware test evidence and classify worker-start failures separately from assertion failures.
 - [done] Exact revision `1a89688c` passed provider CI `32624397469`, E2E `32624397463` (30/30), stable-staging deploy `32624581625`, and the apex promotion dry-run `32624982318`.
 - [done] Live observation `32624675990` passed all nine theme/viewport cells with zero findings; worst LCP 1,556 ms, INP 184 ms, and CLS 0.0066.
@@ -13,6 +18,13 @@ Public-safe roadmap only. Detailed backlog sequencing is maintained privately.
 - [ ] Collect at least three distinct authenticated human Alpha sessions and one real checkout/supporter revenue observation.
 - [ ] Complete and retain an authenticated Obelisk callback/session/identity/logout journey; the required relying-party identity values remain unavailable.
 - [ ] Install a trusted purpose-scoped founder approval writer for the exact SHA and image.
+
+## Completed (2026-08-25 — Session 109 propagation recovery and requalification)
+
+- [done] Shipped audit item 243 by restoring all seven project-proven verification surfaces without discarding the incoming maintenance protocol.
+- [done] Shipped audit item 244's exact staging, nine-cell observation, and promotion-validation corridor; preserved a measured repeat-run INP outlier instead of weakening the gate.
+- [done] Passed the implementation-record revision through provider CI, E2E, Release, and a fresh main-sourced stable-staging deploy suitable as the rollback target for the immutable closeout SHA.
+- [deferred] Production remains fail-closed on Zoho reply identity, authenticated Obelisk, genuine human Alpha evidence, positive live revenue, and portable exact-artifact founder approval.
 
 ## Completed (2026-08-23 — Session 108 release-evidence arc)
 

@@ -523,3 +523,12 @@ Session 89 closeout tooling incident: invoking the Studio Ops closeout-board ren
 - Exact `1a89688c` passed CI `32624397469`, E2E `32624397463`, staging `32624581625`, observation `32624675990`, rollback `32624833208`, and promotion dry-run `32624982318`.
 - Stable staging is healthy and exact; production remains fail-closed on Zoho reply identity, authenticated Obelisk, genuine human Alpha, positive live revenue, and portable exact-artifact approval.
 - CDR reviewed — no new creative direction; the session authorization was operational and did not redefine creative canon or evidence authority.
+
+## 2026-08-25 — Session 109 propagation recovery and exact-release requalification
+
+- Goal: recover the skipped write-back, run the full Arc, push directly to `main`, and deploy as far as canonical release evidence permits.
+- Recovery and implementation: repaired seven Studio-propagated verification regressions in `03887080`, retained the maintenance protocol, and shipped Ark recurrence cargo `01K0T3GVM10BD95A96A37F3A18`.
+- Provider/staging: repair CI `32883787037` and E2E `32883787049` pass; staging `32886877642`, observation `32887206185`, and promotion dry-run `32887551349` pass. Implementation-record `1149d78b` passes CI `32890831350`, E2E `32890831315`, Release `32890831316`, and staging `32891518865`.
+- Truth boundary: a repeat observation recorded one 232 ms INP cell and remains disclosed. Production stays HTTP 503 / NO-GO on Zoho reply identity, authenticated Obelisk, three real authenticated humans, positive live revenue, and artifact-bound founder approval.
+- Closeout contract: use `1149d78b` as the fresh main-sourced rollback target, then verify the immutable closeout SHA through CI, staging, nine-cell observation, promotion validation, rollback, and restoration before reporting the final release verdict.
+- CDR reviewed — no new creative direction this session.

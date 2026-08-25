@@ -803,3 +803,23 @@ Public-safe decisions only. Detailed internal decision history is maintained pri
 **Decision:** Record the saturated Windows host's failed worker starts as infrastructure evidence, not assertion failures. The pre-commit hook was bypassed for the implementation commits only after its worker pool stalled; exact-revision provider CI/E2E, focused local regressions, formatting, and zero-finding staged secret scans are the mitigation and final authority.
 
 **Why:** Repeated local process startup failures made the hook non-deterministic, while the clean provider environment executed the unchanged gates against the exact commits. Bypassing is disclosed and does not create a local-green claim.
+
+## 2026-08-25 — Session 109 release-requalification decisions
+
+### Preserve both project verification and incoming protocol authority
+
+**Decision:** Restore project-proven verification surfaces after Studio propagation without reverting the new maintenance protocol, and ship the recurrence through Ark rather than editing Studio Ops directly.
+
+**Why:** Cross-repo propagation owns the regression, but VaultFront owns its deployable invariants. The smallest safe repair preserved both authorities and independent provider verification proved the result.
+
+### Keep contradictory performance observations visible
+
+**Decision:** Treat a 232 ms repeat observation as disclosed performance evidence, not as permission to weaken the 200 ms interaction threshold or to erase the earlier green observation.
+
+**Why:** Identical-source observations can contain host/network variance. A final immutable-SHA recapture gives the release decision current evidence while preserving both measured outcomes.
+
+### Prove rollback with two fresh main-sourced images
+
+**Decision:** Use verified/staged `1149d78b` as the known-good image and the canonical closeout commit as the replacement image for the final rollback proof.
+
+**Why:** Rollback admission correctly rejects stale and non-main attestations. Two fresh main images prove reversibility without manufacturing provenance or bypassing the workflow's source-ref contract.

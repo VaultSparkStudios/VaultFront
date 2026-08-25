@@ -404,3 +404,16 @@ Run the complete /arc, implement every premise-verified finding, commit and push
 - Release: production remains HTTP 503 / NO-GO. Zoho/DNS, three authenticated humans, a real positive payment, and exact-live parity remain red. The parity capture hung and produced no report; prior-revision metrics were not reused.
 - Ark: pattern 01K016ULS7547918A200625630, secrets question 01K016USKRF62838C6C7A202B0, and impact summary 01K016V3KTF9B1523FBB3251A8 are signed and shipped.
 - Next move: collect the Zoho, human, payment, and parity observations, rerun /app-release-gate, and promote the immutable digest only if all gates pass.
+
+## Where We Left Off — Session 109 closeout (2026-08-25)
+
+- Arc result: recovered the skipped Session 108 write-back, ran the complete fresh arc, shipped audit items 243–244, and kept innovations exhausted at 70/70 without manufacturing gameplay work.
+- Propagation repair: direct-main `03887080` restored seven release-verification surfaces after Studio drift; CI `32883787037`, E2E `32883787049`, and Ark cargo `01K0T3GVM10BD95A96A37F3A18` pass.
+- Exact corridor: deploy `32886877642`, observation `32887206185`, and promotion dry-run `32887551349` pass. Repeat observation `32889128703` retained one 232 ms INP outlier; the threshold was not changed.
+- Rollback anchor: implementation-record revision `1149d78b` passed CI `32890831350`, E2E `32890831315`, Release `32890831316`, and staging `32891518865`. It is the main-sourced known-good image for the final closeout-SHA rollback drill.
+- Release boundary: production remains HTTP 503 / NO-GO on Zoho reply identity, authenticated Obelisk, three genuine authenticated humans, one positive live payment, and portable exact-artifact founder approval. Operational authorization did not substitute for those independent claims.
+- Continuation: after the closeout commit, require green provider CI, exact-SHA staging observation, promotion validation, and rollback/restoration to `1149d78b`; only an all-green canonical readiness result may authorize production mutation.
+
+## Session Intent — Session 109 (2026-08-25)
+
+Recover the prior write-back gap, execute the complete `/arc`, commit and push directly to `main`, fully deploy only through exact staging, observation, rollback, and canonical production admission, and preserve every independent evidence gate without fabrication.
