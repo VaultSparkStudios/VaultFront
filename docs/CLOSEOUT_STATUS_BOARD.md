@@ -1,20 +1,20 @@
 <!-- generated-by: scripts/render-closeout-board.mjs v1.1 -->
-<!-- generated-at: 2026-08-23 (Session 108 closeout) -->
+<!-- generated-at: 2026-08-25 (Session 109 closeout) -->
 
 # Closeout Status Board — VaultFront
 
 ```
-╔══ SESSION CLOSEOUT · VaultFront · S108 ════════════════════════╗
-║  Date: 2026-08-23  ·  SIL: 996/1000  ·  Velocity: 5 down         ║
+╔══ SESSION CLOSEOUT · VaultFront · S109 ════════════════════════╗
+║  Date: 2026-08-25  ·  SIL: 996/1000  ·  Velocity: 2 down         ║
 ║  Mode: FOUNDER  ·  Agent: codex                                  ║
 ║  Live:  preview  →  https://vaultfront.io                        ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ WHAT SHIPPED · last 5 commits ═══════════════════════════════╗
-║  ✓ chore(vaultfront): close session 108                          ║
-║  ✓ perf(vaultfront): precompute language modal options           ║
-║  ✓ fix(vaultfront): stabilize live parity dialog teardown        ║
-║  ✓ style(vaultfront): satisfy formatting ratchet                 ║
-║  ✓ feat(vaultfront): harden release evidence and test resilienc  ║
+║  ✓ docs(vaultfront): close session 109                           ║
+║  ✓ docs(vaultfront): record session 109 implementation           ║
+║  ✓ fix(vaultfront): restore release verification after protocol  ║
+║  ✓ docs: sync Studio OS docs/SESSION_PROTOCOL.md                 ║
+║  ✓ docs: sync Studio OS 7 files [agent-dna, ci, prompts, protoc  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ SCORES · SIL 996/1000 ═══════════════════════════════════════╗
 ║    Dev Health         100  ██████████                            ║
@@ -54,10 +54,10 @@
 ║  Compliance:    49/49                                            ║
 ║  Tests:         288/288                                          ║
 ║  Validation:    full-fresh                                       ║
-║  IGNIS:         15d ago                                          ║
+║  IGNIS:         18d ago                                          ║
 ║  Truth:         green                                            ║
-║  Sanitization:  9d ago                                           ║
-║  Shell hygiene: unknown · missing/stale enumeration              ║
+║  Sanitization:  12d ago                                          ║
+║  Shell hygiene: 0 started · 0 closed · 0 running                 ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ NEXT SESSION ════════════════════════════════════════════════╗
 ║  #1: Unified Genius List exhausted                               ║
