@@ -24,6 +24,7 @@ import {
   renderTestItNow,
   renderTitleHeader,
 } from "./lib/brief-blocks.mjs";
+import { buildBriefSourceManifest } from "./lib/brief-freshness.mjs";
 import { runBriefPreflight } from "./lib/brief-preflight.mjs";
 import {
   buildBriefSemanticFingerprint,
@@ -1682,12 +1683,14 @@ const staleBanner = briefCoherent
 
 // ── Build the brief ───────────────────────────────────────────────────────────
 const pct = silTotal > 0 ? `${Math.round((silTotal / silMax) * 100)}%` : "?%";
+const briefSourceManifest = buildBriefSourceManifest(root);
 
 const lines = [
   `<!-- generated-by: scripts/render-startup-brief.mjs v3.1 -->`,
   `<!-- generated-at: ${new Date().toISOString()} -->`,
   `<!-- generated-for-session: ${currentSession}; source-closeout-session: ${currentSession - 1} -->`,
   formatBriefSemanticFingerprint(buildBriefSemanticFingerprint(root)),
+  `<!-- brief-sources: ${JSON.stringify(briefSourceManifest)} -->`,
   `<!-- fast-boot-valid-until: next session if within 24h -->`,
   `<!-- brief-coherent: ${briefCoherent} -->`,
   ``,

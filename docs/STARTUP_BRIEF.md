@@ -1,7 +1,8 @@
 <!-- generated-by: scripts/render-startup-brief.mjs v3.1 -->
-<!-- generated-at: 2026-08-25T20:03:42.360Z -->
+<!-- generated-at: 2026-08-25T22:55:39.423Z -->
 <!-- generated-for-session: 110; source-closeout-session: 109 -->
 <!-- semantic-freshness: hash=e089b3fe33febc93 next=110 silSession=109 silScore=996 handoff=- tests=- -->
+<!-- brief-sources: {"schema":2,"session":109,"sources":{"context/PROJECT_STATUS.json":"ecc260744cba58b0e37fa522e4e887e6ab9d0be228f9a459d36fd4c318174427","context/TASK_BOARD.md":"3b90e017af14f1c3b879a0c600525b6f982ef52c1e4845012c9d917449bb9206","context/LATEST_HANDOFF.md":"84796e3e9d2980e641bdb079da76bac73e43d59719374e60060cee2b30a9226c","context/SELF_IMPROVEMENT_LOOP.md":"73b5ed3c4e81823bd50b8a8d4e1a99ae941ecf32ea3e811cc31bde4713315b3c","context/TRUTH_AUDIT.md":"e6305c3e6250d4579a2b10ef0ac4ed85b9fd89fe768045a93113f6a9dcbab99e","context/CURRENT_STATE.md":"d4b665257fddabf0f8ceb9aef28aad05d4b1239aca53191c00c52db1db3f1e8e","docs/GENIUS_LIST.md":"1c56e41032e53da7c40239ed62ad7c2b259ca7dff7214d13a81145cccac1ec70","docs/SESSION_PLAN.md":"b3bf49e5e8d173eac49219b9021300838b88c80b0b19912520288e66e0870943","docs/CREATIVE_DIRECTION_RECORD.md":"f0aadc3eafe6f49b62c4af1028bc33349952a2abc5283482601ebc7231087fd7"}} -->
 <!-- fast-boot-valid-until: next session if within 24h -->
 <!-- brief-coherent: true -->
 
@@ -66,8 +67,9 @@
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ CONTEXT METER ═══════════════════════════════════════════════╗
-║  ✓  █████████████░░░░░░░░░░░   55% used                          ║
-║     148,293 / 272,000 tok  ·  codex  ·  heuristic-stale          ║
+║  ✓  █░░░░░░░░░░░░░░░░░░░░░░░    6% used                          ║
+║     15,445 / 272,000 tok  ·  codex/codex-272k  · …               ║
+║     ~7,723 tok/turn  ·  cache 50%  ·  30 turns to compact        ║
 ║     Verdict: CONTINUE                                            ║
 ╚════════════════════════════════════════════════════════════════╝
 
@@ -120,8 +122,10 @@
 ╚════════════════════════════════════════════════════════════════╝
 
 ╔══ GENIUS HIT LIST ═════════════════════════════════════════════╗
-║  ⏸ No actionable local items · 5 blocked · 0 deferred            ║
-║  Next: reclassify live blockers, then innovation-pack            ║
+║  → #1 hot Complete the immutable closeout release chain          ║
+║     2h · release / feedback / user experience · sonnet           ║
+║  → #2 hot Restore startup brief source closure                   ║
+║     1h · speed / organization / process · sonnet                 ║
 ║  Audit: docs/AUDIT_2026-08-25.json                               ║
 ╚════════════════════════════════════════════════════════════════╝
 

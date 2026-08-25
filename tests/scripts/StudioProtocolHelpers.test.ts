@@ -1,4 +1,4 @@
-import { mkdirSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
@@ -353,6 +353,32 @@ describe("public protocol compatibility", () => {
       stale: true,
       reason: expect.stringMatching(/session drift|hash drift/),
     });
+  });
+
+  it("keeps the startup brief producer wired to the freshness manifest consumer", () => {
+    const renderer = readFileSync(
+      path.join(root, "scripts/render-startup-brief.mjs"),
+      "utf8",
+    );
+    expect(renderer).toContain(
+      'import { buildBriefSourceManifest } from "./lib/brief-freshness.mjs";',
+    );
+    expect(renderer).toContain(
+      "const briefSourceManifest = buildBriefSourceManifest(root);",
+    );
+    expect(renderer).toContain(
+      "<!-- brief-sources: ${JSON.stringify(briefSourceManifest)} -->",
+    );
+  });
+
+  it("keeps ephemeral checkout mirrors outside direct verification discovery", () => {
+    const viteConfig = readFileSync(path.join(root, "vite.config.ts"), "utf8");
+    const prettierIgnore = readFileSync(
+      path.join(root, ".prettierignore"),
+      "utf8",
+    );
+    expect(viteConfig).toContain('"**/.cache/**"');
+    expect(prettierIgnore.split(/\r?\n/u)).toContain(".cache/");
   });
 
   it("tracks every core renderer source, including missing-to-present transitions", async () => {

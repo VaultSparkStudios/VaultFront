@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
-  "session": 109,
+  "session": 110,
   "generatedBy": "codex",
-  "generatedAt": "2026-08-25T14:40:00-04:00",
+  "generatedAt": "2026-08-25T18:47:00-04:00",
   "project": {
     "slug": "vaultfront",
     "name": "VaultFront",
@@ -12,7 +12,7 @@
     "stage": "FORGE",
     "stagingType": "stable-owned-subdomain"
   },
-  "summary": "The fresh audit admits two agent-addressable release items: repair a verified Studio propagation regression and deploy the exact repaired revision through stable staging. Gameplay expansion and balance changes are rejected until genuine human evidence exists. Production remains NO-GO behind five independent observations that automation must not synthesize.",
+  "summary": "The Session 110 audit admits two agent-addressable items: restore the startup brief's missing source-closure manifest, then deploy and observe the immutable current main revision through stable staging, promotion validation, and rollback/restoration. Gameplay expansion and balance changes remain rejected until genuine human evidence exists. Production remains NO-GO behind five independent observations that automation must not synthesize.",
   "axes": {
     "featureDepth": 1.5,
     "innovation": 1.5,
@@ -31,17 +31,17 @@
       "sessionEngagement": 72,
       "retentionHooks": 68,
       "soulFidelity": null,
-      "reason": "The implemented Capture-to-Breach loop is unchanged; no public-safe Soul pillars or genuine human play traces exist to justify tuning."
+      "reason": "The Capture-to-Breach loop is explicit and mechanically tight, but no public-safe Soul pillars or genuine human play traces exist to validate pacing, retention, reward cadence, or Soul fidelity."
     },
     "release": {
       "decision": "NO-GO",
-      "reason": "The repaired revision is not yet deployed to stable staging, and Zoho reply identity, authenticated Obelisk, three-human Alpha, positive live revenue, and portable exact-artifact founder approval remain unobserved."
+      "reason": "The immutable current main revision 195a6f45 is not yet fully observed through the exact staging, promotion-validation, and two-image rollback chain; Zoho reply identity, authenticated Obelisk, three-human Alpha, positive live revenue, and portable exact-artifact founder approval also remain unobserved."
     }
   },
   "candidateReview": {
     "sampledFiles": 642,
     "selectedFiles": 14,
-    "preverification": "The exact main revision 03887080 passes CI, E2E, formatting, security, build, bundle, and exact-revision evidence. The previous green S108 candidate proves the deployment corridor, while current source and runtime records prove that gameplay measurement and five external release observations remain absent.",
+    "preverification": "A fresh render exits successfully but `node scripts/check-brief-staleness.mjs` immediately reports `brief source manifest missing`; live source shows the renderer removed `buildBriefSourceManifest` while the checker still requires it. Current main is exactly synchronized at 195a6f45, and the S109 handoff requires this immutable closeout revision to complete staging observation, promotion validation, rollback, and restoration. Current gameplay and runtime records still prove that genuine human measurement and five external release observations are absent.",
     "rejectedCandidates": [
       {
         "axis": "feature depth",
@@ -62,6 +62,21 @@
         "axis": "innovation",
         "candidate": "Synthetic Alpha cohort",
         "reason": "Synthetic actors are explicitly excluded from human Alpha evidence."
+      },
+      {
+        "axis": "innovation",
+        "candidate": "Counterfactual certified-reward simulator",
+        "reason": "A simulated reward response cannot establish comprehension, delight, or later return behavior and would risk laundering proxy evidence into tuning authority."
+      },
+      {
+        "axis": "artificial intelligence",
+        "candidate": "Adaptive Breach pacing copilot",
+        "reason": "No authenticated human friction corpus exists from which to adapt pacing safely, and the existing balance authority is deliberately deterministic."
+      },
+      {
+        "axis": "feedback loop",
+        "candidate": "Personalized retention sequence",
+        "reason": "The current pulse measures immediate continuation proxies, not later return; personalization would precede both privacy design and genuine retention evidence."
       },
       {
         "axis": "user experience",
@@ -207,6 +222,111 @@
           "at": "2026-08-25T17:58:00-04:00",
           "status": "shipped",
           "note": "Repaired staging 32886877642, nine-cell observation 32887206185, and promotion dry-run 32887551349 passed. Implementation-record 1149d78b passed CI 32890831350, E2E 32890831315, Release 32890831316, and staging 32891518865 as the fresh main-sourced rollback anchor. Final immutable closeout-SHA observation and two-image drill remain a post-commit release gate, not unfinished product implementation."
+        }
+      ]
+    },
+    {
+      "id": 245,
+      "slug": "startup-brief-source-closure-repair",
+      "tier": "hot",
+      "axis": "speed / organization / process",
+      "effortHours": 1,
+      "impact": 8,
+      "innovation": 4,
+      "priority": 20.19,
+      "status": "shipped",
+      "title": "Restore startup brief source closure",
+      "why": "The canonical renderer reports success but emits no `brief-sources` manifest, so its own freshness gate immediately rejects every generated S110 brief and forces needless rerenders on every start.",
+      "coreLoopStep": "trusted session orientation to correctly prioritized certified play and release work",
+      "recipe": "Restore the shared source-manifest producer at the canonical renderer boundary, add a producer-consumer contract regression, render a fresh S110 brief, and require the live staleness checker to pass.",
+      "selectedDepth": "L2",
+      "ladder": {
+        "L1": {
+          "effortHours": 0.5,
+          "recipe": "Reinsert the required source manifest comment into the canonical renderer."
+        },
+        "L2": {
+          "effortHours": 1,
+          "recipe": "Restore the shared builder import and emitted manifest, add a source-contract regression, then verify a real render is immediately source-coherent."
+        },
+        "L3": {
+          "effortHours": 2,
+          "recipe": "Unify semantic and source fingerprints under one versioned manifest and migrate both v3 and v5 renderers plus their consumers."
+        }
+      },
+      "executionLog": [
+        {
+          "at": "2026-08-25T19:12:00-04:00",
+          "status": "shipped",
+          "note": "The canonical renderer again emits the versioned source manifest. The focused producer-consumer regression passes, the full live helper file reached 18/19 with both new assertions green and one unrelated host-contended timeout, and a real S110 render immediately passes source freshness plus canonical-format validation."
+        }
+      ]
+    },
+    {
+      "id": 246,
+      "slug": "immutable-closeout-release-chain",
+      "tier": "hot",
+      "axis": "release / feedback / user experience",
+      "effortHours": 2,
+      "impact": 10,
+      "innovation": 5,
+      "priority": 50,
+      "status": "pending",
+      "title": "Complete the immutable closeout release chain",
+      "why": "Current main 195a6f45 is synchronized and provider-built, but the S109 handoff explicitly requires a fresh exact staging deploy, nine-cell observation, promotion validation, and two-image rollback/restoration before a production verdict can bind this final revision.",
+      "coreLoopStep": "trusted build proof to exact staging experience to safe player access",
+      "recipe": "After the source-closure repair lands on main, require exact provider CI, deploy the immutable final SHA to stable staging, capture signed nine-cell parity and footer/theme evidence, validate promotion, then observe rollback to the retained S109 anchor and exact restoration.",
+      "selectedDepth": "L2",
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Deploy the exact final main SHA and verify health, product smoke, and commit identity."
+        },
+        "L2": {
+          "effortHours": 2,
+          "recipe": "Deploy, observe all nine live cells, validate promotion, and retain the two-image rollback/restoration receipt."
+        },
+        "L3": {
+          "effortHours": 4,
+          "recipe": "Add an automated final-closeout lineage trigger so evidence-only commits cannot leave current main without an exact release capsule."
+        }
+      },
+      "executionLog": []
+    },
+    {
+      "id": 247,
+      "slug": "ephemeral-checkout-verification-boundary",
+      "tier": "fast",
+      "axis": "speed / organization / process",
+      "effortHours": 0.5,
+      "impact": 7,
+      "innovation": 4,
+      "priority": 17.67,
+      "status": "shipped",
+      "title": "Keep ephemeral checkout mirrors outside verification discovery",
+      "why": "Direct Vitest and Prettier invocations recurse into gitignored `.cache/clean-*` checkout mirrors, duplicating stale tests, slowing the formatting ratchet past three minutes, and producing false red results from obsolete deploy contracts.",
+      "coreLoopStep": "trusted verification to safe staging availability",
+      "recipe": "Add the gitignored cache boundary to Vitest's global excludes and Prettier's canonical ignore file, retain the shard runner's existing exclusion, and prove direct focused tests plus the formatting ratchet no longer enter cached mirrors.",
+      "selectedDepth": "L2",
+      "ladder": {
+        "L1": {
+          "effortHours": 0.25,
+          "recipe": "Exclude `.cache` from the one failing local command."
+        },
+        "L2": {
+          "effortHours": 0.5,
+          "recipe": "Declare the boundary once for direct Vitest discovery and once for the repository-wide Prettier surface, with a regression contract."
+        },
+        "L3": {
+          "effortHours": 1,
+          "recipe": "Generate every tool's ignore surface from one repository-owned ephemeral-path manifest."
+        }
+      },
+      "executionLog": [
+        {
+          "at": "2026-08-25T19:12:00-04:00",
+          "status": "shipped",
+          "note": "Vitest's global config and Prettier's canonical ignore now exclude .cache checkout mirrors. A direct Vitest invocation without an ad-hoc exclusion discovered only the live file and passed both new regressions; focused Prettier is clean. The repository-wide ratchet remained CPU-active under host contention and was bounded rather than mislabeled green."
         }
       ]
     },
