@@ -158,11 +158,11 @@
   ],
   "sessionShellHygiene": {
     "session": 111,
-    "started": 8,
-    "closed": 8,
+    "started": 20,
+    "closed": 20,
     "running": 0,
-    "enumeratedAt": "2026-08-26T04:11:28.2027096-04:00",
-    "scope": "Two review agents completed. Session-owned TypeScript, Vitest, two secret-scan attempts, local E2E fixture, and local client processes all exited or were explicitly stopped. PowerShell job enumeration, relevant command-line census, and known local listener ports confirm zero session-owned background shell, browser, test worker, or agent remains."
+    "enumeratedAt": "2026-08-26T15:28:09.2535012-04:00",
+    "scope": "Two review agents, six pre-closeout long-running verification processes, and twelve tracked closeout execution cells or yielded sessions all completed, exited, or were explicitly stopped. The final doctor-owned npm run dev child was identified by PID lineage and stopped. PowerShell jobs, relevant command-line census, and known local listener ports reconfirm zero session-owned background shell, browser, test worker, or agent remains."
   },
   "testsLastRun": "2026-08-26",
   "testsLastRunMode": "exact-provider-ci",

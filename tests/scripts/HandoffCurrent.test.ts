@@ -17,6 +17,25 @@ describe("selectLatestSessionHandoff", () => {
     expect(selectLatestSessionHandoff(markdown)).not.toContain("old run 1");
   });
 
+  it("keeps the latest where-we-left-off block with its following intent", () => {
+    const markdown = [
+      "## Where We Left Off — Session 111 closeout (date)",
+      "- Exact revision: current run",
+      "## Session Intent — Session 111 (date)",
+      "Promote only on all-green.",
+      "## Where We Left Off — Session 108 closeout (date)",
+      "- Exact revision: stale run",
+      "## Session Intent — Session 108 (date)",
+      "Old intent.",
+    ].join("\n");
+
+    const selected = selectLatestSessionHandoff(markdown);
+    expect(selected).toContain("Session 111 closeout");
+    expect(selected).toContain("Promote only on all-green.");
+    expect(selected).not.toContain("Session 108 closeout");
+    expect(selected).not.toContain("stale run");
+  });
+
   it("feeds the selected session to both deterministic and model paths", () => {
     const source = fs.readFileSync("scripts/compact-handoff.mjs", "utf8");
     expect(source).toContain(

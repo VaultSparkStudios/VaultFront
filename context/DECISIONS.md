@@ -859,3 +859,9 @@ Public-safe decisions only. Detailed internal decision history is maintained pri
 **Decision:** Do not promote production from `7fbaedcd` while any of contactEmail, obeliskIdentity, alphaHumanEvidence, revenueObservation, or founderApproval remains red.
 
 **Why:** Exact staging, mobile parity, performance, theme readability, and rollback are proven. The remaining five observations belong to independent authorities and cannot be inferred from a deployment-ready artifact or thread-level operational permission.
+
+### Select the complete numerically latest handoff session
+
+**Decision:** Make `selectLatestSessionHandoff` recognize both `Where We Left Off` and `Session Intent` markers, choose the highest session number, and return the contiguous block beginning at that session's earliest marker.
+
+**Why:** Selecting only from the latest Intent marker discarded its preceding closeout facts, so the Session 111 board silently rendered Session 108's shipped bullets. A direct exact assertion passes; the focused Vitest attempt failed to start its worker and executed zero tests, so provider CI is required before the tooling change is called aggregate-green.

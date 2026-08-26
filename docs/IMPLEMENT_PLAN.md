@@ -54,7 +54,10 @@ authenticated human traces.
 - Project doctor: 13/13 passing, `blockingFailing: 0`
 - Session impact cargo: `01K0VNAIFB534CC1E81A05017A`
 - IGNIS rescore request cargo: `01K0UHRS0GE25842F806C4E54B`
-- Session-owned work: 8 started · 8 closed · 0 running
+- Session-owned work: 20 started · 20 closed · 0 running
 - Final plan-only hook: ESLint, Prettier, staged application, and cleanup
   completed; the idle wrapper was stopped and the disclosed `--no-verify`
   metadata path retained the zero-finding staged scan.
+- Closeout-board selector: direct exact assertion passed; focused Vitest reached
+  the runner but failed to start its worker before executing any test. Provider
+  CI remains the aggregate authority after push.

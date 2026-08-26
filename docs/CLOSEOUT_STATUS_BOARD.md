@@ -10,11 +10,11 @@
 ║  Live:  preview  →  https://vaultfront.io                        ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ WHAT SHIPPED ════════════════════════════════════════════════╗
-║  ✓ Implementation: audit items 238–242 are shipped—chronologica  ║
-║  ✓ Live root-fixes: observer dialog teardown is lifecycle-safe,  ║
-║  ✓ Exact revision: `1a89688c83ce9180db7fdd4d939b21ad854c1a5f` p  ║
-║  ✓ Staging: `https://staging.vaultfront.io` is healthy with 2/2  ║
-║  ✓ Verification authority: clean provider CI and E2E are the ag  ║
+║  ✓ Implementation: audit item 248 is shipped. CANON-041 is now   ║
+║  ✓ Exact revision: `7fbaedcdd83be3a58b4865c5ce863dff8d14d963` p  ║
+║  ✓ Staging: `https://staging.vaultfront.io` is healthy at immut  ║
+║  ✓ Rendered proof: 144 source-bound artifacts cover VaultFront,  ║
+║  ✓ Verification authority: provider CI is the aggregate authori  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ SCORES · SIL 997/1000 ═══════════════════════════════════════╗
 ║    Dev Health         100  ██████████                            ║
@@ -32,16 +32,16 @@
 ║  · context/CURRENT_STATE.md                                      ║
 ║  · context/TASK_BOARD.md                                         ║
 ║  · context/LATEST_HANDOFF.md                                     ║
-║  · logs/WORK_LOG.md                                              ║
-║  · context/DECISIONS.md                                          ║
+║  ✓ logs/WORK_LOG.md                                              ║
+║  ✓ context/DECISIONS.md                                          ║
 ║  · context/SELF_IMPROVEMENT_LOOP.md                              ║
 ║  · docs/CREATIVE_DIRECTION_RECORD.md                             ║
 ║  · context/TRUTH_AUDIT.md                                        ║
-║  · context/PROJECT_STATUS.json                                   ║
+║  ✓ context/PROJECT_STATUS.json                                   ║
 ║  · agent memory (~/.claude/projects/<slug>/memory/)              ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ GIT STATUS ══════════════════════════════════════════════════╗
-║  Changes: 0 files  ·  M:0 A:0 D:0 ?:0                            ║
+║  Changes: 6 files  ·  M:6 A:0 D:0 ?:0                            ║
 ║  Ahead: 0  ·  Behind: 0                                          ║
 ║  Branch: main                                                    ║
 ╚════════════════════════════════════════════════════════════════╝
@@ -57,7 +57,7 @@
 ║  IGNIS:         19d ago                                          ║
 ║  Truth:         green                                            ║
 ║  Sanitization:  13d ago                                          ║
-║  Shell hygiene: 8 started · 8 closed · 0 running                 ║
+║  Shell hygiene: 20 started · 20 closed · 0 running               ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ NEXT SESSION ════════════════════════════════════════════════╗
 ║  #1: Unified Genius List exhausted                               ║
