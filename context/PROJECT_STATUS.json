@@ -4,58 +4,58 @@
   "name": "VaultFront",
   "status": "active",
   "health": "green",
-  "currentSession": 110,
+  "currentSession": 111,
   "lastAgent": "codex",
-  "currentFocus": "Session 110 restored startup proof closure, isolated ephemeral verification mirrors, and completed the exact immutable staging/observation/rollback chain; production remains fail-closed.",
-  "nextMilestone": "Record the canonical mobile-parity attestation, then obtain Zoho reply-as, authenticated Obelisk, three genuine authenticated human Alpha sessions, positive live revenue, and portable exact-artifact founder approval before production promotion.",
+  "currentFocus": "Session 111 made CANON-041 an executable 27-cell matrix, repaired language-modal interaction work, and completed the exact immutable staging/observation/rollback chain; production remains fail-closed.",
+  "nextMilestone": "Obtain Zoho reply-as, authenticated Obelisk, three genuine authenticated human Alpha sessions, positive live revenue, and portable exact-artifact founder approval before production promotion.",
   "blockers": [
-    "Production is NO-GO until canonical mobile parity is attested and project-domain human reply-as, a complete authenticated Obelisk journey, at least three distinct authenticated human Alpha sessions, one positive live Stripe receipt, and a portable purpose-scoped exact-artifact founder approval claim are observed."
+    "Production is NO-GO until project-domain human reply-as, a complete authenticated Obelisk journey, at least three distinct authenticated human Alpha sessions, one positive live Stripe receipt, and a portable purpose-scoped exact-artifact founder approval claim are observed."
   ],
-  "lastUpdated": "2026-08-25",
+  "lastUpdated": "2026-08-26",
   "lifecycle": "alpha",
   "audience": "public-unlaunched",
   "type": "game",
   "obeliskArchitecture": "external",
   "obeliskAuthStatus": "corridor-observed-authenticated-rp-unverified",
-  "entropyScore": 0.093,
+  "entropyScore": 0.106,
   "entropyStatus": "healthy",
-  "entropyComputedAt": "2026-08-16",
+  "entropyComputedAt": "2026-08-26",
   "entropyMethod": "Studio protocol entropy: context freshness, truth/IGNIS age, SIL skip pressure, stale human-action labels, and task-bucket pressure.",
   "testingSurfaces": [
     {
       "type": "tests",
       "status": "green",
-      "label": "S109 exact provider test authority",
+      "label": "S111 exact provider test authority",
       "command": "npm test",
-      "purpose": "Repair and implementation-record revisions pass exact provider CI; the canonical 288-file / 1,501-assertion authority, workflow protocol, semantic brief, formatting, and release verification are green."
+      "purpose": "Exact candidate 7fbaedcd passes provider CI; the canonical 291-file / 1,520-assertion authority, workflow protocol, formatting, build, security, and release verification are green."
     },
     {
       "type": "tests",
       "status": "green",
       "label": "Production build and contracts",
       "command": "npm run build-prod && npm run verify:contracts",
-      "purpose": "TypeScript, production build, 28,125 balance scenarios, 166 immutable deploy checks, route/composition contracts, formatting, and doctor are green."
+      "purpose": "TypeScript, production build, 28,125 balance scenarios, immutable deploy checks, route/composition contracts, formatting, and provider verification are green."
     },
     {
       "type": "tests",
       "status": "green",
       "label": "Rendered-pixel proof",
       "command": "npm run test:theme-proof",
-      "purpose": "138 hash-bound artifacts cover three themes and desktop/mobile; touched prediction states were directly inspected and CANON-053 passes."
+      "purpose": "144 hash-bound artifacts cover three themes and desktop/mobile, including six language-modal cells; touched states were directly inspected and CANON-053 passes."
     },
     {
       "type": "staging",
       "status": "green",
       "label": "Exact-revision stable staging",
-      "command": "GitHub Actions staging 32891518865",
-      "purpose": "Revision 1149d78b is healthy with exact commit, 2/2 workers, immutable image, product smoke, and signed runtime claims; it is the known-good target for the post-closeout rollback drill."
+      "command": "GitHub Actions staging 32943456027",
+      "purpose": "Revision 7fbaedcd is healthy with exact commit, immutable image, product smoke, and signed runtime claims; rollback/restoration run 32944435452 restored this exact candidate."
     },
     {
       "type": "release",
       "status": "warn",
-      "label": "Repaired observation green; immutable closeout drill pending",
-      "command": "Observation 32887206185; promotion dry-run 32887551349; rollback anchor 32891518865",
-      "purpose": "Nine live cells and promotion validation pass for the repair; the closeout SHA still requires exact observation and rollback/restoration, while five independent production gates remain absent."
+      "label": "Exact staging release chain green; production admission red",
+      "command": "Observation 32943706016; promotion dry-run 32944257053; rollback/restoration 32944435452",
+      "purpose": "All 27 live cells, promotion validation, and exact restoration pass; five independent production gates remain absent."
     }
   ],
   "freeTierCostStatus": "cost-neutral",
@@ -63,20 +63,20 @@
   "readinessEndpoint": "/api/vaultfront/readiness",
   "playtestPulseEndpoint": "/api/vaultfront/playtest-pulse/summary",
   "truthAuditStatus": "green",
-  "truthAuditLastRun": "2026-08-25",
+  "truthAuditLastRun": "2026-08-26",
   "silRubricVersion": "3.0",
   "silMax": 1000,
   "silScoreLegacy500": null,
-  "silScore": 996,
-  "testsPassing": 288,
-  "testsTotal": 288,
-  "testsAssertionsPassing": 1501,
-  "testsAssertionsTotal": 1501,
-  "testsAssertionsFiles": 288,
-  "testsAssertionsLastRun": "2026-08-16",
+  "silScore": 997,
+  "testsPassing": 291,
+  "testsTotal": 291,
+  "testsAssertionsPassing": 1520,
+  "testsAssertionsTotal": 1520,
+  "testsAssertionsFiles": 291,
+  "testsAssertionsLastRun": "2026-08-26",
   "silCategoriesV3": {
     "devHealth": 100,
-    "creativeAlignment": 99,
+    "creativeAlignment": 100,
     "momentum": 100,
     "engagement": 98,
     "processQuality": 100,
@@ -97,20 +97,19 @@
   "ignisLastComputed": "2026-08-08",
   "sessionMode": "founder",
   "sessionModeAutoShiftedAt": "2026-07-28T04:43:27.874Z",
-  "silAvg3": 996,
-  "silVelocity": 3,
+  "silAvg3": 996.3,
+  "silVelocity": 1,
   "silDebt": "down",
-  "silLastSession": "110",
-  "auditStatus": "session-110-audit-3-of-3-and-innovation-70-of-70-shipped; startup-source-closure-restored; cache-boundary-isolated; exact-ci-staging-observation-promotion-rollback-green; mobile-attestation-zoho-obelisk-alpha-revenue-founder-red; production-no-go",
+  "silLastSession": "111",
+  "auditStatus": "session-111-audit-item-248-shipped-and-innovation-70-of-70-exhausted; canonical-27-cell-mobile-parity-green; exact-ci-staging-observation-promotion-rollback-green; zoho-obelisk-alpha-revenue-founder-red; production-no-go",
   "releaseGates": [
-    "canonical CANON-041 mobile-parity attestation",
     "project-domain human reply-as verification (Brevo outbound and Cloudflare inbound verified; Zoho External From unverified)",
     "complete authenticated Obelisk callback/session/identity/logout verification",
     "authenticated evidence from at least three distinct human alpha sessions",
     "positive live Stripe payment receipt",
     "purpose-scoped portable founder approval claim"
   ],
-  "entropyLastComputed": "2026-08-25",
+  "entropyLastComputed": "2026-08-26",
   "truthGenome": "24/25",
   "doctorScore": {
     "passing": 13,
@@ -121,22 +120,22 @@
     "failing": 0,
     "blockingFailing": 0,
     "date": "2026-08-26",
-    "observedAt": "2026-08-26T00:01:40.482Z",
+    "observedAt": "2026-08-26T18:56:02.431Z",
     "source": "scripts/project-doctor.mjs",
     "evidencePath": "audits/doctor-latest.json",
-    "evidenceDigest": "sha256:0bc2d53d326e8a775bb6344d5e822d81665b7df88dedcd37a23b85df5bba9714",
+    "evidenceDigest": "sha256:0aa3034ff7f580ef6eda347ee594db4639f6db319a9233c235c9666aaf98d6fd",
     "evidenceSchemaVersion": 1,
     "checkCount": 13
   },
   "complianceScore": 49,
   "complianceTotal": 49,
   "sanitizationLastCleared": "2026-08-14",
-  "lastSession": 110,
+  "lastSession": 111,
   "bootAmortization": {
-    "ratio": 0.09,
+    "ratio": 0.21,
     "verdict": "wasted",
-    "ranAt": "2026-07-26T20:23:56.866Z",
-    "trigger": "founder-mission"
+    "ranAt": "2026-08-26T08:04:00.000Z",
+    "trigger": "closeout-gate"
   },
   "bootAmortizationHistory": [
     {
@@ -149,48 +148,54 @@
       "verdict": "wasted",
       "ranAt": "2026-07-26T20:23:56.866Z",
       "trigger": "founder-mission"
+    },
+    {
+      "ratio": 0.21,
+      "verdict": "wasted",
+      "ranAt": "2026-08-26T08:04:00.000Z",
+      "trigger": "closeout-gate"
     }
   ],
   "sessionShellHygiene": {
-    "session": 110,
-    "started": 2,
-    "closed": 2,
+    "session": 111,
+    "started": 8,
+    "closed": 8,
     "running": 0,
-    "enumeratedAt": "2026-08-25T23:51:34.123Z",
-    "scope": "Both skill-required review agents completed; all foreground workflow watches and command sessions exited. No session-owned background shell, browser, test worker, or agent remains."
+    "enumeratedAt": "2026-08-26T04:11:28.2027096-04:00",
+    "scope": "Two review agents completed. Session-owned TypeScript, Vitest, two secret-scan attempts, local E2E fixture, and local client processes all exited or were explicitly stopped. PowerShell job enumeration, relevant command-line census, and known local listener ports confirm zero session-owned background shell, browser, test worker, or agent remains."
   },
-  "testsLastRun": "2026-08-25",
+  "testsLastRun": "2026-08-26",
   "testsLastRunMode": "exact-provider-ci",
   "testsLatestAttempt": {
-    "at": "2026-08-25",
+    "at": "2026-08-26",
     "state": "green-provider",
-    "passingFiles": 288,
-    "totalFiles": 288,
-    "passingAssertions": 1501,
+    "passingFiles": 291,
+    "totalFiles": 291,
+    "passingAssertions": 1520,
     "infrastructureFailures": 0,
-    "reason": "Exact-revision provider CI 32910564760 passed the canonical aggregate; focused local regressions and contracts pass, while a host-contended broad local file is not used as aggregate authority."
+    "reason": "Exact-revision provider CI 32943036547 passed the canonical aggregate. Local Windows typecheck and focused Vitest attempts stalled before assertions and are not used as aggregate authority."
   },
   "testsDeferred": [],
   "testsBudgetExhausted": false,
-  "lastSessionSummary": "Session 110 restored startup proof closure, isolated ephemeral verification mirrors, and proved the exact candidate through CI, stable staging, nine-cell observation, promotion validation, and rollback/restoration while preserving six release gates.",
+  "lastSessionSummary": "Session 111 made CANON-041 an executable 27-cell contract, repaired measured language-modal interaction work, and proved exact staging through signed observation and rollback/restoration while preserving five production gates.",
   "providerCiStatus": {
     "status": "green",
-    "revision": "85ac5ff7b78f3880d2eeaccceb3b961a67efa4a5",
-    "ciRunId": 32910564760,
-    "e2eRunId": 32910564784,
+    "revision": "7fbaedcdd83be3a58b4865c5ce863dff8d14d963",
+    "ciRunId": 32943036547,
+    "e2eRunId": 32943036503,
     "databaseMigrationRunId": null,
-    "releasePlannerRunId": 32910564773,
+    "releasePlannerRunId": 32943036515,
     "briefValidationRunId": null,
-    "stagingRunId": 32911008849,
-    "promotionValidationRunId": 32911405984,
-    "rollbackValidationRunId": 32911479205,
-    "rollbackRunId": 32911552613,
-    "observationRunId": 32911217105,
-    "observedAt": "2026-08-25T23:51:34.122Z",
-    "source": "Exact-revision GitHub Actions, immutable stable staging, signed nine-cell observation, promotion dry-run, rollback validation, and observed rollback/restoration",
+    "stagingRunId": 32943456027,
+    "promotionValidationRunId": 32944257053,
+    "rollbackValidationRunId": 32944355303,
+    "rollbackRunId": 32944435452,
+    "observationRunId": 32943706016,
+    "observedAt": "2026-08-26T08:00:00.000Z",
+    "source": "Exact-revision GitHub Actions, immutable stable staging, signed 27-cell observation, promotion dry-run, rollback validation, and observed rollback/restoration",
     "currentRevisionVerified": true,
-    "imageDigest": "sha256:31d6568",
-    "note": "Stable staging is exact and healthy after rollback/restoration. Production admission remains red and production was not mutated."
+    "imageDigest": "sha256:6c261f221b1cfb70c550844b781d5ebf3da9bbc1ecd18935b909b361e7e42470",
+    "note": "Stable staging is exact and healthy after rollback/restoration. Project-level CANON-041 parity is green; production admission remains red and production was not mutated."
   },
   "dependencyAudit": {
     "production": 0,
@@ -204,10 +209,10 @@
   "stagingUrl": "https://staging.vaultfront.io",
   "stagingType": "stable-owned-subdomain",
   "runtimeUrl": "https://vaultfront.io",
-  "lastDeployStatus": "stable staging 32911008849 is healthy at exact 85ac5ff7 after observation 32911217105 and rollback/restoration 32911552613; promotion dry-run 32911405984 passed; production NO-GO/HTTP 503",
+  "lastDeployStatus": "stable staging 32943456027 is healthy at exact 7fbaedcd after 27-cell observation 32943706016 and rollback/restoration 32944435452; promotion dry-run 32944257053 passed; production NO-GO/HTTP 503",
   "silCategories": {
     "devHealth": 100,
-    "creativeAlignment": 99,
+    "creativeAlignment": 100,
     "momentum": 100,
     "engagement": 98,
     "processQuality": 100,

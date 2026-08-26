@@ -585,3 +585,12 @@ Public-safe summary only. Sensitive verification notes are maintained privately.
 - Observation `32624675990` passes all nine theme/viewport cells with zero findings; worst LCP is 1,556 ms, INP 184 ms, and CLS 0.0066. Rollback/restoration `32624833208` and promotion dry-run `32624982318` pass.
 - The local full-suite attempts remained worker-start starved and are not called green; clean provider CI is the aggregate authority for 288 files / 1,501 assertions.
 - Production remains HTTP 503 / NO-GO. Zoho reply identity, authenticated Obelisk, three genuine authenticated human Alpha sessions, positive live revenue, and portable exact-artifact founder approval are absent and were not inferred.
+
+## 2026-08-26 — Session 111 canonical mobile-parity truth refresh
+
+- `docs/AUDIT_2026-08-25.json` is exhausted at item 248 shipped; the innovation ledger remains exhausted at 70/70.
+- Exact candidate `7fbaedcdd83be3a58b4865c5ce863dff8d14d963` passed provider CI `32943036547`, E2E `32943036503`, Release `32943036515`, and stable-staging deploy `32943456027` at image `sha256:6c261f221b1cfb70c550844b781d5ebf3da9bbc1ecd18935b909b361e7e42470`.
+- Signed observation `32943706016` passes 27/27 theme/viewport/orientation cells with zero findings; worst LCP is 1,224 ms, INP 152 ms, CLS 0.0151, and drawer invariant failures zero. The project-level CANON-041 attestation is complete; the nonzero portfolio probe describes sibling repositories outside this workspace.
+- Source-bound rendered proof covers 144 artifacts and six language-modal cells. Promotion dry-run `32944257053`, rollback dry-run `32944355303`, and observed rollback/restoration `32944435452` pass; stable staging is restored to the exact candidate.
+- Local Windows processes stalled before typecheck/test assertions and are not called green. Exact provider CI is the aggregate authority for 1,520 assertions and all unchanged verification gates.
+- Production remains HTTP 503 / NO-GO. Zoho reply identity, authenticated Obelisk, three genuine authenticated human Alpha sessions, positive live revenue, and portable exact-artifact founder approval are absent and were not inferred.

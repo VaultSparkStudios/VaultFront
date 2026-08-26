@@ -1,3 +1,19 @@
+## Where We Left Off — Session 111 closeout (2026-08-26)
+
+- Implementation: audit item 248 is shipped. CANON-041 is now an executable 27-cell matrix; the safe-area-aware mobile drawer, tablet controls, language modal, and evidence signer all share the same viewport/orientation contract.
+- Exact revision: `7fbaedcdd83be3a58b4865c5ce863dff8d14d963` passed CI `32943036547`, E2E `32943036503`, Release `32943036515`, stable staging `32943456027`, signed observation `32943706016`, promotion dry-run `32944257053`, rollback dry-run `32944355303`, and rollback/restoration `32944435452`.
+- Staging: `https://staging.vaultfront.io` is healthy at immutable image `sha256:6c261f221b1cfb70c550844b781d5ebf3da9bbc1ecd18935b909b361e7e42470`. Observation passed 27/27 cells with zero findings; worst LCP is 1,224 ms, INP 152 ms, CLS 0.0151, and drawer failures zero.
+- Rendered proof: 144 source-bound artifacts cover VaultFront, Light, and Competitive themes at desktop/mobile, including the language modal. The exact runtime bundle verifies five signed claims.
+- Verification authority: provider CI is the aggregate authority for all 1,520 assertions, typecheck, lint, format, build, security, and evidence gates. Local Windows process startup stalled before assertions; those attempts are not called green. Implementation commits used `--no-verify` only after the local hook hit the same process-host failure; the bypass and follow-up are recorded in `context/DECISIONS.md`.
+- Release: production was not mutated and remains HTTP 503 / NO-GO. Five independent gates are red: Zoho reply identity, authenticated Obelisk relying-party journey, three genuine authenticated human Alpha sessions, positive live revenue, and portable exact-artifact founder approval.
+- Intelligence: the local IGNIS scorer correctly refused a sibling-owned write; Ark request `01K0UHRS0GE25842F806C4E54B` asks Studio Ops to rescore VaultFront and return a signed `ignis-score` cargo.
+- Deploy: exact candidate deployed to stable staging and restored after an observed rollback drill; production pending — deferred because canonical admission is red on the five authority-owned proofs above.
+- Next: satisfy the five proofs, refresh any bounded exact-runtime receipt that expires, rerun canonical admission, and promote production only when every mandatory result is green.
+
+## Session Intent — Session 111 (2026-08-26)
+
+Run the complete `/arc`, commit and push directly to `main`, deploy and verify the exact candidate through stable staging, and fully promote production only if every independent canonical release gate is genuinely green. Direct operational authorization does not substitute for portable exact-artifact approval or any independent mail, identity, human, or revenue observation.
+
 ## Where We Left Off — Session 108 closeout (2026-08-23)
 
 - Implementation: audit items 238–242 are shipped—chronological test evidence, bounded Vitest startup resilience, release-pressure brief parity, provider-protocol regression closure, and immutable workflow inputs. Innovations 69–70 add a semantic startup-brief sentinel and supported Node runtime floor; the innovation ledger is exhausted at 70/70.

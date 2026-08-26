@@ -542,3 +542,14 @@ Session 89 closeout tooling incident: invoking the Studio Ops closeout-board ren
 - Independent release appraisal returned STAGING GO / PRODUCTION NO-GO. Production remained HTTP 503 because Zoho, authenticated Obelisk, human Alpha, revenue, portable approval, and mobile-attestation gates are not all green.
 - Game-loop review scored Loop Tightness 92, Progression 85, Session Engagement 72, Retention 68, and Soul Fidelity N/A; no mechanic tuning was justified without human traces.
 - CDR reviewed — no new creative direction this session.
+
+## 2026-08-26 — Session 111 canonical mobile parity and exact staging admission
+
+- Shipped audit item 248: expanded the canonical responsive contract to 27 exact theme/viewport/orientation cells, hardened drawer safe-area scrolling and 44 pixel controls, and bound capture plus signing to the same matrix.
+- Root-fixed the language-modal interaction without weakening the 200 ms threshold: readable theme tokens, text-first rendering, low-priority fixed-size flags, and a cancellable 250 ms hydration boundary prevent input-window work and fast-close request bursts.
+- Committed and pushed exact candidate `7fbaedcdd83be3a58b4865c5ce863dff8d14d963`; provider CI `32943036547`, E2E `32943036503`, Release `32943036515`, staging `32943456027`, signed observation `32943706016`, promotion dry-run `32944257053`, rollback dry-run `32944355303`, and rollback/restoration `32944435452` pass.
+- Live observation passed 27/27 cells with zero findings, worst LCP 1,224 ms, INP 152 ms, CLS 0.0151, and zero drawer close/invariant failures. Theme proof covers 144 source-bound artifacts, including desktop/mobile language modals in all three themes.
+- Local TypeScript and focused Vitest processes stalled at Windows worker startup and were stopped; no local aggregate green is claimed. Exact provider CI is the aggregate authority for 1,520 assertions and all typecheck, lint, formatting, build, security, bundle, and evidence gates.
+- Production remains HTTP 503 / NO-GO. Zoho reply identity, authenticated Obelisk, three genuine authenticated humans, positive live revenue, and portable exact-artifact founder approval remain absent; no substitute evidence was fabricated.
+- Intelligence refresh: local state vector, doctor 13/13, entropy 0.106, and genome 24/25 refreshed. The stale IGNIS score is Studio-Ops-owned; Ark request `01K0UHRS0GE25842F806C4E54B` asks for a fresh project score without writing a sibling tree.
+- CDR reviewed — no new creative direction this session.

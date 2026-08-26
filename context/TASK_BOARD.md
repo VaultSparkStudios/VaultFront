@@ -4,8 +4,9 @@ Public-safe roadmap only. Detailed backlog sequencing is maintained privately.
 
 ## Now — production evidence corridor
 
+- [done] Session 111 exact candidate `7fbaedcd` passed CI `32943036547`, E2E `32943036503`, Release `32943036515`, staging `32943456027`, 27-cell observation `32943706016`, promotion dry-run `32944257053`, rollback dry-run `32944355303`, and rollback/restoration `32944435452`.
+- [done] Record canonical CANON-041 mobile parity across the complete three-theme, 27-cell viewport/orientation matrix; zero findings and zero drawer invariant failures were observed.
 - [done] Session 110 exact candidate `85ac5ff7` passed CI `32910564760`, E2E `32910564784`, Release `32910564773`, staging `32911008849`, observation `32911217105`, promotion dry-run `32911405984`, rollback validation `32911479205`, and rollback/restoration `32911552613`.
-- [ ] Record the canonical CANON-041 mobile-parity attestation for the complete required viewport/orientation matrix; current live 390/768/1440 three-theme evidence is green but the portfolio probe remains red.
 - [done] Recovered Studio propagation drift in direct-main commit `03887080`; CI `32883787037`, E2E `32883787049`, and signed Ark recurrence cargo are green.
 - [done] Requalified the repaired release corridor with staging `32886877642`, nine-cell observation `32887206185`, and promotion dry-run `32887551349`.
 - [done] Established main-sourced rollback target `1149d78b` through CI `32890831350`, E2E `32890831315`, Release `32890831316`, and stable-staging deploy `32891518865`.
@@ -20,6 +21,13 @@ Public-safe roadmap only. Detailed backlog sequencing is maintained privately.
 - [ ] Collect at least three distinct authenticated human Alpha sessions and one real checkout/supporter revenue observation.
 - [ ] Complete and retain an authenticated Obelisk callback/session/identity/logout journey; the required relying-party identity values remain unavailable.
 - [ ] Install a trusted purpose-scoped founder approval writer for the exact SHA and image.
+
+## Completed (2026-08-26 — Session 111 canonical mobile parity and exact release admission)
+
+- [done] Shipped audit item 248: canonical 27-cell viewport/orientation enforcement, safe-area-aware drawer invariants, and responsive 44 pixel controls.
+- [done] Root-fixed the measured language-modal interaction by using readable theme tokens and cancellable deferred flag hydration without weakening the 200 ms INP gate.
+- [done] Passed exact provider, stable staging, signed 27-cell observation, promotion validation, rollback validation, and observed rollback/restoration for candidate `7fbaedcd`.
+- [deferred] Production remains fail-closed on Zoho reply identity, authenticated Obelisk, three genuine authenticated humans, positive live revenue, and portable exact-artifact founder approval.
 
 ## Completed (2026-08-25 — Session 110 startup proof and immutable release chain)
 

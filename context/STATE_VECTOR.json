@@ -1,22 +1,22 @@
 {
   "vectorVersion": "1.0",
-  "generatedAt": "2026-08-25",
-  "generatedAtMs": 1787702063792,
-  "session": 110,
-  "vectorHash": "873c52e08dc2478d",
-  "silTotal": 996,
-  "silAvg3": 996,
-  "velocity": 3,
+  "generatedAt": "2026-08-26",
+  "generatedAtMs": 1787731776991,
+  "session": 111,
+  "vectorHash": "113fdedcb5341528",
+  "silTotal": 997,
+  "silAvg3": 996.3,
+  "velocity": 1,
   "debt": "down",
   "runway": "unknown",
   "intentRate": "100%",
-  "openNow": 8,
+  "openNow": 7,
   "openNext": 6,
   "openBlocked": 0,
   "topNow": [
-    "Record the canonical CANON-041 mobile-parity attestation for the complete requir",
     "Finish `contact@vaultfront.io` human reply identity. Brevo outbound and Cloudfla",
-    "Collect at least three distinct authenticated human Alpha sessions and one real "
+    "Collect at least three distinct authenticated human Alpha sessions and one real ",
+    "Complete and retain an authenticated Obelisk callback/session/identity/logout jo"
   ],
   "topNext": [
     "[release-evidence] Collect three distinct authenticated human Alpha sessions and",
@@ -28,15 +28,15 @@
   "genome": "24/25",
   "ignisScore": 43050,
   "ignisGrade": "FORGE",
-  "ignisAgeDays": 17,
+  "ignisAgeDays": 18,
   "name": "VaultFront",
   "slug": "vaultfront",
   "type": "game",
   "lifecycle": "alpha",
-  "nextMilestone": "Record the canonical mobile-parity attestation, then obtain Zoho reply-as, authenticated Obelisk, three genuine authenticated human Alpha sessions, positive live revenue, and portable exact-artifact founder approval before production promotion.",
-  "currentFocus": "Session 110 restored startup proof closure, isolated ephemeral verification mirrors, and completed the exact immutable staging/observation/rollback chain; production remains fail-closed.",
+  "nextMilestone": "Obtain Zoho reply-as, authenticated Obelisk, three genuine authenticated human Alpha sessions, positive live revenue, and portable exact-artifact founder approval before production promotion.",
+  "currentFocus": "Session 111 made CANON-041 an executable 27-cell matrix, repaired language-modal interaction work, and completed the exact immutable staging/observation/rollback chain; production remains fail-closed.",
   "lastShipped": "see LATEST_HANDOFF.md",
   "blockers": [
-    "Production is NO-GO until canonical mobile parity is attested and project-domain human reply-as, a complete authenticated Obelisk journey, at least three distinct authenticated human Alpha sessions, one positive live Stripe receipt, and a portable purpose-scoped exact-artifact founder approval claim are observed."
+    "Production is NO-GO until project-domain human reply-as, a complete authenticated Obelisk journey, at least three distinct authenticated human Alpha sessions, one positive live Stripe receipt, and a portable purpose-scoped exact-artifact founder approval claim are observed."
   ]
 }
