@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "capturedAt": "2026-08-26T05:16:24.990Z",
-  "generatedAt": "2026-08-26T05:16:24.990Z",
+  "capturedAt": "2026-08-26T06:24:58.861Z",
+  "generatedAt": "2026-08-26T06:24:58.861Z",
   "scope": "local-only",
   "claimBoundary": "This is local browser evidence, not live staging parity or founder approval.",
   "themes": ["dark", "light", "competitive"],
   "captures": [
     {
       "file": "artifacts/chromium-vaultfront-play.png",
-      "sha256": "88c5a8b8aa3ec318f0338b00171ba14db664bd894e95fc94dbe8d7dc268190ce",
+      "sha256": "b2685c6e7eb810799bc2508d87e7f4e1bf0be86d0be455dbb93d99b17f26f360",
       "page": "play",
       "state": "play",
       "theme": "dark",
@@ -17,7 +17,7 @@
     },
     {
       "file": "artifacts/chromium-vaultfront-stats-showcase.png",
-      "sha256": "f6bd9a11bbcba13827062da1eff102d7600abe0b65783b8bca7c6ce5307c37c8",
+      "sha256": "a6e701acf92171bb44f1da20679ca57cecc75d95967a42e2e2456d48ca013b0d",
       "page": "stats-showcase",
       "state": "stats-showcase",
       "theme": "dark",
@@ -44,9 +44,18 @@
     },
     {
       "file": "artifacts/chromium-vaultfront-settings.png",
-      "sha256": "262782364aeb40a09cc0478be518cf47cccdefa6fd869ca8f00595de617f428a",
+      "sha256": "4e8b6a0c031f0598816700a5670ad3eaa0ed4ef6ac17f878d42ca4729cb370a7",
       "page": "settings",
       "state": "settings",
+      "theme": "dark",
+      "projectTheme": "vaultfront",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-vaultfront-language-modal.png",
+      "sha256": "38641b2291c185bee591ae960d3ec9c31c30658edcb31000db079432ee52a100",
+      "page": "language-modal",
+      "state": "language-modal",
       "theme": "dark",
       "projectTheme": "vaultfront",
       "viewport": { "width": 1280, "height": 720 }
@@ -62,7 +71,7 @@
     },
     {
       "file": "artifacts/chromium-vaultfront-postmatch.png",
-      "sha256": "f694be0bda1db6bfa0b5483d7993e8675da135891a930a41584a71ea31f98e9e",
+      "sha256": "be3461d1d577c43621ab42e33ff0f8d4785b0bea93efd17ea0c573eba2011fd8",
       "page": "postmatch",
       "state": "postmatch",
       "theme": "dark",
@@ -71,7 +80,7 @@
     },
     {
       "file": "artifacts/chromium-vaultfront-account-handoff.png",
-      "sha256": "0b7c3cc5eb5eceaa00fe92d6e58232d6dcf732adbad9f21ac0874f8aa66b0612",
+      "sha256": "61049a4faeec46919edbc6e50651e97d18f19bb63a5b646879ea97d463e323ba",
       "page": "account-handoff",
       "state": "account-handoff",
       "theme": "dark",
@@ -179,7 +188,7 @@
     },
     {
       "file": "artifacts/chromium-vaultfront-narrator-certified.png",
-      "sha256": "d562229fd0d9898e704c3a0ef75b44d039aff022e98c79e2533658ea9c4d3f00",
+      "sha256": "5db42888f27f33104107403040409c83d7c96fc778251cb6e33c39a5a20323b5",
       "page": "narrator-certified",
       "state": "narrator-certified",
       "theme": "dark",
@@ -215,7 +224,7 @@
     },
     {
       "file": "artifacts/chromium-light-play.png",
-      "sha256": "bff7a8a7d188f018f917c7ad845e65d066d7c65dde6cb184fdd8b13b2198bd40",
+      "sha256": "708e4a5e32b27994b9c1d8ff6d3f24e75278b8ca22ea8c2931735fe497ce497f",
       "page": "play",
       "state": "play",
       "theme": "light",
@@ -251,9 +260,18 @@
     },
     {
       "file": "artifacts/chromium-light-settings.png",
-      "sha256": "2b21367a44a84c0f5b90f59abdf0861ec0a6a85f5963534bd9b931d03f39dba1",
+      "sha256": "cd6c4e245af7e9b362f014fc8be229a4247997881c6504ed6690913016aed2f5",
       "page": "settings",
       "state": "settings",
+      "theme": "light",
+      "projectTheme": "light",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-light-language-modal.png",
+      "sha256": "21aa2e58a3737303efceb40bf716586c39e045ef63a4a1df907cf83ff46e7932",
+      "page": "language-modal",
+      "state": "language-modal",
       "theme": "light",
       "projectTheme": "light",
       "viewport": { "width": 1280, "height": 720 }
@@ -278,7 +296,7 @@
     },
     {
       "file": "artifacts/chromium-light-account-handoff.png",
-      "sha256": "4894d780900cb4e5b0c37dca21cb7094f1c03558a6115a2483faa2fa8ca0a7bd",
+      "sha256": "abf6186ed681ee479bf7775d165d7285e5645d264238b35ab0f96bd8c388e73e",
       "page": "account-handoff",
       "state": "account-handoff",
       "theme": "light",
@@ -386,7 +404,7 @@
     },
     {
       "file": "artifacts/chromium-light-narrator-certified.png",
-      "sha256": "079da12fd89c3109b2e6dd3dae5c62218358e0cada76badda66719e5050fa866",
+      "sha256": "037913e74ddadb1da0b8239b7dcfdf080ce9332db51c2c27613ae2915b0cc021",
       "page": "narrator-certified",
       "state": "narrator-certified",
       "theme": "light",
@@ -422,7 +440,7 @@
     },
     {
       "file": "artifacts/chromium-competitive-play.png",
-      "sha256": "f9649dab675abab58b13f52b24aee1b15910386fd4d5a11fb4a57fc8abe25f85",
+      "sha256": "ac6552f81bdd834d34902de929d503a23e6d38152709ced8bbeb37e24fdff9ea",
       "page": "play",
       "state": "play",
       "theme": "competitive",
@@ -431,7 +449,7 @@
     },
     {
       "file": "artifacts/chromium-competitive-stats-showcase.png",
-      "sha256": "51e08703f6bbbb0b623c7d6e434181e35593cc9b8bae4030f086c491e70ed969",
+      "sha256": "0799a33bdae86d04039592da11f23cb92c569f1016a83357215c0d9a05ab8b63",
       "page": "stats-showcase",
       "state": "stats-showcase",
       "theme": "competitive",
@@ -458,9 +476,18 @@
     },
     {
       "file": "artifacts/chromium-competitive-settings.png",
-      "sha256": "a4749d663421444cfe74c14f7af2656948f6b42704eea5b1feff7f74bd8115ae",
+      "sha256": "64834f13bc7284562637cc74efe143a84833273ba00f9f346a1b888900289ac8",
       "page": "settings",
       "state": "settings",
+      "theme": "competitive",
+      "projectTheme": "competitive",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "file": "artifacts/chromium-competitive-language-modal.png",
+      "sha256": "6ecb8e7958e1c4540404862fa9e74ba67175f5c5d2dc231d4eea328a870f9f49",
+      "page": "language-modal",
+      "state": "language-modal",
       "theme": "competitive",
       "projectTheme": "competitive",
       "viewport": { "width": 1280, "height": 720 }
@@ -485,7 +512,7 @@
     },
     {
       "file": "artifacts/chromium-competitive-account-handoff.png",
-      "sha256": "ef98ad724dcc6a6d968fbb0b72307dad0ebddcfa9a842b50aab6d3b5bfc0d25e",
+      "sha256": "e51e154bc6b8ea642efaca1210fdf0b694cd183b6a7266a8f977c084ee9be16b",
       "page": "account-handoff",
       "state": "account-handoff",
       "theme": "competitive",
@@ -593,7 +620,7 @@
     },
     {
       "file": "artifacts/chromium-competitive-narrator-certified.png",
-      "sha256": "ba8f02054f55705c1cfda638bff07a9df7cdd02a7f4348faea69e5206d755041",
+      "sha256": "e85e297b3227ccebb222c12886e4f20eacfe6cee4ada46ed25fd3f0ab128cb09",
       "page": "narrator-certified",
       "state": "narrator-certified",
       "theme": "competitive",
@@ -629,7 +656,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-vaultfront-play.png",
-      "sha256": "a056478ee0663e655546a52939757e41d2810336e758ae29e66ee40ed2d81550",
+      "sha256": "39a765bc699e317088d21b0ca4fbc86232aa789940b2f46942a9fa2389bd1791",
       "page": "play",
       "state": "play",
       "theme": "dark",
@@ -638,7 +665,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-vaultfront-stats-showcase.png",
-      "sha256": "05cf452c7e114970d2a32888a81daec6e2083121d847a2bf7a540333a995a2da",
+      "sha256": "7ab0fe368259c18b2f36b570e8553ebbed1fc510d05b39575fce88b014cd30fb",
       "page": "stats-showcase",
       "state": "stats-showcase",
       "theme": "dark",
@@ -665,7 +692,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-vaultfront-settings.png",
-      "sha256": "0d89b5d404585509f70338fa160bcaf22b24370ad145f87a5da574574c43647f",
+      "sha256": "9302777e9686fd53cbdae5204dda0f68b9ee6beb5187f1b2d77120cb1e610b33",
       "page": "settings",
       "state": "settings",
       "theme": "dark",
@@ -673,8 +700,17 @@
       "viewport": { "width": 393, "height": 727 }
     },
     {
+      "file": "artifacts/mobile-chrome-vaultfront-language-modal.png",
+      "sha256": "292e2c2fcafc4a037b471fe74773065bf5c4f89099ab7b138bc9d80a8c0cd180",
+      "page": "language-modal",
+      "state": "language-modal",
+      "theme": "dark",
+      "projectTheme": "vaultfront",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
       "file": "artifacts/mobile-chrome-vaultfront-accessible-modal.png",
-      "sha256": "5a1d0b477a82d04ba8f886b1e50f90fd2d100990950daba4db214f23eb4e1217",
+      "sha256": "bbdb62def6c9f2f788a259921edb92e111c53e0e974314f76fca2393e713426c",
       "page": "accessible-modal",
       "state": "accessible-modal",
       "theme": "dark",
@@ -692,7 +728,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-vaultfront-account-handoff.png",
-      "sha256": "b0ac0c21477d47471f181c081375aba9a5dc5b07c0b51f9b34a86081a71eb58f",
+      "sha256": "b6c4b21970cdd9e408d00114ce0931c510e0715be41db1a6883c216cf1620d3d",
       "page": "account-handoff",
       "state": "account-handoff",
       "theme": "dark",
@@ -701,7 +737,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-vaultfront-multi-tab-collision.png",
-      "sha256": "a00947d97b13ae442f1bcc87c3353768a086809a6dab3e0225a6113ce3e9d44b",
+      "sha256": "31c6a9c5ddbbe9b38ae9551dbd91576f762677fca125ae70d927ca16e5d810d7",
       "page": "multi-tab-collision",
       "state": "multi-tab-collision",
       "theme": "dark",
@@ -836,7 +872,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-light-play.png",
-      "sha256": "72b1ca686e20f0d330b9ea2d28df02ed3307e5394c1e59559c84f41a3324fc8c",
+      "sha256": "9eb5105c74ecbb919be02c0dea92f42f475bf188396021a98e0bf59dfcee95c8",
       "page": "play",
       "state": "play",
       "theme": "light",
@@ -845,7 +881,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-light-stats-showcase.png",
-      "sha256": "7d7a5659c3d2095959dbfe473c4495f97c7f9e61dab93cf1788aae3bc3a909a3",
+      "sha256": "ce3e9499c7b2e94705c7c91d7566c784d6aff4456b152ab9fc8b1daecb7542f2",
       "page": "stats-showcase",
       "state": "stats-showcase",
       "theme": "light",
@@ -872,7 +908,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-light-settings.png",
-      "sha256": "5777641434abd7b988e07ebea74e46b4f2abc960c9715bd7150eb440d31169df",
+      "sha256": "9b2018515f7b84aa725ba21a9f22708b293f528a4523954d2a8b1565e21c588a",
       "page": "settings",
       "state": "settings",
       "theme": "light",
@@ -880,8 +916,17 @@
       "viewport": { "width": 393, "height": 727 }
     },
     {
+      "file": "artifacts/mobile-chrome-light-language-modal.png",
+      "sha256": "ca93c821978c868aca968396b9d2b342924f4ae7912834fd0476434fde23750d",
+      "page": "language-modal",
+      "state": "language-modal",
+      "theme": "light",
+      "projectTheme": "light",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
       "file": "artifacts/mobile-chrome-light-accessible-modal.png",
-      "sha256": "6e3d97fa7cb2e970bf9b8fcd17ea270992da9f1da269846dc95eb35d1c38bb85",
+      "sha256": "507b61487fb2955be789591afd6beaa48ac55b6249bb47bbb2017c00b42ddbcc",
       "page": "accessible-modal",
       "state": "accessible-modal",
       "theme": "light",
@@ -899,7 +944,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-light-account-handoff.png",
-      "sha256": "157f15c7a8024d4407d81750198946d7954d5423907503edf33f07c301cad886",
+      "sha256": "92aed34997cd6bbcb6f69ceb6ad5dc59172a879507c67ad4a2c925a2c1a19960",
       "page": "account-handoff",
       "state": "account-handoff",
       "theme": "light",
@@ -908,7 +953,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-light-multi-tab-collision.png",
-      "sha256": "540be5c24ef7b0094f860d3c2e1d632d18ce1bbeedbceb8117344e5bb4c73fff",
+      "sha256": "1c4503011b4fcd2659e39d200c2dc5c4ed577d1c829f2716924bd682bc99473e",
       "page": "multi-tab-collision",
       "state": "multi-tab-collision",
       "theme": "light",
@@ -1043,7 +1088,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-competitive-play.png",
-      "sha256": "62abfc69a605c7964b3beaf9120db743ece887e56872fe96c69392741c853356",
+      "sha256": "64a675d00ea93a0442c77fcb89e44890a839ffc76fe0ee7472a3447c221284a8",
       "page": "play",
       "state": "play",
       "theme": "competitive",
@@ -1079,9 +1124,18 @@
     },
     {
       "file": "artifacts/mobile-chrome-competitive-settings.png",
-      "sha256": "9251b79128f5a8da560422f33239f987f3499bf2e5b4af2acc384115f9bc0efd",
+      "sha256": "f9d7f58b6ef7686eb56d0ae6405a41d428940955e67826785630cebdc5fb9dbf",
       "page": "settings",
       "state": "settings",
+      "theme": "competitive",
+      "projectTheme": "competitive",
+      "viewport": { "width": 393, "height": 727 }
+    },
+    {
+      "file": "artifacts/mobile-chrome-competitive-language-modal.png",
+      "sha256": "a113b9c90fad3bf76040ab42c3c46d4ee03ff5ac83b5b6e1c97b19d460b80166",
+      "page": "language-modal",
+      "state": "language-modal",
       "theme": "competitive",
       "projectTheme": "competitive",
       "viewport": { "width": 393, "height": 727 }
@@ -1106,7 +1160,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-competitive-account-handoff.png",
-      "sha256": "e6a7f0c9ba03cae067e3acf962daf4352c542fcca91ead82678aadeed89b1edc",
+      "sha256": "2e062732c5e79eef6680f04dab358722065c701513e003d4b072c7e7e4da8a1d",
       "page": "account-handoff",
       "state": "account-handoff",
       "theme": "competitive",
@@ -1115,7 +1169,7 @@
     },
     {
       "file": "artifacts/mobile-chrome-competitive-multi-tab-collision.png",
-      "sha256": "ebfefc3bffc279c0237bcfae41239d9de87b219168d8a701175dc732a5d20a9c",
+      "sha256": "16704415201d68a8afe285a1049594e961194b5d291edbb84b05ba87ffd4af3f",
       "page": "multi-tab-collision",
       "state": "multi-tab-collision",
       "theme": "competitive",
@@ -1253,7 +1307,7 @@
     "renderedPixelsReviewed": true,
     "reviewer": "codex/image-capable-render-review",
     "findings": [
-      "The current 23-surface desktop/mobile matrix passed across VaultFront, Light, and Competitive themes. The Session 105 Play and Alpha Pulse cells were pixel-reviewed in all six theme/viewport combinations after the asynchronous landing-layout stabilization; the intentional lobby loading card, contributor corridor, controls, and text remain unclipped and readable."
+      "The current 24-surface desktop/mobile matrix passed across VaultFront, Light, and Competitive themes. The Session 105 Play and Alpha Pulse cells were pixel-reviewed in all six theme/viewport combinations after the asynchronous landing-layout stabilization; the intentional lobby loading card, contributor corridor, controls, and text remain unclipped and readable."
     ],
     "fixesApplied": [
       "Reserved the complete three-metric Alpha corridor before its signed feed resolves, replaced the zero-height lobby grid with a same-footprint truthful loading card, warmed the immutable instance-bound HTML shell before the public listener opens, and prevented the visual harness from redefining an already-registered modal; the full matrix has no open overflow, contrast, clipping, or layout defect."
@@ -1262,14 +1316,14 @@
   },
   "comparisonBase": {
     "source": "git:HEAD:docs/visual-qa/LATEST.json",
-    "gitRevision": "550d64608938c21c0b1674fa4b01215dfec96188",
-    "capturedAt": "2026-08-26T03:13:49.479Z",
-    "sourceDigest": "sha256:7a88a6c559ea31a7eb38d3b4178b1d0fc80c3f328cfbc14fc570074868ccfff1"
+    "gitRevision": "33a07db440318f103d85d666aadf81a8541ee540",
+    "capturedAt": "2026-08-26T05:16:24.990Z",
+    "sourceDigest": "sha256:b68b1b013ddc7cf4c4bc535cfb056f506a2d7ad827d89f735233788028ac6d86"
   },
   "source": {
-    "gitRevision": "33a07db440318f103d85d666aadf81a8541ee540",
+    "gitRevision": "bdf8131c3e7e8152b35d5129c3c212371ea2496d",
     "dirty": true,
-    "digest": "sha256:b68b1b013ddc7cf4c4bc535cfb056f506a2d7ad827d89f735233788028ac6d86",
+    "digest": "sha256:d35895837c837499274775308336bc90b201a22764e9c5ff4cc33b6294d8af61",
     "files": [
       {
         "path": "config/vaultfront-balance.v1.json",
@@ -1278,8 +1332,8 @@
       },
       {
         "path": "e2e/theme-visual-proof.spec.ts",
-        "bytes": 56565,
-        "digest": "sha256:097df4f96d738e7337837131bb0f08a18f2264a04a15a15d84267ab60756d2f8"
+        "bytes": 59798,
+        "digest": "sha256:d5c9047d9a916d0cdd5aaac47dad63e804cb3b49aa5b4a0019deb5a536bff760"
       },
       {
         "path": "index.html",
@@ -1330,6 +1384,11 @@
         "path": "src/client/GameStartingModal.ts",
         "bytes": 9169,
         "digest": "sha256:c99e54298d291536f961ed28fd3a8461522479d8c82a1542cd687bbaad10a249"
+      },
+      {
+        "path": "src/client/LanguageModal.ts",
+        "bytes": 5059,
+        "digest": "sha256:90c0b3201a7f4a47832ab7a21a97e61115b7319786ed3dfcb531e51cc8c6167c"
       },
       {
         "path": "src/client/MultiTabDetector.ts",
@@ -1593,8 +1652,8 @@
       },
       {
         "path": "src/client/components/ui/ModalHeader.ts",
-        "bytes": 2499,
-        "digest": "sha256:8250ab4e3952d441f6dcb7aab53b95dcf4ae30c9b2539d17daa92c8529285396"
+        "bytes": 2507,
+        "digest": "sha256:140856e9cf1a11361ea6325f7afe0cf5bfed04be75838682cea6abb3ea0b6dfb"
       },
       {
         "path": "src/client/graphics/layers/CertifiedNarratorLayer.ts",
@@ -1742,13 +1801,13 @@
     "summaries": [
       {
         "path": "docs/visual-qa/summaries/theme-proof-chromium.json",
-        "bytes": 48861,
-        "digest": "sha256:e56fc8774bd7d7a1e52bb844dc174251996b00d89369a55d0f8b3520f6a2fc07"
+        "bytes": 50550,
+        "digest": "sha256:7525227eda419e4b6fcfdc77c4c49c5c56c93c4652ab9409ca6a1f41f3171bcb"
       },
       {
         "path": "docs/visual-qa/summaries/theme-proof-mobile-chrome.json",
-        "bytes": 48857,
-        "digest": "sha256:1e69cddc953a32d354766cc63f0eecad5f24090aed454fdfe2357e78ae001ca8"
+        "bytes": 50546,
+        "digest": "sha256:b4068ffdd825b344889dd9b33f944bcae9aeb50a7fe50d858f7c7130e45cb353"
       }
     ],
     "artifacts": [
@@ -1757,16 +1816,16 @@
         "theme": "vaultfront",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-play.png",
-        "bytes": 536911,
-        "digest": "sha256:88c5a8b8aa3ec318f0338b00171ba14db664bd894e95fc94dbe8d7dc268190ce"
+        "bytes": 536881,
+        "digest": "sha256:b2685c6e7eb810799bc2508d87e7f4e1bf0be86d0be455dbb93d99b17f26f360"
       },
       {
         "project": "chromium",
         "theme": "vaultfront",
         "surface": "stats-showcase",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-stats-showcase.png",
-        "bytes": 87004,
-        "digest": "sha256:f6bd9a11bbcba13827062da1eff102d7600abe0b65783b8bca7c6ce5307c37c8"
+        "bytes": 85453,
+        "digest": "sha256:a6e701acf92171bb44f1da20679ca57cecc75d95967a42e2e2456d48ca013b0d"
       },
       {
         "project": "chromium",
@@ -1789,8 +1848,16 @@
         "theme": "vaultfront",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-settings.png",
-        "bytes": 360165,
-        "digest": "sha256:262782364aeb40a09cc0478be518cf47cccdefa6fd869ca8f00595de617f428a"
+        "bytes": 359856,
+        "digest": "sha256:4e8b6a0c031f0598816700a5670ad3eaa0ed4ef6ac17f878d42ca4729cb370a7"
+      },
+      {
+        "project": "chromium",
+        "theme": "vaultfront",
+        "surface": "language-modal",
+        "path": "docs/visual-qa/artifacts/chromium-vaultfront-language-modal.png",
+        "bytes": 479122,
+        "digest": "sha256:38641b2291c185bee591ae960d3ec9c31c30658edcb31000db079432ee52a100"
       },
       {
         "project": "chromium",
@@ -1805,16 +1872,16 @@
         "theme": "vaultfront",
         "surface": "postmatch",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-postmatch.png",
-        "bytes": 59186,
-        "digest": "sha256:f694be0bda1db6bfa0b5483d7993e8675da135891a930a41584a71ea31f98e9e"
+        "bytes": 59122,
+        "digest": "sha256:be3461d1d577c43621ab42e33ff0f8d4785b0bea93efd17ea0c573eba2011fd8"
       },
       {
         "project": "chromium",
         "theme": "vaultfront",
         "surface": "account-handoff",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-account-handoff.png",
-        "bytes": 40686,
-        "digest": "sha256:0b7c3cc5eb5eceaa00fe92d6e58232d6dcf732adbad9f21ac0874f8aa66b0612"
+        "bytes": 40800,
+        "digest": "sha256:61049a4faeec46919edbc6e50651e97d18f19bb63a5b646879ea97d463e323ba"
       },
       {
         "project": "chromium",
@@ -1909,8 +1976,8 @@
         "theme": "vaultfront",
         "surface": "narrator-certified",
         "path": "docs/visual-qa/artifacts/chromium-vaultfront-narrator-certified.png",
-        "bytes": 73768,
-        "digest": "sha256:d562229fd0d9898e704c3a0ef75b44d039aff022e98c79e2533658ea9c4d3f00"
+        "bytes": 73887,
+        "digest": "sha256:5db42888f27f33104107403040409c83d7c96fc778251cb6e33c39a5a20323b5"
       },
       {
         "project": "chromium",
@@ -1941,8 +2008,8 @@
         "theme": "light",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/chromium-light-play.png",
-        "bytes": 504373,
-        "digest": "sha256:bff7a8a7d188f018f917c7ad845e65d066d7c65dde6cb184fdd8b13b2198bd40"
+        "bytes": 504148,
+        "digest": "sha256:708e4a5e32b27994b9c1d8ff6d3f24e75278b8ca22ea8c2931735fe497ce497f"
       },
       {
         "project": "chromium",
@@ -1973,8 +2040,16 @@
         "theme": "light",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/chromium-light-settings.png",
-        "bytes": 297731,
-        "digest": "sha256:2b21367a44a84c0f5b90f59abdf0861ec0a6a85f5963534bd9b931d03f39dba1"
+        "bytes": 297394,
+        "digest": "sha256:cd6c4e245af7e9b362f014fc8be229a4247997881c6504ed6690913016aed2f5"
+      },
+      {
+        "project": "chromium",
+        "theme": "light",
+        "surface": "language-modal",
+        "path": "docs/visual-qa/artifacts/chromium-light-language-modal.png",
+        "bytes": 361142,
+        "digest": "sha256:21aa2e58a3737303efceb40bf716586c39e045ef63a4a1df907cf83ff46e7932"
       },
       {
         "project": "chromium",
@@ -1997,8 +2072,8 @@
         "theme": "light",
         "surface": "account-handoff",
         "path": "docs/visual-qa/artifacts/chromium-light-account-handoff.png",
-        "bytes": 39388,
-        "digest": "sha256:4894d780900cb4e5b0c37dca21cb7094f1c03558a6115a2483faa2fa8ca0a7bd"
+        "bytes": 39427,
+        "digest": "sha256:abf6186ed681ee479bf7775d165d7285e5645d264238b35ab0f96bd8c388e73e"
       },
       {
         "project": "chromium",
@@ -2093,8 +2168,8 @@
         "theme": "light",
         "surface": "narrator-certified",
         "path": "docs/visual-qa/artifacts/chromium-light-narrator-certified.png",
-        "bytes": 70922,
-        "digest": "sha256:079da12fd89c3109b2e6dd3dae5c62218358e0cada76badda66719e5050fa866"
+        "bytes": 71060,
+        "digest": "sha256:037913e74ddadb1da0b8239b7dcfdf080ce9332db51c2c27613ae2915b0cc021"
       },
       {
         "project": "chromium",
@@ -2125,16 +2200,16 @@
         "theme": "competitive",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/chromium-competitive-play.png",
-        "bytes": 536387,
-        "digest": "sha256:f9649dab675abab58b13f52b24aee1b15910386fd4d5a11fb4a57fc8abe25f85"
+        "bytes": 536771,
+        "digest": "sha256:ac6552f81bdd834d34902de929d503a23e6d38152709ced8bbeb37e24fdff9ea"
       },
       {
         "project": "chromium",
         "theme": "competitive",
         "surface": "stats-showcase",
         "path": "docs/visual-qa/artifacts/chromium-competitive-stats-showcase.png",
-        "bytes": 90751,
-        "digest": "sha256:51e08703f6bbbb0b623c7d6e434181e35593cc9b8bae4030f086c491e70ed969"
+        "bytes": 90757,
+        "digest": "sha256:0799a33bdae86d04039592da11f23cb92c569f1016a83357215c0d9a05ab8b63"
       },
       {
         "project": "chromium",
@@ -2157,8 +2232,16 @@
         "theme": "competitive",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/chromium-competitive-settings.png",
-        "bytes": 337039,
-        "digest": "sha256:a4749d663421444cfe74c14f7af2656948f6b42704eea5b1feff7f74bd8115ae"
+        "bytes": 336851,
+        "digest": "sha256:64834f13bc7284562637cc74efe143a84833273ba00f9f346a1b888900289ac8"
+      },
+      {
+        "project": "chromium",
+        "theme": "competitive",
+        "surface": "language-modal",
+        "path": "docs/visual-qa/artifacts/chromium-competitive-language-modal.png",
+        "bytes": 419489,
+        "digest": "sha256:6ecb8e7958e1c4540404862fa9e74ba67175f5c5d2dc231d4eea328a870f9f49"
       },
       {
         "project": "chromium",
@@ -2181,8 +2264,8 @@
         "theme": "competitive",
         "surface": "account-handoff",
         "path": "docs/visual-qa/artifacts/chromium-competitive-account-handoff.png",
-        "bytes": 40743,
-        "digest": "sha256:ef98ad724dcc6a6d968fbb0b72307dad0ebddcfa9a842b50aab6d3b5bfc0d25e"
+        "bytes": 40841,
+        "digest": "sha256:e51e154bc6b8ea642efaca1210fdf0b694cd183b6a7266a8f977c084ee9be16b"
       },
       {
         "project": "chromium",
@@ -2277,8 +2360,8 @@
         "theme": "competitive",
         "surface": "narrator-certified",
         "path": "docs/visual-qa/artifacts/chromium-competitive-narrator-certified.png",
-        "bytes": 75552,
-        "digest": "sha256:ba8f02054f55705c1cfda638bff07a9df7cdd02a7f4348faea69e5206d755041"
+        "bytes": 75489,
+        "digest": "sha256:e85e297b3227ccebb222c12886e4f20eacfe6cee4ada46ed25fd3f0ab128cb09"
       },
       {
         "project": "chromium",
@@ -2309,16 +2392,16 @@
         "theme": "vaultfront",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-play.png",
-        "bytes": 722908,
-        "digest": "sha256:a056478ee0663e655546a52939757e41d2810336e758ae29e66ee40ed2d81550"
+        "bytes": 721728,
+        "digest": "sha256:39a765bc699e317088d21b0ca4fbc86232aa789940b2f46942a9fa2389bd1791"
       },
       {
         "project": "mobile-chrome",
         "theme": "vaultfront",
         "surface": "stats-showcase",
         "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-stats-showcase.png",
-        "bytes": 259572,
-        "digest": "sha256:05cf452c7e114970d2a32888a81daec6e2083121d847a2bf7a540333a995a2da"
+        "bytes": 259100,
+        "digest": "sha256:7ab0fe368259c18b2f36b570e8553ebbed1fc510d05b39575fce88b014cd30fb"
       },
       {
         "project": "mobile-chrome",
@@ -2341,16 +2424,24 @@
         "theme": "vaultfront",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-settings.png",
-        "bytes": 320893,
-        "digest": "sha256:0d89b5d404585509f70338fa160bcaf22b24370ad145f87a5da574574c43647f"
+        "bytes": 321617,
+        "digest": "sha256:9302777e9686fd53cbdae5204dda0f68b9ee6beb5187f1b2d77120cb1e610b33"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "vaultfront",
+        "surface": "language-modal",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-language-modal.png",
+        "bytes": 613535,
+        "digest": "sha256:292e2c2fcafc4a037b471fe74773065bf5c4f89099ab7b138bc9d80a8c0cd180"
       },
       {
         "project": "mobile-chrome",
         "theme": "vaultfront",
         "surface": "accessible-modal",
         "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-accessible-modal.png",
-        "bytes": 48506,
-        "digest": "sha256:5a1d0b477a82d04ba8f886b1e50f90fd2d100990950daba4db214f23eb4e1217"
+        "bytes": 48524,
+        "digest": "sha256:bbdb62def6c9f2f788a259921edb92e111c53e0e974314f76fca2393e713426c"
       },
       {
         "project": "mobile-chrome",
@@ -2365,16 +2456,16 @@
         "theme": "vaultfront",
         "surface": "account-handoff",
         "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-account-handoff.png",
-        "bytes": 175966,
-        "digest": "sha256:b0ac0c21477d47471f181c081375aba9a5dc5b07c0b51f9b34a86081a71eb58f"
+        "bytes": 175609,
+        "digest": "sha256:b6c4b21970cdd9e408d00114ce0931c510e0715be41db1a6883c216cf1620d3d"
       },
       {
         "project": "mobile-chrome",
         "theme": "vaultfront",
         "surface": "multi-tab-collision",
         "path": "docs/visual-qa/artifacts/mobile-chrome-vaultfront-multi-tab-collision.png",
-        "bytes": 99715,
-        "digest": "sha256:a00947d97b13ae442f1bcc87c3353768a086809a6dab3e0225a6113ce3e9d44b"
+        "bytes": 99719,
+        "digest": "sha256:31c6a9c5ddbbe9b38ae9551dbd91576f762677fca125ae70d927ca16e5d810d7"
       },
       {
         "project": "mobile-chrome",
@@ -2493,16 +2584,16 @@
         "theme": "light",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/mobile-chrome-light-play.png",
-        "bytes": 690375,
-        "digest": "sha256:72b1ca686e20f0d330b9ea2d28df02ed3307e5394c1e59559c84f41a3324fc8c"
+        "bytes": 688823,
+        "digest": "sha256:9eb5105c74ecbb919be02c0dea92f42f475bf188396021a98e0bf59dfcee95c8"
       },
       {
         "project": "mobile-chrome",
         "theme": "light",
         "surface": "stats-showcase",
         "path": "docs/visual-qa/artifacts/mobile-chrome-light-stats-showcase.png",
-        "bytes": 244419,
-        "digest": "sha256:7d7a5659c3d2095959dbfe473c4495f97c7f9e61dab93cf1788aae3bc3a909a3"
+        "bytes": 244440,
+        "digest": "sha256:ce3e9499c7b2e94705c7c91d7566c784d6aff4456b152ab9fc8b1daecb7542f2"
       },
       {
         "project": "mobile-chrome",
@@ -2525,16 +2616,24 @@
         "theme": "light",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/mobile-chrome-light-settings.png",
-        "bytes": 222271,
-        "digest": "sha256:5777641434abd7b988e07ebea74e46b4f2abc960c9715bd7150eb440d31169df"
+        "bytes": 222160,
+        "digest": "sha256:9b2018515f7b84aa725ba21a9f22708b293f528a4523954d2a8b1565e21c588a"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "light",
+        "surface": "language-modal",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-light-language-modal.png",
+        "bytes": 303596,
+        "digest": "sha256:ca93c821978c868aca968396b9d2b342924f4ae7912834fd0476434fde23750d"
       },
       {
         "project": "mobile-chrome",
         "theme": "light",
         "surface": "accessible-modal",
         "path": "docs/visual-qa/artifacts/mobile-chrome-light-accessible-modal.png",
-        "bytes": 48091,
-        "digest": "sha256:6e3d97fa7cb2e970bf9b8fcd17ea270992da9f1da269846dc95eb35d1c38bb85"
+        "bytes": 48098,
+        "digest": "sha256:507b61487fb2955be789591afd6beaa48ac55b6249bb47bbb2017c00b42ddbcc"
       },
       {
         "project": "mobile-chrome",
@@ -2549,16 +2648,16 @@
         "theme": "light",
         "surface": "account-handoff",
         "path": "docs/visual-qa/artifacts/mobile-chrome-light-account-handoff.png",
-        "bytes": 173978,
-        "digest": "sha256:157f15c7a8024d4407d81750198946d7954d5423907503edf33f07c301cad886"
+        "bytes": 173559,
+        "digest": "sha256:92aed34997cd6bbcb6f69ceb6ad5dc59172a879507c67ad4a2c925a2c1a19960"
       },
       {
         "project": "mobile-chrome",
         "theme": "light",
         "surface": "multi-tab-collision",
         "path": "docs/visual-qa/artifacts/mobile-chrome-light-multi-tab-collision.png",
-        "bytes": 108871,
-        "digest": "sha256:540be5c24ef7b0094f860d3c2e1d632d18ce1bbeedbceb8117344e5bb4c73fff"
+        "bytes": 108876,
+        "digest": "sha256:1c4503011b4fcd2659e39d200c2dc5c4ed577d1c829f2716924bd682bc99473e"
       },
       {
         "project": "mobile-chrome",
@@ -2677,8 +2776,8 @@
         "theme": "competitive",
         "surface": "play",
         "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-play.png",
-        "bytes": 725864,
-        "digest": "sha256:62abfc69a605c7964b3beaf9120db743ece887e56872fe96c69392741c853356"
+        "bytes": 724897,
+        "digest": "sha256:64a675d00ea93a0442c77fcb89e44890a839ffc76fe0ee7472a3447c221284a8"
       },
       {
         "project": "mobile-chrome",
@@ -2709,8 +2808,16 @@
         "theme": "competitive",
         "surface": "settings",
         "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-settings.png",
-        "bytes": 260680,
-        "digest": "sha256:9251b79128f5a8da560422f33239f987f3499bf2e5b4af2acc384115f9bc0efd"
+        "bytes": 261400,
+        "digest": "sha256:f9d7f58b6ef7686eb56d0ae6405a41d428940955e67826785630cebdc5fb9dbf"
+      },
+      {
+        "project": "mobile-chrome",
+        "theme": "competitive",
+        "surface": "language-modal",
+        "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-language-modal.png",
+        "bytes": 412033,
+        "digest": "sha256:a113b9c90fad3bf76040ab42c3c46d4ee03ff5ac83b5b6e1c97b19d460b80166"
       },
       {
         "project": "mobile-chrome",
@@ -2733,16 +2840,16 @@
         "theme": "competitive",
         "surface": "account-handoff",
         "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-account-handoff.png",
-        "bytes": 176683,
-        "digest": "sha256:e6a7f0c9ba03cae067e3acf962daf4352c542fcca91ead82678aadeed89b1edc"
+        "bytes": 176321,
+        "digest": "sha256:2e062732c5e79eef6680f04dab358722065c701513e003d4b072c7e7e4da8a1d"
       },
       {
         "project": "mobile-chrome",
         "theme": "competitive",
         "surface": "multi-tab-collision",
         "path": "docs/visual-qa/artifacts/mobile-chrome-competitive-multi-tab-collision.png",
-        "bytes": 99864,
-        "digest": "sha256:ebfefc3bffc279c0237bcfae41239d9de87b219168d8a701175dc732a5d20a9c"
+        "bytes": 99871,
+        "digest": "sha256:16704415201d68a8afe285a1049594e961194b5d291edbb84b05ba87ffd4af3f"
       },
       {
         "project": "mobile-chrome",
@@ -2862,9 +2969,9 @@
     {
       "project": "chromium",
       "localOnly": true,
-      "capturedAt": "2026-08-26T05:16:05.655Z",
+      "capturedAt": "2026-08-26T06:23:56.521Z",
       "source": {
-        "digest": "sha256:b68b1b013ddc7cf4c4bc535cfb056f506a2d7ad827d89f735233788028ac6d86",
+        "digest": "sha256:d35895837c837499274775308336bc90b201a22764e9c5ff4cc33b6294d8af61",
         "files": [
           {
             "path": "config/vaultfront-balance.v1.json",
@@ -2873,8 +2980,8 @@
           },
           {
             "path": "e2e/theme-visual-proof.spec.ts",
-            "bytes": 56565,
-            "digest": "sha256:097df4f96d738e7337837131bb0f08a18f2264a04a15a15d84267ab60756d2f8"
+            "bytes": 59798,
+            "digest": "sha256:d5c9047d9a916d0cdd5aaac47dad63e804cb3b49aa5b4a0019deb5a536bff760"
           },
           {
             "path": "index.html",
@@ -2925,6 +3032,11 @@
             "path": "src/client/GameStartingModal.ts",
             "bytes": 9169,
             "digest": "sha256:c99e54298d291536f961ed28fd3a8461522479d8c82a1542cd687bbaad10a249"
+          },
+          {
+            "path": "src/client/LanguageModal.ts",
+            "bytes": 5059,
+            "digest": "sha256:90c0b3201a7f4a47832ab7a21a97e61115b7319786ed3dfcb531e51cc8c6167c"
           },
           {
             "path": "src/client/MultiTabDetector.ts",
@@ -3188,8 +3300,8 @@
           },
           {
             "path": "src/client/components/ui/ModalHeader.ts",
-            "bytes": 2499,
-            "digest": "sha256:8250ab4e3952d441f6dcb7aab53b95dcf4ae30c9b2539d17daa92c8529285396"
+            "bytes": 2507,
+            "digest": "sha256:140856e9cf1a11361ea6325f7afe0cf5bfed04be75838682cea6abb3ea0b6dfb"
           },
           {
             "path": "src/client/graphics/layers/CertifiedNarratorLayer.ts",
@@ -3371,6 +3483,7 @@
             "command-center",
             "agency-doctrine",
             "settings",
+            "language-modal",
             "accessible-modal",
             "postmatch",
             "account-handoff",
@@ -3390,6 +3503,21 @@
             "execution-rush",
             "execution-rush-reduced-complete"
           ],
+          "languageModal": {
+            "horizontalOverflow": false,
+            "surfaceWithinViewport": true,
+            "backdropFilter": "none",
+            "contain": "paint",
+            "optionCount": 38,
+            "minimumButtonWidth": 44,
+            "minimumButtonHeight": 44,
+            "colors": {
+              "native": "rgb(248, 250, 252)",
+              "translated": "rgba(226, 232, 240, 0.88)",
+              "panelText": "rgb(248, 250, 252)",
+              "panelMuted": "rgba(226, 232, 240, 0.88)"
+            }
+          },
           "agencyDoctrine": {
             "overflow": false,
             "surfaceWithinViewport": true,
@@ -3599,6 +3727,7 @@
             "command-center",
             "agency-doctrine",
             "settings",
+            "language-modal",
             "accessible-modal",
             "postmatch",
             "account-handoff",
@@ -3618,6 +3747,21 @@
             "execution-rush",
             "execution-rush-reduced-complete"
           ],
+          "languageModal": {
+            "horizontalOverflow": false,
+            "surfaceWithinViewport": true,
+            "backdropFilter": "none",
+            "contain": "paint",
+            "optionCount": 38,
+            "minimumButtonWidth": 44,
+            "minimumButtonHeight": 44,
+            "colors": {
+              "native": "rgb(16, 34, 53)",
+              "translated": "rgb(64, 86, 109)",
+              "panelText": "rgb(16, 34, 53)",
+              "panelMuted": "rgb(64, 86, 109)"
+            }
+          },
           "agencyDoctrine": {
             "overflow": false,
             "surfaceWithinViewport": true,
@@ -3827,6 +3971,7 @@
             "command-center",
             "agency-doctrine",
             "settings",
+            "language-modal",
             "accessible-modal",
             "postmatch",
             "account-handoff",
@@ -3846,6 +3991,21 @@
             "execution-rush",
             "execution-rush-reduced-complete"
           ],
+          "languageModal": {
+            "horizontalOverflow": false,
+            "surfaceWithinViewport": true,
+            "backdropFilter": "none",
+            "contain": "paint",
+            "optionCount": 38,
+            "minimumButtonWidth": 44,
+            "minimumButtonHeight": 44,
+            "colors": {
+              "native": "rgb(248, 240, 255)",
+              "translated": "rgb(214, 188, 237)",
+              "panelText": "rgb(248, 240, 255)",
+              "panelMuted": "rgb(214, 188, 237)"
+            }
+          },
           "agencyDoctrine": {
             "overflow": false,
             "surfaceWithinViewport": true,
@@ -4023,9 +4183,9 @@
     {
       "project": "mobile-chrome",
       "localOnly": true,
-      "capturedAt": "2026-08-26T05:13:58.647Z",
+      "capturedAt": "2026-08-26T06:24:43.926Z",
       "source": {
-        "digest": "sha256:b68b1b013ddc7cf4c4bc535cfb056f506a2d7ad827d89f735233788028ac6d86",
+        "digest": "sha256:d35895837c837499274775308336bc90b201a22764e9c5ff4cc33b6294d8af61",
         "files": [
           {
             "path": "config/vaultfront-balance.v1.json",
@@ -4034,8 +4194,8 @@
           },
           {
             "path": "e2e/theme-visual-proof.spec.ts",
-            "bytes": 56565,
-            "digest": "sha256:097df4f96d738e7337837131bb0f08a18f2264a04a15a15d84267ab60756d2f8"
+            "bytes": 59798,
+            "digest": "sha256:d5c9047d9a916d0cdd5aaac47dad63e804cb3b49aa5b4a0019deb5a536bff760"
           },
           {
             "path": "index.html",
@@ -4086,6 +4246,11 @@
             "path": "src/client/GameStartingModal.ts",
             "bytes": 9169,
             "digest": "sha256:c99e54298d291536f961ed28fd3a8461522479d8c82a1542cd687bbaad10a249"
+          },
+          {
+            "path": "src/client/LanguageModal.ts",
+            "bytes": 5059,
+            "digest": "sha256:90c0b3201a7f4a47832ab7a21a97e61115b7319786ed3dfcb531e51cc8c6167c"
           },
           {
             "path": "src/client/MultiTabDetector.ts",
@@ -4349,8 +4514,8 @@
           },
           {
             "path": "src/client/components/ui/ModalHeader.ts",
-            "bytes": 2499,
-            "digest": "sha256:8250ab4e3952d441f6dcb7aab53b95dcf4ae30c9b2539d17daa92c8529285396"
+            "bytes": 2507,
+            "digest": "sha256:140856e9cf1a11361ea6325f7afe0cf5bfed04be75838682cea6abb3ea0b6dfb"
           },
           {
             "path": "src/client/graphics/layers/CertifiedNarratorLayer.ts",
@@ -4532,6 +4697,7 @@
             "command-center",
             "agency-doctrine",
             "settings",
+            "language-modal",
             "accessible-modal",
             "postmatch",
             "account-handoff",
@@ -4551,6 +4717,21 @@
             "execution-rush",
             "execution-rush-reduced-complete"
           ],
+          "languageModal": {
+            "horizontalOverflow": false,
+            "surfaceWithinViewport": true,
+            "backdropFilter": "none",
+            "contain": "paint",
+            "optionCount": 38,
+            "minimumButtonWidth": 44,
+            "minimumButtonHeight": 44,
+            "colors": {
+              "native": "rgb(248, 250, 252)",
+              "translated": "rgba(226, 232, 240, 0.88)",
+              "panelText": "rgb(248, 250, 252)",
+              "panelMuted": "rgba(226, 232, 240, 0.88)"
+            }
+          },
           "agencyDoctrine": {
             "overflow": false,
             "surfaceWithinViewport": true,
@@ -4760,6 +4941,7 @@
             "command-center",
             "agency-doctrine",
             "settings",
+            "language-modal",
             "accessible-modal",
             "postmatch",
             "account-handoff",
@@ -4779,6 +4961,21 @@
             "execution-rush",
             "execution-rush-reduced-complete"
           ],
+          "languageModal": {
+            "horizontalOverflow": false,
+            "surfaceWithinViewport": true,
+            "backdropFilter": "none",
+            "contain": "paint",
+            "optionCount": 38,
+            "minimumButtonWidth": 44,
+            "minimumButtonHeight": 44,
+            "colors": {
+              "native": "rgb(16, 34, 53)",
+              "translated": "rgb(64, 86, 109)",
+              "panelText": "rgb(16, 34, 53)",
+              "panelMuted": "rgb(64, 86, 109)"
+            }
+          },
           "agencyDoctrine": {
             "overflow": false,
             "surfaceWithinViewport": true,
@@ -4988,6 +5185,7 @@
             "command-center",
             "agency-doctrine",
             "settings",
+            "language-modal",
             "accessible-modal",
             "postmatch",
             "account-handoff",
@@ -5007,6 +5205,21 @@
             "execution-rush",
             "execution-rush-reduced-complete"
           ],
+          "languageModal": {
+            "horizontalOverflow": false,
+            "surfaceWithinViewport": true,
+            "backdropFilter": "none",
+            "contain": "paint",
+            "optionCount": 38,
+            "minimumButtonWidth": 44,
+            "minimumButtonHeight": 44,
+            "colors": {
+              "native": "rgb(248, 240, 255)",
+              "translated": "rgb(214, 188, 237)",
+              "panelText": "rgb(248, 240, 255)",
+              "panelMuted": "rgb(214, 188, 237)"
+            }
+          },
           "agencyDoctrine": {
             "overflow": false,
             "surfaceWithinViewport": true,

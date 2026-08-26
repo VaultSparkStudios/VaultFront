@@ -1,9 +1,9 @@
 {
   "project": "chromium",
   "localOnly": true,
-  "capturedAt": "2026-08-26T05:16:05.655Z",
+  "capturedAt": "2026-08-26T06:23:56.521Z",
   "source": {
-    "digest": "sha256:b68b1b013ddc7cf4c4bc535cfb056f506a2d7ad827d89f735233788028ac6d86",
+    "digest": "sha256:d35895837c837499274775308336bc90b201a22764e9c5ff4cc33b6294d8af61",
     "files": [
       {
         "path": "config/vaultfront-balance.v1.json",
@@ -12,8 +12,8 @@
       },
       {
         "path": "e2e/theme-visual-proof.spec.ts",
-        "bytes": 56565,
-        "digest": "sha256:097df4f96d738e7337837131bb0f08a18f2264a04a15a15d84267ab60756d2f8"
+        "bytes": 59798,
+        "digest": "sha256:d5c9047d9a916d0cdd5aaac47dad63e804cb3b49aa5b4a0019deb5a536bff760"
       },
       {
         "path": "index.html",
@@ -64,6 +64,11 @@
         "path": "src/client/GameStartingModal.ts",
         "bytes": 9169,
         "digest": "sha256:c99e54298d291536f961ed28fd3a8461522479d8c82a1542cd687bbaad10a249"
+      },
+      {
+        "path": "src/client/LanguageModal.ts",
+        "bytes": 5059,
+        "digest": "sha256:90c0b3201a7f4a47832ab7a21a97e61115b7319786ed3dfcb531e51cc8c6167c"
       },
       {
         "path": "src/client/MultiTabDetector.ts",
@@ -327,8 +332,8 @@
       },
       {
         "path": "src/client/components/ui/ModalHeader.ts",
-        "bytes": 2499,
-        "digest": "sha256:8250ab4e3952d441f6dcb7aab53b95dcf4ae30c9b2539d17daa92c8529285396"
+        "bytes": 2507,
+        "digest": "sha256:140856e9cf1a11361ea6325f7afe0cf5bfed04be75838682cea6abb3ea0b6dfb"
       },
       {
         "path": "src/client/graphics/layers/CertifiedNarratorLayer.ts",
@@ -510,6 +515,7 @@
         "command-center",
         "agency-doctrine",
         "settings",
+        "language-modal",
         "accessible-modal",
         "postmatch",
         "account-handoff",
@@ -529,6 +535,21 @@
         "execution-rush",
         "execution-rush-reduced-complete"
       ],
+      "languageModal": {
+        "horizontalOverflow": false,
+        "surfaceWithinViewport": true,
+        "backdropFilter": "none",
+        "contain": "paint",
+        "optionCount": 38,
+        "minimumButtonWidth": 44,
+        "minimumButtonHeight": 44,
+        "colors": {
+          "native": "rgb(248, 250, 252)",
+          "translated": "rgba(226, 232, 240, 0.88)",
+          "panelText": "rgb(248, 250, 252)",
+          "panelMuted": "rgba(226, 232, 240, 0.88)"
+        }
+      },
       "agencyDoctrine": {
         "overflow": false,
         "surfaceWithinViewport": true,
@@ -747,6 +768,7 @@
         "command-center",
         "agency-doctrine",
         "settings",
+        "language-modal",
         "accessible-modal",
         "postmatch",
         "account-handoff",
@@ -766,6 +788,21 @@
         "execution-rush",
         "execution-rush-reduced-complete"
       ],
+      "languageModal": {
+        "horizontalOverflow": false,
+        "surfaceWithinViewport": true,
+        "backdropFilter": "none",
+        "contain": "paint",
+        "optionCount": 38,
+        "minimumButtonWidth": 44,
+        "minimumButtonHeight": 44,
+        "colors": {
+          "native": "rgb(16, 34, 53)",
+          "translated": "rgb(64, 86, 109)",
+          "panelText": "rgb(16, 34, 53)",
+          "panelMuted": "rgb(64, 86, 109)"
+        }
+      },
       "agencyDoctrine": {
         "overflow": false,
         "surfaceWithinViewport": true,
@@ -984,6 +1021,7 @@
         "command-center",
         "agency-doctrine",
         "settings",
+        "language-modal",
         "accessible-modal",
         "postmatch",
         "account-handoff",
@@ -1003,6 +1041,21 @@
         "execution-rush",
         "execution-rush-reduced-complete"
       ],
+      "languageModal": {
+        "horizontalOverflow": false,
+        "surfaceWithinViewport": true,
+        "backdropFilter": "none",
+        "contain": "paint",
+        "optionCount": 38,
+        "minimumButtonWidth": 44,
+        "minimumButtonHeight": 44,
+        "colors": {
+          "native": "rgb(248, 240, 255)",
+          "translated": "rgb(214, 188, 237)",
+          "panelText": "rgb(248, 240, 255)",
+          "panelMuted": "rgb(214, 188, 237)"
+        }
+      },
       "agencyDoctrine": {
         "overflow": false,
         "surfaceWithinViewport": true,

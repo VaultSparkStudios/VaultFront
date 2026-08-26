@@ -32,6 +32,7 @@ export class LanguageModal extends BaseModal {
     const content = html`
       <div
         class="${this.modalContainerClass}"
+        style="backdrop-filter: none; -webkit-backdrop-filter: none; contain: paint;"
       >
         <!-- Header -->
         ${modalHeader({
@@ -80,13 +81,13 @@ export class LanguageModal extends BaseModal {
                     <span
                       class="text-sm font-bold uppercase tracking-wider whitespace-normal break-words w-full text-left ${
                         isActive
-                          ? "text-white"
-                          : "text-gray-200 group-hover:text-white"
+                          ? "text-[var(--vf-panel-text)]"
+                          : "text-[var(--vf-panel-text)] group-hover:text-[var(--vf-text)]"
                       }"
                       >${lang.native}</span
                     >
                     <span
-                      class="text-xs text-white/40 uppercase tracking-widest group-hover:text-white/60 transition-colors whitespace-normal break-words w-full text-left"
+                      class="text-xs text-[var(--vf-panel-muted)] uppercase tracking-widest group-hover:text-[var(--vf-panel-text)] transition-colors whitespace-normal break-words w-full text-left"
                       >${lang.en}</span
                     >
                   </div>

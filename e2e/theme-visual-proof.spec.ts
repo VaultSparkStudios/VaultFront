@@ -10,10 +10,10 @@ import {
 const themes = ["vaultfront", "light", "competitive"] as const;
 const capturedSource = computeThemeProofSourceEvidence(process.cwd());
 
-// This one spec intentionally captures twelve visual artifacts in
+// This one spec intentionally captures the complete canonical visual matrix in
 // addition to navigation and contrast assertions. Keep its evidence workload
 // intact while giving browser screenshot encoding a bounded, explicit budget.
-test.setTimeout(120_000);
+test.setTimeout(180_000);
 
 const executionStates = ["normal", "rush", "rush-reduced-complete"] as const;
 
@@ -540,6 +540,80 @@ test("three themes retain readable page, panel, and settings surfaces", async ({
       ),
       fullPage: true,
     });
+    await page.evaluate(() => window.showPage?.("page-language"));
+    const languageModal = page.locator("#page-language");
+    await expect(languageModal).toBeVisible();
+    await expect(languageModal.locator("button").first()).toBeVisible();
+    const languageModalMetrics = await languageModal.evaluate((element) => {
+      const surface = element.querySelector<HTMLElement>(":scope > div");
+      const surfaceRect = surface?.getBoundingClientRect();
+      const buttons = [...element.querySelectorAll<HTMLElement>("button")]
+        .filter((button) => {
+          const rect = button.getBoundingClientRect();
+          return rect.width > 0 && rect.height > 0;
+        })
+        .map((button) => button.getBoundingClientRect());
+      const style = surface ? getComputedStyle(surface) : null;
+      const inactiveButton = element.querySelectorAll<HTMLElement>("button")[2];
+      const inactiveLabels = inactiveButton
+        ? inactiveButton.querySelectorAll<HTMLElement>("span")
+        : [];
+      const colorProbe = document.createElement("span");
+      colorProbe.style.color = "var(--vf-panel-text)";
+      element.append(colorProbe);
+      const panelText = getComputedStyle(colorProbe).color;
+      colorProbe.style.color = "var(--vf-panel-muted)";
+      const panelMuted = getComputedStyle(colorProbe).color;
+      colorProbe.remove();
+      return {
+        horizontalOverflow: element.scrollWidth > element.clientWidth + 1,
+        surfaceWithinViewport: Boolean(
+          surfaceRect &&
+          surfaceRect.left >= 0 &&
+          surfaceRect.right <= innerWidth &&
+          surfaceRect.top >= 0 &&
+          surfaceRect.bottom <= innerHeight,
+        ),
+        backdropFilter: style?.backdropFilter ?? "",
+        contain: style?.contain ?? "",
+        optionCount: buttons.length,
+        minimumButtonWidth: Math.min(...buttons.map((rect) => rect.width)),
+        minimumButtonHeight: Math.min(...buttons.map((rect) => rect.height)),
+        colors: {
+          native: inactiveLabels[0]
+            ? getComputedStyle(inactiveLabels[0]).color
+            : "",
+          translated: inactiveLabels[1]
+            ? getComputedStyle(inactiveLabels[1]).color
+            : "",
+          panelText,
+          panelMuted,
+        },
+      };
+    });
+    expect(languageModalMetrics).toMatchObject({
+      horizontalOverflow: false,
+      surfaceWithinViewport: true,
+      backdropFilter: "none",
+    });
+    expect(languageModalMetrics.contain).toContain("paint");
+    expect(languageModalMetrics.optionCount).toBeGreaterThanOrEqual(30);
+    expect(languageModalMetrics.minimumButtonWidth).toBeGreaterThanOrEqual(44);
+    expect(languageModalMetrics.minimumButtonHeight).toBeGreaterThanOrEqual(44);
+    expect(languageModalMetrics.colors.native).toBe(
+      languageModalMetrics.colors.panelText,
+    );
+    expect(languageModalMetrics.colors.translated).toBe(
+      languageModalMetrics.colors.panelMuted,
+    );
+    await page.screenshot({
+      path: path.join(
+        artifactDir,
+        `${testInfo.project.name}-${theme}-language-modal.png`,
+      ),
+      fullPage: true,
+    });
+    await page.evaluate(() => window.showPage?.("page-play"));
     const accessibleModalMetrics = await page.evaluate(async () => {
       if (!customElements.get("o-modal")) {
         await import("/src/client/components/baseComponents/Modal.ts");
@@ -722,6 +796,7 @@ test("three themes retain readable page, panel, and settings surfaces", async ({
       renderedColors,
       postMatch: renderedPostMatch,
       surfaces: ["play", "stats-showcase", "settings", "postmatch"],
+      languageModal: languageModalMetrics,
       agencyDoctrine,
     });
     await page

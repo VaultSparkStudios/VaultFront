@@ -18,7 +18,7 @@ const DEFAULT_DIVIDER_CLASS = "border-b border-white/10";
 const DEFAULT_PADDING_CLASS = "p-4 lg:p-6";
 const DEFAULT_LEFT_CLASS = "flex items-center gap-4 flex-1";
 const DEFAULT_BUTTON_CLASS =
-  "group flex items-center justify-center w-10 h-10 rounded-full shrink-0 " +
+  "group flex min-h-11 min-w-11 items-center justify-center rounded-full shrink-0 " +
   "bg-white/5 hover:bg-white/10 transition-all border border-white/10";
 const DEFAULT_TITLE_CLASS =
   "text-white text-xl lg:text-2xl font-bold uppercase " +

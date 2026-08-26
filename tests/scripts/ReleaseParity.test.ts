@@ -148,6 +148,14 @@ describe("release parity assessment", () => {
       path.resolve("src/client/components/MobileNavBar.ts"),
       "utf8",
     );
+    const languageModal = fs.readFileSync(
+      path.resolve("src/client/LanguageModal.ts"),
+      "utf8",
+    );
+    const modalHeader = fs.readFileSync(
+      path.resolve("src/client/components/ui/ModalHeader.ts"),
+      "utf8",
+    );
     const layout = fs.readFileSync(
       path.resolve("src/client/Layout.ts"),
       "utf8",
@@ -168,6 +176,9 @@ describe("release parity assessment", () => {
     expect(sidebarClass).toContain("will-change-transform");
     expect(sidebarClass).toContain("[contain:paint]");
     expect(sidebarClass).not.toContain("backdrop-blur");
+    expect(languageModal).toContain("backdrop-filter: none");
+    expect(languageModal).toContain("contain: paint");
+    expect(modalHeader).toContain("min-h-11 min-w-11");
     for (const invariant of [
       "dynamicViewportHeight",
       "safeAreaPadding",
