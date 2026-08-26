@@ -152,6 +152,9 @@ describe("release parity assessment", () => {
       path.resolve("src/client/Layout.ts"),
       "utf8",
     );
+    const sidebarClass = index.match(
+      /<mobile-nav-bar[\s\S]*?id="sidebar-menu"[\s\S]*?class="([^"]+)"/u,
+    )?.[1];
     expect(index).toContain("h-dvh");
     expect(index).toContain("#sidebar-menu.open");
     expect(index).toContain("transform: translateX(0)");
@@ -161,6 +164,10 @@ describe("release parity assessment", () => {
     expect(mobileNav).toContain('id="mobile-menu-close"');
     expect(mobileNav).toContain("min-h-11 min-w-11");
     expect(layout).toContain('clickedElement?.id === "mobile-menu-close"');
+    expect(sidebarClass).toContain("bg-slate-950/95");
+    expect(sidebarClass).toContain("will-change-transform");
+    expect(sidebarClass).toContain("[contain:paint]");
+    expect(sidebarClass).not.toContain("backdrop-blur");
     for (const invariant of [
       "dynamicViewportHeight",
       "safeAreaPadding",
