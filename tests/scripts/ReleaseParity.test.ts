@@ -178,6 +178,11 @@ describe("release parity assessment", () => {
     expect(sidebarClass).not.toContain("backdrop-blur");
     expect(languageModal).toContain("backdrop-filter: none");
     expect(languageModal).toContain("contain: paint");
+    expect(languageModal).toContain("data-language-flags-ready");
+    expect(languageModal).toContain("requestAnimationFrame");
+    expect(languageModal).toContain("if (this.isModalOpen)");
+    expect(languageModal).toContain('fetchpriority="low"');
+    expect(languageModal).not.toContain('loading="lazy"');
     expect(modalHeader).toContain("min-h-11 min-w-11");
     for (const invariant of [
       "dynamicViewportHeight",

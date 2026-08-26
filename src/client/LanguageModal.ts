@@ -1,5 +1,5 @@
 import { html } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 import { translateText } from "../client/Utils";
 import "./components/baseComponents/Modal";
 import { BaseModal } from "./components/BaseModal";
@@ -16,6 +16,37 @@ interface LanguageOption {
 export class LanguageModal extends BaseModal {
   @property({ type: Array }) languageList: LanguageOption[] = [];
   @property({ type: String }) currentLang = "en";
+  @state() private flagAssetsReady = false;
+
+  private flagLoadFrame: number | null = null;
+  private flagPaintFrame: number | null = null;
+
+  protected override onOpen(): void {
+    this.flagAssetsReady = false;
+    this.cancelFlagHydration();
+    // Let the text-first language grid paint before decorative flag requests
+    // begin. Fixed-size placeholders prevent layout shift while the assets
+    // hydrate on the following frame.
+    this.flagLoadFrame = requestAnimationFrame(() => {
+      this.flagPaintFrame = requestAnimationFrame(() => {
+        this.flagLoadFrame = null;
+        this.flagPaintFrame = null;
+        if (this.isModalOpen) this.flagAssetsReady = true;
+      });
+    });
+  }
+
+  protected override onClose(): void {
+    this.cancelFlagHydration();
+    this.flagAssetsReady = false;
+  }
+
+  private cancelFlagHydration(): void {
+    if (this.flagLoadFrame !== null) cancelAnimationFrame(this.flagLoadFrame);
+    if (this.flagPaintFrame !== null) cancelAnimationFrame(this.flagPaintFrame);
+    this.flagLoadFrame = null;
+    this.flagPaintFrame = null;
+  }
 
   private selectLanguage = (lang: string) => {
     this.dispatchEvent(
@@ -45,6 +76,7 @@ export class LanguageModal extends BaseModal {
           class="flex-1 overflow-y-auto custom-scrollbar p-2"
         >
           <div
+            data-language-flags-ready=${String(this.flagAssetsReady)}
             class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3"
           >
             ${this.languageList.map((lang) => {
@@ -70,13 +102,20 @@ export class LanguageModal extends BaseModal {
                   style="content-visibility: auto; contain-intrinsic-size: 68px;"
                   @click=${() => this.selectLanguage(lang.code)}
                 >
-                  <img
-                    src="/flags/${lang.svg}.svg"
-                    class="w-8 h-6 object-contain rounded-sm shrink-0"
-                    alt="${lang.code}"
-                    loading="lazy"
-                    decoding="async"
-                  />
+                  ${
+                    this.flagAssetsReady
+                      ? html`<img
+                          src="/flags/${lang.svg}.svg"
+                          class="w-8 h-6 object-contain rounded-sm shrink-0"
+                          alt=""
+                          decoding="async"
+                          fetchpriority="low"
+                        />`
+                      : html`<span
+                          aria-hidden="true"
+                          class="w-8 h-6 rounded-sm shrink-0 border border-[var(--vf-border)] bg-[var(--vf-panel-bg)]"
+                        ></span>`
+                  }
                   <div class="flex flex-col items-start min-w-0">
                     <span
                       class="text-sm font-bold uppercase tracking-wider whitespace-normal break-words w-full text-left ${

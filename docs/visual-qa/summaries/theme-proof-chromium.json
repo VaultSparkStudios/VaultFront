@@ -1,9 +1,9 @@
 {
   "project": "chromium",
   "localOnly": true,
-  "capturedAt": "2026-08-26T06:23:56.521Z",
+  "capturedAt": "2026-08-26T06:54:33.897Z",
   "source": {
-    "digest": "sha256:d35895837c837499274775308336bc90b201a22764e9c5ff4cc33b6294d8af61",
+    "digest": "sha256:c7f254993341bfa761390cf66520d55c322a712aeea9096f50efecec97965985",
     "files": [
       {
         "path": "config/vaultfront-balance.v1.json",
@@ -12,8 +12,8 @@
       },
       {
         "path": "e2e/theme-visual-proof.spec.ts",
-        "bytes": 59798,
-        "digest": "sha256:d5c9047d9a916d0cdd5aaac47dad63e804cb3b49aa5b4a0019deb5a536bff760"
+        "bytes": 60152,
+        "digest": "sha256:81dd3919771ad6e5c6d4de79f93c195bfd09a449b73102c8fa5cbcfd7f74c596"
       },
       {
         "path": "index.html",
@@ -67,8 +67,8 @@
       },
       {
         "path": "src/client/LanguageModal.ts",
-        "bytes": 5059,
-        "digest": "sha256:90c0b3201a7f4a47832ab7a21a97e61115b7319786ed3dfcb531e51cc8c6167c"
+        "bytes": 6573,
+        "digest": "sha256:8fbf02d8de5359def44d1981e44bd66c975b9bab4e2b73d719681ddb4b52bece"
       },
       {
         "path": "src/client/MultiTabDetector.ts",

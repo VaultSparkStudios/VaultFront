@@ -544,6 +544,14 @@ test("three themes retain readable page, panel, and settings surfaces", async ({
     const languageModal = page.locator("#page-language");
     await expect(languageModal).toBeVisible();
     await expect(languageModal.locator("button").first()).toBeVisible();
+    await expect(
+      languageModal.locator("[data-language-flags-ready='true']"),
+    ).toBeVisible();
+    await page.waitForFunction(() =>
+      [...document.querySelectorAll<HTMLImageElement>("#page-language img")]
+        .filter((image) => image.src.includes("/flags/"))
+        .every((image) => image.complete && image.naturalWidth > 0),
+    );
     const languageModalMetrics = await languageModal.evaluate((element) => {
       const surface = element.querySelector<HTMLElement>(":scope > div");
       const surfaceRect = surface?.getBoundingClientRect();
