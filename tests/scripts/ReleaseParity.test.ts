@@ -187,6 +187,7 @@ describe("release parity assessment", () => {
     expect(capture).toContain("closeRect.right <= innerWidth + 1");
     expect(capture).toContain("/^[0-9a-f]{40}$/i.test(candidateRevision)");
     expect(capture).toContain('waitUntil: "domcontentloaded"');
+    expect(capture).toContain('waitForLoadState("load"');
     expect(capture).toContain("Page.captureScreenshot");
     expect(capture).toContain('return "cdp-font-timeout-fallback"');
   });

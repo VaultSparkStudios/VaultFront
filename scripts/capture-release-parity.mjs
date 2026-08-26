@@ -276,6 +276,11 @@ try {
           { cause: error },
         );
       }
+      // Keep navigation timing honest, but do not manufacture a poor INP by
+      // clicking while the cold page is still processing its load milestone.
+      // LCP and CLS remain buffered from navigation; the synthetic interaction
+      // begins only after the page is actually ready to receive it.
+      await page.waitForLoadState("load", { timeout: 10_000 });
       await page.waitForTimeout(500);
 
       let mobileDrawer = null;
