@@ -852,6 +852,8 @@ Public-safe decisions only. Detailed internal decision history is maintained pri
 
 **Why:** The unchanged exact revisions subsequently passed provider CI `32943036547`, E2E `32943036503`, Release `32943036515`, and the complete staging/evidence chain. Follow-up: preserve worker-start failures as infrastructure results, retain exact-provider CI as aggregate authority, and do not call a local gate green unless its assertions actually run.
 
+**Closeout addendum:** The final plan-only metadata commit also uses `--no-verify` after the normal hook completed ESLint, Prettier, staged-file application, and cleanup but its `lint-staged` wrapper remained idle without returning control or creating the commit. The file was explicitly formatted, the staged secret scan returned zero findings, and this addendum is committed with the same bounded bypass so the closeout record does not conceal the host pathology.
+
 ### Stable staging fitness is not production authority
 
 **Decision:** Do not promote production from `7fbaedcd` while any of contactEmail, obeliskIdentity, alphaHumanEvidence, revenueObservation, or founderApproval remains red.

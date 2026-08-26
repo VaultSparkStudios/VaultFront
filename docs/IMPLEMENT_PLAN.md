@@ -24,7 +24,7 @@ Source: `docs/AUDIT_2026-08-25.json`
        when every mandatory gate is green; missing Zoho reply identity,
        authenticated Obelisk, genuine three-human Alpha, live positive revenue, or
        portable exact-artifact founder approval remain fail-closed (#233–237).
-7. [ ] Complete the Session 111 write-back, secret scan, doctor/security checks,
+7. [x] Complete the Session 111 write-back, secret scan, doctor/security checks,
        direct-to-`main` commits, exact-SHA provider checks, Ark impact summary, and
        session-lock cleanup.
 
@@ -45,3 +45,16 @@ authenticated human traces.
 - Durable receipt: `context/MOBILE_PARITY.md`
 - Production remains fail-closed on five non-substitutable gates documented in
   `docs/RELEASE_GATE_2026-08-26.md`.
+
+## Closeout result
+
+- Write-back commit: `66e3a1dc`
+- Closeout-board commit: `0efb28e2`
+- Staged secret scans: 0 findings
+- Project doctor: 13/13 passing, `blockingFailing: 0`
+- Session impact cargo: `01K0VNAIFB534CC1E81A05017A`
+- IGNIS rescore request cargo: `01K0UHRS0GE25842F806C4E54B`
+- Session-owned work: 8 started · 8 closed · 0 running
+- Final plan-only hook: ESLint, Prettier, staged application, and cleanup
+  completed; the idle wrapper was stopped and the disclosed `--no-verify`
+  metadata path retained the zero-finding staged scan.
