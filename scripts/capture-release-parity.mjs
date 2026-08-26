@@ -301,6 +301,24 @@ try {
           null,
           { timeout: 2_000 },
         );
+        await page.waitForFunction(
+          (minimumTargetPx) => {
+            const closeRect = document
+              .getElementById("mobile-menu-close")
+              ?.getBoundingClientRect();
+            return Boolean(
+              closeRect &&
+              Math.round(closeRect.width) >= minimumTargetPx &&
+              Math.round(closeRect.height) >= minimumTargetPx &&
+              closeRect.left >= -1 &&
+              closeRect.right <= innerWidth + 1 &&
+              closeRect.top >= -1 &&
+              closeRect.bottom <= innerHeight + 1,
+            );
+          },
+          RELEASE_PARITY_THRESHOLDS.minimumTargetPx,
+          { timeout: 2_000 },
+        );
         mobileDrawer = await page.evaluate((minimumTargetPx) => {
           const sidebar = document.getElementById("sidebar-menu");
           const scrollRegion = document.querySelector(
@@ -342,13 +360,23 @@ try {
             ),
             closeReachable: Boolean(
               closeRect &&
-              closeRect.width >= minimumTargetPx &&
-              closeRect.height >= minimumTargetPx &&
-              closeRect.left >= 0 &&
-              closeRect.right <= innerWidth &&
-              closeRect.top >= 0 &&
-              closeRect.bottom <= innerHeight,
+              Math.round(closeRect.width) >= minimumTargetPx &&
+              Math.round(closeRect.height) >= minimumTargetPx &&
+              closeRect.left >= -1 &&
+              closeRect.right <= innerWidth + 1 &&
+              closeRect.top >= -1 &&
+              closeRect.bottom <= innerHeight + 1,
             ),
+            closeControlRect: closeRect
+              ? {
+                  left: Math.round(closeRect.left),
+                  right: Math.round(closeRect.right),
+                  top: Math.round(closeRect.top),
+                  bottom: Math.round(closeRect.bottom),
+                  width: Math.round(closeRect.width),
+                  height: Math.round(closeRect.height),
+                }
+              : null,
             rect: sidebarRect
               ? {
                   left: Math.round(sidebarRect.left),

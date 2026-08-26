@@ -165,6 +165,7 @@ describe("release parity assessment", () => {
       "dynamicViewportHeight",
       "safeAreaPadding",
       "closeReachable",
+      "closeControlRect",
       "scrollLockActive",
       "scrollLockReleased",
       "closedAriaSynchronized",
@@ -175,6 +176,8 @@ describe("release parity assessment", () => {
     expect(capture).toContain("sidebarRect.right <= innerWidth + 1");
     expect(capture).toContain("Math.min(innerWidth * 0.82, 384)");
     expect(capture).toContain("Math.abs(rect.left) <= 1");
+    expect(capture).toContain("Math.round(closeRect.width)");
+    expect(capture).toContain("closeRect.right <= innerWidth + 1");
     expect(capture).toContain("/^[0-9a-f]{40}$/i.test(candidateRevision)");
     expect(capture).toContain('waitUntil: "domcontentloaded"');
     expect(capture).toContain("Page.captureScreenshot");

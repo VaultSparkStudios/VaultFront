@@ -72,6 +72,17 @@ jobs:
           --output release-parity.json
           --screenshots release-parity-screenshots
 
+      - name: Retain failed parity diagnostics
+        if: ${{ failure() && hashFiles('release-parity.json') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: staging-parity-diagnostics-${{ github.run_id }}
+          path: |
+            release-parity.json
+            release-parity-screenshots/
+          if-no-files-found: warn
+          retention-days: 7
+
       - name: Verify theme proof and live footer manifest
         run: |
           node scripts/check-theme-proof-receipt.mjs > theme-proof-check.json

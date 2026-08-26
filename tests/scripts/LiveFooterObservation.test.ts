@@ -74,6 +74,8 @@ describe("staging observation workflow contract", () => {
       "observe-live-footer-manifest.mjs",
       "create-staging-observations",
       "install-release-evidence.sh",
+      "staging-parity-diagnostics-${{ github.run_id }}",
+      "failure() && hashFiles('release-parity.json') != ''",
       "environment: staging",
     ])
       expect(workflow).toContain(required);
