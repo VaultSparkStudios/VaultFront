@@ -1,9 +1,9 @@
 {
   "project": "chromium",
   "localOnly": true,
-  "capturedAt": "2026-08-26T06:54:33.897Z",
+  "capturedAt": "2026-08-26T07:28:26.116Z",
   "source": {
-    "digest": "sha256:c7f254993341bfa761390cf66520d55c322a712aeea9096f50efecec97965985",
+    "digest": "sha256:9da3851790e17b437a273fa528017e036fb1c7374a3fe395613d9a345e22be3c",
     "files": [
       {
         "path": "config/vaultfront-balance.v1.json",
@@ -67,8 +67,8 @@
       },
       {
         "path": "src/client/LanguageModal.ts",
-        "bytes": 6573,
-        "digest": "sha256:8fbf02d8de5359def44d1981e44bd66c975b9bab4e2b73d719681ddb4b52bece"
+        "bytes": 6587,
+        "digest": "sha256:6c5a103b411ef60958d1ee1169a09a957c2bba66c39cb4b84febe814c8ba7ceb"
       },
       {
         "path": "src/client/MultiTabDetector.ts",

@@ -180,6 +180,9 @@ describe("release parity assessment", () => {
     expect(languageModal).toContain("contain: paint");
     expect(languageModal).toContain("data-language-flags-ready");
     expect(languageModal).toContain("requestAnimationFrame");
+    expect(languageModal).toContain("window.setTimeout");
+    expect(languageModal).toContain("}, 250)");
+    expect(languageModal).toContain("clearTimeout");
     expect(languageModal).toContain("if (this.isModalOpen)");
     expect(languageModal).toContain('fetchpriority="low"');
     expect(languageModal).not.toContain('loading="lazy"');

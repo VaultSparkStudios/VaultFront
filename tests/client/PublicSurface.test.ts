@@ -139,6 +139,9 @@ describe("public launch foundation", () => {
     expect(languages).toContain("content-visibility: auto");
     expect(languages).toContain("data-language-flags-ready");
     expect(languages).toContain("requestAnimationFrame");
+    expect(languages).toContain("window.setTimeout");
+    expect(languages).toContain("}, 250)");
+    expect(languages).toContain("clearTimeout");
     expect(languages).toContain('fetchpriority="low"');
     expect(languages).not.toContain('loading="lazy"');
     expect(languages).toContain('decoding="async"');

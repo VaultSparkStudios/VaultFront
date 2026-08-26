@@ -19,20 +19,20 @@ export class LanguageModal extends BaseModal {
   @state() private flagAssetsReady = false;
 
   private flagLoadFrame: number | null = null;
-  private flagPaintFrame: number | null = null;
+  private flagLoadTimer: number | null = null;
 
   protected override onOpen(): void {
     this.flagAssetsReady = false;
     this.cancelFlagHydration();
-    // Let the text-first language grid paint before decorative flag requests
-    // begin. Fixed-size placeholders prevent layout shift while the assets
-    // hydrate on the following frame.
+    // Let the text-first language grid paint and become interactive before
+    // decorative flag requests begin. Fixed-size placeholders prevent layout
+    // shift, and closing quickly cancels the asset burst entirely.
     this.flagLoadFrame = requestAnimationFrame(() => {
-      this.flagPaintFrame = requestAnimationFrame(() => {
-        this.flagLoadFrame = null;
-        this.flagPaintFrame = null;
+      this.flagLoadFrame = null;
+      this.flagLoadTimer = window.setTimeout(() => {
+        this.flagLoadTimer = null;
         if (this.isModalOpen) this.flagAssetsReady = true;
-      });
+      }, 250);
     });
   }
 
@@ -43,9 +43,9 @@ export class LanguageModal extends BaseModal {
 
   private cancelFlagHydration(): void {
     if (this.flagLoadFrame !== null) cancelAnimationFrame(this.flagLoadFrame);
-    if (this.flagPaintFrame !== null) cancelAnimationFrame(this.flagPaintFrame);
+    if (this.flagLoadTimer !== null) clearTimeout(this.flagLoadTimer);
     this.flagLoadFrame = null;
-    this.flagPaintFrame = null;
+    this.flagLoadTimer = null;
   }
 
   private selectLanguage = (lang: string) => {
