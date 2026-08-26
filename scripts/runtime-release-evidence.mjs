@@ -8,6 +8,7 @@ import {
   signRuntimeReleaseClaim,
   verifyRuntimeReleaseEvidenceBundle,
 } from "../src/shared/runtime-release-evidence.mjs";
+import { validateReleaseParityMatrix } from "./lib/release-parity.mjs";
 import { verifyRollbackDrillReceipt } from "./lib/rollback-drill-receipt.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -195,8 +196,8 @@ function createStagingObservationsBundle() {
     parity.origin !== attestation.origin ||
     parity.revision !== attestation.gitSha ||
     parity.summary?.pass !== true ||
-    parity.summary?.cellCount !== 9 ||
     parity.summary?.findingCount !== 0 ||
+    validateReleaseParityMatrix(parity.cells ?? []).pass !== true ||
     parity.digest !== reportDigest(parity)
   )
     throw new Error("Exact-live release parity is invalid");

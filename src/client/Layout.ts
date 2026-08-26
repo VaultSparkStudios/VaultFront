@@ -71,15 +71,21 @@ export async function initLayout(): Promise<void> {
 
   // Close menu when clicking a menu link or button (Mobile only)
   sidebar.addEventListener("click", (e) => {
-    // On desktop, we want the menu to stay open unless explicitly toggled
-    if (!Platform.isMobileWidth) return;
-
-    // If the click happened on or inside an anchor/button/menu item, close the menu
     const clickedElement = (e.target as Element).closest
       ? (e.target as Element).closest(
           'a, button, [role="menuitem"], .nav-menu-item',
         )
       : null;
+
+    // The explicit close control must work throughout the CSS drawer range,
+    // including landscape phones wider than Platform.isMobileWidth.
+    if (clickedElement?.id === "mobile-menu-close") {
+      closeMenu();
+      return;
+    }
+
+    // On desktop, we want the menu to stay open unless explicitly toggled.
+    if (!Platform.isMobileWidth) return;
 
     if (clickedElement) {
       closeMenu();

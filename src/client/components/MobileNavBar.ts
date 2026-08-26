@@ -68,8 +68,26 @@ export class MobileNavBar extends LitElement {
       ></div>
 
       <div
+        data-mobile-nav-scroll-region
         class="min-h-0 flex-1 w-full flex flex-col justify-start overflow-y-auto overscroll-contain lg:pt-[clamp(1rem,3vh,4rem)] lg:pb-[clamp(0.5rem,2vh,2rem)] lg:px-[clamp(1rem,1.5vw,2rem)] p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] gap-[clamp(1rem,3vh,3rem)]"
       >
+        <button
+          id="mobile-menu-close"
+          type="button"
+          class="sticky top-0 z-10 self-end flex h-11 min-h-11 min-w-11 shrink-0 items-center justify-center rounded-lg border border-white/15 bg-slate-950/90 text-white shadow-lg backdrop-blur transition-colors hover:border-amber-300/60 hover:text-amber-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300"
+          aria-label="Close main menu"
+        >
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 24 24"
+            class="size-7"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path stroke-linecap="round" d="M6 6l12 12M18 6L6 18"></path>
+          </svg>
+        </button>
         <!-- Logo + Menu -->
         <div
           class="flex flex-col mb-[clamp(1rem,2vh,2rem)] ml-[clamp(0.2rem,0.4vw,0.4vh)]"

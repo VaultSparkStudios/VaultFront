@@ -103,5 +103,7 @@ describe("staging observation workflow contract", () => {
       /signed\(\s*"rollbackObservation",[\s\S]*?ROLLBACK_EVIDENCE_LIFETIME_MINUTES,/u,
     );
     expect(signer).toContain("Invalid evidence lifetime for ${gate}");
+    expect(signer).toContain("validateReleaseParityMatrix");
+    expect(signer).not.toContain("parity.summary?.cellCount !== 9");
   });
 });

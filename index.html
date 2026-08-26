@@ -61,6 +61,21 @@
         --vf-shadow: 0 24px 70px rgba(100, 0, 200, 0.3);
       }
 
+      /* ID specificity keeps the drawer state authoritative over
+                     generated transform utilities on every Tailwind build. */
+      #sidebar-menu {
+        transform: translateX(-100%);
+      }
+
+      #sidebar-menu.open {
+        transform: translateX(0);
+      }
+
+      desktop-nav-bar .nav-menu-item {
+        min-width: 44px;
+        min-height: 44px;
+      }
+
       .preload {
         visibility: hidden;
         opacity: 0;
@@ -248,7 +263,7 @@
 
     <mobile-nav-bar
       id="sidebar-menu"
-      class="peer [.in-game_&]:hidden z-[40001] fixed left-0 top-0 h-full flex flex-col justify-start overflow-visible bg-black/70 backdrop-blur-xl border-r border-white/10 transition-transform duration-500 ease-out transform -translate-x-full w-[70%] [&.open]:translate-x-0 lg:hidden"
+      class="peer [.in-game_&]:hidden z-[40001] fixed left-0 top-0 h-dvh flex flex-col justify-start overflow-hidden bg-black/70 backdrop-blur-xl border-r border-white/10 transition-transform duration-500 ease-out transform -translate-x-full w-[min(82vw,24rem)] [&.open]:translate-x-0 lg:hidden"
       role="dialog"
       aria-hidden="true"
       data-i18n-aria-label="main.menu"

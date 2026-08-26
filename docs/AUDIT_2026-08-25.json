@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "session": 110,
+  "session": 111,
   "generatedBy": "codex",
   "generatedAt": "2026-08-25T18:47:00-04:00",
   "project": {
@@ -12,7 +12,7 @@
     "stage": "FORGE",
     "stagingType": "stable-owned-subdomain"
   },
-  "summary": "The Session 110 audit admits two agent-addressable items: restore the startup brief's missing source-closure manifest, then deploy and observe the immutable current main revision through stable staging, promotion validation, and rollback/restoration. Gameplay expansion and balance changes remain rejected until genuine human evidence exists. Production remains NO-GO behind five independent observations that automation must not synthesize.",
+  "summary": "The Session 111 continuation admits one remaining agent-addressable release item: make CANON-041 mobile parity executable across 360/390/414/768 device widths in portrait and landscape, with a reachable close control, dynamic viewport height, safe-area/scroll/lock checks, and exact signed live evidence. Gameplay expansion remains rejected until genuine human evidence exists. Production remains NO-GO behind five independent external observations that automation must not synthesize.",
   "axes": {
     "featureDepth": 1.5,
     "innovation": 1.5,
@@ -35,7 +35,7 @@
     },
     "release": {
       "decision": "NO-GO",
-      "reason": "The immutable current main revision 195a6f45 is not yet fully observed through the exact staging, promotion-validation, and two-image rollback chain; Zoho reply identity, authenticated Obelisk, three-human Alpha, positive live revenue, and portable exact-artifact founder approval also remain unobserved."
+      "reason": "Exact staging, observation, promotion validation, and rollback are green, but the live parity receipt covers only 390/768/1440 and the drawer has no explicit close control or direct dynamic-viewport height contract. Zoho reply identity, authenticated Obelisk, three-human Alpha, positive live revenue, and portable exact-artifact founder approval also remain unobserved."
     }
   },
   "candidateReview": {
@@ -151,6 +151,36 @@
     ]
   },
   "items": [
+    {
+      "id": 248,
+      "slug": "canon-041-complete-mobile-parity-attestation",
+      "tier": "hot",
+      "axis": "ux / accessibility / release",
+      "effortHours": 3,
+      "impact": 10,
+      "innovation": 6,
+      "priority": 38.68,
+      "status": "in_progress",
+      "title": "Make the complete CANON-041 mobile matrix executable",
+      "why": "The signed live observer covers only 390×844, 768×900, and 1440×900. Canon requires full usability at 360/390/414/768 device widths in portrait and landscape, a self-scrolling drawer, released scroll lock, dynamic viewport height, safe-area padding, 44px targets, a reachable close control, reduced-motion compliance, and elite craft. The current drawer inherits h-full and has no explicit close button, so adding an attestation flag would be false.",
+      "coreLoopStep": "public entry and navigation → choose a mode → begin the Capture-to-Breach loop",
+      "recipe": "Define one canonical 27-cell matrix (four mobile device widths × two orientations × three themes, plus desktop across three themes); make the drawer use h-dvh and expose a 44px close control; capture open-drawer scroll/lock/safe-area/reduced-motion evidence; require exact matrix completeness before signing; run focused tests, deploy the exact revision to stable staging, inspect screenshots, retain the signed observation, and only then write MOBILE_PARITY.md.",
+      "selectedDepth": "L3",
+      "ladder": {
+        "L1": {
+          "effortHours": 0.5,
+          "recipe": "Add MOBILE_PARITY.md from the existing nine-cell receipt."
+        },
+        "L2": {
+          "effortHours": 1.5,
+          "recipe": "Expand widths and orientations but continue to treat navigation reachability as a single Boolean."
+        },
+        "L3": {
+          "effortHours": 3,
+          "recipe": "Own the canonical matrix in code, inspect the open drawer and close lifecycle, fail signed evidence on any missing cell or mobile invariant, and bind the attestation to exact staging."
+        }
+      }
+    },
     {
       "id": 243,
       "slug": "propagation-verification-recovery",
