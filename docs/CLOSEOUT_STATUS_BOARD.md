@@ -1,24 +1,24 @@
 <!-- generated-by: scripts/render-closeout-board.mjs v1.1 -->
-<!-- generated-at: 2026-08-26 (Session 110 closeout) -->
+<!-- generated-at: 2026-08-26 (Session 111 closeout) -->
 
 # Closeout Status Board — VaultFront
 
 ```
-╔══ SESSION CLOSEOUT · VaultFront · S110 ════════════════════════╗
-║  Date: 2026-08-26  ·  SIL: 996/1000  ·  Velocity: 3 down         ║
+╔══ SESSION CLOSEOUT · VaultFront · S111 ════════════════════════╗
+║  Date: 2026-08-26  ·  SIL: 997/1000  ·  Velocity: 1 down         ║
 ║  Mode: FOUNDER  ·  Agent: codex                                  ║
 ║  Live:  preview  →  https://vaultfront.io                        ║
 ╚════════════════════════════════════════════════════════════════╝
-╔══ WHAT SHIPPED · last 5 commits ═══════════════════════════════╗
-║  ✓ chore(vaultfront): close session 110                          ║
-║  ✓ feat(vaultfront): restore startup proof closure               ║
-║  ✓ chore(vaultfront): record closeout board                      ║
-║  ✓ docs(vaultfront): close session 109                           ║
-║  ✓ docs(vaultfront): record session 109 implementation           ║
+╔══ WHAT SHIPPED ════════════════════════════════════════════════╗
+║  ✓ Implementation: audit items 238–242 are shipped—chronologica  ║
+║  ✓ Live root-fixes: observer dialog teardown is lifecycle-safe,  ║
+║  ✓ Exact revision: `1a89688c83ce9180db7fdd4d939b21ad854c1a5f` p  ║
+║  ✓ Staging: `https://staging.vaultfront.io` is healthy with 2/2  ║
+║  ✓ Verification authority: clean provider CI and E2E are the ag  ║
 ╚════════════════════════════════════════════════════════════════╝
-╔══ SCORES · SIL 996/1000 ═══════════════════════════════════════╗
+╔══ SCORES · SIL 997/1000 ═══════════════════════════════════════╗
 ║    Dev Health         100  ██████████                            ║
-║    Alignment          99   ██████████                            ║
+║    Alignment          100  ██████████                            ║
 ║    Momentum           100  ██████████                            ║
 ║    Engagement         98   ██████████                            ║
 ║    Process Qual       100  ██████████                            ║
@@ -52,12 +52,12 @@
 ╔══ POST-SESSION SIGNALS ════════════════════════════════════════╗
 ║  Doctor:        13/13                                            ║
 ║  Compliance:    49/49                                            ║
-║  Tests:         288/288                                          ║
+║  Tests:         291/291                                          ║
 ║  Validation:    full-fresh                                       ║
-║  IGNIS:         18d ago                                          ║
+║  IGNIS:         19d ago                                          ║
 ║  Truth:         green                                            ║
-║  Sanitization:  12d ago                                          ║
-║  Shell hygiene: 2 started · 2 closed · 0 running                 ║
+║  Sanitization:  13d ago                                          ║
+║  Shell hygiene: 8 started · 8 closed · 0 running                 ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ NEXT SESSION ════════════════════════════════════════════════╗
 ║  #1: Unified Genius List exhausted                               ║
