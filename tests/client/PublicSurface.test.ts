@@ -129,7 +129,7 @@ describe("public launch foundation", () => {
     expect(shell).toContain("}, 1000);");
   });
 
-  it("keeps optional audio and offscreen language choices out of startup work", () => {
+  it("keeps optional audio and decorative language flags out of startup work", () => {
     const sound = read("src/client/sound/SoundManager.ts");
     expect(sound.match(/preload: false/g)).toHaveLength(3);
     expect(sound).toContain('track.state() === "unloaded"');
@@ -137,7 +137,10 @@ describe("public launch foundation", () => {
 
     const languages = read("src/client/LanguageModal.ts");
     expect(languages).toContain("content-visibility: auto");
-    expect(languages).toContain('loading="lazy"');
+    expect(languages).toContain("data-language-flags-ready");
+    expect(languages).toContain("requestAnimationFrame");
+    expect(languages).toContain('fetchpriority="low"');
+    expect(languages).not.toContain('loading="lazy"');
     expect(languages).toContain('decoding="async"');
   });
 
