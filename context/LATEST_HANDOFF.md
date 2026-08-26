@@ -417,3 +417,18 @@ Run the complete /arc, implement every premise-verified finding, commit and push
 ## Session Intent — Session 109 (2026-08-25)
 
 Recover the prior write-back gap, execute the complete `/arc`, commit and push directly to `main`, fully deploy only through exact staging, observation, rollback, and canonical production admission, and preserve every independent evidence gate without fabrication.
+
+## Where We Left Off — Session 110 closeout (2026-08-25)
+
+- Implementation: audit items 245–247 are shipped. Startup briefs again carry their canonical source manifest, and ephemeral `.cache/` mirrors are outside direct Vitest and Prettier discovery.
+- Exact revision: `85ac5ff7b78f3880d2eeaccceb3b961a67efa4a5` passed CI `32910564760`, E2E `32910564784`, Release `32910564773`, staging `32911008849`, observation `32911217105`, promotion dry-run `32911405984`, rollback validation `32911479205`, and rollback/restoration `32911552613`.
+- Staging: `https://staging.vaultfront.io` is healthy with 2/2 workers and reports the exact full SHA. Nine live cells passed with worst LCP 1,788 ms, INP 176 ms, and CLS 0.0066; footer, theme, cost, and rollback evidence are green.
+- Verification authority: exact provider CI is the aggregate authority. Focused local regressions and contracts passed; a broad local test file recorded one unrelated historical five-second timeout under host contention and is not claimed as a clean aggregate.
+- Release: independent appraisal returned STAGING GO / PRODUCTION NO-GO. Production remains HTTP 503 and was not mutated.
+- Red gates: Zoho reply-as identity; authenticated Obelisk callback/session/identity/logout; three distinct authenticated human Alpha sessions; positive live revenue; portable exact-artifact founder approval; and the procedural CANON-041 mobile-parity attestation.
+- External-path audit: `zoho.mail.admin` lacks four required credentials, Obelisk RP values are absent, and the signed-in browser runtime failed before navigation with Windows credential-store error `CryptUnprotectData 2148073483`. No dashboard, mail, identity, payment, human, or approval evidence was fabricated.
+- Next: capture the complete mobile/orientation attestation, satisfy the five independently observed authority gates, refresh bounded exact-staging evidence if needed, and promote only when canonical admission is entirely green.
+
+## Session Intent — Session 110 (2026-08-25)
+
+Run the complete `/arc`, commit and push directly to `main`, deploy the exact candidate through stable staging, and promote production only if every mandatory release gate is genuinely green. The founder's operational authorization permits safe deployment actions but does not substitute for portable exact-artifact approval or the other independent observations.

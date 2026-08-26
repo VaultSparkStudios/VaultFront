@@ -4,10 +4,12 @@ Public-safe roadmap only. Detailed backlog sequencing is maintained privately.
 
 ## Now — production evidence corridor
 
+- [done] Session 110 exact candidate `85ac5ff7` passed CI `32910564760`, E2E `32910564784`, Release `32910564773`, staging `32911008849`, observation `32911217105`, promotion dry-run `32911405984`, rollback validation `32911479205`, and rollback/restoration `32911552613`.
+- [ ] Record the canonical CANON-041 mobile-parity attestation for the complete required viewport/orientation matrix; current live 390/768/1440 three-theme evidence is green but the portfolio probe remains red.
 - [done] Recovered Studio propagation drift in direct-main commit `03887080`; CI `32883787037`, E2E `32883787049`, and signed Ark recurrence cargo are green.
 - [done] Requalified the repaired release corridor with staging `32886877642`, nine-cell observation `32887206185`, and promotion dry-run `32887551349`.
 - [done] Established main-sourced rollback target `1149d78b` through CI `32890831350`, E2E `32890831315`, Release `32890831316`, and stable-staging deploy `32891518865`.
-- [ ] Post-commit gate: deploy and observe the immutable Session 109 closeout SHA, validate promotion, then prove rollback to `1149d78b` and exact restoration before any production decision.
+- [done] Deployed and observed the immutable S110 candidate, validated promotion without mutation, then proved rollback to the S109 image and exact S110 restoration.
 
 - [done] [SIL:1] Preserve chronological, shard-aware test evidence and classify worker-start failures separately from assertion failures.
 - [done] Exact revision `1a89688c` passed provider CI `32624397469`, E2E `32624397463` (30/30), stable-staging deploy `32624581625`, and the apex promotion dry-run `32624982318`.
@@ -18,6 +20,13 @@ Public-safe roadmap only. Detailed backlog sequencing is maintained privately.
 - [ ] Collect at least three distinct authenticated human Alpha sessions and one real checkout/supporter revenue observation.
 - [ ] Complete and retain an authenticated Obelisk callback/session/identity/logout journey; the required relying-party identity values remain unavailable.
 - [ ] Install a trusted purpose-scoped founder approval writer for the exact SHA and image.
+
+## Completed (2026-08-25 — Session 110 startup proof and immutable release chain)
+
+- [done] Shipped audit item 245 by restoring the startup brief's canonical source manifest and adding a semantic regression.
+- [done] Shipped audit item 247 by excluding `.cache/` from direct Vitest and Prettier discovery, with a boundary regression.
+- [done] Shipped audit item 246 through exact CI, E2E, Release, stable staging, nine-cell observation, promotion validation, rollback validation, and observed rollback/restoration.
+- [deferred] Production remains fail-closed on Zoho reply identity, authenticated Obelisk, three real authenticated humans, positive live revenue, portable exact-artifact founder approval, and the canonical mobile-parity attestation.
 
 ## Completed (2026-08-25 — Session 109 propagation recovery and requalification)
 

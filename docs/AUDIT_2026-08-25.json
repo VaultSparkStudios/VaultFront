@@ -271,7 +271,7 @@
       "impact": 10,
       "innovation": 5,
       "priority": 50,
-      "status": "pending",
+      "status": "shipped",
       "title": "Complete the immutable closeout release chain",
       "why": "Current main 195a6f45 is synchronized and provider-built, but the S109 handoff explicitly requires a fresh exact staging deploy, nine-cell observation, promotion validation, and two-image rollback/restoration before a production verdict can bind this final revision.",
       "coreLoopStep": "trusted build proof to exact staging experience to safe player access",
@@ -291,7 +291,13 @@
           "recipe": "Add an automated final-closeout lineage trigger so evidence-only commits cannot leave current main without an exact release capsule."
         }
       },
-      "executionLog": []
+      "executionLog": [
+        {
+          "at": "2026-08-25T19:39:00-04:00",
+          "status": "shipped",
+          "note": "Exact 85ac5ff7 passed CI 32910564760, E2E 32910564784, and Release 32910564773. Staging 32911008849, nine-cell observation 32911217105, production-promotion dry-run 32911405984, rollback validation 32911479205, and two-image rollback/restoration 32911552613 all passed; live staging restored healthy at exact 85ac5ff7 with 2/2 fresh workers."
+        }
+      ]
     },
     {
       "id": 247,

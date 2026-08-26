@@ -532,3 +532,13 @@ Session 89 closeout tooling incident: invoking the Studio Ops closeout-board ren
 - Truth boundary: a repeat observation recorded one 232 ms INP cell and remains disclosed. Production stays HTTP 503 / NO-GO on Zoho reply identity, authenticated Obelisk, three real authenticated humans, positive live revenue, and artifact-bound founder approval.
 - Closeout contract: use `1149d78b` as the fresh main-sourced rollback target, then verify the immutable closeout SHA through CI, staging, nine-cell observation, promotion validation, rollback, and restoration before reporting the final release verdict.
 - CDR reviewed — no new creative direction this session.
+
+## 2026-08-25 — Session 110 startup proof closure and immutable release chain
+
+- Restored `render-startup-brief.mjs` source-manifest emission and added semantic regression coverage.
+- Added `.prettierignore` plus Vitest exclusion for `.cache/`, preventing ephemeral verification mirrors from contaminating direct tooling discovery.
+- Committed and pushed implementation revision `85ac5ff7b78f3880d2eeaccceb3b961a67efa4a5` directly to `main`; staged secret scan found zero credentials.
+- Verified exact provider CI `32910564760`, E2E `32910564784`, Release `32910564773`, staging `32911008849`, live observation `32911217105`, promotion dry-run `32911405984`, rollback validation `32911479205`, and observed rollback/restoration `32911552613`.
+- Independent release appraisal returned STAGING GO / PRODUCTION NO-GO. Production remained HTTP 503 because Zoho, authenticated Obelisk, human Alpha, revenue, portable approval, and mobile-attestation gates are not all green.
+- Game-loop review scored Loop Tightness 92, Progression 85, Session Engagement 72, Retention 68, and Soul Fidelity N/A; no mechanic tuning was justified without human traces.
+- CDR reviewed — no new creative direction this session.

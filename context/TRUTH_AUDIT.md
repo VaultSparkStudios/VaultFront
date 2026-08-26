@@ -2,6 +2,15 @@
 
 # Truth Audit
 
+## 2026-08-25 — Session 110 startup and immutable-release truth
+
+- Work truth: audit items 245–247 are shipped. The startup brief source manifest and `.cache/` tooling boundary are regression-tested; innovation remains honestly exhausted at 70/70.
+- Provider truth: exact revision `85ac5ff7b78f3880d2eeaccceb3b961a67efa4a5` passed CI `32910564760`, E2E `32910564784`, Release `32910564773`, and staging `32911008849`.
+- Observation truth: run `32911217105` passed nine live cells with zero findings; worst LCP 1,788 ms, INP 176 ms, and CLS 0.0066. Footer, theme, health, and cost-neutral evidence pass.
+- Rollback truth: validation `32911479205` bound the S109 image to the S110 candidate; drill `32911552613` observed rollback and exact restoration. Staging reports the exact S110 SHA with 2/2 workers.
+- Local-test truth: focused regressions and contracts pass. One broad local file retained an unrelated historical five-second timeout under host contention, so exact provider CI—not that local attempt—is aggregate authority.
+- Release truth: production remains HTTP 503. Zoho reply identity, authenticated Obelisk, three human Alpha sessions, positive live revenue, portable exact-artifact approval, and canonical mobile-parity attestation remain red; a green dry-run is not production authorization.
+
 ## 2026-08-25 — Session 109 propagation and release-requalification truth
 
 - Chronology truth: Session 108 had closed product work, but later Studio propagation replaced seven project-proven verification surfaces. Repair commit `03887080` restores those surfaces and preserves the incoming maintenance protocol; it is independently green in CI `32883787037` and E2E `32883787049`.

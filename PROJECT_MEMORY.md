@@ -144,3 +144,10 @@ session can resume from repo state without relying on prior chat.
 - Implementation-record revision `1149d78b` passed CI `32890831350`, E2E `32890831315`, Release `32890831316`, and staging `32891518865`; it is the fresh main-sourced known-good image for the final closeout rollback drill.
 - Keep both performance observations: the primary nine-cell run passed, while repeat `32889128703` recorded one 232 ms INP cell. Do not weaken the 200 ms threshold; recapture the immutable closeout SHA.
 - Production remains HTTP 503 / NO-GO until Zoho reply identity, authenticated Obelisk, three genuine authenticated humans, positive live revenue, and portable exact-artifact founder approval are independently observed.
+
+## 2026-08-25 — Session 110 startup proof and immutable release chain
+
+- Startup briefs must emit the semantic `brief-sources` manifest; the regression is covered in `tests/scripts/StudioProtocolHelpers.test.ts`.
+- `.cache/` is an ephemeral verification boundary and stays excluded from direct Vitest and Prettier discovery.
+- Exact candidate `85ac5ff7` passed CI `32910564760`, E2E `32910564784`, Release `32910564773`, staging `32911008849`, observation `32911217105`, promotion dry-run `32911405984`, rollback validation `32911479205`, and rollback/restoration `32911552613`.
+- Stable staging is exact and healthy. Production remains HTTP 503 / NO-GO until Zoho reply identity, authenticated Obelisk, three authenticated humans, positive live revenue, portable exact-artifact founder approval, and canonical mobile-parity attestation are green.

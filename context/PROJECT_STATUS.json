@@ -4,12 +4,12 @@
   "name": "VaultFront",
   "status": "active",
   "health": "green",
-  "currentSession": 109,
+  "currentSession": 110,
   "lastAgent": "codex",
-  "currentFocus": "Session 109 repaired Studio propagation drift, requalified exact staging, and established a fresh main-sourced rollback anchor; the immutable closeout SHA still requires observation and rollback before the production decision.",
-  "nextMilestone": "Observe and rollback-drill the immutable Session 109 closeout SHA, then obtain Zoho reply-as, authenticated Obelisk, three genuine authenticated human Alpha sessions, positive live revenue, and portable exact-artifact founder approval before canonical promotion.",
+  "currentFocus": "Session 110 restored startup proof closure, isolated ephemeral verification mirrors, and completed the exact immutable staging/observation/rollback chain; production remains fail-closed.",
+  "nextMilestone": "Record the canonical mobile-parity attestation, then obtain Zoho reply-as, authenticated Obelisk, three genuine authenticated human Alpha sessions, positive live revenue, and portable exact-artifact founder approval before production promotion.",
   "blockers": [
-    "Production is NO-GO until project-domain human reply-as is observed (Brevo outbound and Cloudflare inbound delivery are green), a complete authenticated Obelisk journey, genuine authenticated human Alpha evidence, one positive live payment, and a purpose-scoped portable founder approval claim are observed."
+    "Production is NO-GO until canonical mobile parity is attested and project-domain human reply-as, a complete authenticated Obelisk journey, at least three distinct authenticated human Alpha sessions, one positive live Stripe receipt, and a portable purpose-scoped exact-artifact founder approval claim are observed."
   ],
   "lastUpdated": "2026-08-25",
   "lifecycle": "alpha",
@@ -98,11 +98,12 @@
   "sessionMode": "founder",
   "sessionModeAutoShiftedAt": "2026-07-28T04:43:27.874Z",
   "silAvg3": 996,
-  "silVelocity": 2,
+  "silVelocity": 3,
   "silDebt": "down",
-  "silLastSession": "109",
-  "auditStatus": "session-109-audit-2-of-2-and-innovation-70-of-70-shipped; propagation-repaired; exact-staging-observation-promotion-green; immutable-closeout-rollback-pending; zoho-obelisk-alpha-revenue-founder-red; production-no-go",
+  "silLastSession": "110",
+  "auditStatus": "session-110-audit-3-of-3-and-innovation-70-of-70-shipped; startup-source-closure-restored; cache-boundary-isolated; exact-ci-staging-observation-promotion-rollback-green; mobile-attestation-zoho-obelisk-alpha-revenue-founder-red; production-no-go",
   "releaseGates": [
+    "canonical CANON-041 mobile-parity attestation",
     "project-domain human reply-as verification (Brevo outbound and Cloudflare inbound verified; Zoho External From unverified)",
     "complete authenticated Obelisk callback/session/identity/logout verification",
     "authenticated evidence from at least three distinct human alpha sessions",
@@ -119,18 +120,18 @@
     "warnings": 0,
     "failing": 0,
     "blockingFailing": 0,
-    "date": "2026-08-25",
-    "observedAt": "2026-08-25T20:03:38.849Z",
+    "date": "2026-08-26",
+    "observedAt": "2026-08-26T00:01:40.482Z",
     "source": "scripts/project-doctor.mjs",
     "evidencePath": "audits/doctor-latest.json",
-    "evidenceDigest": "sha256:0d62d4abee81acf82987860f89be46686c6ba3eb2700cd3f2fc972085b8d576c",
+    "evidenceDigest": "sha256:0bc2d53d326e8a775bb6344d5e822d81665b7df88dedcd37a23b85df5bba9714",
     "evidenceSchemaVersion": 1,
     "checkCount": 13
   },
   "complianceScore": 49,
   "complianceTotal": 49,
   "sanitizationLastCleared": "2026-08-14",
-  "lastSession": 109,
+  "lastSession": 110,
   "bootAmortization": {
     "ratio": 0.09,
     "verdict": "wasted",
@@ -151,12 +152,12 @@
     }
   ],
   "sessionShellHygiene": {
-    "session": 109,
-    "started": 0,
-    "closed": 0,
+    "session": 110,
+    "started": 2,
+    "closed": 2,
     "running": 0,
-    "enumeratedAt": "2026-08-25T18:00:00.000-04:00",
-    "scope": "All GitHub workflow watches ran in the foreground and exited; the one interrupted formatting probe was reaped. No session-owned background shell, test worker, browser, or agent remains."
+    "enumeratedAt": "2026-08-25T23:51:34.123Z",
+    "scope": "Both skill-required review agents completed; all foreground workflow watches and command sessions exited. No session-owned background shell, browser, test worker, or agent remains."
   },
   "testsLastRun": "2026-08-25",
   "testsLastRunMode": "exact-provider-ci",
@@ -167,28 +168,29 @@
     "totalFiles": 288,
     "passingAssertions": 1501,
     "infrastructureFailures": 0,
-    "reason": "Exact-revision provider CI passed the canonical aggregate. Local full-suite attempts remained host-starved and are not used as aggregate authority."
+    "reason": "Exact-revision provider CI 32910564760 passed the canonical aggregate; focused local regressions and contracts pass, while a host-contended broad local file is not used as aggregate authority."
   },
   "testsDeferred": [],
   "testsBudgetExhausted": false,
-  "lastSessionSummary": "Session 109 repaired seven propagated verification regressions, requalified exact staging and promotion validation, and established a fresh main-sourced rollback anchor while preserving five independent production gates.",
+  "lastSessionSummary": "Session 110 restored startup proof closure, isolated ephemeral verification mirrors, and proved the exact candidate through CI, stable staging, nine-cell observation, promotion validation, and rollback/restoration while preserving six release gates.",
   "providerCiStatus": {
     "status": "green",
-    "revision": "1149d78bdbcbac102c10c7a9b00db2130a189a75",
-    "ciRunId": 32890831350,
-    "e2eRunId": 32890831315,
+    "revision": "85ac5ff7b78f3880d2eeaccceb3b961a67efa4a5",
+    "ciRunId": 32910564760,
+    "e2eRunId": 32910564784,
     "databaseMigrationRunId": null,
-    "releasePlannerRunId": 32890831316,
+    "releasePlannerRunId": 32910564773,
     "briefValidationRunId": null,
-    "stagingRunId": 32891518865,
-    "promotionValidationRunId": null,
-    "rollbackRunId": null,
-    "observationRunId": null,
-    "observedAt": "2026-08-25T17:58:00.000-04:00",
-    "source": "Exact-revision GitHub Actions and immutable stable-staging deploy for the main-sourced rollback anchor; repaired-candidate observation and promotion validation are retained separately in the Session 109 truth ledger",
-    "currentRevisionVerified": false,
-    "imageDigest": null,
-    "note": "The exact implementation-record image is live on stable staging as the rollback anchor. The later closeout commit is intentionally not called current or observed until its post-push provider, staging, observation, and rollback workflows complete."
+    "stagingRunId": 32911008849,
+    "promotionValidationRunId": 32911405984,
+    "rollbackValidationRunId": 32911479205,
+    "rollbackRunId": 32911552613,
+    "observationRunId": 32911217105,
+    "observedAt": "2026-08-25T23:51:34.122Z",
+    "source": "Exact-revision GitHub Actions, immutable stable staging, signed nine-cell observation, promotion dry-run, rollback validation, and observed rollback/restoration",
+    "currentRevisionVerified": true,
+    "imageDigest": "sha256:31d6568",
+    "note": "Stable staging is exact and healthy after rollback/restoration. Production admission remains red and production was not mutated."
   },
   "dependencyAudit": {
     "production": 0,
@@ -202,5 +204,17 @@
   "stagingUrl": "https://staging.vaultfront.io",
   "stagingType": "stable-owned-subdomain",
   "runtimeUrl": "https://vaultfront.io",
-  "lastDeployStatus": "stable staging 32891518865 healthy at exact 1149d78b as the main-sourced rollback anchor; repaired observation 32887206185 and promotion dry-run 32887551349 pass; immutable closeout drill pending; production NO-GO/HTTP 503"
+  "lastDeployStatus": "stable staging 32911008849 is healthy at exact 85ac5ff7 after observation 32911217105 and rollback/restoration 32911552613; promotion dry-run 32911405984 passed; production NO-GO/HTTP 503",
+  "silCategories": {
+    "devHealth": 100,
+    "creativeAlignment": 99,
+    "momentum": 100,
+    "engagement": 98,
+    "processQuality": 100,
+    "crossRepoCoherence": 99,
+    "securityPosture": 100,
+    "ecosystemIntegration": 100,
+    "capitalEfficiency": 100,
+    "automationCoverage": 100
+  }
 }

@@ -4,12 +4,40 @@ Detailed internal scoring, audit trends, and brainstorming are maintained privat
 
 <!-- rolling-status-start -->
 
-Total: 996/1000 | Velocity: 2 | Debt: ↓ | Velocity trend: →
-Avgs — 3: 996.0 | 5: 995.6 | 10: 996.3 | 25: 993.5 | all: 993.5 | Last 5: 996 → 994 → 996 → 996 → 996 | Intent rate: 100%
+Total: 996/1000 | Velocity: 3 | Debt: ↓ | Velocity trend: ↑
+Avgs — 3: 996.0 | 5: 996.0 | 10: 996.2 | 25: 995.3 | all: 993.6 | Last 5: 996 → 996 → 996 → 996 → 996 | Intent rate: 100%
 Categories: Dev 100 | Align 99 | Momentum 100 | Engage 98 | Process 100 | Coherence 99 | Security 100 | Ecosystem 100 | Capital 100 | Automation 100
-Last session: 2026-08-25 Session 109 propagation recovery and release requalification
+Last session: 2026-08-25 Session 110 startup proof closure and immutable release chain
 
 <!-- rolling-status-end -->
+
+## 2026-08-25 — Session 110 | Total: 996/1000 | Velocity: 3
+
+Closed the startup provenance regression, isolated ephemeral verification mirrors, and completed an immutable exact-candidate staging/observation/rollback chain while preserving every independent production gate.
+
+| Category              |        Score | Evidence                                                                                                 |
+| --------------------- | -----------: | -------------------------------------------------------------------------------------------------------- |
+| Dev Health            |          100 | Exact CI, E2E, Release, contracts, focused regressions, staging, observation, and rollback pass.         |
+| Creative Alignment    |           99 | The certified loop was preserved; no balance or Soul claim was invented without human evidence.          |
+| Momentum              |          100 | Three audit items shipped and the full exact-candidate release chain completed.                          |
+| Engagement            |           98 | Live interaction budgets pass, while retention claims remain bounded by zero authentic human traces.     |
+| Process Quality       |          100 | Startup provenance and cache boundaries are executable; all launch blockers remain explicit.             |
+| Cross-Repo Coherence  |           99 | Canon was checked locally and no sibling source-of-truth file was edited.                                |
+| Security Posture      |          100 | Immutable actions, secret scans, signed evidence, and pre-mutation admission remain enforced.            |
+| Ecosystem Integration |          100 | Provider CI, stable staging, signed observation, dry-run promotion, and rollback share one SHA.          |
+| Capital Efficiency    |          100 | Existing cost-neutral infrastructure was reused; no synthetic payment or paid workaround was introduced. |
+| Automation Coverage   |          100 | Source closure, cache isolation, deploy, observation, validation, and restoration are executable.        |
+| **Total**             | **996/1000** | Exact category sum; this score does not claim production launch completion.                              |
+
+**Game rubric:** Loop Tightness 92 · Progression Curve 85 · Session Engagement 72 · Retention Hook 68 · Soul Fidelity N/A · Velocity 3.
+
+**Top win:** The exact implementation now has a complete, observed staging-to-rollback-and-restoration chain.
+
+**Top gap:** Five authority observations plus canonical mobile-parity attestation remain release blockers.
+
+**Commitments:** [SIL:1] keep generated proof manifests semantically tested; [SIL:2] isolate all ephemeral verification trees from direct tooling discovery.
+
+**Honest refusal:** Production was not promoted from a red gate, and no session authorization, transport smoke, synthetic user, or payment substitute was relabeled as independent evidence.
 
 ## 2026-08-25 — Session 109 | Total: 996/1000 | Velocity: 2
 

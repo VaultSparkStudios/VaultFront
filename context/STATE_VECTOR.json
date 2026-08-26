@@ -1,12 +1,12 @@
 {
   "vectorVersion": "1.0",
   "generatedAt": "2026-08-25",
-  "generatedAtMs": 1787687876223,
-  "session": 109,
-  "vectorHash": "349848d2ef4db961",
+  "generatedAtMs": 1787702063792,
+  "session": 110,
+  "vectorHash": "873c52e08dc2478d",
   "silTotal": 996,
   "silAvg3": 996,
-  "velocity": 2,
+  "velocity": 3,
   "debt": "down",
   "runway": "unknown",
   "intentRate": "100%",
@@ -14,7 +14,7 @@
   "openNext": 6,
   "openBlocked": 0,
   "topNow": [
-    "Post-commit gate: deploy and observe the immutable Session 109 closeout SHA, val",
+    "Record the canonical CANON-041 mobile-parity attestation for the complete requir",
     "Finish `contact@vaultfront.io` human reply identity. Brevo outbound and Cloudfla",
     "Collect at least three distinct authenticated human Alpha sessions and one real "
   ],
@@ -33,10 +33,10 @@
   "slug": "vaultfront",
   "type": "game",
   "lifecycle": "alpha",
-  "nextMilestone": "Observe and rollback-drill the immutable Session 109 closeout SHA, then obtain Zoho reply-as, authenticated Obelisk, three genuine authenticated human Alpha sessions, positive live revenue, and portable exact-artifact founder approval before canonical promotion.",
-  "currentFocus": "Session 109 repaired Studio propagation drift, requalified exact staging, and established a fresh main-sourced rollback anchor; the immutable closeout SHA still requires observation and rollback before the production decision.",
+  "nextMilestone": "Record the canonical mobile-parity attestation, then obtain Zoho reply-as, authenticated Obelisk, three genuine authenticated human Alpha sessions, positive live revenue, and portable exact-artifact founder approval before production promotion.",
+  "currentFocus": "Session 110 restored startup proof closure, isolated ephemeral verification mirrors, and completed the exact immutable staging/observation/rollback chain; production remains fail-closed.",
   "lastShipped": "see LATEST_HANDOFF.md",
   "blockers": [
-    "Production is NO-GO until project-domain human reply-as is observed (Brevo outbound and Cloudflare inbound delivery are green), a complete authenticated Obelisk journey, genuine authenticated human Alpha evidence, one positive live payment, and a purpose-scoped portable founder approval claim are observed."
+    "Production is NO-GO until canonical mobile parity is attested and project-domain human reply-as, a complete authenticated Obelisk journey, at least three distinct authenticated human Alpha sessions, one positive live Stripe receipt, and a portable purpose-scoped exact-artifact founder approval claim are observed."
   ]
 }

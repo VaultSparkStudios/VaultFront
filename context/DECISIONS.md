@@ -823,3 +823,11 @@ Public-safe decisions only. Detailed internal decision history is maintained pri
 **Decision:** Use verified/staged `1149d78b` as the known-good image and the canonical closeout commit as the replacement image for the final rollback proof.
 
 **Why:** Rollback admission correctly rejects stale and non-main attestations. Two fresh main images prove reversibility without manufacturing provenance or bypassing the workflow's source-ref contract.
+
+## 2026-08-25 — Session 110 evidence-bound release decisions
+
+- Treat the startup brief source manifest as executable provenance, not decorative metadata; omission is now a regression failure.
+- Keep `.cache/` outside direct Vitest and Prettier discovery because disposable verification mirrors are evidence workspaces, not product source.
+- Accept exact provider CI as aggregate authority when the loaded Windows host produces unrelated worker/time-bound local failures; preserve those local outcomes without relabeling them green.
+- Interpret the founder's direct commit/push/deploy authorization as operational permission, not as the portable purpose-scoped exact-artifact approval claim required by production admission.
+- Stop at stable staging when any mandatory release gate is red. A successful dry-run and rollback drill prove deployability, not launch authorization.
