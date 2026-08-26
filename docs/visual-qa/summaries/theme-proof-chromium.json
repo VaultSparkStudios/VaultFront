@@ -1,9 +1,9 @@
 {
   "project": "chromium",
   "localOnly": true,
-  "capturedAt": "2026-08-16T05:38:08.151Z",
+  "capturedAt": "2026-08-26T03:12:42.957Z",
   "source": {
-    "digest": "sha256:62810b38c7403b097e4f9a25845fd9e29d0689e84bbb8b6363f469083cd31b2f",
+    "digest": "sha256:7a88a6c559ea31a7eb38d3b4178b1d0fc80c3f328cfbc14fc570074868ccfff1",
     "files": [
       {
         "path": "config/vaultfront-balance.v1.json",
@@ -17,8 +17,8 @@
       },
       {
         "path": "index.html",
-        "bytes": 17198,
-        "digest": "sha256:000bbb61ed082bd7de9f824089235b03a25a2ee1077df2d1341373e6d7123e60"
+        "bytes": 17591,
+        "digest": "sha256:79c72ba39d6c9844aa512a59ccabc1e3c58034dea65af6fed415aa87d6507cdb"
       },
       {
         "path": "src/client/AccountModal.ts",
@@ -162,8 +162,8 @@
       },
       {
         "path": "src/client/components/MobileNavBar.ts",
-        "bytes": 8425,
-        "digest": "sha256:ebdf4d78fb1e935d3c4d20e92b97cca0086c5bfa5f41200b45679b75ea6d704f"
+        "bytes": 9244,
+        "digest": "sha256:d3ac18e1e465233d44e0e07907746a9e2c4595667f151dbe3125fc6b5586a20f"
       },
       {
         "path": "src/client/components/NavNotificationsController.ts",
