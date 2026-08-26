@@ -160,7 +160,7 @@
       "impact": 10,
       "innovation": 6,
       "priority": 38.68,
-      "status": "in_progress",
+      "status": "pending",
       "title": "Make the complete CANON-041 mobile matrix executable",
       "why": "The signed live observer covers only 390×844, 768×900, and 1440×900. Canon requires full usability at 360/390/414/768 device widths in portrait and landscape, a self-scrolling drawer, released scroll lock, dynamic viewport height, safe-area padding, 44px targets, a reachable close control, reduced-motion compliance, and elite craft. The current drawer inherits h-full and has no explicit close button, so adding an attestation flag would be false.",
       "coreLoopStep": "public entry and navigation → choose a mode → begin the Capture-to-Breach loop",
