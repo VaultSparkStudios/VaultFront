@@ -1,20 +1,20 @@
 <!-- generated-by: scripts/render-closeout-board.mjs v1.1 -->
-<!-- generated-at: 2026-08-25 (Session 109 closeout) -->
+<!-- generated-at: 2026-08-26 (Session 110 closeout) -->
 
 # Closeout Status Board — VaultFront
 
 ```
-╔══ SESSION CLOSEOUT · VaultFront · S109 ════════════════════════╗
-║  Date: 2026-08-25  ·  SIL: 996/1000  ·  Velocity: 2 down         ║
+╔══ SESSION CLOSEOUT · VaultFront · S110 ════════════════════════╗
+║  Date: 2026-08-26  ·  SIL: 996/1000  ·  Velocity: 3 down         ║
 ║  Mode: FOUNDER  ·  Agent: codex                                  ║
 ║  Live:  preview  →  https://vaultfront.io                        ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ WHAT SHIPPED · last 5 commits ═══════════════════════════════╗
+║  ✓ chore(vaultfront): close session 110                          ║
+║  ✓ feat(vaultfront): restore startup proof closure               ║
+║  ✓ chore(vaultfront): record closeout board                      ║
 ║  ✓ docs(vaultfront): close session 109                           ║
 ║  ✓ docs(vaultfront): record session 109 implementation           ║
-║  ✓ fix(vaultfront): restore release verification after protocol  ║
-║  ✓ docs: sync Studio OS docs/SESSION_PROTOCOL.md                 ║
-║  ✓ docs: sync Studio OS 7 files [agent-dna, ci, prompts, protoc  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ SCORES · SIL 996/1000 ═══════════════════════════════════════╗
 ║    Dev Health         100  ██████████                            ║
@@ -57,7 +57,7 @@
 ║  IGNIS:         18d ago                                          ║
 ║  Truth:         green                                            ║
 ║  Sanitization:  12d ago                                          ║
-║  Shell hygiene: 0 started · 0 closed · 0 running                 ║
+║  Shell hygiene: 2 started · 2 closed · 0 running                 ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ NEXT SESSION ════════════════════════════════════════════════╗
 ║  #1: Unified Genius List exhausted                               ║
