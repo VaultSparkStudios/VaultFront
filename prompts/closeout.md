@@ -1,7 +1,6 @@
 <!-- template-version: 3.3 -->
 <!-- synced-from: studio-ops/docs/SESSION_PROTOCOL.md § 3 @ Session 101 (2026-04-17) -->
 <!-- v3.3 changes: closeout autopilot now auto-trims LATEST_HANDOFF to last 2 sessions (compact-handoff --trim); NEXT SESSION loads STARTUP_BRIEF.md only -->
-
 # CLOSEOUT
 
 Executed when the user says only `closeout`.
@@ -12,13 +11,13 @@ Executed when the user says only `closeout`.
 
 Compare actual work to the declared intent in `context/LATEST_HANDOFF.md → Session Intent:`.
 
-Classify: **Achieved** · **Partial** _(note scope drift)_ · **Redirected** _(log reason)_
+Classify: **Achieved** · **Partial** *(note scope drift)* · **Redirected** *(log reason)*
 
 **Bypass audit:** If any commit this session bypassed safety hooks (`--no-verify`, `--no-gpg-sign`), log in `context/DECISIONS.md`: date · what hook was bypassed · reason · follow-up task to fix root cause. Add that follow-up to `context/TASK_BOARD.md` under Now. Normalizing hook bypasses erodes the safety net.
 
 ---
 
-## Write-Back Order _(if meaningful work happened)_
+## Write-Back Order  *(if meaningful work happened)*
 
 1. `context/CURRENT_STATE.md`
 2. `context/TASK_BOARD.md`
@@ -31,26 +30,23 @@ Classify: **Achieved** · **Partial** _(note scope drift)_ · **Redirected** _(l
 9. Any repo-specific files whose truth changed
 10. **Delete `context/.session-lock`** — handled by autopilot in step 11
 11. **Run closeout autopilot (v3.1 — mandatory)**:
-
     ```bash
     node scripts/ops.mjs closeout
     ```
-
     Runs: doctor --loop → refresh startup brief → **auto-trim LATEST_HANDOFF to last 2 sessions** (`compact-handoff --trim`) → stamp PROJECT_STATUS → git status + diff preview → **HUMAN CONFIRMATION** → commit (conventional msg) → push → clear lock + beacon → print STATUS BOARD. Never skip confirmation. `--dry-run` shows the plan without writing.
 
 12. **Deploy Currency (CANON-036 — production must not silently lag `main`).** After push, if this session landed user-visible changes and the project has a production deploy path, do **not** end with production behind:
     - **`autoDeploy: "ci-on-push"`** → push already triggered CD; confirm the deploy ran and record it. Nothing else to do.
     - **`autoDeploy: "closeout"`** → **run the deploy yourself** (`deployCommand`, e.g. `npm run deploy` / `wrangler deploy`) once the gates pass: CI green · staging verified (CANON-007) · no secret in the diff · normal (non-force) deploy · Founder-Twin approves the deploy command (CANON-024). A scripted deploy is agent work, not a human blocker (CANON-019).
-    - **Gate unmet / no deploy path / `autoDeploy: "none"` (internal)** → if production legitimately lags, record `[BLOCKER] production N commits behind — deploy deferred: <reason>` in `TASK_BOARD` + `LATEST_HANDOFF`. Never skip the deploy _silently_.
+    - **Gate unmet / no deploy path / `autoDeploy: "none"` (internal)** → if production legitimately lags, record `[BLOCKER] production N commits behind — deploy deferred: <reason>` in `TASK_BOARD` + `LATEST_HANDOFF`. Never skip the deploy *silently*.
     - Set `Deploy:` in Where-We-Left-Off accordingly (`deployed to {env}` / `pending — deferred: <reason>` / `N/A`).
 
-### Where We Left Off _(write to top of LATEST_HANDOFF.md)_
+### Where We Left Off  *(write to top of LATEST_HANDOFF.md)*
 
 ```markdown
 ## Where We Left Off (Session N)
-
 - Shipped: {N improvements across N groups — group1, group2 ...}
-- Tests: {N passing (N core / N server / N client) · delta: +N} or N/A
+- Tests: {N passing (N core / N server / N client) · delta: +N}  or  N/A
 - Deploy: {deployed to {env} / pending / N/A}
 ```
 
@@ -61,7 +57,6 @@ Count concrete shipped items and group by type (auth, content, DX, observability
 ## Self-Improvement Loop
 
 > **Protocol closeout shortcut** — use when all three are true: velocity = 0 AND no human creative direction AND no schema/template changes
->
 > - **Step 5** (Brainstorm): 1 idea minimum instead of 3–5
 > - **Step 8** (Audit JSON): optional — note "audit JSON skipped — protocol-only session" in output
 > - **Step 8.5** (IGNIS): may be skipped — note "IGNIS score not refreshed — protocol-only session"
@@ -70,26 +65,24 @@ Count concrete shipped items and group by type (auth, content, DX, observability
 
 ---
 
-### Step 1 · Rolling Data _(calculate before scoring)_
+### Step 1 · Rolling Data  *(calculate before scoring)*
 
 **Velocity:** Count Now → Done tasks this session. Exclude `[SIL]` meta-tasks. → integer `Velocity: N`
 
 **Debt delta:** `↑` net new `[DEBT]` added · `↓` net resolved · `→` unchanged or none
 
-**Engagement data** _(infrastructure projects — run before Step 3 scoring)_:
-
+**Engagement data** *(infrastructure projects — run before Step 3 scoring)*:
 ```bash
 node scripts/ops.mjs feedback-score --json
 ```
-
 Outputs `proposalAcceptanceSubscore` (0–25) and `feedbackLoopHealthSubscore` (0–25) from `portfolio/FEEDBACK_LOOP_LEDGER.md`. Use these directly in the Engagement scoring table below.
 
 **Rolling averages** — look back at SIL entries in `context/SELF_IMPROVEMENT_LOOP.md`:
 
-| Window                | Compute                                                                                                            |
-| --------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| Window | Compute |
+|---|---|
 | 3 / 5 / 10 / 25 / all | `sum(Total scores in window) / count` — 1 decimal. Mark `[N=n]` if insufficient entries. Omit windows where N < 3. |
-| 3-session only        | Also compute per-category avgs: Dev · Align · Momentum · Engage · Process                                          |
+| 3-session only | Also compute per-category avgs: Dev · Align · Momentum · Engage · Process |
 
 **Sparkline** — map last 5 totals (oldest → newest) using: `▁ <100` · `▂ <200` · `▃ <300` · `▄ <350` · `▅ <400` · `▆ <450` · `▇ <480` · `█ 480–500`
 
@@ -114,76 +107,70 @@ Last session: YYYY-MM-DD | Session N | Total: XXX/500 | Velocity: N | protocolVe
 
 ---
 
-### Step 3 · Score This Session _(0–100 per category)_
+### Step 3 · Score This Session  *(0–100 per category)*
 
 #### Dev Health /100
-
-| Sub-score            | Max | Measures                                                                                |
-| -------------------- | --: | --------------------------------------------------------------------------------------- |
-| CI / Test Status     |  30 | Workflows green; tests passing; delta ≥0                                                |
-| Technical Debt       |  20 | Debt trending ↓; known issues being addressed                                           |
-| Architecture Quality |  30 | Clean structure, intentional abstractions. Infra: protocol structure + schema coherence |
-| Data Integrity       |  20 | Schemas valid; machine-readable files current; no stale derived surfaces                |
+| Sub-score | Max | Measures |
+|---|---:|---|
+| CI / Test Status | 30 | Workflows green; tests passing; delta ≥0 |
+| Technical Debt | 20 | Debt trending ↓; known issues being addressed |
+| Architecture Quality | 30 | Clean structure, intentional abstractions. Infra: protocol structure + schema coherence |
+| Data Integrity | 20 | Schemas valid; machine-readable files current; no stale derived surfaces |
 
 #### Creative Alignment /100
-
-| Sub-score              | Max | Measures                                                                                         |
-| ---------------------- | --: | ------------------------------------------------------------------------------------------------ |
-| Soul Fidelity          |  30 | Session work matches SOUL.md; creative identity intact                                           |
-| CDR Compliance         |  20 | All human creative directions captured in CDR                                                    |
-| Direction Clarity      |  20 | Vision clear enough to guide future agents without human input                                   |
-| Ecosystem Contribution |  30 | Work benefits multiple projects/portfolio. Studio Ops: template propagation, compliance rollouts |
+| Sub-score | Max | Measures |
+|---|---:|---|
+| Soul Fidelity | 30 | Session work matches SOUL.md; creative identity intact |
+| CDR Compliance | 20 | All human creative directions captured in CDR |
+| Direction Clarity | 20 | Vision clear enough to guide future agents without human input |
+| Ecosystem Contribution | 30 | Work benefits multiple projects/portfolio. Studio Ops: template propagation, compliance rollouts |
 
 #### Momentum /100
-
-| Sub-score          | Max | Measures                                                        |
-| ------------------ | --: | --------------------------------------------------------------- |
-| Velocity           |  30 | Meaningful tasks completed; task board moving                   |
-| Intent Completion  |  30 | % of declared session intents achieved                          |
-| Blocker Resolution |  20 | Net blocker delta (resolved − created)                          |
-| Direction Progress |  20 | Getting closer to next milestone; strategic direction preserved |
+| Sub-score | Max | Measures |
+|---|---:|---|
+| Velocity | 30 | Meaningful tasks completed; task board moving |
+| Intent Completion | 30 | % of declared session intents achieved |
+| Blocker Resolution | 20 | Net blocker delta (resolved − created) |
+| Direction Progress | 20 | Getting closer to next milestone; strategic direction preserved |
 
 #### Engagement /100
 
 **Infrastructure** (`infrastructure` / `internal-ops`):
-
-| Sub-score                | Max | Measures                                                    | Auto-source                                            |
-| ------------------------ | --: | ----------------------------------------------------------- | ------------------------------------------------------ |
-| Session Frequency        |  25 | How often is the Studio Owner active in this project?       | manual                                                 |
-| Proposal Acceptance Rate |  25 | % of agent proposals/brainstorm items accepted              | `feedback-score --json` → `proposalAcceptanceSubscore` |
-| Output Consumption       |  25 | Are STUDIO_BRAIN / IGNIS_CORE being read and acted on?      | manual                                                 |
-| Feedback Loop Health     |  25 | Brainstorm items reviewed; CDR entry rate; decisions logged | `feedback-score --json` → `feedbackLoopHealthSubscore` |
+| Sub-score | Max | Measures | Auto-source |
+|---|---:|---|---|
+| Session Frequency | 25 | How often is the Studio Owner active in this project? | manual |
+| Proposal Acceptance Rate | 25 | % of agent proposals/brainstorm items accepted | `feedback-score --json` → `proposalAcceptanceSubscore` |
+| Output Consumption | 25 | Are STUDIO_BRAIN / IGNIS_CORE being read and acted on? | manual |
+| Feedback Loop Health | 25 | Brainstorm items reviewed; CDR entry rate; decisions logged | `feedback-score --json` → `feedbackLoopHealthSubscore` |
 
 **Product** (games, apps, live products):
-
-| Sub-score              | Max | Measures                                               |
-| ---------------------- | --: | ------------------------------------------------------ |
-| Stakeholder Velocity   |  25 | Growth rate, retention, activation                     |
-| Community Engagement   |  25 | Feedback quality, response rate, content engagement    |
-| Feedback Incorporation |  25 | % of user feedback acted on                            |
-| Feedback Loop Health   |  25 | Issue response rate; CDR activity; proposal acceptance |
+| Sub-score | Max | Measures |
+|---|---:|---|
+| Stakeholder Velocity | 25 | Growth rate, retention, activation |
+| Community Engagement | 25 | Feedback quality, response rate, content engagement |
+| Feedback Incorporation | 25 | % of user feedback acted on |
+| Feedback Loop Health | 25 | Issue response rate; CDR activity; proposal acceptance |
 
 #### Process Quality /100
-
-| Sub-score               | Max | Measures                                                                                 |
-| ----------------------- | --: | ---------------------------------------------------------------------------------------- |
-| Handoff Continuity      |  20 | LATEST_HANDOFF accurate; intent logged + resolved; cold-start ready                      |
-| Studio OS Compliance    |  15 | Required files present; prompts at canonical version; no enforcer violations             |
-| Context Freshness       |  20 | CURRENT_STATE, TASK_BOARD, LATEST_HANDOFF updated and accurate this session              |
-| Documentation Coherence |  20 | SOUL/BRAIN/PROJECT_BRIEF semantically accurate AND actively consulted — not just present |
-| Intelligence Fidelity   |  20 | IGNIS current; truth audit green; founder surfaces accurate; contradictions ≤0           |
-| CDR Accuracy            |   5 | All human directions captured; no CDR gaps from prior sessions                           |
+| Sub-score | Max | Measures |
+|---|---:|---|
+| Handoff Continuity | 20 | LATEST_HANDOFF accurate; intent logged + resolved; cold-start ready |
+| Studio OS Compliance | 15 | Required files present; prompts at canonical version; no enforcer violations |
+| Context Freshness | 20 | CURRENT_STATE, TASK_BOARD, LATEST_HANDOFF updated and accurate this session |
+| Documentation Coherence | 20 | SOUL/BRAIN/PROJECT_BRIEF semantically accurate AND actively consulted — not just present |
+| Intelligence Fidelity | 20 | IGNIS current; truth audit green; founder surfaces accurate; contradictions ≤0 |
+| CDR Accuracy | 5 | All human directions captured; no CDR gaps from prior sessions |
 
 #### Score Table
 
-| Category           | Score    | vs Last | Notes |
-| ------------------ | -------- | ------- | ----- |
-| Dev Health         |          | ↑↓→     |       |
-| Creative Alignment |          | ↑↓→     |       |
-| Momentum           |          | ↑↓→     |       |
-| Engagement         |          | ↑↓→     |       |
-| Process Quality    |          | ↑↓→     |       |
-| **Total**          | **/500** |         |       |
+| Category | Score | vs Last | Notes |
+|---|---|---|---|
+| Dev Health | | ↑↓→ | |
+| Creative Alignment | | ↑↓→ | |
+| Momentum | | ↑↓→ | |
+| Engagement | | ↑↓→ | |
+| Process Quality | | ↑↓→ | |
+| **Total** | **/500** | | |
 
 ---
 
@@ -216,18 +203,15 @@ Write both into the Rolling Status header (Step 2).
 
 ---
 
-### Step 4.5 · Human Action Required _(mandatory — never skip)_
+### Step 4.5 · Human Action Required  *(mandatory — never skip)*
 
 Scan the full session for items only the Studio Owner can resolve: external service setup, manual approvals, financial actions, legal, decisions only the human can make.
 
 **Mandatory blocker preflight before adding or retaining any item here:**
-
 ```bash
 node scripts/ops.mjs blocker-preflight
 ```
-
 Rules:
-
 - Run secrets discovery first for any mapped capability.
 - If the blocker is agent-attemptable, try the elevated/admin/API path before leaving it here.
 - Only keep an item in `Human Action Required` when the agent-side attempt failed, access is genuinely absent, or the action is truly owner-only.
@@ -252,7 +236,7 @@ Also update `context/PROJECT_STATUS.json`: `truthAuditStatus` + `truthAuditLastR
 
 ---
 
-### Step 4.7 · Next-Session Pre-load _(mandatory)_
+### Step 4.7 · Next-Session Pre-load  *(mandatory)*
 
 Ensure the next session starts with a ready runway:
 
@@ -261,7 +245,7 @@ Ensure the next session starts with a ready runway:
 3. If fewer than 2 items remain in Next → pull from `## Later`.
 4. Target: **Now bucket has ≥ 2 items at closeout.** Never leave it empty.
 
-_Rationale:_ An empty Now bucket causes cold starts — the next session wastes its first moves on pre-loading. This step takes < 2 minutes and eliminates that tax.
+*Rationale:* An empty Now bucket causes cold starts — the next session wastes its first moves on pre-loading. This step takes < 2 minutes and eliminates that tax.
 
 ---
 
@@ -270,7 +254,6 @@ _Rationale:_ An empty Now bucket causes cold starts — the next session wastes 
 Generate 3–5 innovative solutions, features, or improvements. Push past the obvious. Consider: what makes this 10× more useful? What technical debt is costing velocity? What's drifting from SOUL?
 
 Each item must include:
-
 1. **One-sentence synopsis**
 2. **Implementation path** — concrete first step (one sentence)
 3. **Execution probability** — High / Medium / Low
@@ -285,7 +268,6 @@ Each item must include:
 Pick 1–2 brainstorm items. Add to `context/TASK_BOARD.md` labeled `[SIL]`.
 
 **[SIL:N] skip counter protocol:**
-
 - New items are added as `[SIL]` (no suffix = 0 skips)
 - At each closeout: for every unactioned `[SIL]` item still in Now or Next, increment its counter — `[SIL]` → `[SIL:1]` → `[SIL:2⛔]`
 - Items in `## Blocked` or explicitly noted as externally blocked are exempt from incrementing
@@ -293,29 +275,27 @@ Pick 1–2 brainstorm items. Add to `context/TASK_BOARD.md` labeled `[SIL]`.
 
 ---
 
-### Step 7 · Append SIL Entry _(append-only — never edit prior entries)_
+### Step 7 · Append SIL Entry  *(append-only — never edit prior entries)*
 
 ```markdown
 ## YYYY-MM-DD — Session N | Total: XXX/500 | Velocity: N | Debt: →
-
 Avgs — 3: XXX.X | 5: XXX.X | 10: XXX.X | 25: — | all: XXX.X
-└ 3-session: Dev XX.X | Align XX.X | Momentum XX.X | Engage XX.X | Process XX.X
+  └ 3-session: Dev XX.X | Align XX.X | Momentum XX.X | Engage XX.X | Process XX.X
 
-| Category           | Score    | vs Last | Notes |
-| ------------------ | -------- | ------- | ----- |
-| Dev Health         |          | ↑↓→     |       |
-| Creative Alignment |          | ↑↓→     |       |
-| Momentum           |          | ↑↓→     |       |
-| Engagement         |          | ↑↓→     |       |
-| Process Quality    |          | ↑↓→     |       |
-| **Total**          | **/500** |         |       |
+| Category | Score | vs Last | Notes |
+|---|---|---|---|
+| Dev Health | | ↑↓→ | |
+| Creative Alignment | | ↑↓→ | |
+| Momentum | | ↑↓→ | |
+| Engagement | | ↑↓→ | |
+| Process Quality | | ↑↓→ | |
+| **Total** | **/500** | | |
 
 **Top win:** [one sentence]
 **Top gap:** [one sentence]
 **Intent outcome:** [Achieved / Partial / Redirected — brief reason]
 
 **Brainstorm**
-
 1. [idea]
 2. [idea]
 3. [idea]
@@ -368,7 +348,6 @@ Create `audits/YYYY-MM-DD.json`. Multiple sessions same day: suffix `-2`, `-3`, 
 ```
 
 **Field notes:**
-
 - `calibration`: `true` for sessions 1–3; `false` thereafter. Use `null` for unassessable scores during calibration.
 - `ignisFlags`: `high-velocity` · `low-velocity` · `creative-drift` · `debt-spike` · `debt-clear` · `intent-achieved` · `intent-redirected` · `compacted-resume` · `cdr-gap-recovered` · `blocker-cleared` · `sil-escalation`
 - `intentOutcome`: `"Achieved"` / `"Partial"` / `"Redirected"` — add matching flag to `ignisFlags`
@@ -382,15 +361,12 @@ Create `audits/YYYY-MM-DD.json`. Multiple sessions same day: suffix `-2`, `-3`, 
 ### Step 8.5 · IGNIS Score Refresh
 
 **Check staleness first (one command):**
-
 ```bash
 node ../vaultspark-studio-ops/scripts/ops.mjs rescore
 ```
-
 This shows per-project age. If current project is ≥7d stale, re-scoring is **required** — not optional.
 
 **Re-score current project:**
-
 ```bash
 node ../vaultspark-studio-ops/scripts/ops.mjs rescore --project <slug>
 # Or directly:
@@ -398,7 +374,6 @@ npx tsx "<ignis-local-path>/cli.ts" score "<project-local-path>"
 ```
 
 **Required when any of these are true:**
-
 - `ignisLastComputed` ≥ 7 days ago ← most common trigger
 - SIL total changed ≥ 10 pts this session
 - Protocol files (prompts, templates, AGENTS.md) changed
@@ -410,9 +385,9 @@ If score changed by ≥500 IQ points, note it in the SIL brainstorm.
 
 ---
 
-### Step 8.6 · Doctor Score + State Vector _(run every closeout)_
+### Step 8.6 · Doctor Score + State Vector  *(run every closeout)*
 
-> **Scope note:** The ops scripts live in the `vaultspark-studio-ops/` repo, which is a sibling of every project in the Studio ecosystem. All commands below use that path. `doctor`, `startup-brief`, `session-plan`, `genius-list`, and `protocol-changelog` are **studio-ops-level** — they read/write the studio-ops repo's own files, not this project's. The per-project commands use `--project .` and write to _this_ project's `context/` and `docs/` directories.
+> **Scope note:** The ops scripts live in the `vaultspark-studio-ops/` repo, which is a sibling of every project in the Studio ecosystem. All commands below use that path. `doctor`, `startup-brief`, `session-plan`, `genius-list`, and `protocol-changelog` are **studio-ops-level** — they read/write the studio-ops repo's own files, not this project's. The per-project commands use `--project .` and write to *this* project's `context/` and `docs/` directories.
 
 Run the portfolio health check, then generate this project's state snapshot.
 
@@ -428,7 +403,7 @@ node ../vaultspark-studio-ops/scripts/ops.mjs state-vector --project .
 
 ---
 
-### Step 8.7 · Entropy + Genome _(run every closeout)_
+### Step 8.7 · Entropy + Genome  *(run every closeout)*
 
 Update protocol entropy score and append genome snapshot for this project.
 
@@ -444,19 +419,19 @@ Also run `node ../vaultspark-studio-ops/scripts/ops.mjs genome-history --project
 
 ---
 
-### Step 8.8 · Session Plan + Genius List _(studio-ops-level — skip for per-project closeouts)_
+### Step 8.8 · Session Plan + Genius List  *(studio-ops-level — skip for per-project closeouts)*
 
 > These commands write to the **studio-ops repo** (`docs/SESSION_PLAN.md`, `docs/GENIUS_LIST.md`), not to this project. They produce portfolio-level output and are useful only when closing out a studio-ops session itself. Skip during per-project closeouts and note: "session-plan / genius-list skipped — studio-ops-level commands; no per-project output."
 
 ---
 
-### Step 8.9 · Protocol Changelog _(studio-ops-level — skip for per-project closeouts)_
+### Step 8.9 · Protocol Changelog  *(studio-ops-level — skip for per-project closeouts)*
 
 > `protocol-changelog` tracks changes to prompt/template files inside the studio-ops repo. It does not track changes in this project's `prompts/` directory. Skip during per-project closeouts and note: "protocol-changelog skipped — studio-ops-level command."
 
 ---
 
-### Step 8.10 · Portfolio Freshness Check _(run when IGNIS or content state changed)_
+### Step 8.10 · Portfolio Freshness Check  *(run when IGNIS or content state changed)*
 
 After major sessions (velocity ≥ 5, protocol changes, or template propagation):
 
@@ -473,7 +448,7 @@ Skip if velocity = 0 and no protocol changes. Note "portfolio freshness check sk
 
 ---
 
-## Creative Direction Record _(mandatory)_
+## Creative Direction Record  *(mandatory)*
 
 Review the full session for any human direction. If resuming from a compacted/interrupted session, also review the prior session summary — CDR must cover ALL sessions.
 
@@ -560,5 +535,5 @@ If validation fails, repair the board first. Do not replace the canonical closeo
 
 **CDR line:** "CDR reviewed — {new entry added / no new entries this session}"
 
-**Score bar guide:** `/100` → 20 chars, 1 █ per 5 pts · `/500` → 24 chars, 1 █ per ~21 pts
+**Score bar guide:**  `/100` → 20 chars, 1 █ per 5 pts · `/500` → 24 chars, 1 █ per ~21 pts
 Example: score 89 → `█████████████████░░░` (17 filled + 3 empty)
